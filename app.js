@@ -6,6 +6,7 @@ const documents = [
   { id: "eular-ra", title: "Quản lý viêm khớp dạng thấp", subtitle: "DMARD tổng hợp và sinh học — bản cập nhật 2025", category: "Cơ xương khớp", year: "EULAR 2025", file: "eular-2025-viem-khop-dang-thap.html", tags: "viêm khớp dạng thấp rheumatoid DMARD sinh học" },
   { id: "va-dod-oa", title: "Thoái hóa khớp háng và gối", subtitle: "Quản lý không phẫu thuật theo hướng dẫn VA/DOD", category: "Cơ xương khớp", year: "VA/DOD 2026", file: "va-dod-2026-thoai-hoa-khop.html", tags: "thoái hóa khớp háng gối osteoarthritis không phẫu thuật" },
   { id: "hyponatremia", title: "Chẩn đoán và điều trị hạ natri máu", subtitle: "Hướng dẫn thực hành lâm sàng", category: "Nội khoa", year: "2014", file: "ha-natri-mau-2014.html", tags: "hạ natri máu hyponatremia điện giải natri" },
+  { id: "ukka-2026-tang-kali-mau-cap", title: "Khuyến cáo UKKA 2026 về điều trị tăng kali máu cấp ở người lớn", subtitle: "Khuyến cáo thực hành lâm sàng của Hiệp hội Thận học Vương quốc Anh", category: "Nội khoa", year: "UKKA 2026", file: "ukka-2026-tang-kali-mau-cap.html", tags: "tăng kali máu cấp hyperkalaemia hyperkalemia UKKA 2026 UK Kidney Association Hiệp hội Thận học Vương quốc Anh kali potassium điện giải cấp cứu điện tâm đồ ECG canxi gluconat calcium gluconate insulin glucose salbutamol natri bicarbonat patiromer natri zirconium cyclosilicate SZC nhựa trao đổi ion lọc máu thận nhân tạo bệnh thận mạn CKD tổn thương thận cấp AKI ngừng tim hồi sinh tim phổi" },
 ];
 
 const colors = { "Tim mạch": "#be5c50", "Cơ xương khớp": "#98743e", "Nội khoa": "#39797d", "Dược lý": "#6d65a8" };
@@ -103,4 +104,4 @@ renderFilters();
 renderCards();
 const initialId = new URLSearchParams(location.search).get("doc");
 if (initialId) openDocument(initialId, false);
-// MEDGUIDE build: ESC 2026 cardiovascular disease and chronic kidney disease guideline
+// MEDGUIDE build: UKKA 2026 acute hyperkalaemia guideline
