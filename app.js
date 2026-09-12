@@ -101,3 +101,4 @@ renderFilters();
 renderCards();
 const initialId = new URLSearchParams(location.search).get("doc");
 if (initialId) openDocument(initialId, false);
+// MEDGUIDE build: ESC 2026 heart failure guideline
