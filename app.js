@@ -1,14 +1,8 @@
 const documents = [
-  { id: "esc-chan-doan", title: "Chẩn đoán suy tim mạn", subtitle: "Các bước then chốt và peptide lợi niệu natri", category: "Tim mạch", year: "ESC 2026", file: "esc-2026-suy-tim-chan-doan.html", tags: "suy tim mạn chẩn đoán peptide natri BNP NT-proBNP" },
-  { id: "esc-giai-doan-b", title: "Suy tim giai đoạn B", subtitle: "Xử trí bệnh nhân tiền suy tim và bảng khuyến cáo", category: "Tim mạch", year: "ESC 2026", file: "esc-2026-suy-tim-giai-doan-b.html", tags: "tiền suy tim giai đoạn b tim mạch" },
-  { id: "esc-gioi-thieu", title: "Quản lý suy tim — Giới thiệu", subtitle: "Phần giới thiệu của khuyến cáo ESC về quản lý suy tim", category: "Tim mạch", year: "ESC 2026", file: "esc-2026-suy-tim-gioi-thieu.html", tags: "suy tim giới thiệu dịch tễ định nghĩa" },
-  { id: "esc-bang", title: "Bảng 5, Bảng 6 và Mục 9.1.1.2", subtitle: "Khuyến cáo điều trị chọn lọc trong hướng dẫn suy tim", category: "Tim mạch", year: "ESC 2026", file: "esc-2026-bang-5-6-muc-9-1-1-2.html", tags: "suy tim bảng khuyến cáo điều trị" },
   { id: "acr-gut", title: "Quản lý bệnh gút", subtitle: "Hướng dẫn của Hội Thấp khớp học Hoa Kỳ", category: "Cơ xương khớp", year: "ACR 2020", file: "acr-2020-quan-ly-benh-gut.html", tags: "gout gút acid uric allopurinol colchicine" },
   { id: "eular-ra", title: "Quản lý viêm khớp dạng thấp", subtitle: "DMARD tổng hợp và sinh học — bản cập nhật 2025", category: "Cơ xương khớp", year: "EULAR 2025", file: "eular-2025-viem-khop-dang-thap.html", tags: "viêm khớp dạng thấp rheumatoid DMARD sinh học" },
   { id: "va-dod-oa", title: "Thoái hóa khớp háng và gối", subtitle: "Quản lý không phẫu thuật theo hướng dẫn VA/DOD", category: "Cơ xương khớp", year: "VA/DOD 2026", file: "va-dod-2026-thoai-hoa-khop.html", tags: "thoái hóa khớp háng gối osteoarthritis không phẫu thuật" },
   { id: "hyponatremia", title: "Chẩn đoán và điều trị hạ natri máu", subtitle: "Hướng dẫn thực hành lâm sàng", category: "Nội khoa", year: "2014", file: "ha-natri-mau-2014.html", tags: "hạ natri máu hyponatremia điện giải natri" },
-  { id: "analgesics", title: "Thuốc hạ sốt, giảm đau và kháng viêm", subtitle: "Bài học chuyên sâu về thuốc NSAID", category: "Dược lý", year: "Bài học", file: "thuoc-giam-dau-khang-viem.html", tags: "thuốc hạ sốt giảm đau kháng viêm NSAID paracetamol" },
-  { id: "analgesics-slides", title: "Thuốc giảm đau – kháng viêm", subtitle: "Bài giảng dạng slide để ôn tập nhanh", category: "Dược lý", year: "Bài giảng", file: "bai-giang-thuoc-giam-dau-khang-viem.html", tags: "slide bài giảng thuốc giảm đau kháng viêm" },
 ];
 
 const colors = { "Tim mạch": "#be5c50", "Cơ xương khớp": "#98743e", "Nội khoa": "#39797d", "Dược lý": "#6d65a8" };
