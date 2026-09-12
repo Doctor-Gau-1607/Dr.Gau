@@ -99,7 +99,7 @@ window.addEventListener("popstate", () => {
 });
 
 document.documentElement.dataset.theme = localStorage.getItem("medguide-theme") || "light";
-$("#documentCount").textContent = documents.length;
+if ($("#documentCount")) $("#documentCount").textContent = documents.length;
 renderFilters();
 renderCards();
 const initialId = new URLSearchParams(location.search).get("doc");
