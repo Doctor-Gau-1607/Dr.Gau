@@ -8,7 +8,8 @@ const documents = [
   { id: "va-dod-oa", title: "Thoái hóa khớp háng và gối", subtitle: "Quản lý không phẫu thuật theo hướng dẫn VA/DOD", category: "Cơ xương khớp", year: "VA/DOD 2026", file: "va-dod-2026-thoai-hoa-khop.html", tags: "thoái hóa khớp háng gối osteoarthritis không phẫu thuật" },
   { id: "hyponatremia", title: "Chẩn đoán và điều trị hạ natri máu", subtitle: "Hướng dẫn thực hành lâm sàng", category: "Nội khoa", year: "2014", file: "ha-natri-mau-2014.html", tags: "hạ natri máu hyponatremia điện giải natri" },
   { id: "analgesics", title: "Thuốc hạ sốt, giảm đau và kháng viêm", subtitle: "Bài học chuyên sâu về thuốc NSAID", category: "Dược lý", year: "Bài học", file: "thuoc-giam-dau-khang-viem.html", tags: "thuốc hạ sốt giảm đau kháng viêm NSAID paracetamol" },
-  { id: "analgesics-slides", title: "Thuốc giảm đau – kháng viêm", subtitle: "Bài giảng dạng slide để ôn tập nhanh", category: "Dược lý", year: "Bài giảng", file: "bai-giang-thuoc-giam-dau-khang-viem.html", tags: "slide bài giảng thuốc giảm đau kháng viêm" }
+  { id: "analgesics-slides", title: "Thuốc giảm đau – kháng viêm", subtitle: "Bài giảng dạng slide để ôn tập nhanh", category: "Dược lý", year: "Bài giảng", file: "bai-giang-thuoc-giam-dau-khang-viem.html", tags: "slide bài giảng thuốc giảm đau kháng viêm" },
+  {id: "tang-huyet-ap-2026", title: "Hướng dẫn điều trị tăng huyết áp", subtitle: "Chẩn đoán và điều trị", category: "Tim mạch", year: "2026", file: "tang-huyet-ap-2026.html", tags: "tăng huyết áp huyết áp điều trị"}
 ];
 
 const colors = { "Tim mạch": "#be5c50", "Cơ xương khớp": "#98743e", "Nội khoa": "#39797d", "Dược lý": "#6d65a8" };
