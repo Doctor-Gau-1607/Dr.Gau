@@ -29,6 +29,12 @@ const documents = [
    "updated" là nó tự lên đầu, không phải sắp lại mảng bằng tay. */
 documents.sort((a, b) => (b.updated || "").localeCompare(a.updated || ""));
 
+const latestArticle = document.querySelector("#latestArticle");
+if (latestArticle && documents.length) {
+  latestArticle.href = `content/${documents[0].file}`;
+  latestArticle.textContent = `Bài mới: ${documents[0].title} →`;
+}
+
 const taxonomy = [
   { name: "Nội khoa", children: [
     { name: "Cấp cứu" },
