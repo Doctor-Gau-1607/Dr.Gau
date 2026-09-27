@@ -1,4 +1,5 @@
 const documents = [
+  { id: "chan-thuong-cot-song", title: "Chấn thương cột sống", subtitle: "Tài liệu chấn thương cột sống với 646 hình minh họa", group: "Ngoại khoa", category: "Chấn thương cột sống", year: "2026", file: "chan-thuong-cot-song.html", updated: "2026-09-27 20:55:05", tags: "chấn thương cột sống spine spinal trauma chấn thương chỉnh hình ngoại khoa cột sống cổ cột sống ngực cột sống thắt lưng hình ảnh" },
   { id: "tiep-can-dinh-duong-tre-sinh-non", title: "Tiếp cận dinh dưỡng đường tiêu hóa ở trẻ sinh non", subtitle: "Bản dịch UpToDate — nhu cầu dinh dưỡng, lựa chọn sữa và chiến lược nuôi ăn đường tiêu hóa", group: "Nhi khoa", category: "Sơ sinh", year: "UpToDate 2026", file: "Tiep-can-dinh-duong-duong-tieu-hoa-o-tre-sinh-non.html?v=f55fb5f", updated: "2026-09-27 20:37:02", tags: "trẻ sinh non premature infant preterm enteral nutrition dinh dưỡng đường tiêu hóa nhi khoa sơ sinh sữa mẹ sữa công thức tăng cường sữa fortifier nuôi ăn qua sonde nhu cầu năng lượng protein tăng trưởng UpToDate 2026" },
   { id: "aap-2026-thieu-sat-tre-em", title: "AAP 2026: Thiếu sắt và thiếu máu thiếu sắt ở trẻ em", subtitle: "Báo cáo lâm sàng về dự phòng, sàng lọc, chẩn đoán và điều trị ở trẻ nhũ nhi, trẻ em và thanh thiếu niên", group: "Nhi khoa", category: "Huyết học nhi", year: "AAP 2026", file: "AAP-2026-Thieu-sat-va-thieu-mau-thieu-sat-o-tre-em.html", updated: "2026-09-24 17:28:31", tags: "AAP 2026 American Academy of Pediatrics thiếu sắt iron deficiency thiếu máu thiếu sắt iron deficiency anemia IDA trẻ nhũ nhi trẻ em thanh thiếu niên nhi khoa huyết học nhi dự phòng sàng lọc chẩn đoán điều trị sắt đường uống sắt tĩnh mạch" },
   { id: "viem-mui-xoang-nguoi-lon-bac-si-noi-ho-hap", title: "Viêm mũi xoang ở người lớn — chẩn đoán và điều trị dành cho bác sĩ nội hô hấp", subtitle: "Bài giảng Nội hô hấp và Tai Mũi Họng — tiếp cận viêm mũi xoang cấp, mạn và biến chứng", group: "Nội khoa", category: "Hô hấp", year: "2026", file: "viem-mui-xoang-nguoi-lon-bac-si-noi-ho-hap.html", updated: "2026-09-24 15:46:52", tags: "viêm mũi xoang người lớn rhinosinusitis sinusitis viêm mũi xoang cấp viêm mũi xoang mạn chẩn đoán điều trị nội hô hấp tai mũi họng polyp mũi viêm xoang do nấm xâm lấn biến chứng hen COPD nội soi mũi CT xoang" },
@@ -62,6 +63,9 @@ const taxonomy = [
     { name: "Huyết học nhi" },
     { name: "Sơ sinh" },
   ] },
+  { name: "Ngoại khoa", children: [
+    { name: "Chấn thương cột sống" },
+  ] },
   { name: "Cận lâm sàng", children: [
     { name: "Siêu âm", children: [
       { name: "Siêu âm tổng quát" },
@@ -75,7 +79,7 @@ const taxonomy = [
   ] },
 ];
 
-const groupColors = { "Nội khoa": "#39797d", "Nhi khoa": "#c0703e", "Cận lâm sàng": "#6d65a8" };
+const groupColors = { "Nội khoa": "#39797d", "Nhi khoa": "#c0703e", "Ngoại khoa": "#8b5b78", "Cận lâm sàng": "#6d65a8" };
 const colors = {
   "Tim mạch": "#be5c50",
   "Cơ xương khớp": "#98743e",
