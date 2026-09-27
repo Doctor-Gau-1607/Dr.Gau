@@ -1,4 +1,5 @@
 const documents = [
+  { id: "tiep-can-dinh-duong-tre-sinh-non", title: "Tiếp cận dinh dưỡng đường tiêu hóa ở trẻ sinh non", subtitle: "Bản dịch UpToDate — nhu cầu dinh dưỡng, lựa chọn sữa và chiến lược nuôi ăn đường tiêu hóa", group: "Nhi khoa", category: "Sơ sinh", year: "UpToDate 2026", file: "Tiep-can-dinh-duong-duong-tieu-hoa-o-tre-sinh-non.html", updated: "2026-09-27 20:17:58", tags: "trẻ sinh non premature infant preterm enteral nutrition dinh dưỡng đường tiêu hóa nhi khoa sơ sinh sữa mẹ sữa công thức tăng cường sữa fortifier nuôi ăn qua sonde nhu cầu năng lượng protein tăng trưởng UpToDate 2026" },
   { id: "aap-2026-thieu-sat-tre-em", title: "AAP 2026: Thiếu sắt và thiếu máu thiếu sắt ở trẻ em", subtitle: "Báo cáo lâm sàng về dự phòng, sàng lọc, chẩn đoán và điều trị ở trẻ nhũ nhi, trẻ em và thanh thiếu niên", group: "Nhi khoa", category: "Huyết học nhi", year: "AAP 2026", file: "AAP-2026-Thieu-sat-va-thieu-mau-thieu-sat-o-tre-em.html", updated: "2026-09-24 17:28:31", tags: "AAP 2026 American Academy of Pediatrics thiếu sắt iron deficiency thiếu máu thiếu sắt iron deficiency anemia IDA trẻ nhũ nhi trẻ em thanh thiếu niên nhi khoa huyết học nhi dự phòng sàng lọc chẩn đoán điều trị sắt đường uống sắt tĩnh mạch" },
   { id: "viem-mui-xoang-nguoi-lon-bac-si-noi-ho-hap", title: "Viêm mũi xoang ở người lớn — chẩn đoán và điều trị dành cho bác sĩ nội hô hấp", subtitle: "Bài giảng Nội hô hấp và Tai Mũi Họng — tiếp cận viêm mũi xoang cấp, mạn và biến chứng", group: "Nội khoa", category: "Hô hấp", year: "2026", file: "viem-mui-xoang-nguoi-lon-bac-si-noi-ho-hap.html", updated: "2026-09-24 15:46:52", tags: "viêm mũi xoang người lớn rhinosinusitis sinusitis viêm mũi xoang cấp viêm mũi xoang mạn chẩn đoán điều trị nội hô hấp tai mũi họng polyp mũi viêm xoang do nấm xâm lấn biến chứng hen COPD nội soi mũi CT xoang" },
   { id: "loang-xuong-chan-doan-dieu-tri-chuyen-sau", title: "Loãng xương — chẩn đoán và điều trị chuyên sâu", subtitle: "Bài giảng Nội cơ xương khớp — đánh giá nguy cơ gãy xương, chẩn đoán và lựa chọn điều trị", group: "Nội khoa", category: "Cơ xương khớp", year: "2026", file: "loang-xuong-chan-doan-dieu-tri-chuyen-sau.html", updated: "2026-09-24 15:17:59", tags: "loãng xương osteoporosis osteopenia mật độ xương DXA T-score FRAX gãy xương đốt sống gãy xương hông nguy cơ gãy xương calci vitamin D bisphosphonate denosumab romosozumab teriparatide điều trị nội cơ xương khớp" },
@@ -59,6 +60,7 @@ const taxonomy = [
   { name: "Nhi khoa", children: [
     { name: "Hô hấp nhi" },
     { name: "Huyết học nhi" },
+    { name: "Sơ sinh" },
   ] },
   { name: "Cận lâm sàng", children: [
     { name: "Siêu âm", children: [
