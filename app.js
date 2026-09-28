@@ -1,4 +1,7 @@
 const documents = [
+  { id: "mrsa-nature-reviews-2026", title: "Tụ cầu vàng kháng methicillin (MRSA)", subtitle: "Nature Reviews Disease Primers 2026 — tổng quan về MRSA", group: "Nội khoa", category: "Truyền nhiễm và các bệnh nhiệt đới", year: "Nature Reviews 2026", file: "MRSA-Nature-Reviews-Disease-Primers-2026.html", updated: "2026-09-28 10:53:55", tags: "MRSA methicillin resistant Staphylococcus aureus tụ cầu vàng kháng methicillin nhiễm trùng kháng thuốc Nature Reviews Disease Primers 2026" },
+  { id: "ca-the-hoa-lieu-beta-lactam-accp-2026", title: "Cá thể hóa liều kháng sinh beta-lactam", subtitle: "Hướng dẫn đồng thuận ACCP 2026 cho bệnh nhân bệnh cấp tính", group: "Nội khoa", category: "Truyền nhiễm và các bệnh nhiệt đới", year: "ACCP 2026", file: "Ca-the-hoa-lieu-beta-lactam-ACCP-2026.html", updated: "2026-09-28 10:53:52", tags: "beta lactam cá thể hóa liều kháng sinh therapeutic drug monitoring TDM PK PD MIPD ACCP 2026 nhiễm trùng" },
+  { id: "day-thi-som-trung-uong-endocrine-society-2026", title: "Dậy thì sớm trung ương", subtitle: "Hướng dẫn thực hành lâm sàng Endocrine Society 2026", group: "Nhi khoa", category: "Nội tiết nhi", year: "Endocrine Society 2026", file: "Day-thi-som-trung-uong-Endocrine-Society-2026.html", updated: "2026-09-28 10:53:50", tags: "dậy thì sớm trung ương CPP central precocious puberty nội tiết nhi GnRHa Endocrine Society 2026" },
   { id: "danh-gia-x-quang-nguc", title: "Hướng dẫn đọc phim X-quang ngực", subtitle: "Tài liệu đánh giá X-quang ngực với 726 ảnh minh họa", group: "Cận lâm sàng", category: "X-Quang", year: "2026", file: "danh-gia-x-quang-nguc.html", updated: "2026-09-27 21:45:10", tags: "đánh giá X-quang ngực đọc phim XQ ngực chest X-ray CXR chest radiograph lồng ngực phổi tim trung thất màng phổi hình ảnh y khoa cận lâm sàng" },
   { id: "chan-thuong-cot-song", title: "Chấn thương cột sống", subtitle: "Tài liệu chấn thương cột sống với 646 hình minh họa", group: "Ngoại khoa", category: "Chấn thương cột sống", year: "2026", file: "chan-thuong-cot-song.html", updated: "2026-09-27 20:55:05", tags: "chấn thương cột sống spine spinal trauma chấn thương chỉnh hình ngoại khoa cột sống cổ cột sống ngực cột sống thắt lưng hình ảnh" },
   { id: "tiep-can-dinh-duong-tre-sinh-non", title: "Tiếp cận dinh dưỡng đường tiêu hóa ở trẻ sinh non", subtitle: "Bản dịch UpToDate — nhu cầu dinh dưỡng, lựa chọn sữa và chiến lược nuôi ăn đường tiêu hóa", group: "Nhi khoa", category: "Sơ sinh", year: "UpToDate 2026", file: "Tiep-can-dinh-duong-duong-tieu-hoa-o-tre-sinh-non.html?v=f55fb5f", updated: "2026-09-27 20:37:02", tags: "trẻ sinh non premature infant preterm enteral nutrition dinh dưỡng đường tiêu hóa nhi khoa sơ sinh sữa mẹ sữa công thức tăng cường sữa fortifier nuôi ăn qua sonde nhu cầu năng lượng protein tăng trưởng UpToDate 2026" },
@@ -62,6 +65,7 @@ const taxonomy = [
   { name: "Nhi khoa", children: [
     { name: "Hô hấp nhi" },
     { name: "Huyết học nhi" },
+    { name: "Nội tiết nhi" },
     { name: "Sơ sinh" },
   ] },
   { name: "Ngoại khoa", children: [
