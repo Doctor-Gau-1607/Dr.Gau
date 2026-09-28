@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CƠ CHẾ RỐI LOẠN NHỊP TIM</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+/* Thu gọn / mở lại cột mục lục. Trang nhớ lựa chọn, vì người đọc guideline
+   mở lại nhiều lần và không muốn mỗi lần lại phải thu tay. */
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat)}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .cap-3>a{padding-left:40px;font-size:.82rem;color:var(--nhat)}
+#dsMuc .cap-4>a,#dsMuc .cap-5>a{padding-left:54px;font-size:.8rem;color:var(--nhat)}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay p{margin:0 0 .85em;text-align:justify}
+.to-giay p.cham{padding-left:1.35em;text-indent:-1.1em;text-align:left}
+figure{margin:1.4em 0;text-align:center}
+figure img{max-width:100%;height:auto;border:1px solid var(--vien);border-radius:10px}
+/* ---- bảng ---- */
+.tham-chieu{color:var(--xanh);font-weight:600;text-decoration:none;
+ border-bottom:1px dotted currentColor}
+.tham-chieu:hover{border-bottom-style:solid}
+.chu-thich-float{font-weight:600;margin:0 0 .4em}
+.khung-bang{overflow-x:auto;margin:1.4em 0;border-radius:10px;
+ border:1px solid var(--vien)}
+.khung-bang table{border-collapse:collapse;width:100%;font-size:.88rem;
+ table-layout:fixed}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay sup{overflow-wrap:anywhere}
+.khung-bang td{border:1px solid var(--vien);padding:9px 11px;vertical-align:top;
+ line-height:1.5;word-wrap:break-word}
+.khung-bang td.sat{padding-left:0;padding-right:0}
+.khung-bang td.giua{text-align:center;vertical-align:middle}
+.khung-bang td.ky-hieu{font-weight:800;white-space:nowrap}
+.khung-bang td.nen-toi,.khung-bang td.nen-toi *{color:#fff}
+.khung-bang td.nen-sang,.khung-bang td.nen-sang *{color:#12151b}
+.khung-bang td span{display:block}
+.khung-bang td span.cham{padding-left:1.1em;text-indent:-1em}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+/* Ô có màu ép màu chữ cho cả con cháu, kể cả <mark> của phần tìm trong bài — chữ
+   trắng trên nền vàng nhạt là tìm thấy mà không nhìn thấy. Trả chữ về màu trang. */
+.khung-bang td.nen-toi mark.danh,.khung-bang td.nen-sang mark.danh,
+.khung-bang td.nen-toi mark.danh *,.khung-bang td.nen-sang mark.danh *{color:var(--chu)}
+mark.danh.dang{outline:2px solid var(--do)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ /* Màn hình điện thoại: giữ bề rộng tối thiểu cho bảng rồi cho cuộn ngang,
+    thay vì bóp cột hẹp tới mức "Trung bình" xuống dòng thành "Tr un g bì nh". */
+ .khung-bang table{min-width:620px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ /* Nền tối được nhớ trong localStorage: bật một lần là mọi lần in sau đều dính.
+    Giấy luôn trắng, nên trả bảng màu về bản sáng trước khi in — nếu không, chữ
+    #e6eaf0 in lên giấy trắng là mất hẳn. */
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .khung-bang,figure{break-inside:avoid}
+ .khung-bang td{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+/* Bảng 1 (9 cột số) và Bảng 6 (7 cột): trên màn hẹp giữ đủ rộng để khoảng giá trị không bị bẻ dòng */
+@media (max-width:980px){#bang-1 table{min-width:900px}#bang-6 table{min-width:860px}}
+
+/* ==== Sách ECG: danh sách nhiều cấp, chữ chạy quanh hình, phóng to hình ==== */
+.to-giay ul.ds{margin:.3em 0 1em;padding-left:1.5em;list-style:disc}
+.to-giay ul.ds ul{margin:.1em 0 .2em;padding-left:1.45em;list-style:circle}
+.to-giay ul.ds ul ul{list-style:square}
+.to-giay ul.ds ul ul ul{list-style:"– "}
+.to-giay li{margin:.1em 0;line-height:1.6;overflow-wrap:break-word}
+.to-giay li.rong{list-style:none}
+/* đoạn văn chạy hết khổ: giữ dòng không quá dài để mắt không lạc dòng */
+.to-giay>p:not(.tieu-de-nho){max-width:52em}
+.to-giay p.tieu-de-nho{font-weight:700;color:var(--xanh);text-align:left;
+ margin:1.5em 0 .7em;padding:.05em 0 .05em .7em;border-left:4px solid var(--xanh);line-height:1.45}
+.to-giay h2+.cum>.tieu-de-nho,.to-giay h3+.cum>.tieu-de-nho,.to-giay h3+.tieu-de-nho{margin-top:.2em}
+/* hình: một kiểu khung duy nhất */
+.to-giay figure{margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:.5em;
+ max-width:100%;flex:0 1 auto}
+.to-giay .khung-anh{position:relative;display:block;width:100%}
+.to-giay figure img{display:block;width:100%;height:auto;background:#fff;cursor:zoom-in;
+ border:1px solid var(--vien);border-radius:8px}
+.to-giay .khung-anh::after{content:"⤢";position:absolute;top:7px;right:7px;width:26px;height:26px;
+ border-radius:7px;background:rgba(20,24,32,.55);color:#fff;font-size:15px;line-height:26px;
+ text-align:center;pointer-events:none;opacity:.35;transition:opacity .15s}
+.to-giay .khung-anh:hover::after{opacity:1}
+:root[data-nen="toi"] .to-giay figure img{filter:brightness(.88)}
+.to-giay figcaption{font-size:.84rem;font-style:italic;color:var(--nhat);text-align:center;
+ line-height:1.45;max-width:46em}
+.to-giay figcaption .nguon{opacity:.7;font-size:.94em}
+/* cụm: tiêu đề nhỏ → hình → chữ */
+.cum{margin:1.3em 0 1.9em;display:flow-root}
+.cum-hinh{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:18px 26px}
+.cum-rong>.cum-hinh{margin:.2em 0 1.1em}
+.nhom-hinh{margin:1.3em 0 1.7em;display:flex;flex-wrap:wrap;justify-content:center;
+ align-items:flex-start;gap:18px 26px}
+/* hình đứng sát bên phải khối chữ */
+/* cân bằng thị giác: phần thấp hơn (chữ hoặc hình) nằm giữa chiều cao phần cao hơn */
+.hang{display:flex;align-items:center;gap:34px}
+.hang>.cot-chu{order:1;flex:0 1 auto;min-width:0}
+.hang>.cum-hinh{order:2;flex:0 0 auto;margin:0}
+.cot-chu>:first-child{margin-top:0!important}
+.cot-chu>:last-child,.cot-chu>ul.ds:last-child{margin-bottom:0!important}
+.cot-chu li:last-child>ul{margin-bottom:0}
+.cot-chu>ul.ds+ul.ds,.cot-chu>p+ul.ds{margin-top:.2em}
+.hang>.cum-hinh.noi-pt{flex:0 0 auto}
+.cum-hinh.noi-doc{flex-direction:column;align-items:stretch}
+.cum-hinh.noi-chong{justify-content:flex-start}
+.cum-hinh.noi{gap:14px 14px}
+.cum-hinh.noi figure{width:100%}
+.cum-hinh.noi-chong figure{width:auto}
+.cum-noi>ul.ds{margin-top:0}
+.phong-to{position:fixed;inset:0;z-index:50;display:none;align-items:center;
+ justify-content:center;background:rgba(10,12,16,.9);cursor:zoom-out;padding:2vh 2vw}
+.phong-to.mo{display:flex}
+.phong-to img{background:#fff;border-radius:8px;max-width:96vw;max-height:95vh;
+ box-shadow:0 6px 30px rgba(0,0,0,.5)}
+/* Chỉ màn hình điện thoại thật (dưới 600px) mới xếp hình xuống dưới chữ;
+   mọi cửa sổ máy tính, kể cả cửa sổ hẹp, giữ bố cục hình sát bên phải chữ. */
+@media(max-width:600px){
+ .hang{display:block}
+ .hang>.cum-hinh{margin:.2em auto 1em;width:100%!important;max-width:100%!important}
+}
+@media print{
+ .cum-hinh,figure{break-inside:avoid}
+ .to-giay .khung-anh::after,.phong-to{display:none!important}
+}
+/* chú thích mà bản Word không có ảnh đi kèm */
+.to-giay p.chu-thich-le{font-size:.84rem;font-style:italic;color:var(--nhat);text-align:center;
+ margin:1em auto 1.4em;max-width:46em;padding:.6em 1em;border:1px dashed var(--vien);border-radius:8px}
+/* bảng */
+.khung-bang td p{margin:0 0 .35em;text-align:left}
+.khung-bang td p:last-child{margin-bottom:0}
+.khung-bang td ul.ds{margin:.1em 0 .2em}
+.khung-bang .anh-o{margin:.2em 0}
+/* về mục lục sách, chuyển chương */
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.chuyen-chuong{display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:center;margin:22px 0 0;
+ background:var(--giay);border-radius:16px;padding:18px 24px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.chuyen-chuong a{text-decoration:none;color:var(--chu);line-height:1.4}
+.chuyen-chuong a span{display:block;font-size:.76rem;font-weight:800;letter-spacing:.08em;color:var(--nhat);text-transform:uppercase}
+.chuyen-chuong a:hover{color:var(--do)}
+.chuyen-chuong .cc-sau{text-align:right}
+.chuyen-chuong .cc-giua{font-weight:700;color:var(--xanh);padding:6px 14px;border:1px solid var(--vien);border-radius:999px}
+@media print{.chuyen-chuong,.ve-muc-luc{display:none!important}}
+/* nhãn ngắn ngay dưới hình (vd "Sóng T đồng dạng") */
+.to-giay figure p.nhan-hinh{margin:.15em 0 0;font-size:.9rem;font-weight:600;text-align:center;color:var(--chu)}
+/* tiêu đề nhỏ dạng h4/h5 nằm trong cột chữ */
+.cot-chu h4,.cot-chu h5,.cot-chu h6{margin:.9em 0 .4em}
+/* chừa chỗ cho các nút nổi A-/A+/◐ để không che "Chương sau" */
+.chuyen-chuong{margin-bottom:84px}
+/* mục nguồn cuối chương: căn trái, không giãn chữ */
+.to-giay h2[id^="nguon-tai-lieu"] ~ p{text-align:left}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong tài liệu…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="index.html">← Mục lục sách</a>SÁCH DỊCH · ECGBOOK · CHƯƠNG 16</div>
+   <h1><strong>CƠ CHẾ RỐI LOẠN NHỊP TIM</strong></h1>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="dien-sinh-ly-hoc-cua-tim"><strong>Điện sinh lý học của tim</strong></h2>
+<ul class="ds"><li>Tế bào cơ tim (cardiomyocytes) có khả năng <strong>tự động (automaticity)</strong>:<ul><li><strong>Tự phát sinh xung động</strong> (điện thế hoạt động – action potential)</li></ul></li><li><strong>Dẫn truyền xung động:</strong><ul><li><strong>Nhanh qua</strong> hệ thống dẫn truyền (conduction system)</li><li><strong>Chậm qua</strong> cơ tim công năng (working myocardium)</li></ul></li><li>Ức chế vượt tần (overdrive suppression)<ul><li><strong>Là một nguyên lý</strong> điện sinh lý <strong>cơ bản của rối loạn nhịp</strong></li><li><strong>Ổ có tần số cao nhất</strong> (nút xoang – SA node)<ul><li><strong>Làm bất hoạt các ổ có tần số thấp hơn</strong></li></ul></li></ul></li><li>Thời kỳ trơ (refractory period)<ul><li>Là <strong>khoảng thời gian ngay sau khi</strong> tế bào cơ tim <strong>bị khử cực bởi một xung động</strong></li><li>Trong khoảng thời gian này, tế bào cơ tim <strong>không thể bị kích thích</strong><ul><li><strong>Không đáp ứng với một xung động khác</strong></li></ul></li></ul></li></ul>
+<h2 id="roi-loan-nhip"><strong>Rối loạn nhịp</strong></h2>
+<div class="cum cum-noi"><div class="hang"><div class="cum-hinh" style="width:228px;max-width:58%"><figure id="hinh-1" data-dong="21" style="width:228px;max-width:100%"><span class="khung-anh"><img src="anh/chuong-16-0bace0cd930c.webp" alt="Hình 1. Hình thành xung động bất thường và ổ tạo nhịp lạc chỗ (abnormal impulse formation, ectopic pacemaker)." loading="lazy"></span><figcaption><em>Hình 1. Hình thành xung động bất thường và ổ tạo nhịp lạc chỗ (abnormal impulse formation, ectopic pacemaker).</em></figcaption></figure></div><div class="cot-chu" data-khoi="24"><ul class="ds"><li>Về mặt sinh lý, tim <strong>đập theo</strong> nút xoang với <strong>tần số 60-100/phút.</strong><ul><li>Xung động được phát sinh bởi nút xoang (nhịp xoang – sinus rhythm)</li></ul></li><li><strong>Rối loạn nhịp (arrhythmia)</strong> là một thuật ngữ rất <strong>rộng:</strong><ul><li>Về cơ bản, nó chỉ tình trạng <strong>rối loạn nhịp tim sinh lý</strong> (rối loạn của nhịp xoang)</li><li>Tim đập theo một <strong>ổ khác ngoài nút xoang</strong><ul><li>Hoặc xảy ra <strong>rối loạn của nút xoang</strong></li></ul></li></ul></li></ul></div></div></div>
+<h2 id="cac-co-che-roi-loan-nhip-tim"><strong>Các cơ chế rối loạn nhịp tim</strong></h2>
+<div class="cum cum-noi"><div class="hang"><div class="cum-hinh" style="width:506px;max-width:58%"><figure id="hinh-2" data-dong="41" style="width:506px;max-width:100%"><span class="khung-anh"><img src="anh/chuong-16-65593f8b7313.webp" alt="Hình 2. Các cơ chế của nhịp nhanh phức bộ hẹp: hình thành xung động bất thường, hoạt động khởi kích, tính tự động, vào lại — vào lại giải phẫu, phản xạ, pha 2, " loading="lazy"></span><figcaption><em>Hình 2. Các cơ chế của nhịp nhanh phức bộ hẹp: hình thành xung động bất thường, hoạt động khởi kích, tính tự động, vào lại — vào lại giải phẫu, phản xạ, pha 2, vòng dẫn đầu, hình số 8, sóng xoắn (rotor).</em></figcaption></figure></div><div class="cot-chu" data-khoi="31"><ul class="ds"><li>Rối loạn nhịp xảy ra qua <strong>3 cơ chế:</strong><ul><li>Tính tự động (automaticity)<ul><li>Thay đổi tính tự động bình thường</li><li>Tính tự động bất thường</li></ul></li><li>Hoạt động khởi kích (triggering activity)<ul><li>Hậu khử cực sớm (early afterdepolarization)</li><li>Hậu khử cực muộn (late afterdepolarization)</li></ul></li><li>Vào lại (reentry)<ul><li>Vào lại giải phẫu</li><li>Vào lại chức năng</li></ul></li></ul></li></ul></div></div></div>
+<h2 id="1-tinh-tu-dong"><strong>1. Tính tự động</strong></h2>
+<ul class="ds"><li>Mỗi tế bào cơ tim đều có khả năng <strong>tự động</strong> (<strong>tự phát sinh xung động</strong>)</li><li>Xung động được phát sinh với <strong>tần số cao nhất ở</strong> nút xoang (<strong>ổ tạo nhịp nguyên phát</strong> – primary pacemaker)<ul><li><strong>Nút xoang sau đó làm bất hoạt</strong> các ổ tạo nhịp thứ phát (secondary pacemakers) thông qua ức chế vượt tần:<ul><li>Nút nhĩ thất, sợi Purkinje ở tâm thất, cơ tim nhĩ</li></ul></li></ul></li><li>Tính tự động có thể gây <strong>rối loạn nhịp</strong> qua <strong>2 cơ chế:</strong><ul><li><strong>Thay đổi tính tự động bình thường</strong></li><li><strong>Tính tự động bất thường</strong></li></ul></li></ul>
+<h3 id="tinh-tu-dong-va-dien-the-hoat-dong"><strong>Tính tự động và điện thế hoạt động</strong></h3>
+<div class="cum cum-noi"><div class="hang"><div class="cum-hinh" style="width:506px;max-width:58%"><figure id="hinh-3" data-dong="51" style="width:506px;max-width:100%"><span class="khung-anh"><img src="anh/chuong-16-87ade257b2e4.webp" alt="Hình 3. Thay đổi tính tự động bình thường: tăng tính tự động bình thường, nhịp nhanh xoang, nhịp chậm xoang (altered normal automaticity)." loading="lazy"></span><figcaption><em>Hình 3. Thay đổi tính tự động bình thường: tăng tính tự động bình thường, nhịp nhanh xoang, nhịp chậm xoang (altered normal automaticity).</em></figcaption></figure></div><div class="cot-chu" data-khoi="54"><ul class="ds"><li><strong>Tốc độ của tính tự động</strong> (tần số xung động) <strong>phụ thuộc vào:</strong><ul><li><strong>Điện thế tâm trương tối đa</strong> (giá trị thấp nhất của điện thế hoạt động)</li><li><strong>Ngưỡng điện thế hoạt động</strong> (khi vượt qua ngưỡng này, khử cực được khởi phát)</li><li><strong>Pha 4 của điện thế hoạt động</strong> (phụ thuộc vào <strong>độ dốc của đường cong</strong>, đường cong dốc hơn sẽ đạt tới ngưỡng sớm hơn)</li></ul></li><li><strong>Tính tự động</strong> chủ yếu chịu ảnh hưởng của <strong>hệ thần kinh tự chủ</strong> (làm thay đổi đường cong pha 4 của điện thế hoạt động):<ul><li><strong>Giao cảm</strong> (gây nhịp nhanh xoang)</li><li><strong>Phó giao cảm</strong> (gây nhịp chậm xoang)</li></ul></li><li><strong>Rối loạn nhịp</strong> do thay đổi tính tự động bình thường có hiện tượng <strong>khởi động dần (warm up)</strong><ul><li>Tính tự động <strong>tăng chậm</strong> (<strong>tần số tăng chậm</strong>) và nhịp nhanh <strong>không khởi đầu bằng ngoại tâm thu</strong></li><li>Trong <strong>vào lại</strong>, nhịp nhanh <strong>khởi đầu bằng ngoại tâm thu</strong> và tần số <strong>tăng từ nhát bóp (QRS) này sang nhát bóp (QRS) khác</strong><ul><li>Thay đổi tần số đột ngột được gọi là kịch phát (paroxysm) — cơn kịch phát khởi đầu bằng ngoại tâm thu</li></ul></li></ul></li></ul></div></div></div>
+<h2 id="thay-doi-tinh-tu-dong-binh-thuong"><strong>Thay đổi tính tự động bình thường</strong></h2>
+<h3 id="thay-doi-tinh-tu-dong-binh-thuong-2"><strong>Thay đổi tính tự động bình thường</strong></h3>
+<ul class="ds"><li>Là <strong>thay đổi tính tự động bình thường</strong> ở các <strong>ổ tạo nhịp</strong> của tim:<ul><li><strong>Nút xoang</strong> (ổ tạo nhịp nguyên phát)</li><li><strong>Bộ nối nhĩ thất</strong> (ổ tạo nhịp thứ phát)</li><li><strong>Sợi Purkinje ở tâm thất</strong> (ổ tạo nhịp cấp ba – tertiary pacemaker)</li></ul></li><li><strong>Các rối loạn nhịp do thay đổi tính tự động bình thường</strong><ul><li>Nhịp nhanh xoang (sinus tachycardia)</li><li>Nhịp chậm xoang (sinus bradycardia)</li><li>Nhịp nhanh xoang không thích hợp (inappropriate sinus tachycardia)</li><li>Nhịp tự thất gia tốc (accelerated ventricular rhythm)</li><li>Nhịp nhanh bộ nối (junctional tachycardia)</li></ul></li></ul>
+<h2 id="tinh-tu-dong-bat-thuong"><strong>Tính tự động bất thường</strong></h2>
+<h3 id="tinh-tu-dong-bat-thuong-2"><strong>Tính tự động bất thường</strong></h3>
+<ul class="ds"><li>Là <strong>sự hoạt hoá tính tự động ở những vùng không phải ổ tạo nhịp</strong> của tim<ul><li>Liên quan tới <strong>cơ tim nhĩ và cơ tim thất</strong>, là những vùng <strong>bình thường không có tính tự động</strong> trong điều kiện sinh lý</li></ul></li><li><strong>Xảy ra trong</strong> rối loạn điện giải (mineral imbalance), thiếu máu cục bộ (ischemia), pH nội bào thấp, dư thừa catecholamine</li><li><strong>Các rối loạn nhịp do tính tự động bất thường</strong><ul><li><strong>Ngoại tâm thu</strong> nhĩ, bộ nối, thất</li><li>Nhịp nhanh nhĩ lạc chỗ (ectopic atrial tachycardia)</li><li>Nhịp tự thất gia tốc</li><li>Nhịp nhanh thất (trong thiếu máu cục bộ cấp hoặc tái tưới máu)</li><li>Nhịp đôi song hành (parasystole)</li></ul></li></ul>
+<h2 id="2-hoat-dong-khoi-kich"><strong>2. Hoạt động khởi kích</strong></h2>
+<div class="cum cum-noi"><div class="hang"><div class="cum-hinh" style="width:414px;max-width:58%"><figure id="hinh-4" data-dong="100" style="width:414px;max-width:100%"><span class="khung-anh"><img src="anh/chuong-16-1688105b69db.webp" alt="Hình 4. Cơ chế rối loạn nhịp: hậu khử cực sớm và hậu khử cực muộn (early and delayed after-depolarization)." loading="lazy"></span><figcaption><em>Hình 4. Cơ chế rối loạn nhịp: hậu khử cực sớm và hậu khử cực muộn (early and delayed after-depolarization).</em></figcaption></figure></div><div class="cot-chu" data-khoi="89"><ul class="ds"><li><strong>ARP</strong> (thời kỳ trơ tuyệt đối – absolute refractory period)<ul><li>Trong ARP, <strong>tế bào cơ tim không đáp ứng với một xung động khác</strong></li></ul></li><li><strong>RRP</strong> (thời kỳ trơ tương đối – relative refractory period)<ul><li>Trong RRP, <strong>tế bào cơ tim chỉ đáp ứng với xung động trên ngưỡng</strong></li></ul></li><li><strong>Hoạt động khởi kích nghĩa là</strong><ul><li><strong>Một xung động</strong> xuất hiện trong <strong>tế bào cơ tim</strong><ul><li><strong>Ngay sau khi</strong> khử cực (<strong>trong thời kỳ ARP</strong>)</li></ul></li><li>Một <strong>điện thế hoạt động sớm</strong> được tạo ra, và nó khởi phát <strong>rối loạn nhịp</strong></li></ul></li><li>Hoạt động khởi kích có thể gây <strong>rối loạn nhịp</strong> qua <strong>2 cơ chế:</strong><ul><li><strong>Hậu khử cực sớm</strong> (xảy ra trong pha 2 và pha 3)</li><li><strong>Hậu khử cực muộn</strong> (xảy ra trong pha 4)</li></ul></li></ul></div></div></div>
+<h2 id="hau-khu-cuc-som"><strong>Hậu khử cực sớm</strong></h2>
+<h3 id="hoat-dong-khoi-kich-do-hau-khu-cuc-som"><strong>Hoạt động khởi kích do hậu khử cực sớm</strong></h3>
+<div class="cum cum-noi"><div class="hang"><div class="cum-hinh" style="width:414px;max-width:58%"><figure id="hinh-5" data-dong="116" style="width:414px;max-width:100%"><span class="khung-anh"><img src="anh/chuong-16-b7c2b73cd1d6.webp" alt="Hình 5. Cơ chế rối loạn nhịp: hậu khử cực sớm ở pha 2 hoặc pha 3 (early after-depolarization)." loading="lazy"></span><figcaption><em>Hình 5. Cơ chế rối loạn nhịp: hậu khử cực sớm ở pha 2 hoặc pha 3 (early after-depolarization).</em></figcaption></figure></div><div class="cot-chu" data-khoi="104"><ul class="ds"><li>Khử cực xảy ra <strong>sớm</strong><ul><li>Trong <strong>pha 2</strong> hoặc <strong>pha 3</strong> của điện thế hoạt động</li></ul></li><li>Xảy ra khi có <strong>kéo dài điện thế hoạt động</strong><ul><li>Thấy trên <strong>ECG</strong> là khoảng QT kéo dài</li><li><strong>Các yếu tố nguy cơ</strong> của hậu khử cực sớm gồm:<ul><li>Hạ kali máu (hypokalemia)</li><li>Hạ magie máu (hypomagnesemia)</li><li>Nhịp chậm (bradycardia)</li></ul></li></ul></li><li><strong>Các rối loạn nhịp liên quan đến hậu khử cực sớm</strong><ul><li>Xoắn đỉnh (Torsades de Pointes – TdP)<ul><li>Là một dạng nhịp nhanh thất đa hình</li><li>Xảy ra khi có khoảng QT kéo dài</li></ul></li></ul></li></ul></div></div></div>
+<h3 id="hau-khu-cuc-som-va-xoan-dinh"><strong>Hậu khử cực sớm và xoắn đỉnh</strong></h3>
+<div class="cum cum-noi"><div class="hang"><div class="cum-hinh" style="width:545px;max-width:58%"><figure id="hinh-6" data-dong="118" style="width:545px;max-width:100%"><span class="khung-anh"><img src="anh/chuong-16-1d953b936f17.webp" alt="Hình 6. Hoạt động khởi kích do hậu khử cực sớm: hiện tượng R trên T và xoắn đỉnh (EAD induced triggered activity, R-on-T phenomenon, Torsades de Pointes)." loading="lazy"></span><figcaption><em>Hình 6. Hoạt động khởi kích do hậu khử cực sớm: hiện tượng R trên T và xoắn đỉnh (EAD induced triggered activity, R-on-T phenomenon, Torsades de Pointes).</em></figcaption></figure></div><div class="cot-chu" data-khoi="121" style="max-width:23.2em"><ul class="ds"><li>Khi có <strong>khoảng QT kéo dài</strong><ul><li>Điện thế hoạt động bị kéo dài - chủ yếu là <strong>tái cực (đường cong màu xanh lá)</strong></li><li>Tái cực kéo dài được thấy trên ECG trong nhịp xoang dưới dạng <strong>khoảng QT kéo dài</strong></li></ul></li><li><strong>Hậu khử cực sớm (EAD)</strong><ul><li>Khởi phát một <strong>ngoại tâm thu thất</strong> (hiện tượng R trên T – R-on-T phenomenon)<ul><li><strong>Và khởi động</strong> xoắn đỉnh</li></ul></li><li><strong>TdP được duy trì bởi cơ chế vào lại do</strong> sự phân tán tái cực xuyên thành (transmural dispersion of repolarization)</li></ul></li></ul></div></div></div>
+<h3 id="hau-khu-cuc-som-dien-the-hoat-dong"><strong>Hậu khử cực sớm (điện thế hoạt động)</strong></h3>
+<div class="cum cum-noi"><div class="hang"><div class="cum-hinh" style="width:545px;max-width:58%"><figure id="hinh-7" data-dong="128" style="width:545px;max-width:100%"><span class="khung-anh"><img src="anh/chuong-16-7b81dd83fc9e.webp" alt="Hình 7. Cơ chế hậu khử cực sớm: hiện tượng R trên T và xoắn đỉnh (mechanism of early after-depolarization)." loading="lazy"></span><figcaption><em>Hình 7. Cơ chế hậu khử cực sớm: hiện tượng R trên T và xoắn đỉnh (mechanism of early after-depolarization).</em></figcaption></figure></div><div class="cot-chu" data-khoi="131"><ul class="ds"><li><strong>(A) Điện thế hoạt động bình thường</strong><ul><li>Điện thế hoạt động được thấy trên ECG là khoảng QT</li></ul></li><li><strong>(B) Hậu khử cực sớm</strong><ul><li>Hậu khử cực sớm xảy ra ở pha 2 của điện thế hoạt động</li><li>Không có điện thế hoạt động mới nào được tạo ra (vì hậu khử cực sớm không vượt qua &quot;ngưỡng hoạt hoá&quot;)</li></ul></li><li><strong>(C) Hậu khử cực sớm và điện thế hoạt động mới</strong><ul><li>Hậu khử cực sớm khởi phát một điện thế hoạt động mới</li><li>Điều này được thấy trên ECG là một ngoại tâm thu thất (hiện tượng R trên T)</li></ul></li><li><strong>(D) Xoắn đỉnh (TdP)</strong><ul><li>Về mặt học thuật, người ta thống nhất rằng <strong>TdP được khởi phát bởi hậu khử cực sớm</strong></li><li>Tuy nhiên, <strong>cơ chế trong lúc TdP còn nhiều tranh cãi</strong><ul><li>Nó có thể liên quan tới <strong>các hậu khử cực sớm lặp đi lặp lại</strong> (như trong hình <strong>D</strong>)</li><li>Hoặc có thể do <strong>vào lại trong</strong> sự phân tán tái cực xuyên thành<ul><li>Cơ chế này <strong>nhiều khả năng hơn</strong></li></ul></li></ul></li></ul></li></ul></div></div></div>
+<h2 id="hau-khu-cuc-muon"><strong>Hậu khử cực muộn</strong></h2>
+<h3 id="hoat-dong-khoi-kich-do-hau-khu-cuc-muon"><strong>Hoạt động khởi kích do hậu khử cực muộn</strong></h3>
+<div class="cum cum-noi"><div class="hang"><div class="cum-hinh" style="width:414px;max-width:58%"><figure id="hinh-8" data-dong="159" style="width:414px;max-width:100%"><span class="khung-anh"><img src="anh/chuong-16-6b169e51fd97.webp" alt="Hình 8. Cơ chế hoạt động khởi kích do hậu khử cực muộn ở pha 4 của điện thế hoạt động (delayed afterdepolarization induced triggered activity)." loading="lazy"></span><figcaption><em>Hình 8. Cơ chế hoạt động khởi kích do hậu khử cực muộn ở pha 4 của điện thế hoạt động (delayed afterdepolarization induced triggered activity).</em></figcaption></figure></div><div class="cot-chu" data-khoi="147" style="max-width:30.2em"><ul class="ds"><li>Khử cực xảy ra <strong>sớm</strong><ul><li>Trong <strong>pha 4</strong> của điện thế hoạt động</li></ul></li><li><strong>Các yếu tố nguy cơ</strong> của hậu khử cực muộn <strong>gồm:</strong><ul><li>Ngộ độc digoxin (digoxin toxicity)</li><li>Catecholamine (nồng độ cao)</li><li>Tăng calci máu (hypercalcemia)</li></ul></li><li>Xảy ra trong lúc <strong>nhịp nhanh</strong></li><li><strong>Các rối loạn nhịp liên quan đến hậu khử cực muộn</strong><ul><li>Nhịp nhanh thất hai chiều (bidirectional ventricular tachycardia)<ul><li>Trong ngộ độc digoxin</li><li>Trong gắng sức thể lực cực độ (catecholamine)</li></ul></li><li>Nhịp tự thất gia tốc <strong>trong</strong> nhồi máu cơ tim</li></ul></li></ul></div></div></div>
+<h3 id="hau-khu-cuc-muon-dien-the-hoat-dong"><strong>Hậu khử cực muộn (điện thế hoạt động)</strong></h3>
+<div class="cum cum-noi"><div class="hang"><div class="cum-hinh" style="width:545px;max-width:58%"><figure id="hinh-9" data-dong="161" style="width:545px;max-width:100%"><span class="khung-anh"><img src="anh/chuong-16-3a9eca8c22b4.webp" alt="Hình 9. Hoạt động khởi kích do hậu khử cực muộn: điện thế hoạt động, một điện thế khởi kích đơn độc và nhiều điện thế khởi kích (single and multiple triggered A" loading="lazy"></span><figcaption><em>Hình 9. Hoạt động khởi kích do hậu khử cực muộn: điện thế hoạt động, một điện thế khởi kích đơn độc và nhiều điện thế khởi kích (single and multiple triggered APs).</em></figcaption></figure></div><div class="cot-chu" data-khoi="164" style="max-width:23.2em"><ul class="ds"><li><strong>(A) Điện thế hoạt động bình thường</strong><ul><li>Điện thế hoạt động được thấy trên ECG là khoảng QT</li></ul></li><li><strong>(B) Hậu khử cực muộn</strong><ul><li>Ở pha 4 của điện thế hoạt động, <br class="ngat">xảy ra <strong>hậu khử cực muộn</strong></li><li>Không có điện thế hoạt động mới nào được tạo ra (vì hậu khử cực muộn không vượt qua &quot;ngưỡng hoạt hoá&quot;)</li></ul></li><li><strong>(C) Hậu khử cực muộn và điện thế hoạt động mới</strong><ul><li>Hậu khử cực muộn đã khởi phát một điện thế hoạt động mới</li><li>Điều này được thấy trên ECG là một ngoại tâm thu thất</li></ul></li><li><strong>Rối loạn nhịp</strong><ul><li><strong>Các hậu khử cực muộn lặp đi lặp lại</strong> được thấy trên ECG dưới dạng rối loạn nhịp</li><li>Có thể là nhịp tự thất gia tốc <strong>trong</strong> nhồi máu cơ tim</li></ul></li></ul></div></div></div>
+<h2 id="3-vao-lai"><strong>3. Vào lại</strong></h2>
+<div class="cum cum-noi"><div class="hang"><div class="cum-hinh" style="width:190px;max-width:58%"><figure id="hinh-10" data-dong="183" style="width:190px;max-width:100%"><span class="khung-anh"><img src="anh/chuong-16-c7325fed9bf9.webp" alt="Hình 10. Cơ chế vào lại (re-entry) — trước đây gọi là reciprocating tachycardia, circus movement tachycardia." loading="lazy"></span><figcaption><em>Hình 10. Cơ chế vào lại (re-entry) — trước đây gọi là reciprocating tachycardia, circus movement tachycardia.</em></figcaption></figure></div><div class="cot-chu" data-khoi="176"><ul class="ds"><li>Là <strong>cơ chế thường gặp nhất của rối loạn nhịp</strong></li><li><strong>Xung động</strong> (điện thế hoạt động) <strong>di chuyển vòng tròn</strong> (thường gặp nhất là quanh một chướng ngại vật giải phẫu)<ul><li><strong>Từ vòng vào lại</strong>, <strong>các xung động phát ra</strong> và <strong>hoạt hoá cơ tim</strong></li><li>Các xung động phát ra từ vòng vào lại giống hệt như phát ra từ <strong>nút xoang trong nhịp xoang</strong></li></ul></li><li><strong>Trước đây</strong>, <strong>cơ chế vào lại</strong> của nhịp nhanh trên thất (SVT) được gọi bằng các <strong>thuật ngữ:</strong><ul><li>Reciprocating tachycardia, Circus movement tachycardia</li><li>Các <strong>thuật ngữ này không còn được dùng nữa</strong></li></ul></li></ul></div></div></div>
+<h2 id="co-che-vao-lai"><strong>Cơ chế vào lại</strong></h2>
+<ul class="ds"><li><strong>Vào lại là sự di chuyển vòng tròn</strong> của cùng một <strong>xung động</strong> (điện thế hoạt động)<ul><li>Xung động <strong>không được gặp thời kỳ trơ của chính nó</strong>, vì điều đó sẽ làm <strong>chấm dứt</strong> vòng vào lại</li><li>Xung động thường gặp nhất là đi vòng quanh một <strong>chướng ngại vật giải phẫu</strong> (chẳng hạn <strong>sẹo</strong> nhồi máu cơ tim)</li></ul></li></ul>
+<h3 id="dien-the-hoat-dong"><strong>Điện thế hoạt động</strong></h3>
+<div class="cum cum-noi"><div class="hang"><div class="cum-hinh" style="width:372px;max-width:58%"><figure id="hinh-11" data-dong="189" style="width:372px;max-width:100%"><span class="khung-anh"><img src="anh/chuong-16-d215fa4b2a67.webp" alt="Hình 11. Điện thế hoạt động với thời kỳ trơ tuyệt đối và thời kỳ trơ tương đối (action potential, ARP, RRP)." loading="lazy"></span><figcaption><em>Hình 11. Điện thế hoạt động với thời kỳ trơ tuyệt đối và thời kỳ trơ tương đối (action potential, ARP, RRP).</em></figcaption></figure></div><div class="cot-chu" data-khoi="192"><ul class="ds"><li><strong>Xung động</strong> trong cơ tim của <strong>tâm thất</strong> được thấy trên ECG là khoảng QT<ul><li><strong>Bắt đầu</strong> bằng khử cực (pha 0)</li><li><strong>Kết thúc</strong> bằng tái cực (pha 4)</li></ul></li><li><strong>Sau khử cực</strong> là <strong>ARP và RRP</strong><ul><li>Trong <strong>ARP</strong> (thời kỳ trơ tuyệt đối)<ul><li>Tế bào cơ tim <strong>không đáp ứng với xung động tiếp theo</strong></li></ul></li><li>Trong <strong>RRP</strong> (thời kỳ trơ tương đối)<ul><li>Tế bào cơ tim <strong>chỉ đáp ứng với xung động trên ngưỡng</strong></li></ul></li></ul></li></ul></div></div></div>
+<h3 id="su-lan-truyen-cua-dien-the-hoat-dong"><strong>Sự lan truyền của điện thế hoạt động</strong></h3>
+<div class="cum cum-noi"><div class="hang"><div class="cum-hinh" style="width:391px;max-width:58%"><figure id="hinh-12" data-dong="200" style="width:391px;max-width:100%"><span class="khung-anh"><img src="anh/chuong-16-ae26ebbb3742.webp" alt="Hình 12. Mặt sóng điện thế hoạt động: mũi tên khử cực, RRP, ARP (action potential wavefront)." loading="lazy"></span><figcaption><em>Hình 12. Mặt sóng điện thế hoạt động: mũi tên khử cực, RRP, ARP (action potential wavefront).</em></figcaption></figure></div><div class="cot-chu" data-khoi="203"><ul class="ds"><li><strong>Xung động lan truyền</strong> từ điểm xuất phát giống như một <strong>&quot;mũi tên&quot;</strong><ul><li>Thực chất nó lan như khi ném một hòn đá xuống nước</li><li>Các mũi tên hướng <strong>ra ngoài từ điểm xuất phát</strong></li></ul></li><li><strong>Đầu mũi tên</strong> đại diện cho khử cực</li><li><strong>Đuôi mũi tên</strong> đánh dấu điểm kết thúc của RRP (tái cực)</li></ul></div></div></div>
+<h3 id="vao-lai-va-khoang-trong-kich-thich"><strong>Vào lại và khoảng trống kích thích</strong></h3>
+<div class="cum cum-noi"><div class="hang"><div class="cum-hinh" style="width:373px;max-width:58%"><figure id="hinh-13" data-dong="208" style="width:373px;max-width:100%"><span class="khung-anh"><img src="anh/chuong-16-757ae2b9eb74.webp" alt="Hình 13. Mặt sóng điện thế hoạt động trong vòng vào lại: thời kỳ trơ tuyệt đối (ARP), thời kỳ trơ tương đối (RRP) và khoảng trống kích thích (excitation gap)." loading="lazy"></span><figcaption><em>Hình 13. Mặt sóng điện thế hoạt động trong vòng vào lại: thời kỳ trơ tuyệt đối (ARP), thời kỳ trơ tương đối (RRP) và khoảng trống kích thích (excitation gap).</em></figcaption></figure></div><div class="cot-chu" data-khoi="211" style="max-width:33.1em"><ul class="ds"><li><strong>Xung động di chuyển vòng tròn</strong> thường gặp nhất là quanh một <strong>chướng ngại vật giải phẫu</strong></li><li><strong>Đầu mũi tên</strong> không được gặp <strong>thời kỳ trơ tuyệt đối</strong><ul><li><strong>Vòng vào lại</strong> sẽ <strong>bị gián đoạn</strong></li></ul></li><li><strong>Khoảng trống kích thích (excitation gap)</strong><ul><li>Là đoạn nằm giữa <strong>đầu mũi tên và điểm kết thúc của ARP</strong></li><li>Là <strong>vùng có thể kích thích được bên trong vòng vào lại</strong></li><li>Có ý nghĩa quan trọng đối với thăm dò điện sinh lý</li><li>Được dùng trong <strong>chẩn đoán và điều trị vào lại</strong></li></ul></li></ul></div></div></div>
+<h2 id="su-hinh-thanh-vong-vao-lai"><strong>Sự hình thành vòng vào lại</strong></h2>
+<ul class="ds"><li><strong>Vào lại</strong> cần <strong>3 điều kiện</strong> để xảy ra:<ul><li><strong>Các đường dẫn song song</strong> để <strong>xung động</strong> đi vòng qua<ul><li>Các đường dẫn thường được ngăn cách bởi một chướng ngại vật giải phẫu (sẹo nhồi máu cơ tim)</li></ul></li><li><strong>Block một chiều</strong><ul><li>Xung động chỉ đi theo một chiều qua một đường dẫn</li></ul></li><li><strong>Dẫn truyền chậm qua một đường dẫn</strong><ul><li>Trong vòng vào lại, xung động chậm lại, nhờ đó đầu mũi tên không đuổi kịp thời kỳ trơ (đuôi mũi tên)</li></ul></li></ul></li><li><strong>Vào lại được khởi phát bởi</strong> một ngoại tâm thu nhĩ hoặc ngoại tâm thu thất</li></ul>
+<h3 id="hoat-hoa-tam-that-qua-soi-purkinje"><strong>Hoạt hoá tâm thất qua sợi Purkinje</strong></h3>
+<div class="cum cum-noi"><div class="hang"><div class="cum-hinh" style="width:324px;max-width:58%"><figure id="hinh-14" data-dong="228" style="width:324px;max-width:100%"><span class="khung-anh"><img src="anh/chuong-16-6b51cd5076cc.webp" alt="Hình 14. Mặt sóng điện thế hoạt động sinh lý bình thường qua nhánh sợi Purkinje (normal physiology action potential wavefront)." loading="lazy"></span><figcaption><em>Hình 14. Mặt sóng điện thế hoạt động sinh lý bình thường qua nhánh sợi Purkinje (normal physiology action potential wavefront).</em></figcaption></figure></div><div class="cot-chu" data-khoi="231"><ul class="ds"><li><strong>Cơ tim thất</strong> được hoạt hoá bởi một <strong>xung động</strong><ul><li>Từ hệ thống dẫn truyền <strong>qua</strong> sợi Purkinje</li></ul></li><li>Có <strong>2 đường dẫn song song</strong><ul><li>Các sợi được ngăn cách bởi một chướng ngại vật giải phẫu<ul><li>Đây là chướng ngại vật sinh lý (không phải sẹo nhồi máu)</li></ul></li></ul></li><li><strong>Phía sau chướng ngại vật</strong>, các xung động tiêu tán và <strong>biến mất</strong><ul><li>Các xung động còn lại tiếp tục đi tới cơ tim</li></ul></li></ul></div></div></div>
+<h3 id="su-hinh-thanh-duong-dan-truyen-cham"><strong>Sự hình thành đường dẫn truyền chậm</strong></h3>
+<div class="cum cum-noi"><div class="hang"><div class="cum-hinh" style="width:506px;max-width:58%"><figure id="hinh-15" data-dong="238" style="width:506px;max-width:100%"><span class="khung-anh"><img src="anh/chuong-16-1fe2c9c2c724.webp" alt="Hình 15. Thiếu máu cục bộ dưới nội tâm mạc: dẫn truyền chậm, block một chiều, tắc động mạch vành, sợi Purkinje không bị ảnh hưởng (subendocardial ischemia)." loading="lazy"></span><figcaption><em>Hình 15. Thiếu máu cục bộ dưới nội tâm mạc: dẫn truyền chậm, block một chiều, tắc động mạch vành, sợi Purkinje không bị ảnh hưởng (subendocardial ischemia).</em></figcaption></figure></div><div class="cot-chu" data-khoi="241"><ul class="ds"><li><strong>Hẹp động mạch</strong> gây thiếu máu cục bộ dưới nội tâm mạc (subendocardial ischemia)<ul><li>Hẹp (stenosis) là thu nhỏ lòng mạch, tắc (occlusion) là bít tắc hoàn toàn</li><li><strong>Điện sinh lý thay đổi</strong> tại vùng thiếu máu cục bộ</li></ul></li><li><strong>Vùng cơ tim thiếu máu cục bộ hình thành</strong><ul><li><strong>Block một bên</strong></li><li><strong>Dẫn truyền chậm</strong> (dẫn truyền giảm dần – decremental conduction)</li></ul></li><li><strong>Xung động</strong> sau đó <strong>đi tới cơ tim thất</strong><ul><li>Chỉ qua <strong>1 sợi Purkinje</strong></li><li>Vùng thiếu máu cục bộ <strong>chặn xung động lại</strong></li></ul></li></ul></div></div></div>
+<h3 id="khoi-phat-vong-vao-lai"><strong>Khởi phát vòng vào lại</strong></h3>
+<div class="cum cum-noi"><div class="hang"><div class="cum-hinh" style="width:448px;max-width:58%"><figure id="hinh-16" data-dong="250" style="width:448px;max-width:100%"><span class="khung-anh"><img src="anh/chuong-16-6bcb079f7a82.webp" alt="Hình 16. Khởi phát vòng vào lại: dẫn truyền xuôi chiều và ngược chiều trên nền thiếu máu cục bộ dưới nội tâm mạc (start of reentry)." loading="lazy"></span><figcaption><em>Hình 16. Khởi phát vòng vào lại: dẫn truyền xuôi chiều và ngược chiều trên nền thiếu máu cục bộ dưới nội tâm mạc (start of reentry).</em></figcaption></figure></div><div class="cot-chu" data-khoi="253"><ul class="ds"><li><strong>Vào lại khởi đầu</strong> bằng một ngoại tâm thu nhĩ hoặc ngoại tâm thu thất<ul><li>Ngoại tâm thu đi vào vòng vào lại trong <strong>khoảng trống kích thích</strong></li></ul></li><li><strong>Xung động di chuyển</strong><ul><li><strong>Xuôi chiều (anterograde)</strong> chỉ qua <strong>1 sợi Purkinje</strong></li><li><strong>Ngược chiều (retrograde)</strong> qua <strong>phần thiếu máu cục bộ dẫn truyền chậm</strong></li></ul></li><li>Ở <strong>cuối đường dẫn chậm</strong><ul><li><strong>Không còn xung động xuôi chiều</strong> trong <strong>ARP</strong><ul><li>(ARP - thời kỳ trơ tuyệt đối)</li></ul></li><li><strong>Xung động ngược chiều</strong> từ đường dẫn chậm:<ul><li><strong>Bắt đầu di chuyển vòng tròn trong vòng vào lại</strong></li></ul></li></ul></li></ul></div></div></div>
+<h3 id="vong-vao-lai"><strong>Vòng vào lại</strong></h3>
+<div class="cum cum-noi"><div class="hang"><div class="cum-hinh" style="width:336px;max-width:58%"><figure id="hinh-17" data-dong="263" style="width:336px;max-width:100%"><span class="khung-anh"><img src="anh/chuong-16-c76604c7ea61.webp" alt="Hình 17. Vòng vào lại đã hình thành: nhiều đường dẫn song song, block một chiều, đường nhanh và đường chậm (established reentrant circuit)." loading="lazy"></span><figcaption><em>Hình 17. Vòng vào lại đã hình thành: nhiều đường dẫn song song, block một chiều, đường nhanh và đường chậm (established reentrant circuit).</em></figcaption></figure></div><div class="cot-chu" data-khoi="266"><ul class="ds"><li><strong>Xung động di chuyển vòng tròn</strong><ul><li><strong>Xuôi chiều</strong> chỉ qua <strong>1 sợi Purkinje</strong></li><li><strong>Ngược chiều</strong> qua <strong>phần thiếu máu cục bộ dẫn truyền chậm</strong></li></ul></li><li><strong>Với mỗi vòng quay</strong><ul><li><strong>Các xung động thoát ra khỏi vòng vào lại</strong></li><li>Và hoạt hoá cơ tim</li></ul></li><li><strong>Sự di chuyển vòng tròn của xung động</strong> trong vòng vào lại<ul><li>Luôn nằm trong <strong>vùng nhịp nhanh</strong> (tần số <strong>&gt; 100/phút.</strong>)</li><li>Vòng vào lại <strong>làm bất hoạt tất cả các ổ khác trong tim</strong><ul><li>(ức chế vượt tần)</li></ul></li></ul></li></ul></div></div></div>
+<h2 id="phan-loai-vao-lai"><strong>Phân loại vào lại</strong></h2>
+<ul class="ds"><li><strong>Vào lại giải phẫu</strong> (thường gặp nhất)</li><li><strong>Vào lại chức năng</strong><ul><li>Vào lại kiểu vòng dẫn đầu (leading circle reentry)</li><li>Vào lại bất đẳng hướng (anisotropic reentry)</li><li>Vào lại hình số 8 (figure of 8 reentry)</li><li>Vào lại kiểu phản xạ (reflection reentry)</li><li>Vào lại kiểu sóng xoắn (spiral wave / rotor reentry)</li><li>Vào lại pha 2 (phase 2 reentry)</li></ul></li></ul>
+<h2 id="vao-lai-giai-phau"><strong>Vào lại giải phẫu</strong></h2>
+<div class="cum cum-noi"><div class="hang"><div class="cum-hinh" style="width:424px;max-width:58%"><figure id="hinh-18" data-dong="296" style="width:424px;max-width:100%"><span class="khung-anh"><img src="anh/chuong-16-643bbf126509.webp" alt="Hình 18. Vào lại giải phẫu (anatomical reentry) — vào lại kinh điển quanh một chướng ngại vật giải phẫu." loading="lazy"></span><figcaption><em>Hình 18. Vào lại giải phẫu (anatomical reentry) — vào lại kinh điển quanh một chướng ngại vật giải phẫu.</em></figcaption></figure></div><div class="cot-chu" data-khoi="286"><ul class="ds"><li><strong>Vào lại giải phẫu</strong> là <strong>cơ chế thường gặp nhất</strong> của vào lại</li><li><strong>Trung tâm của vòng vào lại</strong> được tạo bởi một <strong>chướng ngại vật giải phẫu:</strong><ul><li><strong>Sẹo</strong> nhồi máu cơ tim (thường gặp nhất)</li><li><strong>Van tim</strong></li></ul></li><li><strong>Các rối loạn nhịp liên quan đến vào lại giải phẫu:</strong><ul><li>Nhịp nhanh thất sau nhồi máu</li><li>Cuồng nhĩ (atrial flutter)</li><li>AVRT (nhịp nhanh vào lại nhĩ thất)</li><li>AVNRT (nhịp nhanh vào lại nút nhĩ thất)</li><li>Nhịp nhanh thất do vào lại nhánh (branch reentry ventricular tachycardia)</li></ul></li></ul></div></div></div>
+<h2 id="vao-lai-chuc-nang"><strong>Vào lại chức năng</strong></h2>
+<ul class="ds"><li><strong>Một hàng rào chức năng hình thành</strong></li><li>Liên quan tới <strong>thay đổi điện sinh lý của cơ tim</strong> do:<ul><li>Thiếu máu cục bộ</li><li>Rối loạn điện giải</li><li>Sử dụng một số thuốc chống loạn nhịp</li></ul></li><li><strong>Vào lại chức năng</strong> có thể gồm nhiều <strong>cơ chế:</strong><ul><li>Vào lại kiểu vòng dẫn đầu</li><li>Vào lại bất đẳng hướng</li><li>Vào lại hình số 8</li><li>Vào lại kiểu phản xạ</li><li>Vào lại kiểu sóng xoắn (rotor)</li><li>Vào lại pha 2</li></ul></li></ul>
+<h2 id="vao-lai-kieu-vong-dan-dau"><strong>Vào lại kiểu vòng dẫn đầu</strong></h2>
+<div class="cum cum-noi"><div class="hang"><div class="cum-hinh" style="width:249px;max-width:58%"><figure id="hinh-19" data-dong="319" style="width:249px;max-width:100%"><span class="khung-anh"><img src="anh/chuong-16-fcf6dc7a827d.webp" alt="Hình 19. Vào lại kiểu vòng dẫn đầu (leading circle reentry) — một dạng vào lại chức năng." loading="lazy"></span><figcaption><em>Hình 19. Vào lại kiểu vòng dẫn đầu (leading circle reentry) — một dạng vào lại chức năng.</em></figcaption></figure></div><div class="cot-chu" data-khoi="312"><ul class="ds"><li><strong>Trung tâm của vòng vào lại</strong> được tạo bởi một <strong>hàng rào chức năng (F)</strong></li><li>Các xung động từ <strong>vòng vào lại cũng hướng vào trung tâm</strong><ul><li>Chúng <strong>duy trì trung tâm</strong> trong thời kỳ trơ tuyệt đối</li><li><strong>Trung tâm của vòng vào lại</strong> do đó <strong>không thể bị kích thích</strong> <br class="ngat">(nó <strong>bất hoạt về mặt điện học</strong>)</li></ul></li><li><strong>Các rối loạn nhịp liên quan đến vào lại kiểu vòng dẫn đầu:</strong><ul><li>Rung nhĩ (atrial fibrillation)</li><li>Rung thất (ventricular fibrillation)</li></ul></li></ul></div></div></div>
+<h2 id="vao-lai-bat-dang-huong"><strong>Vào lại bất đẳng hướng</strong></h2>
+<div class="cum cum-noi"><div class="hang"><div class="cum-hinh" style="width:427px;max-width:58%"><figure id="hinh-20" data-dong="336" style="width:427px;max-width:100%"><span class="khung-anh"><img src="anh/chuong-16-1678546a9a5a.webp" alt="Hình 20. Vào lại bất đẳng hướng (anisotropic reentry)." loading="lazy"></span><figcaption><em>Hình 20. Vào lại bất đẳng hướng (anisotropic reentry).</em></figcaption></figure></div><div class="cot-chu" data-khoi="322"><ul class="ds"><li><strong>Dẫn truyền đẳng hướng (isotropic conduction)</strong><ul><li>Có <strong>tính chất dẫn truyền như nhau theo mọi hướng</strong></li></ul></li><li><strong>Dẫn truyền bất đẳng hướng (anisotropic conduction)</strong><ul><li><strong>Không có tính chất như nhau</strong> theo mọi hướng</li></ul></li><li>Dẫn truyền <strong>xung động</strong> qua <strong>cơ tim là bất đẳng hướng</strong></li><li><strong>Sự lan truyền xung động</strong><ul><li><strong>Nhanh</strong> - theo chiều dọc (longitudinal direction — qua gap junction)</li><li><strong>Chậm</strong> - theo chiều ngang (transversal direction)</li></ul></li><li>Trong <strong>vào lại bất đẳng hướng</strong><ul><li>Một <strong>đường trơ (refractory line)</strong> hình thành trong cơ tim<ul><li>Và <strong>vòng vào lại</strong> di chuyển vòng tròn quanh đường này</li></ul></li><li>Tốc độ xung động được biểu thị bằng <strong>ms</strong></li></ul></li><li><strong>Các rối loạn nhịp liên quan đến vào lại bất đẳng hướng:</strong><ul><li>Nhịp nhanh thất</li></ul></li></ul></div></div></div>
+<h2 id="vao-lai-hinh-so-8"><strong>Vào lại hình số 8</strong></h2>
+<div class="cum cum-noi"><div class="hang"><div class="cum-hinh" style="width:387px;max-width:58%"><figure id="hinh-21" data-dong="347" style="width:387px;max-width:100%"><span class="khung-anh"><img src="anh/chuong-16-3100310cd6f6.webp" alt="Hình 21. Vào lại hình số 8 (figure of 8 reentry)." loading="lazy"></span><figcaption><em>Hình 21. Vào lại hình số 8 (figure of 8 reentry).</em></figcaption></figure></div><div class="cot-chu" data-khoi="339"><ul class="ds"><li><strong>Có 2 vòng vào lại</strong><ul><li>Trông giống hình <strong>số tám (8)</strong></li></ul></li><li><strong>Các xung động di chuyển vòng tròn</strong><ul><li>Theo chiều <strong>kim đồng hồ</strong> và <strong>ngược chiều kim đồng hồ</strong></li></ul></li><li>Chúng dùng chung <strong>1 đường dẫn chung</strong>, <br class="ngat">đường này có thể được <strong>ngăn cách bởi:</strong><ul><li><strong>Hàng rào chức năng</strong> hoặc <strong>hàng rào giải phẫu</strong></li></ul></li><li><strong>Các rối loạn nhịp liên quan đến vào lại hình số 8:</strong><ul><li>Nhịp nhanh thất trong nhồi máu</li></ul></li></ul></div></div></div>
+<h2 id="vao-lai-kieu-phan-xa"><strong>Vào lại kiểu phản xạ</strong></h2>
+<div class="cum cum-noi"><div class="hang"><div class="cum-hinh" style="width:387px;max-width:58%"><figure id="hinh-22" data-dong="361" style="width:387px;max-width:100%"><span class="khung-anh"><img src="anh/chuong-16-be67a7720cd0.webp" alt="Hình 22. Vào lại kiểu phản xạ (reflection reentry)." loading="lazy"></span><figcaption><em>Hình 22. Vào lại kiểu phản xạ (reflection reentry).</em></figcaption></figure></div><div class="cot-chu" data-khoi="350"><ul class="ds"><li><strong>Đây là một cơ chế vào lại không điển hình</strong><ul><li>Vì <strong>xung động không di chuyển vòng tròn trong một vòng khép kín</strong></li><li>Xung động <strong>dao động dọc theo một trục thẳng</strong></li></ul></li><li><strong>Đoạn cơ tim thẳng</strong><ul><li>Có <strong>vùng bị biến đổi về điện sinh lý</strong></li></ul></li><li>Ở <strong>ranh giới của vùng cơ tim bị biến đổi</strong>, có một <strong>vùng</strong><ul><li><strong>Đảo ngược hướng của xung động</strong> (điện thế hoạt động)</li></ul></li><li><strong>Xung động do đó dao động &quot;lên và xuống&quot;</strong><ul><li>Dọc theo đoạn cơ tim thẳng</li></ul></li><li>Có thể xảy ra trên một <strong>diện tích 1-2mm^2</strong><ul><li>Khó phân biệt với <strong>tính tự động lạc chỗ</strong></li></ul></li></ul></div></div></div>
+<h2 id="vao-lai-kieu-song-xoan-rotor"><strong>Vào lại kiểu sóng xoắn (rotor)</strong></h2>
+<div class="cum cum-noi"><div class="hang"><div class="cum-hinh" style="width:373px;max-width:58%"><figure id="hinh-23" data-dong="372" style="width:373px;max-width:100%"><span class="khung-anh"><img src="anh/chuong-16-5138285dbba4.webp" alt="Hình 23. Vào lại kiểu sóng xoắn (spiral wave / rotor reentry)." loading="lazy"></span><figcaption><em>Hình 23. Vào lại kiểu sóng xoắn (spiral wave / rotor reentry).</em></figcaption></figure></div><div class="cot-chu" data-khoi="364"><ul class="ds"><li><strong>Phần trung tâm chứa một lõi trơ (refractory core)</strong><ul><li>Một <strong>sóng di chuyển vòng tròn</strong> quanh lõi này</li><li>Sóng có thể di chuyển vòng tròn trong <strong>không gian 2 chiều hoặc 3 chiều</strong></li></ul></li><li><strong>Các xung động</strong> phát ra từ sóng này và hoạt hoá cơ tim</li><li><strong>Các rối loạn nhịp liên quan đến vào lại kiểu sóng xoắn (rotor):</strong><ul><li>Rung nhĩ</li><li>Rung thất</li><li>Nhịp nhanh thất đa hình</li></ul></li></ul></div></div></div>
+<h2 id="vao-lai-pha-2"><strong>Vào lại pha 2</strong></h2>
+<div class="cum cum-noi"><div class="hang"><div class="cum-hinh" style="width:336px;max-width:58%"><figure id="hinh-24" data-dong="375" style="width:336px;max-width:100%"><span class="khung-anh"><img src="anh/chuong-16-04cd110abf55.webp" alt="Hình 24. Thời gian điện thế hoạt động xuyên thành: nội tâm mạc, lớp cơ tim giữa (tế bào M) và thượng tâm mạc (transmural action potential duration)." loading="lazy"></span><figcaption><em>Hình 24. Thời gian điện thế hoạt động xuyên thành: nội tâm mạc, lớp cơ tim giữa (tế bào M) và thượng tâm mạc (transmural action potential duration).</em></figcaption></figure></div><div class="cot-chu" data-khoi="377"><ul class="ds"><li><strong>Điện thế hoạt động (AP)</strong> trong <strong>thành cơ tim</strong><ul><li><strong>Khác nhau một phần ở</strong><ul><li>Thượng tâm mạc (epicardium)</li><li>Lớp cơ tim giữa (mid-myocardium — tế bào M)</li><li>Nội tâm mạc (endocardium)</li></ul></li></ul></li><li><strong>AP</strong> cũng <strong>khác nhau một phần</strong> ở<ul><li><strong>Thất phải và thất trái</strong></li></ul></li><li>Sự phân tán tái cực xuyên thành (transmural repolarization dispersion)<ul><li>Là <strong>sự khác biệt về thời gian của các điện thế hoạt động</strong> (chủ yếu là <strong>tái cực</strong>)</li></ul></li></ul></div></div></div>
+<div class="cum cum-noi"><div class="hang"><div class="cum-hinh" style="width:233px;max-width:58%"><figure id="hinh-25" data-dong="386" style="width:233px;max-width:100%"><span class="khung-anh"><img src="anh/chuong-16-37eca8357a6f.webp" alt="Hình 25. Điện thế hoạt động: pha 2 ở nội tâm mạc và thượng tâm mạc, sóng J (action potential, phase 2, J wave)." loading="lazy"></span><figcaption><em>Hình 25. Điện thế hoạt động: pha 2 ở nội tâm mạc và thượng tâm mạc, sóng J (action potential, phase 2, J wave).</em></figcaption></figure></div><div class="cot-chu" data-khoi="388"><ul class="ds"><li>Trong trường hợp có <strong>rối loạn chức năng cơ tim</strong> <br class="ngat">(ví dụ rối loạn điện giải, thuốc, thiếu máu cục bộ)</li><li>Có thể xuất hiện <strong>sự khác biệt giữa pha 1 và pha 2</strong> của điện thế hoạt động</li><li>Đặc biệt là giữa <strong>nội tâm mạc và thượng tâm mạc</strong><ul><li>Điều này biểu hiện trên <strong>ECG là thay đổi sau phức bộ QRS</strong><ul><li>Thường gặp nhất là sóng J (J wave)</li></ul></li></ul></li></ul></div></div></div>
+<div class="cum cum-noi"><div class="hang"><div class="cum-hinh" style="width:373px;max-width:58%"><figure id="hinh-26" data-dong="393" style="width:373px;max-width:100%"><span class="khung-anh"><img src="anh/chuong-16-e0493fbac458.webp" alt="Hình 26. Cơ chế vào lại pha 2 (phase 2 reentry) — một dạng vào lại chức năng." loading="lazy"></span><figcaption><em>Hình 26. Cơ chế vào lại pha 2 (phase 2 reentry) — một dạng vào lại chức năng.</em></figcaption></figure></div><div class="cot-chu" data-khoi="395" style="max-width:33.9em"><ul class="ds"><li><strong>Vào lại pha 2</strong><ul><li>Là một dạng <strong>vào lại chức năng</strong> xảy ra khi có <strong>rối loạn pha 2</strong> của điện thế hoạt động</li><li>Vào lại thường được khởi phát nhất bởi ngoại tâm thu thất (VES)</li><li><strong>Vòng vào lại</strong> di chuyển giữa <strong>nội tâm mạc và thượng tâm mạc</strong><ul><li><strong>Xung động không gặp</strong> thời kỳ trơ tuyệt đối của chính nó</li></ul></li><li>Xung động về cơ bản <strong>dao động giữa nội tâm mạc và thượng tâm mạc</strong><ul><li><strong>Đây không phải là vào lại vòng tròn điển hình</strong></li></ul></li></ul></li></ul></div></div></div>
+<h3 id="cac-hoi-chung-song-j"><strong>Các hội chứng sóng J</strong></h3>
+<ul class="ds"><li><strong>Các hội chứng sóng J (J wave syndromes)</strong>: là những hội chứng có <strong>rối loạn pha 2</strong> của điện thế hoạt động</li><li>Trên <strong>ECG</strong>, chúng gây ra <strong>thay đổi sau phức bộ QRS</strong>:<ul><li>Hội chứng Brugada</li><li>Tái cực sớm lành tính (benign early repolarization)</li></ul></li><li><strong>Các rối loạn nhịp trong vào lại pha 2</strong><ul><li>Nhịp nhanh thất</li><li>Rung thất</li><li><strong>Các rối loạn nhịp</strong> phải xảy ra khi có <strong>rối loạn pha 2</strong> của điện thế hoạt động<ul><li><strong>Thường gặp nhất</strong> là trong <strong>các hội chứng sóng J</strong>:<ul><li>Hội chứng Brugada</li><li>Tái cực sớm lành tính</li></ul></li></ul></li></ul></li></ul>
+<h2 id="nguon-tai-lieu">Nguồn tài liệu (Sources)</h2>
+<p>Nguồn: ECG BOOK — www.ecgbook.com/mechanisms-arrhythmias</p>
+<ul class="ds"><li>ECG from Basics to Essentials Step by Step</li><li>Litfl.com</li><li>Ecgwaves.com</li><li>Metealpaslan.com</li><li>Medmastery.com</li><li>Uptodate.com</li><li>Ecgpedia.org</li><li>Wikipedia.org</li><li>Strong Medicine</li><li>Understanding Pacemakers</li></ul>
+  </section>
+  <nav class="chuyen-chuong"><a class="cc-truoc" href="chuong-15.html"><span>← Chương trước</span>Chương 15. Nhồi máu cơ tim và thiếu máu cục bộ cơ tim trên điện tâm đồ</a><a class="cc-giua" href="index.html">Mục lục sách</a><a class="cc-sau" href="chuong-17.html"><span>Chương sau →</span>Chương 17. Nhịp nhanh trên thất (SVT) — trọn bộ 11 bài</a></nav>
+ </main>
+
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3,h4,h5,h6'));
+
+ // mục lục
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=h.textContent;
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat); capNhat();
+
+ // cỡ chữ + nền tối, nhớ lựa chọn
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ apCo();
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ // thu gọn / mở lại cột mục lục (nhớ lựa chọn)
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  // màn hình rộng: nút ≡ mở lại cột đã thu; màn hình hẹp: kéo cột ra/vào
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ // tìm trong bài
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+</script>
+<script>
+// Bấm vào hình để phóng to vừa màn hình; bấm lần nữa hoặc Esc để đóng.
+(function(){
+ var lb=document.createElement('div'); lb.className='phong-to';
+ var im=document.createElement('img'); im.alt=''; lb.appendChild(im);
+ document.body.appendChild(lb);
+ function dong(){ lb.classList.remove('mo'); im.removeAttribute('src'); }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var t=e.target; if(t.tagName!=='IMG'||!t.closest('figure')) return;
+  im.onload=function(){
+   var s=Math.min(innerWidth*0.96/im.naturalWidth, innerHeight*0.95/im.naturalHeight, 3);
+   im.style.width=Math.round(im.naturalWidth*s)+'px'; im.style.height='auto';
+  };
+  im.src=t.src; im.alt=t.alt; lb.classList.add('mo');
+ });
+ lb.addEventListener('click',dong);
+ addEventListener('keydown',function(e){ if(e.key==='Escape') dong(); });
+})();
+// Cuộn tới cuối trang thì mục lục đánh dấu mục cuối cùng (tiêu đề cuối thường không lên tới đỉnh màn hình).
+(function(){
+ function cuoi(){
+  if(innerHeight+scrollY < document.documentElement.scrollHeight-4) return;
+  var a=[].slice.call(document.querySelectorAll('#dsMuc a'));
+  if(!a.length) return;
+  a.forEach(function(x){ x.classList.remove('dang-doc'); });
+  a[a.length-1].classList.add('dang-doc');
+ }
+ addEventListener('scroll',cuoi,{passive:true});
+})();
+
+</script>
+</body>
+</html>
