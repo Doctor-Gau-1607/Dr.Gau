@@ -1,4 +1,5 @@
 const documents = [
+  { id: "augmentin-nhi-khoa", title: "Augmentin (amoxicillin–acid clavulanic) trong nhi khoa", subtitle: "Dược lý, chế phẩm, tính liều, chỉ định, an toàn và ca lâm sàng", group: "Nhi khoa", category: "Truyền nhiễm nhi", year: "2026", file: "augmentin-nhi-khoa.html", updated: "2026-09-28 11:58:12", tags: "Augmentin amoxicillin acid clavulanic amoxicillin clavulanate amox clav beta lactam kháng sinh nhi khoa liều dùng trẻ em nhiễm trùng" },
   { id: "mrsa-nature-reviews-2026", title: "Tụ cầu vàng kháng methicillin (MRSA)", subtitle: "Nature Reviews Disease Primers 2026 — tổng quan về MRSA", group: "Nội khoa", category: "Truyền nhiễm và các bệnh nhiệt đới", year: "Nature Reviews 2026", file: "MRSA-Nature-Reviews-Disease-Primers-2026.html", updated: "2026-09-28 10:53:55", tags: "MRSA methicillin resistant Staphylococcus aureus tụ cầu vàng kháng methicillin nhiễm trùng kháng thuốc Nature Reviews Disease Primers 2026" },
   { id: "ca-the-hoa-lieu-beta-lactam-accp-2026", title: "Cá thể hóa liều kháng sinh beta-lactam", subtitle: "Hướng dẫn đồng thuận ACCP 2026 cho bệnh nhân bệnh cấp tính", group: "Nội khoa", category: "Truyền nhiễm và các bệnh nhiệt đới", year: "ACCP 2026", file: "Ca-the-hoa-lieu-beta-lactam-ACCP-2026.html", updated: "2026-09-28 10:53:52", tags: "beta lactam cá thể hóa liều kháng sinh therapeutic drug monitoring TDM PK PD MIPD ACCP 2026 nhiễm trùng" },
   { id: "day-thi-som-trung-uong-endocrine-society-2026", title: "Dậy thì sớm trung ương", subtitle: "Hướng dẫn thực hành lâm sàng Endocrine Society 2026", group: "Nhi khoa", category: "Nội tiết nhi", year: "Endocrine Society 2026", file: "Day-thi-som-trung-uong-Endocrine-Society-2026.html", updated: "2026-09-28 10:53:50", tags: "dậy thì sớm trung ương CPP central precocious puberty nội tiết nhi GnRHa Endocrine Society 2026" },
@@ -67,6 +68,7 @@ const taxonomy = [
     { name: "Hô hấp nhi" },
     { name: "Huyết học nhi" },
     { name: "Nội tiết nhi" },
+    { name: "Truyền nhiễm nhi" },
     { name: "Sơ sinh" },
   ] },
   { name: "Ngoại khoa", children: [
