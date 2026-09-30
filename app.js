@@ -1,4 +1,5 @@
 const documents = [
+  { id: "on-tap-doc-dien-tam-do-so-1", title: "Ôn tập đọc điện tâm đồ – Số 1: LVH, tăng gánh, thiếu máu cục bộ, LAA, RAA, RVH", subtitle: "Ca ECG của Ken Grauer (ekgblog.com) — bản dịch tiếng Việt, giữ nguyên điện tâm đồ gốc", group: "Cận lâm sàng", category: "Case ECG", year: "ECG Blog", file: "on-tap-doc-dien-tam-do-so-1.html", updated: "2026-09-30 10:15:00", tags: "case ECG ca điện tâm đồ ôn tập đọc ECG interpretation review 1 Ken Grauer ekgblog ECG blog phì đại thất trái LVH phì đại thất phải RVH tăng gánh strain thiếu máu cục bộ ischemia bất thường nhĩ trái LAA bất thường nhĩ phải RAA lớn nhĩ LAE RAE trục lệch phải RAD P phế P mitrale sóng P ST-T chênh xuống sóng T đảo ngược điểm J bệnh cơ tim giãn dilated cardiomyopathy lớn nhiều buồng tim chamber enlargement" },
   { id: "dau-hieu-x-quang-nguc", title: "Dấu hiệu X-quang ngực", subtitle: "Bài giảng 28 dấu hiệu X-quang ngực kinh điển với 470 ảnh minh họa (xray.vn)", group: "Cận lâm sàng", category: "X-Quang", year: "2026", file: "dau-hieu-x-quang-nguc.html", updated: "2026-09-30 09:55:00", tags: "dấu hiệu X-quang ngực chest X-ray signs CXR XQ ngực bóng bờ silhouette sign cổ ngực cervicothoracic ngực bụng thoracoabdominal cánh buồm sail sign cánh dơi bat wing hội tụ rốn phổi hilum overlay hilum convergence khí phế quản đồ air bronchogram Golden S liềm khí air crescent Luftsichel phẳng eo flat waist Westermark Westemark Hampton hump Fleischner thanh mã tấu scimitar số 3 figure 3 khuyết sườn rib notching mức dịch khí air fluid level rãnh sâu deep sulcus viền khí quanh động mạch ring around artery vòm hoành liên tục continuous diaphragm vòm hoành đôi double diaphragm phổi rơi fallen lung đường vào đường ra incomplete border băng qua đường giữa bánh Oreo Oreo cookie Atoll reversed halo tràn khí màng phổi xẹp phổi thuyên tắc phổi chẩn đoán hình ảnh cận lâm sàng xray.vn" },
   { id: "augmentin-nhi-khoa", title: "Augmentin (amoxicillin–acid clavulanic) trong nhi khoa", subtitle: "Dược lý, chế phẩm, tính liều, chỉ định, an toàn và ca lâm sàng", group: "Nhi khoa", category: "Truyền nhiễm nhi", year: "2026", file: "augmentin-nhi-khoa.html", updated: "2026-09-28 12:22:12", tags: "Augmentin amoxicillin acid clavulanic amoxicillin clavulanate amox clav beta lactam kháng sinh nhi khoa liều dùng trẻ em nhiễm trùng" },
   { id: "mrsa-nature-reviews-2026", title: "Tụ cầu vàng kháng methicillin (MRSA)", subtitle: "Nature Reviews Disease Primers 2026 — tổng quan về MRSA", group: "Nội khoa", category: "Truyền nhiễm và các bệnh nhiệt đới", year: "Nature Reviews 2026", file: "MRSA-Nature-Reviews-Disease-Primers-2026.html", updated: "2026-09-28 10:53:55", tags: "MRSA methicillin resistant Staphylococcus aureus tụ cầu vàng kháng methicillin nhiễm trùng kháng thuốc Nature Reviews Disease Primers 2026" },
@@ -83,7 +84,9 @@ const taxonomy = [
     ] },
     { name: "X-Quang" },
     { name: "CT/MRI" },
-    { name: "ECG" },
+    { name: "ECG", children: [
+      { name: "Case ECG" },
+    ] },
     { name: "Khí máu động mạch" },
   ] },
 ];
