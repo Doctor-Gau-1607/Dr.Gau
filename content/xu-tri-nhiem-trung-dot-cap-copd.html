@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Xử trí nhiễm trùng trong đợt cấp bệnh phổi tắc nghẽn mạn tính</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+/* Thu gọn / mở lại cột mục lục. Trang nhớ lựa chọn, vì người đọc guideline
+   mở lại nhiều lần và không muốn mỗi lần lại phải thu tay. */
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat)}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .cap-3>a{padding-left:40px;font-size:.82rem;color:var(--nhat)}
+#dsMuc .cap-4>a,#dsMuc .cap-5>a{padding-left:54px;font-size:.8rem;color:var(--nhat)}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay p{margin:0 0 .85em;text-align:justify}
+.to-giay p.cham{padding-left:1.35em;text-indent:-1.1em;text-align:left}
+figure{margin:1.4em 0;text-align:center}
+figure img{max-width:100%;height:auto;border:1px solid var(--vien);border-radius:10px}
+/* ---- bảng ---- */
+.tham-chieu{color:var(--xanh);font-weight:600;text-decoration:none;
+ border-bottom:1px dotted currentColor}
+.tham-chieu:hover{border-bottom-style:solid}
+.chu-thich-float{font-weight:600;margin:0 0 .4em}
+.khung-bang{overflow-x:auto;margin:1.4em 0;border-radius:10px;
+ border:1px solid var(--vien)}
+.khung-bang table{border-collapse:collapse;width:100%;font-size:.88rem;
+ table-layout:fixed}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay sup{overflow-wrap:anywhere}
+.khung-bang td{border:1px solid var(--vien);padding:9px 11px;vertical-align:top;
+ line-height:1.5;word-wrap:break-word}
+.khung-bang td.sat{padding-left:0;padding-right:0}
+.khung-bang td.giua{text-align:center;vertical-align:middle}
+.khung-bang td.ky-hieu{font-weight:800;white-space:nowrap}
+.khung-bang td.nen-toi,.khung-bang td.nen-toi *{color:#fff}
+.khung-bang td.nen-sang,.khung-bang td.nen-sang *{color:#12151b}
+.khung-bang td span{display:block}
+.khung-bang td span.cham{padding-left:1.1em;text-indent:-1em}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+/* Ô có màu ép màu chữ cho cả con cháu, kể cả <mark> của phần tìm trong bài — chữ
+   trắng trên nền vàng nhạt là tìm thấy mà không nhìn thấy. Trả chữ về màu trang. */
+.khung-bang td.nen-toi mark.danh,.khung-bang td.nen-sang mark.danh,
+.khung-bang td.nen-toi mark.danh *,.khung-bang td.nen-sang mark.danh *{color:var(--chu)}
+mark.danh.dang{outline:2px solid var(--do)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ /* Màn hình điện thoại: giữ bề rộng tối thiểu cho bảng rồi cho cuộn ngang,
+    thay vì bóp cột hẹp tới mức "Trung bình" xuống dòng thành "Tr un g bì nh". */
+ .khung-bang table{min-width:620px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ /* Nền tối được nhớ trong localStorage: bật một lần là mọi lần in sau đều dính.
+    Giấy luôn trắng, nên trả bảng màu về bản sáng trước khi in — nếu không, chữ
+    #e6eaf0 in lên giấy trắng là mất hẳn. */
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .khung-bang,figure{break-inside:avoid}
+ .khung-bang td{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+.c-xanh{color:var(--xanh)} .c-do{color:var(--do)} .c-luc{color:var(--luc)}
+:root{--luc:#1d7a3a} :root[data-nen="toi"]{--luc:#7fd49a}
+.ban-quyen{display:inline-block;margin:.4em 0 1.2em!important;padding:6px 14px;border-radius:9px;
+ background:var(--diu);border:1px solid var(--vien);color:var(--nhat);font-size:.88rem}
+.note{background:var(--diu);border-left:4px solid var(--xanh);border-radius:0 10px 10px 0;padding:10px 16px;margin:1.1em 0}
+.note p:last-child{margin-bottom:0}
+.canh-bao{background:#fff4d6;border:1px solid #e8c97a;color:#4a3a10;border-radius:10px;padding:12px 16px;margin:0 0 18px;font-size:.93em}
+:root[data-nen="toi"] .canh-bao{background:#3a2f12;border-color:#6b5a1a;color:#f0e2bd}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay hr{border:0;border-top:1px solid var(--vien);margin:1.6em 0}
+.khung-bang th{border:1px solid var(--vien);padding:9px 11px;vertical-align:top;background:var(--diu);text-align:left;line-height:1.5}
+.khung-bang td[style*="background"],.khung-bang th[style*="background"]{color:#12151b}
+.tk p,.tk li{font-size:.9em;color:var(--nhat);text-align:left}
+figcaption,.chu-thich-anh{font-size:.88rem;color:var(--nhat);margin-top:.45em;text-align:center;line-height:1.55}
+figcaption b{color:var(--chu)}
+figure.anh-dau img{width:100%;max-height:420px;object-fit:cover}
+figure video{width:100%;max-height:78vh;background:#000;border-radius:10px;display:block}
+.khung-video{position:relative;padding-top:56.25%;margin:0;border-radius:10px;overflow:hidden;background:#000}
+.khung-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.yt{position:relative;width:100%;aspect-ratio:16/9;background:#000;cursor:pointer;display:block;border-radius:10px;overflow:hidden}
+.yt img{width:100%;height:100%;object-fit:cover;display:block;opacity:.86;border:0!important;border-radius:0!important;transition:opacity .2s}
+.yt:hover img{opacity:1}
+.yt .play{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+.yt .play svg{width:58px;height:58px;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5))}
+.yt iframe{width:100%;height:100%;border:0;display:block}
+.badge{position:absolute;left:8px;top:8px;background:rgba(0,0,0,.72);color:#fff;font-size:11.5px;padding:2px 8px;border-radius:20px;pointer-events:none}
+.ytlink{display:inline-block;margin-left:8px;font-size:.92em;color:var(--xanh);text-decoration:none;border:1px solid var(--vien);border-radius:20px;padding:1px 10px;white-space:nowrap}
+.bo-anh{display:grid;gap:8px;margin:1em 0 1.4em;align-items:start}
+.bo-anh.cot-1{grid-template-columns:repeat(1,minmax(0,1fr))}
+.bo-anh.cot-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.bo-anh.cot-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.bo-anh.cot-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.bo-anh.cot-5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.bo-anh.cot-6{grid-template-columns:repeat(6,minmax(0,1fr))}
+.o-anh{display:block;border-radius:8px;overflow:hidden;background:#000;
+ border:1px solid var(--vien);cursor:zoom-in;line-height:0}
+.o-anh img{display:block;width:100%;height:auto}
+figure .o-anh{display:inline-block;background:none;border:0}
+figure .o-anh img{border:1px solid var(--vien);border-radius:10px}
+@media(max-width:980px){
+ .bo-anh.cot-3,.bo-anh.cot-4,.bo-anh.cot-5,.bo-anh.cot-6{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:560px){
+ .bo-anh.cot-3,.bo-anh.cot-4,.bo-anh.cot-5,.bo-anh.cot-6{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;
+ line-height:1.5;max-height:5.2em;overflow:auto}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media print{
+ .xem-anh,.canh-bao,.ytlink{display:none!important}
+ .bo-anh{break-inside:avoid}
+ .o-anh{background:none}
+}
+.khoi-bang{margin:1.6em 0;padding:.4em 1.1em .7em;border:1px solid var(--vien);border-left:4px solid var(--xanh);
+ border-radius:10px;background:var(--diu)}
+.khoi-bang>h5{margin:.6em 0 .5em;font-size:1rem;color:var(--chu);line-height:1.45}
+.khoi-bang>h5 .nhan-g{color:var(--xanh)}
+.khoi-bang .khung-bang{background:var(--giay);margin:.6em 0}
+.khoi-bang figure{margin:.6em 0}
+.khoi-bang figure img{background:#fff}
+.g-chu{font-size:.88em;color:var(--nhat);margin:.5em 0;line-height:1.55}
+.g-chu p{margin:.2em 0;text-align:left}
+.g-chu ol{margin:.2em 0;padding-left:1.6em}
+.g-ver{font-size:.8em;color:var(--nhat);margin:.6em 0 0!important;text-align:right!important}
+.khung-bang.utd table{table-layout:auto}
+.khung-bang.utd td{border:1px solid var(--vien);padding:7px 9px;vertical-align:top}
+.khung-bang.utd ul,.khung-bang.utd ol{margin:.2em 0;padding-left:1.3em}
+.khung-bang.utd td.subtitle1,.khung-bang.utd td.subtitle1_single,.khung-bang.utd td.subtitle1_left{background:#2f5f8a;color:#fff;font-weight:700}
+.khung-bang.utd td.subtitle1 *,.khung-bang.utd td.subtitle1_single *,.khung-bang.utd td.subtitle1_left *{color:#fff}
+.khung-bang.utd td.subtitle2,.khung-bang.utd td.subtitle2_single,.khung-bang.utd td.subtitle2_left{background:#dbe7f2;color:#12151b;font-weight:700}
+.khung-bang.utd td.subtitle3{background:#eef3f8;color:#12151b;font-weight:600}
+:root[data-nen="toi"] .khung-bang.utd td.subtitle2,:root[data-nen="toi"] .khung-bang.utd td.subtitle2_single,
+:root[data-nen="toi"] .khung-bang.utd td.subtitle2_left{background:#2a3b4d;color:#e6eaf0}
+:root[data-nen="toi"] .khung-bang.utd td.subtitle3{background:#232f3c;color:#e6eaf0}
+.khung-bang.utd td.subtitle1_left,.khung-bang.utd td.subtitle2_left{text-align:left}
+.khung-bang.utd td.subtitle1,.khung-bang.utd td.subtitle2,.khung-bang.utd td.subtitle3,.khung-bang.utd td.centered{text-align:center}
+.khung-bang.utd td.indent1{padding-left:18px} .khung-bang.utd td.indent2{padding-left:30px}
+.khung-bang.utd td.border_right_thick{border-right:3px solid var(--nhat)}
+.khung-bang.utd td.divider_bottom{border-bottom:2px solid var(--nhat)}
+.khung-bang.utd td.divider_top{border-top:2px solid var(--nhat)}
+.khung-bang.utd .red{color:var(--do);font-weight:700}
+.khung-bang.utd td span{display:inline}
+.khung-bang.utd td span.nowrap_whitespace{white-space:nowrap}
+.khung-bang.utd ul.decimal_heading{list-style:decimal}
+.khung-bang.utd ul.none{list-style:none;padding-left:0}
+.khung-bang.utd ul.lozenge{list-style:square}
+.to-giay ul.cap-1{list-style:disc} .to-giay ul.cap-2{list-style:circle} .to-giay ul.cap-3{list-style:"– "}
+.to-giay li>p.noi{margin:.35em 0}
+.to-giay p.thut-1{padding-left:1.5em} .to-giay p.thut-2{padding-left:3em}
+.tac-gia{font-size:.9rem;color:var(--nhat);margin:.6em 0 0;line-height:1.6}
+.tac-gia b{color:var(--chu);font-weight:600}
+.tk ol{font-size:.86em;color:var(--nhat);padding-left:2em}
+.tk li{margin:.25em 0;overflow-wrap:anywhere}
+@media(max-width:600px){.khoi-bang{padding:.3em .6em .5em;margin-left:-6px;margin-right:-6px}
+ .khung-bang.utd table{min-width:520px}}
+@media print{.khoi-bang{background:none;border-left-width:2px}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong tài liệu…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan">BẢN DỊCH · UPTODATE</div>
+   <h1>Xử trí nhiễm trùng trong đợt cấp bệnh phổi tắc nghẽn mạn tính</h1>
+   <p class="dich-gia">Bản dịch tiếng Việt của bài <a href="https://www.uptodate.com/contents/management-of-infection-in-exacerbations-of-chronic-obstructive-pulmonary-disease" target="_blank" rel="noopener">"Management of infection in exacerbations of chronic obstructive pulmonary disease"</a> – UpToDate (Topic 7019, phiên bản 77.0). Dịch trọn vẹn; bảng và hình đặt ngay sau phần văn bản nhắc tới chúng.</p><p class="tac-gia"><b>Tác giả:</b> Sanjay Sethi, MD · <b>Biên tập mục:</b> Julio A Ramirez, MD, FACP · <b>Phó tổng biên tập:</b> Han Li, MD<br>Tổng quan y văn cập nhật đến: 09/2026. · Bài cập nhật lần cuối: 25/08/2026.</p>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="H1">GIỚI THIỆU</h2><p>Hầu hết các đợt cấp bệnh phổi tắc nghẽn mạn tính (COPD) là do nhiễm trùng đường hô hấp. Điều trị kháng sinh theo kinh nghiệm được chỉ định cho những người bệnh có khả năng cao nhất bị nhiễm vi khuẩn gây ra đợt cấp và cho những người bệnh nặng nhất.</p><p>Vai trò của điều trị kháng sinh trong đợt cấp COPD sẽ được tổng quan tại đây. Đánh giá nhiễm trùng trong đợt cấp COPD và các khía cạnh xử trí khác (ví dụ thuốc giãn phế quản, glucocorticoid, oxy và thở máy) được bàn riêng. (Xem  <a href="danh-gia-nhiem-trung-dot-cap-copd.html">"Đánh giá nhiễm trùng trong đợt cấp bệnh phổi tắc nghẽn mạn tính"</a> và  <a href="dot-cap-copd-xu-tri.html">"Đợt cấp COPD: Xử trí"</a>.)</p><h2 id="H1152952685">ĐỊNH NGHĨA</h2><p>Hướng dẫn của Sáng kiến Toàn cầu về Bệnh phổi tắc nghẽn mạn tính (Global Initiative for Chronic Obstructive Lung Disease, GOLD) định nghĩa đợt cấp COPD là một biến cố đặc trưng bởi khó thở và/hoặc ho và khạc đờm nặng lên trong vòng ≤14 ngày, có thể kèm thở nhanh và/hoặc nhịp tim nhanh, và thường liên quan đến tăng phản ứng viêm tại chỗ và toàn thân do nhiễm trùng đường thở, ô nhiễm hoặc tác nhân tổn thương khác lên đường thở [1,2].</p><p>Ba triệu chứng chính (cardinal symptoms) đặc trưng cho một đợt cấp COPD là [1,3]:</p><ul class="cap-1"><li>Tăng khó thở</li><li>Tăng thể tích và/hoặc độ quánh của đờm</li><li>Tăng tính chất mủ của đờm</li></ul><p>Các dấu hiệu khác có thể đi kèm các triệu chứng chính của đợt cấp COPD (ví dụ thở nhanh, khó chịu ở ngực, mệt mỏi, rối loạn giấc ngủ, suy giảm chức năng phổi) được bàn riêng. (Xem  <a href="dot-cap-copd-xu-tri.html">"Đợt cấp COPD: Xử trí"</a>.)</p><h2 id="H436716092">CHỈ ĐỊNH ĐIỀU TRỊ KHÁNG SINH</h2><h3 id="H2076469583">Cách tiếp cận của chúng tôi</h3><p>Điều trị kháng sinh theo kinh nghiệm được chỉ định cho những người bệnh có khả năng cao nhất bị nhiễm vi khuẩn gây ra đợt cấp và cho những người bệnh nặng nhất [1,4]. Nhìn chung, chúng tôi xác định nhu cầu dùng kháng sinh dựa trên số triệu chứng chính hiện có, và nhu cầu nhập viện và/hoặc hỗ trợ thông khí [1,5-7].</p><ul class="cap-1"><li>Chúng tôi đề nghị điều trị kháng sinh theo kinh nghiệm ở người bệnh có đợt cấp COPD và ≥2 trong 3 triệu chứng chính (tăng khó thở, tăng lượng/độ quánh của đờm, hoặc tăng tính chất mủ của đờm); <strong>hoặc</strong> đợt cấp COPD cần nhập viện và/hoặc hỗ trợ thông khí (xâm nhập hoặc không xâm nhập).</li><li>Chúng tôi <strong>không</strong> bắt đầu điều trị kháng sinh ở người bệnh có đợt cấp COPD chỉ với 1 trong 3 triệu chứng chính và không cần nhập viện hay hỗ trợ thông khí. Khò khè tăng mới khởi phát có thể là một yếu tố dự báo âm tính bổ sung đối với nhiễm vi khuẩn; do đó, nếu đây là dấu hiệu nổi bật, nó khiến chúng tôi tránh dùng kháng sinh [8].</li></ul><p>Kháng sinh cũng được chỉ định cho người bệnh có viêm phổi đồng thời (tức là người bệnh có sốt, dấu hiệu đông đặc khi khám ngực và/hoặc trên chẩn đoán hình ảnh ngực). Việc lựa chọn phác đồ kháng sinh cho người bệnh viêm phổi khác với đợt cấp COPD và được bàn riêng. (Xem  <a href="https://www.uptodate.com/contents/overview-of-community-acquired-pneumonia-in-adults" rel="noopener" target="_blank">"Overview of community-acquired pneumonia in adults"</a> và  <a href="https://www.uptodate.com/contents/treatment-of-hospital-acquired-and-ventilator-associated-pneumonia-in-adults" rel="noopener" target="_blank">"Treatment of hospital-acquired and ventilator-associated pneumonia in adults"</a>.)</p><p>Hầu hết các hướng dẫn thực hành lâm sàng khuyến cáo điều trị kháng sinh cho đợt cấp mức độ trung bình đến nặng ở người bệnh ngoại trú và người bệnh cần nhập viện, nhưng không dùng thường quy cho đợt cấp nhẹ ở người bệnh ngoại trú [1]. Cách tiếp cận của chúng tôi tương tự nhưng hơi khác so với chiến lược do Sáng kiến Toàn cầu về Bệnh phổi tắc nghẽn mạn tính (Global Initiative for Chronic Obstructive Lung Disease, GOLD) đề ra, vốn khuyến cáo điều trị kháng sinh cho người bệnh có các đặc điểm sau: đợt cấp nặng cần thở máy (không xâm nhập hoặc xâm nhập), đợt cấp có cả ba triệu chứng chính, hoặc đợt cấp có hai trong ba triệu chứng này nếu đờm mủ là một trong các triệu chứng đó [1,3,9]. Mặc dù một số nghiên cứu cho thấy đờm mủ liên quan đến khả năng nhiễm trùng cao hơn [10,11], dấu hiệu này không nhất quán giữa các nghiên cứu [12,13], và chúng tôi không coi riêng dấu hiệu này là yếu tố dự báo rõ ràng cho nhu cầu điều trị kháng sinh [14,15].</p><h3 id="H1256872202">Cơ sở</h3><p>Cách tiếp cận của chúng tôi dựa trên các thử nghiệm ngẫu nhiên và các nghiên cứu đoàn hệ lớn cho thấy dùng kháng sinh kịp thời, phù hợp cải thiện kết cục lâm sàng ở một số người bệnh chọn lọc có đợt cấp COPD [3,16-23].</p><ul class="cap-1"><li><strong>Lợi ích lớn nhất ở người bệnh nặng</strong> – Lợi ích lớn nhất ở người bệnh nặng (nằm viện) và dường như giảm dần khi mức độ nặng của bệnh giảm. Trong một phân tích gộp năm thử nghiệm ngẫu nhiên đánh giá 803 người bệnh nằm viện vì đợt cấp COPD, dùng kháng sinh liên quan đến giảm thất bại điều trị so với giả dược (tỉ số nguy cơ [RR] 0.76, 95% CI 0.58-1.0) [16]. Lợi ích của điều trị kháng sinh rõ rệt nhất trong một thử nghiệm đơn lẻ đánh giá 93 người bệnh ở đơn vị hồi sức tích cực (ICU), cho thấy giảm tử vong do mọi nguyên nhân (4 so với 22% với giả dược) bên cạnh giảm thất bại điều trị, thời gian thở máy, thời gian nằm ICU và nhu cầu thêm đợt kháng sinh [17]. Trong một nghiên cứu đoàn hệ đánh giá &gt;84,000 người bệnh nằm viện vì đợt cấp COPD, nguy cơ thất bại điều trị thấp hơn khi kháng sinh được dùng trong hai ngày đầu nằm viện so với điều trị muộn hơn hoặc không điều trị (tỉ số chênh [OR] 0.87, 95% CI 0.82-0.92) [19]. Phân tích đa biến trên đoàn hệ này cho thấy điều trị kháng sinh liên quan đến giảm nguy cơ tử vong trong bệnh viện (OR 0.60, 95% CI 0.50-0.73) và giảm đáng kể nguy cơ tái nhập viện trong 30 ngày vì COPD (OR 0.87, 95% CI 0.79-0.96) [21].</li><li><strong>Lợi ích lớn hơn ở người bệnh có nhiều triệu chứng chính hơn</strong> – Mặc dù các phân tích gộp thử nghiệm ngẫu nhiên và các nghiên cứu đoàn hệ lớn cũng ghi nhận giảm tỉ lệ thất bại điều trị khi dùng kháng sinh ở người bệnh ngoại trú không chọn lọc [16,18], lợi ích của kháng sinh dường như lớn nhất ở những người có nhiều triệu chứng chính hơn. Nhận định này được ủng hộ rõ nhất bởi thử nghiệm Anthonisen, một trong những thử nghiệm ngẫu nhiên lớn nhất và chặt chẽ hơn cả đánh giá hiệu quả của kháng sinh trong đợt cấp COPD cho đến nay [3]. Thử nghiệm đánh giá 173 người bệnh với tổng cộng 362 đợt cấp COPD trong khoảng thời gian ba năm rưỡi. Điều trị kháng sinh làm tăng tỉ lệ cải thiện lâm sàng (định nghĩa là hết triệu chứng mà không cần can thiệp thêm) so với giả dược (68 so với 55%). Hiệu quả lớn nhất được ghi nhận ở người bệnh biểu hiện tăng khó thở, tăng tiết đờm và tăng tính chất mủ của đờm khi so với giả dược (63 so với 43%); lợi ích ở mức trung gian ở những người có hai triệu chứng và kém rõ nhất ở người bệnh chỉ có một trong ba triệu chứng này (75 so với 70%). Nhận định này là nền tảng cho các chỉ định điều trị kháng sinh nêu ở trên.</li><li><strong>Lợi ích tiềm năng của điều trị kháng sinh chống Pseudomonas</strong> – Nhiễm <em>Pseudomonas aeruginosa </em>làm xấu đi diễn tiến của COPD. Mặc dù cách tiếp cận kháng sinh tối ưu cho các đợt cấp liên quan đến tác nhân này chưa chắc chắn, thận trọng nên bao phủ tác nhân này ở người bệnh đã biết có định cư <em>Pseudomonas aeruginosa</em> hoặc có nguy cơ cao nhiễm <em>Pseudomonas</em>. Một thử nghiệm lâm sàng ngẫu nhiên nhãn mở tại Đan Mạch đã tuyển 49 người bệnh, phần lớn có COPD, có đợt cấp không cần nhập viện và cấy đờm dương tính với <em>P. aeruginosa</em> [24]. Can thiệp là phối hợp hai kháng sinh toàn thân trong 14 ngày, dùng tại bệnh viện. Mặc dù cỡ mẫu nhỏ, có giảm 49% đợt cấp hoặc tử vong trong vòng một năm, cũng như giảm 62% nhập viện vì đợt cấp trong năm đó. Ngoài số người bệnh hạn chế, các yếu tố gây nhiễu khác gồm việc người bệnh nhóm chứng không được nhập viện, và điều trị kháng sinh mà nhóm chứng nhận được không được nêu rõ. Cần các nghiên cứu lớn hơn giải quyết các yếu tố gây nhiễu tiềm tàng này trước khi có thể khuyến cáo cách tiếp cận kháng sinh tích cực như vậy trong COPD.</li></ul><h3 id="H646863081">CRP và procalcitonin</h3><p>Nhìn chung, chúng tôi không dùng CRP hay procalcitonin để định hướng quyết định điều trị. Nhiều nghiên cứu đã đề cập đến việc sử dụng các dấu ấn sinh học huyết thanh, như protein phản ứng C (CRP) và procalcitonin, để định hướng nhu cầu điều trị kháng sinh ở người bệnh có đợt cấp COPD [25-32]. Một số nghiên cứu cho thấy sử dụng dấu ấn sinh học làm giảm phơi nhiễm kháng sinh mà không làm tăng biến cố bất lợi; tuy nhiên, kết quả bị hạn chế bởi thiết kế nghiên cứu và không chứng minh rõ ràng, nhất quán rằng việc dùng một trong hai xét nghiệm này có giá trị tăng thêm so với chỉ dựa vào đánh giá lâm sàng.</p><ul class="cap-1"><li><strong>Điều trị định hướng theo dấu ấn sinh học có thể giảm dùng kháng sinh, nhưng chưa có bằng chứng lợi ích trên các kết cục quan trọng đối với người bệnh</strong> – Trong một thử nghiệm, điều trị định hướng theo CRP làm giảm dùng kháng sinh 20% (57 so với 77%) so với chăm sóc thông thường và không liên quan đến tăng biến cố bất lợi [30]. Mức giảm dùng kháng sinh lớn nhất ở người bệnh có ≥2 tiêu chuẩn Anthonisen (tức là tăng khó thở, tăng tiết đờm và/hoặc tăng tính chất mủ của đờm). Tuy nhiên, kháng sinh phổ hẹp (tức là amoxicillin hoặc doxycycline) được dùng để điều trị &gt;75% người bệnh trong thử nghiệm, gợi ý rằng điều trị ở nhánh chăm sóc thông thường có thể chưa tối ưu. Các tiêu chí đánh giá chuẩn, như thất bại điều trị hoặc tái phát trong vòng bốn đến tám tuần, không được đánh giá.<p class="noi">Trong một thử nghiệm nhãn mở trên 455 người bệnh COPD nằm viện, điều trị định hướng theo procalcitonin làm giảm kê đơn kháng sinh từ 59 xuống 38% với kết cục tương đương ở thời điểm 30 ngày. Tuy nhiên, chỉ một phần ba số người bệnh này có đờm mủ trong các triệu chứng, và các nhóm không cân bằng, với nhiều người bệnh như vậy được đưa vào nhóm chăm sóc chuẩn hơn [31].</p><p class="noi">Trong một phân tích gộp năm 2025, điều trị định hướng theo procalcitonin hoặc CRP làm giảm dùng kháng sinh cho đợt cấp COPD 16%, mà không làm tăng các kết cục bất lợi [32]. Tuy nhiên, hầu hết các thử nghiệm bao gồm người bệnh có đợt cấp nhẹ, là những người không có chỉ định dùng kháng sinh. Hơn nữa, hầu hết các nghiên cứu chỉ đánh giá kết cục 30 ngày và không đánh giá các kết cục quan trọng đối với người bệnh, như tốc độ hết triệu chứng.</p></li><li><strong>Có thể có kết cục xấu hơn với chăm sóc định hướng theo dấu ấn sinh học ở người bệnh nặng</strong> – Trong một thử nghiệm không kém hơn trên 302 người bệnh ICU có đợt cấp COPD nặng và nghi ngờ nhiễm trùng hô hấp dưới, được phân ngẫu nhiên vào nhóm bắt đầu và ngừng kháng sinh theo hướng dẫn của procalcitonin so với nhóm chăm sóc theo hướng dẫn thực hành, tử vong ngắn hạn cao hơn không có ý nghĩa thống kê ở người bệnh được chăm sóc định hướng theo procalcitonin (20 so với 14%; hiệu số hiệu chỉnh [AD] 6.6%, 90% CI -0.3 đến 13.5) [26]. Khác biệt tử vong là do phân nhóm 119 người bệnh không được dùng kháng sinh lúc nhập viện ban đầu (31 so với 12%; AD 19.2%, 90% CI 7.2-31.1); trong khi đó không phát hiện khác biệt tử vong ở 182 người bệnh được dùng kháng sinh lúc nhập viện ban đầu.</li></ul><h2 id="H11">ĐIỀU TRỊ KHÁNG SINH THEO KINH NGHIỆM</h2><h3 id="H334582942">Phân tầng nguy cơ</h3><p>Chúng tôi sử dụng cách tiếp cận "phân tầng nguy cơ" khi lựa chọn kháng sinh theo kinh nghiệm ban đầu để điều trị đợt cấp COPD [33,34]. Chúng tôi phân loại người bệnh dựa trên nơi điều trị (ví dụ ngoại trú so với nội trú), nguy cơ có kết cục lâm sàng xấu, và nguy cơ nhiễm <em>Pseudomonas</em>  (<a class="tham-chieu" href="#g-66357">Thuật toán 1A-B</a>).</p><ul class="cap-1"><li><strong>Nguy cơ kết cục xấu</strong> – Người bệnh có COPD nền nặng hơn có nguy cơ kết cục xấu cao hơn nếu điều trị kháng sinh ban đầu không đầy đủ. Do đó, chúng tôi dùng phác đồ theo kinh nghiệm phổ rộng hơn cho những người bệnh này. Các yếu tố nguy cơ kết cục xấu gồm [35-37]:<ul class="cap-2"><li>Bệnh đồng mắc (đặc biệt là suy tim hoặc bệnh tim thiếu máu cục bộ)</li><li>COPD nền nặng (thể tích thở ra gắng sức trong một giây [FEV<sub>1</sub>] &lt;50%)</li><li>Đợt cấp COPD thường xuyên (tức là ≥2 đợt cấp mỗi năm)</li><li>Nhập viện vì đợt cấp trong vòng ba tháng qua</li><li>Đang thở oxy bổ sung liên tục</li></ul><p class="noi">Tuổi cao (ví dụ tuổi ≥65) cũng liên quan đến kết cục xấu hơn và/hoặc nguy cơ nhiễm tác nhân gây bệnh kháng thuốc. Mặc dù không phải là chỉ định bắt buộc để mở rộng phổ kháng sinh, chúng tôi coi tuổi cao là yếu tố cộng thêm vào các yếu tố nguy cơ nêu trên.</p></li><li><strong>Nguy cơ nhiễm Pseudomonas</strong> – Người bệnh có COPD nền nặng hơn cũng có nguy cơ nhiễm <em>Pseudomonas</em>. Các yếu tố cụ thể liên quan đến tăng nguy cơ nhiễm <em>Pseudomonas</em> gồm [38-41]:<ul class="cap-2"><li>Định cư mạn tính hoặc đã từng phân lập được <em>Pseudomonas aeruginosa </em>từ đờm</li><li>COPD rất nặng (FEV<sub>1</sub> &lt;30% dự đoán)</li><li>Giãn phế quản trên chẩn đoán hình ảnh ngực (ví dụ X-quang ngực, chụp cắt lớp vi tính)</li><li>Dùng kháng sinh phổ rộng trong vòng ba tháng qua</li><li>Dùng glucocorticoid toàn thân kéo dài</li></ul></li></ul><p>Cách tiếp cận phân tầng nguy cơ này thúc đẩy việc sử dụng kháng sinh thận trọng bằng cách dành các phác đồ theo kinh nghiệm phổ rộng hơn cho người bệnh có COPD nền nặng hơn [35,42,43]. Mặc dù chưa được thẩm định trong các thử nghiệm lâm sàng, các cách tiếp cận tương tự được dùng trong điều trị các bệnh nhiễm trùng khác (ví dụ viêm phổi mắc phải cộng đồng, viêm mũi xoang cấp) [44,45].</p><section class="khoi-bang"><h5 id="g-66357"><span class="nhan-g">Thuật toán 1A: </span><span class="ttl">Cách tiếp cận của chúng tôi trong điều trị kháng khuẩn theo kinh nghiệm cho đợt cấp COPD ở người bệnh ngoại trú<sup>*</sup></span></h5><div class="g-noi-dung"><figure><a class="o-anh" href="xu-tri-nhiem-trung-dot-cap-copd_anh/services_app_contents_graphic_view_ID_66357_Antibioticselectnoutpatnt.png"><img alt="This is an algorithm titled Our approach to empiric antibacterial treatment of COPD exacerbations in outpatients&lt;sup&gt;*&lt;/sup&gt;. Legend: This algorithm is for use in conjunction with UpToDate content on the management of pulmonary infection in Chronic Obstructive Pulmonary Disease. Prompt and appropriate antibiotic use has been associated with improved clinical outcomes in patients with moderate to severe COPD exacerbations. Empiric regimens are designed to target the most likely pathogens (Haemophilus influenzae, Moraxella catarrhalis, and Streptococcus pneumoniae) and should be broadened to target drug-resistant pathogens and difficult-to-eradicate pathogens (eg, macrolide-resistant S. pneumoniae, nontypeable strains of H. influenzae) in those at risk for poor outcomes. Coverage for Pseudomonas is indicated in patients with risk factors for infection with this pathogen. All patients should be evaluated for clinical response in approximately 72 hours, and sputum Gram stain and culture should be considered for those who fail to response to empiric treatment. Modifications to this approach may be needed for patients with a history of colonization or infection with drug-resistant pathogens (including Pseudomonas) or when a specific pathogen is suspected." loading="lazy" src="xu-tri-nhiem-trung-dot-cap-copd_anh/services_app_contents_graphic_view_ID_66357_Antibioticselectnoutpatnt.png" style="max-width:1273px"/></a></figure></div><div class="g-chu graphic_lgnd">Thuật toán này được dùng kết hợp với nội dung UpToDate về xử trí nhiễm trùng phổi trong bệnh phổi tắc nghẽn mạn tính. Sử dụng kháng sinh kịp thời và phù hợp có liên quan đến cải thiện kết cục lâm sàng ở người bệnh đợt cấp COPD mức độ trung bình đến nặng. Các phác đồ kinh nghiệm được thiết kế nhằm vào các tác nhân gây bệnh có khả năng cao nhất (<em>Haemophilus influenzae</em>, <em>Moraxella catarrhalis</em> và <em>Streptococcus pneumoniae</em>) và cần được mở rộng để bao phủ các tác nhân kháng thuốc và khó diệt trừ (ví dụ, <em>S. pneumoniae</em> kháng macrolide, các chủng <em>H. influenzae</em> không định típ) ở những người có nguy cơ kết cục xấu. Bao phủ <em>Pseudomonas</em> được chỉ định ở người bệnh có yếu tố nguy cơ nhiễm tác nhân này. Tất cả người bệnh cần được đánh giá đáp ứng lâm sàng sau khoảng 72 giờ, và cần cân nhắc nhuộm Gram và cấy đờm ở những người không đáp ứng với điều trị kinh nghiệm. Có thể cần điều chỉnh cách tiếp cận này ở người bệnh có tiền sử định cư hoặc nhiễm tác nhân kháng thuốc (bao gồm <em>Pseudomonas</em>) hoặc khi nghi ngờ một tác nhân cụ thể.</div><div class="g-chu graphic_footnotes"><p>COPD: bệnh phổi tắc nghẽn mạn tính; FEV<sub>1</sub>: thể tích thở ra gắng sức trong 1 giây.</p>
+<p>* Điều trị kháng virus cúm cũng được chỉ định cho các đợt cấp do nhiễm cúm khởi phát.</p>
+<p>¶ Để chẩn đoán đợt cấp COPD, cần không có nghi ngờ về các bệnh lý tim phổi khác (suy tim, tràn khí màng phổi) và các nhiễm trùng nặng hơn (ví dụ, viêm phổi).</p>
+<p>Δ Riêng tuổi không phải là yếu tố nguy cơ bắt buộc nhưng nên được xem là yếu tố cộng thêm vào các yếu tố nguy cơ khác.</p>
+<p>◊ Việc lựa chọn giữa các kháng sinh dựa trên mô hình nhạy cảm vi sinh tại địa phương, bệnh đồng mắc của người bệnh, các tác nhân gây nhiễm trước đây, tác dụng không mong muốn và tương tác thuốc có thể xảy ra, cũng như mong muốn của người điều trị và người bệnh. Đặc biệt, có thể cần điều chỉnh phác đồ này ở người bệnh có tiền sử nhiễm <em>Pseudomonas</em> kháng thuốc dựa trên mức độ nặng của bệnh, mức độ nghi ngờ <em>Pseudomonas</em> và kháng sinh đồ trước đây của các chủng Pseudomonas phân lập được.</p>
+<p>§ Nếu mới dùng kháng sinh gần đây (ví dụ, trong 3 tháng qua), chọn kháng sinh thuộc nhóm khác với thuốc được dùng gần nhất.</p>
+<p>¥ Trimethoprim-sulfamethoxazole là lựa chọn thay thế hợp lý khi không thể dùng macrolide và cephalosporin do dị ứng, tác dụng không mong muốn có thể xảy ra hoặc không sẵn có. Tuy nhiên, thuốc này không được ưu tiên vì dữ liệu thử nghiệm gợi ý có thể kém hiệu quả hơn.</p>
+<p>‡ Một số chuyên gia phối hợp thêm amoxicillin hoặc một thuốc khác có hoạt tính tốt hơn trên <em>S. pneumoniae</em> với ciprofloxacin để điều trị kinh nghiệm phổ rộng hơn.</p>
+<p>† Do đề kháng fluoroquinolone phổ biến ở các chủng <em>Pseudomonas aeruginosa</em>, chúng tôi làm nhuộm Gram và cấy đờm kèm kháng sinh đồ cho những người bệnh này để giúp định hướng các quyết định xử trí tiếp theo. Với hầu hết người bệnh ngoại trú khác, không cần cấy đờm trừ khi người bệnh không đáp ứng với điều trị kinh nghiệm.</p>
+<p>** Levofloxacin có hoạt tính trên <em>Pseudomonas</em> kém hơn ciprofloxacin nhưng có hoạt tính mạnh hơn trên <em>S. pneumoniae</em> và <em>M. catarrhalis</em>, do đó là lựa chọn thay thế hợp lý cho ciprofloxacin ở người bệnh có tăng nguy cơ nhiễm <em>Pseudomonas</em> nhưng không có bằng chứng vi sinh về nhiễm hoặc định cư <em>Pseudomonas</em>.</p>¶¶ Liều dùng dành cho người lớn có chức năng thận bình thường. Để chỉnh liều, tham khảo các chuyên luận thuốc trong UpToDate.</div><div class="g-chu graphic_reference">Tài liệu tham khảo:<ol>
+<li>Sethi S, Murphy TF. Acute exacerbations of chronic bronchitis: New developments concerning microbiology and pathophysiology--impact on approaches to risk stratification and therapy. Infect Dis Clin N Am 2004; 18:861.</li>
+<li>Sethi S, Anzueto A, Miravitlles M, et al. Determinants of bacteriological outcomes in exacerbations of chronic obstructive pulmonary disease. Infection 2016; 44:65.</li>
+<li>Gallego M, Pomares X, Espasa M, et al. Pseudomonas aeruginosa isolates in severe chronic obstructive pulmonary disease: characterization and risk factors. BMC Pulm Med 2014; 14:103.</li>
+</ol></div><p class="g-ver">Graphic 66357 Version 17.0</p></section><section class="khoi-bang"><h5 id="g-53537"><span class="nhan-g">Thuật toán 1B: </span><span class="ttl">Cách tiếp cận của chúng tôi trong điều trị kháng khuẩn theo kinh nghiệm cho đợt cấp COPD ở người bệnh nằm viện<sup>*</sup></span></h5><div class="g-noi-dung"><figure><a class="o-anh" href="xu-tri-nhiem-trung-dot-cap-copd_anh/services_app_contents_graphic_view_ID_53537_Antibioticselectnhosptlzd.png"><img alt="This is an algorithm titled Our approach to empiric antibacterial treatment of COPD exacerbations in hospitalized patients&lt;sup&gt;*&lt;/sup&gt;. Legend: Prompt and appropriate antibiotic use has been associated with improved clinical outcomes in patients hospitalized for COPD exacerbations. Empiric regimens are designed to target the most likely pathogens (Haemophilus influenzae, Moraxella catarrhalis, and Streptococcus pneumoniae). Pseudomonas should be targeted in those with risk factors for infection with this pathogen. Generally, a sputum Gram stain and culture with susceptibility testing should be obtained for hospitalized patients. Modifications to the empiric regimen may be needed based on sputum Gram stain and culture results, particularly for patients who do not respond to the initial empiric regimen within 48 to 72 hours of starting treatment. Modifications to this approach may be needed for patients with a history of colonization or infection with drug-resistant pathogens (including Pseudomonas) or when a specific pathogen is suspected." loading="lazy" src="xu-tri-nhiem-trung-dot-cap-copd_anh/services_app_contents_graphic_view_ID_53537_Antibioticselectnhosptlzd.png" style="max-width:634px"/></a></figure></div><div class="g-chu graphic_lgnd">Việc dùng kháng sinh kịp thời và phù hợp có liên quan với cải thiện kết cục lâm sàng ở người bệnh nhập viện vì đợt cấp COPD. Các phác đồ theo kinh nghiệm được thiết kế để nhắm vào các tác nhân gây bệnh có khả năng nhất (<em>Haemophilus influenzae</em>, <em>Moraxella catarrhalis</em> và <em>Streptococcus pneumoniae</em>). Cần nhắm vào <em>Pseudomonas</em> ở những người có yếu tố nguy cơ nhiễm tác nhân này. Nhìn chung, nên lấy đờm nhuộm Gram và cấy kèm kháng sinh đồ cho người bệnh nằm viện. Có thể cần điều chỉnh phác đồ theo kinh nghiệm dựa trên kết quả nhuộm Gram và cấy đờm, đặc biệt ở người bệnh không đáp ứng với phác đồ kinh nghiệm ban đầu trong vòng 48 đến 72 giờ kể từ khi bắt đầu điều trị. Có thể cần điều chỉnh cách tiếp cận này cho người bệnh có tiền sử định cư (colonization) hoặc nhiễm tác nhân kháng thuốc (kể cả <em>Pseudomonas</em>) hoặc khi nghi ngờ một tác nhân cụ thể.</div><div class="g-chu graphic_footnotes"><p>COPD: bệnh phổi tắc nghẽn mạn tính; FEV<sub>1</sub>: thể tích thở ra gắng sức trong 1 giây.</p>
+<p>* Điều trị kháng virus cúm cũng được chỉ định cho các đợt cấp do nhiễm cúm khởi phát.</p>
+<p>¶ Việc chọn giữa các lựa chọn kháng sinh dựa trên đặc điểm nhạy cảm của vi sinh vật tại chỗ, bệnh đồng mắc của người bệnh, các tác nhân gây nhiễm trước đây, các biến cố bất lợi và tương tác thuốc có thể xảy ra, và cả sự ưu tiên của người kê đơn và người bệnh. Có thể cần điều chỉnh các phác đồ này cho người bệnh nghi ngờ nhiễm tác nhân cụ thể và/hoặc có tiền sử vi khuẩn kháng thuốc (ví dụ, <em>Pseudomonas</em> kháng thuốc).</p>
+<p>Δ Với những người không dung nạp các thuốc này, các lựa chọn thay thế gồm ciprofloxacin, aztreonam, một số carbapenem (ví dụ, meropenem, imipenem) và aminoglycoside. Chúng tôi thường chọn giữa các thuốc này dựa trên dịch tễ học tại chỗ, kết quả kháng sinh đồ trước đây, tương tác thuốc và bệnh đồng mắc hoặc tình trạng không dung nạp của người bệnh. Thường cần hai thuốc để điều trị theo kinh nghiệm. Tham khảo nội dung UpToDate để biết chi tiết.</p>◊ Nếu gần đây có dùng kháng sinh (ví dụ, trong 3 tháng qua), chọn kháng sinh thuộc nhóm khác với thuốc được dùng gần nhất.</div><div class="g-chu graphic_reference">Tài liệu tham khảo:<ol>
+<li>Sethi S, Murphy TF. Acute exacerbations of chronic bronchitis: New developments concerning microbiology and pathophysiology--impact on approaches to risk stratification and therapy. Infect Dis Clin N Am 2004; 18:861.</li>
+<li>Sethi S, Anzueto A, Miravitlles M, et al. Determinants of bacteriological outcomes in exacerbations of chronic obstructive pulmonary disease. Infection 2016; 44:65.</li>
+<li>Gallego M, Pomares X, Espasa M, et al. Pseudomonas aeruginosa isolates in severe chronic obstructive pulmonary disease: characterization and risk factors. BMC Pulm Med 2014; 14:103.</li>
+</ol></div><p class="g-ver">Graphic 53537 Version 14.0</p></section><h3 id="H1105234843">Lựa chọn kháng sinh</h3><p>Các phác đồ kháng sinh theo kinh nghiệm được thiết kế nhằm vào các tác nhân gây nhiễm có khả năng cao nhất  (<a class="tham-chieu" href="#g-70203">Bảng 1</a>). Việc lựa chọn kháng sinh cụ thể và nhu cầu nhuộm Gram và cấy đờm thay đổi tùy theo nguy cơ kết cục lâm sàng xấu, nguy cơ nhiễm <em>Pseudomonas</em>, và nơi điều trị  (<a class="tham-chieu" href="#g-66357">Thuật toán 1A-B</a>) [1,37,40]. Việc xác định nhu cầu nhập viện ở người bệnh có đợt cấp COPD được bàn ở chỗ khác. (Xem  <a href="dot-cap-copd-xu-tri.html">"Đợt cấp COPD: Xử trí", mục 'Phân loại điều trị nội trú hay ngoại trú'</a>.) <span class="utd-adt-cnt utd-adt-pathwys utd-content-120461">(Lộ trình liên quan:  Bệnh phổi tắc nghẽn mạn tính: Xác định người bệnh đợt cấp cần nhập viện.)</span></p><section class="khoi-bang"><h5 id="g-70203"><span class="nhan-g">Bảng 1: </span><span class="ttl">Tần suất tương đối của các tác nhân vi khuẩn phân lập được từ 14 thử nghiệm so sánh kháng sinh trong đợt cấp bệnh phổi tắc nghẽn mạn tính*</span></h5><div class="g-noi-dung"><div class="khung-bang utd"><table>
+<tbody>
+<tr>
+<td class="subtitle1">Tác nhân gây bệnh</td>
+<td class="subtitle1">Tỉ lệ phần trăm trong các chủng vi khuẩn phân lập được (khoảng dao động)</td>
+</tr>
+<tr>
+<td><em>Haemophilus influenzae</em></td>
+<td>13 đến 50</td>
+</tr>
+<tr>
+<td><em>Moraxella catarrhalis</em></td>
+<td>9 đến 21</td>
+</tr>
+<tr>
+<td><em>Streptococcus pneumoniae</em></td>
+<td>7 đến 26</td>
+</tr>
+<tr>
+<td><em>Pseudomonas aeruginosa</em></td>
+<td>1 đến 13</td>
+</tr>
+</tbody>
+</table></div>
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:Specialty msdt:dt="string">8</mso:Specialty>
+<mso:Edit_Table msdt:dt="string">&#60;a href=&quot;/Graphics/Pages/TableEditor.aspx?SPID=95988&#38;amp;Mode=Edit&quot;&#62;&#60;img alt=&quot;&quot; border=0 src=&quot;/_layouts/IMAGES/ICGEN.gif&quot;&#62;Edit Table&#60;/a&#62;</mso:Edit_Table>
+</mso:CustomDocumentProperties>
+</xml><![endif]--></div><div class="g-chu graphic_footnotes">* Enterobacteriaceae đã được phân lập từ đường hô hấp của 3 đến 19% người bệnh đợt cấp bệnh phổi tắc nghẽn mạn tính (COPD) và <em>Staphylococcus aureus</em> đã được phân lập từ đường hô hấp của 1 đến 20% người bệnh đợt cấp COPD, nhưng ý nghĩa gây bệnh của chúng trong bối cảnh này chưa được xác định. <em>Haemophilus parainfluenzae</em> đã được phân lập từ đường hô hấp của 2 đến 32% người bệnh đợt cấp COPD, nhưng các vi khuẩn này ít có khả năng gây đợt cấp COPD.</div><div class="g-chu graphic_reference">Sửa đổi có sự cho phép của American Thoracic Society. Copyright © 2004 American Thoracic Society. Sethi S. Bacteria in exacerbations of chronic obstructive pulmonary disease. Proceedings of the American Thoracic Society 2004; 1:109. Official Journal of the American Thoracic Society.</div><p class="g-ver">Graphic 70203 Version 9.0</p></section><h4 id="H835040109">Người bệnh ngoại trú</h4><p>Điều trị kháng sinh được chỉ định cho người bệnh ngoại trú có đợt cấp COPD và tăng ≥2 trong 3 triệu chứng chính: khó thở, lượng/độ quánh của đờm, hoặc tính chất mủ của đờm  (<a class="tham-chieu" href="#g-66357">Thuật toán 1A</a>) [37,40]. Người bệnh chỉ có một triệu chứng chính nói chung không cần điều trị kháng sinh. (Xem <a href="#H436716092">'Chỉ định điều trị kháng sinh'</a> ở trên.) <span class="utd-adt-cnt utd-adt-pathwys utd-content-122850">(Lộ trình liên quan:  Bệnh phổi tắc nghẽn mạn tính: Điều trị kháng sinh theo kinh nghiệm cho người bệnh ngoại trú có đợt cấp.)</span></p><ul class="cap-1"><li><strong>Với người bệnh ngoại trú không có yếu tố nguy cơ kết cục xấu hoặc </strong><strong>nhiễm </strong><strong><em>Pseudomonas</em></strong>, chúng tôi nhằm vào <em>Streptococcus pneumoniae, Haemophilus influenzae</em> và <em>Moraxella catarrhalis</em> và chọn một trong các lựa chọn sau: một macrolide (tức là azithromycin, clarithromycin) <strong>hoặc</strong> một cephalosporin thế hệ thứ hai hoặc thứ ba (ví dụ cefuroxime, cefpodoxime, cefdinir). Trimethoprim-sulfamethoxazole là lựa chọn thay thế hợp lý cho các thuốc này nhưng không phải lựa chọn đầu tay vì dữ liệu thử nghiệm gợi ý thuốc có thể kém hiệu quả hơn [46]. Chúng tôi dành doxycycline làm thuốc thay thế cho người bệnh không dung nạp các thuốc đầu tay, dựa trên một thử nghiệm ngẫu nhiên cho thấy lợi ích rất ít khi so với chỉ dùng glucocorticoid toàn thân [47]. Ngoài ra, tình trạng <em>S. pneumoniae</em> kháng doxycycline phổ biến ở một số vùng, và dữ liệu cũ hơn cũng gợi ý hoạt tính chưa tối ưu với <em>H. influenzae</em> [48-50].</li><li><strong>Với người bệnh ngoại trú có yếu tố nguy cơ kết cục xấu (nhưng không tăng nguy cơ nhiễm </strong><strong><em>Pseudomonas</em></strong><strong>)</strong>  (<a class="tham-chieu" href="#g-126161">Bảng 2</a>), chúng tôi mở rộng phác đồ ban đầu để bao gồm điều trị <em>S. pneumoniae</em> kháng macrolide và tăng cường tiệt trừ<em> H. influenzae</em>. Với những người bệnh này, chúng tôi chọn amoxicillin-clavulanate hoặc một fluoroquinolone hô hấp (tức là levofloxacin hoặc moxifloxacin).</li><li><strong>Với người bệnh ngoại trú có yếu tố nguy cơ kết cục xấu và có nguy cơ </strong><strong>nhiễm </strong><strong><em>Pseudomonas</em></strong><em> </em> (<a class="tham-chieu" href="#g-126162">Bảng 3</a>)<em>,</em> chúng tôi thường điều trị bằng ciprofloxacin. Vì tình trạng kháng fluoroquinolone phổ biến ở các chủng <em>P. aeruginosa</em>, chúng tôi cũng làm nhuộm Gram và cấy đờm kèm kháng sinh đồ cho những người bệnh này để giúp định hướng các quyết định xử trí tiếp theo (ví dụ thay đổi điều trị dựa trên kháng sinh đồ ở những người không đáp ứng với điều trị theo kinh nghiệm). (Xem <a href="#H3687614106">'Theo dõi'</a> bên dưới.)<p class="noi">Levofloxacin là lựa chọn thay thế hợp lý cho người bệnh có yếu tố nguy cơ nhiễm <em>Pseudomonas </em>nhưng chưa từng có tiền sử cấy dương tính với <em>Pseudomonas</em>. Mặc dù levofloxacin kém mạnh hơn ciprofloxacin trong điều trị <em>Pseudomonas</em>, thuốc có hoạt tính tương đối mạnh hơn với các tác nhân thường gặp khác (<em>S. pneumoniae</em> và <em>M. catarrhalis)</em>. Moxifloxacin không được khuyến cáo cho người bệnh có yếu tố nguy cơ nhiễm <em>Pseudomonas</em>, vì thuốc có rất ít hoạt tính với tác nhân này.</p></li></ul><p>Trong hầu hết các trường hợp, có nhiều lựa chọn điều trị. Chúng tôi chọn giữa các kháng sinh dựa trên đáp ứng trước đây của người bệnh với thuốc đó, tình trạng dị ứng và không dung nạp của người bệnh, đặc điểm biến cố bất lợi của thuốc, tương tác thuốc, kiểu nhạy cảm của các vi sinh vật phân lập được trong các lần cấy đờm gần đây (nếu có), và kiểu đề kháng kháng sinh tại địa phương. Trong một số trường hợp, có thể xác định tỉ lệ đề kháng kháng sinh tại địa phương bằng cách lấy kháng sinh đồ tích lũy (antibiogram) từ bệnh viện địa phương. Tuy nhiên, thông tin này không phải lúc nào cũng có sẵn hoặc dễ tiếp cận.</p><p>Nhìn chung, chúng tôi cũng tránh dùng cùng một nhóm kháng sinh nhiều hơn một lần trong vòng ba tháng. Phơi nhiễm kháng sinh trong ba tháng trước là một trong những yếu tố dự báo tốt nhất cho tác nhân gây bệnh kháng nhóm thuốc đó ở từng người bệnh. Ví dụ, nếu người bệnh đã đáp ứng tốt và dung nạp một kháng sinh nhất định và kháng sinh đó không được dùng trong vòng ba tháng qua, thì thuốc đó (hoặc một thuốc cùng nhóm) là lựa chọn tốt. Tuy nhiên, nếu thuốc đó đã được dùng trong vòng ba tháng qua, thì nên chọn một thuốc thuộc nhóm khác.</p><p>Việc lựa chọn kháng sinh nêu trên dựa trên đặc điểm nhạy cảm và kiểu đề kháng đang thay đổi của các tác nhân gây bệnh thường gặp nhất. Ví dụ, amoxicillin, vốn được ưa chuộng trước đây, không còn là thuốc được khuyến cáo vì bị bất hoạt bởi nhiều chủng <em>H. influenzae</em> không định típ và hầu hết các chủng <em>M. catarrhalis</em>. Cách tiếp cận này còn được ủng hộ bởi một phân tích gộp 12 thử nghiệm ngẫu nhiên đánh giá &gt;2100 người bệnh, cho thấy amoxicillin-clavulanic acid, macrolide, cephalosporin thế hệ thứ hai hoặc thứ ba, và fluoroquinolone hiệu quả hơn amoxicillin, ampicillin, pivampicillin, trimethoprim-sulfamethoxazole và doxycycline trong điều trị đợt cấp COPD (tỉ số chênh [OR] 0.51, 95% CI 0.34-0.75) [51]. Điều trị thành công được định nghĩa là hết hoặc cải thiện triệu chứng.</p><p>Một số nghiên cứu đã so sánh hiệu quả của macrolide, fluoroquinolone và amoxicillin-clavulanate với nhau [46,52,53]. Một phân tích gộp 19 thử nghiệm, đánh giá &gt;7400 người bệnh có đợt cấp COPD, đã so sánh hiệu quả của macrolide (tức là azithromycin, clarithromycin), fluoroquinolone (tức là levofloxacin, moxifloxacin, ciprofloxacin) và amoxicillin-clavulanate [46]. Lựa chọn kháng sinh không ảnh hưởng đến thành công điều trị ngắn hạn, được định nghĩa là hết hoặc cải thiện triệu chứng. Tuy nhiên, ở những người bệnh phân lập được tác nhân gây bệnh từ đờm lúc nhập viện, tỉ lệ thành công điều trị thấp hơn với macrolide so với fluoroquinolone (OR 0.47, 95% CI 0.31-0.69). Tái phát trong 26 tuần sau điều trị cũng ít gặp hơn ở người bệnh được điều trị bằng fluoroquinolone so với macrolide. Việc giảm tỉ lệ thành công điều trị ghi nhận với macrolide có thể liên quan đến khả năng hạn chế trong tiệt trừ <em>H. influenzae</em>. Amoxicillin-clavulanate có hiệu quả tương tự khi so với các thuốc khác nhưng liên quan đến nhiều tác dụng bất lợi hơn (chủ yếu là tiêu chảy) so với các thuốc còn lại. Trong một thử nghiệm ngẫu nhiên sau đó đánh giá &gt;500 người bệnh có đợt cấp COPD, moxifloxacin và amoxicillin-clavulanate dường như có hiệu quả chung tương tự [52]. Tuy nhiên, tỉ lệ thất bại lâm sàng thấp hơn với moxifloxacin khi phân tích giới hạn ở người bệnh phân lập được tác nhân gây bệnh từ đờm (19 so với 25%). Các tác dụng bất lợi liên quan đến việc dùng fluoroquinolone được bàn riêng. (Xem  <a href="https://www.uptodate.com/contents/fluoroquinolones" rel="noopener" target="_blank">"Fluoroquinolones"</a> và  <a href="https://www.uptodate.com/contents/fluoroquinolones" rel="noopener" target="_blank">"Fluoroquinolones", mục 'Adverse effects'</a>.)</p><section class="khoi-bang"><h5 id="g-126161"><span class="nhan-g">Bảng 2: </span><span class="ttl">Yếu tố nguy cơ kết cục xấu ở người bệnh đợt cấp COPD</span></h5><div class="g-noi-dung"><div class="khung-bang utd"><table><tbody> <tr> <td> <ul> <li>Bệnh đồng mắc (đặc biệt là suy tim hoặc bệnh tim thiếu máu cục bộ)</li> </ul> </td> </tr> <tr> <td> <ul> <li>COPD nền nặng (ví dụ, FEV<sub>1</sub> &lt;50%)</li> </ul> </td> </tr> <tr> <td> <ul> <li>Đợt cấp COPD thường xuyên (tức là ≥2 đợt cấp mỗi năm)</li> </ul> </td> </tr> <tr> <td> <ul> <li>Nhập viện vì đợt cấp trong 3 tháng qua</li> </ul> </td> </tr> <tr> <td> <ul> <li>Đang thở oxy bổ sung liên tục</li> </ul> </td> </tr> <tr> <td> <ul> <li>Tuổi ≥65*</li> </ul> </td> </tr> </tbody></table></div></div><div class="g-chu graphic_lgnd">Người bệnh có COPD nền nặng hơn có nguy cơ kết cục xấu cao hơn nếu điều trị kháng sinh ban đầu không đầy đủ. Do đó, chúng tôi dùng phác đồ kinh nghiệm phổ rộng hơn cho những người bệnh này.</div><div class="g-chu graphic_footnotes">COPD: bệnh phổi tắc nghẽn mạn tính; FEV<sub>1</sub>: thể tích thở ra gắng sức trong 1 giây.<br/>* Tuổi cao (ví dụ, tuổi ≥65) cũng liên quan đến kết cục xấu hơn và/hoặc nguy cơ nhiễm tác nhân kháng thuốc. Mặc dù không phải là chỉ định bắt buộc để mở rộng phổ kháng sinh, chúng tôi xem tuổi cao là yếu tố cộng thêm vào các yếu tố nguy cơ nêu trên.</div><div class="g-chu graphic_reference">Tài liệu tham khảo:<ol>
+<li>Balter MS, La Forge J, Low DE, et al. Canadian guidelines for the management of acute exacerbations of chronic bronchitis. Can Respir J 2003; 10 Suppl B:3B.</li>
+<li>Miravitlles M, Murio C, Guerrero T. Factors associated with relapse after ambulatory treatment of acute exacerbations of chronic bronchitis. DAFNE Study Group. Eur Respir J 2001; 17:928.</li>
+<li>Wilson R, Jones P, Schaberg T, et al. Antibiotic treatment and factors influencing short and long term outcomes of acute exacerbations of chronic bronchitis. Thorax 2006; 61:337.</li>
+<li>Garcia-Vidal C, Almagro P, Romaní V, et al. Pseudomonas aeruginosa in patients hospitalised for COPD exacerbation: a prospective study. Eur Respir J 2009; 34:1072.</li>
+<li>Parameswaran GI, Sethi S. Pseudomonas infection in chronic obstructive pulmonary disease. Future Microbiol 2012; 7:1129.</li>
+</ol></div><p class="g-ver">Graphic 126161 Version 1.0</p></section><section class="khoi-bang"><h5 id="g-126162"><span class="nhan-g">Bảng 3: </span><span class="ttl">Yếu tố nguy cơ nhiễm <em>Pseudomonas aeruginosa</em> ở người bệnh đợt cấp COPD</span></h5><div class="g-noi-dung"><div class="khung-bang utd"><table><tbody> <tr> <td> <ul> <li>Định cư mạn tính hoặc đã từng phân lập được <em>Pseudomonas aeruginosa</em> từ đờm (đặc biệt trong 12 tháng qua)</li> </ul> </td> </tr> <tr> <td> <ul> <li>COPD rất nặng (FEV<sub>1</sub> &lt;30% dự đoán)</li> </ul> </td> </tr> <tr> <td> <ul> <li>Giãn phế quản trên chẩn đoán hình ảnh ngực</li> </ul> </td> </tr> <tr> <td> <ul> <li>Dùng kháng sinh phổ rộng trong 3 tháng qua</li> </ul> </td> </tr> <tr> <td> <ul> <li>Dùng glucocorticoid toàn thân kéo dài</li> </ul> </td> </tr> </tbody></table></div></div><div class="g-chu graphic_footnotes">COPD: bệnh phổi tắc nghẽn mạn tính; FEV<sub>1</sub>: thể tích thở ra gắng sức trong 1 giây.</div><div class="g-chu graphic_reference">Tài liệu tham khảo:<ol>
+<li>Garcia-Vidal C, Almagro P, Romaní V, et al. Pseudomonas aeruginosa in patients hospitalised for COPD exacerbation: a prospective study. Eur Respir J 2009; 34:1072.</li>
+<li>Parameswaran GI, Sethi S. Pseudomonas infection in chronic obstructive pulmonary disease. Future Microbiol 2012; 7:1129.</li>
+<li>Gallego M, Pomares X, Espasa M, et al. Pseudomonas aeruginosa isolates in severe chronic obstructive pulmonary disease: characterization and risk factors. BMC Pulm Med 2014; 14:103.</li>
+<li>Boixeda R, Almagro P, Díez-Manglano J, et al. Bacterial flora in the sputum and comorbidity in patients with acute exacerbations of COPD. Int J Chron Obstruct Pulmon Dis 2015; 10:2581.</li>
+</ol></div><p class="g-ver">Graphic 126162 Version 1.0</p></section><h4 id="H2360992340">Người bệnh nằm viện</h4><p>Với người bệnh nằm viện để điều trị đợt cấp COPD (không có nghi ngờ viêm phổi trên lâm sàng và X-quang), chúng tôi chủ yếu dựa vào nguy cơ nhiễm <em>Pseudomonas</em> để lựa chọn kháng sinh theo kinh nghiệm  (<a class="tham-chieu" href="#g-53537">Thuật toán 1B</a>)<em>.</em> Chúng tôi chọn giữa các lựa chọn phù hợp dựa trên đáp ứng trước đây của người bệnh với thuốc đó, tình trạng dị ứng và không dung nạp của người bệnh, đặc điểm biến cố bất lợi của thuốc, tương tác thuốc, kiểu đề kháng kháng sinh tại địa phương, và kiểu nhạy cảm của các vi sinh vật phân lập được trong các lần cấy đờm gần đây (nếu có).</p><ul class="cap-1"><li><strong>Với hầu hết người bệnh nội trú không có yếu tố nguy cơ </strong><strong>nhiễm </strong><strong><em>Pseudomonas</em></strong>, chúng tôi chọn một fluoroquinolone hô hấp (tức là levofloxacin 500 mg đường uống hoặc tĩnh mạch [IV] một lần mỗi ngày hoặc moxifloxacin 400 mg đường uống hoặc IV một lần mỗi ngày) hoặc một cephalosporin thế hệ thứ ba (ví dụ ceftriaxone hoặc cefotaxime).</li><li><strong>Với hầu hết người bệnh nội trú có yếu tố nguy cơ </strong><strong>nhiễm </strong><strong><em>Pseudomonas</em></strong>, chúng tôi chọn một trong các thuốc sau: cefepime, ceftazidime, hoặc piperacillin-tazobactam (4.5 g IV mỗi sáu giờ). Với những người không dung nạp các thuốc này, các lựa chọn thay thế gồm ciprofloxacin, aztreonam, một số carbapenem (ví dụ meropenem, imipenem) và aminoglycoside. Mỗi thuốc đều có những bất lợi tương đối khi so với các beta-lactam chống Pseudomonas  (<a class="tham-chieu" href="#g-135124">Bảng 4</a>). Chúng tôi thường chọn giữa các thuốc này dựa trên dịch tễ học địa phương, kết quả kháng sinh đồ trước đây, tương tác thuốc, và bệnh đồng mắc hoặc tình trạng không dung nạp của người bệnh. Thường cần hai thuốc cho điều trị theo kinh nghiệm. (Xem  <a href="https://www.uptodate.com/contents/principles-of-antimicrobial-therapy-of-pseudomonas-aeruginosa-infections" rel="noopener" target="_blank">"Principles of antimicrobial therapy of <i>Pseudomonas aeruginosa</i> infections"</a>.)</li></ul><p>Với tất cả người bệnh nằm viện có thể khạc được mẫu đờm chất lượng tốt, chúng tôi làm nhuộm Gram và cấy đờm để giúp định hướng xử trí. Với hầu hết những người còn lại, chúng tôi không làm xét nghiệm vi sinh trên đờm vì độ chính xác chẩn đoán hạn chế và kết quả khó làm thay đổi xử trí. (Xem  <a href="danh-gia-nhiem-trung-dot-cap-copd.html">"Đánh giá nhiễm trùng trong đợt cấp bệnh phổi tắc nghẽn mạn tính", mục 'Khi nào cần làm xét nghiệm đờm'</a>.)</p><p>Người bệnh có nghi ngờ lâm sàng viêm phổi đồng thời nên được điều trị bằng phác đồ kháng sinh theo kinh nghiệm dựa trên các tác nhân gây bệnh nghi ngờ, mức độ nặng của bệnh và loại viêm phổi. (Xem  <a href="https://www.uptodate.com/contents/treatment-of-community-acquired-pneumonia-in-adults-who-require-hospitalization" rel="noopener" target="_blank">"Treatment of community-acquired pneumonia in adults who require hospitalization"</a> và  <a href="https://www.uptodate.com/contents/treatment-of-hospital-acquired-and-ventilator-associated-pneumonia-in-adults" rel="noopener" target="_blank">"Treatment of hospital-acquired and ventilator-associated pneumonia in adults"</a>.)</p><p>Chi tiết bổ sung về lựa chọn kháng sinh cho người bệnh đã biết hoặc nghi ngờ nhiễm Pseudomonas được trình bày riêng. (Xem  <a href="https://www.uptodate.com/contents/principles-of-antimicrobial-therapy-of-pseudomonas-aeruginosa-infections" rel="noopener" target="_blank">"Principles of antimicrobial therapy of <i>Pseudomonas aeruginosa</i> infections"</a>.)</p><section class="khoi-bang"><h5 id="g-135124"><span class="nhan-g">Bảng 4: </span><span class="ttl">Các lựa chọn thay thế beta-lactam chống phế cầu trong điều trị theo kinh nghiệm <em>Pseudomonas</em> ở người bệnh nội trú có AECOPD</span></h5><div class="g-noi-dung"><div class="khung-bang utd"><table><colgroup width="35%"></colgroup><colgroup width="65%"></colgroup> <tbody> <tr> <td class="subtitle1_left">Kháng sinh hoặc nhóm kháng sinh</td> <td class="subtitle1_left">Nhận xét</td> </tr> <tr> <td>Ciprofloxacin</td> <td> <ul> <li>Có hoạt tính với <em>Pseudomonas</em> nhưng không có hoạt tính mạnh với <em>Streptococcus pneumoniae</em> và <em>Moraxella catarrhalis</em>, cũng là những nguyên nhân thường gặp gây đợt cấp COPD</li> <li>Là một trong số ít thuốc đường uống có hoạt tính chống Pseudomonas, do đó thường được dành cho điều trị ngoại trú</li> </ul> </td> </tr> <tr> <td>Aztreonam</td> <td> <ul> <li>Không có hoạt tính với <em>S. pneumoniae</em> và các tác nhân gây bệnh Gram dương khác</li> <li>Tình trạng kháng aztreonam ở các chủng Pseudomonas phân lập được cũng thường gặp</li> </ul> </td> </tr> <tr> <td>Carbapenem chống Pseudomonas (ví dụ meropenem, doripenem)</td> <td> <ul> <li>Có hoạt tính với <em>Pseudomonas</em> và các tác nhân gây bệnh COPD thường gặp khác</li> <li>Phổ tác dụng thường rộng hơn mức cần thiết</li> </ul> </td> </tr> <tr> <td>Aminoglycoside (ví dụ tobramycin, gentamicin, amikacin, plazomicin)</td> <td> <ul> <li>Có hoạt tính với <em>Pseudomonas aeruginosa</em> nhưng thường không dùng đơn độc vì hiệu quả lâm sàng không đầy đủ</li> </ul> </td> </tr> </tbody></table></div></div><div class="g-chu graphic_lgnd">Với người bệnh không dung nạp beta-lactam chống phế cầu (ví dụ cefepime, piperacillin-tazobactam), các lựa chọn thay thế gồm ciprofloxacin, aztreonam, một số carbapenem và aminoglycoside. Mỗi thuốc đều có những bất lợi tương đối khi so với các beta-lactam chống Pseudomonas. Chúng tôi thường chọn giữa các thuốc này dựa trên dịch tễ học địa phương, kết quả kháng sinh đồ trước đây, tương tác thuốc, và bệnh đồng mắc hoặc tình trạng không dung nạp của người bệnh. Trong điều trị theo kinh nghiệm, thường cần hai thuốc. Điều trị <em>Pseudomonas</em> được bàn chi tiết trong bài UpToDate.</div><div class="g-chu graphic_footnotes">AECOPD: đợt cấp bệnh phổi tắc nghẽn mạn tính.</div><p class="g-ver">Graphic 135124 Version 1.0</p></section><h3 id="H1215153261">Thời gian điều trị</h3><p>Thời gian điều trị cho người bệnh đang cải thiện trên lâm sàng thường là năm ngày với người bệnh ngoại trú và năm đến bảy ngày với người bệnh nằm viện. Tuy nhiên, azithromycin có thể dùng ngắn chỉ ba ngày khi dùng liều 500 mg đường uống mỗi ngày nhờ thời gian bán thải dài. Người bệnh khởi đầu bằng kháng sinh đường tiêm nên được chuyển sang phác đồ đường uống khi có thể uống thuốc.</p><p>Một phân tích gộp so sánh năm ngày với bảy ngày trở lên điều trị kháng sinh (fluoroquinolone, cefixime hoặc clarithromycin) cho đợt cấp COPD không thấy khác biệt về kết cục giữa hai nhóm, mặc dù có ít biến cố bất lợi hơn ở người bệnh được dùng liệu trình năm ngày [54].</p><p>Một số chuyên gia dùng procalcitonin, một dấu ấn sinh học tăng lên khi đáp ứng với nhiễm vi khuẩn, để định hướng thời gian dùng kháng sinh. Tuy nhiên, tính hữu ích lâm sàng và độ an toàn của việc dùng procalcitonin để định hướng điều trị ở người bệnh có đợt cấp COPD chưa được xác lập vững chắc và việc sử dụng còn gây tranh cãi. (Xem  <a href="https://www.uptodate.com/contents/procalcitonin-use-in-lower-respiratory-tract-infections" rel="noopener" target="_blank">"Procalcitonin use in lower respiratory tract infections", mục 'Acute exacerbations of chronic obstructive pulmonary disease'</a>.)</p><h2 id="H619349333">ĐIỀU TRỊ VIRUS HÔ HẤP</h2><h3 id="H2218383221">Cúm</h3><p>Điều trị kháng virus thường được chỉ định cho người bệnh có đợt cấp COPD khởi phát do virus cúm. Tuy nhiên, lợi ích của điều trị kháng virus giảm dần theo thời gian; do đó, với người bệnh đến khám ≥72 giờ sau khi khởi bệnh, chúng tôi cân nhắc diễn tiến lâm sàng của người bệnh (ví dụ xấu đi/cải thiện) khi quyết định kê đơn. Với người bệnh cúm đồng thời đáp ứng tiêu chuẩn điều trị kháng sinh (tức là ≥2 triệu chứng chính, cần nhập viện và/hoặc hỗ trợ thông khí), chúng tôi điều trị cả kháng virus và kháng sinh.</p><p>Zanamivir dạng hít chống chỉ định ở nhóm người bệnh này do nguy cơ phản ứng đường thở. Có thể dùng các thuốc khác, như oseltamivir đường uống, baloxavir đường uống, hoặc trong một số trường hợp, peramivir hoặc zanamivir đường tĩnh mạch (không có tại Hoa Kỳ). (Xem  <a href="https://www.uptodate.com/contents/seasonal-influenza-in-nonpregnant-adults-treatment" rel="noopener" target="_blank">"Seasonal influenza in nonpregnant adults: Treatment"</a>.)</p><p>Một đợt ngắn corticosteroid toàn thân, ví dụ prednisone 40 mg mỗi ngày trong năm ngày, giúp đợt cấp COPD hồi phục nhanh hơn. Mặc dù chưa được nghiên cứu một cách hệ thống, rất có khả năng lợi ích này cũng có ở các đợt cấp COPD do cúm. Mặc dù nhìn chung chúng tôi tránh dùng corticosteroid toàn thân khi nhiễm cúm vì có thể gây hại, lợi ích có lẽ vượt trội nguy cơ tiềm tàng ở người bệnh đồng thời có đợt cấp COPD. (Xem  <a href="https://www.uptodate.com/contents/seasonal-influenza-in-nonpregnant-adults-treatment" rel="noopener" target="_blank">"Seasonal influenza in nonpregnant adults: Treatment", mục 'Investigational approaches'</a>.)</p><h3 id="H164062497">Bệnh do coronavirus 2019</h3><p>COPD làm tăng bệnh suất và tử vong liên quan đến COVID-19 (do coronavirus gây hội chứng hô hấp cấp tính nặng 2 [SARS-CoV-2]) và chúng tôi xét nghiệm COVID-19 cho tất cả người bệnh COPD có triệu chứng của đợt cấp.</p><p>Không nên thay đổi điều trị chuẩn đợt cấp bằng thuốc giãn phế quản, corticosteroid toàn thân và kháng sinh ở người bệnh có cả COPD và COVID-19 [55]. Tuy nhiên, cần theo dõi sát những người bệnh này để phát hiện tình trạng xấu đi. Do tuổi và bệnh đồng mắc, người bệnh COPD mắc COVID-19 nhiều khả năng là đối tượng của điều trị đặc hiệu COVID-19. (Xem  <a href="https://www.uptodate.com/contents/covid-19-evaluation-and-management-of-adults-with-acute-infection-in-the-outpatient-setting" rel="noopener" target="_blank">"COVID-19: Evaluation and management of adults with acute infection in the outpatient setting"</a> và  <a href="https://www.uptodate.com/contents/covid-19-management-in-hospitalized-adults" rel="noopener" target="_blank">"COVID-19: Management in hospitalized adults"</a>.)</p><h2 id="H3687614106">THEO DÕI</h2><p>Hầu hết người bệnh sẽ có cải thiện phần nào trong vòng 48 đến 72 giờ sau khi bắt đầu điều trị kháng sinh. Với những người không cải thiện, chúng tôi thường cấy đờm (nếu chưa làm) để giúp định hướng các thay đổi tiếp theo trong điều trị kháng sinh, đánh giá lại cách tiếp cận các khía cạnh chăm sóc khác (ví dụ thuốc giãn phế quản, nhu cầu thở máy), cân nhắc các bệnh đồng mắc có thể góp phần, và mở rộng chẩn đoán phân biệt sang các bệnh lý tim phổi khác (ví dụ viêm phổi, suy tim, ung thư phổi). (Xem  <a href="dot-cap-copd-xu-tri.html">"Đợt cấp COPD: Xử trí", mục 'Điều chỉnh điều trị khi đáp ứng kém'</a> và  <a href="https://www.uptodate.com/contents/approach-to-the-patient-with-dyspnea" rel="noopener" target="_blank">"Approach to the patient with dyspnea"</a>.)</p><h2 id="H1248309716">LIÊN KẾT HƯỚNG DẪN CỦA CÁC HỘI CHUYÊN MÔN</h2><p>Liên kết tới các hướng dẫn của hội chuyên môn và của chính phủ từ một số quốc gia và khu vực trên thế giới được cung cấp riêng. (Xem  <a href="https://www.uptodate.com/contents/society-guideline-links-chronic-obstructive-pulmonary-disease" rel="noopener" target="_blank">"Society guideline links: Chronic obstructive pulmonary disease"</a>.)</p><h2 id="H19">TÓM TẮT VÀ KHUYẾN CÁO</h2><ul class="cap-1"><li><strong>Bối cảnh</strong> –<strong> </strong>Hầu hết các đợt cấp bệnh phổi tắc nghẽn mạn tính (COPD) là do nhiễm trùng đường hô hấp. Điều trị kháng sinh theo kinh nghiệm được chỉ định cho những người bệnh có khả năng cao nhất bị nhiễm vi khuẩn gây ra đợt cấp và cho những người bệnh nặng nhất. (Xem <a href="#H1">'Giới thiệu'</a> ở trên.)</li><li><strong>Đặc điểm lâm sàng </strong>– Đợt cấp COPD là một biến cố đặc trưng bởi khó thở và/hoặc ho và khạc đờm nặng lên trong ≤14 ngày và thường liên quan đến tăng viêm đường thở hoặc viêm toàn thân. Hầu hết các đợt cấp COPD là do nhiễm trùng hô hấp. Các triệu chứng chính của đợt cấp COPD gồm (xem <a href="#H1">'Giới thiệu'</a> ở trên và <a href="#H1152952685">'Định nghĩa'</a> ở trên):<ul class="cap-2"><li>Tăng khó thở</li><li>Tăng lượng và/hoặc độ quánh của đờm</li><li>Tăng tính chất mủ của đờm</li></ul></li><li><strong>Khi nào điều trị bằng kháng sinh </strong>–<strong> </strong>Chúng tôi thường xác định nhu cầu dùng kháng sinh dựa trên số triệu chứng chính hiện có và nhu cầu nhập viện và/hoặc hỗ trợ thông khí. Lợi ích của điều trị kháng sinh theo kinh nghiệm lớn nhất ở người bệnh nặng và người bệnh có nhiều triệu chứng hơn nhưng dường như giảm dần khi mức độ nặng của bệnh giảm. (Xem <a href="#H436716092">'Chỉ định điều trị kháng sinh'</a> ở trên.)<ul class="cap-2"><li>Chúng tôi đề nghị điều trị kháng sinh theo kinh nghiệm ở người bệnh có đợt cấp COPD và ≥2 trong 3 triệu chứng chính: tăng khó thở, tăng lượng/độ quánh của đờm, hoặc tăng tính chất mủ của đờm <strong>hoặc</strong> đợt cấp COPD cần nhập viện <strong>và/hoặc</strong> hỗ trợ thông khí (xâm nhập hoặc không xâm nhập) (<a href="https://www.uptodate.com/contents/grade/6" rel="noopener" target="_blank">Grade 2C</a>).</li><li>Chúng tôi <strong>không</strong> bắt đầu điều trị kháng sinh ở người bệnh có đợt cấp COPD chỉ với một trong ba triệu chứng chính và không cần nhập viện hay hỗ trợ thông khí. Khò khè tăng mới khởi phát có thể là một yếu tố dự báo âm tính bổ sung đối với nhiễm vi khuẩn; do đó, nếu đây là dấu hiệu nổi bật, nó khiến chúng tôi tránh dùng kháng sinh.</li></ul></li><li><strong>Phân tầng nguy cơ để định hướng lựa chọn kháng sinh </strong>–<strong> </strong>Chúng tôi sử dụng cách tiếp cận "phân tầng nguy cơ" khi lựa chọn kháng sinh theo kinh nghiệm ban đầu để điều trị đợt cấp COPD. Chúng tôi phân loại người bệnh dựa trên nơi điều trị (ví dụ ngoại trú so với nội trú), nguy cơ có kết cục lâm sàng xấu  (<a class="tham-chieu" href="#g-126161">Bảng 2</a>), và nguy cơ nhiễm <em>Pseudomonas </em> (<a class="tham-chieu" href="#g-126162">Bảng 3</a>). (Xem <a href="#H334582942">'Phân tầng nguy cơ'</a> ở trên.)</li><li><strong>Phác đồ kháng sinh theo kinh nghiệm </strong>– Các phác đồ kháng sinh theo kinh nghiệm được thiết kế nhằm vào các tác nhân gây nhiễm có khả năng cao nhất  (<a class="tham-chieu" href="#g-70203">Bảng 1</a>); lựa chọn cụ thể thay đổi tùy theo tình trạng nguy cơ của người bệnh  (<a class="tham-chieu" href="#g-66357">Thuật toán 1A-B</a>). Khi lựa chọn kháng sinh, chúng tôi cân nhắc tiền sử phơi nhiễm kháng sinh của người bệnh, đáp ứng lâm sàng trước đây với các kháng sinh cụ thể, tình trạng dị ứng và không dung nạp, tương tác thuốc, đặc điểm biến cố bất lợi của thuốc, và kiểu nhạy cảm của các vi sinh vật phân lập được trong các lần cấy đờm gần đây (nếu có). (Xem <a href="#H1105234843">'Lựa chọn kháng sinh'</a> ở trên.)</li><li><strong>Thời gian dùng kháng sinh </strong>– Thời gian điều trị thường là năm ngày với người bệnh ngoại trú và năm đến bảy ngày với hầu hết người bệnh nằm viện. Tuy nhiên, azithromycin có thể dùng ngắn chỉ ba ngày khi dùng liều 500 mg đường uống mỗi ngày nhờ thời gian bán thải dài. (Xem <a href="#H1215153261">'Thời gian điều trị'</a> ở trên.)</li><li><strong>Điều trị kháng virus </strong>– Người bệnh COPD có nguy cơ tăng biến chứng của cúm, vì vậy điều trị kháng virus (ví dụ oseltamivir đường uống hoặc một thuốc đường tĩnh mạch) có thể phù hợp cho các đợt cấp khởi phát do virus cúm, tùy theo thời điểm và kiểu nhạy cảm. Zanamivir dạng hít chống chỉ định ở nhóm người bệnh này do nguy cơ phản ứng đường thở. Tương tự, người bệnh COPD mắc COVID-19 nhiều khả năng là đối tượng của điều trị đặc hiệu COVID-19. (Xem <a href="#H619349333">'Điều trị virus hô hấp'</a> ở trên.)</li></ul><h2 id="H4269480283">LỜI CẢM ƠN</h2><p>UpToDate trân trọng cảm ơn John G Bartlett, MD, người đã đóng góp cho các phiên bản trước của chủ đề này và là Tổng biên tập sáng lập của UpToDate về Bệnh truyền nhiễm.</p><p>Ban biên tập UpToDate cảm ơn Timothy F Murphy, MD, người đã đóng góp cho các phiên bản trước của bài tổng quan chủ đề này.</p>
+<h2 id="tai-lieu-tham-khao">TÀI LIỆU THAM KHẢO</h2>
+<div class="tk"><ol id="reference"><li>Global Initiative for Chronic Obstructive Lung Disease (GOLD). Global Strategy for the Diagnosis, Management and Prevention of Chronic Obstructive Pulmonary Disease: 2026 Report. www.goldcopd.org (Accessed on November 18, 2025).</li><li>Celli BR, Fabbri LM, Aaron SD, et al. An Updated Definition and Severity Classification of Chronic Obstructive Pulmonary Disease Exacerbations: The Rome Proposal. Am J Respir Crit Care Med 2021; 204:1251.</li><li>Anthonisen NR, Manfreda J, Warren CP, et al. Antibiotic therapy in exacerbations of chronic obstructive pulmonary disease. Ann Intern Med 1987; 106:196.</li><li>National Institute for Health and Care Excellence. Chronic obstructive pulmonary disease (acute exacerbation): antimicrobial prescribing. July 2018. https://www.nice.org.uk/guidance/indevelopment/gid-ng10115/documents (Accessed on July 18, 2018).</li><li>Leidy NK, Wilcox TK, Jones PW, et al. Development of the EXAcerbations of Chronic Obstructive Pulmonary Disease Tool (EXACT): a patient-reported outcome (PRO) measure. Value Health 2010; 13:965.</li><li>Petty TL. Definitions in chronic obstructive pulmonary disease. Clin Chest Med 1990; 11:363.</li><li>American Thoracic Society / European Respiratory Society Task Force. Standards for the Diagnosis and Management of Patients with COPD [Internet]. Version 1.2 http://www.thoracic.org/go/copd (Accessed on October 20, 2011).</li><li>Pu C, Mohan A, Sethi S. Clinical features predict new strain bacterial exacerbation of COPD. Am J Respir Crit Care Med 2019; 199:A5962.</li><li>Sethi S, Jones PW, Theron MS, et al. Pulsed moxifloxacin for the prevention of exacerbations of chronic obstructive pulmonary disease: a randomized controlled trial. Respir Res 2010; 11:10.</li><li>Stockley RA, O'Brien C, Pye A, Hill SL. Relationship of sputum color to nature and outpatient management of acute exacerbations of COPD. Chest 2000; 117:1638.</li><li>Miravitlles M, Kruesmann F, Haverstock D, et al. Sputum colour and bacteria in chronic bronchitis exacerbations: a pooled analysis. Eur Respir J 2012; 39:1354.</li><li>Brusse-Keizer MG, Grotenhuis AJ, Kerstjens HA, et al. Relation of sputum colour to bacterial load in acute exacerbations of COPD. Respir Med 2009; 103:601.</li><li>Daniels JM, de Graaff CS, Vlaspolder F, et al. Sputum colour reported by patients is not a reliable marker of the presence of bacteria in acute exacerbations of chronic obstructive pulmonary disease. Clin Microbiol Infect 2010; 16:583.</li><li>Soler N, Esperatti M, Ewig S, et al. Sputum purulence-guided antibiotic use in hospitalised patients with exacerbations of COPD. Eur Respir J 2012; 40:1344.</li><li>Sethi S. Personalised medicine in exacerbations of COPD: the beginnings. Eur Respir J 2012; 40:1318.</li><li>Vollenweider DJ, Frei A, Steurer-Stey CA, et al. Antibiotics for exacerbations of chronic obstructive pulmonary disease. Cochrane Database Syst Rev 2018; 10:CD010257.</li><li>Nouira S, Marghli S, Belghith M, et al. Once daily oral ofloxacin in chronic obstructive pulmonary disease exacerbation requiring mechanical ventilation: a randomised placebo-controlled trial. Lancet 2001; 358:2020.</li><li>Roede BM, Bresser P, Prins JM, et al. Reduced risk of next exacerbation and mortality associated with antibiotic use in COPD. Eur Respir J 2009; 33:282.</li><li>Rothberg MB, Pekow PS, Lahti M, et al. Antibiotic therapy and treatment failure in patients hospitalized for acute exacerbations of chronic obstructive pulmonary disease. JAMA 2010; 303:2035.</li><li>Daniels JM, Snijders D, de Graaff CS, et al. Antibiotics in addition to systemic corticosteroids for acute exacerbations of chronic obstructive pulmonary disease. Am J Respir Crit Care Med 2010; 181:150.</li><li>Stefan MS, Rothberg MB, Shieh MS, et al. Association between antibiotic treatment and outcomes in patients hospitalized with acute exacerbation of COPD treated with systemic steroids. Chest 2013; 143:82.</li><li>Vollenweider DJ, Jarrett H, Steurer-Stey CA, et al. Antibiotics for exacerbations of chronic obstructive pulmonary disease. Cochrane Database Syst Rev 2012; 12:CD010257.</li><li>Llor C, Moragas A, Hernández S, et al. Efficacy of antibiotic therapy for acute exacerbations of mild to moderate chronic obstructive pulmonary disease. Am J Respir Crit Care Med 2012; 186:716.</li><li>Eklöf J, Alispahic IA, Armbruster K, et al. Systemic antibiotics for Pseudomonas aeruginosa infection in outpatients with non-hospitalised exacerbations of pre-existing lung diseases: a randomised clinical trial. Respir Res 2024; 25:236.</li><li>Schuetz P, Wirz Y, Sager R, et al. Procalcitonin to initiate or discontinue antibiotics in acute respiratory tract infections. Cochrane Database Syst Rev 2017; 10:CD007498.</li><li>Daubin C, Valette X, Thiollière F, et al. Procalcitonin algorithm to guide initial antibiotic therapy in acute exacerbations of COPD admitted to the ICU: a randomized multicenter study. Intensive Care Med 2018; 44:428.</li><li>Mathioudakis AG, Chatzimavridou-Grigoriadou V, Corlateanu A, Vestbo J. Procalcitonin to guide antibiotic administration in COPD exacerbations: a meta-analysis. Eur Respir Rev 2017; 26.</li><li>Stolz D, Christ-Crain M, Bingisser R, et al. Antibiotic treatment of exacerbations of COPD: a randomized, controlled trial comparing procalcitonin-guidance with standard therapy. Chest 2007; 131:9.</li><li>Prins HJ, Duijkers R, van der Valk P, et al. CRP-guided antibiotic treatment in acute exacerbations of COPD in hospital admissions. Eur Respir J 2019; 53.</li><li>Butler CC, Gillespie D, White P, et al. C-Reactive Protein Testing to Guide Antibiotic Prescribing for COPD Exacerbations. N Engl J Med 2019; 381:111.</li><li>Sheng W, Huang L, Gu X, et al. Procalcitonin-guided use of antibiotic in hospitalized patients with acute exacerbation of chronic obstructive pulmonary disease: a randomized clinical trial. Clin Microbiol Infect 2025; 31:785.</li><li>Li X, Qiu S, Liu C, et al. Point-of-care testing reduces antibiotic prescribing in acute exacerbations of chronic obstructive pulmonary disease: A systematic review and meta-analysis. Int J Infect Dis 2025; 155:107889.</li><li>Stoller JK. Clinical practice. Acute exacerbations of chronic obstructive pulmonary disease. N Engl J Med 2002; 346:988.</li><li>Snow V, Lascher S, Mottur-Pilson C, Joint Expert Panel on Chronic Obstructive Pulmonary Disease of the American College of Chest Physicians and the American College of Physicians-American Society of Internal Medicine. Evidence base for management of acute exacerbations of chronic obstructive pulmonary disease. Ann Intern Med 2001; 134:595.</li><li>Balter MS, La Forge J, Low DE, et al. Canadian guidelines for the management of acute exacerbations of chronic bronchitis. Can Respir J 2003; 10 Suppl B:3B.</li><li>Miravitlles M, Murio C, Guerrero T. Factors associated with relapse after ambulatory treatment of acute exacerbations of chronic bronchitis. DAFNE Study Group. Eur Respir J 2001; 17:928.</li><li>Wilson R, Jones P, Schaberg T, et al. Antibiotic treatment and factors influencing short and long term outcomes of acute exacerbations of chronic bronchitis. Thorax 2006; 61:337.</li><li>Garcia-Vidal C, Almagro P, Romaní V, et al. Pseudomonas aeruginosa in patients hospitalised for COPD exacerbation: a prospective study. Eur Respir J 2009; 34:1072.</li><li>Parameswaran GI, Sethi S. Pseudomonas infection in chronic obstructive pulmonary disease. Future Microbiol 2012; 7:1129.</li><li>Gallego M, Pomares X, Espasa M, et al. Pseudomonas aeruginosa isolates in severe chronic obstructive pulmonary disease: characterization and risk factors. BMC Pulm Med 2014; 14:103.</li><li>Boixeda R, Almagro P, Díez-Manglano J, et al. Bacterial flora in the sputum and comorbidity in patients with acute exacerbations of COPD. Int J Chron Obstruct Pulmon Dis 2015; 10:2581.</li><li>Sethi S, Murphy TF. Infection in the pathogenesis and course of chronic obstructive pulmonary disease. N Engl J Med 2008; 359:2355.</li><li>Sethi S, Murphy TF. Acute exacerbations of chronic bronchitis: new developments concerning microbiology and pathophysiology--impact on approaches to risk stratification and therapy. Infect Dis Clin North Am 2004; 18:861.</li><li>Metlay JP, Waterer GW, Long AC, et al. Diagnosis and Treatment of Adults with Community-acquired Pneumonia. An Official Clinical Practice Guideline of the American Thoracic Society and Infectious Diseases Society of America. Am J Respir Crit Care Med 2019; 200:e45.</li><li>Chow AW, Benninger MS, Brook I, et al. IDSA clinical practice guideline for acute bacterial rhinosinusitis in children and adults. Clin Infect Dis 2012; 54:e72.</li><li>Siempos II, Dimopoulos G, Korbila IP, et al. Macrolides, quinolones and amoxicillin/clavulanate for chronic bronchitis: a meta-analysis. Eur Respir J 2007; 29:1127.</li><li>van Velzen P, Ter Riet G, Bresser P, et al. Doxycycline for outpatient-treated acute exacerbations of COPD: a randomised double-blind placebo-controlled trial. Lancet Respir Med 2017; 5:492.</li><li>Golden AR, Baxter MR, Davidson RJ, et al. Comparison of antimicrobial resistance patterns in Streptococcus pneumoniae from respiratory and blood cultures in Canadian hospitals from 2007-16. J Antimicrob Chemother 2019; 74:iv39.</li><li>Maesen FP, Davies BI, van den Bergh JJ. Doxycycline and minocycline in the treatment of respiratory infections: a double-blind comparative clinical, microbiological and pharmacokinetic study. J Antimicrob Chemother 1989; 23:123.</li><li>Maesen FP, Davies BI, van Noord JA. Doxycycline in respiratory infections: a re-assessment after 17 years. J Antimicrob Chemother 1986; 18:531.</li><li>Dimopoulos G, Siempos II, Korbila IP, et al. Comparison of first-line with second-line antibiotics for acute exacerbations of chronic bronchitis: a metaanalysis of randomized controlled trials. Chest 2007; 132:447.</li><li>Wilson R, Anzueto A, Miravitlles M, et al. Moxifloxacin versus amoxicillin/clavulanic acid in outpatient acute exacerbations of COPD: MAESTRAL results. Eur Respir J 2012; 40:17.</li><li>Nouira S, Marghli S, Besbes L, et al. Standard versus newer antibacterial agents in the treatment of severe acute exacerbation of chronic obstructive pulmonary disease: a randomized trial of trimethoprim-sulfamethoxazole versus ciprofloxacin. Clin Infect Dis 2010; 51:143.</li><li>Falagas ME, Avgeri SG, Matthaiou DK, et al. Short- versus long-duration antimicrobial treatment for exacerbations of chronic bronchitis: a meta-analysis. J Antimicrob Chemother 2008; 62:442.</li><li>Halpin DMG, Criner GJ, Papi A, et al. Global Initiative for the Diagnosis, Management, and Prevention of Chronic Obstructive Lung Disease. The 2020 GOLD Science Committee Report on COVID-19 and Chronic Obstructive Pulmonary Disease. Am J Respir Crit Care Med 2021; 203:24.</li></ol></div>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3,h4,h5,h6'));
+
+ // mục lục
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=h.textContent;
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat); capNhat();
+
+ // cỡ chữ + nền tối, nhớ lựa chọn
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ apCo();
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ // thu gọn / mở lại cột mục lục (nhớ lựa chọn)
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  // màn hình rộng: nút ≡ mở lại cột đã thu; màn hình hẹp: kéo cột ra/vào
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ // tìm trong bài
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng bộ, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.bo-anh');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+// video YouTube: chỉ tải khi bấm. YouTube trả "Lỗi 153" khi trang không gửi được referrer
+// (mở từ ổ đĩa file:// hoặc khung sandbox) — khi đó mở thẳng tab YouTube.
+(function(){
+ var giay=document.getElementById('toGiay'), ds=giay.querySelectorAll('.yt');
+ if(!ds.length) return;
+ var canEmbed=/^https?:$/.test(location.protocol) &&
+   (typeof window.origin==='undefined' || (window.origin && window.origin!=='null'));
+ var PLAY='<span class="play"><svg viewBox="0 0 68 48"><path fill="#f00" d="M66.5 7.7a8.6 8.6 0 0 0-6-6C55.2 0 34 0 34 0S12.8 0 7.5 1.7a8.6 8.6 0 0 0-6 6A90 90 0 0 0 0 24a90 90 0 0 0 1.5 16.3 8.6 8.6 0 0 0 6 6C12.8 48 34 48 34 48s21.2 0 26.5-1.7a8.6 8.6 0 0 0 6-6A90 90 0 0 0 68 24a90 90 0 0 0-1.5-16.3z"/><path fill="#fff" d="M27 34l18-10-18-10z"/></svg></span>';
+ [].forEach.call(ds,function(b){
+  var id=b.getAttribute('data-id'), n=b.getAttribute('data-n')||'Video', watch='https://www.youtube.com/watch?v='+id;
+  b.innerHTML='<img loading="lazy" src="https://i.ytimg.com/vi/'+id+'/hqdefault.jpg" alt="'+n+'">'+PLAY+'<span class="badge">▶ '+n+'</span>';
+  b.setAttribute('role','button'); b.setAttribute('tabindex','0');
+  var fig=b.closest('figure'), cap=fig&&fig.querySelector('figcaption');
+  if(!cap&&fig){ cap=document.createElement('figcaption'); fig.appendChild(cap); }
+  if(cap){ var a=document.createElement('a'); a.className='ytlink'; a.href=watch; a.target='_blank';
+   a.rel='noopener'; a.textContent='Mở trên YouTube ↗'; cap.appendChild(a); }
+  function load(){
+   if(!canEmbed){ window.open(watch,'_blank','noopener'); return; }
+   b.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+id+'?rel=0&autoplay=1" '+
+    'referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer;autoplay;clipboard-write;'+
+    'encrypted-media;gyroscope;picture-in-picture" allowfullscreen title="'+n+'"></iframe>';
+   b.style.cursor='default';
+  }
+  b.addEventListener('click',load);
+  b.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); load(); } });
+ });
+ if(!canEmbed){
+  var w=document.createElement('div'); w.className='canh-bao';
+  w.innerHTML='<b>Lưu ý:</b> trang đang mở trực tiếp từ ổ đĩa (hoặc trong khung xem trước) nên YouTube chặn phát nhúng '+
+   '(<i>Lỗi 153</i>). Bấm vào video sẽ mở tab YouTube. Đăng trang lên web (https) thì video phát ngay trong trang.';
+  giay.insertBefore(w, giay.firstChild);
+ }
+})();
+</script>
+</body>
+</html>
