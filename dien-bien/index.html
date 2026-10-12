@@ -273,8 +273,8 @@ const PHOI=c=>[
  R('tho','kham','Kiểu thở',c?['Thở êm, không co kéo','Thở nhanh, rút lõm lồng ngực','Thở rên','Thở rít thì hít vào']:['Thở êm, không co kéo','Thở nhanh, co kéo cơ hô hấp phụ'],{line:'p'}),
  R('phoi','kham','Phổi',['Phổi không rale','Ran ẩm {0}','Ran rít, ran ngáy hai phổi','Ran nổ {0}','Rì rào phế nang giảm {0}'],{line:'p',lj:', ',fields:['vị trí']})];
 const BUNG=hep=>[
- R('bung','kham','Bụng',['Bụng mềm','Bụng chướng'],{line:'b'}),
- R('bdau','kham','Điểm đau',hep?['Không điểm đau, không đau vùng gan','Ấn đau {0}','Đau vùng gan']:['Không điểm đau','Ấn đau {0}'],{line:'b',lj:', ',fields:['vị trí']}),
+ R('bung','kham','Bụng',['Bụng mềm không chướng','Bụng chướng'],{line:'b'}),
+ R('bdau','kham','Điểm đau',hep?['Ấn không đau, không đau vùng gan','Ấn đau {0}','Đau vùng gan']:['Ấn không đau','Ấn đau {0}'],{line:'b',lj:', ',fields:['vị trí']}),
  R('gl','kham','Gan lách',['Gan lách không lớn','Gan to {0} cm dưới bờ sườn','Lách to {1}'],{line:'b',lj:', ',fields:['số cm','độ']})];
 const HONG=()=>R('hong','kham','Họng, amidan',['Họng không đỏ, amidan không to','Họng đỏ, amidan không to','Họng đỏ, amidan to độ {0}','Amidan có mủ {1}','Amidan có giả mạc {1}'],{fields:['độ I–IV','vị trí, mô tả']});
 const TAI=()=>R('tai','kham','Tai',['Màng nhĩ bình thường','Màng nhĩ {0}'],{fields:['đỏ, phồng, chảy mủ…']});
@@ -308,7 +308,7 @@ const VT=c=>[
  R('xuong','kham','Xương',['Không biến dạng, không điểm đau chói','Điểm đau chói {0}, nghi gãy xương'],{fields:['vị trí'],def:-1}),
  R('tk','kham','Thần kinh',['Không dấu thần kinh khu trú','Dấu thần kinh khu trú: {0}'],{fields:['mô tả'],def:-1}),
  TIM(),...PHOI(c),
- R('bung','kham','Bụng',['Bụng mềm, không điểm đau','Đau bụng {0}'],{fields:['vị trí']}),
+ ...BUNG(false),
  CLS(['XQ {0}','Siêu âm phần mềm','CT sọ não không cản quang'],[],['vùng, vd bàn tay (P) thẳng nghiêng'])];
 
 const TNGT=c=>[
@@ -335,7 +335,7 @@ const TNGT=c=>[
  TIM(),
  R('rrpn','kham','Rì rào phế nang',['Rì rào phế nang êm dịu hai phế trường','Rì rào phế nang giảm {0}','Mất rì rào phế nang {0}'],{line:'p',fields:['vị trí']}),
  R('ran','kham','Ran',['Phổi không rale','Ran ẩm {0}'],{line:'p',lj:', ',fields:['vị trí']}),
- R('bung','kham','Bụng',['Bụng mềm, không bầm tím, ấn không đau','Bầm tím thành bụng {0}','Ấn đau {0}','Đề kháng, phản ứng phúc mạc {0}','Bụng chướng'],{fields:['vị trí']}),
+ R('bung','kham','Bụng',['Bụng mềm không chướng, không bầm tím, ấn không đau','Bầm tím thành bụng {0}','Ấn đau {0}','Đề kháng, phản ứng phúc mạc {0}','Bụng chướng'],{fields:['vị trí']}),
  R('kc','kham','Khung chậu',['Ép, dạng khung chậu không đau','Ép khung chậu đau']),
  R('cs','kham','Cột sống',['Cột sống không biến dạng, ấn không đau','Ấn đau cột sống {0}'],{fields:['đoạn']}),
  R('chi','kham','Chi',['Tứ chi không biến dạng, vận động được','Biến dạng, đau chói {0}, nghi gãy xương','Sưng nề, bầm tím {0}'],{fields:['vị trí']}),
@@ -354,7 +354,7 @@ const LCH=()=>[
  R('pxc','kham','Phản xạ',['phản xạ gối, gót đều hai bên','phản xạ gót {0} giảm','phản xạ gối {0} giảm'],{line:'l',lj:', ',fields:['bên']}),
  R('yn','kham','Yên ngựa',['Cảm giác vùng hậu môn – sinh dục bình thường','Giảm cảm giác vùng yên ngựa'],{def:-1}),
  R('cbq','kham','Cầu bàng quang',['Không cầu bàng quang','Cầu bàng quang'],{def:-1})];
-const TIMPHOIBUNG=()=>[TIM(),R('phoi','kham','Phổi',['Phổi không rale','Phổi {0}'],{fields:['mô tả']}),R('bung','kham','Bụng',['Bụng mềm, không điểm đau','Bụng {0}'],{fields:['mô tả']})];
+const TIMPHOIBUNG=()=>[TIM(),R('phoi','kham','Phổi',['Phổi không rale','Phổi {0}'],{fields:['mô tả']}),...BUNG(false)];
 const T=[
 // ===================== TRẺ EM =====================
 {id:'c-sot',g:'c',name:'Sốt',rows:[
@@ -417,8 +417,9 @@ const T=[
  TRI_C(),TM_C(),MN_C(),
  R('thop','kham','Thóp',['Thóp phẳng','Thóp lõm'],{def:-1}),
  TIM(),...PHOI(true),
- R('bung','kham','Bụng',['Bụng mềm','Bụng chướng'],{line:'b'}),
- R('bdau','kham','Điểm đau',['Không điểm đau','Ấn đau {0}'],{line:'b',lj:', ',fields:['vị trí']}),
+ R('bung','kham','Bụng',['Bụng mềm không chướng','Bụng chướng'],{line:'b'}),
+ R('bdau','kham','Điểm đau',['Ấn không đau','Ấn đau {0}'],{line:'b',lj:', ',fields:['vị trí']}),
+ R('gl','kham','Gan lách',['Gan lách không lớn','Gan to {0} cm dưới bờ sườn'],{line:'b',lj:', ',fields:['số cm']}),
  R('nd','kham','Nhu động ruột',['Nhu động ruột bình thường','Nhu động ruột tăng','Nhu động ruột giảm'],{line:'b',lj:', '}),
  R('hm','kham','Hậu môn',['Quanh hậu môn không hăm','Hăm đỏ quanh hậu môn'],{def:-1}),
  CLS(['Điện giải đồ','Soi phân','Đường huyết mao mạch'])
@@ -429,12 +430,12 @@ const T=[
  M('kem','bs','Kèm theo',['Nôn {0} lần','Sốt','Tiêu chảy','Táo bón','Đi cầu ra máu nhầy','Bí trung đại tiện','Tiểu buốt'],{line:'a',fields:['số lần'],joiner:'. ',suffix:'.',extra:'Triệu chứng khác'}),
  TT(),
  TRI_C(),TM_C(),MN_C(),TIM(),...PHOI(true),
- R('nhin','kham','Nhìn bụng',['Bụng không chướng','Bụng chướng','Bụng chướng, có quai ruột nổi']),
- R('so','kham','Sờ bụng',['Bụng mềm, không điểm đau khu trú','Ấn đau {0}, không đề kháng','Đề kháng {0}','Co cứng thành bụng'],{fields:['vị trí']}),
+ R('bung','kham','Bụng',['Bụng mềm không chướng','Bụng chướng','Bụng chướng, có quai ruột nổi'],{line:'b'}),
+ R('so','kham','Ấn bụng',['Ấn không đau','Ấn đau {0}, không đề kháng','Đề kháng {0}','Co cứng thành bụng'],{line:'b',lj:', ',fields:['vị trí']}),
+ R('gl','kham','Gan lách',['Gan lách không lớn','Gan to {0} cm dưới bờ sườn'],{line:'b',lj:', ',fields:['số cm']}),
  M('dh','kham','Dấu hiệu',['McBurney (−)','McBurney (+)','Phản ứng dội (+) {0}'],{fields:['vị trí'],def:[0],extra:'khác'}),
  R('khoi','kham','Khối',['Không sờ chạm khối bất thường','Sờ chạm khối hình xúc xích {0}','Sờ chạm khối {0}'],{fields:['vị trí, kích thước']}),
  R('nd','kham','Nhu động ruột',['Nhu động ruột bình thường','Nhu động ruột tăng','Nhu động ruột giảm','Không nghe nhu động ruột']),
- R('gl','kham','Gan lách',['Gan lách không lớn','Gan to {0} cm dưới bờ sườn'],{fields:['số cm']}),
  R('tv','kham','Thoát vị',['Lỗ bẹn không thấy khối thoát vị','Khối thoát vị bẹn {0}'],{fields:['bên, tính chất']}),
  R('tinh','kham','Tinh hoàn',['Tinh hoàn hai bên bình thường','Tinh hoàn {0} sưng đau'],{fields:['bên'],def:-1}),
  CLS(['Tổng phân tích nước tiểu'])
@@ -494,7 +495,7 @@ const T=[
  R('go','kham','Gõ',['Gõ trong','Gõ đục {0}','Gõ vang {0}'],{line:'p',fields:['vị trí'],def:-1}),
  R('rrpn','kham','Rì rào phế nang',['Rì rào phế nang êm dịu hai phế trường','Rì rào phế nang giảm {0}','Mất rì rào phế nang {0}'],{line:'p',lj:', ',fields:['vị trí']}),
  R('ran','kham','Ran',['Phổi không rale','Ran rít, ran ngáy hai phổi','Ran ẩm {0}','Ran nổ {0}'],{line:'p',lj:', ',fields:['vị trí']}),
- R('bung','kham','Bụng',['Bụng mềm, gan lách không lớn','Gan to {0} cm dưới bờ sườn'],{fields:['số cm']}),
+ ...BUNG(false),
  R('chan','kham','Chi dưới',['Không phù, bắp chân không sưng đau','Phù hai chi dưới {0}'],{fields:['mức độ']}),
  CLS(['AFB đàm','Soi cấy đàm','CRP'])
 ]},
@@ -517,7 +518,7 @@ const T=[
  R('go','kham','Gõ',['Gõ trong','Gõ đục {0}','Gõ vang {0}'],{line:'p',fields:['vị trí'],def:-1}),
  R('rrpn','kham','Rì rào phế nang',['Rì rào phế nang êm dịu hai phế trường','Rì rào phế nang giảm {0}','Mất rì rào phế nang {0}'],{line:'p',lj:', ',fields:['vị trí']}),
  R('phoi','kham','Ran',['Phổi không rale','Ran rít, ran ngáy hai phổi','Ran ẩm {0}','Ran nổ {0}','Phổi im lặng'],{line:'p',lj:', ',fields:['vị trí']}),
- R('bung','kham','Bụng',['Bụng mềm, gan không to','Gan to {0} cm dưới bờ sườn'],{fields:['số cm']}),
+ ...BUNG(false),
  R('chan','kham','Bắp chân',['Bắp chân không sưng đau','Bắp chân {0} sưng đau'],{fields:['bên']}),
  CLS(['ECG','Khí máu động mạch'])
 ]},
@@ -536,7 +537,7 @@ const T=[
  R('tim','kham','Tim',['Tim đều, T1 T2 rõ, không âm thổi','Tim không đều','Tim nhanh','Âm thổi {0}','Tiếng cọ màng ngoài tim','Tiếng tim mờ'],{fields:['vị trí, cường độ']}),
  ...PHOI(false),
  R('thanh','kham','Thành ngực',['Thành ngực không điểm đau','Ấn đau thành ngực {0}'],{fields:['vị trí'],def:-1}),
- R('bung','kham','Bụng',['Bụng mềm, không điểm đau','Đau thượng vị {0}'],{fields:['mô tả']}),
+ ...BUNG(false),
  R('chan','kham','Chi dưới',['Không phù, bắp chân không sưng đau','Phù chân {0}','Bắp chân {0} sưng đau'],{fields:['bên / mức']}),
  R('tk','kham','Thần kinh',['Không dấu thần kinh khu trú','Dấu thần kinh khu trú: {0}'],{fields:['mô tả']}),
  R('ecg','kham','ECG',['ECG: nhịp xoang, chưa thấy ST chênh','ECG: ST chênh lên {0}','ECG: ST chênh xuống {0}','ECG: {0}'],{fields:['chuyển đạo / mô tả'],def:-1}),
@@ -556,7 +557,7 @@ const T=[
  R('tb','kham','Thăng bằng',['Ngón tay chỉ mũi chính xác, Romberg (−)','Rối tầm {0}','Romberg (+)'],{fields:['bên']}),
  R('dix','kham','Dix–Hallpike',['Nghiệm pháp Dix–Hallpike (−)','Nghiệm pháp Dix–Hallpike (+) {0}'],{fields:['bên'],def:-1}),
  ...TK(false),TIM(),...PHOI(false),
- R('bung','kham','Bụng',['Bụng mềm, không điểm đau']),
+ ...BUNG(false),
  CLS(['ECG','CT sọ não không cản quang','Đường huyết mao mạch'])
 ]},
 {id:'a-db',g:'a',name:'Đau bụng',rows:[
@@ -573,12 +574,12 @@ const T=[
  R('da','kham','Da, niêm',['Da niêm hồng, không vàng','Da niêm nhợt','Vàng da, vàng mắt']),
  R('tim','kham','Tim',['Tim đều, T1 T2 rõ','Tim nhanh','Tim không đều']),
  R('phoi','kham','Phổi',['Phổi không rale','Phổi {0}'],{fields:['mô tả']}),
- R('nhin','kham','Nhìn bụng',['Bụng không chướng, di động đều theo nhịp thở','Bụng chướng','Bụng chướng, có quai ruột nổi','Sẹo mổ cũ {0}'],{fields:['vị trí']}),
- R('so','kham','Sờ bụng',['Bụng mềm, không điểm đau khu trú','Ấn đau {0}, không đề kháng','Đề kháng {0}','Phản ứng phúc mạc {0}','Co cứng thành bụng'],{fields:['vị trí']}),
+ R('bung','kham','Bụng',['Bụng mềm không chướng','Bụng chướng','Bụng chướng, có quai ruột nổi','Bụng mềm không chướng, sẹo mổ cũ {0}'],{line:'b',fields:['vị trí']}),
+ R('so','kham','Ấn bụng',['Ấn không đau','Ấn đau {0}, không đề kháng','Đề kháng {0}','Phản ứng phúc mạc {0}','Co cứng thành bụng'],{line:'b',lj:', ',fields:['vị trí']}),
+ R('gl','kham','Gan lách',['Gan lách không lớn','Gan to {0} cm dưới bờ sườn','Lách to {1}'],{line:'b',lj:', ',fields:['số cm','độ']}),
  M('dh','kham','Dấu hiệu',['Murphy (−)','Murphy (+)','McBurney (−)','McBurney (+)','Rovsing (+)','Phản ứng dội (+) {0}','Rung thận (−)','Rung thận (+) {1}'],{fields:['vị trí','bên'],def:[0,2],extra:'khác'}),
  R('go','kham','Gõ',['Gõ trong','Gõ vang','Gõ đục vùng thấp','Mất vùng đục trước gan'],{def:-1}),
  R('nd','kham','Nhu động ruột',['Nhu động ruột bình thường','Nhu động ruột tăng','Nhu động ruột giảm','Không nghe nhu động ruột']),
- R('gl','kham','Gan lách',['Gan lách không lớn','Gan to {0} cm dưới bờ sườn','Lách to {1}'],{fields:['số cm','độ']}),
  R('tmat','kham','Túi mật',['Túi mật không sờ chạm','Sờ chạm túi mật'],{def:-1}),
  R('khoi','kham','Khối',['Không sờ chạm khối bất thường','Sờ chạm khối {0}'],{fields:['vị trí, kích thước, tính chất']}),
  R('tv','kham','Thoát vị',['Lỗ bẹn, đùi không thấy khối thoát vị','Khối thoát vị {0}'],{fields:['vị trí, tính chất']}),
@@ -593,8 +594,9 @@ const T=[
  M('dt','bs','Dịch tễ',['Ăn thức ăn lạ, ôi thiu','Ăn chung có người cùng triệu chứng','Uống rượu'],{joiner:'. ',suffix:'.'}),
  M('ts','bs','Tiền sử',['đái tháo đường','suy thận','xơ gan'],{prefix:'Tiền sử: ',suffix:'.',extra:'khác'}),
  TRI_A(),TM_A(),MN_A(),TIM(),...PHOI(false),
- R('bung','kham','Bụng',['Bụng mềm','Bụng chướng'],{line:'b'}),
- R('bdau','kham','Điểm đau',['Không điểm đau','Ấn đau {0}'],{line:'b',lj:', ',fields:['vị trí']}),
+ R('bung','kham','Bụng',['Bụng mềm không chướng','Bụng chướng'],{line:'b'}),
+ R('bdau','kham','Điểm đau',['Ấn không đau','Ấn đau {0}'],{line:'b',lj:', ',fields:['vị trí']}),
+ R('gl','kham','Gan lách',['Gan lách không lớn','Gan to {0} cm dưới bờ sườn'],{line:'b',lj:', ',fields:['số cm']}),
  R('nd','kham','Nhu động ruột',['Nhu động ruột bình thường','Nhu động ruột tăng','Nhu động ruột giảm'],{line:'b',lj:', '}),
  CLS(['Điện giải đồ','Chức năng thận','Soi phân'])
 ]},
@@ -605,7 +607,7 @@ const T=[
  M('ts','bs','Tiền sử',['sỏi thận','phì đại tiền liệt tuyến','đái tháo đường','đặt sonde tiểu gần đây'],{prefix:'Tiền sử: ',suffix:'.',extra:'khác'}),
  KINH(),
  TRI_A(),TM_A(),TIM(),...PHOI(false),
- R('bung','kham','Bụng',['Bụng mềm','Bụng chướng'],{line:'b'}),
+ R('bung','kham','Bụng',['Bụng mềm không chướng','Bụng chướng'],{line:'b'}),
  R('cbq','kham','Cầu bàng quang',['không cầu bàng quang','cầu bàng quang {0} cm trên xương mu'],{line:'b',lj:', ',fields:['số cm']}),
  R('hv','kham','Hạ vị',['ấn hạ vị không đau','ấn đau hạ vị'],{line:'b',lj:', '}),
  R('htl','kham','Hố thắt lưng',['Hố thắt lưng hai bên không đầy','Hố thắt lưng {0} đầy'],{line:'t',fields:['bên']}),
@@ -638,6 +640,7 @@ const T=[
  R('tim','kham','Tim',['Tim đều, T1 T2 rõ','Tim loạn nhịp hoàn toàn','Âm thổi {0}'],{fields:['vị trí']}),
  R('dmc','kham','Động mạch cảnh',['Không âm thổi động mạch cảnh','Âm thổi động mạch cảnh {0}'],{fields:['bên'],def:-1}),
  R('phoi','kham','Phổi',['Phổi không rale','Ran ẩm {0}'],{fields:['vị trí']}),
+ ...BUNG(false),
  CLS(['CT sọ não không cản quang','Đường huyết mao mạch','ECG'])
 ]},
 {id:'a-tngt',g:'a',name:'Tai nạn giao thông',rows:TNGT(false)},
