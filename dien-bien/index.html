@@ -730,12 +730,14 @@ const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&qu
 const KEY='dien-bien-nhanh-v1',VER=3;
 let store={},grp='c',lastT={c:'c-sot',a:'a-sot'},tid,cur=0,S,meta={name:'',time:'',dr:'',inc:true};
 try{const d=JSON.parse(localStorage.getItem(KEY)||'{}');
-  if(d.ver===VER){store=d.states||{};if(d.grp==='a'||d.grp==='c')grp=d.grp;if(d.lastT)lastT={...lastT,...d.lastT}}
-  if(d.meta)meta={...meta,...d.meta}}catch(e){}
+  // Mỗi lần mở app là một ca mới: không nạp lại bản nháp, họ tên BN, giờ cũ.
+  // Chỉ giữ tên bác sĩ, tùy chọn chép kèm, nhóm và triệu chứng mở gần nhất.
+  if(d.ver===VER){if(d.grp==='a'||d.grp==='c')grp=d.grp;if(d.lastT)lastT={...lastT,...d.lastT}}
+  if(d.meta){meta.dr=d.meta.dr||'';if(typeof d.meta.inc==='boolean')meta.inc=d.meta.inc}}catch(e){}
 const p2=n=>String(n).padStart(2,'0');
 function nowLocal(){const d=new Date();return`${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}T${p2(d.getHours())}:${p2(d.getMinutes())}`}
 function fmtTime(v){if(!v)return'[..]';const[dt,tm]=v.split('T');const[y,m,d]=dt.split('-');return`${d}/${m}/${y}${tm?' '+tm.slice(0,5):''}`}
-if(!meta.name.trim())meta.time=nowLocal();
+meta.time=nowLocal();
 const list=()=>T.filter(t=>t.g===grp);
 const tp=()=>T.find(t=>t.id===tid&&t.g===grp)||list()[0];
 tid=lastT[grp];
