@@ -259,7 +259,7 @@ mark{background:var(--warnbg);color:var(--warn);font-weight:700;padding:0 1px;bo
 const R=(id,sec,label,opts,o={})=>({id,sec,label,opts,...o});
 const M=(id,sec,label,opts,o={})=>({id,sec,label,opts,multi:true,...o});
 const SEC={bs:'Bệnh sử',kham:'Khám',cls:'Cận lâm sàng',xt:'Xử trí'};
-const SECHEAD={xt:'Xử trí:'};
+const SECHEAD={kham:'Tình trạng lúc nhập khoa cấp cứu:',xt:'Xử trí:'};
 const GROUPS=[{id:'c',name:'Trẻ em'},{id:'a',name:'Người lớn'}];
 
 // ===== các khối dùng chung =====
@@ -704,6 +704,18 @@ const T=[
 ]}
 ];
 
+// tiền căn bản thân và gia đình: dòng cuối phần hỏi bệnh, có ở mọi mẫu
+for(const t of T){
+  const i=t.rows.findIndex(r=>r.id==='ts');const old=i>=0?t.rows.splice(i,1)[0]:null;
+  let items=old?old.opts.slice():(t.g==='c'?['sinh non','tim bẩm sinh','hen phế quản']:['tăng huyết áp','đái tháo đường','bệnh tim mạch']);
+  const fam=items.filter(x=>x.includes('gia đình'));items=items.filter(x=>!x.includes('gia đình')&&x!=='dị ứng');
+  const fields=old&&old.fields?old.fields.slice():[];let k=-1;for(const x of items)for(const m of x.matchAll(/\{(\d+)\}/g))k=Math.max(k,+m[1]);k++;
+  while(fields.length<k)fields.push('ghi rõ');items.push('dị ứng thuốc {'+k+'}');fields[k]='tên thuốc';
+  const last=t.rows.reduce((a,r,j)=>r.sec==='bs'?j:a,-1);
+  t.rows.splice(last+1,0,
+    M('ts','bs','Tiền căn bản thân',items,{tc:'bt',fields,extra:'khác'}),
+    R('tcgd','bs','Tiền căn gia đình',['chưa ghi nhận bất thường',...fam.map(x=>x.replace(/^gia đình\s*/,'')),'{0}'],{tc:'gd',fields:['bệnh gì, ai mắc']}));
+}
 // câu chốt cuối phần khám, có sẵn ở mọi mẫu
 for(const t of T){const k=t.rows.findIndex(r=>r.sec==='cls');t.rows.splice(k<0?t.rows.length:k,0,R('khac','kham','Cơ quan khác',['Các cơ quan khác chưa ghi nhận bất thường'],{auto:true}))}
 // chuẩn hóa: số ô điền, mặc định
@@ -745,14 +757,22 @@ function rowText(r){const o=S[r.id];let t;
   else{if(o.sel<0)return'';t=fill(r.opts[o.sel],o)}
   if(r.suffix)t=t.replace(/[.\s]+$/,'')+r.suffix;
   return(r.prefix||'')+t}
+function tcText(){
+  const br=tp().rows.find(x=>x.id==='ts'),gr=tp().rows.find(x=>x.id==='tcgd'),b=S.ts,g=S.tcgd;
+  const bt=[...b.sel].sort((x,y)=>x-y).map(i=>fill(br.opts[i],b));if(b.x.trim())bt.push(b.x.trim());
+  const gd=g.sel>0?fill(gr.opts[g.sel],g):'';
+  if(g.sel<0)return bt.length?'Tiền căn bản thân: '+bt.join(', ')+'.':'';
+  if(!bt.length&&g.sel===0)return'Tiền căn bản thân và gia đình: chưa ghi nhận bất thường.';
+  return'Tiền căn bản thân: '+(bt.join(', ')||'chưa ghi nhận bất thường')+'. Gia đình: '+(gd||'chưa ghi nhận bất thường')+'.';
+}
 const cap=t=>t.charAt(0).toUpperCase()+t.slice(1);
 const decap=t=>(t.length>1&&t[1]!==t[1].toUpperCase())?t.charAt(0).toLowerCase()+t.slice(1):t;
 function build(){
   const lines=[];let ps=null,pl=null;
-  for(const r of tp().rows){const t=rowText(r);if(!t)continue;
+  for(const r of tp().rows){if(r.tc==='bt')continue;const t=r.tc==='gd'?tcText():rowText(r);if(!t)continue;
     if(ps&&r.sec!==ps&&(r.sec==='kham'||r.sec==='cls'||r.sec==='xt'))lines.push([]);
     if(r.sec!==ps&&SECHEAD[r.sec])lines.push([{t:SECHEAD[r.sec],ok:true}]);
-    const seg={t,ok:S[r.id].ok,sep:r.lj||' '};
+    const seg={t,ok:r.tc==='gd'?(S.ts.ok&&S.tcgd.ok):S[r.id].ok,sep:r.lj||' '};
     if(r.line&&r.line===pl&&lines.length&&lines[lines.length-1].length){if(seg.sep.includes(',')&&!r.keep)seg.t=decap(seg.t);lines[lines.length-1].push(seg)}else{seg.t=cap(seg.t);lines.push([seg])}
     ps=r.sec;pl=r.line||null}
   if(meta.inc){
@@ -769,7 +789,7 @@ function renderTabs(){
   $('#grp').innerHTML=GROUPS.map(g=>`<button class="seg" type="button" data-g="${g.id}" aria-pressed="${g.id===grp}">${g.name}</button>`).join('')+'<span class="seg-k"><kbd>G</kbd> đổi</span>';
   $('#tabs').innerHTML=list().map((t,i)=>`<button class="tab" type="button" data-t="${t.id}" aria-pressed="${t.id===tid}">${esc(t.name)} ${i<10?`<kbd>⇧${(i+1)%10}</kbd>`:''}</button>`).join('');
 }
-function chipLabel(s){return esc(s.replace(/\{[^}]+\}/g,'…'))}
+function chipLabel(s){const t=s.replace(/\{[^}]+\}/g,'…');return esc(t==='…'?'Ghi rõ…':t)}
 function renderForm(){
   const t=tp(),rows=t.rows;let h=`<div class="fhead"><span class="who">${GROUPS.find(g=>g.id===grp).name}</span> ${esc(t.name)}</div>`,ps=null;
   rows.forEach((r,i)=>{
