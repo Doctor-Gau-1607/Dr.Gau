@@ -258,7 +258,8 @@ mark{background:var(--warnbg);color:var(--warn);font-weight:700;padding:0 1px;bo
 <script>
 const R=(id,sec,label,opts,o={})=>({id,sec,label,opts,...o});
 const M=(id,sec,label,opts,o={})=>({id,sec,label,opts,multi:true,...o});
-const SEC={bs:'Bệnh sử',kham:'Khám',cls:'Cận lâm sàng'};
+const SEC={bs:'Bệnh sử',kham:'Khám',cls:'Cận lâm sàng',xt:'Xử trí'};
+const SECHEAD={xt:'Xử trí:'};
 const GROUPS=[{id:'c',name:'Trẻ em'},{id:'a',name:'Người lớn'}];
 
 // ===== các khối dùng chung =====
@@ -309,7 +310,12 @@ const VT=c=>[
  R('tk','kham','Thần kinh',['Không dấu thần kinh khu trú','Dấu thần kinh khu trú: {0}'],{fields:['mô tả'],def:-1}),
  TIM(),...PHOI(c),
  ...BUNG(false),
- CLS(['XQ {0}','Siêu âm phần mềm','CT sọ não không cản quang'],[],['vùng, vd bàn tay (P) thẳng nghiêng'])];
+ CLS(['XQ {0}','Siêu âm phần mềm','CT sọ não không cản quang'],[],['vùng, vd bàn tay (P) thẳng nghiêng']),
+ R('xt1','xt','Rửa',['Rửa vết thương bằng nước muối sinh lý'],{auto:true}),
+ R('xt2','xt','Sát khuẩn',['Sát khuẩn bằng Povidine 10%'],{auto:true}),
+ R('xt3','xt','Gây tê',['Gây tê Lidocain','Gây tê Lidocain {0}'],{auto:true,fields:['nồng độ, liều']}),
+ R('xt4','xt','Khâu',['Khâu cầm máu','Khâu cầm máu {0} mũi'],{auto:true,fields:['số mũi']}),
+ R('xt5','xt','Băng',['Băng ép vết thương'],{auto:true})];
 
 const TNGT=c=>[
  R('cc','bs','Cơ chế',c?['Cách nhập viện {0}, ngồi sau xe máy, té xe.','Cách nhập viện {0}, đi bộ bị {1} tông.','Cách nhập viện {0}, đi xe đạp va chạm với {1}.','Cách nhập viện {0}, {1}.']:['Cách nhập viện {0}, đi xe máy tự té.','Cách nhập viện {0}, đi xe máy va chạm với {1}.','Cách nhập viện {0}, ngồi sau xe máy, té xe.','Cách nhập viện {0}, đi bộ bị {1} tông.','Cách nhập viện {0}, {1}.'],{line:'a',fields:['thời gian, vd 30 phút','phương tiện / mô tả']}),
@@ -744,7 +750,8 @@ const decap=t=>(t.length>1&&t[1]!==t[1].toUpperCase())?t.charAt(0).toLowerCase()
 function build(){
   const lines=[];let ps=null,pl=null;
   for(const r of tp().rows){const t=rowText(r);if(!t)continue;
-    if(ps&&r.sec!==ps&&(r.sec==='kham'||r.sec==='cls'))lines.push([]);
+    if(ps&&r.sec!==ps&&(r.sec==='kham'||r.sec==='cls'||r.sec==='xt'))lines.push([]);
+    if(r.sec!==ps&&SECHEAD[r.sec])lines.push([{t:SECHEAD[r.sec],ok:true}]);
     const seg={t,ok:S[r.id].ok,sep:r.lj||' '};
     if(r.line&&r.line===pl&&lines.length&&lines[lines.length-1].length){if(seg.sep.includes(',')&&!r.keep)seg.t=decap(seg.t);lines[lines.length-1].push(seg)}else{seg.t=cap(seg.t);lines.push([seg])}
     ps=r.sec;pl=r.line||null}
