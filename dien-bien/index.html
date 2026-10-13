@@ -140,6 +140,7 @@ mark{background:var(--warnbg);color:var(--warn);font-weight:700;padding:0 1px;bo
 .app>*,.top>*{min-width:0;max-width:100%}
 .tabs{max-width:100%}
 
+.f-day{flex:0 1 160px}
 .case{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
 .case label,.flab{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:600;color:var(--mute)}
 .case input.in{font:inherit;font-size:15px;font-weight:400;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:8px 10px;width:100%;min-width:0}
@@ -219,12 +220,16 @@ mark{background:var(--warnbg);color:var(--warn);font-weight:700;padding:0 1px;bo
   </header>
   <section class="case" aria-label="Ca bệnh">
     <div class="crow">
+      <div class="segs" id="c-mode" role="group" aria-label="Loại diễn tiến"><button type="button" class="seg" data-md="new">Bệnh mới vào</button><button type="button" class="seg" data-md="fu">Theo dõi</button></div>
+      <label class="f-day" id="c-dayw" hidden>Ngày điều trị thứ<input class="in" id="c-day" inputmode="numeric" autocomplete="off" placeholder="vd 3"></label>
+    </div>
+    <div class="crow">
       <label class="f-name">Họ tên bệnh nhân<input class="in" type="text" id="m-name" autocomplete="off" placeholder="Họ tên (phím N)"></label>
       <div class="f-age"><span class="flab">Tuổi</span><div class="agebox"><input class="in" id="c-age" inputmode="decimal" autocomplete="off" placeholder="vd 45"><div class="segs" id="c-unit" role="group" aria-label="Đơn vị tuổi"><button type="button" class="seg" data-u="y">tuổi</button><button type="button" class="seg" data-u="m">tháng</button></div></div></div>
       <div class="f-sex"><span class="flab">Giới</span><div class="segs" id="c-sex" role="group" aria-label="Giới"><button type="button" class="seg" data-s="M">Nam</button><button type="button" class="seg" data-s="F">Nữ</button></div></div>
       <span class="who" id="c-who"></span>
     </div>
-    <label>Lý do vào viện<input class="in" type="text" id="c-reason" autocomplete="off" placeholder="vd: sốt, đau bụng (phím L)"></label>
+    <label><span id="c-rlab">Lý do vào viện</span><input class="in" type="text" id="c-reason" autocomplete="off" placeholder="vd: sốt, đau bụng (phím L)"></label>
     <div class="match" id="c-match"></div>
     <div class="sugs" id="c-sug"></div>
     <details class="more"><summary>Giờ nhận bệnh, bác sĩ ghi</summary>
@@ -646,10 +651,10 @@ const p2=n=>String(n).padStart(2,'0');
 function nowLocal(){const d=new Date();return`${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}T${p2(d.getHours())}:${p2(d.getMinutes())}`}
 function fmtTime(v){if(!v)return'[..]';const[dt,tm]=v.split('T');const[y,m,d]=dt.split('-');return`${d}/${m}/${y}${tm?' '+tm.slice(0,5):''}`}
 let meta={name:'',time:nowLocal(),dr:'',inc:true};
-let cs={age:'',unit:'y',sex:'',reason:''};   // ca bệnh
+let cs={age:'',unit:'y',sex:'',reason:'',mode:'new',day:''};   // ca bệnh
 let S={},MODE={},FULL={},ASNEAR=[],FOCUS=new Set(),cur=0,VIEW=[];
-try{const d=JSON.parse(localStorage.getItem(KEY)||'{}');if(d.meta){meta.dr=d.meta.dr||'';if(typeof d.meta.inc==='boolean')meta.inc=d.meta.inc}}catch(e){}
-function save(){try{localStorage.setItem(KEY,JSON.stringify({ver:VER,meta:{dr:meta.dr,inc:meta.inc}}))}catch(e){}}
+try{const d=JSON.parse(localStorage.getItem(KEY)||'{}');if(d.meta){meta.dr=d.meta.dr||'';if(typeof d.meta.inc==='boolean')meta.inc=d.meta.inc;if(d.meta.mode==='fu')cs.mode='fu'}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify({ver:VER,meta:{dr:meta.dr,inc:meta.inc,mode:cs.mode}}))}catch(e){}}
 
 const deacc=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/đ/g,'d').replace(/Đ/g,'d').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
 function matched(){const t=' '+deacc(cs.reason)+' ';const pos=m=>Math.min(...m.keys.map(k=>{const i=t.indexOf(' '+k+' ');return i<0?1e9:i}));
@@ -705,10 +710,29 @@ function ensure(r,sel){
 }
 
 // ---------- Dựng danh sách dòng theo ca ----------
+function fuRow(m){
+  const n=m.name.toLowerCase();let o,f=[];
+  if(m.id==='sot'){o=['Hết sốt.','Còn sốt, nhiệt độ cao nhất {0} °C.','Sốt giảm so với hôm qua.','Sốt cao hơn hôm qua.'];f=['°C']}
+  else if(m.id==='vt'){o=['Vết thương khô, không chảy dịch.','Vết thương rỉ dịch {0}.','Vết thương sưng nóng đỏ đau.'];f=['tính chất']}
+  else if(m.id==='tngt'){o=['Đỡ đau nhiều.','Còn đau {0}.','Đau tăng {0}.'];f=['vị trí']}
+  else if(m.id==='tk'){o=['Yếu liệt cải thiện.','Yếu liệt không thay đổi.','Yếu liệt nặng hơn.']}
+  else if(m.id==='cg'){o=['Không lên cơn co giật.','Còn co giật {0} cơn.'];f=['số']}
+  else o=['Hết '+n+'.','Còn '+n+', giảm so với hôm qua.','Còn '+n+', không giảm.',cap(n)+' tăng hơn hôm qua.'];
+  return R('fu_'+m.id,'bs',m.name,o,{line:'fu',fields:f});
+}
 function build(){
   const mods=matched(),sel=mods.map(m=>m.id),ch=isChild(),grp=ch?'c':'a';
   const V=[],rows=[];
   const add=(r,extra={})=>{if(!r._n){norm(r);r._n=1}if(!visible(r,sel))return;ensure(r,sel);const e={type:'row',row:r,...extra};V.push(e);rows.push(e)};
+  const FU=cs.mode==='fu';
+  if(FU){
+    V.push({type:'sec',label:'Diễn tiến',note:'so với hôm qua'});
+    add(R('fu_chung','bs','Tình trạng chung',['Bệnh ổn, diễn tiến tốt hơn.','Bệnh không thay đổi so với hôm qua.','Bệnh diễn tiến nặng hơn.'],{line:'fu0'}));
+    for(const m of mods)add(fuRow(m),{mod:'fu'});
+    add(R('fu_new','bs','Triệu chứng mới',['Không xuất hiện triệu chứng mới.','Xuất hiện thêm {0}.'],{line:'fu',fields:['triệu chứng']}),{mod:'fu'});
+    for(const k of ['hx_an','hx_tieu2','hx_dc'])add(SH[k]);
+    add(HX_X);ASNEAR=[];
+  }else{
   // Hỏi bệnh
   V.push({type:'sec',label:'Hỏi bệnh',note:mods.length?'theo '+mods.map(m=>m.name.toLowerCase()).join(', '):'chưa nhận ra lý do vào viện, dùng mẫu chung'});
   const shared=[],hide=new Set();for(const m of mods){(m.hide||[]).forEach(x=>hide.add(x))}
@@ -738,8 +762,9 @@ function build(){
   let fam=[];for(const m of mods)fam.push(...(m.fam||[]));
   const GD=R('tc_gd','bs','Tiền căn gia đình',['chưa ghi nhận bất thường',...new Set(fam),'{0}'],{dyn:true,tc:'gd',fields:['bệnh gì, ai mắc']});
   add(BT);add(GD);
+  }
   // Khám
-  V.push({type:'sec',label:'Khám',note:'trọng tâm: đầy đủ · liên quan: mục chính · còn lại: một câu, bấm Khác để khám kỹ'});
+  V.push({type:'sec',label:FU?'Khám hôm nay':'Khám',note:'trọng tâm: đầy đủ · liên quan: mục chính · còn lại: một câu, bấm Khác để khám kỹ'});
   const focus=new Set(),near=new Set();for(const m of mods){m.focus.forEach(x=>focus.add(x));(m.near||[]).forEach(x=>near.add(x))}
   ASNEAR.forEach(x=>near.add(x));
   for(const s of SYS){
@@ -755,20 +780,23 @@ function build(){
   }
   add(KHAC);
   // Cận lâm sàng
-  V.push({type:'sec',label:'Cận lâm sàng'});
+  V.push({type:'sec',label:FU?'Cận lâm sàng mới':'Cận lâm sàng'});
   let cl=[...BASE_CLS];for(const m of mods)cl.push(...m.cls);cl=[...new Set(cl)];
   const useBase=!mods.length||mods.some(m=>!m.noBase);
-  const defT=[...(useBase?BASE_CLS:[]),...mods.flatMap(m=>m.clsDef)];
-  add(M('cls','cls','Cận lâm sàng',cl,{dyn:true,defT,prefix:'Cận lâm sàng: ',suffix:'.',extra:'Cận lâm sàng khác',auto:true}));
+  const defT=FU?[]:[...(useBase?BASE_CLS:[]),...mods.flatMap(m=>m.clsDef)];
+  add(M('cls','cls','Cận lâm sàng',cl,{dyn:true,defT,prefix:FU?'Chỉ định cận lâm sàng: ':'Cận lâm sàng: ',suffix:'.',extra:'Cận lâm sàng khác',auto:true}));
   const ord=(S.cls?S.cls.sel:[]).map(i=>S.cls.opts[i]).filter(Boolean);
   if(ord.length){V.push({type:'sec',label:'Kết quả cận lâm sàng đã có',note:'bất thường thì bấm Khác…'});
     for(const t of ord){const k=KQ[t]||{label:t,opts:['chưa có kết quả','chưa ghi nhận bất thường','{0}']};
       const id='kq_'+deacc(t).replace(/ /g,'_');
       const r=(k.multi?M:R)(id,'kq',k.label,k.opts,{kq:true,fold:true,foldN:k.foldN||2,fields:k.fields,def:k.multi?[0]:0,ex0:!!k.multi,auto:true});
       add(r)}}
+  FOCUS=focus;
+  if(FU){V.push({type:'sec',label:'Hướng xử trí'});
+    add(R('fu_ht','ht','Hướng xử trí',['Tiếp tục điều trị theo y lệnh.','Điều chỉnh điều trị: {0}.','Hội chẩn {0}.','Chuyển khoa {0}.','Chuyển tuyến {0}.','Cho xuất viện.'],{fields:['nội dung']}));
+    VIEW=V;return{V,rows,mods,sel}}
   V.push({type:'sec',label:'Tóm tắt bệnh án'});
   add(R('sum','tom','Tóm tắt bệnh án',['Có','Không'],{auto:true,extra:'bổ sung vào tóm tắt'}));
-  FOCUS=focus;
   if(mods.some(m=>m.xt)){V.push({type:'sec',label:'Xử trí'});for(const r of XT)add(r)}
   VIEW=V;return{V,rows,mods,sel};
 }
@@ -822,14 +850,15 @@ function opening(vv='vào viện vì'){
 }
 function compose(){
   const{rows}=build();const lines=[];let ps=null,pl=null,psys=null;
-  lines.push([{t:opening(),ok:!!(cs.age!==''&&cs.sex&&cs.reason.trim())}]);ps='bs';
+  if(cs.mode==='fu')lines.push([{t:`Ngày điều trị thứ ${String(cs.day).trim()||'[..]'}.`,ok:!!String(cs.day).trim()}]);
+  else lines.push([{t:opening(),ok:!!(cs.age!==''&&cs.sex&&cs.reason.trim())}]);ps='bs';
   for(const e of rows){const r=e.row;
     if(r.tc==='bt')continue;
     if(r.id==='sum'){if(S.sum.sel===0){lines.push([]);lines.push([{t:'Tóm tắt bệnh án:',ok:true}]);for(const l of summary(rows))lines.push([{t:l,ok:!/\[\.\.\]/.test(l)}])}ps='tom';pl=null;continue}
     const t=r.tc==='gd'?tcText(rows):rowText(r);if(!t)continue;
-    if(r.sec!==ps&&(r.sec==='kham'||r.sec==='cls'||r.sec==='xt'||r.sec==='kq'))lines.push([]);
+    if(r.sec!==ps&&(r.sec==='kham'||r.sec==='cls'||r.sec==='xt'||r.sec==='kq'||r.sec==='ht'))lines.push([]);
     if(r.sec!==ps&&r.sec==='kq')lines.push([{t:'Kết quả cận lâm sàng:',ok:true}]);
-    if(r.sec!==ps&&r.sec==='kham')lines.push([{t:'Tình trạng lúc nhập khoa cấp cứu:',ok:true}]);
+    if(r.sec!==ps&&r.sec==='kham')lines.push([{t:cs.mode==='fu'?'Khám:':'Tình trạng lúc nhập khoa cấp cứu:',ok:true}]);
     if(r.sec!==ps&&r.sec==='xt')lines.push([{t:'Xử trí:',ok:true}]);
     const ok=r.tc==='gd'?(S.tc_bt.ok&&S.tc_gd.ok):S[r.id].ok;
     const seg={t,ok,sep:r.lj||' '};
@@ -919,6 +948,8 @@ const cAge=$('#c-age'),cReason=$('#c-reason'),mName=$('#m-name'),mTime=$('#m-tim
 function renderCase(){
   document.querySelectorAll('#c-unit .seg').forEach(b=>b.setAttribute('aria-pressed',b.dataset.u===cs.unit));
   document.querySelectorAll('#c-sex .seg').forEach(b=>b.setAttribute('aria-pressed',b.dataset.s===cs.sex));
+  document.querySelectorAll('#c-mode .seg').forEach(b=>b.setAttribute('aria-pressed',b.dataset.md===cs.mode));
+  $('#c-dayw').hidden=cs.mode!=='fu';$('#c-rlab').textContent=cs.mode==='fu'?'Bệnh, triệu chứng đang theo dõi':'Lý do vào viện';
   const mods=matched();
   $('#c-match').innerHTML=mods.length?'<span class="mlab">Khám kỹ:</span> '+mods.map(m=>`<span class="tag">${esc(m.name)}</span>`).join(''):'<span class="mlab">Chưa nhận ra lý do. Gõ hoặc chọn bên dưới.</span>';
   $('#c-sug').innerHTML=MODS.filter(m=>!mods.includes(m)).map(m=>`<button type="button" class="sug" data-m="${m.id}">+ ${esc(m.name)}</button>`).join('');
@@ -927,6 +958,8 @@ function renderCase(){
 function caseChanged(){renderForm();renderOut()}
 cAge.addEventListener('input',()=>{cs.age=cAge.value;caseChanged()});
 cReason.addEventListener('input',()=>{cs.reason=cReason.value;caseChanged()});
+$('#c-mode').addEventListener('click',e=>{const b=e.target.closest('.seg');if(b&&b.dataset.md!==cs.mode){cs.mode=b.dataset.md;delete S.cls;save();caseChanged();toast(cs.mode==='fu'?'Chế độ theo dõi bệnh nhân đang nằm':'Chế độ bệnh nhân mới vào')}});
+$('#c-day').addEventListener('input',e=>{cs.day=e.target.value;renderOut()});
 $('#c-unit').addEventListener('click',e=>{const b=e.target.closest('.seg');if(b){cs.unit=b.dataset.u;caseChanged()}});
 $('#c-sex').addEventListener('click',e=>{const b=e.target.closest('.seg');if(b){cs.sex=cs.sex===b.dataset.s?'':b.dataset.s;caseChanged()}});
 $('#c-sug').addEventListener('click',e=>{const b=e.target.closest('.sug');if(!b)return;const m=MODS.find(x=>x.id===b.dataset.m);
@@ -956,8 +989,8 @@ $('#copy').addEventListener('click',copy);
 $('#mcopy').addEventListener('click',copy);
 $('#mview').addEventListener('click',()=>{document.querySelector('.sheet').scrollIntoView({behavior:'smooth',block:'start'})});
 let armT=0;
-function fillMeta(){mName.value=meta.name;mTime.value=meta.time;mDr.value=meta.dr;mInc.checked=meta.inc;cAge.value=cs.age;cReason.value=cs.reason}
-function reset(){S={};FULL={};cs={age:'',unit:'y',sex:'',reason:''};meta.name='';meta.time=nowLocal();fillMeta();cur=0;renderForm();renderOut();toast('Đã xóa, bắt đầu ca mới');cAge.focus()}
+function fillMeta(){mName.value=meta.name;mTime.value=meta.time;mDr.value=meta.dr;mInc.checked=meta.inc;cAge.value=cs.age;cReason.value=cs.reason;$('#c-day').value=cs.day}
+function reset(){S={};FULL={};cs={age:'',unit:'y',sex:'',reason:'',mode:cs.mode,day:''};meta.name='';meta.time=nowLocal();fillMeta();cur=0;renderForm();renderOut();toast('Đã xóa, bắt đầu ca mới');cAge.focus()}
 function armReset(){const b=$('#reset');if(Date.now()-armT<2000){armT=0;b.classList.remove('arm');b.textContent='Ca mới';reset();return}
   armT=Date.now();b.classList.add('arm');b.textContent='Bấm lần nữa để xóa';setTimeout(()=>{if(Date.now()-armT>=1900){b.classList.remove('arm');b.textContent='Ca mới'}},2000)}
 $('#reset').addEventListener('click',armReset);

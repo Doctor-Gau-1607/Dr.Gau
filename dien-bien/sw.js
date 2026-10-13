@@ -1,6 +1,6 @@
 // Diễn biến nhanh: chạy được khi không có mạng.
 // Đổi số phiên bản khi cập nhật lớn để xóa bộ nhớ đệm cũ.
-const CACHE = 'dien-bien-v13';
+const CACHE = 'dien-bien-v14';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
