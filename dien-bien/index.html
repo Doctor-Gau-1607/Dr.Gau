@@ -710,6 +710,19 @@ function ensure(r,sel){
 }
 
 // ---------- Dựng danh sách dòng theo ca ----------
+// Theo dõi: mỗi hệ liên quan = câu bình thường + 2–3 bất thường hay gặp + Khác…
+const FUN={
+ tt:{c:['Lừ đừ, mệt','Còn dấu mất nước','Xuất huyết dưới da {0}'],a:['Tỉnh, mệt, da niêm nhợt','Còn dấu mất nước','Xuất huyết dưới da {0}']},
+ dm:{n:'Đầu mặt cổ không ghi nhận tổn thương mới',o:['Đau cột sống cổ','Chảy máu tai, mũi','Sưng nề vùng mặt {0}']},
+ tmh:{o:['Họng đỏ','Amidan sưng đỏ, có mủ','Màng nhĩ đỏ, phồng {0}']},
+ tim:{o:['Tim nhanh, T1 T2 rõ','Tim không đều','Âm thổi {0}']},
+ hh:{c:['Thở nhanh, rút lõm lồng ngực','Phổi ran ẩm {0}','Phổi ran rít, ran ngáy'],a:['Thở nhanh, co kéo cơ hô hấp phụ','Phổi ran ẩm {0}','Phổi ran rít, ran ngáy']},
+ bung:{o:['Ấn đau {0}','Bụng chướng','Gan to {0} cm dưới bờ sườn']},
+ tn:{o:['Rung thận (+) {0}','Ấn đau hạ vị','Cầu bàng quang (+)']},
+ tk:{o:['Lơ mơ, Glasgow {0} điểm','Yếu {0}, sức cơ {1}/5','Cổ gượng, dấu màng não (+)']},
+ cxk:{o:['Sưng đau khớp {0}','Ấn đau cột sống {0}','Hạn chế vận động {0}']},
+ vt:{n:'Vết thương khô, không chảy dịch',o:['Vết thương rỉ dịch {0}','Vết thương sưng nóng đỏ đau','Vết thương chảy mủ']},
+};
 function fuRow(m){
   const n=m.name.toLowerCase();let o,f=[];
   if(m.id==='sot'){o=['Hết sốt.','Còn sốt, nhiệt độ cao nhất {0} °C.','Sốt giảm so với hôm qua.','Sốt cao hơn hôm qua.'];f=['°C']}
@@ -771,6 +784,10 @@ function build(){
     const isF=focus.has(s.id),isN=!isF&&near.has(s.id);
     if(!isF&&!isN&&!s.always)continue;
     const nm=s.normal[grp]||'';const inf=s.normal.inf&&ageY()!==null&&ageY()*12<=18?s.normal.inf:nm;
+    if(FU&&(isF||isN)){const f=FUN[s.id]||{o:[]};const nmF=f.n||inf;const ops=f[grp]||f.o||[];
+      const hr=M('fu_sys_'+s.id,'kham',s.name,[nmF,...ops],{ex0:true,def:[0],fuhead:s.id,joiner:', ',dj:true});
+      add(hr,{sys:s.id,head2:true,full:!!FULL[s.id]});
+      if(FULL[s.id])for(const r of s.rows)add(r,{sys:s.id,sub:true});continue}
     if(isF){V.push({type:'sysh',sys:s,lvl:1});for(const r of s.rows)add(r,{sys:s.id,sub:true});continue}
     if(isN){const full=!!FULL[s.id];V.push({type:'sysh',sys:s,lvl:2,full});
       for(const r of s.rows)if(full||(s.mid||[]).includes(r.id))add(r,{sys:s.id,sub:true});continue}
@@ -803,10 +820,10 @@ function build(){
 
 // ---------- Ghép văn bản ----------
 function fill(s,o){return s.replace(/\{(\d+)\}/g,(m,n)=>{const v=o&&o.f[+n]?String(o.f[+n]).trim():'';return v||'[..]'})}
-function rowText(r){const o=S[r.id];let t;if(r.sysrow&&o.sel===1)return'';if(r.id==='sum')return'';
+function rowText(r){const o=S[r.id];let t;if(r.sysrow&&o.sel===1)return'';if(r.fuhead&&FULL[r.fuhead])return'';if(r.id==='sum')return'';
   if(r.kq){let p;if(r.multi){p=[...o.sel].filter(i=>i>0).sort((a,b)=>a-b).map(i=>fill(r.opts[i],o))}else p=o.sel>0?[fill(r.opts[o.sel],o)]:[];
     if(o.x.trim())p.push(o.x.trim());return p.length?r.label+': '+p.join(', ')+'.':''}
-  if(r.multi){const p=[...o.sel].sort((a,b)=>a-b).map(i=>fill(r.opts[i],o));if(o.x.trim())p.push(o.x.trim());if(!p.length)return'';t=p.join(r.joiner||', ')}
+  if(r.multi){let p=[...o.sel].sort((a,b)=>a-b).map(i=>fill(r.opts[i],o));if(o.x.trim())p.push(o.x.trim());if(!p.length)return'';if(r.dj)p=p.map((x,i)=>i?decap(x):x);t=p.join(r.joiner||', ')}
   else{if(o.sel<0)return'';t=fill(r.opts[o.sel],o)}
   if(r.suffix)t=t.replace(/[.\s]+$/,'')+r.suffix;
   return(r.prefix||'')+t}
@@ -881,10 +898,11 @@ let NAV=[];
 function chipLabel(s){const t=s.replace(/\{[^}]+\}/g,'…');return esc(t==='…'?'Ghi rõ…':t)}
 function rowHTML(e,i){
   const r=e.row,o=S[r.id];
-  const cls=['row'];if(e.sub)cls.push('sub');if(r.fold){const fn=r.foldN||1;cls.push('fold');if(o.open||(r.multi?o.sel.some(x=>x>=fn):o.sel>=fn)||o.x.trim())cls.push('unfold')}if(e.head)cls.push('head');if(e.head&&o.sel===1)cls.push('open');
-  let h=`<div class="${cls.join(' ')}" data-i="${i}"><div class="rh"><span class="rl">${esc(r.label)}${r.multi?' <span class="mul">nhiều</span>':''}</span><span class="rs"></span></div><div class="body"><div class="chips">`;
+  const cls=['row'];if(e.sub)cls.push('sub');if(e.head2)cls.push('head');if(r.fold){const fn=r.foldN||1;cls.push('fold');if(o.open||(r.multi?o.sel.some(x=>x>=fn):o.sel>=fn)||o.x.trim())cls.push('unfold')}if(e.head)cls.push('head');if(e.head&&o.sel===1)cls.push('open');
+  let h=`<div class="${cls.join(' ')}" data-i="${i}"><div class="rh"><span class="rl">${esc(r.label)}${r.multi&&!r.fuhead?' <span class="mul">nhiều</span>':''}</span><span class="rs"></span></div><div class="body"><div class="chips">`;
   r.opts.forEach((s,k)=>{h+=`<button type="button" class="chip${e.head&&k===1?' other':''}${r.fold&&k>=(r.foldN||1)?' fx':''}" data-o="${k}" tabindex="-1">${k<9?`<kbd>${k+1}</kbd>`:''}${chipLabel(s)}</button>`});
   if(r.fold)h+=`<button type="button" class="chip other more" data-more="1" tabindex="-1">Khác…</button>`;
+  if(r.fuhead)h+=`<button type="button" class="chip other fullbtn${e.full?' on':''}" data-full="${r.fuhead}" tabindex="-1">${e.full?'Thu gọn':'Khác…'}</button>`;
   if((!r.auto||r.multi)&&!r.ex0)h+=`<button type="button" class="chip zero" data-o="-1" tabindex="-1"><kbd>0</kbd>${r.multi?'Bỏ hết':'Không ghi'}</button>`;
   h+=`</div><div class="fields">`;
   r.fields.forEach((p,k)=>{h+=`<input id="f-${r.id}-${k}" data-f="${k}" placeholder="${esc(p)}" autocomplete="off" hidden>`});
