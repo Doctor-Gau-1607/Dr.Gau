@@ -616,6 +616,22 @@ const XT=[
  R('xt3','xt','Gây tê',['Gây tê Lidocain','Gây tê Lidocain {0}'],{auto:true,fields:['nồng độ, liều']}),
  R('xt4','xt','Khâu',['Khâu cầm máu','Khâu cầm máu {0} mũi'],{auto:true,fields:['số mũi']}),
  R('xt5','xt','Băng',['Băng ép vết thương'],{auto:true})];
+const KQ={
+ 'Tổng phân tích tế bào máu ngoại vi':{label:'CTM',multi:true,opts:['chưa có kết quả','trong giới hạn bình thường','BC {0} G/L','Neu {1} %','Hb {2} g/L','Hct {3} %','MCV {4} fL','MCHC {5} g/L','TC {6} G/L']},
+ 'XQ ngực thẳng':{label:'XQ ngực thẳng',opts:['chưa có kết quả','chưa ghi nhận bất thường','thâm nhiễm {0}','tràn dịch màng phổi {0}','tràn khí màng phổi {0}','bóng tim to','{1}'],fields:['vị trí / bên','mô tả']},
+ 'Siêu âm bụng':{label:'Siêu âm bụng',opts:['chưa có kết quả','chưa ghi nhận bất thường','dịch ổ bụng {0}','túi mật {1}','sỏi {2}','ruột thừa {3}','{4}'],fields:['lượng','mô tả','vị trí, kích thước','mô tả','mô tả']},
+ 'NS1':{label:'NS1',opts:['chưa có kết quả','âm tính','dương tính'],foldN:3},
+ 'CRP':{label:'CRP',opts:['chưa có kết quả','{0} mg/L'],foldN:2},
+ 'Troponin':{label:'Troponin',opts:['chưa có kết quả','{0} ng/L'],foldN:2},
+ 'ECG':{label:'ECG',opts:['chưa có kết quả','nhịp xoang, chưa ghi nhận bất thường','ST chênh lên {0}','ST chênh xuống {0}','rung nhĩ','{1}'],fields:['chuyển đạo','mô tả']},
+ 'Đường huyết mao mạch':{label:'Đường huyết mao mạch',opts:['chưa có kết quả','{0} mmol/L'],foldN:2},
+ 'Tổng phân tích nước tiểu':{label:'TPTNT',multi:true,opts:['chưa có kết quả','chưa ghi nhận bất thường','BC (+)','Nitrit (+)','HC (+)','Protein (+)','Ceton (+)']},
+ 'Điện giải đồ':{label:'Điện giải đồ',opts:['chưa có kết quả','trong giới hạn bình thường','Na {0}, K {1}, Cl {2} mmol/L'],fields:['Na','K','Cl']},
+ 'Chức năng thận':{label:'Chức năng thận',opts:['chưa có kết quả','trong giới hạn bình thường','Ure {0} mmol/L, Creatinin {1} µmol/L'],fields:['ure','creatinin']},
+ 'Khí máu động mạch':{label:'Khí máu',opts:['chưa có kết quả','pH {0}, PaCO2 {1}, PaO2 {2}, HCO3 {3}'],fields:['pH','PaCO2','PaO2','HCO3'],foldN:2},
+ 'CT sọ não không cản quang':{label:'CT sọ não',opts:['chưa có kết quả','chưa ghi nhận bất thường','xuất huyết {0}','nhồi máu {0}','{1}'],fields:['vị trí','mô tả']},
+ 'Amylase, lipase máu':{label:'Amylase, lipase',opts:['chưa có kết quả','trong giới hạn bình thường','tăng: {0}'],fields:['giá trị']},
+};
 const BASE_CLS=['Tổng phân tích tế bào máu ngoại vi','Siêu âm bụng','XQ ngực thẳng'];
 for(const L of [Object.values(SH),[HX_X,KHAC,...XT],...MODS.map(m=>m.hx),...SYS.map(s=>s.rows)])for(const r of L)norm(r);
 function norm2(r){norm(r);return r}
@@ -631,7 +647,7 @@ function nowLocal(){const d=new Date();return`${d.getFullYear()}-${p2(d.getMonth
 function fmtTime(v){if(!v)return'[..]';const[dt,tm]=v.split('T');const[y,m,d]=dt.split('-');return`${d}/${m}/${y}${tm?' '+tm.slice(0,5):''}`}
 let meta={name:'',time:nowLocal(),dr:'',inc:true};
 let cs={age:'',unit:'y',sex:'',reason:''};   // ca bệnh
-let S={},MODE={},FULL={},ASNEAR=[],cur=0,VIEW=[];
+let S={},MODE={},FULL={},ASNEAR=[],FOCUS=new Set(),cur=0,VIEW=[];
 try{const d=JSON.parse(localStorage.getItem(KEY)||'{}');if(d.meta){meta.dr=d.meta.dr||'';if(typeof d.meta.inc==='boolean')meta.inc=d.meta.inc}}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify({ver:VER,meta:{dr:meta.dr,inc:meta.inc}}))}catch(e){}}
 
@@ -692,7 +708,7 @@ function ensure(r,sel){
 function build(){
   const mods=matched(),sel=mods.map(m=>m.id),ch=isChild(),grp=ch?'c':'a';
   const V=[],rows=[];
-  const add=(r,extra={})=>{if(r.def===undefined)norm(r);if(!visible(r,sel))return;ensure(r,sel);const e={type:'row',row:r,...extra};V.push(e);rows.push(e)};
+  const add=(r,extra={})=>{if(!r._n){norm(r);r._n=1}if(!visible(r,sel))return;ensure(r,sel);const e={type:'row',row:r,...extra};V.push(e);rows.push(e)};
   // Hỏi bệnh
   V.push({type:'sec',label:'Hỏi bệnh',note:mods.length?'theo '+mods.map(m=>m.name.toLowerCase()).join(', '):'chưa nhận ra lý do vào viện, dùng mẫu chung'});
   const shared=[],hide=new Set();for(const m of mods){(m.hide||[]).forEach(x=>hide.add(x))}
@@ -744,13 +760,24 @@ function build(){
   const useBase=!mods.length||mods.some(m=>!m.noBase);
   const defT=[...(useBase?BASE_CLS:[]),...mods.flatMap(m=>m.clsDef)];
   add(M('cls','cls','Cận lâm sàng',cl,{dyn:true,defT,prefix:'Cận lâm sàng: ',suffix:'.',extra:'Cận lâm sàng khác',auto:true}));
+  const ord=(S.cls?S.cls.sel:[]).map(i=>S.cls.opts[i]).filter(Boolean);
+  if(ord.length){V.push({type:'sec',label:'Kết quả cận lâm sàng đã có',note:'bất thường thì bấm Khác…'});
+    for(const t of ord){const k=KQ[t]||{label:t,opts:['chưa có kết quả','chưa ghi nhận bất thường','{0}']};
+      const id='kq_'+deacc(t).replace(/ /g,'_');
+      const r=(k.multi?M:R)(id,'kq',k.label,k.opts,{kq:true,fold:true,foldN:k.foldN||2,fields:k.fields,def:k.multi?[0]:0,ex0:!!k.multi,auto:true});
+      add(r)}}
+  V.push({type:'sec',label:'Tóm tắt bệnh án'});
+  add(R('sum','tom','Tóm tắt bệnh án',['Có','Không'],{auto:true,extra:'bổ sung vào tóm tắt'}));
+  FOCUS=focus;
   if(mods.some(m=>m.xt)){V.push({type:'sec',label:'Xử trí'});for(const r of XT)add(r)}
   VIEW=V;return{V,rows,mods,sel};
 }
 
 // ---------- Ghép văn bản ----------
 function fill(s,o){return s.replace(/\{(\d+)\}/g,(m,n)=>{const v=o&&o.f[+n]?String(o.f[+n]).trim():'';return v||'[..]'})}
-function rowText(r){const o=S[r.id];let t;if(r.sysrow&&o.sel===1)return'';
+function rowText(r){const o=S[r.id];let t;if(r.sysrow&&o.sel===1)return'';if(r.id==='sum')return'';
+  if(r.kq){let p;if(r.multi){p=[...o.sel].filter(i=>i>0).sort((a,b)=>a-b).map(i=>fill(r.opts[i],o))}else p=o.sel>0?[fill(r.opts[o.sel],o)]:[];
+    if(o.x.trim())p.push(o.x.trim());return p.length?r.label+': '+p.join(', ')+'.':''}
   if(r.multi){const p=[...o.sel].sort((a,b)=>a-b).map(i=>fill(r.opts[i],o));if(o.x.trim())p.push(o.x.trim());if(!p.length)return'';t=p.join(r.joiner||', ')}
   else{if(o.sel<0)return'';t=fill(r.opts[o.sel],o)}
   if(r.suffix)t=t.replace(/[.\s]+$/,'')+r.suffix;
@@ -763,22 +790,45 @@ function tcText(rows){
   if(!bt.length&&g.sel===0)return'Tiền căn bản thân và gia đình: chưa ghi nhận bất thường.';
   return'Tiền căn bản thân: '+(bt.join(', ')||'chưa ghi nhận bất thường')+'. Gia đình: '+(gd||'chưa ghi nhận bất thường')+'.';
 }
+const normTxt=t=>/^(không|chưa)/i.test(t)||/\(−\)|âm tính|bình thường|không /i.test(t);
+const negTxt=t=>/^(không|chưa)/i.test(t)||/\(−\)|âm tính/i.test(t);
+function summary(rows){
+  const pos=[],neg=[],kq=[];
+  const ly=cs.reason.trim().replace(/[.\s]+$/,'');if(ly)pos.push(decap(ly));
+  for(const e of rows){const r=e.row,o=S[r.id];if(!o)continue;
+    if(r.kem||r.id==='kem_all'){const it=[...o.sel].map(i=>fill(r.opts[i],o).toLowerCase());if(o.x.trim())it.push(o.x.trim());if(it.length)pos.push(...it);continue}
+    if(r.kq){const t=rowText(r);if(t)kq.push(t.replace(/\.$/,''));continue}
+    if(r.sec!=='kham'||r.auto||e.head)continue;
+    if(r.multi){for(const i of o.sel){const t=fill(r.opts[i],o);if(/\(\+\)/.test(t))pos.push(t);else if(FOCUS.has(e.sys)&&negTxt(t))neg.push(t)}continue}
+    if(o.sel<0)continue;const t=fill(r.opts[o.sel],o);
+    if(o.sel>0&&!normTxt(t))pos.push(decap(t));else if(FOCUS.has(e.sys)&&negTxt(t))neg.push(decap(t));
+  }
+  const u=a=>[...new Set(a)];const out=[];
+  out.push(opening('nhập viện vì'));
+  out.push('- Triệu chứng, dấu hiệu dương tính: '+(u(pos).join('; ')||'[..]')+'.');
+  if(neg.length)out.push('- Âm tính nổi bật: '+u(neg).slice(0,10).join('; ')+'.');
+  out.push('- Cận lâm sàng: '+(kq.length?kq.join('; '):'chưa có kết quả')+'.');
+  if(S.sum.x.trim())out.push('- '+cap(S.sum.x.trim()).replace(/[.\s]*$/,'.'));
+  return out;
+}
 const cap=t=>t.charAt(0).toUpperCase()+t.slice(1);
 const decap=t=>(t.length>1&&t[1]!==t[1].toUpperCase())?t.charAt(0).toLowerCase()+t.slice(1):t;
-function opening(){
+function opening(vv='vào viện vì'){
   const a=ageY();const sex=cs.sex==='M'?'nam':cs.sex==='F'?'nữ':'[..]';
   const age=cs.age===''?'[..] tuổi':(cs.unit==='m'?`${String(cs.age).trim()} tháng tuổi`:`${String(cs.age).trim()} tuổi`);
   const who=a!==null&&a<16?'Bệnh nhi':'Bệnh nhân';
   const ly=cs.reason.trim().replace(/[.\s]+$/,'');
-  return`${who} ${sex}, ${age}, vào viện vì ${ly?decap(ly):'[..]'}.`;
+  return`${who} ${sex}, ${age}, ${vv} ${ly?decap(ly):'[..]'}.`;
 }
 function compose(){
   const{rows}=build();const lines=[];let ps=null,pl=null,psys=null;
   lines.push([{t:opening(),ok:!!(cs.age!==''&&cs.sex&&cs.reason.trim())}]);ps='bs';
   for(const e of rows){const r=e.row;
     if(r.tc==='bt')continue;
+    if(r.id==='sum'){if(S.sum.sel===0){lines.push([]);lines.push([{t:'Tóm tắt bệnh án:',ok:true}]);for(const l of summary(rows))lines.push([{t:l,ok:!/\[\.\.\]/.test(l)}])}ps='tom';pl=null;continue}
     const t=r.tc==='gd'?tcText(rows):rowText(r);if(!t)continue;
-    if(r.sec!==ps&&(r.sec==='kham'||r.sec==='cls'||r.sec==='xt'))lines.push([]);
+    if(r.sec!==ps&&(r.sec==='kham'||r.sec==='cls'||r.sec==='xt'||r.sec==='kq'))lines.push([]);
+    if(r.sec!==ps&&r.sec==='kq')lines.push([{t:'Kết quả cận lâm sàng:',ok:true}]);
     if(r.sec!==ps&&r.sec==='kham')lines.push([{t:'Tình trạng lúc nhập khoa cấp cứu:',ok:true}]);
     if(r.sec!==ps&&r.sec==='xt')lines.push([{t:'Xử trí:',ok:true}]);
     const ok=r.tc==='gd'?(S.tc_bt.ok&&S.tc_gd.ok):S[r.id].ok;
@@ -802,9 +852,9 @@ let NAV=[];
 function chipLabel(s){const t=s.replace(/\{[^}]+\}/g,'…');return esc(t==='…'?'Ghi rõ…':t)}
 function rowHTML(e,i){
   const r=e.row,o=S[r.id];
-  const cls=['row'];if(e.sub)cls.push('sub');if(r.fold){cls.push('fold');if(o.open||(r.multi?o.sel.some(x=>x>0):o.sel>0)||o.x.trim())cls.push('unfold')}if(e.head)cls.push('head');if(e.head&&o.sel===1)cls.push('open');
+  const cls=['row'];if(e.sub)cls.push('sub');if(r.fold){const fn=r.foldN||1;cls.push('fold');if(o.open||(r.multi?o.sel.some(x=>x>=fn):o.sel>=fn)||o.x.trim())cls.push('unfold')}if(e.head)cls.push('head');if(e.head&&o.sel===1)cls.push('open');
   let h=`<div class="${cls.join(' ')}" data-i="${i}"><div class="rh"><span class="rl">${esc(r.label)}${r.multi?' <span class="mul">nhiều</span>':''}</span><span class="rs"></span></div><div class="body"><div class="chips">`;
-  r.opts.forEach((s,k)=>{h+=`<button type="button" class="chip${e.head&&k===1?' other':''}${r.fold&&k>0?' fx':''}" data-o="${k}" tabindex="-1">${k<9?`<kbd>${k+1}</kbd>`:''}${chipLabel(s)}</button>`});
+  r.opts.forEach((s,k)=>{h+=`<button type="button" class="chip${e.head&&k===1?' other':''}${r.fold&&k>=(r.foldN||1)?' fx':''}" data-o="${k}" tabindex="-1">${k<9?`<kbd>${k+1}</kbd>`:''}${chipLabel(s)}</button>`});
   if(r.fold)h+=`<button type="button" class="chip other more" data-more="1" tabindex="-1">Khác…</button>`;
   if((!r.auto||r.multi)&&!r.ex0)h+=`<button type="button" class="chip zero" data-o="-1" tabindex="-1"><kbd>0</kbd>${r.multi?'Bỏ hết':'Không ghi'}</button>`;
   h+=`</div><div class="fields">`;
@@ -854,12 +904,12 @@ function choose(i,k){
     else if(!touch)move(1);return}
   if(k<0){if(r.multi){o.sel=[];o.x='';const x=rowEl(i).querySelector('input[data-x]');if(x)x.value=''}else o.sel=-1;o.ok=true;changed(i);if(!touch)move(1);return}
   if(k>=r.opts.length)return;
-  if(r.fold&&k>0){o.open=true;rowEl(i).classList.add('unfold')}
+  if(r.fold&&k>=(r.foldN||1)){o.open=true;rowEl(i).classList.add('unfold')}
   let on=true;
   if(r.multi&&r.ex0){if(k===0){o.sel=[0];on=false}else{const p=o.sel.indexOf(k);if(p>=0){o.sel.splice(p,1);on=false}else o.sel.push(k);o.sel=o.sel.filter(x=>x!==0);if(!o.sel.length)o.sel=[0]}}
   else if(r.multi){const p=o.sel.indexOf(k);if(p>=0){o.sel.splice(p,1);on=false}else o.sel.push(k)}else o.sel=k;
   o.ok=true;changed(i);
-  if(r.kem||r.id==='kem_all'){renderForm();renderOut();cur=i;updCur(false);return}
+  if(r.kem||r.id==='kem_all'||r.id==='cls'){renderForm();renderOut();cur=i;updCur(false);return}
   if(on&&/\{\d+\}/.test(r.opts[k])){const inp=rowEl(i).querySelector(`input[data-f="${(r.opts[k].match(/\{(\d+)\}/)||[])[1]}"]`);if(inp){inp.focus();inp.select()}}
   else if(!r.multi&&!touch)move(1);
 }
