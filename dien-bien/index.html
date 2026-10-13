@@ -139,6 +139,33 @@ mark{background:var(--warnbg);color:var(--warn);font-weight:700;padding:0 1px;bo
 
 .app>*,.top>*{min-width:0;max-width:100%}
 .tabs{max-width:100%}
+
+.case{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.case label,.flab{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:600;color:var(--mute)}
+.case input.in{font:inherit;font-size:15px;font-weight:400;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:8px 10px;width:100%;min-width:0}
+.case input.in:focus{outline:2px solid var(--acc);outline-offset:1px}
+.crow{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:flex-end}
+.f-name{flex:2 1 220px}.f-age{flex:0 1 auto}.f-sex{display:flex;flex-direction:column;gap:4px}
+.agebox{display:flex;gap:6px;align-items:stretch}#c-age{width:5.5em;flex:none}
+.segs{display:inline-flex;border:1.5px solid var(--ink);border-radius:8px;overflow:hidden;align-self:flex-start}
+.segs .seg{padding:7px 14px;font-size:14px}
+.who{font-size:12px;color:var(--mute);padding-bottom:10px}
+.match{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px}
+.mlab{color:var(--mute)}
+.tag{background:var(--acc);color:var(--onacc);border-radius:999px;padding:3px 10px;font-weight:600;font-size:12.5px}
+.sugs{display:flex;flex-wrap:wrap;gap:6px}
+.sug{font:inherit;font-size:12.5px;color:var(--ink);background:var(--bg);border:1px dashed var(--line);border-radius:999px;padding:5px 10px;cursor:pointer;touch-action:manipulation}
+.sug:hover{border-color:var(--acc)}
+.more summary{cursor:pointer;font-size:13px;color:var(--acc);font-weight:600}
+.more .meta{margin-top:10px;border:none;padding:0;background:none}
+.sysh{padding:12px 16px 2px;font-weight:700;display:flex;gap:8px;align-items:center}
+.badge{font-size:11px;font-weight:600;color:var(--onacc);background:var(--acc);border-radius:999px;padding:1px 8px}
+.row.head .rl{font-weight:700}
+.row.sub{box-shadow:inset 3px 0 0 var(--line)}
+.row.head.open{box-shadow:inset 3px 0 0 var(--acc)}
+.chip.other{border-style:dashed}
+@media (max-width:640px){.f-name{flex:1 1 100%}.segs .seg{padding:9px 14px}}
+[hidden]{display:none!important}
 .mbar{display:none}
 @media (max-width:900px){
   .app{padding-block:16px 96px}
@@ -176,38 +203,38 @@ mark{background:var(--warnbg);color:var(--warn);font-weight:700;padding:0 1px;bo
 </head>
 <body>
 
-
 <div class="app">
   <header class="top">
     <div class="brand">
       <h1>Diễn biến nhanh</h1>
-      <p>Ghi cột diễn biến bệnh lúc nhận bệnh bằng phím tắt. Sinh hiệu (M, HA, T°, NT, SpO₂, CN, CC) lấy từ phần điều dưỡng nhập máy nên không ghi lại.</p>
-    </div>
-    <div class="pick">
-      <div class="grp" id="grp" role="group" aria-label="Nhóm tuổi"></div>
-      <nav class="tabs" id="tabs" aria-label="Triệu chứng"></nav>
+      <p>Nhập tuổi, giới và lý do vào viện. Hệ cơ quan liên quan được bày chi tiết; hệ khác chỉ một câu bình thường, bấm <b>Khác</b> để khám kỹ. Sinh hiệu lấy từ phần điều dưỡng nhập máy.</p>
     </div>
   </header>
-  <section class="meta" aria-label="Thông tin ca">
-    <label class="w-name">Họ tên bệnh nhân<input type="text" id="m-name" autocomplete="off" placeholder="Họ tên bệnh nhân (phím N)"></label>
-    <label class="w-time">Ngày giờ nhận bệnh<input type="datetime-local" id="m-time"><button type="button" class="now" id="m-now">Lấy giờ hiện tại</button></label>
-    <label class="w-dr">Bác sĩ ghi<input type="text" id="m-dr" autocomplete="off" placeholder="Họ tên bác sĩ (được nhớ lại)"></label>
-    <label class="chk"><input type="checkbox" id="m-inc"> Chép kèm vào diễn biến</label>
+  <section class="case" aria-label="Ca bệnh">
+    <div class="crow">
+      <label class="f-name">Họ tên bệnh nhân<input class="in" type="text" id="m-name" autocomplete="off" placeholder="Họ tên (phím N)"></label>
+      <div class="f-age"><span class="flab">Tuổi</span><div class="agebox"><input class="in" id="c-age" inputmode="decimal" autocomplete="off" placeholder="vd 45"><div class="segs" id="c-unit" role="group" aria-label="Đơn vị tuổi"><button type="button" class="seg" data-u="y">tuổi</button><button type="button" class="seg" data-u="m">tháng</button></div></div></div>
+      <div class="f-sex"><span class="flab">Giới</span><div class="segs" id="c-sex" role="group" aria-label="Giới"><button type="button" class="seg" data-s="M">Nam</button><button type="button" class="seg" data-s="F">Nữ</button></div></div>
+      <span class="who" id="c-who"></span>
+    </div>
+    <label>Lý do vào viện<input class="in" type="text" id="c-reason" autocomplete="off" placeholder="vd: sốt, đau bụng (phím L)"></label>
+    <div class="match" id="c-match"></div>
+    <div class="sugs" id="c-sug"></div>
+    <details class="more"><summary>Giờ nhận bệnh, bác sĩ ghi</summary>
+      <div class="meta">
+        <label class="w-time">Ngày giờ nhận bệnh<input type="datetime-local" id="m-time"><button type="button" class="now" id="m-now">Lấy giờ hiện tại</button></label>
+        <label class="w-dr">Bác sĩ ghi<input type="text" id="m-dr" autocomplete="off" placeholder="Họ tên bác sĩ (được nhớ lại)"></label>
+        <label class="chk"><input type="checkbox" id="m-inc"> Chép kèm họ tên, giờ vào diễn biến</label>
+      </div>
+    </details>
   </section>
   <p class="legend">
-    <span><kbd>N</kbd> họ tên BN</span>
-    <span><kbd>↑</kbd><kbd>↓</kbd> chọn dòng</span>
-    <span><kbd>1</kbd>–<kbd>9</kbd> chọn ý</span>
-    <span><kbd>0</kbd> không ghi</span>
-    <span><kbd>Enter</kbd> xác nhận, xuống dòng</span>
-    <span><kbd>E</kbd> điền ô trống</span>
-    <span><kbd>C</kbd> sao chép</span>
-    <span><kbd>G</kbd> trẻ em / người lớn</span>
-    <span><kbd>⇧</kbd>+<kbd>1</kbd>–<kbd>0</kbd> hoặc <kbd>[</kbd> <kbd>]</kbd> đổi triệu chứng</span>
-    <span><kbd>?</kbd> tất cả phím</span>
+    <span><kbd>T</kbd> tuổi</span><span><kbd>M</kbd>/<kbd>F</kbd> nam/nữ</span><span><kbd>L</kbd> lý do vào viện</span>
+    <span><kbd>↑</kbd><kbd>↓</kbd> chọn dòng</span><span><kbd>1</kbd>–<kbd>9</kbd> chọn ý</span><span><kbd>2</kbd> ở dòng hệ cơ quan: Khác</span>
+    <span><kbd>Enter</kbd> xác nhận</span><span><kbd>C</kbd> sao chép</span><span><kbd>?</kbd> tất cả phím</span>
   </p>
   <main class="grid">
-    <section class="form" id="form" aria-label="Các dòng khám"></section>
+    <section class="form" id="form" aria-label="Hỏi bệnh và khám"></section>
     <aside class="out">
       <div class="sheet">
         <div class="sheet-h">Diễn biến bệnh</div>
@@ -216,7 +243,7 @@ mark{background:var(--warnbg);color:var(--warn);font-weight:700;padding:0 1px;bo
       <div class="bar">
         <div class="stat" id="stat"></div>
         <div class="acts">
-          <button class="btn ghost" id="reset" type="button">Làm lại mẫu</button>
+          <button class="btn ghost" id="reset" type="button">Ca mới</button>
           <button class="btn" id="copy" type="button">Sao chép <kbd>C</kbd></button>
         </div>
       </div>
@@ -230,20 +257,17 @@ mark{background:var(--warnbg);color:var(--warn);font-weight:700;padding:0 1px;bo
   <div class="help-box" role="dialog" aria-label="Phím tắt">
     <h2>Phím tắt</h2>
     <table>
-      <tr><td><kbd>N</kbd></td><td>Nhập họ tên bệnh nhân (<kbd>Enter</kbd> để quay lại các dòng)</td></tr>
-      <tr><td><kbd>↑</kbd> <kbd>↓</kbd> hoặc <kbd>K</kbd> <kbd>J</kbd></td><td>Lên, xuống dòng</td></tr>
-      <tr><td><kbd>1</kbd>–<kbd>9</kbd></td><td>Chọn ý của dòng. Dòng chọn nhiều ý (kèm theo, cận lâm sàng) thì bấm để bật/tắt. Ý có chỗ trống thì con trỏ nhảy vào ô điền.</td></tr>
-      <tr><td><kbd>Space</kbd></td><td>Chuyển sang ý kế tiếp của dòng</td></tr>
-      <tr><td><kbd>0</kbd></td><td>Không ghi dòng này (dòng chọn nhiều: xóa hết)</td></tr>
-      <tr><td><kbd>Enter</kbd></td><td>Xác nhận ý đang chọn và xuống dòng. Dùng khi khám thấy bình thường.</td></tr>
+      <tr><td><kbd>T</kbd></td><td>Nhập tuổi. <kbd>Enter</kbd> chuyển sang lý do vào viện, <kbd>Enter</kbd> lần nữa vào các dòng</td></tr>
+      <tr><td><kbd>M</kbd> / <kbd>F</kbd></td><td>Giới nam / nữ</td></tr>
+      <tr><td><kbd>L</kbd></td><td>Lý do vào viện</td></tr>
+      <tr><td><kbd>N</kbd></td><td>Họ tên bệnh nhân</td></tr>
+      <tr><td><kbd>↑</kbd> <kbd>↓</kbd></td><td>Lên, xuống dòng</td></tr>
+      <tr><td><kbd>1</kbd>–<kbd>9</kbd></td><td>Chọn ý. Ở dòng hệ cơ quan: <kbd>1</kbd> bình thường, <kbd>2</kbd> Khác (bung chi tiết)</td></tr>
+      <tr><td><kbd>0</kbd></td><td>Không ghi dòng này</td></tr>
+      <tr><td><kbd>Enter</kbd></td><td>Xác nhận và xuống dòng</td></tr>
       <tr><td><kbd>E</kbd> hoặc <kbd>Tab</kbd></td><td>Vào ô điền của dòng</td></tr>
-      <tr><td>Trong ô điền: <kbd>Enter</kbd></td><td>Xong ô, xuống dòng kế</td></tr>
-      <tr><td>Trong ô điền: <kbd>Esc</kbd></td><td>Thoát ô, ở lại dòng</td></tr>
       <tr><td><kbd>C</kbd> hoặc <kbd>Ctrl</kbd>+<kbd>Enter</kbd></td><td>Sao chép toàn bộ diễn biến</td></tr>
-      <tr><td><kbd>G</kbd></td><td>Đổi nhóm Trẻ em / Người lớn</td></tr>
-      <tr><td><kbd>⇧</kbd>+<kbd>1</kbd>–<kbd>9</kbd>, <kbd>0</kbd></td><td>Đổi triệu chứng trong nhóm (⇧0 là mục thứ 10)</td></tr>
-      <tr><td><kbd>[</kbd> <kbd>]</kbd></td><td>Triệu chứng trước / sau (dùng cho mục thứ 11 trở đi)</td></tr>
-      <tr><td><kbd>R</kbd> hai lần</td><td>Làm lại mẫu đang mở</td></tr>
+      <tr><td><kbd>R</kbd> hai lần</td><td>Ca mới</td></tr>
     </table>
     <p>Nếu dùng Unikey, phím chữ vẫn hoạt động khi con trỏ không nằm trong ô điền. Bấm <kbd>Esc</kbd> hoặc <kbd>?</kbd> để đóng.</p>
   </div>
@@ -256,511 +280,415 @@ mark{background:var(--warnbg);color:var(--warn);font-weight:700;padding:0 1px;bo
 <div id="toast" class="toast" hidden></div>
 
 <script>
+// ================= Diễn biến nhanh v2: nhập tuổi, giới, lý do vào viện → app tự trình bày =================
 const R=(id,sec,label,opts,o={})=>({id,sec,label,opts,...o});
 const M=(id,sec,label,opts,o={})=>({id,sec,label,opts,multi:true,...o});
-const SEC={bs:'Bệnh sử',kham:'Khám',cls:'Cận lâm sàng',xt:'Xử trí'};
-const SECHEAD={kham:'Tình trạng lúc nhập khoa cấp cứu:',xt:'Xử trí:'};
-const GROUPS=[{id:'c',name:'Trẻ em'},{id:'a',name:'Người lớn'}];
 
-// ===== các khối dùng chung =====
-const TRI_C=()=>R('tri','kham','Tri giác',['Tỉnh, tiếp xúc tốt','Tỉnh, chơi được','Tỉnh, quấy khóc','Lừ đừ','Li bì, khó đánh thức']);
-const TRI_A=()=>R('tri','kham','Tri giác',['Tỉnh, tiếp xúc tốt','Tỉnh, tiếp xúc chậm','Lơ mơ, Glasgow {0} điểm','Hôn mê, Glasgow {0} điểm'],{fields:['điểm']});
-const TM_C=()=>R('tm','kham','Tưới máu',['Mạch rõ, CRT < 2 giây, chi ấm','Mạch nhẹ, CRT {0} giây, chi mát','Mạch khó bắt, chi lạnh, CRT > 3 giây'],{fields:['CRT']});
-const TM_A=()=>R('tm','kham','Tưới máu',['Da niêm hồng, chi ấm, CRT < 2 giây','Da niêm nhợt, chi ấm','Da tái, vã mồ hôi, chi lạnh, CRT {0} giây'],{fields:['CRT']});
-const MN_C=()=>R('mn','kham','Mất nước',['Không có dấu mất nước','Có mất nước: mắt trũng, uống háo hức, véo da mất chậm','Mất nước nặng: mắt trũng, không uống được, véo da mất rất chậm','Có mất nước: {0}'],{fields:['dấu hiệu']});
-const MN_A=()=>R('mn','kham','Mất nước',['Không dấu mất nước','Mất nước: môi khô, khát, véo da mất chậm','Mất nước nặng: mắt trũng, véo da mất rất chậm, tiểu ít','Mất nước: {0}'],{fields:['dấu hiệu']});
-const TIM=()=>R('tim','kham','Tim',['Tim đều, T1 T2 rõ','Tim nhanh, T1 T2 rõ','Tim không đều','Âm thổi {0}'],{fields:['vị trí, cường độ']});
-const PHOI=c=>[
- R('tho','kham','Kiểu thở',c?['Thở êm, không co kéo','Thở nhanh, rút lõm lồng ngực','Thở rên','Thở rít thì hít vào']:['Thở êm, không co kéo','Thở nhanh, co kéo cơ hô hấp phụ'],{line:'p'}),
- R('phoi','kham','Phổi',['Phổi không rale','Ran ẩm {0}','Ran rít, ran ngáy hai phổi','Ran nổ {0}','Rì rào phế nang giảm {0}'],{line:'p',lj:', ',fields:['vị trí']})];
-const BUNG=hep=>[
- R('bung','kham','Bụng',['Bụng mềm không chướng','Bụng chướng'],{line:'b'}),
- R('bdau','kham','Điểm đau',hep?['Ấn không đau, không đau vùng gan','Ấn đau {0}','Đau vùng gan']:['Ấn không đau','Ấn đau {0}'],{line:'b',lj:', ',fields:['vị trí']}),
- R('gl','kham','Gan lách',['Gan lách không lớn','Gan to {0} cm dưới bờ sườn','Lách to {1}'],{line:'b',lj:', ',fields:['số cm','độ']})];
-const HONG=()=>R('hong','kham','Họng, amidan',['Họng không đỏ, amidan không to','Họng đỏ, amidan không to','Họng đỏ, amidan to độ {0}','Amidan có mủ {1}','Amidan có giả mạc {1}'],{fields:['độ I–IV','vị trí, mô tả']});
-const TAI=()=>R('tai','kham','Tai',['Màng nhĩ bình thường','Màng nhĩ {0}'],{fields:['đỏ, phồng, chảy mủ…']});
-const TK=c=>[...(c?[R('thop','kham','Thóp',['Thóp phẳng','Thóp phồng','Thóp lõm'],{line:'n',def:-1})]:[]),
- R('mnao','kham','Màng não',['Cổ mềm, dấu màng não âm tính','Cổ gượng, dấu màng não {0}'],{line:'n',lj:', ',fields:['Kernig, Brudzinski…']}),
- R('ktru','kham','TK khu trú',['Không dấu thần kinh khu trú','Dấu thần kinh khu trú: {0}'],{line:'n',lj:', ',fields:['mô tả']})];
-const TT=()=>R('tt','bs','Tiêu tiểu',['Tiêu tiểu bình thường.','Tiểu thường, đi cầu lỏng {0} lần/ngày, tính chất phân {1}.','Tiểu ít, đi cầu lỏng {0} lần/ngày, tính chất phân {1}.','Tiểu ít, đi cầu bình thường.','Chưa tiểu {2} giờ.'],{line:'a',fields:['số lần','vd: toàn nước, nhầy máu','số giờ']});
-const TIEU=()=>R('tieu','bs','Tiểu',['Tiểu được.','Tiểu ít.','Chưa tiểu {0} giờ.'],{line:'a',fields:['số giờ']});
-const XH=()=>R('xh','kham','Xuất huyết',['Không xuất huyết dưới da, dấu dây thắt âm tính','Không xuất huyết dưới da, dấu dây thắt dương tính','Xuất huyết {0}','Không xuất huyết dưới da'],{fields:['vị trí, dạng']});
-const KINH=()=>R('kinh','bs','Kinh nguyệt',['Kinh chót {0}.','Đã mãn kinh.'],{fields:['ngày'],def:-1});
-const TC=x=>R('tc','bs','Tiêm chủng',['Tiêm chủng đủ theo lịch.','Chưa tiêm đủ: {0}.','Không rõ tiền sử tiêm chủng.'],{fields:['mũi còn thiếu, vd '+x],def:-1});
-const BASE=['Tổng phân tích tế bào máu ngoại vi','Siêu âm bụng','XQ ngực thẳng','NS1'];
-const CLS=(more,def,fields)=>M('cls','cls','Cận lâm sàng',[...BASE,...more],{def:def||[0,1,2],fields:fields||[],prefix:'Cận lâm sàng: ',suffix:'.',extra:'Cận lâm sàng khác',auto:true});
-const VT=c=>[
- R('cc','bs','Cơ chế',['Cách nhập viện {0}, bị {1} cắt gây vết thương.','Cách nhập viện {0}, té ngã va đập vào {1} gây vết thương.','Cách nhập viện {0}, bị {1} đâm gây vết thương.','Cách nhập viện {0}, bị {1} cắn gây vết thương.','Cách nhập viện {0}, bị {1} gây vết thương.'],{line:'a',fields:['thời gian, vd 1 giờ','tác nhân, vd dao, kính, chó']}),
- M('kem','bs','Kèm theo',['Không bất tỉnh, không nôn','Có bất tỉnh {0} phút','Nôn {1} lần','Đã sơ cứu {2}'],{line:'a',fields:['số phút','số lần','cách sơ cứu'],joiner:'. ',suffix:'.',extra:'khác'}),
- R('uv','bs','Uốn ván',['Đã tiêm phòng uốn ván {0}.','Chưa tiêm phòng uốn ván.','Không rõ tiền sử tiêm phòng uốn ván.'],{fields:[c?'đủ lịch TCMR / mũi cuối':'mũi cuối năm nào']}),
- M('dai','bs','Phòng dại',['Chưa tiêm phòng dại','Đã tiêm phòng dại {0}','Con vật còn sống, theo dõi được','Con vật đã chết hoặc không theo dõi được'],{fields:['ngày, số mũi'],joiner:'. ',suffix:'.'}),
- c?TRI_C():TRI_A(),
- R('tm','kham','Tưới máu',['Da niêm hồng, chi ấm','Da niêm nhợt, chi lạnh']),
- R('loai','kham','Loại, vị trí',['Vết thương {0}','Vết thương rách da {0}','Vết thương đâm thủng {0}','Vết thương dập nát {0}','Vết trầy xước {0}','Vết cắn {0}'],{line:'w',fields:['vị trí, vd vùng trán (P)']}),
- R('kt','kham','Kích thước',['kích thước khoảng {0} x {1} cm','dài khoảng {0} cm','đường kính khoảng {0} cm'],{line:'w',lj:', ',fields:['dài','rộng']}),
- R('sau','kham','Độ sâu',['nông, chưa qua hết lớp da','sâu đến lớp dưới da','sâu đến cân cơ','sâu lộ gân','sâu lộ xương','sâu {0}'],{line:'w',lj:', ',fields:['mô tả']}),
- R('bo','kham','Bờ, mép',['bờ sắc gọn','bờ nham nhở','bờ dập, mất da {0}'],{line:'w',lj:', ',fields:['diện tích']}),
- R('day','kham','Đáy, dị vật',['đáy sạch, không dị vật','đáy bẩn, dính đất cát','có dị vật {0}'],{line:'w',lj:', ',fields:['loại dị vật']}),
- R('mau','kham','Chảy máu',['đã cầm máu','còn rỉ máu','chảy máu thành tia','không chảy máu'],{line:'w',lj:', '}),
- R('xq','kham','Xung quanh',['Xung quanh không sưng nề','Xung quanh sưng nề, bầm tím {0}','Xung quanh sưng nóng đỏ đau {0}'],{fields:['phạm vi']}),
- R('khac2','kham','Vết thương khác',['Không ghi nhận vết thương khác','Vết thương khác: {0}'],{fields:['vị trí, mô tả']}),
- R('ngoai','kham','Ngọn chi',['Đầu chi ấm, mạch rõ, cảm giác và vận động bình thường','Đầu chi {0}'],{fields:['mô tả'],def:-1}),
- R('gan','kham','Gân',['Gấp duỗi các ngón bình thường','Giảm/mất động tác {0}, nghi tổn thương gân'],{fields:['động tác'],def:-1}),
- R('xuong','kham','Xương',['Không biến dạng, không điểm đau chói','Điểm đau chói {0}, nghi gãy xương'],{fields:['vị trí'],def:-1}),
- R('tk','kham','Thần kinh',['Không dấu thần kinh khu trú','Dấu thần kinh khu trú: {0}'],{fields:['mô tả'],def:-1}),
- TIM(),...PHOI(c),
- ...BUNG(false),
- CLS(['XQ {0}','Siêu âm phần mềm','CT sọ não không cản quang'],[],['vùng, vd bàn tay (P) thẳng nghiêng']),
+// ---------- Hỏi bệnh dùng chung ----------
+const SH={
+ hx_an:R('hx_an','bs','Ăn uống',['Ăn uống được.','Ăn uống kém.','Bỏ ăn, bỏ bú.'],{line:'sh'}),
+ hx_tt:R('hx_tt','bs','Tiêu tiểu',['Tiêu tiểu bình thường.','Tiểu thường, đi cầu lỏng {0} lần/ngày, tính chất phân {1}.','Tiểu ít, đi cầu lỏng {0} lần/ngày, tính chất phân {1}.','Tiểu ít, đi cầu bình thường.','Chưa tiểu {2} giờ.','Bí trung đại tiện {3}.','Tiểu thường, tiêu phân đen.','Tiểu buốt, tiểu gắt, đi cầu bình thường.','Tiểu máu.'],{line:'sh',fields:['số lần','vd: toàn nước, nhầy máu','số giờ','thời gian']}),
+ hx_tieu:R('hx_tieu','bs','Tiểu',['Tiểu được.','Tiểu ít.','Chưa tiểu {0} giờ.'],{line:'sh',fields:['số giờ']}),
+ hx_kinh:R('hx_kinh','bs','Kinh nguyệt',['Kinh chót {0}.','Trễ kinh {1}.','Ra huyết âm đạo bất thường.','Đã mãn kinh.'],{sex:'F',ageMin:12,ageMax:55,fields:['ngày','số ngày'],def:-1,defFor:{bung:0,tn:0}}),
+ hx_tc:R('hx_tc','bs','Tiêm chủng',['Tiêm chủng đủ theo lịch.','Chưa tiêm đủ: {0}.','Không rõ tiền sử tiêm chủng.'],{only:'c',fields:['mũi còn thiếu'],def:-1}),
+ hx_uv:R('hx_uv','bs','Uốn ván',['Đã tiêm phòng uốn ván {0}.','Chưa tiêm phòng uốn ván.','Không rõ tiền sử tiêm phòng uốn ván.'],{fields:['mũi cuối năm nào']}),
+};
+const HX_X=R('hx_x','bs','Ghi thêm bệnh sử',['{0}'],{fields:['diễn tiến khác…'],def:-1});
+
+// ---------- Các lý do vào viện ----------
+const MODS=[
+{id:'sot',name:'Sốt',keys:['sot','phat sot','nong sot','sot cao'],focus:['tt','tmh','bung'],
+ hx:[
+  R('sot_bs','bs','Sốt',['Sốt ngày {0}, sốt cao liên tục, đáp ứng hạ sốt kém.','Sốt ngày {0}, sốt từng cơn, đáp ứng hạ sốt.','Sốt ngày {0}, sốt từng cơn, có lạnh run.','Sốt ngày {0}, sốt nhẹ.'],{line:'a',fields:['số ngày']}),
+  R('sot_max','bs','Nhiệt cao nhất',['Nhiệt độ cao nhất {0} °C.'],{line:'a',fields:['°C'],def:-1}),
+  R('sot_ks','bs','Kháng sinh đã dùng',['Đã dùng kháng sinh {0}.','Chưa dùng kháng sinh.'],{line:'a',fields:['tên thuốc, số ngày'],def:-1}),
+  M('sot_kemc','bs','Kèm theo',['Ho, chảy mũi trong','Ho đàm','Nôn {0} lần','Đau họng, nuốt đau','Phát ban','Co giật','Quấy khóc nhiều'],{only:'c',line:'a',fields:['số lần'],def:[0],joiner:'. ',suffix:'.',extra:'Triệu chứng khác'}),
+  M('sot_kema','bs','Kèm theo',['Ho','Đau đầu','Đau cơ, đau khớp','Đau hốc mắt','Đau họng','Nôn {0} lần','Tiểu buốt, tiểu gắt','Phát ban'],{only:'a',line:'a',fields:['số lần'],joiner:'. ',suffix:'.',extra:'Triệu chứng khác'}),
+  M('sot_dtc','bs','Dịch tễ',['Xung quanh có người mắc sốt xuất huyết','Xung quanh có người mắc sởi','Người nhà có triệu chứng tương tự'],{only:'c',joiner:'. ',suffix:'.'}),
+  M('sot_dta','bs','Dịch tễ',['Xung quanh có người mắc sốt xuất huyết','Làm rẫy, đi rừng','Tiếp xúc gia súc','Mới đi về từ {0}'],{only:'a',fields:['nơi'],joiner:'. ',suffix:'.'})],
+ sh:['hx_an','hx_tt','hx_tc'],
+ tc:{c:[],a:['đái tháo đường','xơ gan','đang dùng corticoid','ung thư','suy thận','nghiện rượu']},
+ cls:['NS1','CRP','Tổng phân tích nước tiểu','Cấy máu'],clsDef:['NS1']},
+
+{id:'ho',name:'Ho',keys:['ho','ho khan','ho dam','ho ra mau','khac dam'],focus:['tt','tmh','hh'],
+ hx:[
+  R('ho_bs','bs','Ho',['Ho {0}, ho khan.','Ho {0}, ho đàm {1}.','Ho {0}, ho từng cơn, đỏ mặt, có tiếng rít cuối cơn.','Ho ra máu {0}, lượng khoảng {1}.'],{line:'a',fields:['thời gian','màu đàm / lượng']}),
+  M('ho_kemc','bs','Kèm theo',['Sốt','Chảy mũi trong','Chảy mũi đục','Khò khè','Thở nhanh','Nôn sau cơn ho','Bú kém, bỏ bú'],{only:'c',line:'a',joiner:'. ',suffix:'.',extra:'Triệu chứng khác'}),
+  M('ho_kema','bs','Kèm theo',['Sốt','Khó thở','Đau ngực','Khò khè','Sụt cân','Sốt về chiều, ra mồ hôi đêm','Chảy mũi, đau họng'],{only:'a',line:'a',joiner:'. ',suffix:'.',extra:'Triệu chứng khác'}),
+  M('ho_dt','bs','Dịch tễ',['Người nhà ho kéo dài','Người nhà mắc lao'],{joiner:'. ',suffix:'.'})],
+ sh:['hx_an','hx_tc'],
+ tc:{c:['khò khè tái diễn','sinh non','tim bẩm sinh'],a:['COPD','hen phế quản','lao phổi cũ','suy tim','hút thuốc lá']},
+ cls:['CRP','AFB đàm','Soi cấy đàm'],clsDef:[]},
+
+{id:'kt',name:'Khó thở',keys:['kho tho','tho met','tho nhanh','kho khe','hen','tuc tho','hut hoi'],focus:['tt','tim','hh'],
+ hx:[
+  R('kt_bs','bs','Khó thở',['Khó thở {0}, tăng dần.','Khó thở đột ngột {0}.','Khó thở từng cơn {0}.','Khò khè {0}.'],{line:'a',fields:['thời gian']}),
+  M('kt_dd','bs','Đặc điểm',['Khó thở khi gắng sức.','Khó thở khi nằm, phải ngồi dậy.','Khó thở kịch phát về đêm.','Khó thở cả khi nghỉ.','Khó thở thì thở ra, có tiếng khò khè.'],{only:'a',line:'a',joiner:' '}),
+  R('kt_kp','bs','Khởi phát',['Khởi phát sau sặc, hóc dị vật.','Khởi phát sau nhiễm lạnh.','Khởi phát sau bỏ thuốc.','Khởi phát sau gắng sức.','Khởi phát sau {0}.'],{line:'a',fields:['yếu tố'],def:-1}),
+  M('kt_kemc','bs','Kèm theo',['Sốt','Ho','Chảy mũi','Tím tái','Bú kém, bỏ bú','Khàn tiếng'],{only:'c',line:'a',joiner:'. ',suffix:'.',extra:'Triệu chứng khác'}),
+  M('kt_kema','bs','Kèm theo',['Ho khan','Ho đàm {0}','Sốt','Đau ngực kiểu màng phổi','Ho ra máu','Phù chân','Tăng cân nhanh'],{only:'a',line:'a',fields:['màu đàm'],joiner:'. ',suffix:'.',extra:'Triệu chứng khác'}),
+  R('kt_thuoc','bs','Thuốc đã dùng',['Đã xịt {0} tại nhà, không đỡ.','Đã dùng {0} tại nhà.'],{fields:['tên thuốc, số lần'],def:-1})],
+ sh:['hx_tc'],
+ tc:{c:['khò khè tái diễn','hen phế quản','sinh non','tim bẩm sinh'],a:['COPD','hen phế quản','suy tim','tăng huyết áp','lao phổi']},
+ cls:['ECG','Khí máu động mạch'],clsDef:[]},
+
+{id:'nguc',name:'Đau ngực',keys:['dau nguc','tuc nguc','nang nguc','nhoi nguc','nhoi tim','dau tim'],focus:['tim','hh'],
+ hx:[
+  R('ng_vt','bs','Vị trí',['Đau ngực trái {0}.','Đau sau xương ức {0}.','Đau ngực (P) {0}.','Đau thượng vị lan lên ngực {0}.'],{line:'a',fields:['thời gian, vd 2 giờ']}),
+  R('ng_kieu','bs','Tính chất',['Đau kiểu đè nặng, bóp nghẹt.','Đau kiểu xé, dữ dội.','Đau kiểu châm chích, nhói.','Đau rát bỏng.'],{line:'a'}),
+  R('ng_lan','bs','Hướng lan',['Lan lên hàm, tay trái.','Lan ra sau lưng.','Không lan.','Lan {0}.'],{line:'a',fields:['vị trí']}),
+  R('ng_tg','bs','Thời gian, yếu tố',['Cơn kéo dài trên 20 phút, không giảm khi nghỉ.','Cơn kéo dài vài phút, giảm khi nghỉ.','Đau liên tục.','Đau tăng khi hít sâu, thay đổi tư thế.','Đau tăng khi ấn vào thành ngực.'],{line:'a'}),
+  M('ng_kem','bs','Kèm theo',['vã mồ hôi','khó thở','buồn nôn, nôn','hồi hộp','thoáng ngất','ho ra máu'],{line:'a',prefix:'Kèm ',suffix:'.',extra:'khác'}),
+  R('ng_thuoc','bs','Thuốc đã dùng',['Đã dùng {0} trước khi đến.','Chưa dùng thuốc.'],{fields:['tên thuốc, liều'],def:-1}),
+  M('ng_ytnc','bs','Yếu tố nguy cơ',['tăng huyết áp','đái tháo đường','rối loạn lipid máu','hút thuốc lá','tiền sử bệnh mạch vành','bất động lâu, phẫu thuật gần đây'],{prefix:'Yếu tố nguy cơ: ',suffix:'.',extra:'khác'})],
+ sh:[],tc:{c:[],a:[]},
+ cls:['ECG','Troponin'],clsDef:['ECG','Troponin']},
+
+{id:'dd',name:'Đau đầu, chóng mặt',keys:['dau dau','chong mat','choang','hoa mat','nhuc dau','xay xam','choang vang'],focus:['tk'],
+ hx:[
+  R('dd_kp','bs','Triệu chứng',['Đau đầu {0}.','Chóng mặt {0}.','Đau đầu, chóng mặt {0}.'],{line:'a',fields:['thời gian']}),
+  R('dd_dd','bs','Tính chất đau đầu',['Đau đầu dữ dội đột ngột, đau nhất từ trước tới nay.','Đau đầu âm ỉ vùng {0}.','Đau đầu theo nhịp mạch, một bên.','Đau đầu tăng dần, tăng khi ho, rặn, nằm.'],{line:'a',fields:['vùng']}),
+  R('dd_cm','bs','Kiểu chóng mặt',['Chóng mặt xoay tròn, tăng khi thay đổi tư thế đầu.','Choáng váng, xây xẩm khi đứng dậy.','Chóng mặt kèm mất thăng bằng, đi loạng choạng.'],{line:'a',def:-1}),
+  M('dd_kem','bs','Kèm theo',['Nôn {0} lần','Buồn nôn','Ù tai, nghe kém','Nhìn mờ, nhìn đôi','Sợ ánh sáng','Sốt','Tê yếu chi','Nói khó','Ngất'],{line:'a',fields:['số lần'],joiner:'. ',suffix:'.',extra:'Triệu chứng khác'})],
+ sh:[],tc:{c:[],a:['tăng huyết áp','bỏ thuốc huyết áp','đái tháo đường','rối loạn tiền đình','đau nửa đầu','chấn thương đầu gần đây','đang dùng thuốc chống đông']},
+ cls:['ECG','CT sọ não không cản quang','Đường huyết mao mạch'],clsDef:[]},
+
+{id:'bung',name:'Đau bụng',keys:['dau bung','dau thuong vi','dau ha suon','dau quanh ron','dau ho chau','dau ha vi','dau mo ac'],focus:['bung'],
+ hx:[
+  R('bg_vt','bs','Vị trí',['Đau bụng {1} {0}.','Đau quanh rốn {0}.','Đau khắp bụng {0}.','Đau khởi phát thượng vị, quanh rốn, sau khu trú hố chậu phải, {0}.'],{line:'a',fields:['thời gian','vùng, vd hạ sườn phải']}),
+  R('bg_kieu','bs','Tính chất',['Đau liên tục, âm ỉ.','Đau liên tục, dữ dội.','Đau quặn từng cơn.','Đau quặn từng cơn, có cơn nổi gò.','Khóc thét từng cơn, giữa các cơn chơi bình thường.','Đau rát bỏng.'],{line:'a'}),
+  R('bg_lan','bs','Hướng lan',['Không lan.','Lan ra sau lưng.','Lan lên vai (P).','Lan xuống bẹn, bộ phận sinh dục.','Lan {0}.'],{only:'a',line:'a',fields:['vị trí']}),
+  M('bg_lq','bs','Liên quan',['Đau tăng sau ăn.','Đau giảm sau ăn.','Đau sau ăn nhiều dầu mỡ.','Đau sau uống rượu.','Đau tăng khi đi lại, ho.'],{only:'a',line:'a',joiner:' '}),
+  M('bg_kem','bs','Kèm theo',['Nôn {0} lần','Sốt','Vàng da','Nôn ra máu','Chán ăn','Táo bón','Đi cầu ra máu nhầy'],{line:'a',fields:['số lần'],joiner:'. ',suffix:'.',extra:'Triệu chứng khác'})],
+ sh:['hx_tt','hx_kinh'],
+ tc:{c:[],a:['mổ bụng cũ','sỏi mật','sỏi thận','loét dạ dày tá tràng','uống rượu nhiều']},
+ cls:['Tổng phân tích nước tiểu','Amylase, lipase máu'],clsDef:[]},
+
+{id:'tc',name:'Nôn, tiêu chảy',keys:['non','oi','buon non','non oi','oi mua','tieu chay','di cau long','tieu long','di ngoai'],focus:['tt','bung'],
+ hx:[
+  R('tc_kp','bs','Khởi phát',['Tiêu chảy {0}, {1} lần/ngày.','Nôn {0}, {1} lần/ngày.','Nôn và tiêu chảy {0}, tiêu chảy {1} lần/ngày.'],{line:'a',fields:['thời gian','số lần']}),
+  R('tc_phan','bs','Tính chất phân',['Phân toàn nước.','Phân lỏng, có nhầy.','Phân có nhầy máu.','Phân như nước vo gạo.','Phân lỏng, mùi chua.'],{line:'a'}),
+  M('tc_kem','bs','Kèm theo',['Sốt','Đau bụng quặn','Mót rặn','Nôn {0} lần','Khát nước','Chuột rút','Mệt lả','Bỏ ăn, bỏ bú'],{line:'a',fields:['số lần'],joiner:'. ',suffix:'.',extra:'Triệu chứng khác'}),
+  R('tc_ors','bs','Đã xử trí',['Đã uống ORS tại nhà.','Chưa uống ORS.','Đã dùng {0}.'],{fields:['tên thuốc'],def:-1}),
+  M('tc_dt','bs','Dịch tễ',['Ăn thức ăn lạ, ôi thiu','Ăn chung có người cùng triệu chứng','Uống rượu'],{joiner:'. ',suffix:'.'})],
+ sh:['hx_tieu'],hide:['hx_tt'],
+ tc:{c:[],a:['đái tháo đường','suy thận','xơ gan']},
+ cls:['Điện giải đồ','Chức năng thận','Soi phân','Đường huyết mao mạch'],clsDef:['Điện giải đồ']},
+
+{id:'tn',name:'Tiểu khó',keys:['tieu kho','tieu buot','tieu gat','bi tieu','tieu mau','tieu rat','tieu nhieu lan','tieu lat nhat'],focus:['tn'],
+ hx:[
+  R('tn_tr','bs','Triệu chứng',['Tiểu khó {0}.','Tiểu buốt, tiểu gắt {0}.','Bí tiểu {0}.','Tiểu máu {0}.'],{line:'a',fields:['thời gian']}),
+  M('tn_dd','bs','Đặc điểm',['Tiểu lắt nhắt nhiều lần.','Tia tiểu yếu, phải rặn.','Tiểu đục.','Tiểu máu toàn bãi.','Tiểu ra sỏi.'],{line:'a',joiner:' '}),
+  M('tn_kem','bs','Kèm theo',['Sốt, ớn lạnh','Đau hông lưng {0}','Đau hạ vị','Buồn nôn, nôn'],{line:'a',fields:['bên'],joiner:'. ',suffix:'.',extra:'Triệu chứng khác'})],
+ sh:['hx_kinh'],hide:['hx_tt'],
+ tc:{c:[],a:['sỏi thận','phì đại tiền liệt tuyến','đái tháo đường','đặt sonde tiểu gần đây']},
+ cls:['Tổng phân tích nước tiểu','Chức năng thận'],clsDef:['Tổng phân tích nước tiểu']},
+
+{id:'cg',name:'Co giật',keys:['co giat','len con co giat','giat kinh'],focus:['tk','tmh'],
+ hx:[
+  R('cg_bs','bs','Cơn giật',['Co giật {0} trước nhập viện, {1} cơn.'],{line:'a',fields:['thời gian','số']}),
+  R('cg_kieu','bs','Kiểu cơn',['Co giật toàn thân, co cứng rồi co giật.','Co giật cục bộ {0}.','Cơn mềm nhũn, mắt trợn.'],{line:'a',fields:['vị trí']}),
+  R('cg_tg','bs','Thời gian cơn',['Cơn kéo dài dưới 5 phút.','Cơn kéo dài {0} phút.'],{line:'a',fields:['số phút']}),
+  R('cg_sau','bs','Sau cơn',['Sau cơn tỉnh lại hoàn toàn.','Sau cơn ngủ li bì.','Sau cơn chưa tỉnh hẳn.'],{line:'a'}),
+  M('cg_kem','bs','Kèm theo',['Sốt','Nôn','Tiêu chảy','Ho, chảy mũi','Đau đầu','Chấn thương đầu'],{line:'a',joiner:'. ',suffix:'.',extra:'Triệu chứng khác'})],
+ sh:['hx_tc'],
+ tc:{c:['đã từng sốt co giật','động kinh','chậm phát triển'],a:['động kinh','uống rượu nhiều','đái tháo đường']},fam:['có người sốt co giật hoặc động kinh'],
+ cls:['Đường huyết mao mạch','Điện giải đồ','CRP'],clsDef:['Đường huyết mao mạch']},
+
+{id:'tk',name:'Yếu liệt, đột quỵ',keys:['yeu','liet','yeu liet','yeu nua nguoi','meo mieng','noi kho','dot quy','te nua nguoi','tai bien'],focus:['tk','tim'],
+ hx:[
+  R('tk_kp','bs','Khởi phát',['Yếu nửa người, khởi phát {0}, bình thường lần cuối lúc {1}.','Méo miệng, nói khó, khởi phát {0}, bình thường lần cuối lúc {1}.','Đau đầu dữ dội đột ngột, khởi phát {0}.','Chóng mặt, đi đứng loạng choạng, khởi phát {0}.'],{line:'a',fields:['khởi phát','giờ bình thường cuối']}),
+  R('tk_dtien','bs','Diễn tiến',['Triệu chứng nặng dần.','Triệu chứng không thay đổi.','Triệu chứng cải thiện dần.'],{line:'a',def:-1}),
+  M('tk_kem','bs','Kèm theo',['nôn','co giật','đau đầu','tê nửa người','nhìn mờ, nhìn đôi','nuốt sặc','rối loạn ý thức'],{line:'a',prefix:'Kèm ',suffix:'.',extra:'khác'})],
+ sh:[],tc:{c:[],a:['tăng huyết áp','đái tháo đường','rung nhĩ','đột quỵ cũ','đang dùng thuốc chống đông']},
+ cls:['CT sọ não không cản quang','Đường huyết mao mạch','ECG'],clsDef:['CT sọ não không cản quang','Đường huyết mao mạch']},
+
+{id:'vt',name:'Vết thương',keys:['vet thuong','dut tay','dut chan','rach da','cho can','meo can','bi can','bi cat','bi dam','vet cat','vet rach'],focus:['vt','cxk'],noBase:true,
+ hx:[
+  R('vt_cc','bs','Cơ chế',['Cách nhập viện {0}, bị {1} cắt gây vết thương.','Cách nhập viện {0}, té ngã va đập vào {1} gây vết thương.','Cách nhập viện {0}, bị {1} đâm gây vết thương.','Cách nhập viện {0}, bị {1} cắn gây vết thương.','Cách nhập viện {0}, bị {1} gây vết thương.'],{line:'a',fields:['thời gian, vd 1 giờ','tác nhân, vd dao, kính, chó']}),
+  M('vt_kem','bs','Kèm theo',['Không bất tỉnh, không nôn','Có bất tỉnh {0} phút','Nôn {1} lần','Đã sơ cứu {2}'],{line:'a',fields:['số phút','số lần','cách sơ cứu'],joiner:'. ',suffix:'.',extra:'khác'}),
+  M('vt_dai','bs','Phòng dại',['Chưa tiêm phòng dại','Đã tiêm phòng dại {0}','Con vật còn sống, theo dõi được','Con vật đã chết hoặc không theo dõi được'],{fields:['ngày, số mũi'],joiner:'. ',suffix:'.'})],
+ sh:['hx_uv'],tc:{c:[],a:[]},
+ cls:['XQ vùng tổn thương','Siêu âm phần mềm','CT sọ não không cản quang'],clsDef:[],
+ xt:true},
+
+{id:'tngt',name:'Tai nạn, chấn thương',keys:['tai nan','tngt','tai nan giao thong','te xe','chan thuong','te nga','nga xe','va cham'],focus:['tt','dm','hh','bung','tk','cxk','vt'],
+ hx:[
+  R('tn2_cc','bs','Cơ chế',['Cách nhập viện {0}, đi xe máy tự té.','Cách nhập viện {0}, đi xe máy va chạm với {1}.','Cách nhập viện {0}, ngồi sau xe máy, té xe.','Cách nhập viện {0}, đi bộ bị {1} tông.','Cách nhập viện {0}, té ngã {1}.','Cách nhập viện {0}, {1}.'],{line:'a',fields:['thời gian, vd 30 phút','phương tiện / mô tả']}),
+  R('tn2_mu','bs','Mũ bảo hiểm',['Có đội mũ bảo hiểm.','Không đội mũ bảo hiểm.','Không rõ có đội mũ bảo hiểm.'],{line:'a'}),
+  R('tn2_ruou','bs','Rượu bia',['Không uống rượu bia.','Có uống rượu bia trước tai nạn.'],{only:'a',line:'a',def:-1}),
+  M('tn2_vd','bs','Va đập',['đầu','mặt','ngực','bụng','lưng','chi trên','chi dưới'],{line:'a',prefix:'Va đập vùng ',suffix:'.'}),
+  M('tn2_sau','bs','Sau tai nạn',['Không bất tỉnh','Có bất tỉnh {0} phút','Có khoảng tỉnh','Không nhớ sự việc','Nôn {1} lần','Chảy máu tai, mũi'],{line:'a',fields:['số phút','số lần'],def:[0],joiner:'. ',suffix:'.',extra:'khác'}),
+  M('tn2_than','bs','Than đau',['đau đầu','đau cổ','đau ngực','đau bụng','đau lưng','đau {0}'],{line:'a',fields:['vị trí'],prefix:'Than ',suffix:'.'}),
+  R('tn2_scu','bs','Sơ cứu',['Đã được sơ cứu tại chỗ {0}.','Chưa được sơ cứu.'],{fields:['băng ép, nẹp…'],def:-1})],
+ sh:['hx_uv'],tc:{c:[],a:[]},
+ cls:['XQ vùng tổn thương','CT sọ não không cản quang','XQ cột sống cổ','Siêu âm FAST'],clsDef:[]},
+
+{id:'goi',name:'Đau khớp gối',keys:['dau goi','dau khop goi','sung goi','dau khop'],focus:['cxk'],
+ hx:[
+  R('goi_dau','bs','Khởi phát',['Đau gối {0} {1}, khởi phát từ từ.','Đau gối {0} {1}, khởi phát đột ngột.','Đau gối {0} {1} sau chấn thương {2}.'],{line:'a',fields:['(P) / (T) / hai bên','thời gian','cơ chế']}),
+  M('goi_tc','bs','Tính chất',['Đau tăng khi đi lại, lên xuống cầu thang, giảm khi nghỉ.','Đau cả khi nghỉ, đau về đêm.','Cứng khớp buổi sáng dưới 30 phút.','Cứng khớp buổi sáng trên 30 phút.','Có tiếng lục khục khi cử động.','Kẹt khớp, khuỵu gối.'],{line:'a',joiner:' '}),
+  M('goi_kem','bs','Kèm theo',['Sưng gối','Nóng đỏ gối','Sốt','Đau các khớp khác {0}','Không đi lại được'],{line:'a',fields:['khớp nào'],joiner:'. ',suffix:'.',extra:'Triệu chứng khác'}),
+  R('goi_thuoc','bs','Thuốc đã dùng',['Đã dùng {0}.','Chưa dùng thuốc.'],{fields:['tên thuốc, có corticoid?'],def:-1})],
+ sh:[],tc:{c:[],a:['gout','thoái hóa khớp','viêm khớp dạng thấp','dùng thuốc giảm đau, corticoid kéo dài','tiêm khớp gần đây']},
+ cls:['XQ khớp gối thẳng nghiêng','Acid uric máu','CRP','Siêu âm khớp gối'],clsDef:['XQ khớp gối thẳng nghiêng']},
+
+{id:'lung',name:'Đau lưng',keys:['dau lung','dau that lung','dau cot song','dau moi lung'],focus:['cxk','tn'],
+ hx:[
+  R('lg_dau','bs','Khởi phát',['Đau thắt lưng {0}, khởi phát sau mang vác nặng.','Đau thắt lưng {0}, khởi phát từ từ.','Đau lưng {0} sau té ngã, chấn thương.','Đau vùng {1} {0}.'],{line:'a',fields:['thời gian','vị trí, vd lưng trên']}),
+  M('lg_tc','bs','Tính chất',['Đau tăng khi cúi, xoay người, giảm khi nằm nghỉ.','Đau cả khi nghỉ, đau về đêm.','Cứng lưng buổi sáng trên 30 phút.','Đau lan xuống mông, đùi.','Đau lan ra hông, bụng.'],{line:'a',joiner:' '}),
+  M('lg_bd','bs','Dấu báo động',['Không sốt, không sụt cân, không rối loạn tiểu tiện','Sốt','Sụt cân','Tiền sử ung thư','Bí tiểu hoặc tiểu không tự chủ','Tê vùng hậu môn – sinh dục','Yếu hai chân','Tiểu buốt, tiểu máu'],{line:'a',def:[0],joiner:'. ',suffix:'.',extra:'khác'})],
+ sh:[],tc:{c:[],a:['thoát vị đĩa đệm','thoái hóa cột sống','loãng xương','dùng corticoid kéo dài','sỏi thận']},
+ cls:['XQ cột sống thắt lưng thẳng nghiêng','Tổng phân tích nước tiểu'],clsDef:['XQ cột sống thắt lưng thẳng nghiêng']},
+
+{id:'toa',name:'Đau thần kinh tọa',keys:['than kinh toa','dau than kinh toa','dau lan chan','dau mong lan','dau lan xuong chan'],focus:['cxk'],
+ hx:[
+  R('toa_dau','bs','Hướng lan',['Đau thắt lưng lan xuống mông, mặt sau đùi, cẳng chân {0} {1}.','Đau lan mặt ngoài đùi, cẳng chân xuống mu bàn chân {0} {1}.','Đau lan mặt sau đùi, cẳng chân xuống gót, bờ ngoài bàn chân {0} {1}.'],{line:'a',fields:['bên','thời gian']}),
+  M('toa_tc','bs','Tính chất',['Đau tăng khi ho, hắt hơi, rặn.','Đau tăng khi đứng lâu, đi lại, giảm khi nằm.','Khởi phát sau mang vác nặng.','Đau cả khi nghỉ, đau về đêm.'],{line:'a',joiner:' '}),
+  M('toa_kem','bs','Kèm theo',['Không rối loạn tiểu tiện, đại tiện','Tê bì {0}','Yếu chân {1}','Bí tiểu hoặc tiểu không tự chủ','Tê vùng hậu môn – sinh dục'],{line:'a',fields:['vùng','bên'],def:[0],joiner:'. ',suffix:'.',extra:'khác'})],
+ sh:[],tc:{c:[],a:['thoát vị đĩa đệm','thoái hóa cột sống','đau thần kinh tọa tái phát']},
+ cls:['XQ cột sống thắt lưng thẳng nghiêng','MRI cột sống thắt lưng'],clsDef:['XQ cột sống thắt lưng thẳng nghiêng']}
+];
+
+// ---------- Các hệ cơ quan ----------
+// always: luôn có mặt (bình thường = 1 câu, bấm Khác thì bung). Còn lại chỉ có khi lý do vào viện liên quan.
+// Trong mỗi hệ: dòng không có "for" là dòng cốt lõi; dòng có "for" chỉ hiện khi lý do vào viện tương ứng được chọn.
+const XH=R('tt_xh','kham','Xuất huyết',['Không xuất huyết dưới da, dấu dây thắt âm tính','Không xuất huyết dưới da, dấu dây thắt dương tính','Xuất huyết {0}','Không xuất huyết dưới da'],{for:['sot'],fields:['vị trí, dạng']});
+const SYS=[
+{id:'tt',name:'Toàn thân',always:true,normal:{c:'Tỉnh, tiếp xúc tốt, môi hồng, chi ấm, CRT < 2 giây',a:'Tỉnh, tiếp xúc tốt, da niêm hồng, chi ấm'},rows:[
+ R('tt_tri_c','kham','Tri giác',['Tỉnh, tiếp xúc tốt','Tỉnh, chơi được','Tỉnh, quấy khóc','Lừ đừ','Li bì, khó đánh thức'],{only:'c',line:'g'}),
+ R('tt_tri_a','kham','Tri giác',['Tỉnh, tiếp xúc tốt','Tỉnh, tiếp xúc chậm','Tỉnh, vật vã','Lơ mơ','Hôn mê'],{only:'a',line:'g'}),
+ R('tt_gcs','kham','Glasgow',['Glasgow 15 điểm','Glasgow {0} điểm (E{1}V{2}M{3})'],{for:['tngt','tk','cg','dd'],line:'g',lj:', ',keep:true,fields:['điểm','E','V','M']}),
+ R('tt_tm_c','kham','Tưới máu',['Mạch rõ, CRT < 2 giây, chi ấm','Mạch nhẹ, CRT {0} giây, chi mát','Mạch khó bắt, chi lạnh, CRT > 3 giây'],{only:'c',fields:['CRT']}),
+ R('tt_tm_a','kham','Tưới máu',['Da niêm hồng, chi ấm, CRT < 2 giây','Da niêm nhợt, chi ấm','Da tái, vã mồ hôi, chi lạnh, CRT {0} giây'],{only:'a',fields:['CRT']}),
+ R('tt_cmn','kham','Chảy máu ngoài',['Không chảy máu ngoài đang tiếp diễn','Chảy máu {0}, đã băng ép'],{for:['tngt'],fields:['vị trí']}),
+ R('tt_tim','kham','Tím',['Môi, đầu chi hồng','Tím môi, đầu chi'],{for:['ho','kt']}),
+ R('tt_mn_c','kham','Mất nước',['Không có dấu mất nước','Có mất nước: mắt trũng, uống háo hức, véo da mất chậm','Mất nước nặng: mắt trũng, không uống được, véo da mất rất chậm','Có mất nước: {0}'],{only:'c',for:['sot','tc','bung'],fields:['dấu hiệu']}),
+ R('tt_mn_a','kham','Mất nước',['Không dấu mất nước','Mất nước: môi khô, khát, véo da mất chậm','Mất nước nặng: mắt trũng, véo da mất rất chậm, tiểu ít','Mất nước: {0}'],{only:'a',for:['sot','tc'],fields:['dấu hiệu']}),
+ R('tt_da','kham','Da',['Da không ban, không bóng nước','Ban dát sẩn {0}','Bóng nước {0}','Vàng da, vàng mắt','Da niêm nhợt'],{fields:['vị trí, phân bố']}),
+ XH,
+ R('tt_hach','kham','Hạch',['Hạch ngoại vi sờ không chạm','Hạch {0}'],{fields:['vị trí, kích thước']}),
+ R('tt_kaw','kham','Mắt, môi, chi',['Mắt không đỏ, môi lưỡi bình thường, đầu chi không phù','Bất thường: {0}'],{only:'c',for:['sot'],fields:['kết mạc, môi, lưỡi, đầu chi']}),
+ R('tt_kop','kham','Niêm mạc má',['Không thấy hạt Koplik','Có hạt Koplik'],{only:'c',for:['sot'],def:-1}),
+ R('tt_loet','kham','Vết loét',['Không thấy vết loét (nách, bẹn, sinh dục)','Có vết loét tại {0}'],{for:['sot'],fields:['vị trí'],def:-1}),
+ R('tt_td','kham','Thoát dịch',['Không dấu tràn dịch màng phổi, màng bụng','Có dấu tràn dịch {0}'],{for:['sot'],fields:['màng phổi / màng bụng'],def:-1}),
+ R('tt_dd','kham','Dinh dưỡng',['CN/CC thấp so với tuổi, đã cân đo lại: {0}','CN/CC < −3 SD, theo dõi suy dinh dưỡng cấp nặng'],{only:'c',fields:['kết quả đo lại'],def:-1})]},
+{id:'dm',name:'Đầu mặt cổ',normal:{c:'',a:''},rows:[
+ R('dm_aw','kham','Đường thở, cổ',['Đường thở thông, không đau cột sống cổ','Đường thở thông, đau cột sống cổ, đã cố định nẹp cổ','Đường thở có máu, dị vật {0}'],{fields:['mô tả']}),
+ R('dm_dau','kham','Da đầu',['Da đầu không vết thương','Vết thương da đầu {0}','Bướu máu da đầu {0}'],{fields:['vị trí, kích thước']}),
+ R('dm_nso','kham','Nền sọ',['Không dấu vỡ nền sọ','Có dấu vỡ nền sọ: {0}'],{fields:['chảy máu tai, dịch mũi, mắt gấu trúc…']}),
+ R('dm_mat','kham','Mặt',['Mặt không biến dạng','Vết thương vùng mặt {0}','Biến dạng {0}'],{fields:['vị trí, mô tả']})]},
+{id:'tmh',name:'Tai mũi họng',normal:{c:'Họng không đỏ, amidan không to',a:'Họng không đỏ, amidan không to'},rows:[
+ R('tmh_mui','kham','Mũi',['Mũi dịch trong','Mũi dịch đục','Mũi thông, không chảy dịch'],{for:['ho']}),
+ R('tmh_hong','kham','Họng, amidan',['Họng không đỏ, amidan không to','Họng đỏ, amidan không to','Họng đỏ, amidan to độ {0}','Amidan có mủ {1}','Amidan có giả mạc {1}'],{fields:['độ I–IV','vị trí, mô tả']}),
+ R('tmh_tai','kham','Tai',['Màng nhĩ bình thường','Màng nhĩ {0}'],{fields:['đỏ, phồng, chảy mủ…']})]},
+{id:'tim',name:'Tim mạch',always:true,normal:{c:'Tim đều, T1 T2 rõ',a:'Tim đều, T1 T2 rõ'},rows:[
+ R('tim_nhip','kham','Nhịp tim',['Tim đều, T1 T2 rõ','Tim nhanh, T1 T2 rõ','Tim không đều','Tim loạn nhịp hoàn toàn','Tiếng tim mờ'],{line:'h'}),
+ R('tim_at','kham','Âm thổi',['không âm thổi','âm thổi {0}','tiếng cọ màng ngoài tim','tiếng ngựa phi'],{line:'h',lj:', ',fields:['vị trí, cường độ']}),
+ R('tim_tmc','kham','Tĩnh mạch cổ',['không tĩnh mạch cổ nổi','tĩnh mạch cổ nổi','tĩnh mạch cổ nổi, phản hồi gan tĩnh mạch cổ (+)'],{line:'h',lj:', '}),
+ R('tim_phu','kham','Phù',['không phù','phù hai chi dưới {0}','phù toàn thân'],{line:'h',lj:', ',fields:['mức độ']}),
+ R('tim_mach','kham','Mạch hai tay',['Mạch quay hai bên đều rõ','Mạch quay hai bên chênh lệch: {0}','HA hai tay chênh {0} mmHg'],{for:['nguc'],fields:['mô tả / số']}),
+ R('tim_bc','kham','Bắp chân',['Bắp chân không sưng đau','Bắp chân {0} sưng đau'],{for:['nguc','kt'],only:'a',fields:['bên']}),
+ R('tim_dmc','kham','Động mạch cảnh',['Không âm thổi động mạch cảnh','Âm thổi động mạch cảnh {0}'],{for:['tk'],fields:['bên'],def:-1}),
+ R('tim_ecg','kham','ECG',['ECG: nhịp xoang, chưa thấy ST chênh','ECG: ST chênh lên {0}','ECG: ST chênh xuống {0}','ECG: {0}'],{for:['nguc'],fields:['chuyển đạo / mô tả'],def:-1})]},
+{id:'hh',name:'Hô hấp',always:true,normal:{c:'Thở êm, phổi không rale',a:'Thở êm, phổi không rale'},rows:[
+ R('hh_tho_c','kham','Kiểu thở',['Thở êm, không co kéo','Thở nhanh, rút lõm lồng ngực','Thở nhanh, rút lõm lồng ngực, phập phồng cánh mũi','Thở rít thì hít vào','Thở rên','Có cơn ngừng thở'],{only:'c',line:'p'}),
+ R('hh_tho_a','kham','Kiểu thở',['Thở êm, không co kéo','Thở nhanh, co kéo cơ hô hấp phụ','Thở nhanh nông, co kéo, vã mồ hôi','Thở chậm, rời rạc','Phải ngồi để thở'],{only:'a',line:'p'}),
+ R('hh_ln','kham','Lồng ngực',['lồng ngực cân đối, di động đều theo nhịp thở','lồng ngực hình thùng','lồng ngực kém di động bên {0}','di động ngực nghịch thường {0}'],{for:['ho','kt','tngt'],line:'p',lj:', ',fields:['bên']}),
+ R('hh_nguc','kham','Thành ngực',['Ngực không bầm tím, ấn không đau','Bầm tím ngực {0}','Ấn đau chói xương sườn {0}','Tràn khí dưới da {0}'],{for:['tngt'],fields:['vị trí']}),
+ R('hh_thanh','kham','Thành ngực',['Thành ngực không điểm đau','Ấn đau thành ngực {0}'],{for:['nguc'],fields:['vị trí'],def:-1}),
+ R('hh_go','kham','Gõ',['Gõ trong','Gõ đục {0}','Gõ vang {0}'],{for:['ho','kt'],line:'p2',fields:['vị trí'],def:-1}),
+ R('hh_rr','kham','Rì rào phế nang',['Rì rào phế nang êm dịu hai phế trường','Rì rào phế nang giảm {0}','Mất rì rào phế nang {0}'],{line:'p2',lj:', ',fields:['vị trí']}),
+ R('hh_ran','kham','Ran',['phổi không rale','ran rít, ran ngáy hai phổi','ran ẩm {0}','ran nổ {0}','phổi im lặng'],{line:'p2',lj:', ',fields:['vị trí']})]},
+{id:'bung',name:'Tiêu hóa',always:true,normal:{c:'Bụng mềm không chướng, ấn không đau, gan lách không lớn',a:'Bụng mềm không chướng, ấn không đau, gan lách không lớn'},rows:[
+ R('b_nhin','kham','Bụng',['Bụng mềm không chướng','Bụng chướng','Bụng chướng, có quai ruột nổi','Bụng mềm không chướng, sẹo mổ cũ {0}','Bụng mềm không chướng, không bầm tím','Bầm tím thành bụng {0}'],{line:'b',fields:['vị trí'],defFor:{tngt:4}}),
+ R('b_an','kham','Ấn bụng',['ấn không đau','ấn đau {0}','ấn đau {0}, không đề kháng','đề kháng {0}','phản ứng phúc mạc {0}','co cứng thành bụng'],{line:'b',lj:', ',fields:['vị trí']}),
+ R('b_gan','kham','Vùng gan',['không đau vùng gan','đau vùng gan'],{for:['sot'],line:'b',lj:', '}),
+ R('b_gl','kham','Gan lách',['gan lách không lớn','gan to {0} cm dưới bờ sườn','lách to {1}'],{line:'b',lj:', ',fields:['số cm','độ']}),
+ R('b_nd','kham','Nhu động ruột',['nhu động ruột bình thường','nhu động ruột tăng','nhu động ruột giảm','không nghe nhu động ruột'],{for:['bung','tc'],line:'b',lj:', '}),
+ M('b_dh','kham','Dấu hiệu',['Murphy (−)','Murphy (+)','McBurney (−)','McBurney (+)','Rovsing (+)','Phản ứng dội (+) {0}'],{for:['bung'],fields:['vị trí'],def:[0,2],extra:'khác'}),
+ R('b_go','kham','Gõ',['Gõ trong','Gõ vang','Gõ đục vùng thấp','Mất vùng đục trước gan'],{for:['bung'],def:-1}),
+ R('b_khoi','kham','Khối',['Không sờ chạm khối bất thường','Sờ chạm khối hình xúc xích {0}','Sờ chạm khối {0}'],{for:['bung'],fields:['vị trí, kích thước']}),
+ R('b_tv','kham','Thoát vị',['Lỗ bẹn, đùi không thấy khối thoát vị','Khối thoát vị {0}'],{for:['bung'],fields:['vị trí, tính chất']}),
+ R('b_tinh','kham','Tinh hoàn',['Tinh hoàn hai bên bình thường','Tinh hoàn {0} sưng đau'],{for:['bung'],only:'c',sex:'M',fields:['bên'],def:-1}),
+ R('b_ttt','kham','Thăm trực tràng',['Thăm trực tràng: {0}'],{for:['bung'],fields:['kết quả'],def:-1}),
+ R('b_hm','kham','Hậu môn',['Quanh hậu môn không hăm','Hăm đỏ quanh hậu môn'],{for:['tc'],only:'c',def:-1}),
+ R('b_kc','kham','Khung chậu',['Ép, dạng khung chậu không đau','Ép khung chậu đau'],{for:['tngt']})]},
+{id:'tn',name:'Thận – tiết niệu',always:true,normal:{c:'Không cầu bàng quang, rung thận (−) hai bên',a:'Không cầu bàng quang, rung thận (−) hai bên'},rows:[
+ R('tn_cbq','kham','Cầu bàng quang',['Không cầu bàng quang','Cầu bàng quang {0} cm trên xương mu'],{line:'t',fields:['số cm']}),
+ R('tn_hv','kham','Hạ vị',['ấn hạ vị không đau','ấn đau hạ vị'],{for:['tn'],line:'t',lj:', '}),
+ R('tn_htl','kham','Hố thắt lưng',['Hố thắt lưng hai bên không đầy','Hố thắt lưng {0} đầy'],{for:['tn'],line:'t2',fields:['bên']}),
+ R('tn_rt','kham','Rung thận',['rung thận (−) hai bên','rung thận (+) {0}'],{line:'t2',lj:', ',fields:['bên']}),
+ R('tn_nq','kham','Điểm niệu quản',['điểm niệu quản trên, giữa không đau','ấn đau điểm niệu quản {0}'],{for:['tn'],line:'t2',lj:', ',fields:['vị trí, bên']}),
+ R('tn_sd','kham','Sinh dục ngoài',['Bộ phận sinh dục ngoài bình thường','Bộ phận sinh dục ngoài: {0}'],{for:['tn'],fields:['mô tả'],def:-1}),
+ R('tn_tlt','kham','Tiền liệt tuyến',['Thăm trực tràng: tiền liệt tuyến {0}'],{for:['tn'],only:'a',sex:'M',fields:['kích thước, mật độ'],def:-1}),
+ R('tn_tieu','kham','Nước tiểu',['Tiểu không máu','Tiểu máu','Máu ở lỗ niệu đạo'],{for:['tngt'],def:-1})]},
+{id:'tk',name:'Thần kinh',always:true,normal:{c:'Cổ mềm, dấu màng não âm tính, không dấu thần kinh khu trú',a:'Cổ mềm, dấu màng não âm tính, không dấu thần kinh khu trú',inf:'Thóp phẳng, cổ mềm, dấu màng não âm tính, không dấu thần kinh khu trú'},rows:[
+ R('tk_dt','kham','Đồng tử',['Đồng tử hai bên đều, phản xạ ánh sáng (+)','Đồng tử hai bên đều {0} mm, phản xạ ánh sáng (+)','Đồng tử không đều: (P) {0} mm, (T) {1} mm'],{for:['tk','tngt','cg','dd'],fields:['mm (P)','mm (T)']}),
+ R('tk_vn','kham','Vận nhãn',['Không lệch mắt, không rung giật nhãn cầu','Mắt lệch về bên {0}','Rung giật nhãn cầu {0}'],{for:['tk','dd'],fields:['bên / hướng']}),
+ R('tk_mat','kham','Mặt',['Không liệt mặt','Liệt VII trung ương {0}','Liệt VII ngoại biên {0}'],{for:['tk','dd'],fields:['bên']}),
+ R('tk_nn','kham','Ngôn ngữ',['Nói rõ, hiểu lời','Nói khó','Thất ngôn {0}'],{for:['tk'],fields:['kiểu']}),
+ R('tk_nuot','kham','Nuốt',['Nuốt không sặc','Nuốt sặc'],{for:['tk'],def:-1}),
+ R('tk_vd','kham','Vận động',['Sức cơ tứ chi 5/5','Yếu nửa người {0}, sức cơ tay {1}/5, chân {2}/5','Yếu {3}'],{fields:['bên','tay','chân','mô tả']}),
+ R('tk_tl','kham','Trương lực',['Trương lực cơ bình thường','Trương lực cơ giảm {0}','Trương lực cơ tăng {0}'],{for:['tk','cg'],line:'tl',fields:['vị trí']}),
+ R('tk_px','kham','Phản xạ gân xương',['phản xạ gân xương đều hai bên','phản xạ gân xương tăng {0}','phản xạ gân xương giảm {0}'],{for:['tk'],line:'tl',lj:', ',fields:['bên']}),
+ R('tk_cg','kham','Cảm giác',['Cảm giác bình thường','Giảm cảm giác {0}','Mất cảm giác từ {0} trở xuống'],{for:['tk','tngt'],fields:['vị trí / mức']}),
+ R('tk_tb','kham','Thăng bằng',['Ngón tay chỉ mũi chính xác, Romberg (−)','Rối tầm {0}','Romberg (+)'],{for:['dd','tk'],fields:['bên']}),
+ R('tk_dix','kham','Dix–Hallpike',['Nghiệm pháp Dix–Hallpike (−)','Nghiệm pháp Dix–Hallpike (+) {0}'],{for:['dd'],fields:['bên'],def:-1}),
+ R('tk_thop','kham','Thóp',['Thóp phẳng','Thóp phồng','Thóp lõm'],{maxMonths:18,line:'n'}),
+ R('tk_mn','kham','Màng não',['Cổ mềm, dấu màng não âm tính','Cổ gượng, dấu màng não {0}'],{line:'n',lj:', ',fields:['Kernig, Brudzinski…']}),
+ R('tk_kt','kham','TK khu trú',['Không dấu thần kinh khu trú','Dấu thần kinh khu trú: {0}'],{notFor:['tk'],line:'n',lj:', ',fields:['mô tả']}),
+ R('tk_bab','kham','Babinski',['Babinski (−) hai bên','Babinski (+) {0}'],{for:['tk'],fields:['bên']}),
+ R('tk_nih','kham','NIHSS',['NIHSS {0} điểm'],{for:['tk'],fields:['điểm'],def:-1})]},
+{id:'cxk',name:'Cơ xương khớp',always:true,normal:{c:'Cột sống, tứ chi không biến dạng, vận động trong giới hạn bình thường',a:'Cột sống, tứ chi không biến dạng, vận động trong giới hạn bình thường'},rows:[
+ R('x_cs','kham','Cột sống',['Cột sống không biến dạng, ấn không đau','Ấn đau cột sống {0}'],{notFor:['lung','toa','goi','vt'],fields:['đoạn']}),
+ R('x_chi','kham','Tứ chi',['Tứ chi không biến dạng, vận động được','Biến dạng, đau chói {0}, nghi gãy xương','Sưng nề, bầm tím {0}'],{notFor:['goi','lung','toa','vt'],fields:['vị trí']}),
+ R('x_khop','kham','Các khớp',['Các khớp không sưng đau','Sưng đau khớp {0}'],{notFor:['goi','lung','toa','vt','tngt'],fields:['khớp nào']}),
+ // gối
+ R('g_nhin','kham','Gối – nhìn',['Gối {0} không sưng, không nóng đỏ','Gối {0} sưng','Gối {0} sưng, nóng, đỏ','Gối {0} biến dạng {1}'],{for:['goi'],fields:['bên','mô tả']}),
+ R('g_tdk','kham','Tràn dịch',['Bập bềnh xương bánh chè (−)','Bập bềnh xương bánh chè (+)'],{for:['goi']}),
+ R('g_adau','kham','Ấn đau',['Không điểm đau khu trú','Ấn đau khe khớp {0}','Ấn đau {0}'],{for:['goi'],fields:['trong / ngoài / vị trí']}),
+ R('g_tvd','kham','Tầm vận động',['Gấp duỗi gối trong giới hạn bình thường','Hạn chế gấp gối, gấp được {0} độ','Hạn chế duỗi gối'],{for:['goi'],fields:['độ']}),
+ R('g_lx','kham','Lạo xạo',['Không lạo xạo khi cử động','Lạo xạo khi cử động'],{for:['goi'],def:-1}),
+ M('g_np','kham','Nghiệm pháp',['Ngăn kéo trước (+)','Ngăn kéo sau (+)','Lachman (+)','McMurray (+)','Dạng, khép gối đau'],{for:['goi'],extra:'khác'}),
+ R('g_bc','kham','Bắp chân',['Bắp chân không sưng đau','Bắp chân {0} sưng đau'],{for:['goi'],fields:['bên']}),
+ R('g_kk','kham','Khớp khác',['Các khớp khác không sưng đau','Sưng đau khớp {0}'],{for:['goi'],fields:['khớp nào']}),
+ // lưng, thần kinh tọa
+ R('l_dang','kham','Dáng đi',['Đi lại được, dáng đi bình thường','Đi lại khó khăn do đau','Đi khập khiễng, lệch người về bên {0}','Không đi lại được'],{for:['lung','toa'],fields:['bên']}),
+ R('l_csv','kham','Cột sống',['Cột sống không biến dạng','Cột sống mất đường cong sinh lý','Cột sống gù, vẹo'],{for:['lung','toa'],line:'cs'}),
+ R('l_cdau','kham','Điểm đau',['không điểm đau khu trú','ấn đau cạnh cột sống thắt lưng {0}','ấn đau chói gai sống {0}'],{for:['lung','toa'],line:'cs',lj:', ',fields:['vị trí']}),
+ R('l_ccc','kham','Co cứng cơ',['không co cứng cơ cạnh sống','co cứng cơ cạnh sống thắt lưng'],{for:['lung','toa'],line:'cs',lj:', '}),
+ R('l_tvd','kham','Tầm vận động',['Cúi, ngửa, nghiêng, xoay thắt lưng không hạn chế','Hạn chế cúi, ngửa thắt lưng','Hạn chế vận động thắt lưng, Schober {0} cm'],{for:['lung'],fields:['số cm']}),
+ R('l_las','kham','Lasègue',['Lasègue (−) hai bên','Lasègue (+) {0} ở {1} độ'],{for:['lung','toa'],fields:['bên','độ']}),
+ R('t_val','kham','Điểm Valleix',['Ấn các điểm Valleix không đau','Ấn đau các điểm Valleix {0}'],{for:['toa'],fields:['bên']}),
+ R('t_bch','kham','Bấm chuông',['Dấu bấm chuông (−)','Dấu bấm chuông (+) {0}'],{for:['toa'],fields:['vị trí'],def:-1}),
+ R('t_gm','kham','Đi gót, mũi',['Đi được bằng gót và mũi chân','Không đi được bằng gót chân {0}','Không đi được bằng mũi chân {0}'],{for:['toa'],fields:['bên']}),
+ R('l_vdc','kham','Sức cơ',['Sức cơ hai chi dưới 5/5','Yếu {0}, sức cơ {1}/5'],{for:['lung','toa'],line:'l',fields:['vị trí','điểm']}),
+ R('l_cgc','kham','Cảm giác',['cảm giác hai chi dưới bình thường','giảm cảm giác {0}'],{for:['lung','toa'],line:'l',lj:', ',fields:['vùng']}),
+ R('l_pxc','kham','Phản xạ',['phản xạ gối, gót đều hai bên','phản xạ gót {0} giảm','phản xạ gối {0} giảm'],{for:['lung','toa'],line:'l',lj:', ',fields:['bên']}),
+ R('l_yn','kham','Yên ngựa',['Cảm giác vùng hậu môn – sinh dục bình thường','Giảm cảm giác vùng yên ngựa'],{for:['lung','toa'],def:-1}),
+ R('t_teo','kham','Teo cơ',['Không teo cơ','Teo cơ {0}'],{for:['toa'],fields:['vị trí'],def:-1}),
+ // vết thương / chấn thương chi
+ R('x_ngoai','kham','Ngọn chi',['Đầu chi ấm, mạch rõ, cảm giác và vận động bình thường','Đầu chi {0}'],{for:['vt','tngt','goi'],fields:['mô tả'],def:-1,defFor:{tngt:0,goi:0}}),
+ R('x_gan','kham','Gân',['Gấp duỗi các ngón bình thường','Giảm/mất động tác {0}, nghi tổn thương gân'],{for:['vt'],fields:['động tác'],def:-1}),
+ R('x_xuong','kham','Xương',['Không biến dạng, không điểm đau chói','Điểm đau chói {0}, nghi gãy xương'],{for:['vt'],fields:['vị trí'],def:-1})]},
+{id:'vt',name:'Tại chỗ',normal:{c:'',a:''},rows:[
+ R('w_loai','kham','Loại, vị trí',['Vết thương {0}','Vết thương rách da {0}','Vết thương đâm thủng {0}','Vết thương dập nát {0}','Vết trầy xước {0}','Vết cắn {0}'],{for:['vt'],line:'w',fields:['vị trí, vd vùng trán (P)']}),
+ R('w_kt','kham','Kích thước',['kích thước khoảng {0} x {1} cm','dài khoảng {0} cm','đường kính khoảng {0} cm'],{for:['vt'],line:'w',lj:', ',fields:['dài','rộng']}),
+ R('w_sau','kham','Độ sâu',['nông, chưa qua hết lớp da','sâu đến lớp dưới da','sâu đến cân cơ','sâu lộ gân','sâu lộ xương','sâu {0}'],{for:['vt'],line:'w',lj:', ',fields:['mô tả']}),
+ R('w_bo','kham','Bờ, mép',['bờ sắc gọn','bờ nham nhở','bờ dập, mất da {0}'],{for:['vt'],line:'w',lj:', ',fields:['diện tích']}),
+ R('w_day','kham','Đáy, dị vật',['đáy sạch, không dị vật','đáy bẩn, dính đất cát','có dị vật {0}'],{for:['vt'],line:'w',lj:', ',fields:['loại dị vật']}),
+ R('w_mau','kham','Chảy máu',['đã cầm máu','còn rỉ máu','chảy máu thành tia','không chảy máu'],{for:['vt'],line:'w',lj:', '}),
+ R('w_xq','kham','Xung quanh',['Xung quanh không sưng nề','Xung quanh sưng nề, bầm tím {0}','Xung quanh sưng nóng đỏ đau {0}'],{for:['vt'],fields:['phạm vi']}),
+ R('w_khac','kham','Vết thương khác',['Không ghi nhận vết thương khác','Vết thương khác: {0}'],{for:['vt'],fields:['vị trí, mô tả']}),
+ R('w_pm','kham','Phần mềm',['Không vết thương phần mềm','Vết thương {0}','Trầy xước da {0}'],{for:['tngt'],notFor:['vt'],fields:['vị trí, kích thước, tính chất']})]}
+];
+const KHAC=R('khac','kham','Cơ quan khác',['Các cơ quan khác chưa ghi nhận bất thường'],{auto:true});
+const XT=[
  R('xt1','xt','Rửa',['Rửa vết thương bằng nước muối sinh lý'],{auto:true}),
  R('xt2','xt','Sát khuẩn',['Sát khuẩn bằng Povidine 10%'],{auto:true}),
  R('xt3','xt','Gây tê',['Gây tê Lidocain','Gây tê Lidocain {0}'],{auto:true,fields:['nồng độ, liều']}),
  R('xt4','xt','Khâu',['Khâu cầm máu','Khâu cầm máu {0} mũi'],{auto:true,fields:['số mũi']}),
  R('xt5','xt','Băng',['Băng ép vết thương'],{auto:true})];
+const BASE_CLS=['Tổng phân tích tế bào máu ngoại vi','Siêu âm bụng','XQ ngực thẳng'];
+for(const L of [Object.values(SH),[HX_X,KHAC,...XT],...MODS.map(m=>m.hx),...SYS.map(s=>s.rows)])for(const r of L)norm(r);
+function norm2(r){norm(r);return r}
+function norm(r){let mx=-1;for(const s of r.opts)for(const m of s.matchAll(/\{(\d+)\}/g))mx=Math.max(mx,+m[1]);
+  r.fields=r.fields||[];while(r.fields.length<mx+1)r.fields.push('ghi rõ');if(r.def===undefined)r.def=r.multi?[]:0}
 
-const TNGT=c=>[
- R('cc','bs','Cơ chế',c?['Cách nhập viện {0}, ngồi sau xe máy, té xe.','Cách nhập viện {0}, đi bộ bị {1} tông.','Cách nhập viện {0}, đi xe đạp va chạm với {1}.','Cách nhập viện {0}, {1}.']:['Cách nhập viện {0}, đi xe máy tự té.','Cách nhập viện {0}, đi xe máy va chạm với {1}.','Cách nhập viện {0}, ngồi sau xe máy, té xe.','Cách nhập viện {0}, đi bộ bị {1} tông.','Cách nhập viện {0}, {1}.'],{line:'a',fields:['thời gian, vd 30 phút','phương tiện / mô tả']}),
- R('mu','bs','Mũ bảo hiểm',['Có đội mũ bảo hiểm.','Không đội mũ bảo hiểm.','Không rõ có đội mũ bảo hiểm.'],{line:'a'}),
- ...(c?[]:[R('ruou','bs','Rượu bia',['Không uống rượu bia.','Có uống rượu bia trước tai nạn.'],{line:'a',def:-1})]),
- M('vd','bs','Va đập',['đầu','mặt','ngực','bụng','lưng','chi trên','chi dưới'],{line:'a',prefix:'Va đập vùng ',suffix:'.'}),
- M('sau','bs','Sau tai nạn',['Không bất tỉnh','Có bất tỉnh {0} phút','Có khoảng tỉnh','Không nhớ sự việc','Nôn {1} lần','Chảy máu tai, mũi'],{line:'a',fields:['số phút','số lần'],def:[0],joiner:'. ',suffix:'.',extra:'khác'}),
- M('than','bs','Than đau',['đau đầu','đau cổ','đau ngực','đau bụng','đau lưng','đau {0}'],{line:'a',fields:['vị trí'],prefix:'Than ',suffix:'.'}),
- R('scu','bs','Sơ cứu',['Đã được sơ cứu tại chỗ {0}.','Chưa được sơ cứu.'],{fields:['băng ép, nẹp…'],def:-1}),
- R('uv','bs','Uốn ván',['Đã tiêm phòng uốn ván {0}.','Chưa tiêm phòng uốn ván.','Không rõ tiền sử tiêm phòng uốn ván.'],{fields:['mũi cuối'],def:-1}),
- R('aw','kham','Đường thở, cổ',['Đường thở thông, không đau cột sống cổ','Đường thở thông, đau cột sống cổ, đã cố định nẹp cổ','Đường thở có máu, dị vật {0}'],{fields:['mô tả']}),
- R('kieu','kham','Thở',['Thở êm, lồng ngực di động đều hai bên','Thở nhanh, lồng ngực kém di động bên {0}','Di động ngực nghịch thường {0}'],{fields:['bên']}),
- c?TRI_C():R('tri','kham','Tri giác',['Tỉnh, tiếp xúc tốt','Tỉnh, tiếp xúc chậm','Lơ mơ','Hôn mê'],{line:'g'}),
- R('gcs','kham','Glasgow',['Glasgow 15 điểm','Glasgow {0} điểm (E{1}V{2}M{3})'],{line:'g',lj:', ',keep:true,fields:['điểm','E','V','M']}),
- R('dtu','kham','Đồng tử',['Đồng tử hai bên đều {0} mm, phản xạ ánh sáng (+)','Đồng tử không đều: (P) {0} mm, (T) {1} mm'],{fields:['mm (P)','mm (T)']}),
- c?TM_C():R('tm','kham','Tưới máu',['Da niêm hồng, chi ấm, CRT < 2 giây','Da niêm nhợt, chi lạnh, CRT {0} giây','Vã mồ hôi, mạch nhanh nhẹ'],{fields:['CRT']}),
- R('cmn','kham','Chảy máu ngoài',['Không chảy máu ngoài đang tiếp diễn','Chảy máu {0}, đã băng ép'],{fields:['vị trí']}),
- ...(c?[R('thop','kham','Thóp',['Thóp phẳng','Thóp phồng'],{def:-1})]:[]),
- R('dau','kham','Đầu',['Da đầu không vết thương','Vết thương da đầu {0}','Bướu máu da đầu {0}'],{fields:['vị trí, kích thước']}),
- R('nso','kham','Nền sọ',['Không dấu vỡ nền sọ','Có dấu vỡ nền sọ: {0}'],{fields:['chảy máu tai, dịch mũi, mắt gấu trúc…']}),
- R('mat','kham','Mặt',['Mặt không biến dạng','Vết thương vùng mặt {0}','Biến dạng {0}'],{fields:['vị trí, mô tả']}),
- R('nguc','kham','Ngực',['Ngực không bầm tím, ấn không đau','Bầm tím ngực {0}','Ấn đau chói xương sườn {0}','Tràn khí dưới da {0}'],{fields:['vị trí']}),
- TIM(),
- R('rrpn','kham','Rì rào phế nang',['Rì rào phế nang êm dịu hai phế trường','Rì rào phế nang giảm {0}','Mất rì rào phế nang {0}'],{line:'p',fields:['vị trí']}),
- R('ran','kham','Ran',['Phổi không rale','Ran ẩm {0}'],{line:'p',lj:', ',fields:['vị trí']}),
- R('bung','kham','Bụng',['Bụng mềm không chướng, không bầm tím, ấn không đau','Bầm tím thành bụng {0}','Ấn đau {0}','Đề kháng, phản ứng phúc mạc {0}','Bụng chướng'],{fields:['vị trí']}),
- R('kc','kham','Khung chậu',['Ép, dạng khung chậu không đau','Ép khung chậu đau']),
- R('cs','kham','Cột sống',['Cột sống không biến dạng, ấn không đau','Ấn đau cột sống {0}'],{fields:['đoạn']}),
- R('chi','kham','Chi',['Tứ chi không biến dạng, vận động được','Biến dạng, đau chói {0}, nghi gãy xương','Sưng nề, bầm tím {0}'],{fields:['vị trí']}),
- R('ngoai','kham','Ngọn chi',['Đầu chi ấm, mạch rõ, cảm giác và vận động bình thường','Đầu chi {0}'],{fields:['mô tả']}),
- R('pm','kham','Phần mềm',['Không vết thương phần mềm','Vết thương {0}','Trầy xước da {0}'],{fields:['vị trí, kích thước, tính chất']}),
- R('tkk','kham','Thần kinh',['Không dấu thần kinh khu trú','Yếu liệt {0}','Mất cảm giác từ {0} trở xuống'],{fields:['vị trí / mức']}),
- R('tn','kham','Tiết niệu',['Tiểu không máu','Tiểu máu','Máu ở lỗ niệu đạo'],{def:-1}),
- CLS(['XQ {0}','CT sọ não không cản quang','XQ cột sống cổ','Siêu âm FAST'],[0,1,2],['vùng, vd cẳng chân (P)'])];
-const CSL=()=>[
- R('csv','kham','Cột sống',['Cột sống không biến dạng','Cột sống mất đường cong sinh lý','Cột sống gù, vẹo'],{line:'cs'}),
- R('cdau','kham','Điểm đau',['không điểm đau khu trú','ấn đau cạnh cột sống thắt lưng {0}','ấn đau chói gai sống {0}'],{line:'cs',lj:', ',fields:['vị trí']}),
- R('ccc','kham','Co cứng cơ',['không co cứng cơ cạnh sống','co cứng cơ cạnh sống thắt lưng'],{line:'cs',lj:', '})];
-const LCH=()=>[
- R('vdc','kham','Sức cơ',['Sức cơ hai chi dưới 5/5','Yếu {0}, sức cơ {1}/5'],{line:'l',fields:['vị trí','điểm']}),
- R('cgc','kham','Cảm giác',['cảm giác hai chi dưới bình thường','giảm cảm giác {0}'],{line:'l',lj:', ',fields:['vùng']}),
- R('pxc','kham','Phản xạ',['phản xạ gối, gót đều hai bên','phản xạ gót {0} giảm','phản xạ gối {0} giảm'],{line:'l',lj:', ',fields:['bên']}),
- R('yn','kham','Yên ngựa',['Cảm giác vùng hậu môn – sinh dục bình thường','Giảm cảm giác vùng yên ngựa'],{def:-1}),
- R('cbq','kham','Cầu bàng quang',['Không cầu bàng quang','Cầu bàng quang'],{def:-1})];
-const TIMPHOIBUNG=()=>[TIM(),R('phoi','kham','Phổi',['Phổi không rale','Phổi {0}'],{fields:['mô tả']}),...BUNG(false)];
-const T=[
-// ===================== TRẺ EM =====================
-{id:'c-sot',g:'c',name:'Sốt',rows:[
- R('bs','bs','Sốt',['Sốt ngày {0}, sốt cao liên tục, đáp ứng hạ sốt kém.','Sốt ngày {0}, sốt từng cơn, đáp ứng hạ sốt.','Sốt ngày {0}, sốt nhẹ.'],{line:'a',fields:['số ngày']}),
- R('tmax','bs','Nhiệt cao nhất',['Nhiệt độ cao nhất {0} °C.'],{line:'a',fields:['°C'],def:-1}),
- R('thuoc','bs','Kháng sinh đã dùng',['Đã dùng kháng sinh {0}.','Chưa dùng kháng sinh.'],{line:'a',fields:['tên thuốc, số ngày'],def:-1}),
- M('kem','bs','Kèm theo',['Ho, chảy mũi trong','Ho đàm','Nôn {0} lần','Đau bụng','Đau họng, nuốt đau','Phát ban','Co giật','Quấy khóc nhiều'],{line:'a',fields:['số lần nôn'],def:[0],joiner:'. ',suffix:'.',extra:'Triệu chứng khác'}),
- R('an','bs','Ăn uống',['Ăn uống được.','Ăn uống kém.','Bỏ ăn, bỏ bú.'],{line:'a'}),
- TT(), TC('sởi'),
- M('dt','bs','Dịch tễ',['Xung quanh có người mắc sốt xuất huyết','Xung quanh có người mắc sởi','Người nhà có triệu chứng tương tự'],{joiner:'. ',suffix:'.'}),
- TRI_C(),TM_C(),MN_C(),
- R('da','kham','Da, niêm',['Da niêm hồng, không ban, không bóng nước','Da niêm hồng, ban dát sẩn {0}','Da niêm hồng, bóng nước {0}','Da niêm nhợt'],{fields:['vị trí, phân bố']}),
- XH(),
- R('hach','kham','Hạch',['Hạch ngoại vi sờ không chạm','Hạch {0}'],{fields:['vị trí, kích thước']}),
- R('kaw','kham','Mắt, môi, chi',['Mắt không đỏ, môi lưỡi bình thường, đầu chi không phù','Bất thường: {0}'],{fields:['kết mạc, môi, lưỡi, đầu chi']}),
- R('kop','kham','Niêm mạc má',['Không thấy hạt Koplik','Có hạt Koplik'],{def:-1}),
- R('loet','kham','Vết loét',['Không thấy vết loét','Có vết loét tại {0}'],{fields:['vị trí'],def:-1}),
- HONG(),TAI(),TIM(),...PHOI(true),...BUNG(true),
- R('td','kham','Thoát dịch',['Không dấu tràn dịch màng phổi, màng bụng','Có dấu tràn dịch {0}'],{fields:['màng phổi / màng bụng'],def:-1}),
- ...TK(true),
- R('dd','kham','Dinh dưỡng',['CN/CC thấp so với tuổi, đã cân đo lại: {0}','CN/CC < −3 SD, theo dõi suy dinh dưỡng cấp nặng'],{fields:['kết quả đo lại'],def:-1}),
- CLS(['CRP','Tổng phân tích nước tiểu'],[0,1,2,3])
-]},
-{id:'c-ho',g:'c',name:'Ho',rows:[
- R('ho','bs','Ho',['Ho {0}, ho khan.','Ho {0}, ho có đàm.','Ho {0}, ho từng cơn, đỏ mặt, có tiếng rít cuối cơn.'],{line:'a',fields:['thời gian, vd 3 ngày']}),
- M('kem','bs','Kèm theo',['Sốt','Chảy mũi trong','Chảy mũi đục','Khò khè','Thở nhanh','Nôn sau cơn ho','Bú kém, bỏ bú'],{line:'a',joiner:'. ',suffix:'.',extra:'Triệu chứng khác'}),
- R('an','bs','Ăn uống',['Ăn uống được.','Ăn uống kém.','Bỏ ăn, bỏ bú.'],{line:'a'}),
- M('ts','bs','Tiền sử',['khò khè tái diễn','sinh non','tim bẩm sinh','dị ứng'],{prefix:'Tiền sử: ',suffix:'.',extra:'khác'}),
- TC('ho gà'),
- M('dt','bs','Dịch tễ',['Người nhà ho kéo dài','Người nhà mắc lao'],{joiner:'. ',suffix:'.'}),
- TRI_C(),
- R('tim_','kham','Tím',['Môi, đầu chi hồng','Tím môi, đầu chi']),
- TM_C(),
- R('mui','kham','Mũi',['Mũi dịch trong','Mũi dịch đục','Mũi thông, không chảy dịch']),
- HONG(),TAI(),TIM(),...PHOI(true),...BUNG(false),
- CLS(['CRP'])
-]},
-{id:'c-kt',g:'c',name:'Khó thở',rows:[
- R('kt','bs','Khó thở',['Khó thở {0}, tăng dần.','Khó thở đột ngột {0}.','Khò khè {0}.'],{line:'a',fields:['thời gian']}),
- R('kp','bs','Khởi phát',['Khởi phát sau sặc, hóc dị vật.','Khởi phát sau sổ mũi, nhiễm lạnh.','Khởi phát sau tiếp xúc {0}.'],{line:'a',fields:['yếu tố'],def:-1}),
- M('kem','bs','Kèm theo',['Sốt','Ho','Chảy mũi','Tím tái','Bú kém, bỏ bú','Khàn tiếng'],{line:'a',joiner:'. ',suffix:'.',extra:'Triệu chứng khác'}),
- R('thuoc','bs','Thuốc đã dùng',['Đã xịt {0} tại nhà, không đỡ.','Đã dùng {0}.'],{fields:['tên thuốc, số lần'],def:-1}),
- M('ts','bs','Tiền sử',['khò khè tái diễn','hen phế quản','sinh non','tim bẩm sinh','dị ứng'],{prefix:'Tiền sử: ',suffix:'.',extra:'khác'}),
- TRI_C(),
- R('kieu','kham','Dấu suy hô hấp',['Thở êm, không co kéo','Thở nhanh, rút lõm lồng ngực','Thở nhanh, rút lõm lồng ngực, phập phồng cánh mũi','Thở rít thì hít vào','Thở rên','Có cơn ngừng thở']),
- R('tim_','kham','Tím',['Môi, đầu chi hồng','Tím môi, đầu chi']),
- TM_C(),TIM(),
- R('rrpn','kham','Rì rào phế nang',['Rì rào phế nang êm dịu hai phế trường','Rì rào phế nang giảm {0}','Mất rì rào phế nang {0}'],{line:'p',fields:['vị trí']}),
- R('ran','kham','Ran',['Phổi không rale','Ran rít, ran ngáy hai phổi','Ran ẩm {0}','Ran nổ {0}','Phổi im lặng'],{line:'p',lj:', ',fields:['vị trí']}),
- ...BUNG(false),
- CLS(['Khí máu động mạch'])
-]},
-{id:'c-tc',g:'c',name:'Nôn, tiêu chảy',rows:[
- R('kp','bs','Khởi phát',['Tiêu chảy {0}, {1} lần/ngày.','Nôn {0}, {1} lần/ngày.','Nôn và tiêu chảy {0}, tiêu chảy {1} lần/ngày.'],{line:'a',fields:['thời gian','số lần']}),
- R('phan','bs','Tính chất phân',['Phân toàn nước.','Phân lỏng, có nhầy.','Phân có nhầy máu.','Phân lỏng, mùi chua.'],{line:'a'}),
- M('kem','bs','Kèm theo',['Sốt','Đau bụng','Nôn {0} lần','Khát nước, uống háo hức','Bỏ ăn, bỏ bú','Mệt lả'],{line:'a',fields:['số lần'],joiner:'. ',suffix:'.',extra:'Triệu chứng khác'}),
- TIEU(),
- R('ors','bs','Đã xử trí',['Đã uống ORS tại nhà.','Chưa uống ORS.','Đã dùng {0}.'],{fields:['tên thuốc'],def:-1}),
- M('dt','bs','Dịch tễ',['Ăn thức ăn lạ','Người nhà cùng triệu chứng'],{joiner:'. ',suffix:'.'}),
- TRI_C(),TM_C(),MN_C(),
- R('thop','kham','Thóp',['Thóp phẳng','Thóp lõm'],{def:-1}),
- TIM(),...PHOI(true),
- R('bung','kham','Bụng',['Bụng mềm không chướng','Bụng chướng'],{line:'b'}),
- R('bdau','kham','Điểm đau',['Ấn không đau','Ấn đau {0}'],{line:'b',lj:', ',fields:['vị trí']}),
- R('gl','kham','Gan lách',['Gan lách không lớn','Gan to {0} cm dưới bờ sườn'],{line:'b',lj:', ',fields:['số cm']}),
- R('nd','kham','Nhu động ruột',['Nhu động ruột bình thường','Nhu động ruột tăng','Nhu động ruột giảm'],{line:'b',lj:', '}),
- R('hm','kham','Hậu môn',['Quanh hậu môn không hăm','Hăm đỏ quanh hậu môn'],{def:-1}),
- CLS(['Điện giải đồ','Soi phân','Đường huyết mao mạch'])
-]},
-{id:'c-db',g:'c',name:'Đau bụng',rows:[
- R('dau','bs','Vị trí',['Đau {1} {0}.','Đau quanh rốn {0}.','Đau khắp bụng {0}.'],{line:'a',fields:['thời gian','vị trí']}),
- R('kieu','bs','Tính chất',['Đau liên tục.','Đau âm ỉ.','Đau quặn từng cơn, khóc thét từng cơn, giữa các cơn chơi bình thường.'],{line:'a'}),
- M('kem','bs','Kèm theo',['Nôn {0} lần','Sốt','Tiêu chảy','Táo bón','Đi cầu ra máu nhầy','Bí trung đại tiện','Tiểu buốt'],{line:'a',fields:['số lần'],joiner:'. ',suffix:'.',extra:'Triệu chứng khác'}),
- TT(),
- TRI_C(),TM_C(),MN_C(),TIM(),...PHOI(true),
- R('bung','kham','Bụng',['Bụng mềm không chướng','Bụng chướng','Bụng chướng, có quai ruột nổi'],{line:'b'}),
- R('so','kham','Ấn bụng',['Ấn không đau','Ấn đau {0}, không đề kháng','Đề kháng {0}','Co cứng thành bụng'],{line:'b',lj:', ',fields:['vị trí']}),
- R('gl','kham','Gan lách',['Gan lách không lớn','Gan to {0} cm dưới bờ sườn'],{line:'b',lj:', ',fields:['số cm']}),
- M('dh','kham','Dấu hiệu',['McBurney (−)','McBurney (+)','Phản ứng dội (+) {0}'],{fields:['vị trí'],def:[0],extra:'khác'}),
- R('khoi','kham','Khối',['Không sờ chạm khối bất thường','Sờ chạm khối hình xúc xích {0}','Sờ chạm khối {0}'],{fields:['vị trí, kích thước']}),
- R('nd','kham','Nhu động ruột',['Nhu động ruột bình thường','Nhu động ruột tăng','Nhu động ruột giảm','Không nghe nhu động ruột']),
- R('tv','kham','Thoát vị',['Lỗ bẹn không thấy khối thoát vị','Khối thoát vị bẹn {0}'],{fields:['bên, tính chất']}),
- R('tinh','kham','Tinh hoàn',['Tinh hoàn hai bên bình thường','Tinh hoàn {0} sưng đau'],{fields:['bên'],def:-1}),
- CLS(['Tổng phân tích nước tiểu'])
-]},
-{id:'c-cg',g:'c',name:'Co giật',rows:[
- R('cg','bs','Cơn giật',['Co giật {0} trước nhập viện, {1} cơn.'],{line:'a',fields:['thời gian','số']}),
- R('kieu','bs','Kiểu cơn',['Co giật toàn thân, co cứng rồi co giật.','Co giật cục bộ {0}.','Cơn mềm nhũn, mắt trợn.'],{line:'a',fields:['vị trí']}),
- R('tg','bs','Thời gian cơn',['Cơn kéo dài dưới 5 phút.','Cơn kéo dài {0} phút.'],{line:'a',fields:['số phút']}),
- R('sau','bs','Sau cơn',['Sau cơn tỉnh lại hoàn toàn.','Sau cơn ngủ li bì.','Sau cơn chưa tỉnh hẳn.'],{line:'a'}),
- M('kem','bs','Kèm theo',['Sốt','Nôn','Tiêu chảy','Ho, chảy mũi','Đau đầu','Chấn thương đầu'],{line:'a',joiner:'. ',suffix:'.',extra:'Triệu chứng khác'}),
- M('ts','bs','Tiền sử',['đã từng sốt co giật','động kinh','gia đình có người sốt co giật hoặc động kinh','chậm phát triển'],{prefix:'Tiền sử: ',suffix:'.',extra:'khác'}),
- TC('viêm não Nhật Bản'),
- TRI_C(),TM_C(),
- R('dtu','kham','Đồng tử',['Đồng tử hai bên đều, phản xạ ánh sáng (+)','Đồng tử không đều: {0}'],{fields:['mô tả']}),
- ...TK(true),
- R('tl','kham','Trương lực',['Trương lực cơ bình thường','Tăng trương lực {0}','Giảm trương lực {0}'],{fields:['vị trí']}),
- R('da','kham','Da',['Da niêm hồng, không ban, không xuất huyết','Ban xuất huyết {0}','Ban {0}'],{fields:['vị trí, dạng']}),
- HONG(),TAI(),TIM(),...PHOI(true),...BUNG(false),
- CLS(['Đường huyết mao mạch','Điện giải đồ','CRP'])
-]},
-{id:'c-vt',g:'c',name:'Vết thương',rows:VT(true)},
-{id:'c-tngt',g:'c',name:'Tai nạn giao thông',rows:TNGT(true)},
-
-// ===================== NGƯỜI LỚN =====================
-{id:'a-sot',g:'a',name:'Sốt',rows:[
- R('bs','bs','Sốt',['Sốt ngày {0}, sốt cao liên tục, đáp ứng hạ sốt kém.','Sốt ngày {0}, sốt từng cơn, có lạnh run.','Sốt ngày {0}, sốt nhẹ về chiều.'],{line:'a',fields:['số ngày']}),
- R('tmax','bs','Nhiệt cao nhất',['Nhiệt độ cao nhất {0} °C.'],{line:'a',fields:['°C'],def:-1}),
- R('thuoc','bs','Kháng sinh đã dùng',['Đã dùng kháng sinh {0}.','Chưa dùng kháng sinh.'],{line:'a',fields:['tên thuốc, số ngày'],def:-1}),
- M('kem','bs','Kèm theo',['Ho','Đau đầu','Đau cơ, đau khớp','Đau hốc mắt','Đau họng','Tiểu buốt, tiểu gắt','Đau bụng','Nôn {0} lần','Phát ban'],{line:'a',fields:['số lần'],joiner:'. ',suffix:'.',extra:'Triệu chứng khác'}),
- R('an','bs','Ăn uống',['Ăn uống được.','Ăn uống kém.'],{line:'a'}),
- TT(),
- M('ts','bs','Tiền sử',['đái tháo đường','xơ gan','đang dùng corticoid','ung thư','suy thận','nghiện rượu'],{prefix:'Tiền sử: ',suffix:'.',extra:'khác'}),
- M('dt','bs','Dịch tễ',['Xung quanh có người mắc sốt xuất huyết','Làm rẫy, đi rừng','Tiếp xúc gia súc','Mới đi về từ {0}'],{fields:['nơi'],joiner:'. ',suffix:'.'}),
- KINH(),
- TRI_A(),TM_A(),MN_A(),
- R('da','kham','Da',['Không ban, không vàng da','Vàng da, vàng mắt','Ban {0}'],{fields:['vị trí, dạng']}),
- XH(),
- R('hach','kham','Hạch',['Hạch ngoại vi sờ không chạm','Hạch {0}'],{fields:['vị trí, kích thước']}),
- R('loet','kham','Vết loét',['Không thấy vết loét (nách, bẹn, sinh dục)','Có vết loét tại {0}'],{fields:['vị trí'],def:-1}),
- HONG(),TIM(),...PHOI(false),...BUNG(true),
- R('rt','kham','Rung thận',['Rung thận (−) hai bên','Rung thận (+) {0}'],{fields:['bên']}),
- R('td','kham','Thoát dịch',['Không dấu tràn dịch màng phổi, màng bụng','Có dấu tràn dịch {0}'],{fields:['màng phổi / màng bụng'],def:-1}),
- ...TK(false),
- CLS(['CRP','Tổng phân tích nước tiểu','Cấy máu'],[0,1,2,3])
-]},
-{id:'a-ho',g:'a',name:'Ho',rows:[
- R('ho','bs','Ho',['Ho {0}, ho khan.','Ho {0}, ho đàm {1}.','Ho ra máu {0}, lượng khoảng {1}.'],{line:'a',fields:['thời gian','màu đàm / lượng']}),
- M('kem','bs','Kèm theo',['Sốt','Khó thở','Đau ngực','Khò khè','Sụt cân','Sốt về chiều, ra mồ hôi đêm','Chảy mũi, đau họng'],{line:'a',joiner:'. ',suffix:'.',extra:'Triệu chứng khác'}),
- M('ts','bs','Tiền sử',['COPD','hen phế quản','lao phổi cũ','suy tim','hút thuốc lá {0} gói-năm'],{fields:['số'],prefix:'Tiền sử: ',suffix:'.',extra:'khác'}),
- M('dt','bs','Dịch tễ',['Người nhà mắc lao'],{joiner:'. ',suffix:'.'}),
- TRI_A(),TM_A(),
- R('tim_','kham','Tím',['Môi, đầu chi hồng','Tím môi, đầu chi']),
- R('hach','kham','Hạch',['Hạch cổ, hạch thượng đòn sờ không chạm','Hạch {0}'],{fields:['vị trí, kích thước']}),
- HONG(),TIM(),
- R('kieu','kham','Kiểu thở',['Thở êm, không co kéo','Thở nhanh, co kéo cơ hô hấp phụ']),
- R('ln','kham','Lồng ngực',['Lồng ngực cân đối, di động đều theo nhịp thở','Lồng ngực hình thùng','Lồng ngực kém di động bên {0}'],{fields:['bên']}),
- R('go','kham','Gõ',['Gõ trong','Gõ đục {0}','Gõ vang {0}'],{line:'p',fields:['vị trí'],def:-1}),
- R('rrpn','kham','Rì rào phế nang',['Rì rào phế nang êm dịu hai phế trường','Rì rào phế nang giảm {0}','Mất rì rào phế nang {0}'],{line:'p',lj:', ',fields:['vị trí']}),
- R('ran','kham','Ran',['Phổi không rale','Ran rít, ran ngáy hai phổi','Ran ẩm {0}','Ran nổ {0}'],{line:'p',lj:', ',fields:['vị trí']}),
- ...BUNG(false),
- R('chan','kham','Chi dưới',['Không phù, bắp chân không sưng đau','Phù hai chi dưới {0}'],{fields:['mức độ']}),
- CLS(['AFB đàm','Soi cấy đàm','CRP'])
-]},
-{id:'a-kt',g:'a',name:'Khó thở',rows:[
- R('kt','bs','Khó thở',['Khó thở {0}, tăng dần.','Khó thở đột ngột {0}.','Khó thở từng cơn {0}.'],{line:'a',fields:['thời gian']}),
- M('dd','bs','Đặc điểm',['Khó thở khi gắng sức.','Khó thở khi nằm, phải ngồi dậy.','Khó thở kịch phát về đêm.','Khó thở cả khi nghỉ.','Khó thở thì thở ra, có tiếng khò khè.'],{line:'a',joiner:' '}),
- M('kem','bs','Kèm theo',['ho khan','ho đàm {0}','sốt','đau ngực kiểu màng phổi','ho ra máu','phù chân','tăng cân nhanh'],{line:'a',fields:['màu đàm'],prefix:'Kèm ',suffix:'.',extra:'khác'}),
- R('kp','bs','Yếu tố khởi phát',['Khởi phát sau nhiễm lạnh.','Khởi phát sau bỏ thuốc.','Khởi phát sau gắng sức.','Khởi phát sau {0}.'],{line:'a',fields:['yếu tố'],def:-1}),
- R('thuoc','bs','Thuốc đã dùng',['Đã xịt {0} tại nhà, không đỡ.','Đã dùng {0} tại nhà.'],{fields:['tên thuốc, số lần'],def:-1}),
- M('ts','bs','Tiền sử',['COPD','hen phế quản','suy tim','tăng huyết áp','lao phổi'],{prefix:'Tiền sử: ',suffix:'.',extra:'khác'}),
- R('tri','kham','Tri giác',['Tỉnh, tiếp xúc tốt','Tỉnh, nói được câu dài','Tỉnh, nói từng câu ngắn','Nói từng từ, kích thích','Lơ mơ']),
- R('tthe','kham','Tư thế',['Nằm đầu bằng được','Phải ngồi để thở'],{def:-1}),
- R('kieu','kham','Kiểu thở',['Thở êm, không co kéo','Thở nhanh, co kéo cơ hô hấp phụ','Thở nhanh nông, co kéo, vã mồ hôi','Thở chậm, rời rạc']),
- R('tim_','kham','Tím',['Môi, đầu chi hồng','Tím môi, đầu chi']),
- R('tm','kham','Tưới máu',['Mạch rõ, chi ấm, CRT < 2 giây','Chi lạnh, CRT {0} giây'],{fields:['CRT']}),
- R('tmc','kham','TM cổ',['Không tĩnh mạch cổ nổi','Tĩnh mạch cổ nổi, phản hồi gan tĩnh mạch cổ (+)']),
- R('phu','kham','Phù',['Không phù','Phù hai chi dưới {0}','Phù toàn thân'],{fields:['mức độ']}),
- R('tim','kham','Tim',['Tim đều, T1 T2 rõ','Tim nhanh không đều','Âm thổi {0}','Có tiếng ngựa phi'],{fields:['vị trí, cường độ']}),
- R('ln','kham','Lồng ngực',['Lồng ngực cân đối, di động đều theo nhịp thở','Lồng ngực hình thùng','Lồng ngực kém di động bên {0}'],{fields:['bên']}),
- R('go','kham','Gõ',['Gõ trong','Gõ đục {0}','Gõ vang {0}'],{line:'p',fields:['vị trí'],def:-1}),
- R('rrpn','kham','Rì rào phế nang',['Rì rào phế nang êm dịu hai phế trường','Rì rào phế nang giảm {0}','Mất rì rào phế nang {0}'],{line:'p',lj:', ',fields:['vị trí']}),
- R('phoi','kham','Ran',['Phổi không rale','Ran rít, ran ngáy hai phổi','Ran ẩm {0}','Ran nổ {0}','Phổi im lặng'],{line:'p',lj:', ',fields:['vị trí']}),
- ...BUNG(false),
- R('chan','kham','Bắp chân',['Bắp chân không sưng đau','Bắp chân {0} sưng đau'],{fields:['bên']}),
- CLS(['ECG','Khí máu động mạch'])
-]},
-{id:'a-nguc',g:'a',name:'Đau ngực',rows:[
- R('dau','bs','Vị trí',['Đau ngực trái {0}.','Đau sau xương ức {0}.','Đau ngực (P) {0}.','Đau thượng vị lan lên ngực {0}.'],{line:'a',fields:['thời gian, vd 2 giờ']}),
- R('kieu','bs','Tính chất',['Đau kiểu đè nặng, bóp nghẹt.','Đau kiểu xé, dữ dội.','Đau kiểu châm chích, nhói.','Đau rát bỏng.'],{line:'a'}),
- R('lan','bs','Hướng lan',['Lan lên hàm, tay trái.','Lan ra sau lưng.','Không lan.','Lan {0}.'],{line:'a',fields:['vị trí']}),
- R('tgc','bs','Thời gian, yếu tố',['Cơn kéo dài trên 20 phút, không giảm khi nghỉ.','Cơn kéo dài vài phút, giảm khi nghỉ.','Đau liên tục.','Đau tăng khi hít sâu, thay đổi tư thế.','Đau tăng khi ấn vào thành ngực.'],{line:'a'}),
- M('kem','bs','Kèm theo',['vã mồ hôi','khó thở','buồn nôn, nôn','hồi hộp','thoáng ngất','ho ra máu'],{line:'a',prefix:'Kèm ',suffix:'.',extra:'khác'}),
- R('thuoc','bs','Thuốc đã dùng',['Đã dùng {0} trước khi đến.','Chưa dùng thuốc.'],{fields:['tên thuốc, liều'],def:-1}),
- M('ytnc','bs','Yếu tố nguy cơ',['tăng huyết áp','đái tháo đường','rối loạn lipid máu','hút thuốc lá','tiền sử bệnh mạch vành','bất động lâu, phẫu thuật gần đây'],{prefix:'Yếu tố nguy cơ: ',suffix:'.',extra:'khác'}),
- R('tri','kham','Tri giác',['Tỉnh, tiếp xúc tốt','Tỉnh, vật vã','Lơ mơ']),
- R('tm','kham','Tưới máu',['Da niêm hồng, chi ấm, CRT < 2 giây','Da tái, vã mồ hôi, chi lạnh']),
- R('mach','kham','Mạch hai tay',['Mạch quay hai bên đều rõ','Mạch quay hai bên chênh lệch: {0}','HA hai tay chênh {0} mmHg'],{fields:['mô tả / số']}),
- R('tmc','kham','TM cổ',['Không tĩnh mạch cổ nổi','Tĩnh mạch cổ nổi']),
- R('tim','kham','Tim',['Tim đều, T1 T2 rõ, không âm thổi','Tim không đều','Tim nhanh','Âm thổi {0}','Tiếng cọ màng ngoài tim','Tiếng tim mờ'],{fields:['vị trí, cường độ']}),
- ...PHOI(false),
- R('thanh','kham','Thành ngực',['Thành ngực không điểm đau','Ấn đau thành ngực {0}'],{fields:['vị trí'],def:-1}),
- ...BUNG(false),
- R('chan','kham','Chi dưới',['Không phù, bắp chân không sưng đau','Phù chân {0}','Bắp chân {0} sưng đau'],{fields:['bên / mức']}),
- R('tk','kham','Thần kinh',['Không dấu thần kinh khu trú','Dấu thần kinh khu trú: {0}'],{fields:['mô tả']}),
- R('ecg','kham','ECG',['ECG: nhịp xoang, chưa thấy ST chênh','ECG: ST chênh lên {0}','ECG: ST chênh xuống {0}','ECG: {0}'],{fields:['chuyển đạo / mô tả'],def:-1}),
- CLS(['ECG','Troponin'])
-]},
-{id:'a-dd',g:'a',name:'Đau đầu, chóng mặt',rows:[
- R('kp','bs','Triệu chứng',['Đau đầu {0}.','Chóng mặt {0}.','Đau đầu, chóng mặt {0}.'],{line:'a',fields:['thời gian']}),
- R('dd','bs','Tính chất đau đầu',['Đau đầu dữ dội đột ngột, đau nhất từ trước tới nay.','Đau đầu âm ỉ vùng {0}.','Đau đầu theo nhịp mạch, một bên.','Đau đầu tăng dần, tăng khi ho, rặn, nằm.'],{line:'a',fields:['vùng']}),
- R('cm','bs','Kiểu chóng mặt',['Chóng mặt xoay tròn, tăng khi thay đổi tư thế đầu.','Choáng váng, xây xẩm khi đứng dậy.','Chóng mặt kèm mất thăng bằng, đi loạng choạng.'],{line:'a',def:-1}),
- M('kem','bs','Kèm theo',['Nôn {0} lần','Buồn nôn','Ù tai, nghe kém','Nhìn mờ, nhìn đôi','Sợ ánh sáng','Sốt','Tê yếu chi','Nói khó','Ngất'],{line:'a',fields:['số lần'],joiner:'. ',suffix:'.',extra:'Triệu chứng khác'}),
- M('ts','bs','Tiền sử',['tăng huyết áp','bỏ thuốc huyết áp {0}','đái tháo đường','rối loạn tiền đình','đau nửa đầu','chấn thương đầu gần đây','đang dùng thuốc chống đông'],{fields:['bao lâu'],prefix:'Tiền sử: ',suffix:'.',extra:'khác'}),
- TRI_A(),TM_A(),
- R('dtu','kham','Đồng tử',['Đồng tử hai bên đều, phản xạ ánh sáng (+)','Đồng tử không đều: {0}'],{fields:['mô tả']}),
- R('rgnc','kham','Nhãn cầu',['Không rung giật nhãn cầu','Rung giật nhãn cầu {0}'],{fields:['hướng']}),
- R('mat','kham','Mặt',['Không liệt mặt','Liệt VII trung ương {0}','Liệt VII ngoại biên {0}'],{fields:['bên']}),
- R('vd','kham','Vận động',['Sức cơ tứ chi 5/5','Yếu {0}, sức cơ {1}/5'],{fields:['vị trí','điểm']}),
- R('tb','kham','Thăng bằng',['Ngón tay chỉ mũi chính xác, Romberg (−)','Rối tầm {0}','Romberg (+)'],{fields:['bên']}),
- R('dix','kham','Dix–Hallpike',['Nghiệm pháp Dix–Hallpike (−)','Nghiệm pháp Dix–Hallpike (+) {0}'],{fields:['bên'],def:-1}),
- ...TK(false),TIM(),...PHOI(false),
- ...BUNG(false),
- CLS(['ECG','CT sọ não không cản quang','Đường huyết mao mạch'])
-]},
-{id:'a-db',g:'a',name:'Đau bụng',rows:[
- R('dau','bs','Vị trí',['Đau {1} {0}.','Đau khởi phát thượng vị, quanh rốn, sau khu trú hố chậu phải, {0}.'],{line:'a',fields:['thời gian','vị trí']}),
- R('kieu','bs','Tính chất',['Đau liên tục, âm ỉ.','Đau liên tục, dữ dội.','Đau quặn từng cơn.','Đau quặn từng cơn, có cơn nổi gò.','Đau rát bỏng.'],{line:'a'}),
- R('lan','bs','Hướng lan',['Không lan.','Lan ra sau lưng.','Lan lên vai (P).','Lan xuống bẹn, bộ phận sinh dục.','Lan {0}.'],{line:'a',fields:['vị trí']}),
- M('lq','bs','Liên quan',['Đau tăng sau ăn.','Đau giảm sau ăn.','Đau sau ăn nhiều dầu mỡ.','Đau sau uống rượu.','Đau tăng khi đi lại, ho.'],{line:'a',joiner:' '}),
- M('kem','bs','Kèm theo',['nôn {0} lần','sốt','vàng da','nôn ra máu','chán ăn'],{line:'a',fields:['số lần'],prefix:'Kèm ',suffix:'.',extra:'khác'}),
- R('tt','bs','Tiêu tiểu',['Tiêu tiểu bình thường.','Tiểu thường, đi cầu lỏng {0} lần/ngày, tính chất phân {1}.','Bí trung đại tiện {2}.','Tiểu thường, tiêu phân đen.','Tiểu buốt, tiểu gắt, đi cầu bình thường.','Tiểu máu.'],{line:'a',fields:['số lần','vd: toàn nước, nhầy máu','thời gian']}),
- M('kinh','bs','Kinh nguyệt',['Kinh chót {0}','Trễ kinh {1}','Ra huyết âm đạo bất thường','Đã mãn kinh'],{fields:['ngày','số ngày'],joiner:'. ',suffix:'.'}),
- M('ts','bs','Tiền sử',['mổ bụng cũ {0}','sỏi mật','sỏi thận','loét dạ dày tá tràng','uống rượu nhiều'],{fields:['mổ gì, năm'],prefix:'Tiền sử: ',suffix:'.',extra:'khác'}),
- R('tri','kham','Tri giác',['Tỉnh, tiếp xúc tốt','Tỉnh, vật vã do đau','Lơ mơ']),
- R('tm','kham','Tưới máu',['Mạch rõ, chi ấm, CRT < 2 giây','Da tái, chi lạnh, CRT {0} giây'],{fields:['CRT']}),
- R('da','kham','Da, niêm',['Da niêm hồng, không vàng','Da niêm nhợt','Vàng da, vàng mắt']),
- R('tim','kham','Tim',['Tim đều, T1 T2 rõ','Tim nhanh','Tim không đều']),
- R('phoi','kham','Phổi',['Phổi không rale','Phổi {0}'],{fields:['mô tả']}),
- R('bung','kham','Bụng',['Bụng mềm không chướng','Bụng chướng','Bụng chướng, có quai ruột nổi','Bụng mềm không chướng, sẹo mổ cũ {0}'],{line:'b',fields:['vị trí']}),
- R('so','kham','Ấn bụng',['Ấn không đau','Ấn đau {0}, không đề kháng','Đề kháng {0}','Phản ứng phúc mạc {0}','Co cứng thành bụng'],{line:'b',lj:', ',fields:['vị trí']}),
- R('gl','kham','Gan lách',['Gan lách không lớn','Gan to {0} cm dưới bờ sườn','Lách to {1}'],{line:'b',lj:', ',fields:['số cm','độ']}),
- M('dh','kham','Dấu hiệu',['Murphy (−)','Murphy (+)','McBurney (−)','McBurney (+)','Rovsing (+)','Phản ứng dội (+) {0}','Rung thận (−)','Rung thận (+) {1}'],{fields:['vị trí','bên'],def:[0,2],extra:'khác'}),
- R('go','kham','Gõ',['Gõ trong','Gõ vang','Gõ đục vùng thấp','Mất vùng đục trước gan'],{def:-1}),
- R('nd','kham','Nhu động ruột',['Nhu động ruột bình thường','Nhu động ruột tăng','Nhu động ruột giảm','Không nghe nhu động ruột']),
- R('tmat','kham','Túi mật',['Túi mật không sờ chạm','Sờ chạm túi mật'],{def:-1}),
- R('khoi','kham','Khối',['Không sờ chạm khối bất thường','Sờ chạm khối {0}'],{fields:['vị trí, kích thước, tính chất']}),
- R('tv','kham','Thoát vị',['Lỗ bẹn, đùi không thấy khối thoát vị','Khối thoát vị {0}'],{fields:['vị trí, tính chất']}),
- R('ttt','kham','Thăm trực tràng',['Thăm trực tràng: {0}'],{fields:['kết quả'],def:-1}),
- CLS(['Tổng phân tích nước tiểu','Amylase, lipase máu'])
-]},
-{id:'a-tc',g:'a',name:'Nôn, tiêu chảy',rows:[
- R('kp','bs','Khởi phát',['Tiêu chảy {0}, {1} lần/ngày.','Nôn {0}, {1} lần/ngày.','Nôn và tiêu chảy {0}, tiêu chảy {1} lần/ngày.'],{line:'a',fields:['thời gian','số lần']}),
- R('phan','bs','Tính chất phân',['Phân toàn nước.','Phân lỏng, có nhầy.','Phân có nhầy máu.','Phân như nước vo gạo.','Phân đen.'],{line:'a'}),
- M('kem','bs','Kèm theo',['Sốt','Đau bụng quặn','Mót rặn','Nôn {0} lần','Chuột rút','Khát nước','Mệt lả'],{line:'a',fields:['số lần'],joiner:'. ',suffix:'.',extra:'Triệu chứng khác'}),
- TIEU(),
- M('dt','bs','Dịch tễ',['Ăn thức ăn lạ, ôi thiu','Ăn chung có người cùng triệu chứng','Uống rượu'],{joiner:'. ',suffix:'.'}),
- M('ts','bs','Tiền sử',['đái tháo đường','suy thận','xơ gan'],{prefix:'Tiền sử: ',suffix:'.',extra:'khác'}),
- TRI_A(),TM_A(),MN_A(),TIM(),...PHOI(false),
- R('bung','kham','Bụng',['Bụng mềm không chướng','Bụng chướng'],{line:'b'}),
- R('bdau','kham','Điểm đau',['Ấn không đau','Ấn đau {0}'],{line:'b',lj:', ',fields:['vị trí']}),
- R('gl','kham','Gan lách',['Gan lách không lớn','Gan to {0} cm dưới bờ sườn'],{line:'b',lj:', ',fields:['số cm']}),
- R('nd','kham','Nhu động ruột',['Nhu động ruột bình thường','Nhu động ruột tăng','Nhu động ruột giảm'],{line:'b',lj:', '}),
- CLS(['Điện giải đồ','Chức năng thận','Soi phân'])
-]},
-{id:'a-tn',g:'a',name:'Tiểu khó',rows:[
- R('tr','bs','Triệu chứng',['Tiểu khó {0}.','Tiểu buốt, tiểu gắt {0}.','Bí tiểu {0}.','Tiểu máu {0}.'],{line:'a',fields:['thời gian']}),
- M('dd','bs','Đặc điểm',['Tiểu lắt nhắt nhiều lần.','Tia tiểu yếu, phải rặn.','Tiểu đục.','Tiểu máu toàn bãi.','Tiểu ra sỏi.'],{line:'a',joiner:' '}),
- M('kem','bs','Kèm theo',['Sốt, ớn lạnh','Đau hông lưng {0}','Đau hạ vị','Buồn nôn, nôn'],{line:'a',fields:['bên'],joiner:'. ',suffix:'.',extra:'Triệu chứng khác'}),
- M('ts','bs','Tiền sử',['sỏi thận','phì đại tiền liệt tuyến','đái tháo đường','đặt sonde tiểu gần đây'],{prefix:'Tiền sử: ',suffix:'.',extra:'khác'}),
- KINH(),
- TRI_A(),TM_A(),TIM(),...PHOI(false),
- R('bung','kham','Bụng',['Bụng mềm không chướng','Bụng chướng'],{line:'b'}),
- R('cbq','kham','Cầu bàng quang',['không cầu bàng quang','cầu bàng quang {0} cm trên xương mu'],{line:'b',lj:', ',fields:['số cm']}),
- R('hv','kham','Hạ vị',['ấn hạ vị không đau','ấn đau hạ vị'],{line:'b',lj:', '}),
- R('htl','kham','Hố thắt lưng',['Hố thắt lưng hai bên không đầy','Hố thắt lưng {0} đầy'],{line:'t',fields:['bên']}),
- R('rt','kham','Rung thận',['rung thận (−) hai bên','rung thận (+) {0}'],{line:'t',lj:', ',fields:['bên']}),
- R('nq','kham','Điểm niệu quản',['điểm niệu quản trên, giữa không đau','ấn đau điểm niệu quản {0}'],{line:'t',lj:', ',fields:['vị trí, bên']}),
- R('sd','kham','Sinh dục ngoài',['Bộ phận sinh dục ngoài bình thường','Bộ phận sinh dục ngoài: {0}'],{fields:['mô tả'],def:-1}),
- R('ttt','kham','Thăm trực tràng',['Thăm trực tràng: tiền liệt tuyến {0}'],{fields:['kích thước, mật độ'],def:-1}),
- CLS(['Tổng phân tích nước tiểu','Chức năng thận'],[0,1,2,4])
-]},
-{id:'a-tk',g:'a',name:'Yếu liệt, đột quỵ',rows:[
- R('kp','bs','Khởi phát',['Yếu nửa người, khởi phát {0}, bình thường lần cuối lúc {1}.','Méo miệng, nói khó, khởi phát {0}, bình thường lần cuối lúc {1}.','Đau đầu dữ dội đột ngột, khởi phát {0}.','Chóng mặt, đi đứng loạng choạng, khởi phát {0}.'],{line:'a',fields:['khởi phát','giờ bình thường cuối']}),
- R('dtien','bs','Diễn tiến',['Triệu chứng nặng dần.','Triệu chứng không thay đổi.','Triệu chứng cải thiện dần.'],{line:'a',def:-1}),
- M('kem','bs','Kèm theo',['nôn','co giật','đau đầu','tê nửa người','nhìn mờ, nhìn đôi','nuốt sặc','rối loạn ý thức'],{line:'a',prefix:'Kèm ',suffix:'.',extra:'khác'}),
- M('ts','bs','Tiền sử',['tăng huyết áp','đái tháo đường','rung nhĩ','đột quỵ cũ','đang dùng thuốc chống đông'],{prefix:'Tiền sử: ',suffix:'.',extra:'khác'}),
- R('tri','kham','Tri giác',['Tỉnh, tiếp xúc tốt','Tỉnh, tiếp xúc chậm','Lơ mơ','Hôn mê'],{line:'g'}),
- R('gcs','kham','Glasgow',['Glasgow 15 điểm','Glasgow {0} điểm (E{1}V{2}M{3})'],{line:'g',lj:', ',keep:true,fields:['điểm','E','V','M']}),
- R('dt','kham','Đồng tử',['Đồng tử hai bên đều {0} mm, phản xạ ánh sáng (+)','Đồng tử không đều: (P) {0} mm, (T) {1} mm'],{fields:['mm (P)','mm (T)']}),
- R('mat2','kham','Vận nhãn',['Không lệch mắt, vận nhãn bình thường','Mắt lệch về bên {0}','Rung giật nhãn cầu'],{fields:['bên'],def:-1}),
- R('mat','kham','Mặt',['Không liệt mặt','Liệt VII trung ương {0}'],{fields:['bên']}),
- R('nn','kham','Ngôn ngữ',['Nói rõ, hiểu lời','Nói khó','Thất ngôn {0}'],{fields:['kiểu']}),
- R('nuot','kham','Nuốt',['Nuốt không sặc','Nuốt sặc'],{def:-1}),
- R('vd','kham','Vận động',['Sức cơ tứ chi 5/5','Yếu nửa người {0}, sức cơ tay {1}/5, chân {2}/5','Yếu tứ chi {3}'],{fields:['bên','tay','chân','mô tả']}),
- R('tl','kham','Trương lực',['Trương lực cơ bình thường','Trương lực cơ giảm {0}','Trương lực cơ tăng {0}'],{line:'tl',fields:['bên'],def:-1}),
- R('pxgx','kham','Phản xạ gân xương',['Phản xạ gân xương đều hai bên','Phản xạ gân xương tăng {0}','Phản xạ gân xương giảm {0}'],{line:'tl',lj:', ',fields:['bên'],def:-1}),
- R('cg','kham','Cảm giác',['Cảm giác bình thường','Giảm cảm giác {0}'],{fields:['vị trí']}),
- R('td','kham','Thất điều',['Ngón tay chỉ mũi chính xác','Rối tầm {0}'],{fields:['bên'],def:-1}),
- R('mn','kham','Màng não',['Cổ mềm, dấu màng não âm tính','Cổ gượng, Kernig (+)']),
- R('bab','kham','Babinski',['Babinski (−) hai bên','Babinski (+) {0}'],{fields:['bên']}),
- R('nih','kham','NIHSS',['NIHSS {0} điểm'],{fields:['điểm'],def:-1}),
- R('tim','kham','Tim',['Tim đều, T1 T2 rõ','Tim loạn nhịp hoàn toàn','Âm thổi {0}'],{fields:['vị trí']}),
- R('dmc','kham','Động mạch cảnh',['Không âm thổi động mạch cảnh','Âm thổi động mạch cảnh {0}'],{fields:['bên'],def:-1}),
- R('phoi','kham','Phổi',['Phổi không rale','Ran ẩm {0}'],{fields:['vị trí']}),
- ...BUNG(false),
- CLS(['CT sọ não không cản quang','Đường huyết mao mạch','ECG'])
-]},
-{id:'a-tngt',g:'a',name:'Tai nạn giao thông',rows:TNGT(false)},
-{id:'a-vt',g:'a',name:'Vết thương',rows:VT(false)},
-{id:'a-goi',g:'a',name:'Đau khớp gối',rows:[
- R('dau','bs','Khởi phát',['Đau gối {0} {1}, khởi phát từ từ.','Đau gối {0} {1}, khởi phát đột ngột.','Đau gối {0} {1} sau chấn thương {2}.'],{line:'a',fields:['(P) / (T) / hai bên','thời gian','cơ chế']}),
- M('tc','bs','Tính chất',['Đau tăng khi đi lại, lên xuống cầu thang, giảm khi nghỉ.','Đau cả khi nghỉ, đau về đêm.','Cứng khớp buổi sáng dưới 30 phút.','Cứng khớp buổi sáng trên 30 phút.','Có tiếng lục khục khi cử động.','Kẹt khớp, khuỵu gối.'],{line:'a',joiner:' '}),
- M('kem','bs','Kèm theo',['Sưng gối','Nóng đỏ gối','Sốt','Đau các khớp khác {0}','Không đi lại được'],{line:'a',fields:['khớp nào'],joiner:'. ',suffix:'.',extra:'Triệu chứng khác'}),
- R('thuoc','bs','Thuốc đã dùng',['Đã dùng {0}.','Chưa dùng thuốc.'],{fields:['tên thuốc, có corticoid?'],def:-1}),
- M('ts','bs','Tiền sử',['gout','thoái hóa khớp','viêm khớp dạng thấp','dùng thuốc giảm đau, corticoid kéo dài','tiêm khớp gần đây'],{prefix:'Tiền sử: ',suffix:'.',extra:'khác'}),
- TRI_A(),
- R('nhin','kham','Nhìn',['Gối {0} không sưng, không nóng đỏ','Gối {0} sưng','Gối {0} sưng, nóng, đỏ','Gối {0} biến dạng {1}'],{fields:['bên','mô tả']}),
- R('tdk','kham','Tràn dịch',['Bập bềnh xương bánh chè (−)','Bập bềnh xương bánh chè (+)']),
- R('adau','kham','Ấn đau',['Không điểm đau khu trú','Ấn đau khe khớp {0}','Ấn đau {0}'],{fields:['trong / ngoài / vị trí']}),
- R('tvd','kham','Tầm vận động',['Gấp duỗi gối trong giới hạn bình thường','Hạn chế gấp gối, gấp được {0} độ','Hạn chế duỗi gối'],{fields:['độ']}),
- R('lx','kham','Lạo xạo',['Không lạo xạo khi cử động','Lạo xạo khi cử động'],{def:-1}),
- M('np','kham','Nghiệm pháp',['Ngăn kéo trước (+)','Ngăn kéo sau (+)','Lachman (+)','McMurray (+)','Dạng, khép gối đau'],{extra:'khác'}),
- R('ngoai','kham','Ngọn chi',['Mạch mu chân rõ, cảm giác và vận động bàn chân bình thường','Bất thường: {0}'],{fields:['mô tả']}),
- R('bc','kham','Bắp chân',['Bắp chân không sưng đau','Bắp chân {0} sưng đau'],{fields:['bên']}),
- R('kk','kham','Khớp khác',['Các khớp khác không sưng đau','Sưng đau khớp {0}'],{fields:['khớp nào']}),
- ...TIMPHOIBUNG(),
- CLS(['XQ khớp gối {0} thẳng nghiêng','Acid uric máu','CRP','Siêu âm khớp gối'],[0,1,2,4],['bên'])
-]},
-{id:'a-lung',g:'a',name:'Đau lưng',rows:[
- R('dau','bs','Khởi phát',['Đau thắt lưng {0}, khởi phát sau mang vác nặng.','Đau thắt lưng {0}, khởi phát từ từ.','Đau lưng {0} sau té ngã, chấn thương.','Đau vùng {1} {0}.'],{line:'a',fields:['thời gian','vị trí, vd lưng trên']}),
- M('tc','bs','Tính chất',['Đau tăng khi cúi, xoay người, giảm khi nằm nghỉ.','Đau cả khi nghỉ, đau về đêm.','Cứng lưng buổi sáng trên 30 phút.','Đau lan xuống mông, đùi.','Đau lan ra hông, bụng.'],{line:'a',joiner:' '}),
- M('bd','bs','Dấu báo động',['Không sốt, không sụt cân, không rối loạn tiểu tiện','Sốt','Sụt cân','Tiền sử ung thư','Bí tiểu hoặc tiểu không tự chủ','Tê vùng hậu môn – sinh dục','Yếu hai chân','Tiểu buốt, tiểu máu'],{line:'a',def:[0],joiner:'. ',suffix:'.',extra:'khác'}),
- M('ts','bs','Tiền sử',['thoát vị đĩa đệm','thoái hóa cột sống','loãng xương','dùng corticoid kéo dài','sỏi thận'],{prefix:'Tiền sử: ',suffix:'.',extra:'khác'}),
- TRI_A(),
- R('dang','kham','Dáng đi',['Đi lại được, dáng đi bình thường','Đi lại khó khăn do đau','Tư thế chống đau, lệch người về bên {0}','Không đi lại được'],{fields:['bên']}),
- ...CSL(),
- R('tvd','kham','Tầm vận động',['Cúi, ngửa, nghiêng, xoay thắt lưng không hạn chế','Hạn chế cúi, ngửa thắt lưng','Hạn chế vận động thắt lưng, Schober {0} cm'],{fields:['số cm']}),
- R('las','kham','Lasègue',['Lasègue (−) hai bên','Lasègue (+) {0} ở {1} độ'],{fields:['bên','độ']}),
- ...LCH(),
- R('rt','kham','Rung thận',['Rung thận (−) hai bên','Rung thận (+) {0}'],{fields:['bên']}),
- ...TIMPHOIBUNG(),
- CLS(['XQ cột sống thắt lưng thẳng nghiêng','Tổng phân tích nước tiểu'],[0,1,2,4])
-]},
-{id:'a-toa',g:'a',name:'Đau thần kinh tọa',rows:[
- R('dau','bs','Hướng lan',['Đau thắt lưng lan xuống mông, mặt sau đùi, cẳng chân {0} {1}.','Đau lan mặt ngoài đùi, cẳng chân xuống mu bàn chân {0} {1}.','Đau lan mặt sau đùi, cẳng chân xuống gót, bờ ngoài bàn chân {0} {1}.'],{line:'a',fields:['bên','thời gian']}),
- M('tc','bs','Tính chất',['Đau tăng khi ho, hắt hơi, rặn.','Đau tăng khi đứng lâu, đi lại, giảm khi nằm.','Khởi phát sau mang vác nặng.','Đau cả khi nghỉ, đau về đêm.'],{line:'a',joiner:' '}),
- M('kem','bs','Kèm theo',['Không rối loạn tiểu tiện, đại tiện','Tê bì {0}','Yếu chân {1}','Bí tiểu hoặc tiểu không tự chủ','Tê vùng hậu môn – sinh dục'],{line:'a',fields:['vùng','bên'],def:[0],joiner:'. ',suffix:'.',extra:'khác'}),
- M('ts','bs','Tiền sử',['thoát vị đĩa đệm','thoái hóa cột sống','đau thần kinh tọa tái phát'],{prefix:'Tiền sử: ',suffix:'.',extra:'khác'}),
- TRI_A(),
- R('dang','kham','Dáng đi',['Đi lại được','Đi lại khập khiễng, lệch người về bên {0}','Không đi lại được'],{fields:['bên']}),
- ...CSL(),
- R('las','kham','Lasègue',['Lasègue (−) hai bên','Lasègue (+) {0} ở {1} độ'],{fields:['bên','độ']}),
- R('val','kham','Điểm Valleix',['Ấn các điểm Valleix không đau','Ấn đau các điểm Valleix {0}'],{fields:['bên']}),
- R('bchuong','kham','Bấm chuông',['Dấu bấm chuông (−)','Dấu bấm chuông (+) {0}'],{fields:['vị trí'],def:-1}),
- R('gm','kham','Đi gót, mũi',['Đi được bằng gót và mũi chân','Không đi được bằng gót chân {0}','Không đi được bằng mũi chân {0}'],{fields:['bên']}),
- ...LCH(),
- R('teo','kham','Teo cơ',['Không teo cơ','Teo cơ {0}'],{fields:['vị trí'],def:-1}),
- ...TIMPHOIBUNG(),
- CLS(['XQ cột sống thắt lưng thẳng nghiêng','MRI cột sống thắt lưng'],[0,1,2,4])
-]}
-];
-
-// tiền căn bản thân và gia đình: dòng cuối phần hỏi bệnh, có ở mọi mẫu
-for(const t of T){
-  const i=t.rows.findIndex(r=>r.id==='ts');const old=i>=0?t.rows.splice(i,1)[0]:null;
-  let items=old?old.opts.slice():(t.g==='c'?['sinh non','tim bẩm sinh','hen phế quản']:['tăng huyết áp','đái tháo đường','bệnh tim mạch']);
-  const fam=items.filter(x=>x.includes('gia đình'));items=items.filter(x=>!x.includes('gia đình')&&x!=='dị ứng');
-  const fields=old&&old.fields?old.fields.slice():[];let k=-1;for(const x of items)for(const m of x.matchAll(/\{(\d+)\}/g))k=Math.max(k,+m[1]);k++;
-  while(fields.length<k)fields.push('ghi rõ');items.push('dị ứng thuốc {'+k+'}');fields[k]='tên thuốc';
-  const last=t.rows.reduce((a,r,j)=>r.sec==='bs'?j:a,-1);
-  t.rows.splice(last+1,0,
-    M('ts','bs','Tiền căn bản thân',items,{tc:'bt',fields,extra:'khác'}),
-    R('tcgd','bs','Tiền căn gia đình',['chưa ghi nhận bất thường',...fam.map(x=>x.replace(/^gia đình\s*/,'')),'{0}'],{tc:'gd',fields:['bệnh gì, ai mắc']}));
-}
-// câu chốt cuối phần khám, có sẵn ở mọi mẫu
-for(const t of T){const k=t.rows.findIndex(r=>r.sec==='cls');t.rows.splice(k<0?t.rows.length:k,0,R('khac','kham','Cơ quan khác',['Các cơ quan khác chưa ghi nhận bất thường'],{auto:true}))}
-// chuẩn hóa: số ô điền, mặc định
-for(const t of T)for(const r of t.rows){
-  let mx=-1;for(const s of r.opts)for(const m of s.matchAll(/\{(\d+)\}/g))mx=Math.max(mx,+m[1]);
-  r.fields=r.fields||[];while(r.fields.length<mx+1)r.fields.push('ghi rõ');
-  if(r.def===undefined)r.def=r.multi?[]:0;
-}
-
+// ---------- Trạng thái ca ----------
 const $=s=>document.querySelector(s);
-const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const KEY='dien-bien-nhanh-v1',VER=3;
-let store={},grp='c',lastT={c:'c-sot',a:'a-sot'},tid,cur=0,S,meta={name:'',time:'',dr:'',inc:true};
-try{const d=JSON.parse(localStorage.getItem(KEY)||'{}');
-  // Mỗi lần mở app là một ca mới: không nạp lại bản nháp, họ tên BN, giờ cũ.
-  // Chỉ giữ tên bác sĩ, tùy chọn chép kèm, nhóm và triệu chứng mở gần nhất.
-  if(d.ver===VER){if(d.grp==='a'||d.grp==='c')grp=d.grp;if(d.lastT)lastT={...lastT,...d.lastT}}
-  if(d.meta){meta.dr=d.meta.dr||'';if(typeof d.meta.inc==='boolean')meta.inc=d.meta.inc}}catch(e){}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const KEY='dien-bien-nhanh-v1',VER=4;
 const p2=n=>String(n).padStart(2,'0');
 function nowLocal(){const d=new Date();return`${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}T${p2(d.getHours())}:${p2(d.getMinutes())}`}
 function fmtTime(v){if(!v)return'[..]';const[dt,tm]=v.split('T');const[y,m,d]=dt.split('-');return`${d}/${m}/${y}${tm?' '+tm.slice(0,5):''}`}
-meta.time=nowLocal();
-const list=()=>T.filter(t=>t.g===grp);
-const tp=()=>T.find(t=>t.id===tid&&t.g===grp)||list()[0];
-tid=lastT[grp];
-function fresh(r){return{sel:r.multi?[...r.def]:r.def,f:r.fields.map(()=>''),x:'',ok:!!r.auto}}
-function load(){
-  const t=tp();tid=t.id;lastT[grp]=t.id;S=store[t.id]||{};
-  for(const r of t.rows){const o=S[r.id];
-    if(!o||!Array.isArray(o.f)||(r.multi!==Array.isArray(o.sel)))S[r.id]=fresh(r);
-    else{while(o.f.length<r.fields.length)o.f.push('');o.x=o.x||'';
-      if(r.multi)o.sel=o.sel.filter(i=>i<r.opts.length);else if(o.sel>=r.opts.length)o.sel=r.def}}
-  store[t.id]=S;
-}
-function save(){try{localStorage.setItem(KEY,JSON.stringify({ver:VER,grp,lastT,states:store,meta}))}catch(e){}}
+let meta={name:'',time:nowLocal(),dr:'',inc:true};
+let cs={age:'',unit:'y',sex:'',reason:''};   // ca bệnh
+let S={},MODE={},cur=0,VIEW=[];
+try{const d=JSON.parse(localStorage.getItem(KEY)||'{}');if(d.meta){meta.dr=d.meta.dr||'';if(typeof d.meta.inc==='boolean')meta.inc=d.meta.inc}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify({ver:VER,meta:{dr:meta.dr,inc:meta.inc}}))}catch(e){}}
 
-function fill(s,o){return s.replace(/\{(?:([a-z_]+)\.)?(\d+)\}/g,(m,rid,n)=>{const so=rid?S[rid]:o;const v=so&&so.f[+n]?String(so.f[+n]).trim():'';return v||'[..]'})}
-function refs(r,o){const set=new Set();const sel=r.multi?o.sel:(o.sel<0?[]:[o.sel]);for(const i of sel)for(const m of r.opts[i].matchAll(/\{(\d+)\}/g))set.add(+m[1]);return set}
-function rowText(r){const o=S[r.id];let t;
+const deacc=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/đ/g,'d').replace(/Đ/g,'d').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+function matched(){const t=' '+deacc(cs.reason)+' ';return MODS.filter(m=>m.keys.some(k=>t.includes(' '+k+' ')))}
+function ageY(){const n=parseFloat(String(cs.age).replace(',','.'));if(isNaN(n))return null;return cs.unit==='m'?n/12:n}
+const isChild=()=>{const a=ageY();return a!==null&&a<16};
+function visible(r,sel){
+  const a=ageY(),ch=isChild();
+  if(r.only==='c'&&!ch)return false;
+  if(r.only==='a'&&ch)return false;
+  if(r.sex&&cs.sex!==r.sex)return false;
+  if(r.ageMin!==undefined&&(a===null||a<r.ageMin))return false;
+  if(r.ageMax!==undefined&&(a===null||a>r.ageMax))return false;
+  if(r.maxMonths!==undefined&&(a===null||a*12>r.maxMonths))return false;
+  if(r.for&&!r.for.some(x=>sel.includes(x)))return false;
+  if(r.notFor&&r.notFor.some(x=>sel.includes(x)))return false;
+  return true;
+}
+function defOf(r,sel){if(r.defFor)for(const k of sel)if(r.defFor[k]!==undefined)return r.defFor[k];return r.multi?[...r.def]:r.def}
+function ensure(r,sel){
+  let o=S[r.id];
+  if(!o){o=S[r.id]={sel:defOf(r,sel),f:r.fields.map(()=>''),x:'',ok:!!r.auto,opts:r.opts.slice(),seen:r.opts.slice()};
+    if(r.defT)o.sel=r.opts.map((t,i)=>r.defT.includes(t)?i:-1).filter(i=>i>=0);return o}
+  if(r.dyn&&o.opts.join('|')!==r.opts.join('|')){
+    if(r.multi){const keep=o.sel.map(i=>o.opts[i]);const add=r.opts.filter(t=>!o.seen.includes(t)&&(r.defT||[]).includes(t));
+      o.sel=r.opts.map((t,i)=>keep.includes(t)||add.includes(t)?i:-1).filter(i=>i>=0)}
+    else{const t=o.sel>=0?o.opts[o.sel]:null;const j=t?r.opts.indexOf(t):-1;o.sel=o.sel<0?o.sel:(j>=0?j:0)}
+    o.seen=[...new Set([...o.seen,...r.opts])];o.opts=r.opts.slice()}
+  return o;
+}
+
+// ---------- Dựng danh sách dòng theo ca ----------
+function build(){
+  const mods=matched(),sel=mods.map(m=>m.id),ch=isChild(),grp=ch?'c':'a';
+  const V=[],rows=[];
+  const add=(r,extra={})=>{if(r.def===undefined)norm(r);if(!visible(r,sel))return;ensure(r,sel);const e={type:'row',row:r,...extra};V.push(e);rows.push(e)};
+  // Hỏi bệnh
+  V.push({type:'sec',label:'Hỏi bệnh',note:mods.length?'theo '+mods.map(m=>m.name.toLowerCase()).join(', '):'chưa nhận ra lý do vào viện, dùng mẫu chung'});
+  const shared=[],hide=new Set();for(const m of mods){(m.hide||[]).forEach(x=>hide.add(x))}
+  for(const m of mods){for(const r of m.hx)add(r,{mod:m.id});for(const s of m.sh)if(!shared.includes(s))shared.push(s)}
+  for(const k of ['hx_an','hx_tt','hx_tieu','hx_kinh','hx_tc','hx_uv'])if(shared.includes(k)&&!hide.has(k))add(SH[k]);
+  add(HX_X);
+  // tiền căn
+  let items=[];for(const m of mods)items.push(...(m.tc[grp]||[]));
+  if(!mods.length||!items.length)items=ch?['sinh non','tim bẩm sinh','hen phế quản']:['tăng huyết áp','đái tháo đường','bệnh tim mạch'];
+  items=[...new Set(items)];items.push('dị ứng thuốc {0}');
+  const BT=M('tc_bt','bs','Tiền căn bản thân',items,{dyn:true,tc:'bt',fields:['tên thuốc'],extra:'khác'});
+  let fam=[];for(const m of mods)fam.push(...(m.fam||[]));
+  const GD=R('tc_gd','bs','Tiền căn gia đình',['chưa ghi nhận bất thường',...new Set(fam),'{0}'],{dyn:true,tc:'gd',fields:['bệnh gì, ai mắc']});
+  add(BT);add(GD);
+  // Khám
+  V.push({type:'sec',label:'Khám',note:'Tình trạng lúc nhập khoa cấp cứu'});
+  const focus=new Set();for(const m of mods)m.focus.forEach(x=>focus.add(x));
+  for(const s of SYS){
+    const isF=focus.has(s.id);
+    if(!isF&&!s.always)continue;
+    const nm=s.normal[grp]||'';const inf=s.normal.inf&&ageY()!==null&&ageY()*12<=18?s.normal.inf:nm;
+    if(isF){V.push({type:'sysh',sys:s,focused:true});for(const r of s.rows)add(r,{sys:s.id,sub:true});continue}
+    const hr=norm2(R('sys_'+s.id,'kham',s.name,[inf,'Khác…'],{sysrow:s.id}));ensure(hr,sel);
+    const e={type:'row',row:hr,sys:s.id,head:true};V.push(e);rows.push(e);
+    if(S[hr.id].sel===1)for(const r of s.rows)add(r,{sys:s.id,sub:true});
+  }
+  add(KHAC);
+  // Cận lâm sàng
+  V.push({type:'sec',label:'Cận lâm sàng'});
+  let cl=[...BASE_CLS];for(const m of mods)cl.push(...m.cls);cl=[...new Set(cl)];
+  const useBase=!mods.length||mods.some(m=>!m.noBase);
+  const defT=[...(useBase?BASE_CLS:[]),...mods.flatMap(m=>m.clsDef)];
+  add(M('cls','cls','Cận lâm sàng',cl,{dyn:true,defT,prefix:'Cận lâm sàng: ',suffix:'.',extra:'Cận lâm sàng khác',auto:true}));
+  if(mods.some(m=>m.xt)){V.push({type:'sec',label:'Xử trí'});for(const r of XT)add(r)}
+  VIEW=V;return{V,rows,mods,sel};
+}
+
+// ---------- Ghép văn bản ----------
+function fill(s,o){return s.replace(/\{(\d+)\}/g,(m,n)=>{const v=o&&o.f[+n]?String(o.f[+n]).trim():'';return v||'[..]'})}
+function rowText(r){const o=S[r.id];let t;if(r.sysrow&&o.sel===1)return'';
   if(r.multi){const p=[...o.sel].sort((a,b)=>a-b).map(i=>fill(r.opts[i],o));if(o.x.trim())p.push(o.x.trim());if(!p.length)return'';t=p.join(r.joiner||', ')}
   else{if(o.sel<0)return'';t=fill(r.opts[o.sel],o)}
   if(r.suffix)t=t.replace(/[.\s]+$/,'')+r.suffix;
   return(r.prefix||'')+t}
-function tcText(){
-  const br=tp().rows.find(x=>x.id==='ts'),gr=tp().rows.find(x=>x.id==='tcgd'),b=S.ts,g=S.tcgd;
+function tcText(rows){
+  const br=rows.find(e=>e.row.id==='tc_bt').row,gr=rows.find(e=>e.row.id==='tc_gd').row,b=S.tc_bt,g=S.tc_gd;
   const bt=[...b.sel].sort((x,y)=>x-y).map(i=>fill(br.opts[i],b));if(b.x.trim())bt.push(b.x.trim());
   const gd=g.sel>0?fill(gr.opts[g.sel],g):'';
   if(g.sel<0)return bt.length?'Tiền căn bản thân: '+bt.join(', ')+'.':'';
@@ -769,76 +697,117 @@ function tcText(){
 }
 const cap=t=>t.charAt(0).toUpperCase()+t.slice(1);
 const decap=t=>(t.length>1&&t[1]!==t[1].toUpperCase())?t.charAt(0).toLowerCase()+t.slice(1):t;
-function build(){
-  const lines=[];let ps=null,pl=null;
-  for(const r of tp().rows){if(r.tc==='bt')continue;const t=r.tc==='gd'?tcText():rowText(r);if(!t)continue;
-    if(ps&&r.sec!==ps&&(r.sec==='kham'||r.sec==='cls'||r.sec==='xt'))lines.push([]);
-    if(r.sec!==ps&&SECHEAD[r.sec])lines.push([{t:SECHEAD[r.sec],ok:true}]);
-    const seg={t,ok:r.tc==='gd'?(S.ts.ok&&S.tcgd.ok):S[r.id].ok,sep:r.lj||' '};
-    if(r.line&&r.line===pl&&lines.length&&lines[lines.length-1].length){if(seg.sep.includes(',')&&!r.keep)seg.t=decap(seg.t);lines[lines.length-1].push(seg)}else{seg.t=cap(seg.t);lines.push([seg])}
-    ps=r.sec;pl=r.line||null}
+function opening(){
+  const a=ageY();const sex=cs.sex==='M'?'nam':cs.sex==='F'?'nữ':'[..]';
+  const age=cs.age===''?'[..] tuổi':(cs.unit==='m'?`${String(cs.age).trim()} tháng tuổi`:`${String(cs.age).trim()} tuổi`);
+  const who=a!==null&&a<16?'Bệnh nhi':'Bệnh nhân';
+  const ly=cs.reason.trim().replace(/[.\s]+$/,'');
+  return`${who} ${sex}, ${age}, vào viện vì ${ly?decap(ly):'[..]'}.`;
+}
+function compose(){
+  const{rows}=build();const lines=[];let ps=null,pl=null,psys=null;
+  lines.push([{t:opening(),ok:!!(cs.age!==''&&cs.sex&&cs.reason.trim())}]);ps='bs';
+  for(const e of rows){const r=e.row;
+    if(r.tc==='bt')continue;
+    const t=r.tc==='gd'?tcText(rows):rowText(r);if(!t)continue;
+    if(r.sec!==ps&&(r.sec==='kham'||r.sec==='cls'||r.sec==='xt'))lines.push([]);
+    if(r.sec!==ps&&r.sec==='kham')lines.push([{t:'Tình trạng lúc nhập khoa cấp cứu:',ok:true}]);
+    if(r.sec!==ps&&r.sec==='xt')lines.push([{t:'Xử trí:',ok:true}]);
+    const ok=r.tc==='gd'?(S.tc_bt.ok&&S.tc_gd.ok):S[r.id].ok;
+    const seg={t,ok,sep:r.lj||' '};
+    const lk=r.line?(e.sys||e.mod||'')+'|'+r.line:null;
+    if(lk&&lk===pl&&lines.length&&lines[lines.length-1].length){if(seg.sep.includes(',')&&!r.keep)seg.t=decap(seg.t);lines[lines.length-1].push(seg)}
+    else{seg.t=cap(seg.t);lines.push([seg])}
+    ps=r.sec;pl=lk;
+  }
   if(meta.inc){
     lines.unshift([{t:'Ngày giờ: '+fmtTime(meta.time),ok:true,mt:true}],[{t:'Họ tên BN: '+(meta.name.trim()||'[..]'),ok:true,mt:true}],[]);
     if(meta.dr.trim())lines.push([{t:'Bác sĩ: '+meta.dr.trim(),ok:true,mt:true}]);
   }
-  return{lines,text:lines.map(l=>l.map((s,i)=>(i?s.sep||' ':'')+s.t).join('')).join('\n')}
+  return{lines,text:lines.map(l=>l.map((s,i)=>(i?s.sep||' ':'')+s.t).join('')).join('\n')};
 }
 
-// giao diện
+// ---------- Giao diện ----------
 const form=$('#form'),pv=$('#pv'),stat=$('#stat');
 const touch=window.matchMedia&&matchMedia('(hover: none)').matches;
-function renderTabs(){
-  $('#grp').innerHTML=GROUPS.map(g=>`<button class="seg" type="button" data-g="${g.id}" aria-pressed="${g.id===grp}">${g.name}</button>`).join('')+'<span class="seg-k"><kbd>G</kbd> đổi</span>';
-  $('#tabs').innerHTML=list().map((t,i)=>`<button class="tab" type="button" data-t="${t.id}" aria-pressed="${t.id===tid}">${esc(t.name)} ${i<10?`<kbd>⇧${(i+1)%10}</kbd>`:''}</button>`).join('');
-}
+let NAV=[];
 function chipLabel(s){const t=s.replace(/\{[^}]+\}/g,'…');return esc(t==='…'?'Ghi rõ…':t)}
+function rowHTML(e,i){
+  const r=e.row,o=S[r.id];
+  const cls=['row'];if(e.sub)cls.push('sub');if(e.head)cls.push('head');if(e.head&&o.sel===1)cls.push('open');
+  let h=`<div class="${cls.join(' ')}" data-i="${i}"><div class="rh"><span class="rl">${esc(r.label)}${r.multi?' <span class="mul">nhiều</span>':''}</span><span class="rs"></span></div><div class="body"><div class="chips">`;
+  r.opts.forEach((s,k)=>{h+=`<button type="button" class="chip${e.head&&k===1?' other':''}" data-o="${k}" tabindex="-1">${k<9?`<kbd>${k+1}</kbd>`:''}${chipLabel(s)}</button>`});
+  if(!r.auto||r.multi)h+=`<button type="button" class="chip zero" data-o="-1" tabindex="-1"><kbd>0</kbd>${r.multi?'Bỏ hết':'Không ghi'}</button>`;
+  h+=`</div><div class="fields">`;
+  r.fields.forEach((p,k)=>{h+=`<input id="f-${r.id}-${k}" data-f="${k}" placeholder="${esc(p)}" autocomplete="off" hidden>`});
+  if(r.extra)h+=`<input class="x" id="f-${r.id}-x" data-x="1" placeholder="${esc(r.extra)}" autocomplete="off">`;
+  return h+`</div></div></div>`;
+}
 function renderForm(){
-  const t=tp(),rows=t.rows;let h=`<div class="fhead"><span class="who">${GROUPS.find(g=>g.id===grp).name}</span> ${esc(t.name)}</div>`,ps=null;
-  rows.forEach((r,i)=>{
-    if(r.sec!==ps){h+=`<div class="sec">${SEC[r.sec]}${r.sec==='kham'?' <small>sinh hiệu đã có ở phần điều dưỡng</small>':''}${r.sec==='cls'?' <small>chọn được nhiều</small>':''}</div>`;ps=r.sec}
-    h+=`<div class="row" data-i="${i}"><div class="rh"><span class="rl">${esc(r.label)}${r.multi?' <span class="mul">nhiều</span>':''}</span><span class="rs"></span></div><div class="body"><div class="chips">`;
-    r.opts.forEach((s,k)=>{h+=`<button type="button" class="chip" data-o="${k}" tabindex="-1">${k<9?`<kbd>${k+1}</kbd>`:''}${chipLabel(s)}</button>`});
-    h+=`<button type="button" class="chip zero" data-o="-1" tabindex="-1"><kbd>0</kbd>${r.multi?'Bỏ hết':'Không ghi'}</button></div><div class="fields">`;
-    r.fields.forEach((p,k)=>{h+=`<input id="f-${t.id}-${r.id}-${k}" data-f="${k}" placeholder="${esc(p)}" autocomplete="off" hidden>`});
-    if(r.extra)h+=`<input class="x" id="f-${t.id}-${r.id}-x" data-x="1" placeholder="${esc(r.extra)}" autocomplete="off">`;
-    h+=`</div></div></div>`});
+  const{V}=build();NAV=[];let h='';
+  for(const e of V){
+    if(e.type==='sec'){h+=`<div class="sec">${esc(e.label)}${e.note?` <small>${esc(e.note)}</small>`:''}</div>`;continue}
+    if(e.type==='sysh'){h+=`<div class="sysh"><span>${esc(e.sys.name)}</span><span class="badge">liên quan</span></div>`;continue}
+    h+=rowHTML(e,NAV.length);NAV.push(e);
+  }
   form.innerHTML=h;
-  rows.forEach((r,i)=>{const el=rowEl(i),o=S[r.id];el.querySelectorAll('input[data-f]').forEach(inp=>inp.value=o.f[+inp.dataset.f]||'');const x=el.querySelector('input[data-x]');if(x)x.value=o.x;updRow(i)});
-  updCur();
+  NAV.forEach((e,i)=>{const el=rowEl(i),o=S[e.row.id];el.querySelectorAll('input[data-f]').forEach(inp=>inp.value=o.f[+inp.dataset.f]||'');const x=el.querySelector('input[data-x]');if(x)x.value=o.x;updRow(i)});
+  if(cur>=NAV.length)cur=Math.max(0,NAV.length-1);
+  updCur(false);renderCase();
 }
 const rowEl=i=>form.querySelector(`.row[data-i="${i}"]`);
+function refs(r,o){const set=new Set();const sel=r.multi?o.sel:(o.sel<0?[]:[o.sel]);for(const i of sel)for(const m of r.opts[i].matchAll(/\{(\d+)\}/g))set.add(+m[1]);return set}
 function updRow(i){
-  const r=tp().rows[i],o=S[r.id],el=rowEl(i);if(!el)return;
+  const e=NAV[i];if(!e)return;const r=e.row,o=S[r.id],el=rowEl(i);if(!el)return;
   el.querySelectorAll('.chip').forEach(c=>{const k=+c.dataset.o;c.classList.toggle('on',k<0?(r.multi?o.sel.length===0&&!o.x.trim():o.sel<0):(r.multi?o.sel.includes(k):o.sel===k))});
   const rf=refs(r,o);el.querySelectorAll('input[data-f]').forEach(inp=>inp.hidden=!rf.has(+inp.dataset.f));
   el.classList.toggle('ok',o.ok);
-  el.querySelector('.rs').textContent=o.ok?'✓ đã xác nhận':'mặc định';
+  el.querySelector('.rs').textContent=o.ok?'✓':'mặc định';
 }
-function updCur(scroll=true){form.querySelectorAll('.row.cur').forEach(e=>e.classList.remove('cur'));const el=rowEl(cur);if(el){el.classList.add('cur');if(scroll)el.scrollIntoView({block:'nearest'})}}
+function updCur(scroll=true){form.querySelectorAll('.row.cur').forEach(x=>x.classList.remove('cur'));const el=rowEl(cur);if(el){el.classList.add('cur');if(scroll)el.scrollIntoView({block:'nearest'})}}
 function renderOut(){
-  const{lines}=build();let blanks=0,unc=0;
+  const{lines}=compose();let blanks=0,unc=0;
   pv.innerHTML=lines.map(l=>{if(!l.length)return'<div class="ln">&nbsp;</div>';
     return'<div class="ln">'+l.map((s,i)=>{blanks+=(s.t.match(/\[\.\.\]/g)||[]).length;if(!s.ok)unc++;
       return(i?esc(s.sep||' '):'')+`<span${s.mt?' class="mt"':s.ok?'':' class="unc"'}>${esc(s.t).replace(/\[\.\.\]/g,'<mark>[..]</mark>')}</span>`}).join('')+'</div>'}).join('');
-  const st=(blanks||unc)?`<b>${blanks}</b> chỗ trống · <b>${unc}</b> dòng mặc định`:'<span class="good">✓ Đã điền và xác nhận đủ</span>';stat.innerHTML=st;const ms=$('#mstat');if(ms)ms.innerHTML=st;
+  const st=(blanks||unc)?`<b>${blanks}</b> chỗ trống · <b>${unc}</b> dòng mặc định`:'<span class="good">✓ Đã điền và xác nhận đủ</span>';
+  stat.innerHTML=st;const ms=$('#mstat');if(ms)ms.innerHTML=st;
 }
-function changed(i){updRow(i);renderOut();save()}
-function move(d){const n=tp().rows.length;cur=Math.max(0,Math.min(n-1,cur+d));updCur()}
+function changed(i){updRow(i);renderOut()}
+function move(d){cur=Math.max(0,Math.min(NAV.length-1,cur+d));updCur()}
 function focusField(i){const inp=rowEl(i)&&rowEl(i).querySelector('.fields input:not([hidden])');if(inp){inp.focus();inp.select();return true}return false}
 function choose(i,k){
-  const r=tp().rows[i],o=S[r.id];cur=i;updCur(!touch);
+  const e=NAV[i];if(!e)return;const r=e.row,o=S[r.id];cur=i;updCur(!touch);
+  if(e.head){ // công tắc hệ: 1 = bình thường, 2 = khác (bung), 0 = không ghi
+    o.sel=k<0?-1:k;o.ok=true;renderForm();renderOut();
+    if(k===1){const nx=NAV.findIndex((x,j)=>j>i&&x.sub);if(nx>=0){cur=nx;updCur(true)}}
+    else if(!touch)move(1);return}
   if(k<0){if(r.multi){o.sel=[];o.x='';const x=rowEl(i).querySelector('input[data-x]');if(x)x.value=''}else o.sel=-1;o.ok=true;changed(i);if(!touch)move(1);return}
   if(k>=r.opts.length)return;
   let on=true;
   if(r.multi){const p=o.sel.indexOf(k);if(p>=0){o.sel.splice(p,1);on=false}else o.sel.push(k)}else o.sel=k;
   o.ok=true;changed(i);
-  const needs=on&&/\{\d+\}/.test(r.opts[k]);
-  if(needs){const inp=rowEl(i).querySelector(`input[data-f="${(r.opts[k].match(/\{(\d+)\}/)||[])[1]}"]`);if(inp){inp.focus();inp.select()}}
+  if(on&&/\{\d+\}/.test(r.opts[k])){const inp=rowEl(i).querySelector(`input[data-f="${(r.opts[k].match(/\{(\d+)\}/)||[])[1]}"]`);if(inp){inp.focus();inp.select()}}
   else if(!r.multi&&!touch)move(1);
 }
-function rerender(){cur=0;load();renderTabs();renderForm();renderOut();save()}
-function switchT(id){if(id===tid)return;tid=id;lastT[grp]=id;rerender()}
-function switchG(g){if(g===grp)return;grp=g;tid=lastT[g];rerender();toast('Đã chuyển sang '+GROUPS.find(x=>x.id===g).name)}
+
+// thanh ca bệnh
+const cAge=$('#c-age'),cReason=$('#c-reason'),mName=$('#m-name'),mTime=$('#m-time'),mDr=$('#m-dr'),mInc=$('#m-inc');
+function renderCase(){
+  document.querySelectorAll('#c-unit .seg').forEach(b=>b.setAttribute('aria-pressed',b.dataset.u===cs.unit));
+  document.querySelectorAll('#c-sex .seg').forEach(b=>b.setAttribute('aria-pressed',b.dataset.s===cs.sex));
+  const mods=matched();
+  $('#c-match').innerHTML=mods.length?'<span class="mlab">Khám kỹ:</span> '+mods.map(m=>`<span class="tag">${esc(m.name)}</span>`).join(''):'<span class="mlab">Chưa nhận ra lý do. Gõ hoặc chọn bên dưới.</span>';
+  $('#c-sug').innerHTML=MODS.filter(m=>!mods.includes(m)).map(m=>`<button type="button" class="sug" data-m="${m.id}">+ ${esc(m.name)}</button>`).join('');
+  const who=isChild()?'Trẻ em':ageY()===null?'Chưa nhập tuổi':'Người lớn';$('#c-who').textContent=who;
+}
+function caseChanged(){renderForm();renderOut()}
+cAge.addEventListener('input',()=>{cs.age=cAge.value;caseChanged()});
+cReason.addEventListener('input',()=>{cs.reason=cReason.value;caseChanged()});
+$('#c-unit').addEventListener('click',e=>{const b=e.target.closest('.seg');if(b){cs.unit=b.dataset.u;caseChanged()}});
+$('#c-sex').addEventListener('click',e=>{const b=e.target.closest('.seg');if(b){cs.sex=cs.sex===b.dataset.s?'':b.dataset.s;caseChanged()}});
+$('#c-sug').addEventListener('click',e=>{const b=e.target.closest('.sug');if(!b)return;const m=MODS.find(x=>x.id===b.dataset.m);
+  const cur0=cs.reason.trim().replace(/[,\s]+$/,'');cs.reason=(cur0?cur0+', ':'')+m.name.toLowerCase();cReason.value=cs.reason;caseChanged()});
 
 form.addEventListener('click',e=>{
   const c=e.target.closest('.chip');const row=e.target.closest('.row');if(!row)return;const i=+row.dataset.i;
@@ -847,15 +816,13 @@ form.addEventListener('click',e=>{
 });
 form.addEventListener('focusin',e=>{const row=e.target.closest('.row');if(row&&e.target.matches('input')){cur=+row.dataset.i;updCur(!touch)}});
 form.addEventListener('input',e=>{
-  const inp=e.target,row=inp.closest('.row');if(!row)return;const i=+row.dataset.i,r=tp().rows[i],o=S[r.id];
+  const inp=e.target,row=inp.closest('.row');if(!row)return;const i=+row.dataset.i,r=NAV[i].row,o=S[r.id];
   if(inp.dataset.x)o.x=inp.value;else o.f[+inp.dataset.f]=inp.value;o.ok=true;changed(i);
 });
-$('#tabs').addEventListener('click',e=>{const b=e.target.closest('.tab');if(b)switchT(b.dataset.t)});
-$('#grp').addEventListener('click',e=>{const b=e.target.closest('.seg');if(b)switchG(b.dataset.g)});
 
 let tt;function toast(m){const t=$('#toast');t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>t.hidden=true,2200)}
 function copy(){
-  const text=build().text;const fb=$('#fb');
+  const text=compose().text;const fb=$('#fb');
   const fallback=()=>{fb.value=text;fb.hidden=false;fb.focus();fb.select();let ok=false;try{ok=document.execCommand('copy')}catch(e){}if(ok){fb.hidden=true;toast('Đã sao chép, dán vào cột diễn biến')}else toast('Không sao chép tự động được. Văn bản đã bôi đen, bấm Ctrl+C.')};
   try{navigator.clipboard.writeText(text).then(()=>{fb.hidden=true;toast('Đã sao chép, dán vào cột diễn biến')},fallback)}catch(e){fallback()}
 }
@@ -863,17 +830,16 @@ $('#copy').addEventListener('click',copy);
 $('#mcopy').addEventListener('click',copy);
 $('#mview').addEventListener('click',()=>{document.querySelector('.sheet').scrollIntoView({behavior:'smooth',block:'start'})});
 let armT=0;
-const mName=$('#m-name'),mTime=$('#m-time'),mDr=$('#m-dr'),mInc=$('#m-inc');
-function fillMeta(){mName.value=meta.name;mTime.value=meta.time;mDr.value=meta.dr;mInc.checked=meta.inc}
-function reset(){const t=tp();for(const r of t.rows)S[r.id]=fresh(r);meta.name='';meta.time=nowLocal();fillMeta();cur=0;renderForm();renderOut();save();toast('Đã làm lại mẫu '+t.name+', xóa họ tên BN')}
-function armReset(){const b=$('#reset');if(Date.now()-armT<2000){armT=0;b.classList.remove('arm');b.textContent='Làm lại mẫu';reset();return}
-  armT=Date.now();b.classList.add('arm');b.textContent='Bấm lần nữa để xóa';setTimeout(()=>{if(Date.now()-armT>=1900){b.classList.remove('arm');b.textContent='Làm lại mẫu'}},2000)}
+function fillMeta(){mName.value=meta.name;mTime.value=meta.time;mDr.value=meta.dr;mInc.checked=meta.inc;cAge.value=cs.age;cReason.value=cs.reason}
+function reset(){S={};cs={age:'',unit:'y',sex:'',reason:''};meta.name='';meta.time=nowLocal();fillMeta();cur=0;renderForm();renderOut();toast('Đã xóa, bắt đầu ca mới');cAge.focus()}
+function armReset(){const b=$('#reset');if(Date.now()-armT<2000){armT=0;b.classList.remove('arm');b.textContent='Ca mới';reset();return}
+  armT=Date.now();b.classList.add('arm');b.textContent='Bấm lần nữa để xóa';setTimeout(()=>{if(Date.now()-armT>=1900){b.classList.remove('arm');b.textContent='Ca mới'}},2000)}
 $('#reset').addEventListener('click',armReset);
-mName.addEventListener('input',()=>{meta.name=mName.value;renderOut();save()});
-mTime.addEventListener('input',()=>{meta.time=mTime.value;renderOut();save()});
+mName.addEventListener('input',()=>{meta.name=mName.value;renderOut()});
+mTime.addEventListener('input',()=>{meta.time=mTime.value;renderOut()});
 mDr.addEventListener('input',()=>{meta.dr=mDr.value;renderOut();save()});
 mInc.addEventListener('change',()=>{meta.inc=mInc.checked;renderOut();save()});
-$('#m-now').addEventListener('click',()=>{meta.time=nowLocal();mTime.value=meta.time;renderOut();save()});
+$('#m-now').addEventListener('click',()=>{meta.time=nowLocal();mTime.value=meta.time;renderOut()});
 const help=$('#help');
 help.addEventListener('click',e=>{if(e.target===help)help.hidden=true});
 
@@ -883,28 +849,31 @@ document.addEventListener('keydown',e=>{
   if(!help.hidden){if(e.key==='Escape'||e.key==='?'){e.preventDefault();help.hidden=true}return}
   if(tg.matches&&tg.matches('input,textarea')){
     if(tg.id==='fb'){if(e.key==='Escape'){tg.hidden=true}return}
-    if(e.key==='Enter'){e.preventDefault();const row=tg.closest('.row');if(row){const i=+row.dataset.i;S[tp().rows[i].id].ok=true;changed(i);tg.blur();if(!touch)move(1)}else tg.blur()}
+    if(e.key==='Enter'){e.preventDefault();const row=tg.closest('.row');
+      if(row){const i=+row.dataset.i;S[NAV[i].row.id].ok=true;changed(i);tg.blur();if(!touch)move(1)}
+      else{const order=['c-age','c-reason'];const j=order.indexOf(tg.id);if(j>=0&&j<order.length-1)$('#'+order[j+1]).focus();else{tg.blur();cur=0;updCur()}}}
     else if(e.key==='Escape'){e.preventDefault();tg.blur()}
     return}
   if(e.ctrlKey||e.metaKey||e.altKey)return;
   const dm=e.code.match(/^(?:Digit|Numpad)(\d)$/);
-  if(dm&&e.shiftKey){const n=+dm[1],t=list()[n===0?9:n-1];if(t){e.preventDefault();switchT(t.id)}return}
-  if(dm){e.preventDefault();const n=+dm[1];choose(cur,n===0?-1:n-1);return}
+  if(dm&&!e.shiftKey){e.preventDefault();const n=+dm[1];choose(cur,n===0?-1:n-1);return}
   const k=e.key;
   if(k==='ArrowDown'||k==='j'||k==='J'){e.preventDefault();move(1)}
   else if(k==='ArrowUp'||k==='k'||k==='K'){e.preventDefault();move(-1)}
-  else if(k==='Enter'){e.preventDefault();const r=tp().rows[cur];S[r.id].ok=true;changed(cur);move(1)}
-  else if(k===' '){e.preventDefault();const r=tp().rows[cur],o=S[r.id];if(!r.multi){o.sel=(o.sel+1)%r.opts.length;o.ok=true;changed(cur)}}
+  else if(k==='Enter'){e.preventDefault();const r=NAV[cur]&&NAV[cur].row;if(r){S[r.id].ok=true;changed(cur);move(1)}}
   else if(k==='Tab'||k==='e'||k==='E'){if(focusField(cur))e.preventDefault()}
   else if(k==='c'||k==='C'){e.preventDefault();copy()}
-  else if(k==='g'||k==='G'){e.preventDefault();switchG(grp==='c'?'a':'c')}
-  else if(k==='['||k===']'){e.preventDefault();const L=list(),i=L.findIndex(t=>t.id===tid);switchT(L[(i+(k===']'?1:-1)+L.length)%L.length].id)}
   else if(k==='n'||k==='N'){e.preventDefault();mName.focus();mName.select()}
-  else if(k==='r'||k==='R'){e.preventDefault();if(Date.now()-armT<2000){armReset()}else{armReset();toast('Bấm R lần nữa để làm lại mẫu này')}}
+  else if(k==='t'||k==='T'){e.preventDefault();cAge.focus();cAge.select()}
+  else if(k==='l'||k==='L'){e.preventDefault();cReason.focus()}
+  else if(k==='m'||k==='M'){e.preventDefault();cs.sex=cs.sex==='M'?'':'M';caseChanged()}
+  else if(k==='f'||k==='F'){e.preventDefault();cs.sex=cs.sex==='F'?'':'F';caseChanged()}
+  else if(k==='r'||k==='R'){e.preventDefault();if(Date.now()-armT<2000){armReset()}else{armReset();toast('Bấm R lần nữa để bắt đầu ca mới')}}
   else if(k==='?'||k==='h'||k==='H'){e.preventDefault();help.hidden=false}
 });
 
-load();fillMeta();renderTabs();renderForm();renderOut();
+fillMeta();renderForm();renderOut();
+
 </script>
 
 <script>
