@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Nội soi">
+<meta name="theme-color" content="#F2F3F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F1218" media="(prefers-color-scheme: dark)">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<style>
+:root{color-scheme:light}
+body{margin:0;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+img{max-width:100%}[hidden]{display:none!important}
+</style>
+<title>Phiếu nội soi nhanh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&family=Tinos:wght@400;700&display=swap">
+<style>
+/* Layout: bàn làm việc hai cột giống app Diễn biến nhanh — trái là các dòng chọn bằng phím, phải là tờ kết quả nội soi */
+:root{
+  --bg:#F2F3F6; --panel:#FFFFFF; --ink:#1A2030; --mute:#5D6576; --line:#D8DBE3;
+  --acc:#2341B0; --onacc:#FFFFFF; --cur:#E8ECFA; --warn:#9A5205; --warnbg:#FFEFD6;
+  --ok:#2E7647; --paper:#FFFFFF; --rule:#1A2030;
+  --f-ui:'Be Vietnam Pro',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-paper:'Tinos','Times New Roman',Times,serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F1218; --panel:#171B23; --ink:#E4E7EE; --mute:#99A2B3; --line:#2B313D;
+  --acc:#90A4FF; --onacc:#0F1218; --cur:#1F2638; --warn:#F2A65A; --warnbg:#3B2A14;
+  --ok:#6BC089; --paper:#1A1E27; --rule:#C7CCD8; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1218; --panel:#171B23; --ink:#E4E7EE; --mute:#99A2B3; --line:#2B313D;
+  --acc:#90A4FF; --onacc:#0F1218; --cur:#1F2638; --warn:#F2A65A; --warnbg:#3B2A14;
+  --ok:#6BC089; --paper:#1A1E27; --rule:#C7CCD8; color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-size:14px;line-height:1.45}
+button,.chip,.seg{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.app{max-width:1280px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px;display:flex;flex-direction:column;gap:14px}
+.app>*{min-width:0;max-width:100%}
+.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px}
+.brand h1{margin:0;font-size:22px;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.brand p{margin:2px 0 0;color:var(--mute);max-width:62ch}
+kbd{font-family:var(--f-mono);font-size:11px;font-weight:500;padding:1px 5px;border-radius:4px;border:1px solid var(--line);background:var(--bg);color:var(--mute);line-height:1.3}
+
+.case{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.crow{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:flex-end}
+.case label,.flab{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:600;color:var(--mute);min-width:0}
+.case input.in{font:inherit;font-size:15px;font-weight:400;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:8px 10px;width:100%;min-width:0}
+.case input.in:focus{outline:2px solid var(--acc);outline-offset:1px}
+.f-name{flex:2 1 220px}.f-age{flex:0 1 90px}.f-ma{flex:1 1 140px}.f-wide{flex:1 1 260px}.f-sm{flex:1 1 180px}
+.f-sex{display:flex;flex-direction:column;gap:4px}
+.segs{display:inline-flex;border:1.5px solid var(--ink);border-radius:8px;overflow:hidden;align-self:flex-start}
+.seg{font:inherit;font-weight:700;font-size:14px;padding:7px 14px;border:none;background:var(--panel);color:var(--ink);cursor:pointer}
+.seg+.seg{border-left:1.5px solid var(--ink)}
+.seg[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.seg:focus-visible{outline:2px solid var(--acc);outline-offset:-3px}
+.now{font:inherit;font-size:12.5px;color:var(--acc);background:none;border:none;padding:0;cursor:pointer;text-align:left}
+
+.legend{margin:0;color:var(--mute);font-size:12.5px;display:flex;flex-wrap:wrap;gap:4px 14px}
+.legend span{display:inline-flex;gap:5px;align-items:center}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,430px);gap:20px;align-items:start}
+.left{display:flex;flex-direction:column;gap:14px;min-width:0}
+.form{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:6px 0;min-width:0}
+.sec{padding:14px 16px 4px;font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.sec small{font-weight:400;letter-spacing:0;text-transform:none}
+.row{display:grid;grid-template-columns:130px minmax(0,1fr);gap:4px 14px;padding:8px 16px;cursor:pointer;border-top:1px solid transparent;border-bottom:1px solid transparent}
+.row.cur{background:var(--cur);border-color:var(--line)}
+.rh{display:flex;flex-direction:column;gap:2px;padding-top:4px}
+.rl{font-weight:600}
+.rs{font-size:11.5px;color:var(--warn)}
+.row.ok .rs{color:var(--ok)}
+.mul{font-size:10.5px;font-weight:600;color:var(--mute);border:1px solid var(--line);border-radius:4px;padding:0 4px;margin-left:4px;vertical-align:1px}
+.body{display:flex;flex-direction:column;gap:6px;min-width:0}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{font:inherit;font-size:13px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:4px 8px;cursor:pointer;display:inline-flex;gap:6px;align-items:center;text-align:left;max-width:100%}
+.chip:hover{border-color:var(--acc)}
+.chip.on{background:var(--acc);border-color:var(--acc);color:var(--onacc)}
+.chip.on kbd{background:transparent;border-color:currentColor;color:inherit;opacity:.85}
+.chip.zero{color:var(--mute);border-style:dashed}
+.chip:focus-visible,.sb:focus-visible,.btn:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+
+/* phân độ và ô số của từng ý đã chọn */
+.fgs{display:flex;flex-direction:column;gap:6px}
+.fg{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;padding:6px 8px;border-left:3px solid var(--acc);background:var(--bg);border-radius:0 6px 6px 0}
+.fgl{font-size:12px;font-weight:700;color:var(--acc)}
+.fs{display:inline-flex;flex-wrap:wrap;gap:4px;align-items:center}
+.fl{font-size:12px;color:var(--mute);font-weight:600;margin-right:2px}
+.sb{font:inherit;font-size:12.5px;font-weight:600;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:3px 8px;cursor:pointer;min-height:28px}
+.sb:hover{border-color:var(--acc)}
+.sb.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.fs.need .fl{color:var(--warn)}
+.fs.long{display:flex;flex-direction:column;align-items:stretch;gap:4px;width:100%;max-width:34rem}
+.fs.long .sb{display:flex;gap:10px;align-items:baseline;text-align:left;font-weight:500;padding:6px 10px;min-height:34px}
+.fs.long .sb b{min-width:2.4em;font-weight:700;flex:none}
+.fi{font:inherit;font-size:13px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:4px 8px;min-width:0;width:8.5rem;max-width:100%}
+.fi.w{width:14rem}
+.fi:placeholder-shown{border-color:var(--warn)}
+.x{font:inherit;font-size:13px;color:var(--ink);background:var(--bg);border:1px dashed var(--line);border-radius:6px;padding:5px 8px;width:100%;max-width:28rem}
+.fi:focus,.x:focus,#kl:focus{outline:2px solid var(--acc);outline-offset:1px}
+
+.klbox{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:2px 16px 14px;display:flex;flex-direction:column;gap:6px}
+.klbox .sec{padding:12px 0 2px}
+#kl{font-family:var(--f-paper);font-size:15px;line-height:1.45;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:8px 10px;width:100%;resize:vertical}
+.klnote{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--mute)}
+.klnote button{font:inherit;font-size:12px;font-weight:600;color:var(--acc);background:none;border:none;padding:0;cursor:pointer;text-decoration:underline}
+
+.out{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);display:flex;flex-direction:column;gap:10px;min-width:0}
+.sheet{background:var(--paper);border:1.5px solid var(--rule);font-family:var(--f-paper);font-size:15.5px;line-height:1.38;color:var(--ink)}
+.sheet-h{text-align:center;font-weight:700;font-size:17px;padding:6px 8px;border-bottom:1.5px solid var(--rule);text-wrap:balance}
+.sheet-b{padding:8px 10px 18px;min-height:240px;max-height:calc(100vh - 200px);overflow:auto;overflow-wrap:anywhere}
+.sheet-b .ln{min-height:1.38em;white-space:pre-wrap}
+.sheet-b .hd{font-weight:700;margin-top:6px}
+.sheet-b .it{padding-left:1em;text-indent:-1em}
+.sheet-b .rt{text-align:right}
+.sheet-b .ct{text-align:center;font-weight:700}
+.sheet-b b{font-weight:700}
+.unc{text-decoration:underline dotted var(--warn);text-underline-offset:3px;text-decoration-thickness:1.5px}
+mark{background:var(--warnbg);color:var(--warn);font-weight:700;padding:0 1px;border-radius:2px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.stat{font-size:12.5px;color:var(--mute);font-variant-numeric:tabular-nums}
+.stat b{color:var(--warn);font-weight:600}
+.stat .good{color:var(--ok);font-weight:600}
+.acts{display:flex;gap:6px}
+.btn{font:inherit;font-weight:600;border-radius:7px;padding:8px 12px;cursor:pointer;display:inline-flex;gap:8px;align-items:center;border:1px solid var(--acc);background:var(--acc);color:var(--onacc)}
+.btn kbd{background:transparent;border-color:currentColor;color:inherit;opacity:.8}
+.btn.ghost{background:transparent;color:var(--mute);border-color:var(--line);font-weight:500}
+.btn.ghost.arm{color:var(--warn);border-color:var(--warn)}
+#fb{width:100%;min-height:120px;font-family:var(--f-paper);font-size:14px;background:var(--panel);color:var(--ink);border:1px solid var(--warn);border-radius:6px;padding:8px}
+.note{margin:0;font-size:12px;color:var(--mute)}
+
+.ref{background:var(--panel);border:1px solid var(--line);border-radius:10px}
+.ref summary{cursor:pointer;padding:10px 16px;font-size:13px;font-weight:600;color:var(--acc)}
+.ref dl{margin:0;padding:0 16px 14px;display:grid;gap:2px;font-size:13px}
+.ref dt{font-weight:600;margin-top:8px}
+.ref dd{margin:0;color:var(--mute);max-width:80ch}
+
+.help{position:fixed;inset:0;background:rgba(10,12,18,.45);display:flex;align-items:center;justify-content:center;padding:16px;z-index:20}
+.help-box{background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:18px 20px;max-width:520px;width:100%;max-height:90vh;overflow:auto}
+.help-box h2{margin:0 0 10px;font-size:16px}
+.help-box table{border-collapse:collapse;width:100%}
+.help-box td{padding:5px 6px;border-top:1px solid var(--line);vertical-align:top}
+.help-box td:first-child{white-space:nowrap;width:1%}
+.help-box p{color:var(--mute);font-size:12.5px;margin:10px 0 0}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 20px);transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:8px;font-weight:500;z-index:30;max-width:calc(100% - 32px)}
+.mbar{display:none}
+@media (max-width:900px){
+  .grid{grid-template-columns:minmax(0,1fr)}
+  .out{position:static}
+  .sheet-b{max-height:none}
+  .app{padding-block:16px 96px}
+  .mbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:15;gap:8px;align-items:center;justify-content:space-between;
+    padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:var(--panel);border-top:1px solid var(--line);box-shadow:0 -4px 14px rgba(0,0,0,.08)}
+  .mbar .stat{flex:1;min-width:0;font-size:12px;line-height:1.3}
+  .mbar .btn{flex:none}
+}
+@media (max-width:560px){
+  .row{grid-template-columns:minmax(0,1fr)}
+  .rh{flex-direction:row;gap:8px;align-items:baseline;padding-top:0}
+  .legend{display:none}
+  .f-name{flex:1 1 100%}
+}
+[hidden]{display:none!important}
+</style>
+
+</head>
+<body>
+
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <h1>Phiếu nội soi nhanh</h1>
+      <p>Nội soi thực quản – dạ dày – tá tràng. Mỗi vị trí mặc định bình thường; bấm số để chọn tổn thương, phân độ hiện ngay bên dưới. Sao chép phần mô tả và kết luận để dán vào phiếu trên máy.</p>
+    </div>
+  </header>
+
+  <p class="legend">
+    <span><kbd>↑</kbd><kbd>↓</kbd> chọn dòng</span><span><kbd>1</kbd> bình thường</span><span><kbd>2</kbd>–<kbd>8</kbd> bật/tắt tổn thương</span>
+    <span><kbd>Enter</kbd> xác nhận</span><span><kbd>E</kbd> vào ô điền</span><span><kbd>C</kbd> sao chép</span><span><kbd>?</kbd> tất cả phím</span>
+  </p>
+
+  <main class="grid">
+    <div class="left" id="left">
+      <section class="form" id="formA" aria-label="Mô tả, CLO test"></section>
+      <section class="klbox" aria-label="Kết luận">
+        <div class="sec">II. Kết luận <small>tự tạo từ phần mô tả, sửa tay được</small></div>
+        <textarea id="kl" rows="4" aria-label="Kết luận, mỗi dòng một chẩn đoán"></textarea>
+        <div class="klnote"><span id="klnote">Mỗi dòng một chẩn đoán.</span><button type="button" id="klre" hidden>Tạo lại từ phần mô tả</button></div>
+      </section>
+      <details class="ref">
+        <summary>Bảng tra phân độ</summary>
+        <dl>
+          <dt>Los Angeles (viêm thực quản trào ngược)</dt>
+          <dd>A: trợt ≤ 5 mm, không lan giữa đỉnh 2 nếp. B: trợt &gt; 5 mm, không lan giữa đỉnh 2 nếp. C: lan giữa đỉnh ≥ 2 nếp, &lt; 75% chu vi. D: ≥ 75% chu vi.</dd>
+          <dt>Giãn tĩnh mạch thực quản</dt>
+          <dd>I: nhỏ, thẳng. II: ngoằn ngoèo, chiếm &lt; 1/3 lòng. III: to dạng chuỗi hạt, chiếm &gt; 1/3 lòng. Dấu son đỏ: nguy cơ vỡ cao.</dd>
+          <dt>Prague (Barrett)</dt>
+          <dd>C: chiều dài đoạn chiếm toàn chu vi. M: chiều dài tối đa, tính từ chỗ nối dạ dày – thực quản.</dd>
+          <dt>Kodsi (nấm thực quản)</dt>
+          <dd>I: vài mảng trắng ≤ 2 mm, sung huyết, không phù, không loét. II: nhiều mảng &gt; 2 mm, sung huyết, phù, không loét. III: mảng hợp lưu dạng dải/nốt, có loét. IV: như III kèm niêm mạc dễ chảy máu, có thể hẹp lòng.</dd>
+          <dt>Hill (van tâm vị, soi quặt ngược)</dt>
+          <dd>I: nếp van ôm chặt ống soi. II: nếp van kém rõ, mở đóng theo nhịp thở. III: nếp van gần mất, không ôm chặt ống soi. IV: không còn nếp van, tâm vị mở, thường kèm thoát vị hoành.</dd>
+          <dt>Sydney (viêm dạ dày trên nội soi)</dt>
+          <dd>7 dạng: sung huyết, trợt phẳng, trợt lồi, xuất huyết, teo, phì đại nếp, trào ngược dịch mật. Mỗi dạng chia mức độ nhẹ, vừa, nặng.</dd>
+          <dt>Kimura-Takemoto (teo niêm mạc)</dt>
+          <dd>C-1: teo giới hạn ở hang vị. C-2: ranh giới ở bờ cong nhỏ phần thấp thân vị. C-3: ranh giới ở bờ cong nhỏ phần cao thân vị. O-1: ranh giới vượt tâm vị, giữa bờ cong nhỏ và thành trước. O-2: ranh giới ở thành trước. O-3: teo lan gần hết thân vị. C-1–C-2 nhẹ, C-3–O-1 vừa, O-2–O-3 nặng.</dd>
+          <dt>Forrest (loét có nguy cơ chảy máu)</dt>
+          <dd>Ia: phun thành tia. Ib: rỉ máu. IIa: lộ mạch máu. IIb: cục máu đông bám. IIc: đốm sắc tố phẳng. III: đáy sạch. Ia, Ib, IIa nguy cơ tái chảy máu cao; IIb cân nhắc gỡ cục máu.</dd>
+          <dt>Paris (tổn thương nông, typ 0)</dt>
+          <dd>0-Ip: có cuống. 0-Isp: nửa cuống. 0-Is: không cuống. 0-IIa: gồ nhẹ. 0-IIb: phẳng. 0-IIc: lõm nhẹ. 0-III: loét lõm sâu.</dd>
+          <dt>Borrmann (ung thư dạ dày tiến triển)</dt>
+          <dd>I: dạng polyp. II: loét, bờ gồ cao, ranh giới rõ. III: loét thâm nhiễm, ranh giới không rõ. IV: thâm nhiễm lan tỏa (linitis plastica).</dd>
+        </dl>
+      </details>
+    </div>
+    <aside class="out">
+      <div class="sheet">
+        <div class="sheet-h">Phiếu kết quả nội soi thực quản – dạ dày – tá tràng</div>
+        <div class="sheet-b" id="pv" aria-live="polite"></div>
+      </div>
+      <div class="bar">
+        <div class="stat" id="stat"></div>
+        <div class="acts">
+          <button class="btn ghost" id="reset" type="button">Ca mới</button>
+          <button class="btn" id="copy" type="button">Sao chép <kbd>C</kbd></button>
+        </div>
+      </div>
+      <textarea id="fb" hidden readonly aria-label="Văn bản để sao chép tay"></textarea>
+      <p class="note">Chữ gạch chân chấm là dòng còn để mặc định, chưa xác nhận đã soi. Ô nào không chọn thì không ghi vào phiếu.</p>
+    </aside>
+  </main>
+</div>
+
+<div id="help" class="help" hidden>
+  <div class="help-box" role="dialog" aria-label="Phím tắt">
+    <h2>Phím tắt</h2>
+    <table>
+      <tr><td><kbd>↑</kbd> <kbd>↓</kbd></td><td>Lên, xuống dòng</td></tr>
+      <tr><td><kbd>1</kbd></td><td>Ở dòng vị trí: bình thường (xóa các tổn thương đã chọn)</td></tr>
+      <tr><td><kbd>2</kbd>–<kbd>9</kbd></td><td>Bật hoặc tắt từng ý. Một vị trí chọn được nhiều tổn thương</td></tr>
+      <tr><td><kbd>0</kbd></td><td>Đưa dòng về mặc định</td></tr>
+      <tr><td><kbd>Enter</kbd></td><td>Xác nhận dòng và xuống dòng. Trong ô điền: xác nhận, thoát ô</td></tr>
+      <tr><td><kbd>E</kbd> hoặc <kbd>Tab</kbd></td><td>Vào ô điền, nút phân độ của dòng</td></tr>
+      <tr><td><kbd>C</kbd> hoặc <kbd>Ctrl</kbd>+<kbd>Enter</kbd></td><td>Sao chép toàn bộ phiếu</td></tr>
+      <tr><td><kbd>R</kbd> hai lần</td><td>Ca mới</td></tr>
+    </table>
+    <p>Nếu dùng Unikey, phím chữ vẫn hoạt động khi con trỏ không nằm trong ô điền. Bấm <kbd>Esc</kbd> hoặc <kbd>?</kbd> để đóng.</p>
+  </div>
+</div>
+<div class="mbar" id="mbar">
+  <div class="stat" id="mstat"></div>
+  <button class="btn ghost" id="mview" type="button">Xem phiếu</button>
+  <button class="btn" id="mcopy" type="button">Sao chép</button>
+</div>
+<div id="toast" class="toast" hidden></div>
+
+<script>
+(function(){
+'use strict';
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const NORMAL_KL='Hình ảnh nội soi thực quản, dạ dày, tá tràng chưa thấy bất thường.';
+const touch=matchMedia('(hover:none)').matches;
+
+/* Cú pháp mẫu: {gợi ý} là ô gõ; {nhãn:a|b|c} là nút chọn một; {nhãn*:a|b} là nút chọn nhiều.
+   k = dòng kết luận, $1 $2… là giá trị ô thứ 1, 2… */
+/* Mỗi lựa chọn viết dạng mã=nội dung: phần mô tả ghi nội dung, kết luận ghi mã. Nhãn có ! thì không ghi vào mô tả. */
+const MD='{mức độ!:nhẹ|vừa|nặng}';
+const FOR='{Forrest:Ia=đang chảy máu thành tia|Ib=đang rỉ máu|IIa=đáy có lộ mạch máu, không chảy máu|IIb=đáy có cục máu đông bám|IIc=đáy có đốm sắc tố phẳng|III=đáy sạch, phủ giả mạc trắng}';
+const PARP='{Paris:0-Ip=có cuống|0-Isp=nửa cuống|0-Is=không cuống}';
+const PARF='{Paris:0-IIa=gồ nhẹ|0-IIb=phẳng|0-IIc=lõm nhẹ|0-IIa+IIc=gồ nhẹ, trung tâm lõm|0-III=loét lõm sâu}';
+const BOR='{Borrmann:I=khối sùi dạng polyp, ranh giới rõ|II=ổ loét bờ gồ cao, ranh giới rõ|III=ổ loét thâm nhiễm, ranh giới không rõ|IV=thâm nhiễm lan tỏa, thành dạ dày dày cứng, kém giãn khi bơm hơi}';
+const KT='{Kimura-Takemoto:C-1=niêm mạc teo giới hạn ở hang vị|C-2=niêm mạc teo, ranh giới teo ở bờ cong nhỏ phần thấp thân vị|C-3=niêm mạc teo, ranh giới teo ở bờ cong nhỏ phần cao thân vị|O-1=niêm mạc teo, ranh giới teo vượt qua tâm vị, nằm giữa bờ cong nhỏ và thành trước|O-2=niêm mạc teo, ranh giới teo ở thành trước thân vị|O-3=niêm mạc teo lan gần hết thân vị, ranh giới gần bờ cong lớn}';
+/* Chú thích ngắn hiện ngay trên nút chọn độ */
+const SHORT={
+  'LA':{A:'trợt ≤ 5 mm, không lan giữa đỉnh 2 nếp',B:'trợt > 5 mm, không lan giữa đỉnh 2 nếp',C:'lan giữa đỉnh ≥ 2 nếp, < 75% chu vi',D:'≥ 75% chu vi'},
+  'độ':{I:'nhỏ, thẳng',II:'ngoằn ngoèo, chiếm < 1/3 lòng',III:'to dạng chuỗi hạt, chiếm > 1/3 lòng'},
+  'Kodsi':{I:'vài mảng ≤ 2 mm, không phù, không loét',II:'nhiều mảng > 2 mm, phù, không loét',III:'mảng hợp lưu dạng dải/nốt, có loét',IV:'như III, dễ chảy máu, có thể hẹp lòng'},
+  'Hill':{II:'nếp van kém rõ, mở đóng theo nhịp thở',III:'nếp van gần mất, không ôm chặt ống soi',IV:'mất nếp van, tâm vị mở rộng'},
+  'Kimura-Takemoto':{'C-1':'teo giới hạn ở hang vị','C-2':'ranh giới ở bờ cong nhỏ phần thấp thân vị','C-3':'ranh giới ở bờ cong nhỏ phần cao thân vị','O-1':'ranh giới vượt tâm vị, giữa bờ cong nhỏ và thành trước','O-2':'ranh giới ở thành trước thân vị','O-3':'teo lan gần hết thân vị'},
+  'Forrest':{Ia:'chảy máu phun thành tia',Ib:'rỉ máu',IIa:'lộ mạch máu',IIb:'cục máu đông bám',IIc:'đốm sắc tố phẳng',III:'đáy sạch'},
+  'Paris':{'0-Ip':'có cuống','0-Isp':'nửa cuống','0-Is':'không cuống','0-IIa':'gồ nhẹ','0-IIb':'phẳng','0-IIc':'lõm nhẹ','0-IIa+IIc':'gồ nhẹ, trung tâm lõm','0-III':'loét lõm sâu'},
+  'Borrmann':{I:'dạng polyp',II:'loét, bờ gồ cao, ranh giới rõ',III:'loét thâm nhiễm, ranh giới không rõ',IV:'thâm nhiễm lan tỏa'}
+};
+const SYDT={'sung huyết':'niêm mạc sung huyết','trợt phẳng':'có các vết trợt phẳng','trợt lồi':'có các vết trợt lồi, đỉnh lõm','xuất huyết':'có các chấm xuất huyết dưới niêm mạc','teo':'niêm mạc teo mỏng, lộ mạch máu dưới niêm mạc','phì đại nếp':'nếp niêm mạc phì đại, không xẹp khi bơm hơi','trào ngược dịch mật':'có dịch mật trào ngược, niêm mạc sung huyết','dạng nốt':'niêm mạc dạng nốt nhỏ'};
+const I=(c,d,k,d0)=>({c,d,k:k||'',d0:d0||''});
+const gastritis=(where,opts)=>I('Viêm (Sydney)','{dạng*:'+opts.split('|').map(x=>x+'='+SYDT[x]).join('|')+'}.'+MD,'Viêm[ $1] '+where+'[ mức độ $2]','Niêm mạc viêm.');
+const ulcer=(where,loc)=>loc
+  ?I('Loét','Ổ loét[ {kích thước mm} mm][ ở {vị trí:'+loc+'}][, '+FOR+'].','Loét '+where+'[ $2][, $1 mm][ (Forrest $3)]')
+  :I('Loét','Ổ loét[ {kích thước mm} mm][, '+FOR+'].','Loét '+where+'[ $1 mm][ (Forrest $2)]');
+const scar=where=>I('Sẹo loét','Sẹo loét.','Sẹo loét '+where);
+const tumor=where=>I('U','Khối u[ {kích thước mm} mm][, '+BOR+'].','U '+where+' nghi ác tính[ (Borrmann $2)]');
+const SMT_REST="[, {bề mặt:trơn láng=niêm mạc phủ trơn láng|loét đỉnh=đỉnh có loét|lõm rốn=đỉnh lõm dạng rốn}][, {mật độ:mềm=ấn kìm lõm mềm (dấu gối dương tính)|chắc=ấn kìm chắc, không lõm}].";
+const smt=(where,loc)=>loc
+  ?I('U dưới niêm','Khối gồ dưới niêm mạc[ {kích thước mm} mm][ ở {vị trí:'+loc+'}]'+SMT_REST,'U dưới niêm mạc '+where+'[ $2][, $1 mm]')
+  :I('U dưới niêm','Khối gồ dưới niêm mạc[ {kích thước mm} mm]'+SMT_REST,'U dưới niêm mạc '+where+'[ $1 mm]');
+const KIMURA=I('Teo (Kimura)',KT+'.','Viêm teo niêm mạc dạ dày[ (Kimura-Takemoto $1)]','Niêm mạc teo.');
+const SYD='sung huyết|trợt phẳng|trợt lồi|xuất huyết|teo|phì đại nếp|trào ngược dịch mật';
+
+const ROWS=[
+  {id:'tq',sec:'I. Mô tả',secnote:'1 bình thường · 2–9 bật/tắt tổn thương',label:'Thực quản',kind:'ex0',desc:1,items:[
+    I('Bình thường','Niêm mạc hồng, nhẵn, đường Z đều.'),
+    I('Trào ngược (LA)','[Đoạn 1/3 dưới {LA:A=có vết trợt niêm mạc ≤ 5 mm, không lan giữa đỉnh hai nếp niêm mạc|B=có vết trợt niêm mạc > 5 mm, không lan giữa đỉnh hai nếp niêm mạc|C=có vết trợt lan giữa đỉnh ≥ 2 nếp niêm mạc, chiếm < 75% chu vi|D=có vết trợt chiếm ≥ 75% chu vi thực quản}.]','Viêm thực quản trào ngược[ độ $1 (Los Angeles)]','Có vết trợt niêm mạc đoạn 1/3 dưới.'),
+    I('Giãn tĩnh mạch','Giãn tĩnh mạch[ {độ:I=nhỏ, thẳng|II=ngoằn ngoèo, chiếm < 1/3 lòng thực quản|III=to dạng chuỗi hạt, chiếm > 1/3 lòng thực quản}][, {son đỏ:(−)=không có dấu son đỏ|(+)=có dấu son đỏ trên bề mặt}].','Giãn tĩnh mạch thực quản[ độ $1][, dấu son đỏ $2]'),
+    I('Barrett','Niêm mạc hồng cam lan trên đường Z[, đoạn chiếm toàn chu vi dài {C cm} cm][, chiều dài tối đa {M cm} cm].','Nghi thực quản Barrett[ C$1M$2 (Prague)]'),
+    I('Nấm','{Kodsi:I=vài mảng trắng gồ ≤ 2 mm, niêm mạc sung huyết, không phù nề, không loét|II=nhiều mảng trắng gồ > 2 mm, niêm mạc sung huyết, phù nề, không loét|III=mảng trắng hợp lưu dạng dải và nốt, niêm mạc sung huyết, có loét|IV=mảng trắng hợp lưu, có loét, niêm mạc dễ chảy máu, có thể hẹp lòng}.','Nghi nấm thực quản[ (Kodsi độ $1)]','Mảng trắng bám thành thực quản.'),
+    I('Polyp','Polyp[ {kích thước mm} mm][, '+PARP+'][, cách cung răng {cách cung răng cm} cm].','Polyp thực quản[ Paris $2]'),
+    I('Tổn thương nông','Tổn thương nông[ {kích thước mm} mm][, '+PARF+'][, cách cung răng {cách cung răng cm} cm].','Tổn thương nông thực quản[ Paris $2]'),
+    I('U','Khối sùi loét[ cách cung răng {cách cung răng cm} cm][, ống soi {ống soi:qua được|không qua được}].','U thực quản nghi ác tính')]},
+  {id:'tv',label:'Tâm vị',kind:'ex0',desc:1,items:[
+    I('Bình thường','Đóng kín, nếp van ôm sát ống soi.'),
+    I('Hở (Hill)','{Hill:II=nếp van kém rõ, mở đóng theo nhịp thở|III=nếp van gần mất, không ôm chặt ống soi|IV=không còn nếp van, tâm vị mở rộng}.','Hở tâm vị[ (Hill $1)]','Nếp van tâm vị lỏng.'),
+    I('Thoát vị hoành','Thoát vị hoành trượt[ {cm} cm].','Thoát vị hoành trượt'),
+    I('Mallory-Weiss','Rách niêm mạc[ dài {mm} mm][, {tình trạng:đang rỉ máu|đã ngừng chảy máu}].','Hội chứng Mallory-Weiss'),
+    gastritis('tâm vị','sung huyết|trợt phẳng|trợt lồi|xuất huyết'),
+    I('Polyp','Polyp[ {kích thước mm} mm][, '+PARP+'].','Polyp tâm vị[ Paris $2]'),
+    ulcer('tâm vị'),tumor('tâm vị'),smt('tâm vị')]},
+  {id:'thv',label:'Thân vị',kind:'ex0',desc:1,items:[
+    I('Bình thường','Niêm mạc hồng, nếp gấp mềm, dịch trong.'),
+    gastritis('thân vị',SYD),KIMURA,
+    I('Polyp','[{số lượng} ]polyp[, lớn nhất {kích thước mm} mm][, '+PARP+'].','Polyp thân vị[ Paris $3]'),
+    ulcer('thân vị','bờ cong nhỏ|bờ cong lớn|thành trước|thành sau'),scar('thân vị'),
+    I('Tổn thương nông','Tổn thương nông[ {kích thước mm} mm][, '+PARF+'].','Tổn thương nông thân vị[ Paris $2]'),
+    tumor('thân vị'),smt('thân vị','bờ cong nhỏ|bờ cong lớn|thành trước|thành sau')]},
+  {id:'hv',label:'Hang vị',kind:'ex0',desc:1,items:[
+    I('Bình thường','Niêm mạc hồng, nhẵn, nhu động đều.'),
+    gastritis('hang vị',SYD),KIMURA,
+    I('Polyp','[{số lượng} ]polyp[, lớn nhất {kích thước mm} mm][, '+PARP+'].','Polyp hang vị[ Paris $3]'),
+    ulcer('hang vị','bờ cong nhỏ|bờ cong lớn|mặt trước|mặt sau'),scar('hang vị'),
+    I('Tổn thương nông','Tổn thương nông[ {kích thước mm} mm][, '+PARF+'].','Tổn thương nông hang vị[ Paris $2]'),
+    tumor('hang vị'),smt('hang vị','bờ cong nhỏ|bờ cong lớn|mặt trước|mặt sau')]},
+  {id:'mv',label:'Môn vị',kind:'ex0',desc:1,items:[
+    I('Bình thường','Tròn, đóng mở đều.'),
+    gastritis('môn vị','sung huyết|trợt phẳng|trợt lồi'),
+    I('Trào ngược mật','Dịch mật trào ngược qua môn vị.','Trào ngược dịch mật dạ dày'),
+    ulcer('môn vị'),
+    I('Biến dạng','Biến dạng do sẹo, ống soi qua được.','Môn vị biến dạng do sẹo loét'),
+    I('Hẹp','Hẹp[, ống soi {ống soi:qua được khó|không qua được}][, dạ dày ứ {ứ đọng:dịch|thức ăn}].','Hẹp môn vị'),
+    tumor('môn vị')]},
+  {id:'htt',label:'Hành tá tràng',kind:'ex0',desc:1,items:[
+    I('Bình thường','Niêm mạc hồng, hành tròn đều.'),
+    gastritis('hành tá tràng','sung huyết|trợt phẳng|trợt lồi|xuất huyết|dạng nốt'),
+    ulcer('hành tá tràng','thành trước|thành sau|thành trên|thành dưới'),
+    I('Loét đối xứng','Loét đối xứng thành trước và thành sau[, '+FOR+'].','Loét đối xứng hành tá tràng[ (Forrest $1)]'),
+    I('Sẹo loét','Sẹo loét[, hành biến dạng {biến dạng:nhẹ|nhiều}].','Sẹo loét hành tá tràng'),
+    I('Hẹp','Hẹp lòng[, ống soi {ống soi:qua được khó|không qua được}].','Hẹp hành tá tràng')]},
+  {id:'d2',label:'D2',kind:'ex0',desc:1,items:[
+    I('Bình thường','Nếp vòng đều, nhú Vater bình thường.'),
+    gastritis('tá tràng D2','sung huyết|trợt phẳng|trợt lồi'),
+    I('Túi thừa','Túi thừa[ {kích thước mm} mm] cạnh nhú Vater.','Túi thừa tá tràng cạnh nhú Vater'),
+    I('Giun đũa','Giun đũa trong lòng[, đã {xử trí:gắp ra|để lại}].','Giun đũa tá tràng'),
+    ulcer('D2'),
+    I('U','Khối sùi[ ở {vị trí:D2|nhú Vater}][, {kích thước mm} mm].','U tá tràng[ ($1)] nghi ác tính')]},
+  {id:'tt',sec:'CLO test',label:'CLO test',kind:'one',items:[
+    I('Không làm','Không làm'),I('Dương tính','dương tính.'),I('Âm tính','âm tính.')]}
+];
+
+/* ---- tách mẫu ---- */
+const PC=new Map();
+function parts(d){
+  if(PC.has(d))return PC.get(d);
+  const out=[];let last=0,n=0,m;const re=/\{([^}]*)\}/g;
+  while((m=re.exec(d))){
+    if(m.index>last)out.push({t:d.slice(last,m.index)});
+    const inner=m[1],mm=inner.match(/^([^:|]+?)([*!]*):(.+)$/);
+    const mk=(lab,fl,s)=>{const opts=[],tx={};s.split('|').forEach(x=>{const e=x.indexOf('=');const c=e<0?x:x.slice(0,e);opts.push(c);tx[c]=e<0?x:x.slice(e+1)});
+      return{f:n++,lab,multi:fl.includes('*'),hide:fl.includes('!'),opts,tx}};
+    if(mm)out.push(mk(mm[1],mm[2],mm[3]));
+    else if(inner.indexOf('|')>=0)out.push(mk('','',inner));
+    else out.push({f:n++,hint:inner});
+    last=m.index+m[0].length;
+  }
+  if(last<d.length)out.push({t:d.slice(last)});
+  PC.set(d,out);return out;
+}
+const fieldsOf=d=>parts(d).filter(p=>p.t===undefined);
+function val(o,k,n){const a=o.f[k];const v=a&&a[n];if(Array.isArray(v))return v.join(', ');return v?String(v).trim():''}
+function dval(o,k,p){const a=o.f[k];const v=a&&a[p.f];if(p.hint!==undefined)return v?String(v).trim():'';
+  if(Array.isArray(v))return v.map(c=>p.tx[c]||c).join(', ');return v?(p.tx[v]||v):''}
+/* Điền mẫu: ô chưa chọn thì không ghi; cụm trong [ ] bỏ cả cụm nếu có ô chưa chọn. */
+function expand(tpl,re,get){
+  const toks=tpl.match(re)||[];const vals=toks.map((m,i)=>get(m,i));let idx=0;
+  return tpl.split(/(\[[^\[\]]*\])/).map(sg=>{
+    const opt=sg.charAt(0)==='['&&sg.slice(-1)===']';const body=opt?sg.slice(1,-1):sg;
+    const cnt=(body.match(re)||[]).length;const vs=vals.slice(idx,idx+cnt);idx+=cnt;
+    if(opt&&vs.some(v=>!v))return'';
+    let j=0;return body.replace(re,()=>vs[j++]||'');
+  }).join('');
+}
+function tidy(s){return s.replace(/\s+([.,])/g,'$1').replace(/,\s*,/g,',').replace(/,\s*\./g,'.').replace(/^[\s,.]+/,'').replace(/\s{2,}/g,' ').replace(/^\.$/,'').trim()}
+function fill(d,o,k){
+  const fs=fieldsOf(d);
+  let s=tidy(expand(d,/\{[^}]*\}/g,(m,i)=>fs[i].hide?'\u0001':dval(o,k,fs[i])));
+  s=s.replace(/\u0001/g,'');s=tidy(s);
+  return s?s.charAt(0).toUpperCase()+s.slice(1):'';
+}
+function fillItem(it,o,k){const s=fill(it.d,o,k);return s||it.d0}
+function klOf(it,o,k){return tidy(expand(it.k,/\$(\d)/g,(m)=>val(o,k,+m.slice(1)-1)))}
+
+/* ---- trạng thái ---- */
+let S={},cur=0,klManual=false;
+function init(){
+  S={};ROWS.forEach(r=>{S[r.id]={sel:r.kind==='multi'?[]:[0],f:{},x:'',ok:false}});
+  klManual=false;cur=0;
+}
+
+/* ---- dựng dòng ---- */
+const NAV=ROWS;
+function fieldHTML(r,o,k,p){
+  if(p.hint!==undefined){
+    const v=(o.f[k]&&o.f[k][p.f])||'';const num=/mm|cm|số/.test(p.hint);
+    return`<input class="fi${p.hint.length>14?' w':''}" data-k="${k}" data-f="${p.f}" placeholder="${esc(p.hint)}" value="${esc(v)}" autocomplete="off"${num?' inputmode="decimal"':''}>`;
+  }
+  const v=o.f[k]&&o.f[k][p.f];const on=x=>p.multi?(Array.isArray(v)&&v.includes(x)):v===x;
+  const empty=p.multi?!(Array.isArray(v)&&v.length):!v;
+  const sh=SHORT[p.lab];
+  if(sh)return`<span class="fs long${empty?' need':''}" data-k="${k}" data-f="${p.f}"><span class="fl">${esc(p.lab)}</span>${p.opts.map(x=>`<button type="button" class="sb${on(x)?' on':''}" data-v="${esc(x)}"><b>${esc(x)}</b><span>${esc(sh[x]||'')}</span></button>`).join('')}</span>`;
+  return`<span class="fs${empty?' need':''}" data-k="${k}" data-f="${p.f}">${p.lab?`<span class="fl">${esc(p.lab)}${p.multi?' (nhiều)':''}</span>`:''}${p.opts.map(x=>`<button type="button" class="sb${on(x)?' on':''}" data-v="${esc(x)}"${p.tx[x]!==x?` title="${esc(p.tx[x])}"`:''}>${esc(x)}</button>`).join('')}</span>`;
+}
+function rowHTML(r,i){
+  const o=S[r.id];
+  let h=`<div class="row${o.ok?' ok':''}${i===cur?' cur':''}" data-i="${i}"><div class="rh"><span class="rl">${esc(r.label)}${r.kind!=='one'?' <span class="mul">nhiều</span>':''}</span><span class="rs">${o.ok?'✓':'mặc định'}</span></div><div class="body"><div class="chips">`;
+  r.items.forEach((it,k)=>{h+=`<button type="button" class="chip${o.sel.includes(k)?' on':''}" data-o="${k}" tabindex="-1">${k<9?`<kbd>${k+1}</kbd>`:''}${esc(it.c)}</button>`});
+  if(r.kind==='multi')h+=`<button type="button" class="chip zero" data-o="-1" tabindex="-1"><kbd>0</kbd>Bỏ hết</button>`;
+  h+=`</div><div class="fgs">`;
+  o.sel.forEach(k=>{const it=r.items[k],fs=fieldsOf(it.d);if(!fs.length)return;
+    h+=`<div class="fg"><span class="fgl">${esc(it.c)}</span>${fs.map(p=>fieldHTML(r,o,k,p)).join('')}</div>`});
+  h+=`</div>`;
+  if(r.desc||r.kind==='multi')h+=`<input class="x" data-x="1" placeholder="${r.kind==='multi'?'Đề nghị khác…':'Ghi thêm cho '+esc(r.label.toLowerCase())+'…'}" value="${esc(o.x)}" autocomplete="off">`;
+  return h+`</div></div>`;
+}
+function renderForm(){
+  let a='',b='';
+  ROWS.forEach((r,i)=>{const s=(r.sec?`<div class="sec">${esc(r.sec)}${r.secnote?` <small>${esc(r.secnote)}</small>`:''}</div>`:'')+rowHTML(r,i);if(r.form==='B')b+=s;else a+=s});
+  $('#formA').innerHTML=a;
+}
+const rowEl=i=>document.querySelector(`.row[data-i="${i}"]`);
+function rerow(i){const el=rowEl(i);if(!el)return;const t=document.createElement('div');t.innerHTML=rowHTML(ROWS[i],i);el.replaceWith(t.firstChild)}
+function markOk(i){const el=rowEl(i);if(!el)return;const o=S[ROWS[i].id];el.classList.toggle('ok',o.ok);el.querySelector('.rs').textContent=o.ok?'✓':'mặc định'}
+function updCur(scroll=true){document.querySelectorAll('.row.cur').forEach(x=>x.classList.remove('cur'));const el=rowEl(cur);if(el){el.classList.add('cur');if(scroll)el.scrollIntoView({block:'nearest'})}}
+function move(d){cur=Math.max(0,Math.min(NAV.length-1,cur+d));updCur()}
+function focusField(i){const el=rowEl(i);const f=el&&el.querySelector('.fi,.fs .sb,.x');if(f){f.focus();if(f.select)f.select();return true}return false}
+
+function choose(i,k){
+  const r=ROWS[i];if(!r)return;const o=S[r.id];cur=i;
+  if(k>=r.items.length)return;
+  let added=false;
+  if(k<0)o.sel=r.kind==='multi'?[]:[0];
+  else if(r.kind==='one'){o.sel=[k];added=k>0}
+  else if(r.kind==='ex0'){
+    if(k===0)o.sel=[0];
+    else{const p=o.sel.indexOf(k);if(p>=0)o.sel.splice(p,1);else{o.sel.push(k);added=true}
+      o.sel=o.sel.filter(x=>x!==0).sort((a,b)=>a-b);if(!o.sel.length)o.sel=[0]}
+  }else{const p=o.sel.indexOf(k);if(p>=0)o.sel.splice(p,1);else{o.sel.push(k);added=true}o.sel.sort((a,b)=>a-b)}
+  o.ok=true;rerow(i);updCur(!touch);renderOut();
+  if(added&&fieldsOf(r.items[k].d).length){
+    const fg=[...rowEl(i).querySelectorAll('.fg')][o.sel.indexOf(k)];
+    const f=fg&&fg.querySelector('.fi');if(f&&!touch){f.focus();return}
+  }
+  if(!touch&&(r.kind==='one'||(!added&&k<=0)))move(1);
+}
+
+/* ---- tờ kết quả ---- */
+function rowText(r){
+  const o=S[r.id];
+  const bits=o.sel.map(k=>fillItem(r.items[k],o,k)).filter(Boolean);
+  if(o.x.trim())bits.push(o.x.trim());
+  return bits.join(r.sep||' ');
+}
+function autoKL(){
+  const out=[];let allNormal=true;
+  ROWS.filter(r=>r.desc).forEach(r=>{const o=S[r.id];
+    if(o.x.trim())allNormal=false;
+    o.sel.forEach(k=>{if(k===0)return;allNormal=false;const l=klOf(r.items[k],o,k);if(l&&!out.includes(l))out.push(l)})});
+  if(!out.length&&allNormal)out.push(NORMAL_KL);
+  const tt=S.tt;
+  if(tt.sel[0]===1)out.push('CLO test dương tính');
+  else if(tt.sel[0]===2)out.push('CLO test âm tính');
+  return out.join('\n');
+}
+function compose(){
+  const kl=$('#kl');if(!klManual)kl.value=autoKL();
+  const L=[];
+  const ln=(cls,segs)=>L.push({cls,segs});
+  ln('hd',[{t:'I. MÔ TẢ',ok:true}]);
+  ROWS.filter(r=>r.desc).forEach(r=>ln('it',[{t:'– '+r.label+': ',b:1,ok:true},{t:rowText(r),ok:S[r.id].ok}]));
+  ln('it',[{t:'– CLO test: ',b:1,ok:true},{t:rowText(ROWS.find(r=>r.id==='tt')),ok:S.tt.ok}]);
+  ln('hd',[{t:'II. KẾT LUẬN',ok:true}]);
+  const kls=kl.value.split('\n').map(x=>x.trim()).filter(Boolean);
+  if(kls.length===1)ln('',[{t:kls[0],ok:true}]);
+  else kls.forEach((x,i)=>ln('it',[{t:(i+1)+'. '+x,ok:true}]));
+  const text=L.map(l=>l.segs.map(s=>s.t).join('')).join('\n');
+  return{L,text};
+}
+function renderOut(){
+  const{L}=compose();let unc=0;
+  $('#pv').innerHTML=L.map(l=>{if(!l.segs.length)return'<div class="ln">&nbsp;</div>';
+    return`<div class="ln ${l.cls}">`+l.segs.map(s=>{if(!s.ok)unc++;
+      const inner=esc(s.t).replace(/\[\.\.\]/g,'<mark>[..]</mark>');
+      return s.b?`<b>${inner}</b>`:`<span${s.ok?'':' class="unc"'}>${inner}</span>`}).join('')+'</div>'}).join('');
+  const st=unc?`<b>${unc}</b> dòng mặc định, chưa xác nhận`:'<span class="good">✓ Đã xác nhận đủ các dòng</span>';
+  $('#stat').innerHTML=st;$('#mstat').innerHTML=st;
+  $('#klre').hidden=!klManual;$('#klnote').textContent=klManual?'Đã sửa tay, không tự cập nhật nữa.':'Mỗi dòng một chẩn đoán.';
+}
+
+/* ---- sự kiện dòng ---- */
+const left=$('#left');
+left.addEventListener('click',e=>{
+  const row=e.target.closest('.row');if(!row)return;const i=+row.dataset.i,r=ROWS[i],o=S[r.id];
+  const sb=e.target.closest('.sb');
+  if(sb){const fs=sb.closest('.fs'),k=+fs.dataset.k,n=+fs.dataset.f,v=sb.dataset.v;
+    const p=fieldsOf(r.items[k].d).find(x=>x.f===n);o.f[k]=o.f[k]||[];
+    if(p.multi){const a=Array.isArray(o.f[k][n])?o.f[k][n]:[];const j=a.indexOf(v);if(j>=0)a.splice(j,1);else a.push(v);o.f[k][n]=p.opts.filter(x=>a.includes(x))}
+    else o.f[k][n]=o.f[k][n]===v?'':v;
+    fs.querySelectorAll('.sb').forEach(b=>{const x=b.dataset.v,cv=o.f[k][n];b.classList.toggle('on',p.multi?cv.includes(x):cv===x)});
+    fs.classList.toggle('need',p.multi?!o.f[k][n].length:!o.f[k][n]);
+    o.ok=true;markOk(i);cur=i;updCur(false);renderOut();return}
+  const c=e.target.closest('.chip');
+  if(c){choose(i,+c.dataset.o);return}
+  if(!e.target.closest('input')){cur=i;updCur(!touch)}
+});
+left.addEventListener('focusin',e=>{const row=e.target.closest('.row');if(row&&e.target.matches('input,.sb')){cur=+row.dataset.i;updCur(false)}});
+left.addEventListener('input',e=>{
+  const inp=e.target;if(inp.id==='kl'){klManual=true;renderOut();return}
+  const row=inp.closest('.row');if(!row)return;const i=+row.dataset.i,o=S[ROWS[i].id];
+  if(inp.dataset.x)o.x=inp.value;else{const k=+inp.dataset.k;o.f[k]=o.f[k]||[];o.f[k][+inp.dataset.f]=inp.value}
+  o.ok=true;markOk(i);renderOut();
+});
+$('#klre').addEventListener('click',()=>{klManual=false;renderOut()});
+
+/* ---- sao chép, ca mới ---- */
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>t.hidden=true,2200)}
+function copy(){
+  const text=compose().text;const fb=$('#fb');
+  const fallback=()=>{fb.value=text;fb.hidden=false;fb.focus();fb.select();let ok=false;try{ok=document.execCommand('copy')}catch(e){}if(ok){fb.hidden=true;toast('Đã sao chép phiếu')}else toast('Không sao chép tự động được. Văn bản đã bôi đen, bấm Ctrl+C.')};
+  try{navigator.clipboard.writeText(text).then(()=>{fb.hidden=true;toast('Đã sao chép phiếu')},fallback)}catch(e){fallback()}
+}
+$('#copy').addEventListener('click',copy);$('#mcopy').addEventListener('click',copy);
+$('#mview').addEventListener('click',()=>document.querySelector('.sheet').scrollIntoView({behavior:'smooth',block:'start'}));
+let armT=0;
+function reset(){init();renderForm();renderOut();updCur();toast('Đã xóa, bắt đầu ca mới')}
+function armReset(){const b=$('#reset');if(Date.now()-armT<2000){armT=0;b.classList.remove('arm');b.textContent='Ca mới';reset();return}
+  armT=Date.now();b.classList.add('arm');b.textContent='Bấm lần nữa để xóa';setTimeout(()=>{if(Date.now()-armT>=1900){b.classList.remove('arm');b.textContent='Ca mới'}},2000)}
+$('#reset').addEventListener('click',armReset);
+const help=$('#help');help.addEventListener('click',e=>{if(e.target===help)help.hidden=true});
+
+/* ---- bàn phím ---- */
+document.addEventListener('keydown',e=>{
+  const tg=e.target;
+  if(e.ctrlKey&&e.key==='Enter'){e.preventDefault();copy();return}
+  if(!help.hidden){if(e.key==='Escape'||e.key==='?'){e.preventDefault();help.hidden=true}return}
+  if(tg.matches&&tg.matches('input,textarea,select')){
+    if(tg.id==='fb'){if(e.key==='Escape')tg.hidden=true;return}
+    if(tg.id==='kl')return;
+    if(e.key==='Enter'){e.preventDefault();const row=tg.closest('.row');
+      if(row){const i=+row.dataset.i;S[ROWS[i].id].ok=true;markOk(i);renderOut();tg.blur();cur=i;updCur(false)}
+      else{tg.blur();updCur()}}
+    else if(e.key==='Escape'){e.preventDefault();tg.blur()}
+    return}
+  if(e.ctrlKey||e.metaKey||e.altKey)return;
+  const dm=e.code.match(/^(?:Digit|Numpad)(\d)$/);
+  if(dm&&!e.shiftKey){e.preventDefault();const n=+dm[1];choose(cur,n===0?-1:n-1);return}
+  const k=e.key;
+  if(k==='ArrowDown'){e.preventDefault();move(1)}
+  else if(k==='ArrowUp'){e.preventDefault();move(-1)}
+  else if(k==='Enter'&&!(tg.matches&&tg.matches('button,summary'))){e.preventDefault();S[ROWS[cur].id].ok=true;markOk(cur);renderOut();move(1)}
+  else if(k==='e'||k==='E'){if(focusField(cur))e.preventDefault()}
+  else if(k==='c'||k==='C'){e.preventDefault();copy()}
+  else if(k==='r'||k==='R'){e.preventDefault();armReset()}
+  else if(k==='?'){e.preventDefault();help.hidden=false}
+});
+
+init();renderForm();renderOut();
+})();
+</script>
+<script>
+if('serviceWorker' in navigator && location.protocol==='https:'){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+}
+</script>
+</body>
+</html>
