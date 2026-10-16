@@ -688,6 +688,14 @@ document.addEventListener('keydown',e=>{
   else if(k==='?'){e.preventDefault();help.hidden=false}
 });
 
+/* Mọi số đo kích thước đều ghi "kích thước … mm", ở cả mô tả và kết luận */
+function normSize(rows){rows.forEach(r=>r.items.forEach(it=>{
+  it.d=it.d.replace(/lớn nhất \{kích thước mm\}/g,'kích thước lớn nhất {kích thước mm}')
+    .replace(/(kích thước (?:lớn nhất |khoảng )?)?\{kích thước mm\}/g,(m,a)=>a?m:'kích thước {kích thước mm}');
+  const n=fieldsOf(it.d).findIndex(p=>p.hint==='kích thước mm');
+  if(n>=0&&it.k)it.k=it.k.replace(new RegExp('(kích thước )?\\$'+(n+1)+' mm','g'),(m,a)=>a?m:'kích thước $'+(n+1)+' mm');
+}))}
+normSize(ROWS_DD);normSize(ROWS_DT);
 init();renderForm();renderOut();
 })();
 </script>
