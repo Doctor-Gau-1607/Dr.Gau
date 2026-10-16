@@ -541,10 +541,29 @@ $('#klre').addEventListener('click',()=>{klManual=false;renderOut()});
 
 /* ---- sao chép, ca mới ---- */
 let tt;function toast(m){const t=$('#toast');t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>t.hidden=true,2200)}
+/* Sao chép kèm định dạng (chữ đậm) cho Word, Google Docs, Zalo máy tính…; nơi chỉ nhận chữ thường thì dán ra chữ thường. */
+function richHTML(L){
+  const st="font-family:'Times New Roman',Times,serif;font-size:13pt;line-height:1.5;margin:0";
+  return '<div style="'+st+'">'+L.filter(l=>l.cls!=='ct').map(l=>{
+    const inner=l.segs.map(s=>s.b||l.cls==='hd'?'<b>'+esc(s.t)+'</b>':esc(s.t)).join('');
+    return '<p style="'+st+'">'+(inner||'&nbsp;')+'</p>'}).join('')+'</div>';
+}
 function copy(){
-  const text=compose().text;const fb=$('#fb');
-  const fallback=()=>{fb.value=text;fb.hidden=false;fb.focus();fb.select();let ok=false;try{ok=document.execCommand('copy')}catch(e){}if(ok){fb.hidden=true;toast('Đã sao chép phiếu')}else toast('Không sao chép tự động được. Văn bản đã bôi đen, bấm Ctrl+C.')};
-  try{navigator.clipboard.writeText(text).then(()=>{fb.hidden=true;toast('Đã sao chép phiếu')},fallback)}catch(e){fallback()}
+  const{L,text}=compose();const html=richHTML(L);const fb=$('#fb');
+  const done=()=>{fb.hidden=true;toast('Đã sao chép phiếu')};
+  const plainFallback=()=>{fb.value=text;fb.hidden=false;fb.focus();fb.select();let ok=false;try{ok=document.execCommand('copy')}catch(e){}if(ok)done();else toast('Không sao chép tự động được. Văn bản đã bôi đen, bấm Ctrl+C.')};
+  const richFallback=()=>{
+    const box=document.createElement('div');box.contentEditable='true';box.innerHTML=html;
+    box.style.cssText='position:fixed;left:-9999px;top:0;opacity:0';document.body.appendChild(box);
+    const sel=getSelection(),rg=document.createRange();rg.selectNodeContents(box);sel.removeAllRanges();sel.addRange(rg);
+    let ok=false;try{ok=document.execCommand('copy')}catch(e){}
+    sel.removeAllRanges();box.remove();if(ok)done();else plainFallback();
+  };
+  try{
+    if(window.ClipboardItem&&navigator.clipboard&&navigator.clipboard.write){
+      navigator.clipboard.write([new ClipboardItem({'text/html':new Blob([html],{type:'text/html'}),'text/plain':new Blob([text],{type:'text/plain'})})]).then(done,richFallback);
+    }else richFallback();
+  }catch(e){richFallback()}
 }
 $('#copy').addEventListener('click',copy);$('#mcopy').addEventListener('click',copy);
 $('#mview').addEventListener('click',()=>document.querySelector('.sheet').scrollIntoView({behavior:'smooth',block:'start'}));
