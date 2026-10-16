@@ -75,6 +75,8 @@ kbd{font-family:var(--f-mono);font-size:11px;font-weight:500;padding:1px 5px;bor
 .row{display:grid;grid-template-columns:130px minmax(0,1fr);gap:4px 14px;padding:8px 16px;cursor:pointer;border-top:1px solid transparent;border-bottom:1px solid transparent}
 .row.cur{background:var(--cur);border-color:var(--line)}
 .row.sub{box-shadow:inset 3px 0 0 var(--line)}
+.row.off{opacity:.4}
+.row.off .rs::after{content:' · chưa soi tới'}
 .row.sub .rl::before{content:'– ';color:var(--mute)}
 .rh{display:flex;flex-direction:column;gap:2px;padding-top:4px}
 .rl{font-weight:600}
@@ -179,8 +181,9 @@ mark{background:var(--warnbg);color:var(--warn);font-weight:700;padding:0 1px;bo
   <header class="top">
     <div class="brand">
       <h1>Phiếu nội soi nhanh</h1>
-      <p>Nội soi thực quản – dạ dày – tá tràng. Mỗi vị trí mặc định bình thường; bấm số để chọn tổn thương, phân độ hiện ngay bên dưới. Sao chép phần mô tả và kết luận để dán vào phiếu trên máy.</p>
+      <p>Mỗi vị trí mặc định bình thường; bấm số để chọn tổn thương, phân độ hiện ngay bên dưới. Sao chép phần mô tả và kết luận để dán vào phiếu trên máy.</p>
     </div>
+    <div class="segs" id="mode" role="group" aria-label="Loại nội soi"><button type="button" class="seg" data-m="dd">Dạ dày – tá tràng</button><button type="button" class="seg" data-m="dt">Đại tràng</button></div>
   </header>
 
   <p class="legend">
@@ -219,6 +222,12 @@ mark{background:var(--warnbg);color:var(--warn);font-weight:700;padding:0 1px;bo
           <dd>0-Ip: có cuống. 0-Isp: nửa cuống. 0-Is: không cuống. 0-IIa: gồ nhẹ. 0-IIb: phẳng. 0-IIc: lõm nhẹ. 0-III: loét lõm sâu.</dd>
           <dt>Sarin (giãn tĩnh mạch dạ dày)</dt>
           <dd>GOV1: nối tiếp giãn tĩnh mạch thực quản, chạy dọc bờ cong nhỏ. GOV2: nối tiếp giãn tĩnh mạch thực quản, lan lên phình vị. IGV1: đơn độc ở phình vị. IGV2: đơn độc ở vị trí khác của dạ dày (thân vị, hang vị, môn vị).</dd>
+          <dt>Mayo nội soi (viêm loét đại trực tràng)</dt>
+          <dd>0: bình thường hoặc bệnh không hoạt động. 1: sung huyết, giảm mạng mạch máu, dễ chảy máu nhẹ. 2: sung huyết rõ, mất mạng mạch máu, dễ chảy máu, có vết trợt. 3: chảy máu tự phát, có ổ loét.</dd>
+          <dt>NICE (bề mặt polyp đại tràng, soi NBI)</dt>
+          <dd>1: màu nhạt hoặc giống nền, không thấy mạch hoặc mạch mảnh, chấm trắng/đen đều (gợi ý polyp tăng sản). 2: màu nâu hơn nền, mạch nâu quanh cấu trúc trắng, bề mặt dạng ống/nhánh (gợi ý u tuyến). 3: nâu sẫm, có vùng mất mạch, bề mặt mất hoặc vô định hình (gợi ý ung thư xâm lấn sâu dưới niêm).</dd>
+          <dt>Goligher (trĩ nội)</dt>
+          <dd>I: chưa sa ra ngoài ống hậu môn. II: sa khi rặn, tự co lên. III: sa khi rặn, phải dùng tay đẩy lên. IV: sa thường xuyên, không đẩy lên được.</dd>
           <dt>Borrmann (ung thư dạ dày tiến triển)</dt>
           <dd>I: dạng polyp. II: loét, bờ gồ cao, ranh giới rõ. III: loét thâm nhiễm, ranh giới không rõ. IV: thâm nhiễm lan tỏa (linitis plastica).</dd>
         </dl>
@@ -226,7 +235,7 @@ mark{background:var(--warnbg);color:var(--warn);font-weight:700;padding:0 1px;bo
     </div>
     <aside class="out">
       <div class="sheet">
-        <div class="sheet-h">Phiếu kết quả nội soi thực quản – dạ dày – tá tràng</div>
+        <div class="sheet-h" id="sheet-h">Phiếu kết quả nội soi thực quản – dạ dày – tá tràng</div>
         <div class="sheet-b" id="pv" aria-live="polite"></div>
       </div>
       <div class="bar">
@@ -270,7 +279,6 @@ mark{background:var(--warnbg);color:var(--warn);font-weight:700;padding:0 1px;bo
 'use strict';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const NORMAL_KL='Hình ảnh nội soi thực quản, dạ dày, tá tràng chưa thấy bất thường.';
 const touch=matchMedia('(hover:none)').matches;
 
 /* Cú pháp mẫu: {gợi ý} là ô gõ; {nhãn:a|b|c} là nút chọn một; {nhãn*:a|b} là nút chọn nhiều.
@@ -290,6 +298,9 @@ const SHORT={
   'Hill':{II:'nếp van kém rõ, mở đóng theo nhịp thở',III:'nếp van gần mất, không ôm chặt ống soi',IV:'mất nếp van, tâm vị mở rộng'},
   'Kimura-Takemoto':{'C-1':'teo giới hạn ở hang vị','C-2':'ranh giới ở bờ cong nhỏ phần thấp thân vị','C-3':'ranh giới ở bờ cong nhỏ phần cao thân vị','O-1':'ranh giới vượt tâm vị, giữa bờ cong nhỏ và thành trước','O-2':'ranh giới ở thành trước thân vị','O-3':'teo lan gần hết thân vị'},
   'Sarin':{GOV1:'nối tiếp thực quản, dọc bờ cong nhỏ',GOV2:'nối tiếp thực quản, lan lên phình vị',IGV1:'đơn độc ở phình vị',IGV2:'đơn độc ở vị trí khác'},
+  'Mayo':{1:'sung huyết, giảm mạng mạch, dễ chảy máu nhẹ',2:'mất mạng mạch, dễ chảy máu, có trợt',3:'chảy máu tự phát, có loét'},
+  'NICE':{1:'nhạt/giống nền, mạch mảnh (tăng sản)',2:'nâu, mạch quanh cấu trúc trắng (u tuyến)',3:'nâu sẫm, mất mạch/vô định hình (K xâm lấn)'},
+  'Goligher':{I:'chưa sa ra ngoài',II:'sa khi rặn, tự co lên',III:'sa khi rặn, phải đẩy lên',IV:'sa thường xuyên, không đẩy lên được'},
   'Forrest':{Ia:'chảy máu phun thành tia',Ib:'rỉ máu',IIa:'lộ mạch máu',IIb:'cục máu đông bám',IIc:'đốm sắc tố phẳng',III:'đáy sạch'},
   'Paris':{'0-Ip':'có cuống','0-Isp':'nửa cuống','0-Is':'không cuống','0-IIa':'gồ nhẹ','0-IIb':'phẳng','0-IIc':'lõm nhẹ','0-IIa+IIc':'gồ nhẹ, trung tâm lõm','0-III':'loét lõm sâu'},
   'Borrmann':{I:'dạng polyp',II:'loét, bờ gồ cao, ranh giới rõ',III:'loét thâm nhiễm, ranh giới không rõ',IV:'thâm nhiễm lan tỏa'}
@@ -313,7 +324,7 @@ const NORM='Niêm mạc bình thường.';
 const polypG=where=>I('Polyp','[{số lượng} ]polyp[, lớn nhất {kích thước mm} mm][, '+PARP+'].','Polyp '+where+'[ Paris $3]');
 const flat=where=>I('Tổn thương nông','Tổn thương nông[ {kích thước mm} mm][, '+PARF+'].','Tổn thương nông '+where+'[ Paris $2]');
 
-const ROWS=[
+const ROWS_DD=[
   {id:'tq',sec:'I. Mô tả',secnote:'1 bình thường · 2–9 bật/tắt tổn thương',label:'Thực quản',kind:'ex0',desc:1,items:[
     I('Bình thường',NORM),
     I('Trào ngược (LA)','[Đoạn 1/3 dưới {LA:A=có vết trợt niêm mạc ≤ 5 mm, không lan giữa đỉnh hai nếp niêm mạc|B=có vết trợt niêm mạc > 5 mm, không lan giữa đỉnh hai nếp niêm mạc|C=có vết trợt lan giữa đỉnh ≥ 2 nếp niêm mạc, chiếm < 75% chu vi|D=có vết trợt chiếm ≥ 75% chu vi thực quản}.]','Viêm thực quản trào ngược[ độ $1 (Los Angeles)]','Có vết trợt niêm mạc đoạn 1/3 dưới.'),
@@ -385,6 +396,55 @@ const ROWS=[
     I('Không làm','Không làm'),I('Dương tính','dương tính.'),I('Âm tính','âm tính.')]}
 ];
 
+/* ---- Nội soi đại tràng ---- */
+const CNORM='Niêm mạc mềm mại, không u, không loét.';
+const MAYO='{Mayo:1=niêm mạc sung huyết, giảm mạng mạch máu, dễ chảy máu nhẹ|2=niêm mạc sung huyết rõ, mất mạng mạch máu, dễ chảy máu, có vết trợt|3=chảy máu tự phát, có ổ loét}';
+const NICE='{NICE:1=màu nhạt hoặc giống niêm mạc nền, không thấy mạch hoặc mạch mảnh, chấm trắng hoặc đen đều|2=màu nâu hơn nền, mạch nâu bao quanh cấu trúc trắng, cấu trúc bề mặt dạng ống hoặc nhánh|3=màu nâu sẫm, có vùng mất mạch, cấu trúc bề mặt mất hoặc vô định hình}';
+const cPolyp=w=>I('Polyp','[{số lượng} ]polyp[ kích thước {kích thước mm} mm][, '+PARP+'][, '+NICE+'].','Polyp '+w+'[ Paris $3][, NICE $4]');
+const cFlat=w=>I('Tổn thương nông','Tổn thương nông[ {kích thước mm} mm][, '+PARF+'].','Tổn thương nông '+w+'[ Paris $2]');
+const cColitis=w=>I('Viêm','{dạng*:sung huyết=niêm mạc sung huyết|phù nề=niêm mạc phù nề, mất mạng mạch máu|trợt=có các vết trợt|loét nông=có các ổ loét nông|xuất huyết=có chấm xuất huyết dưới niêm mạc}.','Viêm '+w,'Niêm mạc viêm.');
+const cUC=w=>I('Viêm loét (Mayo)',MAYO+'.','Hình ảnh viêm loét '+w+'[ (Mayo $1)]','Niêm mạc viêm loét.');
+const cUlcer=w=>I('Loét','Ổ loét[ {kích thước mm} mm][, {đáy:sạch=đáy sạch|giả mạc=đáy phủ giả mạc|có máu=đáy có máu}].','Loét '+w);
+const cDiv=w=>I('Túi thừa','[{số lượng} ]túi thừa[, lớn nhất {kích thước mm} mm][, {tình trạng:sạch=lòng túi sạch|viêm=miệng túi sung huyết, có mủ|chảy máu=có máu rỉ từ túi thừa}].','Túi thừa '+w);
+const cAVM=w=>I('Dị sản mạch','Dị sản mạch máu[ {kích thước mm} mm][, {tình trạng:không chảy máu|đang rỉ máu}].','Dị sản mạch máu '+w);
+const cTumor=w=>I('U','Khối sùi[ {kích thước mm} mm][, chiếm {chu vi:< 1/2|> 1/2|toàn bộ} chu vi][, {bề mặt:loét=bề mặt loét|dễ chảy máu=dễ chảy máu khi chạm ống soi}][, ống soi {ống soi:qua được|không qua được}].','U '+w+' nghi ác tính');
+const cSmt=w=>I('U dưới niêm','Tổn thương đẩy lồi niêm mạc[ kích thước khoảng {kích thước mm} mm]'+SMT_MID,'U dưới niêm mạc '+w+'[ $1 mm]');
+const cBx=()=>Object.assign(I('Sinh thiết','Đã bấm sinh thiết[ {số mảnh} mảnh].'),{keep:1});
+const seg=(id,label,w,extra)=>({id,label,kind:'ex0',desc:1,pre:'',items:[I('Bình thường',CNORM),cColitis(w),cUC(w),cPolyp(w),cFlat(w),cUlcer(w),cDiv(w)].concat(extra||[],[cTumor(w),cSmt(w),cBx()])});
+
+const ROWS_DT=[
+  {id:'den',sec:'I. Mô tả',secnote:'1 bình thường · 2–9 bật/tắt tổn thương',label:'Đưa đèn soi đến',kind:'one',desc:1,bare:1,pre:'',items:[
+    I('Manh tràng','Đưa đèn soi đến manh tràng.'),
+    Object.assign(I('Hồi tràng','Đưa đèn soi đến đoạn cuối hồi tràng.'),{kn:1}),
+    Object.assign(I('Góc gan','Đưa đèn soi đến đại tràng góc gan.','Nội soi đại tràng chưa hoàn toàn, đến đại tràng góc gan'),{kn:1,skip:['mt','vb','dtp']}),
+    Object.assign(I('Đại tràng ngang','Đưa đèn soi đến đại tràng ngang.','Nội soi đại tràng chưa hoàn toàn, đến đại tràng ngang'),{kn:1,skip:['mt','vb','dtp']}),
+    Object.assign(I('Góc lách','Đưa đèn soi đến đại tràng góc lách.','Nội soi đại tràng chưa hoàn toàn, đến đại tràng góc lách'),{kn:1,skip:['mt','vb','dtp','dtn']}),
+    Object.assign(I('Sigma','Đưa đèn soi đến đại tràng sigma.','Nội soi đại tràng chưa hoàn toàn, đến đại tràng sigma'),{kn:1,skip:['mt','vb','dtp','dtn','dtt']})]},
+  {id:'mt',label:'Manh tràng',kind:'ex0',desc:1,pre:'',items:[
+    I('Bình thường','Bình thường.'),cColitis('manh tràng'),cPolyp('manh tràng'),cFlat('manh tràng'),cUlcer('manh tràng'),cAVM('manh tràng'),cTumor('manh tràng'),cSmt('manh tràng'),cBx()]},
+  {id:'vb',label:'Van Bauhin',kind:'ex0',desc:1,pre:'',items:[
+    I('Bình thường','Bình thường.'),
+    I('Viêm','Phù nề, sung huyết.','Viêm van Bauhin'),
+    I('Loét','Ổ loét[ {kích thước mm} mm].','Loét van Bauhin'),
+    I('Polyp','Polyp[ {kích thước mm} mm][, '+PARP+'].','Polyp van Bauhin[ Paris $2]'),
+    I('U','Khối sùi[ {kích thước mm} mm][, {bề mặt:loét=bề mặt loét|dễ chảy máu=dễ chảy máu khi chạm ống soi}].','U van Bauhin nghi ác tính'),cBx()]},
+  seg('dtp','Đại tràng phải','đại tràng phải',[cAVM('đại tràng phải')]),
+  seg('dtn','Đại tràng ngang','đại tràng ngang'),
+  seg('dtt','Đại tràng trái','đại tràng trái'),
+  seg('sig','Đại tràng sigma - Trực tràng','đại tràng sigma - trực tràng'),
+  {id:'hm',label:'Hậu môn',kind:'ex0',desc:1,pre:'',sep:', ',items:[
+    I('Bình thường','Cơ vòng đóng kín'),
+    Object.assign(I('Trĩ nội','có búi trĩ nội[, {Goligher:I=búi trĩ chưa sa ra ngoài ống hậu môn|II=búi trĩ sa khi rặn, tự co lên|III=búi trĩ sa khi rặn, phải dùng tay đẩy lên|IV=búi trĩ sa thường xuyên, không đẩy lên được}]','Trĩ nội[ độ $1]'),{keep:1}),
+    Object.assign(I('Trĩ ngoại','có búi trĩ ngoại','Trĩ ngoại'),{keep:1}),
+    Object.assign(I('Nứt hậu môn','có vết nứt hậu môn[ ở vị trí {vị trí:6 giờ|12 giờ|3 giờ|9 giờ}]','Nứt hậu môn'),{keep:1}),
+    I('Cơ vòng lỏng','Cơ vòng lỏng, đóng không kín','Cơ vòng hậu môn lỏng')]}
+];
+
+const MODES={dd:{rows:ROWS_DD,normal:'Hình ảnh nội soi thực quản, dạ dày, tá tràng chưa thấy bất thường.',title:'Phiếu kết quả nội soi thực quản – dạ dày – tá tràng'},
+             dt:{rows:ROWS_DT,normal:'Hình ảnh nội soi đại trực tràng chưa thấy bất thường.',title:'Phiếu kết quả nội soi đại trực tràng'}};
+let mode='dd';try{const m=localStorage.getItem('pnsn-mode');if(m&&MODES[m])mode=m}catch(e){}
+let ROWS=MODES[mode].rows;
+
 /* ---- tách mẫu ---- */
 const PC=new Map();
 function parts(d){
@@ -430,12 +490,11 @@ function klOf(it,o,k){return tidy(expand(it.k,/\$(\d)/g,(m)=>val(o,k,+m.slice(1)
 /* ---- trạng thái ---- */
 let S={},cur=0,klManual=false;
 function init(){
-  S={};ROWS.forEach(r=>{S[r.id]={sel:r.kind==='multi'?[]:[0],f:{},x:'',ok:false}});
+  S={};ROWS_DD.concat(ROWS_DT).forEach(r=>{S[r.id]={sel:r.kind==='multi'?[]:[0],f:{},x:'',ok:false}});
   klManual=false;cur=0;
 }
 
 /* ---- dựng dòng ---- */
-const NAV=ROWS;
 function fieldHTML(r,o,k,p){
   if(p.hint!==undefined){
     const v=(o.f[k]&&o.f[k][p.f])||'';const num=/mm|cm|số/.test(p.hint);
@@ -449,7 +508,7 @@ function fieldHTML(r,o,k,p){
 }
 function rowHTML(r,i){
   const o=S[r.id];
-  let h=`<div class="row${r.sub?' sub':''}${o.ok?' ok':''}${i===cur?' cur':''}" data-i="${i}"><div class="rh"><span class="rl">${esc(r.label)}${r.kind!=='one'?' <span class="mul">nhiều</span>':''}</span><span class="rs">${o.ok?'✓':'mặc định'}</span></div><div class="body"><div class="chips">`;
+  let h=`<div class="row${skipped().includes(r.id)?' off':''}${r.sub?' sub':''}${o.ok?' ok':''}${i===cur?' cur':''}" data-i="${i}"><div class="rh"><span class="rl">${esc(r.label)}${r.kind!=='one'?' <span class="mul">nhiều</span>':''}</span><span class="rs">${o.ok?'✓':'mặc định'}</span></div><div class="body"><div class="chips">`;
   r.items.forEach((it,k)=>{h+=`<button type="button" class="chip${o.sel.includes(k)?' on':''}" data-o="${k}" tabindex="-1">${k<9?`<kbd>${k+1}</kbd>`:''}${esc(it.c)}</button>`});
   if(r.kind==='multi')h+=`<button type="button" class="chip zero" data-o="-1" tabindex="-1"><kbd>0</kbd>Bỏ hết</button>`;
   h+=`</div><div class="fgs">`;
@@ -468,7 +527,7 @@ const rowEl=i=>document.querySelector(`.row[data-i="${i}"]`);
 function rerow(i){const el=rowEl(i);if(!el)return;const t=document.createElement('div');t.innerHTML=rowHTML(ROWS[i],i);el.replaceWith(t.firstChild)}
 function markOk(i){const el=rowEl(i);if(!el)return;const o=S[ROWS[i].id];el.classList.toggle('ok',o.ok);el.querySelector('.rs').textContent=o.ok?'✓':'mặc định'}
 function updCur(scroll=true){document.querySelectorAll('.row.cur').forEach(x=>x.classList.remove('cur'));const el=rowEl(cur);if(el){el.classList.add('cur');if(scroll)el.scrollIntoView({block:'nearest'})}}
-function move(d){cur=Math.max(0,Math.min(NAV.length-1,cur+d));updCur()}
+function move(d){cur=Math.max(0,Math.min(ROWS.length-1,cur+d));updCur()}
 function focusField(i){const el=rowEl(i);const f=el&&el.querySelector('.fi,.fs .sb,.x');if(f){f.focus();if(f.select)f.select();return true}return false}
 
 function choose(i,k){
@@ -485,7 +544,7 @@ function choose(i,k){
       if(main.length)o.sel=o.sel.filter(x=>x!==0);else if(!o.sel.includes(0))o.sel.push(0);
       o.sel.sort((a,b)=>a-b)}
   }else{const p=o.sel.indexOf(k);if(p>=0)o.sel.splice(p,1);else{o.sel.push(k);added=true}o.sel.sort((a,b)=>a-b)}
-  o.ok=true;rerow(i);updCur(!touch);renderOut();
+  o.ok=true;if(r.id==='den'){renderForm();updCur(false)}else{rerow(i);updCur(!touch)}renderOut();
   if(added&&fieldsOf(r.items[k].d).length){
     const fg=[...rowEl(i).querySelectorAll('.fg')][o.sel.indexOf(k)];
     const f=fg&&fg.querySelector('.fi');if(f&&!touch){f.focus();return}
@@ -498,17 +557,22 @@ function rowText(r){
   const o=S[r.id];
   const bits=o.sel.map(k=>fillItem(r.items[k],o,k)).filter(Boolean);
   if(o.x.trim())bits.push(o.x.trim());
-  return bits.join(r.sep||' ');
+  return (r.sep?bits.map((b,i)=>i?b.charAt(0).toLowerCase()+b.slice(1):b):bits).join(r.sep||' ');
 }
+function skipped(){if(mode!=='dt')return[];const o=S.den,it=ROWS_DT[0].items[o.sel[0]];return(it&&it.skip)||[]}
+const live=()=>{const sk=skipped();return ROWS.filter(r=>r.desc&&!sk.includes(r.id))};
 function autoKL(){
-  const out=[];let allNormal=true;
-  ROWS.filter(r=>r.desc).forEach(r=>{const o=S[r.id];
+  const out=[],extra=[];let allNormal=true;
+  live().forEach(r=>{const o=S[r.id];
     if(o.x.trim())allNormal=false;
-    o.sel.forEach(k=>{if(k===0||r.items[k].keep)return;allNormal=false;const l=klOf(r.items[k],o,k);if(l&&!out.includes(l))out.push(l)})});
-  if(!out.length&&allNormal)out.push(NORMAL_KL);
-  const tt=S.tt;
-  if(tt.sel[0]===1)out.push('CLO test dương tính');
-  else if(tt.sel[0]===2)out.push('CLO test âm tính');
+    o.sel.forEach(k=>{const it=r.items[k];if(k===0||(it.keep&&!it.k))return;
+      if(!it.kn&&!it.keep)allNormal=false;const l=klOf(it,o,k);if(!l)return;
+      const tgt=(it.kn||it.keep)?extra:out;if(!out.includes(l)&&!extra.includes(l))tgt.push(l)})});
+  if(allNormal&&!out.length)out.push(MODES[mode].normal);
+  out.push(...extra);
+  if(mode==='dd'){const tt=S.tt;
+    if(tt.sel[0]===1)out.push('CLO test dương tính');
+    else if(tt.sel[0]===2)out.push('CLO test âm tính');}
   return out.join('\n');
 }
 function compose(){
@@ -516,7 +580,8 @@ function compose(){
   const L=[];
   const ln=(cls,segs)=>L.push({cls,segs});
   ln('hd',[{t:'I. MÔ TẢ',ok:true}]);
-  ROWS.filter(r=>r.desc).forEach(r=>ln('it',[{t:(r.sub?'- ':'* ')+r.label+': ',b:1,ok:true},{t:rowText(r),ok:S[r.id].ok}]));
+  live().forEach(r=>{let t=rowText(r);if(r.sep&&t&&!/[.]$/.test(t))t+='.';const pre=r.pre!=null?r.pre:(r.sub?'- ':'* ');
+    if(r.bare)ln(pre?'it':'',[{t:pre+t,ok:S[r.id].ok}]);else ln(pre?'it':'',[{t:pre+r.label+': ',b:1,ok:true},{t,ok:S[r.id].ok}])});
   ln('hd',[{t:'II. KẾT LUẬN',ok:true}]);
   const kls=kl.value.split('\n').map(x=>x.trim()).filter(Boolean);
   if(kls.length===1)ln('',[{t:kls[0],ok:true}]);
@@ -524,7 +589,8 @@ function compose(){
   const text=L.map(l=>l.segs.map(s=>s.t).join('')).join('\n');
   return{L,text};
 }
-function renderOut(){
+function renderMode(){document.querySelectorAll('#mode .seg').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.m===mode)));$('#sheet-h').textContent=MODES[mode].title}
+function renderOut(){renderMode();
   const{L}=compose();let unc=0;
   $('#pv').innerHTML=L.map(l=>{if(!l.segs.length)return'<div class="ln">&nbsp;</div>';
     return`<div class="ln ${l.cls}">`+l.segs.map(s=>{if(!s.ok)unc++;
@@ -593,6 +659,7 @@ function reset(){init();renderForm();renderOut();updCur();toast('Đã xóa, bắ
 function armReset(){const b=$('#reset');if(Date.now()-armT<2000){armT=0;b.classList.remove('arm');b.textContent='Ca mới';reset();return}
   armT=Date.now();b.classList.add('arm');b.textContent='Bấm lần nữa để xóa';setTimeout(()=>{if(Date.now()-armT>=1900){b.classList.remove('arm');b.textContent='Ca mới'}},2000)}
 $('#reset').addEventListener('click',armReset);
+$('#mode').addEventListener('click',e=>{const b=e.target.closest('.seg');if(!b||b.dataset.m===mode)return;mode=b.dataset.m;ROWS=MODES[mode].rows;cur=0;klManual=false;try{localStorage.setItem('pnsn-mode',mode)}catch(x){}renderForm();renderOut();updCur(false);toast(mode==='dt'?'Nội soi đại tràng':'Nội soi dạ dày – tá tràng')});
 const help=$('#help');help.addEventListener('click',e=>{if(e.target===help)help.hidden=true});
 
 /* ---- bàn phím ---- */
