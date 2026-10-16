@@ -1,6 +1,6 @@
 // Phiếu nội soi nhanh: chạy được khi không có mạng.
 // Đổi số phiên bản khi cập nhật lớn để xóa bộ nhớ đệm cũ.
-const CACHE = 'noi-soi-v1';
+const CACHE = 'noi-soi-v2';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {

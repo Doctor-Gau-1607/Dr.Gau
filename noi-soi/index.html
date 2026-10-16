@@ -336,7 +336,8 @@ const ROWS=[
     I('Polyp','[{số lượng} ]polyp[, lớn nhất {kích thước mm} mm][, '+PARP+'].','Polyp hang vị[ Paris $3]'),
     ulcer('hang vị','bờ cong nhỏ|bờ cong lớn|mặt trước|mặt sau'),scar('hang vị'),
     I('Tổn thương nông','Tổn thương nông[ {kích thước mm} mm][, '+PARF+'].','Tổn thương nông hang vị[ Paris $2]'),
-    tumor('hang vị'),smt('hang vị','bờ cong nhỏ|bờ cong lớn|mặt trước|mặt sau')]},
+    tumor('hang vị'),smt('hang vị','bờ cong nhỏ|bờ cong lớn|mặt trước|mặt sau'),
+    Object.assign(I('Sinh thiết CLO','Bấm mẫu sinh thiết làm CLO test.'),{keep:1})]},
   {id:'mv',label:'Môn vị',kind:'ex0',desc:1,items:[
     I('Bình thường','Tròn, đóng mở đều.'),
     gastritis('môn vị','sung huyết|trợt phẳng|trợt lồi'),
@@ -359,7 +360,7 @@ const ROWS=[
     I('Giun đũa','Giun đũa trong lòng[, đã {xử trí:gắp ra|để lại}].','Giun đũa tá tràng'),
     ulcer('D2'),
     I('U','Khối sùi[ ở {vị trí:D2|nhú Vater}][, {kích thước mm} mm].','U tá tràng[ ($1)] nghi ác tính')]},
-  {id:'tt',sec:'CLO test',label:'CLO test',kind:'one',items:[
+  {id:'tt',sec:'CLO test',secnote:'chỉ ghi ở kết luận',label:'CLO test',kind:'one',items:[
     I('Không làm','Không làm'),I('Dương tính','dương tính.'),I('Âm tính','âm tính.')]}
 ];
 
@@ -456,9 +457,12 @@ function choose(i,k){
   if(k<0)o.sel=r.kind==='multi'?[]:[0];
   else if(r.kind==='one'){o.sel=[k];added=k>0}
   else if(r.kind==='ex0'){
-    if(k===0)o.sel=[0];
+    /* ý có keep (vd sinh thiết CLO) đi kèm được với Bình thường */
+    if(k===0)o.sel=[0].concat(o.sel.filter(x=>r.items[x].keep));
     else{const p=o.sel.indexOf(k);if(p>=0)o.sel.splice(p,1);else{o.sel.push(k);added=true}
-      o.sel=o.sel.filter(x=>x!==0).sort((a,b)=>a-b);if(!o.sel.length)o.sel=[0]}
+      const main=o.sel.filter(x=>x!==0&&!r.items[x].keep);
+      if(main.length)o.sel=o.sel.filter(x=>x!==0);else if(!o.sel.includes(0))o.sel.push(0);
+      o.sel.sort((a,b)=>a-b)}
   }else{const p=o.sel.indexOf(k);if(p>=0)o.sel.splice(p,1);else{o.sel.push(k);added=true}o.sel.sort((a,b)=>a-b)}
   o.ok=true;rerow(i);updCur(!touch);renderOut();
   if(added&&fieldsOf(r.items[k].d).length){
@@ -479,7 +483,7 @@ function autoKL(){
   const out=[];let allNormal=true;
   ROWS.filter(r=>r.desc).forEach(r=>{const o=S[r.id];
     if(o.x.trim())allNormal=false;
-    o.sel.forEach(k=>{if(k===0)return;allNormal=false;const l=klOf(r.items[k],o,k);if(l&&!out.includes(l))out.push(l)})});
+    o.sel.forEach(k=>{if(k===0||r.items[k].keep)return;allNormal=false;const l=klOf(r.items[k],o,k);if(l&&!out.includes(l))out.push(l)})});
   if(!out.length&&allNormal)out.push(NORMAL_KL);
   const tt=S.tt;
   if(tt.sel[0]===1)out.push('CLO test dương tính');
@@ -492,7 +496,6 @@ function compose(){
   const ln=(cls,segs)=>L.push({cls,segs});
   ln('hd',[{t:'I. MÔ TẢ',ok:true}]);
   ROWS.filter(r=>r.desc).forEach(r=>ln('it',[{t:'– '+r.label+': ',b:1,ok:true},{t:rowText(r),ok:S[r.id].ok}]));
-  ln('it',[{t:'– CLO test: ',b:1,ok:true},{t:rowText(ROWS.find(r=>r.id==='tt')),ok:S.tt.ok}]);
   ln('hd',[{t:'II. KẾT LUẬN',ok:true}]);
   const kls=kl.value.split('\n').map(x=>x.trim()).filter(Boolean);
   if(kls.length===1)ln('',[{t:kls[0],ok:true}]);
