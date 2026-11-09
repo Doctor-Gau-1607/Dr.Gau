@@ -261,7 +261,7 @@ mark{background:var(--warnbg);color:var(--warn);font-weight:700;padding:0 1px;bo
         </div>
       </div>
       <textarea id="fb" hidden readonly aria-label="Văn bản để sao chép tay"></textarea>
-      <p class="note">Chữ gạch chân chấm là dòng còn để mặc định, chưa xác nhận đã khám. Ô <mark>[..]</mark> là chỗ chưa điền. Dán vào HIS rồi vẫn sửa được như bình thường.</p>
+      <p class="note">Chữ gạch chân chấm là dòng còn để mặc định, chưa xác nhận đã khám. Ô nào không điền thì app coi như không có, không ghi vào diễn biến. Dán vào HIS rồi vẫn sửa được như bình thường.</p>
     </aside>
   </main>
 </div>
@@ -1324,7 +1324,7 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 const KEY='dien-bien-nhanh-v1',VER=4;
 const p2=n=>String(n).padStart(2,'0');
 function nowLocal(){const d=new Date();return`${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}T${p2(d.getHours())}:${p2(d.getMinutes())}`}
-function fmtTime(v){if(!v)return'[..]';const[dt,tm]=v.split('T');const[y,m,d]=dt.split('-');return`${d}/${m}/${y}${tm?' '+tm.slice(0,5):''}`}
+function fmtTime(v){if(!v)return'';const[dt,tm]=v.split('T');const[y,m,d]=dt.split('-');return`${d}/${m}/${y}${tm?' '+tm.slice(0,5):''}`}
 let meta={name:'',time:nowLocal(),dr:'',inc:true};
 let cs={age:'',unit:'y',sex:'',reason:'',mode:'new',day:''};   // ca bệnh
 let S={},MODE={},FULL={},ASNEAR=[],FOCUS=new Set(),cur=0,VIEW=[];
@@ -1513,12 +1513,27 @@ function build(){
 }
 
 // ---------- Ghép văn bản ----------
-function fill(s,o){return s.replace(/\{(\d+)\}/g,(m,n)=>{const v=o&&o.f[+n]?String(o.f[+n]).trim():'';return v||'[..]'})}
+// Ô không điền = coi như không có: bỏ chỗ trống; đoạn nào là số đo (ô trống đi kèm đơn vị) hoặc cụm cần giá trị (ngày thứ…, lúc…, đã dùng…) thì bỏ cả đoạn
+const F_UNIT=/^\s*(lần\/ngày|lần\/phút|cơn\/10 phút|gói-năm|mmol\/L|µmol\/L|mg\/L|ng\/L|ng\/mL|pg\/mL|mIU\/mL|U\/L|G\/L|g\/L|mU\/L|pmol\/L|kg\/m²|fL|°C|cm|mm|mL|kg|g|m|%|lần|phút|giờ|ngày|tuần|tháng|năm|cơn|mũi|độ|điểm|\/\d+)(?![\p{L}\d])/u;
+const F_PRE=/(^|\s|\()(ngày thứ|ngày|lúc|khoảng|từ|về từ|độ|thùy|para|kinh chót|trễ kinh|khoang liên sườn|đường|dùng|uống|xịt|bôi|tiêm|ăn|tiếp xúc|thai|cách nhập viện|MP|MT|E|V|M|BC|Neu|Hb|Hct|MCV|MCHC|TC|Na|K|Cl|Ure|Creatinin|pH|PaCO2|PaO2|HCO3|PT|INR|APTT|AST|ALT|TSH|FT4|Ferritin|BilTP|BilTT|Protein|albumin|NIHSS|Glasgow|ABI \(P\)|BMI|sắt huyết thanh|sức cơ tay|CRT|Schober|Rinne|Weber lệch về|mạch|mất mạch từ|nhân giáp|lách to|gan to|loét tì đè độ|sinh non|cân nặng lúc sinh|cổ tử cung mở|xóa)\s*$/i;
+function fill(s,o){
+  const val=n=>o&&o.f[+n]?String(o.f[+n]).trim():'';
+  if(!/\{\d+\}/.test(s))return s;
+  const parts=s.split(/(,\s|;\s|\.\s|\.$|:\s)/);let out='';
+  for(let i=0;i<parts.length;i+=2){let seg=parts[i]||'';const sep=parts[i+1]||'';let drop=false;
+    seg=seg.replace(/\{(\d+)\}/g,(m,n,off,all)=>{const v=val(n);if(v)return v;
+      if(F_UNIT.test(all.slice(off+m.length))||F_PRE.test(all.slice(0,off)))drop=true;return'\u0000'});
+    if(drop){continue}
+    seg=seg.replace(/\s(vào|tại|ở|sang|của|với|do|đến|về|từ)\s*(?=\u0000)/gi,' ').replace(/\s*\u0000\s*/g,' ').replace(/\(\s*\)/g,'').replace(/\s{2,}/g,' ').replace(/\s+([,.;:)])/g,'$1').trim();
+    if(!seg)continue;out+=(out&&!/[,.;:]\s*$/.test(out)?'':'')+seg+sep}
+  out=out.replace(/(,\s|;\s|:\s)+$/,'').replace(/^(,\s|;\s|\.\s)+/,'').replace(/:\s*\./g,'.').replace(/:\s*$/,'').trim();
+  if(out&&/[.]$/.test(s)&&!/[.]$/.test(out))out+='.';
+  return /^[\s.,;:]*$/.test(out)?'':out}
 function rowText(r){const o=S[r.id];let t;if(r.sysrow&&o.sel===1)return'';if(r.fuhead&&FULL[r.fuhead])return'';if(r.id==='sum')return'';
   if(r.kq){let p;if(r.multi){p=[...o.sel].filter(i=>i>0).sort((a,b)=>a-b).map(i=>fill(r.opts[i],o))}else p=o.sel>0?[fill(r.opts[o.sel],o)]:[];
-    if(o.x.trim())p.push(o.x.trim());return p.length?r.label+': '+p.join(', ')+'.':''}
-  if(r.multi){let p=[...o.sel].sort((a,b)=>a-b).map(i=>fill(r.opts[i],o));if(o.x.trim())p.push(o.x.trim());if(!p.length)return'';if(r.dj)p=p.map((x,i)=>i?decap(x):x);t=p.join(r.joiner||', ')}
-  else{if(o.sel<0)return'';t=fill(r.opts[o.sel],o)}
+    p=p.filter(Boolean);if(o.x.trim())p.push(o.x.trim());return p.length?r.label+': '+p.join(', ')+'.':''}
+  if(r.multi){let p=[...o.sel].sort((a,b)=>a-b).map(i=>fill(r.opts[i],o)).filter(Boolean);if(o.x.trim())p.push(o.x.trim());if(!p.length)return'';if(r.dj)p=p.map((x,i)=>i?decap(x):x);t=p.join(r.joiner||', ')}
+  else{if(o.sel<0)return'';t=fill(r.opts[o.sel],o);if(!t)return''}
   if(r.suffix)t=t.replace(/[.\s]+$/,'')+r.suffix;
   return(r.prefix||'')+t}
 function tcText(rows){
@@ -1630,7 +1645,6 @@ function summary(rows){
   for(const x of g.groups)out.push('- '+x.n+(x.items.length?': '+x.items.join(', '):'')+'.');
   if(o&&o.x.trim())out.push('- '+cap(o.x.trim()).replace(/[.\s]*$/,'.'));
   if(g.rest.length)out.push('- '+cap(g.rest.join(', '))+'.');
-  if(!g.groups.length&&!g.rest.length)out.push('- [..].');
   out.push('- Cận lâm sàng: '+(kq.length?kq.join('; '):'chưa có kết quả')+'.');
   if(S.sum.x.trim())out.push('- '+cap(S.sum.x.trim()).replace(/[.\s]*$/,'.'));
   return out;
@@ -1640,11 +1654,11 @@ const cap=t=>t.charAt(0).toUpperCase()+t.slice(1);
 const PROPER=/^(Murphy|McBurney|Rovsing|Lasègue|Kernig|Brudzinski|Babinski|Glasgow|Romberg|Spurling|Ottawa|Weber|Rinne|Tinel|Phalen|Finkelstein|Hoffmann|Harzer|Galliard|Dix|Neer|Hawkins|Lachman|McMurray|Valleix|Schober|Koplik|Bartholin|Castell|Traube|Schamroth|Para|Povidine|Lidocain|Allen|Levine|Marcus|Blumberg)\b/;
 const decap=t=>(t.length>1&&t[1]!==t[1].toUpperCase()&&!PROPER.test(t))?t.charAt(0).toLowerCase()+t.slice(1):t;
 function opening(vv='vào viện vì'){
-  const a=ageY();const sex=cs.sex==='M'?'nam':cs.sex==='F'?'nữ':'[..]';
-  const age=cs.age===''?'[..] tuổi':(cs.unit==='m'?`${String(cs.age).trim()} tháng tuổi`:`${String(cs.age).trim()} tuổi`);
+  const a=ageY();const sex=cs.sex==='M'?'nam':cs.sex==='F'?'nữ':'';
+  const age=String(cs.age).trim()===''?'':(cs.unit==='m'?`${String(cs.age).trim()} tháng tuổi`:`${String(cs.age).trim()} tuổi`);
   const who=a!==null&&a<10?'Bệnh nhi':'Bệnh nhân';
   const ly=cs.reason.trim().replace(/[.\s]+$/,'');
-  return`${who} ${sex}, ${age}, ${vv} ${ly?decap(ly):'[..]'}.`;
+  return[who+(sex?' '+sex:''),age,ly?vv+' '+decap(ly):''].filter(Boolean).join(', ')+'.';
 }
 // ---- Ghép thành văn xuôi: các ý nối bằng dấu phẩy, ngắt câu theo nghĩa và độ dài ----
 function clean(t){t=String(t).trim().replace(/[.\s]+$/,'');return t.split('. ').map((x,i)=>i?decap(x):x).join(', ')}
@@ -1738,12 +1752,12 @@ function compose(){
     let pre='';if(!organ){organ=true;num=(hasNg?3:2);lines.push([{t:num+'. Các cơ quan:',ok:true}])}
     return'+ '+sec+':'};
   const flush=()=>{if(buf.length){const sg=prose(buf,bmode);if(sg.length){const lb=bsec?label(bsec):null;if(lb){sg[0].sep=' ';sg.unshift({t:lb,ok:true,sep:' '})}lines.push(sg)}buf=[]}grp=null;bsec=null};
-  if(cs.mode==='fu')lines.push([{t:`Ngày điều trị thứ ${String(cs.day).trim()||'[..]'}.`,ok:!!String(cs.day).trim()}]);
+  if(cs.mode==='fu'&&String(cs.day).trim())lines.push([{t:`Ngày điều trị thứ ${String(cs.day).trim()}.`,ok:true}]);
   for(const e of rows){const r=e.row;
     if(r.tc==='bt')continue;
     if(r.id==='sum_hc')continue;
     if(r.id==='sum'){flush();if(S.sum.sel===0){lines.push([]);lines.push([{t:'Tóm tắt bệnh án:',ok:true}]);for(const l of summary(rows))lines.push([{t:l,ok:!/\[\.\.\]/.test(l)}])}ps='tom';continue}
-    let t=r.tc==='gd'?tcText(rows):rowText(r);if(!t)continue;
+    let t=r.tc==='gd'?tcText(rows):rowText(r);if(!t&&!(r.id==='hx_kp'&&S.hx_kp.sel>=0))continue;
     if(r.id==='khac')t='chưa ghi nhận bất thường';
     if(r.sec!==ps){flush();
       if(r.sec==='kham'||r.sec==='cls'||r.sec==='xt'||r.sec==='kq'||r.sec==='ht')lines.push([]);
@@ -1760,7 +1774,7 @@ function compose(){
   }
   flush();
   if(meta.inc){
-    lines.unshift([{t:'Ngày giờ: '+fmtTime(meta.time),ok:true,mt:true}],[{t:'Họ tên BN: '+(meta.name.trim()||'[..]'),ok:true,mt:true}],[]);
+    lines.unshift(...[...(meta.time?[[{t:'Ngày giờ: '+fmtTime(meta.time),ok:true,mt:true}]]:[]),...(meta.name.trim()?[[{t:'Họ tên BN: '+meta.name.trim(),ok:true,mt:true}]]:[]),[]]);
     if(meta.dr.trim())lines.push([{t:'Bác sĩ: '+meta.dr.trim(),ok:true,mt:true}]);
   }
   return{lines,text:lines.map(l=>l.map((s,i)=>(i?s.sep||' ':'')+s.t).join('')).join('\n')};
@@ -1812,7 +1826,8 @@ function renderOut(){
   pv.innerHTML=lines.map(l=>{if(!l.length)return'<div class="ln">&nbsp;</div>';
     return'<div class="ln">'+l.map((s,i)=>{blanks+=(s.t.match(/\[\.\.\]/g)||[]).length;if(!s.ok)unc++;
       return(i?esc(s.sep||' '):'')+`<span${s.mt?' class="mt"':s.ok?'':' class="unc"'}>${esc(s.t).replace(/\[\.\.\]/g,'<mark>[..]</mark>')}</span>`}).join('')+'</div>'}).join('');
-  const st=(blanks||unc)?`<b>${blanks}</b> chỗ trống · <b>${unc}</b> dòng mặc định`:'<span class="good">✓ Đã điền và xác nhận đủ</span>';
+  blanks=NAV.reduce((n,e)=>{const r=e.row,o=S[r.id];if(!o)return n;const sel=r.multi?o.sel:(o.sel<0?[]:[o.sel]);let c=0;for(const i of sel)for(const m of (r.opts[i]||'').matchAll(/\{(\d+)\}/g))if(!String(o.f[+m[1]]||'').trim())c++;return n+c},0);
+  const st=(blanks||unc)?`<b>${blanks}</b> ô chưa điền · <b>${unc}</b> dòng mặc định`:'<span class="good">✓ Đã điền và xác nhận đủ</span>';
   stat.innerHTML=st;const ms=$('#mstat');if(ms)ms.innerHTML=st;
 }
 function changed(i){updRow(i);renderOut()}
