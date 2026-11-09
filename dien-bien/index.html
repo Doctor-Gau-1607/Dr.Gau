@@ -864,7 +864,7 @@ MODS.push(
  tc:{c:['bệnh máu'],a:['tăng huyết áp','bệnh gan','bệnh máu','rối loạn đông máu']},
  cls:['Đông máu cơ bản','Nhóm máu ABO, Rh'],clsDef:[]},
 
-{id:'hong',name:'Đau họng, khàn tiếng',mini:['ho2_tg','ho2_nuot'],keys:['dau hong','rat hong','nuot dau','khan tieng','mat tieng','sung amidan','viem hong','ha mieng kho'],focus:['tmh'],near:['tt','co','hh'],
+{id:'hong',name:'Đau họng, khàn tiếng',mini:['ho2_tg','ho2_nuot'],keys:['dau hong','rat hong','nuot dau','khan tieng','mat tieng','sung amidan','viem hong','ha mieng kho'],focus:['tmh'],near:['tt','co','hh','rhm'],
  hx:[
   R('ho2_tg','bs','Thời gian',['Đau họng {0}.','Khàn tiếng {0}.','Khàn tiếng kéo dài trên 2 tuần.'],{line:'a',fields:['thời gian']}),
   R('ho2_nuot','bs','Nuốt',['Nuốt vướng nhẹ.','Nuốt đau, ăn uống kém.','Không nuốt được nước bọt, chảy nước dãi.'],{line:'a'}),
@@ -960,7 +960,7 @@ const SYS=[
  R('tmh_mui','kham','Mũi',['Mũi dịch trong','Mũi dịch đục','Mũi thông, không chảy dịch'],{for:['ho']}),
  R('tmh_hong','kham','Họng, amidan',['Họng không đỏ, amidan không to','Họng đỏ, amidan không to','Họng đỏ, amidan to độ {0}','Amidan có mủ {1}','Amidan có giả mạc {1}'],{fields:['độ I–IV','vị trí, mô tả']}),
  R('tmh_tai','kham','Tai',['Màng nhĩ bình thường','Màng nhĩ {0}'],{fields:['đỏ, phồng, chảy mủ…']})]},
-{id:'tim',mid:['tim_nhip','tim_at'],name:'Tim mạch',always:true,normal:{c:'Tim đều, T1 T2 rõ',a:'Tim đều, T1 T2 rõ'},rows:[
+{id:'tim',mid:['tim_nhip','tim_at'],name:'Tuần hoàn',always:true,normal:{c:'Tim đều, T1 T2 rõ',a:'Tim đều, T1 T2 rõ'},rows:[
  R('tim_nhip','kham','Nhịp tim',['Tim đều, T1 T2 rõ','Tim nhanh, T1 T2 rõ','Tim không đều','Tim loạn nhịp hoàn toàn','Tiếng tim mờ'],{line:'h'}),
  R('tim_at','kham','Âm thổi',['không âm thổi','âm thổi {0}','tiếng cọ màng ngoài tim','tiếng ngựa phi'],{line:'h',lj:', ',fields:['vị trí, cường độ']}),
  R('tim_tmc','kham','Tĩnh mạch cổ',['không tĩnh mạch cổ nổi','tĩnh mạch cổ nổi','tĩnh mạch cổ nổi, phản hồi gan tĩnh mạch cổ (+)'],{line:'h',lj:', '}),
@@ -1265,8 +1265,14 @@ const MMNB={id:'mmnb',mid:['mm_phu','mm_bc','mm_mach'],name:'Mạch máu ngoại
 // xếp các hệ mới vào đúng chỗ
 {const at=(after,sys)=>SYS.splice(SYS.findIndex(s=>s.id===after)+1,0,sys);
  at('tt',TTHAN);at('tthan',DA);at('dm',MAT);at('tmh',CO);at('tn',SD);at('sd',SAN);at('cxk',MMNB)}
-// tai mũi họng ghi sau cơ xương khớp, ngay trước câu "Các cơ quan khác…"
-{const i=SYS.findIndex(s=>s.id==='tmh');SYS.push(SYS.splice(i,1)[0])}
+// Răng – Hàm – Mặt tách khỏi Tai – Mũi – Họng
+{const t=SYSF('tmh'),i=t.rows.findIndex(r=>r.id==='tmh_mieng');const rr=t.rows.splice(i,1);
+ SYS.push({id:'rhm',mid:['tmh_mieng'],name:'Răng – Hàm – Mặt',normal:{c:'Răng lợi bình thường',a:'Răng lợi bình thường'},rows:rr})}
+// Thứ tự khám theo mẫu bệnh án: 1. Toàn thân (ý thức, da niêm, hạch, tuyến giáp) → 2. Bệnh ngoại khoa → 3. Các cơ quan
+const SYSORD=['tt','tthan','da','co','dm','vt','tim','mmnb','hh','bung','tn','sd','san','tk','cxk','tmh','rhm','mat'];
+SYS.sort((a,b)=>SYSORD.indexOf(a.id)-SYSORD.indexOf(b.id));
+const SECOF={tt:'tt',tthan:'tt',da:'tt',co:'tt',dm:'ng',vt:'ng',tim:'Tuần hoàn',mmnb:'Tuần hoàn',hh:'Hô hấp',bung:'Tiêu hóa',tn:'Thận – Tiết niệu – Sinh dục',sd:'Thận – Tiết niệu – Sinh dục',san:'Thận – Tiết niệu – Sinh dục',
+ tk:'Thần kinh',cxk:'Cơ – Xương – Khớp',tmh:'Tai – Mũi – Họng',rhm:'Răng – Hàm – Mặt',mat:'Mắt',khac:'Nội tiết, dinh dưỡng và các bệnh lý khác'};
 
 const KHAC=R('khac','kham','Cơ quan khác',['Các cơ quan khác chưa ghi nhận bất thường'],{auto:true});
 const XT=[
@@ -1569,7 +1575,7 @@ function proseBasic(items,mode){
     if(k==='kem'&&!/^kèm /i.test(t))t='kèm '+decap(t);
     let ns;
     if(!segs.length||(len>110&&k!=='sh'))ns=true;
-    else if(k==='k')ns=false;
+    else if(k==='k')ns=m!==pm;
     else if(k==='kem')ns=!['core','kp','kem'].includes(pk);
     else if(k==='core')ns=!(pk==='kp'||(pk==='core'&&m===pm));
     else if(k==='sh')ns=pk!=='sh';
@@ -1636,13 +1642,20 @@ function prose(items,mode){
   return segs;
 }
 function compose(){
-  const{rows}=build();const lines=[];let ps=null,grp=null,buf=[],bmode='bs';
-  const flush=()=>{if(buf.length){const sg=prose(buf,bmode);if(sg.length)lines.push(sg);buf=[]}grp=null};
+  const{rows}=build();const lines=[];let ps=null,grp=null,buf=[],bmode='bs',bsec=null,csec=null,num=0,organ=false;
+  const hasNg=rows.some(e=>e.row.sec==='kham'&&SECOF[e.sys]==='ng'&&rowText(e.row));
+  const label=sec=>{if(!sec||sec===csec)return null;csec=sec;
+    if(sec==='tt'){num=1;return'1. Toàn thân:'}
+    if(sec==='ng'){num=2;return'2. Bệnh ngoại khoa:'}
+    let pre='';if(!organ){organ=true;num=(hasNg?3:2);lines.push([{t:num+'. Các cơ quan:',ok:true}])}
+    return'+ '+sec+':'};
+  const flush=()=>{if(buf.length){const sg=prose(buf,bmode);if(sg.length){const lb=bsec?label(bsec):null;if(lb){sg[0].sep=' ';sg.unshift({t:lb,ok:true,sep:' '})}lines.push(sg)}buf=[]}grp=null;bsec=null};
   if(cs.mode==='fu')lines.push([{t:`Ngày điều trị thứ ${String(cs.day).trim()||'[..]'}.`,ok:!!String(cs.day).trim()}]);
   for(const e of rows){const r=e.row;
     if(r.tc==='bt')continue;
     if(r.id==='sum'){flush();if(S.sum.sel===0){lines.push([]);lines.push([{t:'Tóm tắt bệnh án:',ok:true}]);for(const l of summary(rows))lines.push([{t:l,ok:!/\[\.\.\]/.test(l)}])}ps='tom';continue}
-    const t=r.tc==='gd'?tcText(rows):rowText(r);if(!t)continue;
+    let t=r.tc==='gd'?tcText(rows):rowText(r);if(!t)continue;
+    if(r.id==='khac')t='chưa ghi nhận bất thường';
     if(r.sec!==ps){flush();
       if(r.sec==='kham'||r.sec==='cls'||r.sec==='xt'||r.sec==='kq'||r.sec==='ht')lines.push([]);
       if(r.sec==='kq')lines.push([{t:'Kết quả cận lâm sàng:',ok:true}]);
@@ -1650,11 +1663,11 @@ function compose(){
       if(r.sec==='xt')lines.push([{t:'Xử trí:',ok:true}]);}
     const ok=r.tc==='gd'?(S.tc_bt.ok&&S.tc_gd.ok):S[r.id].ok;
     // nhóm: cả phần hỏi bệnh là một đoạn; khám mỗi hệ cơ quan một đoạn; xử trí một đoạn; còn lại mỗi dòng một đoạn
-    const key=r.tc==='gd'?'tc|':r.sec==='bs'?'bs':r.sec==='kham'?'k|'+(e.sys||r.id):r.sec==='xt'?'xt':'x|'+r.id;
+    const key=r.tc==='gd'?'tc|':r.sec==='bs'?'bs':r.sec==='kham'?'k|'+(SECOF[e.sys||r.id]||e.sys||r.id):r.sec==='xt'?'xt':'x|'+r.id;
     if(key!==grp)flush();
     ps=r.sec;
     if(key.startsWith('x|')||key==='tc|'){lines.push([{t:cap(t),ok,sep:' '}]);continue}
-    grp=key;bmode=(r.sec==='kham'||r.sec==='xt')?'kham':'bs';buf.push({t,ok,r,e});
+    grp=key;bmode=(r.sec==='kham'||r.sec==='xt')?'kham':'bs';if(r.sec==='kham')bsec=SECOF[e.sys||r.id]||null;buf.push({t,ok,r,e});
   }
   flush();
   if(meta.inc){
