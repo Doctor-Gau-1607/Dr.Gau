@@ -1505,6 +1505,9 @@ function build(){
     VIEW=V;return{V,rows,mods,sel}}
   V.push({type:'sec',label:'Tóm tắt bệnh án'});
   add(R('sum','tom','Tóm tắt bệnh án',['Có','Không'],{auto:true,extra:'bổ sung vào tóm tắt'}));
+  {const sg=syndromes(rows,sel);const opts=sg.any.length?sg.any:['Hội chứng nhiễm trùng'];
+   add(M('sum_hc','tom','Hội chứng',opts,{dyn:true,defT:sg.ok,auto:true,extra:'hội chứng khác'}));
+   const o=S.sum_hc;if(o&&!o.touched)o.sel=o.opts.map((t,i)=>sg.ok.includes(t)?i:-1).filter(i=>i>=0)}
   if(mods.some(m=>m.xt)){V.push({type:'sec',label:'Xử trí'});for(const r of XT)add(r)}
   VIEW=V;return{V,rows,mods,sel};
 }
@@ -1528,21 +1531,99 @@ function tcText(rows){
 }
 const normTxt=t=>/^(không|chưa)/i.test(t)||/\(−\)|âm tính|bình thường|không /i.test(t);
 const negTxt=t=>/^(không|chưa)/i.test(t)||/\(−\)|âm tính/i.test(t);
-function summary(rows){
-  const pos=[],neg=[],kq=[];
-  const ly=cs.reason.trim().replace(/[.\s]+$/,'');if(ly)pos.push(decap(ly));
+// ---- Tóm tắt bệnh án: mở đầu → hội chứng → triệu chứng → cận lâm sàng ----
+// triệu chứng, dấu hiệu dương tính lấy từ bệnh sử, kèm theo và khám
+function positives(rows){
+  const pos=[],kq=[],neg=t=>/^(không|chưa|ăn uống được|tiểu thường|đi cầu bình thường|bệnh khởi phát|người nhà|bệnh nhân tự khai|trước đây|lần đầu)/i.test(t);
+  const ph=x=>x.replace(/\s*(khoảng\s*)?\[\.\.\](\s*(lần\/ngày|lần|phút|giờ|ngày|tuần|tháng|năm|cm|mm|mL|kg|g|°C|cơn))?/g,'').replace(/\s*cách nhập viện\s*$/i,'').replace(/\s*\(\s*\)/g,'').trim();
+  // bệnh sử: các ý của cùng một triệu chứng gộp thành một mục (vd "đau bụng thượng vị, đau liên tục, âm ỉ")
+  let hm=null,hp=[];const hflush=()=>{if(hp.length){const dd=hp.map(x=>deacc(x));const k=hp.filter((x,i)=>!dd.some((y,j)=>j!==i&&y.startsWith(dd[i]+' ')));pos.push(decap(k.map((x,i)=>i?decap(x):x).join(', ')))}hp=[];hm=null};
   for(const e of rows){const r=e.row,o=S[r.id];if(!o)continue;
-    if(r.kem||r.id==='kem_all'){const it=[...o.sel].map(i=>fill(r.opts[i],o).toLowerCase());if(o.x.trim())it.push(o.x.trim());if(it.length)pos.push(...it);continue}
+    if(!(r.sec==='bs'&&r.line&&!isSH(r)&&!r.kem&&!(r.multi&&r.ex0))||(e.mod||'_')!==hm)hflush();
     if(r.kq){const t=rowText(r);if(t)kq.push(t.replace(/\.$/,''));continue}
+    if(r.kem||r.id==='kem_all'){const it=[...o.sel].flatMap(i=>clean(fill(r.opts[i],o)).replace(/^kèm /i,'').split(/,\s*/)).map(x=>decap(ph(x))).filter(Boolean);if(o.x.trim())it.push(o.x.trim());pos.push(...it);continue}
+    if(r.sec==='bs'){if(!r.line||isSH(r)||r.multi&&r.ex0)continue;
+      const t=clean(rowText(r)||'');if(!t||neg(t))continue;
+      hm=e.mod||'_';
+      for(let x of t.split(/,\s*|;\s*/)){x=ph(x).replace(/^(sốt|ho) (ngày|giờ)$/i,'$1').replace(/\s+(ngày\s*\d+|\d+([.,]\d+)?\s*(ngày|giờ|tuần|tháng|năm)(\s*nay)?|trước nhập viện)$/i,'').trim();
+        if(!x||neg(x)||/^(khởi phát|bình thường lần cuối|cách nhập viện|lần đầu)/i.test(x))continue;hp.push(x)}continue}
     if(r.sec!=='kham'||r.auto||e.head)continue;
-    if(r.multi){for(const i of o.sel){const t=fill(r.opts[i],o);if(/\(\+\)/.test(t))pos.push(t);else if(FOCUS.has(e.sys)&&negTxt(t))neg.push(decap(t))}continue}
-    if(o.sel<0)continue;const t=fill(r.opts[o.sel],o);
-    if(o.sel>0&&!normTxt(t))pos.push(decap(t));else if(FOCUS.has(e.sys)&&negTxt(t))neg.push(decap(t));
+    if(r.multi){for(const i of o.sel){const t=fill(r.opts[i],o);if(/\(\+\)/.test(t)||(i>0&&!normTxt(t)))pos.push(decap(t))}continue}
+    if(o.sel>0){const t=fill(r.opts[o.sel],o);if(!normTxt(t))pos.push(decap(t));else if(/dương tính|\(\+\)/.test(t))pos.push(...t.split(/,\s*/).filter(x=>/dương tính|\(\+\)/.test(x)).map(decap))}
   }
-  const u=a=>[...new Set(a)];const out=[];
-  out.push(opening('nhập viện vì'));
-  out.push('- Triệu chứng, dấu hiệu dương tính: '+(u(pos).join('; ')||'[..]')+'.');
-  if(neg.length)out.push('- Âm tính nổi bật: '+u(neg).slice(0,10).join('; ')+'.');
+  hflush();
+  let u=[...new Set(pos)];const d=u.map(x=>deacc(x));
+  u=u.filter((x,i)=>!d.some((y,j)=>j!==i&&y.startsWith(d[i]+' ')));
+  return{pos:u,kq}
+}
+// ---- Hội chứng: mỗi hội chứng có dấu hiệu chủ chốt (key: một mình đủ) và các triệu chứng thành viên (mem) ----
+// đủ điều kiện khi có ≥2 thành viên hoặc có dấu hiệu chủ chốt (theo Nội cơ sở – Y Dược Huế và Bates)
+const HC=[
+ {n:'Hội chứng nhiễm trùng',key:/ sot /,mem:/ sot |ret run|lanh run|on lanh|moi kho|luoi do|luoi ban|ve mat nhiem trung|nhiet do cao nhat|hoi tho hoi/},
+ {n:'Hội chứng viêm long đường hô hấp trên',two:true,mem:/chay mui|so mui|nghet mui|hat hoi|dau hong|hong do|amidan|ho khan|mui dich/},
+ {n:'Hội chứng phế quản',two:true,key:/ran rit|ran ngay|ran am/,mem:/^ ho |ho dam|khac dam| dam |ran rit|ran ngay|ran am|kho khe|ho ca ngay|ho nhieu ve dem|ho tung con/},
+ {n:'Hội chứng suy hô hấp',two:true,key:/tim moi|tim tai|tim dau chi|rut lom|co keo|noi khong tron cau/,mem:/kho tho|tho nhanh|co keo|rut lom|tim moi|tim tai|tim dau chi|tho ren|phap phong|noi khong tron cau|tho rit|ngoi de tho|ngoi day de tho/},
+ {n:'Hội chứng đông đặc',two:true,key:/hoi chung dong dac/,mem:/hoi chung dong dac|rung thanh tang|am thoi ong|ran no|tieng de keu|tieng vang phe quan tang/},
+ {n:'Hội chứng ba giảm',two:true,key:/hoi chung ba giam/,mem:/hoi chung ba giam|rung thanh giam|ri rao phe nang giam|go duc/},
+ {n:'Tam chứng Galliard',two:true,key:/tam chung galliard/,mem:/tam chung galliard|rung thanh mat|go vang|mat ri rao/},
+ {n:'Hội chứng thiếu máu',key:/niem nhot|da xanh|xanh xao|long ban tay nhot/,mem:/niem nhot|da xanh|xanh xao|nhot|hoa mat|chong mat|hoi hop|danh trong nguc|kho tho khi gang suc|u tai|mong tay|long ban tay nhot|met moi/},
+ {n:'Hội chứng xuất huyết',key:/cham xuat huyet|ban xuat huyet|mang xuat huyet|xuat huyet \S|chay mau chan rang|chay mau cam|bam tim/,mem:/xuat huyet|chay mau chan rang|chay mau cam|bam tim|day that duong tinh|de bam tim/},
+ {n:'Hội chứng xuất huyết tiêu hóa',key:/non ra mau|phan den|hac in|ca phe|mau do bam/,mem:/non ra mau|non ra dich nau|ca phe|phan den|hac in|ra mau do bam|choang vang|xay xam|ngat/},
+ {n:'Hội chứng vàng da',key:/vang da|vang mat|cung mac vang/,mem:/vang da|vang mat|cung mac vang|vang sam|nuoc tra|bac mau|ngua|tui mat cang/},
+ {n:'Hội chứng tăng áp lực tĩnh mạch cửa',key:/tuan hoan bang he|duc di chuyen/,mem:/tuan hoan bang he|duc di chuyen|song vo|co truong|lach to|bung be|bung to dan|khoang traube go duc|castell \(\+\)/},
+ {n:'Hội chứng suy tế bào gan',key:/sao mach|not nhen|long ban tay son/,mem:/sao mach|not nhen|long ban tay son|chan an|chay mau chan rang|chay mau cam|phu/},
+ {n:'Hội chứng mất nước',key:/mat nuoc|veo da mat cham|mat trung/,mem:/mat nuoc|khat|moi kho|mat trung|veo da mat cham|tieu it|thop lom/},
+ {n:'Hội chứng giảm tưới máu ngoại biên',key:/chi lanh|mach kho bat|crt > 3/,mem:/chi lanh|mach kho bat|mach nhanh nhe|mach nhe|crt|da tai|va mo hoi|tieu it/},
+ {n:'Hội chứng màng não',key:/co guong|cung gay|kernig \(\+\)|brudzinski \(\+\)|dau mang nao (duong|\(\+\))|thop phong/,mem:/dau dau|non|co guong|cung gay|kernig|brudzinski|so anh sang|thop phong|lac dau lam tang dau dau|dau mang nao/},
+ {n:'Hội chứng tăng áp lực nội sọ',key:/phu gai thi/,mem:/dau dau|non vot|phu gai thi|thop phong|tang khi ho, ran/},
+ {n:'Hội chứng liệt nửa người',key:/yeu nua nguoi|liet nua nguoi/,mem:/yeu nua nguoi|liet nua nguoi|liet vii trung uong|meo mieng|babinski \(\+\)|phan xa gan xuong tang|troi tay|noi kho|te nua nguoi/},
+ {n:'Hội chứng tiểu não',two:true,key:/roi tam/,mem:/roi tam|run y dinh|di chan rong|loang choang|mat thang bang|rung giat nhan cau|got – goi khong chinh xac|romberg/},
+ {n:'Hội chứng rối loạn ý thức',key:/lo mo|hon me|sung so|glasgow ([0-9]|1[0-4]) /,mem:/lo mo|hon me|ngu ga|sung so|glasgow|lu lan|kich dong|mat dinh huong|khong nhan ra nguoi nha/},
+ {n:'Hội chứng viêm phúc mạc',key:/phan ung phuc mac|co cung thanh bung|phan ung doi/,mem:/dau bung|phan ung phuc mac|de khang|co cung|phan ung doi|ho dau choi|nam im|bung chuong|go dau/},
+ {n:'Hội chứng tắc ruột',key:/bi trung dai tien|khong trung tien|quai ruot noi/,mem:/dau quan|non|bi trung dai tien|khong trung tien|bung chuong|quai ruot noi|nhu dong ruot tang|go vang|khong di cau/},
+ {n:'Hội chứng lỵ',two:true,key:/mot ran/,mem:/mot ran|nhay mau|nhay|dau quan|di cau nhieu lan/},
+ {n:'Hội chứng bàng quang',two:true,key:/tieu buot|tieu gat|tieu rat/,mem:/tieu buot|tieu gat|tieu rat|tieu lat nhat|tieu nhieu lan|dau ha vi|tieu duc|an dau ha vi/},
+ {n:'Hội chứng tắc nghẽn đường tiểu dưới',two:true,key:/bi tieu|cau bang quang \d/,mem:/bi tieu|cau bang quang|tia tieu yeu|phai ran|tieu kho/},
+ {n:'Hội chứng tăng ure máu',key:/hoi tho mui khai/,mem:/hoi tho mui khai|tieu it|lo mo|non|ngua|thieu mau|co mang ngoai tim/},
+ {n:'Hội chứng phù',key:/phu hai chan|phu toan than|phu mat|phu mi mat|an lom/,mem:/phu|an lom|tang can|bung to|nuoc tieu nhieu bot|chat giay|chat nhan/},
+ {n:'Hội chứng suy tim',key:/tinh mach co noi|phan hoi gan/,mem:/tinh mach co noi|phan hoi gan|gan to|ran no|kho tho khi nam|kich phat ve dem|co t3|nhip ngua phi|kho tho khi gang suc/},
+ {n:'Hội chứng cường giáp',key:/tuyen giap to|buou giap/,mem:/tuyen giap to|buou giap|hoi hop|run tay|so nong|sut can|loi mat/},
+ {n:'Hội chứng chèn ép rễ thần kinh',key:/lasegue \(\+\)|spurling \(\+\)|valleix/,mem:/lasegue|spurling|valleix|lan xuong mong|lan mat|lan xuong tay|theo dai|bam chuong \(\+\)|giam cam giac theo re|tang khi ho, hat hoi/},
+ {n:'Hội chứng cột sống',key:/co cung co canh song|an dau .*cot song|an dau choi gai song|han che (cui|van dong that lung)|schober/,mem:/dau that lung|dau lung|dau co |an dau canh cot song|an dau choi gai song|co cung co|han che|schober|mat duong cong|bac thang|cung lung/},
+ {n:'Hội chứng viêm khớp',two:true,key:/sung, nong, do|tran dich khop|bap benh xuong banh che \(\+\)/,mem:/sung|nong|do da|dau khop|tran dich khop|bap benh|han che van dong|cung khop|khong cham duoc/},
+ {n:'Hội chứng thiếu máu chi',key:/mat mach|lanh, nhot/,mem:/lanh|mat mach|tim den|hoai tu|dau cach hoi|di bo khoang|nhot khi nang cao|giam cam giac, yeu van dong/}
+];
+// gom triệu chứng vào hội chứng; chosen: danh sách hội chứng được chọn (mặc định là các hội chứng đủ điều kiện)
+function groupHC(pos,chosen,strict){
+  const D=pos.map(x=>' '+deacc(x)+' ');
+  const isKey=(h,i)=>!!h.key&&h.key.test(D[i]);
+  const info=HC.map(h=>{const m=D.map((d,i)=>h.mem.test(d)?i:-1).filter(i=>i>=0);const k=m.some(i=>isKey(h,i));return{h,m,ok:k||(!!h.two&&m.length>=2)}});
+  let use=info.filter(x=>chosen?chosen.includes(x.h.n):x.ok);let owner={};
+  // gán mỗi triệu chứng cho hội chứng có nhiều thành viên nhất; hội chứng nào sau khi gán không còn đủ điều kiện thì trả triệu chứng về dòng lẻ
+  for(let lap=0;lap<4;lap++){owner={};
+    for(let i=0;i<pos.length;i++){let best=null;for(const x of use)if(x.m.includes(i)&&(!best||x.m.length>best.m.length))best=x;if(best)owner[i]=best.h.n}
+    const bad=use.filter(x=>{const it=x.m.filter(i=>owner[i]===x.h.n);return !(it.some(i=>isKey(x.h,i))||(x.h.two&&it.length>=2))&&!(chosen&&strict===false)});
+    if(!bad.length)break;use=use.filter(x=>!bad.includes(x))}
+  const groups=use.map(x=>({n:x.h.n,items:x.m.filter(i=>owner[i]===x.h.n).map(i=>pos[i])})).filter(g=>g.items.length||(chosen&&strict===false));
+  const rest=pos.filter((_,i)=>!owner[i]);
+  return{info,groups,rest};
+}
+function syndromes(rows,sel){const {pos}=positives(rows);const g=groupHC(pos,null);
+  return{ok:g.info.filter(x=>x.ok).map(x=>x.h.n),any:g.info.filter(x=>x.ok||x.m.length).map(x=>x.h.n)}}
+// ngày bệnh cho câu mở đầu tóm tắt
+function benhNgay(){const o=S.hx_kp;if(o&&o.sel>=0&&String(o.f[0]||'').trim()){const v=String(o.f[0]).trim();return o.sel>=2?'khởi phát cách nhập viện '+v+' giờ':'bệnh ngày thứ '+v}
+  let mx=0;for(const id in DUR){const o2=S[id];if(!o2)continue;const r=Object.values(MODS).flatMap(m=>m.hx).find(x=>x.id===id);if(!r)continue;const d=durOf({r});if(d&&d>mx)mx=d}
+  return mx>=1?'bệnh ngày thứ '+Math.round(mx):''}
+function summary(rows){
+  const {pos,kq}=positives(rows);const out=[];
+  const op=opening('vào viện vì').replace(/\.$/,'');const bn=benhNgay();
+  out.push(op+(bn?', '+bn:'')+'. Qua hỏi bệnh và thăm khám ghi nhận:');
+  const o=S.sum_hc;const chosen=o?[...o.sel].map(i=>o.opts[i]):null;
+  const g=groupHC(pos,chosen,!(o&&o.touched));
+  for(const x of g.groups)out.push('- '+x.n+(x.items.length?': '+x.items.join(', '):'')+'.');
+  if(o&&o.x.trim())out.push('- '+cap(o.x.trim()).replace(/[.\s]*$/,'.'));
+  if(g.rest.length)out.push('- '+cap(g.rest.join(', '))+'.');
+  if(!g.groups.length&&!g.rest.length)out.push('- [..].');
   out.push('- Cận lâm sàng: '+(kq.length?kq.join('; '):'chưa có kết quả')+'.');
   if(S.sum.x.trim())out.push('- '+cap(S.sum.x.trim()).replace(/[.\s]*$/,'.'));
   return out;
@@ -1554,7 +1635,7 @@ const decap=t=>(t.length>1&&t[1]!==t[1].toUpperCase()&&!PROPER.test(t))?t.charAt
 function opening(vv='vào viện vì'){
   const a=ageY();const sex=cs.sex==='M'?'nam':cs.sex==='F'?'nữ':'[..]';
   const age=cs.age===''?'[..] tuổi':(cs.unit==='m'?`${String(cs.age).trim()} tháng tuổi`:`${String(cs.age).trim()} tuổi`);
-  const who=a!==null&&a<16?'Bệnh nhi':'Bệnh nhân';
+  const who=a!==null&&a<10?'Bệnh nhi':'Bệnh nhân';
   const ly=cs.reason.trim().replace(/[.\s]+$/,'');
   return`${who} ${sex}, ${age}, ${vv} ${ly?decap(ly):'[..]'}.`;
 }
@@ -1653,6 +1734,7 @@ function compose(){
   if(cs.mode==='fu')lines.push([{t:`Ngày điều trị thứ ${String(cs.day).trim()||'[..]'}.`,ok:!!String(cs.day).trim()}]);
   for(const e of rows){const r=e.row;
     if(r.tc==='bt')continue;
+    if(r.id==='sum_hc')continue;
     if(r.id==='sum'){flush();if(S.sum.sel===0){lines.push([]);lines.push([{t:'Tóm tắt bệnh án:',ok:true}]);for(const l of summary(rows))lines.push([{t:l,ok:!/\[\.\.\]/.test(l)}])}ps='tom';continue}
     let t=r.tc==='gd'?tcText(rows):rowText(r);if(!t)continue;
     if(r.id==='khac')t='chưa ghi nhận bất thường';
@@ -1730,7 +1812,7 @@ function changed(i){updRow(i);renderOut()}
 function move(d){cur=Math.max(0,Math.min(NAV.length-1,cur+d));updCur()}
 function focusField(i){const inp=rowEl(i)&&rowEl(i).querySelector('.fields input:not([hidden])');if(inp){inp.focus();inp.select();return true}return false}
 function choose(i,k){
-  const e=NAV[i];if(!e)return;const r=e.row,o=S[r.id];cur=i;updCur(!touch);
+  const e=NAV[i];if(!e)return;const r=e.row,o=S[r.id];o.touched=true;cur=i;updCur(!touch);
   if(e.head){ // công tắc hệ: 1 = bình thường, 2 = khác (bung), 0 = không ghi
     o.sel=k<0?-1:k;o.ok=true;renderForm();renderOut();
     if(k===1){const nx=NAV.findIndex((x,j)=>j>i&&x.sub);if(nx>=0){cur=nx;updCur(true)}}
@@ -1782,7 +1864,7 @@ form.addEventListener('click',e=>{
 form.addEventListener('focusin',e=>{const row=e.target.closest('.row');if(row&&e.target.matches('input')){cur=+row.dataset.i;updCur(!touch)}});
 form.addEventListener('input',e=>{
   const inp=e.target,row=inp.closest('.row');if(!row)return;const i=+row.dataset.i,r=NAV[i].row,o=S[r.id];
-  if(inp.dataset.x)o.x=inp.value;else o.f[+inp.dataset.f]=inp.value;o.ok=true;changed(i);
+  if(inp.dataset.x)o.x=inp.value;else o.f[+inp.dataset.f]=inp.value;o.ok=true;o.touched=true;changed(i);
   if(inp.dataset.x&&(r.kem||r.id==='kem_all')){clearTimeout(window._kt);window._kt=setTimeout(()=>{const pos=inp.selectionStart;renderForm();renderOut();const ni=document.getElementById(inp.id);if(ni){ni.focus();try{ni.setSelectionRange(pos,pos)}catch(e){}}},500)}
 });
 
