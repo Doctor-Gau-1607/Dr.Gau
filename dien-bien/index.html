@@ -905,6 +905,9 @@ MODS.push(
 MOD('rahuyet').unless=['thai'];
 
 // trẻ dưới 5 tuổi: dấu hiệu nguy hiểm toàn thân, hỏi kèm mọi lý do vào viện
+// dòng mở đầu hỏi bệnh: ngày khởi phát; trẻ nhỏ (dưới 6 tuổi) thì người nhà khai
+SH.hx_kp=R('hx_kp','bs','Khởi phát',['Bệnh khởi phát ngày thứ {0}.','Người nhà khai bệnh khởi phát ngày thứ {0}.','Bệnh khởi phát cách nhập viện {0} giờ.','Người nhà khai bệnh khởi phát cách nhập viện {0} giờ.'],{fields:['số ngày / số giờ']});
+const kpDef=()=>{const a=ageY();return a!==null&&a<6?1:0};
 SH.hx_khoc=R('hx_khoc','bs','Tỉnh táo, khóc',['Trẻ chơi, khóc to, dỗ được.','Quấy khóc không dỗ được, bế lên càng khóc.','Khóc thét, cao giọng.','Không khóc, li bì.'],{only:'c',ageMax:5});
 SH.hx_sinh=R('hx_sinh','bs','Tiền sử sinh',['Sinh đủ tháng, cân nặng lúc sinh {0} g.','Sinh non {1} tuần, cân nặng lúc sinh {0} g.'],{only:'c',ageMax:5,fields:['cân nặng','số tuần'],def:-1});
 SH.hx_nguy=M('hx_nguy','bs','Dấu hiệu nguy hiểm',['Không có dấu hiệu nguy hiểm toàn thân','Không uống được, bỏ bú','Nôn tất cả mọi thứ','Co giật','Li bì, khó đánh thức','Khóc thét, cao giọng'],{only:'c',ageMax:5,ex0:true,def:[0],joiner:'. ',suffix:'.'});
@@ -1363,6 +1366,7 @@ function nonTc(){const t=' '+deacc(cs.reason)+' ';
   return{non:[' non ',' oi ',' buon non ',' non oi ',' oi mua '].some(k=>t.includes(k)),tc:[' tieu chay ',' di cau long ',' tieu long ',' di ngoai '].some(k=>t.includes(k))}}
 function defOf(r,sel){
   if(r.id==='tn_tr'){const t=' '+deacc(cs.reason+' '+KEMTXT)+' ';return /( tieu buot | tieu gat | tieu rat )/.test(t)?1:/ bi tieu /.test(t)?2:/ tieu mau /.test(t)?3:0}
+  if(r.id==='hx_kp')return kpDef();
   if(r.id==='tc_kp'){const x=nonTc();return x.non&&x.tc?2:x.non?1:0}
   if(r.id==='tc_phan'){const x=nonTc();return x.non&&!x.tc?-1:0}if(r.defFor)for(const k of sel)if(r.defFor[k]!==undefined)return r.defFor[k];return r.multi?[...r.def]:r.def}
 function ensure(r,sel){
@@ -1423,6 +1427,8 @@ function build(){
   }else{
   // Hỏi bệnh
   V.push({type:'sec',label:'Hỏi bệnh',note:mods.length?'theo '+mods.map(m=>m.name.toLowerCase()).join(', '):'chưa nhận ra lý do vào viện, dùng mẫu chung'});
+  {const o=S.hx_kp;if(o&&!o.ok){const d=kpDef(),t=o.sel%2===1?o.sel-1:o.sel;o.sel=o.sel<0?o.sel:t+d}}
+  add(SH.hx_kp);
   const shared=[],hide=new Set();for(const m of mods){(m.hide||[]).forEach(x=>hide.add(x))}
   const many=mods.length>1,kemR=[],dtR=[];
   for(const m of mods){for(const r of m.hx){if(many&&r.kem){kemR.push(r);continue}if(many&&r.dtm){dtR.push(r);continue}add(r,{mod:m.id})}for(const s of m.sh)if(!shared.includes(s))shared.push(s)}
