@@ -155,6 +155,13 @@ mark{background:var(--warnbg);color:var(--warn);font-weight:700;padding:0 1px;bo
 .mlab{color:var(--mute)}
 .tag{background:var(--acc);color:var(--onacc);border-radius:999px;padding:3px 10px;font-weight:600;font-size:12.5px}
 .sugs{display:flex;flex-wrap:wrap;gap:6px}
+.acwrap{position:relative}
+.ac{position:absolute;left:0;right:0;top:100%;margin-top:4px;z-index:25;background:var(--panel);border:1px solid var(--line);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.12);max-height:min(60vh,340px);overflow:auto;padding:4px}
+.ac-it{display:flex;gap:10px;align-items:baseline;justify-content:space-between;width:100%;font:inherit;font-size:14.5px;text-align:left;color:var(--ink);background:none;border:none;border-radius:6px;padding:9px 10px;cursor:pointer;touch-action:manipulation}
+.ac-it[aria-selected="true"],.ac-it:hover{background:var(--cur)}
+.ac-it b{font-weight:700;color:var(--acc)}
+.ac-it small{color:var(--mute);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:45%}
+.ac-none{padding:9px 10px;color:var(--mute);font-size:13px}
 .sug{font:inherit;font-size:12.5px;color:var(--ink);background:var(--bg);border:1px dashed var(--line);border-radius:999px;padding:5px 10px;cursor:pointer;touch-action:manipulation}
 .sug:hover{border-color:var(--acc)}
 .sug.sugmore{border-style:solid;color:var(--acc);font-weight:600}
@@ -230,7 +237,8 @@ mark{background:var(--warnbg);color:var(--warn);font-weight:700;padding:0 1px;bo
       <div class="f-sex"><span class="flab">Giới</span><div class="segs" id="c-sex" role="group" aria-label="Giới"><button type="button" class="seg" data-s="M">Nam</button><button type="button" class="seg" data-s="F">Nữ</button></div></div>
       <span class="who" id="c-who"></span>
     </div>
-    <label><span id="c-rlab">Lý do vào viện</span><input class="in" type="text" id="c-reason" autocomplete="off" placeholder="vd: sốt, đau bụng (phím L)"></label>
+    <div class="acwrap"><label><span id="c-rlab">Lý do vào viện</span><input class="in" type="text" id="c-reason" autocomplete="off" placeholder="vd: sốt, đau bụng (phím L) — gõ vài chữ để tìm" role="combobox" aria-autocomplete="list" aria-controls="c-ac" aria-expanded="false"></label>
+      <div class="ac" id="c-ac" role="listbox" hidden></div></div>
     <div class="match" id="c-match"></div>
     <div class="sugs" id="c-sug"></div>
     <details class="more"><summary>Giờ nhận bệnh, bác sĩ ghi</summary>
@@ -272,7 +280,7 @@ mark{background:var(--warnbg);color:var(--warn);font-weight:700;padding:0 1px;bo
     <table>
       <tr><td><kbd>T</kbd></td><td>Nhập tuổi. <kbd>Enter</kbd> chuyển sang lý do vào viện, <kbd>Enter</kbd> lần nữa vào các dòng</td></tr>
       <tr><td><kbd>M</kbd> / <kbd>F</kbd></td><td>Giới nam / nữ</td></tr>
-      <tr><td><kbd>L</kbd></td><td>Lý do vào viện</td></tr>
+      <tr><td><kbd>L</kbd></td><td>Lý do vào viện. Gõ vài chữ (có dấu hay không dấu đều được) để hiện gợi ý; <kbd>↑</kbd> <kbd>↓</kbd> chọn, <kbd>Enter</kbd> lấy</td></tr>
       <tr><td><kbd>N</kbd></td><td>Họ tên bệnh nhân</td></tr>
       <tr><td><kbd>↑</kbd> <kbd>↓</kbd></td><td>Lên, xuống dòng</td></tr>
       <tr><td><kbd>1</kbd>–<kbd>9</kbd></td><td>Chọn ý. Ở dòng hệ cơ quan: <kbd>1</kbd> bình thường, <kbd>2</kbd> Khác (bung chi tiết)</td></tr>
@@ -1333,7 +1341,8 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify({ver:VER,meta:{dr:me
 
 const deacc=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/đ/g,'d').replace(/Đ/g,'d').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
 const STOPW=['phu nu','phu khoa','phu san','phu huynh'];
-function matched(){let t=' '+deacc(cs.reason)+' ';for(const w of STOPW)t=t.split(' '+w+' ').join(' _ ');t=t.replace(/ (thai|bau) \d+ (tuan|thang) /g,' thai phu ');
+function matched(){return matchedOf(cs.reason)}
+function matchedOf(reason){let t=' '+deacc(reason)+' ';for(const w of STOPW)t=t.split(' '+w+' ').join(' _ ');t=t.replace(/ (thai|bau) \d+ (tuan|thang) /g,' thai phu ');
   const pos=m=>Math.min(...m.keys.map(k=>{const i=t.indexOf(' '+k+' ');return i<0?1e9:i}));
   let r=MODS.filter(m=>m.keys.some(k=>t.includes(' '+k+' ')));const ids=r.map(m=>m.id);
   r=r.filter(m=>!(m.unless||[]).some(u=>ids.includes(u)));
@@ -1867,7 +1876,38 @@ function renderCase(){
 }
 function caseChanged(){renderForm();renderOut()}
 cAge.addEventListener('input',()=>{cs.age=cAge.value;caseChanged()});
-cReason.addEventListener('input',()=>{cs.reason=cReason.value;caseChanged()});
+cReason.addEventListener('input',()=>{cs.reason=cReason.value;caseChanged();acShow()});
+// ---- Gợi ý lý do vào viện khi gõ: khớp theo tên và từ đồng nghĩa, không cần dấu ----
+const acBox=$('#c-ac');let AC=[],acI=0;
+const acFrag=()=>{const v=cReason.value;const i=Math.max(v.lastIndexOf(','),v.lastIndexOf(';'));return{pre:i<0?'':v.slice(0,i+1),frag:(i<0?v:v.slice(i+1)).trim()}};
+function acFind(q){q=deacc(q);if(!q)return[];const toks=q.split(' ').filter(Boolean);const have=new Set(matchedOf(acFrag().pre).map(m=>m.id));
+  const score=str=>{str=deacc(str);const w=' '+str;let sc=-1;
+    if(str.startsWith(q))sc=100;else if(w.includes(' '+q))sc=80;else if(str.includes(q))sc=50;
+    else if(toks.every(t=>w.includes(' '+t)))sc=40;
+    return sc<0?-1:sc-Math.min(str.length,40)/40};
+  const out=[];
+  for(const m of MODS){if(have.has(m.id))continue;let best=score(m.name),via='';
+    for(const k of m.keys){const sc=score(k)-1;if(sc>best){best=sc;via=k}}
+    if(best>=0)out.push({m,best,via:deacc(m.name).includes(deacc(via))?'':via})}
+  return out.sort((a,b)=>b.best-a.best).slice(0,8)}
+function acHi(name,q){const n=deacc(name),d=deacc(q);const i=d?n.indexOf(d):-1;return i<0?esc(name):esc(name.slice(0,i))+'<b>'+esc(name.slice(i,i+d.length))+'</b>'+esc(name.slice(i+d.length))}
+function acShow(){const{frag}=acFrag();AC=frag.length>=1?acFind(frag):[];acI=0;
+  if(!frag||document.activeElement!==cReason){acHide();return}
+  acBox.innerHTML=AC.length?AC.map((x,i)=>`<button type="button" class="ac-it" role="option" data-i="${i}" aria-selected="${i===acI}"><span>${acHi(x.m.name,frag)}</span>${x.via?`<small>${esc(x.via)}</small>`:''}</button>`).join(''):'<div class="ac-none">Không có lý do vào viện mẫu khớp, cứ gõ tiếp để ghi tự do.</div>';
+  acBox.hidden=false;cReason.setAttribute('aria-expanded','true')}
+function acHide(){acBox.hidden=true;cReason.setAttribute('aria-expanded','false')}
+function acPick(i){const x=AC[i];if(!x)return;const{pre}=acFrag();cs.reason=(pre?pre.replace(/\s*$/,' '):'')+x.m.name.toLowerCase();cReason.value=cs.reason;acHide();caseChanged();cReason.focus();
+  try{cReason.setSelectionRange(cReason.value.length,cReason.value.length)}catch(e){}}
+function acMark(){acBox.querySelectorAll('.ac-it').forEach((b,j)=>b.setAttribute('aria-selected',j===acI));const el=acBox.querySelector(`.ac-it[data-i="${acI}"]`);if(el)el.scrollIntoView({block:'nearest'})}
+acBox.addEventListener('mousedown',e=>e.preventDefault());
+acBox.addEventListener('click',e=>{const b=e.target.closest('.ac-it');if(b)acPick(+b.dataset.i)});
+cReason.addEventListener('focus',acShow);
+cReason.addEventListener('blur',()=>setTimeout(acHide,120));
+cReason.addEventListener('keydown',e=>{if(acBox.hidden||!AC.length)return;
+  if(e.key==='ArrowDown'){e.preventDefault();e.stopPropagation();acI=(acI+1)%AC.length;acMark()}
+  else if(e.key==='ArrowUp'){e.preventDefault();e.stopPropagation();acI=(acI-1+AC.length)%AC.length;acMark()}
+  else if(e.key==='Enter'||e.key==='Tab'){e.preventDefault();e.stopPropagation();acPick(acI)}
+  else if(e.key==='Escape'){e.preventDefault();e.stopPropagation();acHide()}});
 $('#c-mode').addEventListener('click',e=>{const b=e.target.closest('.seg');if(b&&b.dataset.md!==cs.mode){cs.mode=b.dataset.md;delete S.cls;save();caseChanged();toast(cs.mode==='fu'?'Chế độ theo dõi bệnh nhân đang nằm':'Chế độ bệnh nhân mới vào')}});
 $('#c-day').addEventListener('input',e=>{cs.day=e.target.value;renderOut()});
 $('#c-unit').addEventListener('click',e=>{const b=e.target.closest('.seg');if(b){cs.unit=b.dataset.u;caseChanged()}});
