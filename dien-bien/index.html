@@ -905,9 +905,9 @@ MODS.push(
 MOD('rahuyet').unless=['thai'];
 
 // trẻ dưới 5 tuổi: dấu hiệu nguy hiểm toàn thân, hỏi kèm mọi lý do vào viện
-// dòng mở đầu hỏi bệnh: ngày khởi phát; trẻ nhỏ (dưới 6 tuổi) thì người nhà khai
+// dòng mở đầu hỏi bệnh: ngày khởi phát; trẻ dưới 10 tuổi thì người nhà khai
 SH.hx_kp=R('hx_kp','bs','Khởi phát',['Bệnh khởi phát ngày thứ {0}.','Người nhà khai bệnh khởi phát ngày thứ {0}.','Bệnh khởi phát cách nhập viện {0} giờ.','Người nhà khai bệnh khởi phát cách nhập viện {0} giờ.'],{fields:['số ngày / số giờ']});
-const kpDef=()=>{const a=ageY();return a!==null&&a<6?1:0};
+const kpDef=()=>{const a=ageY();return a!==null&&a<10?1:0};
 SH.hx_khoc=R('hx_khoc','bs','Tỉnh táo, khóc',['Trẻ chơi, khóc to, dỗ được.','Quấy khóc không dỗ được, bế lên càng khóc.','Khóc thét, cao giọng.','Không khóc, li bì.'],{only:'c',ageMax:5});
 SH.hx_sinh=R('hx_sinh','bs','Tiền sử sinh',['Sinh đủ tháng, cân nặng lúc sinh {0} g.','Sinh non {1} tuần, cân nặng lúc sinh {0} g.'],{only:'c',ageMax:5,fields:['cân nặng','số tuần'],def:-1});
 SH.hx_nguy=M('hx_nguy','bs','Dấu hiệu nguy hiểm',['Không có dấu hiệu nguy hiểm toàn thân','Không uống được, bỏ bú','Nôn tất cả mọi thứ','Co giật','Li bì, khó đánh thức','Khóc thét, cao giọng'],{only:'c',ageMax:5,ex0:true,def:[0],joiner:'. ',suffix:'.'});
@@ -1366,7 +1366,7 @@ function nonTc(){const t=' '+deacc(cs.reason)+' ';
   return{non:[' non ',' oi ',' buon non ',' non oi ',' oi mua '].some(k=>t.includes(k)),tc:[' tieu chay ',' di cau long ',' tieu long ',' di ngoai '].some(k=>t.includes(k))}}
 function defOf(r,sel){
   if(r.id==='tn_tr'){const t=' '+deacc(cs.reason+' '+KEMTXT)+' ';return /( tieu buot | tieu gat | tieu rat )/.test(t)?1:/ bi tieu /.test(t)?2:/ tieu mau /.test(t)?3:0}
-  if(r.id==='hx_kp')return kpDef();
+  if(r.id==='hx_kp')return sel.some(x=>['vt','tngt','cochan','cotay'].includes(x))?-1:kpDef();
   if(r.id==='tc_kp'){const x=nonTc();return x.non&&x.tc?2:x.non?1:0}
   if(r.id==='tc_phan'){const x=nonTc();return x.non&&!x.tc?-1:0}if(r.defFor)for(const k of sel)if(r.defFor[k]!==undefined)return r.defFor[k];return r.multi?[...r.def]:r.def}
 function ensure(r,sel){
@@ -1427,7 +1427,7 @@ function build(){
   }else{
   // Hỏi bệnh
   V.push({type:'sec',label:'Hỏi bệnh',note:mods.length?'theo '+mods.map(m=>m.name.toLowerCase()).join(', '):'chưa nhận ra lý do vào viện, dùng mẫu chung'});
-  {const o=S.hx_kp;if(o&&!o.ok){const d=kpDef(),t=o.sel%2===1?o.sel-1:o.sel;o.sel=o.sel<0?o.sel:t+d}}
+  {const o=S.hx_kp;if(o&&!o.ok){const d=defOf(SH.hx_kp,sel);o.sel=d<0?-1:((o.sel>=2?2:0)+d)}}
   add(SH.hx_kp);
   const shared=[],hide=new Set();for(const m of mods){(m.hide||[]).forEach(x=>hide.add(x))}
   const many=mods.length>1,kemR=[],dtR=[];
@@ -1540,7 +1540,9 @@ function summary(rows){
   return out;
 }
 const cap=t=>t.charAt(0).toUpperCase()+t.slice(1);
-const decap=t=>(t.length>1&&t[1]!==t[1].toUpperCase())?t.charAt(0).toLowerCase()+t.slice(1):t;
+// tên riêng (nghiệm pháp, dấu hiệu, thuốc) giữ chữ hoa khi đứng giữa câu
+const PROPER=/^(Murphy|McBurney|Rovsing|Lasègue|Kernig|Brudzinski|Babinski|Glasgow|Romberg|Spurling|Ottawa|Weber|Rinne|Tinel|Phalen|Finkelstein|Hoffmann|Harzer|Galliard|Dix|Neer|Hawkins|Lachman|McMurray|Valleix|Schober|Koplik|Bartholin|Castell|Traube|Schamroth|Para|Povidine|Lidocain|Allen|Levine|Marcus|Blumberg)\b/;
+const decap=t=>(t.length>1&&t[1]!==t[1].toUpperCase()&&!PROPER.test(t))?t.charAt(0).toLowerCase()+t.slice(1):t;
 function opening(vv='vào viện vì'){
   const a=ageY();const sex=cs.sex==='M'?'nam':cs.sex==='F'?'nữ':'[..]';
   const age=cs.age===''?'[..] tuổi':(cs.unit==='m'?`${String(cs.age).trim()} tháng tuổi`:`${String(cs.age).trim()} tuổi`);
@@ -1548,25 +1550,111 @@ function opening(vv='vào viện vì'){
   const ly=cs.reason.trim().replace(/[.\s]+$/,'');
   return`${who} ${sex}, ${age}, ${vv} ${ly?decap(ly):'[..]'}.`;
 }
+// ---- Ghép thành văn xuôi: các ý nối bằng dấu phẩy, ngắt câu theo nghĩa và độ dài ----
+function clean(t){t=String(t).trim().replace(/[.\s]+$/,'');return t.split('. ').map((x,i)=>i?decap(x):x).join(', ')}
+const isSH=r=>r===HX_X||Object.values(SH).includes(r);
+function proseBasic(items,mode){
+  const segs=[];let len=0,pk=null,pm=null,pl=null;
+  const asN=[...new Set(VIEW.filter(v=>v.type==='assoc').map(v=>deacc(v.label)))];
+  for(const it of items){const r=it.r,e=it.e;let t=clean(it.t);if(!t)continue;
+    const lk=r.line?(e.sys||e.mod||'')+'|'+r.line:null;
+    // các dòng cùng một câu gốc (vd sốt ngày…, sốt cao…, không lạnh run…) giữ nguyên cách nối
+    if(segs.length&&lk&&lk===pl&&r.lj!==undefined){const sep=r.lj||' ';t=sep.includes(',')&&!r.keep?decap(t):t;segs.push({t,ok:it.ok,sep});len+=t.length+2;continue}
+    let k=mode==='kham'?'k':r.id==='hx_kp'?'kp':(r.kem||r.id==='kem_all')?'kem':isSH(r)?'sh':(r.line?'core':'misc');
+    if(k==='core'&&/^(Đã|Chưa) /.test(t))k='misc';
+    const m=e.mod||e.sys||'';
+    if(k==='kem'&&asN.length){const ps=t.replace(/^kèm /i,'').split(', ');const kp=ps.filter(x=>!asN.some(n=>deacc(x).startsWith(n)));if(!kp.length)continue;t=(/^kèm /i.test(t)?'Kèm ':'')+kp.join(', ')}
+    if(k==='kem'&&!/^kèm /i.test(t))t='kèm '+decap(t);
+    let ns;
+    if(!segs.length||(len>110&&k!=='sh'))ns=true;
+    else if(k==='k')ns=false;
+    else if(k==='kem')ns=!['core','kp','kem'].includes(pk);
+    else if(k==='core')ns=!(pk==='kp'||(pk==='core'&&m===pm));
+    else if(k==='sh')ns=pk!=='sh';
+    else if(k==='misc')ns=!(pk==='misc'&&len<80);
+    else ns=true;
+    if(ns){t=cap(t);segs.push({t,ok:it.ok,sep:'. '});len=t.length}
+    else{t=decap(t);const semi=(k==='sh'||k==='misc')&&(t.includes(',')||segs.slice(-1)[0].t.includes(','));segs.push({t,ok:it.ok,sep:semi?'; ':', '});len+=t.length+2}
+    pk=k;pm=m;pl=lk;
+  }
+  if(segs.length){const z=segs[segs.length-1];z.t=z.t.replace(/[.\s]*$/,'.')}
+  return segs;
+}
+// ---- Diễn tiến theo thời gian: đọc thời gian của từng triệu chứng, xếp theo thứ tự xuất hiện ----
+// dòng chứa thời gian của triệu chứng chính và ô điền thời gian (f); u: đơn vị theo từng lựa chọn
+const DUR={sot_ngay:{f:0,u:['ngày','giờ']},ho_tg:{f:0},kt_bs:{f:0},ng_vt:{f:0},dd_kp:{f:0},bg_vt:{f:0},tc_kp:{f:0},tn_tr:{f:0},goi_dau:{f:1},lg_dau:{f:0},dday_bs:{f:0},thm_bs:{f:0},toa_dau:{f:1},
+ met_tg:{f:0},phu_tg:{f:0},yt_kp:{f:0},ban_kp:{f:0},hh2_kp:{f:0},ch_kp:{f:0},tm_kp:{f:1},hm_lg:{f:0},xh_kp:{f:0},vg_kp:{f:0},nu_kp:{f:1},bi_kp:{f:1},rh_rh:{f:0},td_kp:{f:0},
+ tb2_kp:{f:0},y2_kp:{f:0},rn_kp:{f:1},cg2_hc:{f:0},va_hc:{f:1},kh_kp:{f:0},mt_kp:{f:1},ta_kp:{f:1},mu_ben:{f:1},ho2_tg:{f:0},hc_dt:{f:0},as_mui:{f:0},as_hong:{f:0}};
+function parseDur(v,u){const m=deacc(String(v||'')).match(/(\d+(?:[.,]\d+)?)\s*(gio|h|ngay|tuan|thang|nam|phut)?/);if(!m)return null;
+  const n=parseFloat(m[1].replace(',','.'));const un=m[2]||deacc(u||'ngay');return n*({gio:1/24,h:1/24,ngay:1,tuan:7,thang:30,nam:365,phut:1/1440}[un]||1)}
+function fmtDur(d){if(d>=1){const n=Math.round(d*10)/10;return String(n).replace('.',',')+' ngày'}return Math.max(1,Math.round(d*24))+' giờ'}
+function durOf(it){const r=it.r,o=S[r.id],d=DUR[r.id];if(!d||r.multi||!o||o.sel<0)return null;if(!new RegExp('\\{'+d.f+'\\}').test(r.opts[o.sel]))return null;
+  return parseDur(o.f[d.f],d.u?d.u[o.sel]:null)}
+// câu của một triệu chứng, bỏ phần thời gian (đã nói ở mạch thời gian)
+function clauseOf(list){const parts=[];
+  list.forEach((it,i)=>{const r=it.r,o=S[r.id];let t,lead=false;
+    if(DUR[r.id]&&durOf(it)!==null){const d=DUR[r.id];
+      t=fill(r.opts[o.sel].replace('{'+d.f+'}',''),o).replace(/\s+([,.])/g,'$1').replace(/\s{2,}/g,' ').trim();
+      t=clean(t).replace(/(^|\s|,)\s*(cách nhập viện|từ|trong|ngày|giờ)(?=,|$)/gi,'$1').replace(/,\s*(?=,|$)/g,'').trim();
+      if(/^,/.test(t)){lead=true;t=t.replace(/^[,\s]+/,'')}
+      const nx=list[i+1];if(!t||(nx&&deacc(clean(nx.t)).startsWith(deacc(t))))return}
+    else t=clean(it.t);
+    if(!t)return;
+    const ch=parts.length&&r.line&&list[i-1]&&r.line===list[i-1].r.line&&r.lj!==undefined;
+    parts.push({t:parts.length?decap(t):t,ok:it.ok,sep:lead?', ':ch?(r.lj||' '):', '})});
+  return parts}
+function prose(items,mode){
+  if(mode!=='bs')return proseBasic(items,mode);
+  const kpIt=items.find(it=>it.r.id==='hx_kp');
+  const isMisc=it=>!it.r.line||/^(Đã|Chưa) /.test(clean(it.t));
+  const blocks=[],byMod={};
+  for(const it of items){const r=it.r;if(r===SH.hx_kp||isSH(r)||r.id==='kem_all'||(!r.kem&&isMisc(it)))continue;
+    const key=it.e.mod||'_';if(!byMod[key]){byMod[key]={key,core:[],kem:[],dur:null};blocks.push(byMod[key])}
+    (r.kem?byMod[key].kem:byMod[key].core).push(it)}
+  blocks.forEach(b=>{for(const it of b.core){const d=durOf(it);if(d!==null){b.dur=d;break}}});
+  const tl=blocks.filter(b=>b.dur!==null&&b.core.length).sort((a,b)=>b.dur-a.dur);
+  if(!kpIt||!tl.length)return proseBasic(items,mode);
+  // câu mở đầu: ngày khởi phát (ô trống thì lấy theo triệu chứng xuất hiện sớm nhất)
+  const ko=S.hx_kp;let kt=r=>r;let kpT=clean(kpIt.t);
+  if(!String(ko.f[0]||'').trim()){const hrs=ko.sel>=2,v=hrs?Math.round(tl[0].dur*24):Math.round(tl[0].dur);kpT=clean(fill(SH.hx_kp.opts[ko.sel],{f:[String(v)]}))}
+  const segs=[{t:cap(kpT),ok:kpIt.ok,sep:'. '}];
+  const asN=[...new Set(VIEW.filter(v=>v.type==='assoc').map(v=>deacc(v.label)))];
+  const used=new Set([kpIt]);
+  tl.forEach((b,i)=>{const parts=clauseOf(b.core);b.core.forEach(x=>used.add(x));if(!parts.length)return;
+    let lead;
+    if(i===0)lead='khởi đầu với ';
+    else{const d=tl[i-1].dur-b.dur;lead=d<0.01?'cùng lúc xuất hiện ':(b.dur<1&&tl[i-1].dur>=1?fmtDur(b.dur)+' trước nhập viện xuất hiện ':'sau đó '+fmtDur(d)+' xuất hiện ')}
+    parts[0].t=lead+decap(parts[0].t);parts[0].sep=i===0?', ':'; ';
+    segs.push(...parts);
+    for(const k of b.kem){used.add(k);let t=clean(k.t).replace(/^kèm /i,'');const ps=t.split(', ').filter(x=>!asN.some(n=>deacc(x).startsWith(n)));if(ps.length)segs.push({t:'kèm '+decap(ps.join(', ')),ok:k.ok,sep:', '})}
+  });
+  const rest=proseBasic(items.filter(it=>!used.has(it)),mode);
+  if(rest.length){segs[segs.length-1].t=segs[segs.length-1].t.replace(/[.\s]*$/,'');rest[0].sep='. ';rest[0].t=cap(rest[0].t);segs.push(...rest)}
+  else segs[segs.length-1].t=segs[segs.length-1].t.replace(/[.\s]*$/,'.');
+  return segs;
+}
 function compose(){
-  const{rows}=build();const lines=[];let ps=null,pl=null,psys=null;
+  const{rows}=build();const lines=[];let ps=null,grp=null,buf=[],bmode='bs';
+  const flush=()=>{if(buf.length){const sg=prose(buf,bmode);if(sg.length)lines.push(sg);buf=[]}grp=null};
   if(cs.mode==='fu')lines.push([{t:`Ngày điều trị thứ ${String(cs.day).trim()||'[..]'}.`,ok:!!String(cs.day).trim()}]);
-  else lines.push([{t:opening(),ok:!!(cs.age!==''&&cs.sex&&cs.reason.trim())}]);ps='bs';
   for(const e of rows){const r=e.row;
     if(r.tc==='bt')continue;
-    if(r.id==='sum'){if(S.sum.sel===0){lines.push([]);lines.push([{t:'Tóm tắt bệnh án:',ok:true}]);for(const l of summary(rows))lines.push([{t:l,ok:!/\[\.\.\]/.test(l)}])}ps='tom';pl=null;continue}
+    if(r.id==='sum'){flush();if(S.sum.sel===0){lines.push([]);lines.push([{t:'Tóm tắt bệnh án:',ok:true}]);for(const l of summary(rows))lines.push([{t:l,ok:!/\[\.\.\]/.test(l)}])}ps='tom';continue}
     const t=r.tc==='gd'?tcText(rows):rowText(r);if(!t)continue;
-    if(r.sec!==ps&&(r.sec==='kham'||r.sec==='cls'||r.sec==='xt'||r.sec==='kq'||r.sec==='ht'))lines.push([]);
-    if(r.sec!==ps&&r.sec==='kq')lines.push([{t:'Kết quả cận lâm sàng:',ok:true}]);
-    if(r.sec!==ps&&r.sec==='kham')lines.push([{t:cs.mode==='fu'?'Khám:':'Tình trạng lúc nhập khoa cấp cứu:',ok:true}]);
-    if(r.sec!==ps&&r.sec==='xt')lines.push([{t:'Xử trí:',ok:true}]);
+    if(r.sec!==ps){flush();
+      if(r.sec==='kham'||r.sec==='cls'||r.sec==='xt'||r.sec==='kq'||r.sec==='ht')lines.push([]);
+      if(r.sec==='kq')lines.push([{t:'Kết quả cận lâm sàng:',ok:true}]);
+      if(r.sec==='kham')lines.push([{t:cs.mode==='fu'?'Khám:':'Tình trạng lúc nhập khoa cấp cứu:',ok:true}]);
+      if(r.sec==='xt')lines.push([{t:'Xử trí:',ok:true}]);}
     const ok=r.tc==='gd'?(S.tc_bt.ok&&S.tc_gd.ok):S[r.id].ok;
-    const seg={t,ok,sep:r.lj||' '};
-    const lk=r.line?(e.sys||e.mod||'')+'|'+r.line:null;
-    if(lk&&lk===pl&&lines.length&&lines[lines.length-1].length){if(seg.sep.includes(',')&&!r.keep)seg.t=decap(seg.t);lines[lines.length-1].push(seg)}
-    else{seg.t=cap(seg.t);lines.push([seg])}
-    ps=r.sec;pl=lk;
+    // nhóm: cả phần hỏi bệnh là một đoạn; khám mỗi hệ cơ quan một đoạn; xử trí một đoạn; còn lại mỗi dòng một đoạn
+    const key=r.tc==='gd'?'tc|':r.sec==='bs'?'bs':r.sec==='kham'?'k|'+(e.sys||r.id):r.sec==='xt'?'xt':'x|'+r.id;
+    if(key!==grp)flush();
+    ps=r.sec;
+    if(key.startsWith('x|')||key==='tc|'){lines.push([{t:cap(t),ok,sep:' '}]);continue}
+    grp=key;bmode=(r.sec==='kham'||r.sec==='xt')?'kham':'bs';buf.push({t,ok,r,e});
   }
+  flush();
   if(meta.inc){
     lines.unshift([{t:'Ngày giờ: '+fmtTime(meta.time),ok:true,mt:true}],[{t:'Họ tên BN: '+(meta.name.trim()||'[..]'),ok:true,mt:true}],[]);
     if(meta.dr.trim())lines.push([{t:'Bác sĩ: '+meta.dr.trim(),ok:true,mt:true}]);
