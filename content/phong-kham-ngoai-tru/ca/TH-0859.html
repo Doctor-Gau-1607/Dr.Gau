@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TH-0859 · Táo bón chức năng</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · TH-0859</div>
+   <h1>Tái khám theo hẹn; hỏi thêm chuyện đầy bụng, đi cầu không thoải mái 3 tuần</h1>
+   <p class="dich-gia">Đỗ Thị Hạnh · Nữ · 52 tuổi · 54 kg</p>
+   <div class="chips"><span class="chip">Tiêu hóa - gan mật</span><span class="chip">Không điển hình</span><span class="chip">2 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Điều dưỡng khoa Nội, bệnh viện huyện (có trực đêm)</dd><dt>Chiều cao, cân nặng</dt><dd>157 cm · 54 kg</dd>
+<dt>Xưng hô</dt><dd>Chị tự xưng &#x27;chị&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;; bác sĩ gọi chị là &#x27;chị&#x27;.</dd><dt>Tính cách</dt><dd>Nhanh nhẹn, nói gọn, quen dùng từ chuyên môn, hay tự chẩn đoán (&#x27;chắc viêm đại tràng co thắt&#x27;). Vội vì chiều còn vào ca. Không coi mình là người bị táo bón vì ngày nào cũng đi cầu; xem chuyện bụng là chuyện phụ, chủ yếu đến vì đã có hẹn tái khám.</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Phòng khám không có máy siêu âm (nên cũng không làm được CT, nội soi); nội soi đại tràng làm ở bệnh viện tỉnh.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/2</span> </h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Chị Đỗ Thị Hạnh, 52 tuổi, điều dưỡng bệnh viện huyện, đến tái khám theo hẹn 4 tuần trước (viêm mũi, đang nhỏ thuốc mũi). Nói thêm 3 tuần nay đầy bụng, đi cầu không thoải mái sau chuyến đi xe khách dài. Sinh hiệu: HA 124/78 mmHg, mạch 76 l/p, nhiệt độ 36,6 °C, SpO₂ 99%. Cân nặng 54 kg.</p>
+  <blockquote>“Chào bác sĩ. Hôm nay chị đến tái khám theo hẹn chuyện mũi. Nhân tiện ba tuần nay bụng chị đầy, đi cầu không thoải mái, chắc do đi xe lâu. Bác sĩ cho làm cái nào thật cần thôi nhé, tháng này chị hơi hụt tiền.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>76</b><small>l/p</small></div><div class="vs"><span>HA</span><b>124/78</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,6</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>16</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>99</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>13 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám: tái khám theo hẹn</b><span class="tag t-g">Tự kể</span></div><p>Hẹn tái khám theo lời dặn của bác sĩ phòng khám cách đây 4 tuần (viêm mũi, nhỏ thuốc mũi). Nhân tiện nói thêm: 3 tuần nay bụng đầy, đi cầu không thoải mái, chắc do đi xe lâu.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Triệu chứng chính: tần số bình thường nhưng đi chưa hết (không điển hình)</b><span class="tag t-b">Khi được hỏi</span></div><p>Bụng căng tức, nặng vùng hạ vị trái, đầy hơi, ợ hơi nhẹ. Không đau quặn, không đau liên quan đi cầu. Đi cầu mỗi ngày 1–2 lần nhưng mỗi lần chỉ một ít, đi xong vẫn thấy chưa hết nên vào lại nhà vệ sinh 2–3 lần mỗi sáng. Chị nghĩ &#x27;đi hằng ngày thì sao gọi là táo bón&#x27;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiêu chuẩn Rome IV: rặn, phân cứng, đi chưa hết, ≥ 6 tháng</b><span class="tag t-b">Khi được hỏi</span></div><p>Khoảng 2 năm nay (có thể hơn) hầu như lần nào cũng phải rặn, phân thành cục cứng như hạt, ít khi mềm; cảm giác chưa hết thì lần nào cũng có. Không phải dùng tay hay ấn vùng hậu môn để đi. Chưa bao giờ đi lỏng nếu không dùng thuốc xổ. Mấy năm nay chị cho là &#x27;ai cũng vậy&#x27;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Hình dạng phân (Bristol)</b><span class="tag t-b">Khi được hỏi</span></div><p>Chị chỉ vào hình thang phân: phần lớn là loại 1–2 (hạt cứng riêng lẻ, hoặc cục dài vón). Ba tuần nay thêm nhiều hạt nhỏ, rặn lâu 10–15 phút.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khởi phát: đi xa ngồi lâu</b><span class="tag t-b">Khi được hỏi</span></div><p>Ba tuần trước chị về quê dự giỗ, đi xe khách 11 giờ mỗi chiều. Ngại vào nhà vệ sinh dọc đường vì bẩn nên nhịn, uống ít nước, ăn bánh mì và đồ khô. Về nhà bụng bắt đầu đầy và đi cầu khó hơn hẳn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Yếu tố làm nặng: nhịn đi cầu, ít nước, ít xơ</b><span class="tag t-b">Khi được hỏi</span></div><p>Làm điều dưỡng, đang chăm bệnh nhân thì nhịn đi cầu, có tháng 4 đêm trực. Uống khoảng 3 ly cà phê mỗi ngày để tỉnh, nước lọc chỉ chừng một lít vì ngại đi vệ sinh. Ăn cơm căng-tin, ít rau, ít trái cây. Ít vận động ngoài giờ làm.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Sàng lọc dấu báo động</b><span class="tag t-b">Khi được hỏi</span></div><p>Không thấy máu trong phân hay trên giấy, phân không đen. Cân nặng 54 kg, mấy năm nay không đổi. Không sốt, không nôn, vẫn trung tiện bình thường, ăn ngon. Không đau bụng về đêm, không thức giấc vì đi cầu.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiền sử mổ bụng (loại trừ tắc ruột do dính)</b><span class="tag t-b">Khi được hỏi</span></div><p>Mổ lấy thai hai lần (25 và 22 năm trước), vết mổ ngang trên xương mu. Sau mổ chưa từng bị tắc ruột hay nhập viện vì đau bụng. Chưa xạ trị.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc đang dùng: thuốc nhỏ mũi kéo dài</b><span class="tag t-r">Giấu</span></div><p>Chỉ có thuốc nhỏ mũi naphazolin 0,05%, nhỏ 2 giọt mỗi bên mũi mỗi tối khoảng 8 tháng nay, &#x27;không nhỏ thì nghẹt mũi, khó ngủ&#x27;. Ngoài ra không uống thuốc nào: không sắt, canxi, thuốc cảm, kháng histamin, thuốc ngủ, thuốc giảm đau.</p><div class="cond">Điều kiện nói ra: Hỏi chung &#x27;đang uống thuốc gì&#x27; thì chị nói không có. Chỉ kể khi bác sĩ hỏi thuốc nhỏ, xịt mũi, thuốc cảm, hoặc &#x27;ngoài thuốc uống còn dùng gì&#x27;.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đã tự dùng thuốc nhuận tràng kích thích</b><span class="tag t-b">Khi được hỏi</span></div><p>Tuần trước đồng nghiệp đưa 2 viên Dulcolax 5 mg. Chị uống cả 2 viên vào tối thứ ba, đau quặn bụng, đi lỏng 3 lần; tối thứ tư uống tiếp thì cũng đau quặn nên bỏ, sợ dùng nữa.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Chưa sàng lọc ung thư đại trực tràng; tiền sử gia đình</b><span class="tag t-b">Khi được hỏi</span></div><p>Chưa từng làm thử phân tìm máu hay nội soi đại tràng. Trong gia đình (bố mẹ, anh chị em) không ai bị ung thư đại tràng hay polyp. Bố bị tăng huyết áp.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Nhiễu: không đủ tiền xét nghiệm</b><span class="tag t-b">Khi được hỏi</span></div><p>Tháng này hụt tiền vì học phí con thứ hai ở đại học và sửa mái nhà. Khám ở phòng khám tư tự trả, BHYT đăng ký ở bệnh viện huyện. Chị chỉ muốn làm xét nghiệm nào thật cần; nghe bác sĩ chỉ định nhiều thì sẽ hỏi cái nào bỏ được.</p></div><div class="fact"><div class="fh"><b>kinh_nguyet</b><span class="tag t-b">Khi được hỏi</span></div><p>Mãn kinh 2 năm, không ra huyết âm đạo, không dùng thuốc nội tiết.</p></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>5 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, tiếp xúc tốt, thể trạng tốt, niêm mạc mắt hồng, không vàng da, không phù mặt. Cân nặng 54 kg.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Bụng</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Bụng hơi chướng vùng hạ vị, sẹo mổ ngang trên xương mu.</p><p><span class="lbl">Kết quả:</span> Bụng cân đối, chướng nhẹ vùng hạ vị. Sẹo mổ ngang trên xương mu 12 cm lành tốt, không thoát vị. Mềm, ấn tức nhẹ hố chậu trái, sờ thấy thừng chắc di động dọc đại tràng xuống (ấn lõm), không khối cố định, không phản ứng thành bụng, gan lách không to. Nhu động ruột 6 lần/phút, gõ vang nhẹ.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thăm trực tràng</b></div><p><span class="lbl">Kết quả:</span> Hậu môn không nứt, không trĩ ngoại, không rò. Trương lực cơ thắt bình thường; bóng trực tràng có phân cứng thành cục. Khi bảo rặn, cơ thắt giãn và cơ mu trực tràng chùng. Không khối, không hẹp. Găng không dính máu.</p></div><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Tuyến giáp không to, không hạch cổ.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b></div><p><span class="lbl">Kết quả:</span> Niêm mạc mũi đỏ, phù, cuốn dưới to hai bên, không polyp, không mủ. Họng không đỏ.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Tim</b><span class="tag t-m">Bình thường</span></div><p>Tim đều 76 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 16 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>9 mục</small></h3></summary><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-g">Cần làm</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Số lượng bạch cầu (WBC)</td><td class="num">6,8</td><td>G/L</td><td class="ref">4,0–10,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu trung tính (NEU%)</td><td class="num">60,0</td><td>%</td><td class="ref">45–75</td></tr><tr class=""><td>Số lượng bạch cầu trung tính (NEU#)</td><td class="num">4,08</td><td>G/L</td><td class="ref">2,0–7,5</td></tr><tr class=""><td>Tỷ lệ bạch cầu lympho (LYM%)</td><td class="num">30,0</td><td>%</td><td class="ref">20–40</td></tr><tr class=""><td>Số lượng bạch cầu lympho (LYM#)</td><td class="num">2,04</td><td>G/L</td><td class="ref">1,0–4,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu mono (MONO%)</td><td class="num">6,0</td><td>%</td><td class="ref">2–10</td></tr><tr class=""><td>Số lượng bạch cầu mono (MONO#)</td><td class="num">0,41</td><td>G/L</td><td class="ref">0,2–1,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa acid (EOS%)</td><td class="num">3,0</td><td>%</td><td class="ref">0–7</td></tr><tr class=""><td>Số lượng bạch cầu ưa acid (EOS#)</td><td class="num">0,2</td><td>G/L</td><td class="ref">0–0,5</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa base (BASO%)</td><td class="num">1,0</td><td>%</td><td class="ref">0–1</td></tr><tr class=""><td>Số lượng bạch cầu ưa base (BASO#)</td><td class="num">0,07</td><td>G/L</td><td class="ref">0–0,1</td></tr><tr class=""><td>Số lượng hồng cầu (RBC)</td><td class="num">4,45</td><td>T/L</td><td class="ref">3,8–4,8</td></tr><tr class=""><td>Lượng huyết sắc tố (HGB)</td><td class="num">128</td><td>g/L</td><td class="ref">120–150</td></tr><tr class=""><td>Thể tích khối hồng cầu (HCT)</td><td class="num">0,39</td><td>L/L</td><td class="ref">0,36–0,46</td></tr><tr class=""><td>Thể tích trung bình hồng cầu (MCV)</td><td class="num">88,0</td><td>fL</td><td class="ref">80–100</td></tr><tr class=""><td>Lượng HST trung bình hồng cầu (MCH)</td><td class="num">28,8</td><td>pg</td><td class="ref">27–32</td></tr><tr class=""><td>Nồng độ HST trung bình hồng cầu (MCHC)</td><td class="num">328</td><td>g/L</td><td class="ref">320–360</td></tr><tr class=""><td>Dải phân bố kích thước hồng cầu (RDW-CV)</td><td class="num">13,2</td><td>%</td><td class="ref">11,5–14,5</td></tr><tr class=""><td>Số lượng tiểu cầu (PLT)</td><td class="num">268</td><td>G/L</td><td class="ref">150–400</td></tr></tbody></table><p class="why">Thiếu máu thiếu sắt là dấu báo động ở người táo bón (WGO 2025 Bảng 6); xét nghiệm máu làm &#x27;nếu có chỉ định&#x27; (WGO 2025 mục 3.3). Rẻ nhất trong các xét nghiệm máu và đổi được quyết định: Hb 128 g/L ở nữ, MCV bình thường: không thiếu máu.</p></div><div class="row"><div class="rh"><b>Thử phân tìm máu ẩn miễn dịch (FIT)</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> FIT định lượng 4 µg Hb/g phân (âm tính, ngưỡng &lt; 10)</p><p class="why">Chị 52 tuổi chưa từng sàng lọc: thuộc độ tuổi sàng lọc (USPSTF 2021: 45–75 tuổi; Asia-Pacific 2022: mốc 50 tuổi, Statement 6: hạ xuống dưới 50 chưa chứng minh hiệu quả chi phí ở châu Á). FIT định lượng hoặc nội soi đại tràng là hai xét nghiệm sàng lọc ưu tiên ở châu Á (Asia-Pacific 2022 Statement 3). Chị hụt tiền: FIT rẻ hơn nhiều so với nội soi (theo bảng giá phòng khám 150.000 so với 500.000 đồng), làm tại chỗ.</p></div><div class="row"><div class="rh"><b>Nội soi đại tràng</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> (Phòng khám không có nội soi; nội soi đại tràng làm ở bệnh viện tỉnh.)</p><p class="note">Thay thế khi cơ sở không có: Thử phân tìm máu ẩn miễn dịch (FIT)</p><p class="why">Nội soi đại tràng là lựa chọn sàng lọc thay cho FIT (Asia-Pacific 2022 Statement 3) nên chấp nhận, nhưng không bắt buộc hôm nay và tốn kém hơn; nếu FIT dương tính thì nội soi trong vòng 3 tháng (Asia-Pacific 2022 Statement 21). Không dấu báo động nên không phải nội soi chẩn đoán gấp.</p></div><div class="row"><div class="rh"><b>Glucose máu đói</b><span class="tag t-r">Không cần</span></div><p class="why">Đái tháo đường là nguyên nhân thứ phát (WGO 2025 Bảng 3) nhưng chị không có triệu chứng và đường huyết 5,2 mmol/L tháng trước: không cần lặp lại hôm nay (đang hụt tiền).</p></div><div class="row"><div class="rh"><b>TSH, FT4</b><span class="tag t-r">Không cần</span></div><p class="why">Suy giáp là nguyên nhân thứ phát (WGO 2025 Bảng 3). Lâm sàng không gợi ý (không sợ lạnh, không phù, không chậm chạp, tuyến giáp không to). WGO 2025 Hình 3 xếp xét nghiệm máu và thăm dò giải phẫu vào bước &#x27;điều trị ban đầu thất bại&#x27;: hoãn, làm ở lần sau nếu không đáp ứng (tiết kiệm 180.000 đồng).</p></div><div class="row"><div class="rh"><b>Canxi máu toàn phần</b><span class="tag t-r">Không cần</span></div><p class="why">Tăng canxi là nguyên nhân thứ phát (WGO 2025 Bảng 3) nhưng không có gợi ý lâm sàng (không khát, không tiểu nhiều); hoãn như TSH (WGO 2025 Hình 3, bước 4).</p></div><div class="row"><div class="rh"><b>Ure, creatinin, eGFR</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần: chọn PEG không phải magie oxid; chỉ cần kiểm tra thận khi dùng magie (AGA-ACG 2023 Khuyến cáo 3: tránh khi suy thận).</p></div><div class="row"><div class="rh"><b>X-quang bụng không chuẩn bị</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần: không nôn, còn trung tiện, bụng mềm, không chướng căng; X-ray bụng không chuẩn bị giá trị hạn chế trong nghi tắc ruột và không khuyến cáo thường quy (WSES Bologna 2018, mục Plain X-rays, khuyến cáo IIC).</p></div><div class="row"><div class="rh"><b>CT bụng có cản quang</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần: không có dấu báo động; chi phí 1.800.000 đồng theo bảng giá phòng khám.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Táo bón chức năng (táo bón mạn nguyên phát) đủ tiêu chuẩn Rome IV, đợt nặng lên sau chuyến đi xe khách dài; đã loại trừ ung thư đại trực tràng và tắc ruột ở mức lâm sàng và FIT</b></div><p class="why">Rặn, phân cứng Bristol 1–2, cảm giác đi chưa hết ở hầu hết lần đi, kéo dài ≥ 6 tháng; tần số 1–2 lần/ngày không loại trừ chẩn đoán vì Rome IV không bắt buộc &lt; 3 lần/tuần (WGO 2025 Bảng 5).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ung thư đại trực tràng</b></div><p class="why">Không có dấu báo động nào có thể chứng minh: không máu, không sụt cân, không thiếu máu (Hb 128 g/L), không dấu tắc, không khối ở bụng và trực tràng (WGO 2025 Bảng 6). Triệu chứng nền ≥ 2 năm, đợt nặng có yếu tố khởi phát rõ. FIT âm tính; do 52 tuổi vẫn phải hẹn tái khám và dặn dấu hiệu báo động.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tắc ruột (kể cả tắc do dính sau mổ lấy thai)</b></div><p class="why">Không đau quặn từng cơn, không nôn, còn trung tiện, bụng mềm, nhu động bình thường (WSES Bologna 2018, mục History taking and physical examination). Tiền sử mổ có hỏi và không có biến cố.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Hội chứng ruột kích thích thể táo bón (IBS-C)</b></div><p class="why">Cần đau bụng tái diễn ≥ 1 ngày/tuần, liên quan đi cầu hoặc kèm thay đổi tần số, hình dạng phân (ACG 2021 IBS, Bảng 1). Chị chỉ đầy hơi, căng tức, không đau liên quan đi cầu: không đủ tiêu chuẩn IBS (WGO 2025 Bảng 5, mục &#x27;insufficient criteria for IBS&#x27;).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Táo bón thứ phát do bệnh (suy giáp, tăng canxi, hạ kali, đái tháo đường) hoặc do thuốc</b></div><p class="why">Không gợi ý lâm sàng; hoãn xét nghiệm (WGO 2025 Bảng 3, Hình 3). Thuốc nhỏ mũi naphazolin không có tên trong danh sách thuốc gây táo bón (WGO 2025 Bảng 4); ảnh hưởng của thuốc nhỏ mũi lên nhu động ruột: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Rối loạn đại tiện (dyssynergic defecation)</b></div><p class="why">Thăm trực tràng: cơ thắt giãn và cơ mu trực tràng chùng khi rặn. Chưa thể kết luận; đo áp lực hậu môn–trực tràng chỉ khi không đáp ứng điều trị (AGA CPU 2026 Khuyến cáo 2; WGO 2025 mục 3.5).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích: đi cầu hằng ngày vẫn có thể là táo bón; đây là táo bón chức năng, chưa có dấu hiệu ung thư hay tắc ruột; bệnh mạn tính cần chăm sóc lâu dài</b></div><p class="why">Triệu chứng bệnh nhân mô tả rộng hơn tần số (cứng, rặn, chưa hết, đầy hơi), nhiều người xem khó đi cầu là bình thường (WGO 2025 mục 2, 3.1). Táo bón mạn là bệnh mạn cần điều trị duy trì, đặt kỳ vọng thực tế (AGA CPU 2026 Khuyến cáo 4).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chỉ định xét nghiệm ưu tiên theo tiền: công thức máu và FIT hôm nay; hoãn TSH, canxi, glucose, creatinin cho lần sau nếu không đáp ứng</b></div><p class="why">Xét nghiệm máu làm khi có chỉ định (WGO 2025 mục 3.3); xét nghiệm máu và thăm dò giải phẫu thuộc bước điều trị ban đầu thất bại (WGO 2025 Hình 3, bước 4). Công thức máu bắt tìm thiếu máu (WGO 2025 Bảng 6); FIT là xét nghiệm sàng lọc ưu tiên (Asia-Pacific 2022 Statement 3).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Sàng lọc ung thư đại trực tràng theo tuổi: FIT định lượng hoặc nội soi đại tràng (chọn FIT hôm nay vì tiền); nếu FIT dương tính thì nội soi đại tràng</b></div><p class="why">Chị 52 tuổi, chưa sàng lọc (USPSTF 2021: 45–75 tuổi, Asia-Pacific 2022: mốc 50 tuổi, Statement 6). FIT định lượng mỗi 1–2 năm hoặc nội soi mỗi 10 năm đều là xét nghiệm ưu tiên ở châu Á (Asia-Pacific 2022 Statement 3); FIT dương tính thì nội soi trong &lt; 3 tháng (Statement 21). Hai nguồn không mâu thuẫn ở tuổi 52.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Điều chỉnh lối sống: đi cầu ngay khi mắc, không nhịn khi trực, ngồi sau ăn sáng và gác chân thấp; uống nước đủ ban ngày; giảm cà phê; đi bộ nhanh mỗi ngày; tăng rau, trái cây, ngũ cốc nguyên hạt dần dần tới 20–30 g chất xơ/ngày</b></div><p class="why">Tăng chất xơ từ từ qua nhiều tuần tới 20–30 g/ngày (WGO 2025 mục 4.2; AGA-ACG 2023 Bảng 4); tăng nước, vận động mạnh, đáp ứng ngay khi mắc, tư thế ngồi xổm (WGO 2025 mục 4.6); cà phê, rượu quá mức nằm trong nguyên nhân (WGO 2025 Bảng 3). Lượng nước mL/ngày: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Macrogol (PEG) 17 g mỗi ngày, uống sáng, chỉnh theo đáp ứng</b></div><p class="why">PEG: khuyến cáo mạnh, chứng cứ trung bình, khởi đầu 17 g/ngày, đáp ứng bền 6 tháng (AGA-ACG 2023 Khuyến cáo 2, Bảng 4; WGO 2025 mục 4.6, Bảng 9). Thuốc thẩm thấu là thuốc đầu tay. Quy đổi gam theo gói chế phẩm trong nước: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Bisacodyl 5 mg buổi tối chỉ khi 2 ngày liền không đi cầu, tối đa 10 mg/ngày, dùng ngắn hạn (≤ 4 tuần liên tục)</b></div><p class="why">Bisacodyl khuyến cáo mạnh dùng ngắn hạn hoặc làm thuốc cứu, bắt đầu liều thấp rồi tăng khi cần, tối đa 10 mg/ngày (AGA-ACG 2023 Khuyến cáo 5, Bảng 4; WGO 2025 mục 4.6: ngắt quãng, theo nhu cầu). Chị từng uống 10 mg ngay lần đầu nên đau quặn. Mốc &#x27;khi 2 ngày liền không đi&#x27; là lựa chọn của ca, không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn tái khám sau 3 tuần, mang theo nhật ký đi cầu; dặn dấu hiệu báo động: ra máu, phân đen, sụt cân, nôn, bí trung đại tiện, đau quặn, chướng bụng thì đến ngay</b></div><p class="why">Nhật ký triệu chứng (WGO 2025 mục 3.3); dấu báo động (WGO 2025 Bảng 6); tắc ruột: đau quặn, chướng, nôn (WSES Bologna 2018, mục History taking). Mốc 3 tuần là lựa chọn của ca, không có trong tài liệu đã tải.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Thêm psyllium hoặc lactulose 15 g/ngày hoặc magie oxid 400–500 mg/ngày bên cạnh hoặc thay PEG nếu chị không uống được PEG</b></div><p class="why">Psyllium: khuyến cáo có điều kiện (AGA-ACG 2023 Khuyến cáo 1, Bảng 4); lactulose 15 g/ngày: có điều kiện, dễ đầy hơi (Khuyến cáo 4, Bảng 4; WGO 2025 mục 4.6); magie oxid 400–500 mg/ngày: chưa kiểm tra thận nên thận trọng (Khuyến cáo 3, Bảng 4: tránh khi suy thận).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Ngừng dần thuốc nhỏ mũi co mạch dùng kéo dài, hẹn đánh giá lại viêm mũi</b></div><p class="why">Khuyến cáo không dùng thuốc co mạch nhỏ mũi quá 5 ngày (ARIA-EAACI 2024–2025, Part I) và xịt kéo dài có thể làm bệnh nặng hơn (QĐ 5643/2015 bài Viêm mũi xoang cấp, mục 4.2). Liên quan với táo bón: không có trong tài liệu đã tải, nên không chấm bắt buộc.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Dùng bisacodyl hằng ngày kéo dài không giới hạn, hoặc tăng trên 10 mg/ngày</b></div><p class="why">Điều trị bước đầu: bisacodyl chỉ cứu hoặc ngắn hạn (AGA-ACG 2023 Khuyến cáo 5, Bảng 4: tối đa 10 mg/ngày; WGO 2025 mục 4.6). Trên 10 mg/ngày vượt liều tối đa. Xem sổ mâu thuẫn mục TH-0870.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho prucalopride hoặc linaclotide ngay từ đầu</b></div><p class="why">Chỉ khuyến cáo cho người không đáp ứng thuốc không kê đơn (AGA-ACG 2023 Khuyến cáo 7–10; WGO 2025 mục 4.7, mức hai và ba); chị chưa thử PEG và đắt hơn nhiều (AGA-ACG 2023 Bảng 4 ước tính chi phí hằng tháng cao hơn).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Chuyển bệnh viện tỉnh làm CT bụng và nội soi đại tràng ngay hôm nay</b></div><p class="why">Không có dấu báo động, huyết động và lâm sàng ổn. Thăm dò giải phẫu đại tràng thuộc bước thất bại điều trị ban đầu (WGO 2025 Hình 3, bước 4). Sàng lọc có thể làm bằng FIT (Asia-Pacific 2022 Statement 3).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chị Hạnh bị gửi ngay bệnh viện tỉnh làm CT bụng và nội soi đại tràng: chị không có dấu báo động nào (không ra máu, không thiếu máu, không sụt cân, không dấu tắc ruột), thăm trực tràng chỉ có phân cứng (WGO 2025 Bảng 6, mục 3.3). Chỉ riêng nội soi và CT đã khoảng 2.300.000 đồng theo bảng giá phòng khám, chưa kể nghỉ một ngày công và xe đi lại, trong khi sàng lọc có thể bắt đầu bằng FIT 150.000 đồng (Asia-Pacific 2022 Statement 3). Chị đang hụt tiền nên dễ bỏ luôn việc dùng thuốc và lối sống rồi không quay lại tái khám.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Chị Hạnh bị giữ lại nhập viện để thụt tháo và theo dõi: chị trung tiện được, không nôn, bụng mềm, không phản ứng thành bụng nên không phải tắc ruột (WSES Bologna 2018, mục History taking and physical examination). Điều trị ngoại trú bằng lối sống, PEG và bisacodyl cứu là đủ (AGA-ACG 2023 Khuyến cáo 2, 5). Chị mất vài ngày công và viện phí không cần thiết khi đang hụt tiền, còn đồng nghiệp nhìn thấy chị nằm viện vì chuyện đi cầu.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Táo bón chức năng (táo bón mạn nguyên phát) đủ tiêu chuẩn Rome IV, thể tần số bình thường, đợt nặng lên ba tuần sau chuyến đi xe khách dài (WGO 2025 Bảng 5)</li><li>Yếu tố làm nặng: nhịn đi cầu khi trực và khi đi xe, uống ít nước, nhiều cà phê, ít xơ, ít vận động (WGO 2025 Bảng 2, 3)</li><li>Đã loại trừ ở mức lâm sàng và FIT: ung thư đại trực tràng (không dấu báo động, FIT âm tính), tắc ruột (không nôn, còn trung tiện, bụng mềm), IBS-C (không đau liên quan đi cầu)</li><li>Thuốc đang dùng: naphazolin nhỏ mũi kéo dài 8 tháng (viêm mũi vận mạch, lý do hẹn tái khám), không nằm trong danh sách thuốc gây táo bón (WGO 2025 Bảng 4)</li><li>Chưa sàng lọc ung thư đại trực tràng ở tuổi 52: đã làm FIT, hẹn lặp lại theo chu kỳ</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự hỏi bệnh: (1) đặc điểm đi cầu theo Rome IV (rặn, hình dạng phân Bristol, cảm giác đi chưa hết, tần số, thủ thuật hỗ trợ, thời gian); (2) dấu báo động và tiền sử mổ bụng; (3) rà thuốc kể cả thuốc nhỏ mũi và thuốc tự dùng; (4) nước, chất xơ, vận động, thói quen nhịn; (5) tiền sử sàng lọc và gia đình; (6) khả năng chi trả. Khám: toàn thân, bụng, thăm trực tràng. Cận lâm sàng: chỉ công thức máu và FIT.</li><li>Vì sao không điển hình mà vẫn là táo bón: chị đi cầu mỗi ngày nên không nghĩ mình táo bón, và bác sĩ dễ nghĩ đến viêm đại tràng hay IBS vì đầy hơi và đi nhiều lần. Rome IV chỉ cần ≥ 2 tiêu chuẩn: rặn &gt; 25% lần đi, phân cứng Bristol 1–2 &gt; 25%, cảm giác chưa hết &gt; 25%, tiêu chuẩn kéo dài 3 tháng, khởi phát ≥ 6 tháng (WGO 2025 Bảng 5); WGO cũng nêu nhiều bệnh nhân đi cầu thường hơn (WGO 2025 mục 2). Tiêu chuẩn Rome V người lớn: không có trong tài liệu đã tải (TL-0187 là khảo sát dịch tễ).</li><li>Loại trừ ung thư đại trực tràng: dấu báo động gồm thay đổi thói quen đi cầu, sụt cân, thiếu máu thiếu sắt, triệu chứng tắc, khối ở bụng, chảy máu trực tràng, triệu chứng khởi phát gần đây hoặc về đêm (WGO 2025 Bảng 6). Chị nặng lên 3 tuần nhưng nền táo bón ≥ 2 năm, có chuyến đi giải thích rõ; cân nặng ổn, Hb 128 g/L, không máu, thăm trực tràng không khối. Đây là đánh giá lâm sàng của ca, không phải quy tắc của tài liệu. Dù vậy chị 52 tuổi nên cần sàng lọc theo tuổi bằng FIT định lượng hoặc nội soi (Asia-Pacific 2022 Statement 3; USPSTF 2021).</li><li>Loại trừ tắc ruột: tắc ruột có đau quặn từng cơn, chướng, buồn nôn hoặc nôn, bí đại tiện; hỏi tiền sử mổ bụng (WSES Bologna 2018, mục History taking and physical examination). Chị có mổ lấy thai 2 lần nhưng không có biến cố, trung tiện được, nhu động 6 lần/phút. X-quang bụng không chuẩn bị giá trị hạn chế (WSES Bologna 2018, Plain X-rays).</li><li>Phân biệt IBS-C: cần đau bụng tái diễn ≥ 1 ngày/tuần trong 3 tháng kèm ≥ 2 trong liên quan đi cầu, đổi tần số, đổi hình dạng phân (ACG 2021 IBS, Bảng 1); chị chỉ đầy hơi, căng tức, nên đủ tiêu chuẩn táo bón chức năng và không đủ IBS (WGO 2025 Bảng 5).</li><li>Nguyên nhân thứ phát: bệnh (suy giáp, tăng canxi, hạ kali, đái tháo đường) theo WGO 2025 Bảng 3; thuốc theo Bảng 4 (naphazolin nhỏ mũi không có trong bảng). Xét nghiệm tìm nguyên nhân thứ phát hoãn đến khi điều trị ban đầu thất bại (WGO 2025 Hình 3, bước 4). Xếp ưu tiên vì tiền: công thức máu và FIT đổi được quyết định, TSH, canxi, glucose chưa đổi.</li><li>Rối loạn đại tiện: thăm trực tràng để tìm ứ phân, khối, hẹp, nứt, trĩ và thử rặn (WGO 2025 mục 3.3; AGA CPU 2026 Khuyến cáo 2). Cơ thắt giãn khi rặn nên chưa nghĩ dyssynergia; đo áp lực hậu môn–trực tràng chỉ sau khi dùng thuốc đủ mà không đáp ứng (AGA CPU 2026 Khuyến cáo 1, 2).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Bước 1: trả lời nhận thức sai (đi hằng ngày vẫn có thể là táo bón), nói rõ chưa có dấu hiệu ung thư hay tắc ruột, đây là bệnh mạn cần chăm sóc lâu dài (AGA CPU 2026 Khuyến cáo 4).</li><li>Bước 2: lối sống. Chất xơ tăng từ từ qua nhiều tuần tới 20–30 g/ngày, tăng nước, vận động, đáp ứng ngay khi mắc, tư thế ngồi xổm (WGO 2025 mục 4.2, 4.6). Tăng xơ quá nhanh gây đầy hơi, chướng bụng (WGO 2025 mục 4.2). Bổ sung psyllium là lựa chọn có điều kiện (AGA-ACG 2023 Khuyến cáo 1).</li><li>Bước 3: thuốc. PEG 17 g/ngày là đầu tay, khuyến cáo mạnh (AGA-ACG 2023 Khuyến cáo 2, Bảng 4; WGO 2025 mục 4.6, Bảng 9). Bisacodyl 5 mg chỉ làm thuốc cứu, khởi đầu liều thấp, tối đa 10 mg/ngày, ngắn hạn ≤ 4 tuần (AGA-ACG 2023 Khuyến cáo 5, Bảng 4; WGO 2025 mục 4.6). Chị từng uống 2 viên (10 mg) ngay lần đầu và bị đau quặn: phù hợp ghi nhận tác dụng phụ co thắt của nhóm kích thích. AGA CPU 2026 (Khuyến cáo 7) nói lo ngại dùng dài hạn thuốc kích thích ở táo bón kháng trị là không có cơ sở, còn AGA-ACG 2023 và WGO 2025 giới hạn dùng cứu ở điều trị ban đầu: hai bên khác đối tượng, ca này mới điều trị bước đầu nên dùng cứu.</li><li>Chi phí: chọn FIT thay nội soi, chọn công thức máu thay cho cả bộ xét nghiệm, hoãn TSH, canxi, glucose; thuốc đầu tay đã rẻ hơn thuốc kích thích thụ thể (AGA-ACG 2023 Bảng 4 chỉ cho giá tại Mỹ nên không dùng làm mốc ở Việt Nam). Nói rõ với chị từng khoản bỏ được và lý do (WGO 2025 Hình 3).</li><li>Thuốc nhỏ mũi: không dùng quá 5 ngày (ARIA-EAACI 2024–2025 Part I) hoặc ngắn hạn như 3 ngày (QĐ 5643/2015 Viêm mũi xoang cấp mục 4.2); hai mốc khác ngữ cảnh (viêm mũi dị ứng so với viêm xoang cấp), cùng ý là tránh kéo dài. Mối liên quan với táo bón: không có trong tài liệu đã tải nên không đưa vào chấm bắt buộc.</li><li>Những việc sai: chuyển tuyến CT và nội soi ngay không dấu báo động; kê prucalopride hoặc linaclotide bước đầu (AGA-ACG 2023 Khuyến cáo 7–10: sau khi không đáp ứng); bisacodyl hằng ngày không giới hạn hoặc trên 10 mg/ngày (xem mục TH-0870 ở sổ mâu thuẫn).</li><li>Mốc tái khám 3 tuần, thời điểm uống bisacodyl khi 2 ngày liền không đi: lựa chọn của ca, không có trong tài liệu đã tải. Nếu sau lối sống và thuốc đủ liều vẫn không đỡ thì thăm dò đại tràng và đo áp lực hậu môn–trực tràng (WGO 2025 mục 3.5; AGA CPU 2026 Khuyến cáo 2).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Macrogol (PEG 3350 hoặc 4000)</b><div class="sub">Gói bột pha uống; liều theo gam hoạt chất</div></td><td data-l="Liều">17 g × 1 lần/ngày<div class="sub">Uống, pha với nước · Buổi sáng</div></td><td data-l="Thời gian">Duy trì hằng ngày, chỉnh theo đáp ứng; tái khám sau 3 tuần</td><td class="gc" data-l="Ghi chú">AGA-ACG 2023 Khuyến cáo 2, Bảng 4 (khởi đầu 17 g/ngày, đáp ứng bền 6 tháng); WGO 2025 mục 4.6, Bảng 9. Quy đổi sang gói chế phẩm trong nước, lượng nước pha: không có trong tài liệu đã tải.</td></tr><tr><td><b>Bisacodyl</b><div class="sub">5 mg</div></td><td data-l="Liều">1 viên (5 mg) khi 2 ngày liền không đi cầu; tối đa 2 viên (10 mg)/ngày<div class="sub">Uống · Buổi tối</div></td><td data-l="Thời gian">Dùng cứu, ngắn hạn, không quá 4 tuần liên tục</td><td class="gc" data-l="Ghi chú">AGA-ACG 2023 Khuyến cáo 5, Bảng 4 (5 mg khởi đầu, tối đa 10 mg/ngày, ngắn hạn hoặc cứu); WGO 2025 mục 4.6. Mốc &#x27;khi 2 ngày liền không đi&#x27; là lựa chọn của ca.</td></tr><tr><td><b>Naphazolin 0,05% nhỏ mũi (đang dùng)</b><div class="sub">Dung dịch nhỏ mũi</div></td><td data-l="Liều">Giảm dần số lần nhỏ rồi ngừng, không dùng kéo dài<div class="sub">Nhỏ mũi · Buổi tối như cũ trong thời gian giảm dần</div></td><td data-l="Thời gian">Đánh giá lại ở lần khám mũi</td><td class="gc" data-l="Ghi chú">ARIA-EAACI 2024–2025 Part I (không dùng thuốc co mạch nhỏ mũi &gt; 5 ngày); QĐ 5643/2015 Viêm mũi xoang cấp mục 4.2. Lịch giảm dần cụ thể: không có trong tài liệu đã tải.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Đi cầu hằng ngày chưa chắc là không táo bón: rặn, phân cứng, đi chưa hết đều là táo bón (WGO 2025 Bảng 5). Đây là bệnh mạn, cần chăm sóc lâu dài (AGA CPU 2026 Khuyến cáo 4).</li><li>Đi cầu ngay khi mắc, đừng nhịn khi trực hay khi đi xe; ngồi sau ăn sáng, gác chân thấp hoặc kê ghế nhỏ; không rặn quá lâu (WGO 2025 mục 4.6).</li><li>Uống nước đủ ban ngày, giảm cà phê; đi bộ nhanh mỗi ngày (WGO 2025 mục 4.6). Lượng nước cụ thể: không có trong tài liệu đã tải.</li><li>Tăng rau, trái cây, ngũ cốc nguyên hạt từ từ trong nhiều tuần tới 20–30 g chất xơ/ngày, tránh tăng đột ngột gây đầy hơi (WGO 2025 mục 4.2).</li><li>Macrogol 17 g mỗi sáng đều đặn, đừng tự giảm liều cho tiết kiệm; bisacodyl 5 mg buổi tối chỉ khi 2 ngày liền không đi, không quá 10 mg/ngày (AGA-ACG 2023 Bảng 4).</li><li>Ghi nhật ký đi cầu mỗi ngày (số lần, loại phân Bristol, có rặn không) mang theo khi tái khám (WGO 2025 mục 3.3).</li><li>Hôm nay chỉ làm công thức máu và FIT; các xét nghiệm khác để dành, chỉ làm nếu không đỡ sau điều trị đủ liều (WGO 2025 Hình 3).</li><li>Đến ngay nếu ra máu hoặc phân đen, sụt cân, nôn, đau quặn kèm chướng bụng, bí không trung tiện được (WGO 2025 Bảng 6; WSES Bologna 2018). FIT âm tính không thay cho dặn dấu hiệu này; lặp lại FIT mỗi 1–2 năm (Asia-Pacific 2022 Statement 3).</li><li>Thuốc nhỏ mũi: giảm dần rồi ngừng, không nhỏ kéo dài (ARIA-EAACI 2024–2025 Part I).</li><li>Tái khám sau 3 tuần (mốc của ca, không có trong tài liệu đã tải).</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-2">
+ <h2 id="h-luot-2"><span class="ln">Lượt 2/2</span> · sau 3 tuần</h2>
+ <div class="card intro"><h3 id="m-8">Tiếp đón</h3><p>Chị Hạnh tái khám sau 3 tuần theo hẹn, mang theo nhật ký đi cầu. Nói đỡ khoảng một nửa nhưng vẫn còn hôm đi chưa hết. Sinh hiệu: HA 122/76 mmHg, mạch 74 l/p, nhiệt độ 36,6 °C, SpO₂ 99%. Cân nặng 54 kg.</p>
+  <blockquote>“Bác sĩ ơi, chị đỡ được một nửa, bụng bớt căng, nhưng vẫn còn hôm đi chưa hết. Có phải chị phải lên tỉnh làm gì nữa không? Chị ngại tốn kém.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>74</b><small>l/p</small></div><div class="vs"><span>HA</span><b>122/76</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,6</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>16</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>99</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-9">Hỏi bệnh <small>9 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đáp ứng một phần sau 3 tuần</b><span class="tag t-g">Tự kể</span></div><p>Đỡ khoảng một nửa so với 3 tuần trước. Bụng bớt căng, bớt đầy hơi. Nhưng vẫn còn những hôm rặn, đi xong thấy chưa hết. Chị lo không biết có phải lên tỉnh làm gì thêm không vì tốn kém.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Quỹ đạo hồi phục: đỡ nhưng chưa đủ</b><span class="tag t-b">Khi được hỏi</span></div><p>Nhật ký 21 ngày: mỗi ngày đi 1 lần. Khoảng 12 ngày phân mềm vừa (Bristol 3–4, đi dễ), 9 ngày còn phân cục cứng (Bristol 1–2), những ngày đó phải rặn và đi chưa hết. Trước điều trị gần như ngày nào cũng cứng.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tuân thủ và liều PEG thực tế (chưa đủ liều)</b><span class="tag t-b">Khi được hỏi</span></div><p>Chị dùng PEG nhưng chỉ khoảng 4–5 ngày mỗi tuần, mỗi lần pha khoảng nửa lượng bác sĩ dặn &#x27;cho đỡ tốn, sợ đi lỏng&#x27;. Không bị tiêu chảy lần nào.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tăng chất xơ quá nhanh</b><span class="tag t-b">Khi được hỏi</span></div><p>Tuần đầu chị ăn rau thật nhiều cho nhanh, bụng sôi, đầy hơi nên tuần sau ăn lại ít như cũ.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Vẫn nhịn đi cầu khi trực</b><span class="tag t-r">Giấu</span></div><p>Ba tuần qua chị có 3 đêm trực. Những đêm trực chị vẫn nhịn đi cầu, chỉ đi khi về nhà sáng hôm sau; những ngày đó phân cứng nhất.</p><div class="cond">Điều kiện nói ra: Hỏi &#x27;có tuân thủ lối sống không&#x27; thì chị nói &#x27;chị làm đủ rồi&#x27;. Chỉ kể khi bác sĩ hỏi cụ thể về những ngày phân cứng, ca trực đêm, hoặc còn nhịn đi cầu không.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Bisacodyl liều thấp, dùng cứu: dung nạp tốt</b><span class="tag t-b">Khi được hỏi</span></div><p>Chị dùng bisacodyl 5 mg buổi tối 2 lần trong 3 tuần, mỗi lần 1 viên, đi cầu được vào sáng hôm sau, không đau quặn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Vẫn không có dấu báo động</b><span class="tag t-b">Khi được hỏi</span></div><p>Không máu trong phân, phân không đen. Cân nặng vẫn 54 kg. Không sốt, không nôn, vẫn trung tiện bình thường. Không đau bụng về đêm.</p></div><div class="fact"><div class="fh"><b>thuoc_mui</b><span class="tag t-b">Khi được hỏi</span></div><p>Vẫn nhỏ mũi mỗi tối nhưng đã giảm còn cách đêm nhờ lời dặn lần trước.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Nhiễu: chi phí; ngại đi tỉnh</b><span class="tag t-b">Khi được hỏi</span></div><p>Hộp PEG và xét nghiệm lần trước đã làm chị tốn kém. Nếu phải đi tỉnh làm thêm thì chị phải xin nghỉ ngày công và chưa có tiền. Chị sẽ làm nếu bác sĩ nói thật cần.</p></div></details>
+ <details class="card"><summary><h3 id="m-10">Khám <small>3 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, thể trạng tốt, niêm mạc hồng. Cân nặng 54 kg, không đổi.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng cân đối, không chướng. Mềm, không đau, không khối. Còn thừng phân nhỏ ở hố chậu trái, ít hơn lần trước. Nhu động ruột 7 lần/phút. Gan lách không to.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thăm trực tràng</b></div><p><span class="lbl">Kết quả:</span> Hậu môn không nứt, không trĩ ngoại. Bóng trực tràng có ít phân mềm hơn lần trước, không còn cục phân cứng. Khi bảo rặn, cơ thắt giãn tốt, cơ mu trực tràng chùng. Không khối. Găng không dính máu.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Tim</b><span class="tag t-m">Bình thường</span></div><p>Tim đều 74 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 16 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-11">Cận lâm sàng <small>8 mục</small></h3></summary><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần lặp lại: Hb 128 g/L lần trước, không có dấu mất máu mới (WGO 2025 Bảng 6).</p></div><div class="row"><div class="rh"><b>Thử phân tìm máu ẩn miễn dịch (FIT)</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần lặp lại: FIT âm tính lần trước, không ra máu mới; lặp lại theo chu kỳ 1–2 năm (Asia-Pacific 2022 Statement 3).</p></div><div class="row"><div class="rh"><b>TSH, FT4</b><span class="tag t-r">Không cần</span></div><p class="why">Chưa cần: chị đang đáp ứng một phần, chưa thất bại điều trị đủ liều. Xét nghiệm máu tìm nguyên nhân thứ phát thuộc bước &#x27;điều trị ban đầu thất bại&#x27; (WGO 2025 Hình 3, bước 4).</p></div><div class="row"><div class="rh"><b>Canxi máu toàn phần</b><span class="tag t-r">Không cần</span></div><p class="why">Chưa cần, cùng lý do với TSH (WGO 2025 Hình 3, bước 4).</p></div><div class="row"><div class="rh"><b>Glucose máu đói</b><span class="tag t-r">Không cần</span></div><p class="why">Chưa cần: không có gợi ý đái tháo đường.</p></div><div class="row"><div class="rh"><b>Nội soi đại tràng</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> (Phòng khám không có nội soi; làm ở bệnh viện tỉnh.)</p><p class="note">Thay thế khi cơ sở không có: Thử phân tìm máu ẩn miễn dịch (FIT)</p><p class="why">Chấp nhận nếu muốn sàng lọc bằng nội soi (Asia-Pacific 2022 Statement 3), nhưng FIT đã âm tính, chị không có dấu báo động và đang đỡ: chưa cần, đang hụt tiền.</p></div><div class="row"><div class="rh"><b>CT bụng có cản quang</b><span class="tag t-r">Không cần</span></div><p class="why">Không có chỉ định: không dấu báo động, bụng mềm.</p></div><div class="row"><div class="rh"><b>X-quang bụng không chuẩn bị</b><span class="tag t-r">Không cần</span></div><p class="why">Không có chỉ định: không dấu tắc ruột (WSES Bologna 2018, mục Plain X-rays).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-12">Đáp án lượt 2 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Táo bón chức năng đáp ứng một phần vì điều trị chưa đủ liều, chưa đều và vẫn nhịn đi cầu khi trực; chưa phải táo bón kháng trị</b></div><p class="why">Phân mềm hơn 12/21 ngày, bụng bớt căng, thăm trực tràng ít phân hơn; PEG chỉ dùng khoảng nửa liều và 4–5 ngày/tuần. Táo bón kháng trị chỉ gọi khi thất bại sau một đợt điều trị lối sống, thuốc đủ liều (AGA CPU 2026 Khuyến cáo 1).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Táo bón kháng trị hoặc rối loạn đại tiện (dyssynergia)</b></div><p class="why">Chưa đủ cơ sở: chưa thử đủ liều; thăm trực tràng cơ thắt giãn khi rặn. Đo áp lực hậu môn–trực tràng và test tống bóng trước khi gán nhãn kháng trị (AGA CPU 2026 Khuyến cáo 2; WGO 2025 mục 3.5).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ung thư đại trực tràng</b></div><p class="why">FIT âm tính, không dấu báo động, cân nặng ổn, đang đáp ứng điều trị (WGO 2025 Bảng 6; Asia-Pacific 2022 Statement 3). Vẫn dặn dấu hiệu báo động.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Táo bón thứ phát do bệnh nội tiết, chuyển hóa</b></div><p class="why">Chưa có lý do: lâm sàng không gợi ý và đang đỡ; chỉ làm xét nghiệm khi điều trị đủ liều không đáp ứng (WGO 2025 Bảng 3, Hình 3 bước 4).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Đầy hơi do tăng chất xơ quá nhanh</b></div><p class="why">Tuần đầu ăn nhiều rau thì sôi bụng, đầy hơi; tăng xơ nhanh gây hơi, chướng, đau quặn (WGO 2025 mục 4.2). Đây là lý do chị bỏ rau, không phải bệnh mới.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi cụ thể liều và số ngày thực dùng PEG, ca trực đêm, nhịn đi cầu trước khi kết luận thất bại điều trị</b></div><p class="why">Táo bón kháng trị được định nghĩa là vẫn chưa thỏa mãn dù đã thử đủ lối sống, thuốc, vật lý trị liệu sàn chậu khi cần (AGA CPU 2026 Khuyến cáo 1); phải thử đủ các thuốc thông thường, đơn độc hoặc phối hợp (Khuyến cáo 7). Chị mới dùng khoảng nửa liều, nên chưa phải kháng trị.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích: đỡ một phần ở tuần thứ 3 là tiến triển tốt, chưa phải thất bại; cần dùng đúng liều, đều và kiên nhẫn; bệnh mạn cần điều trị lâu dài</b></div><p class="why">Đặt kỳ vọng thực tế, giải thích diễn tiến điển hình và nhu cầu điều trị lâu dài (AGA CPU 2026 Khuyến cáo 4); đáp ứng PEG bền đến 6 tháng (AGA-ACG 2023 Bảng 4). Cách nói &#x27;đúng sau 3 tuần&#x27; không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giữ macrogol 17 g mỗi ngày, uống đủ liều và đều; nếu phân quá lỏng thì giảm theo đáp ứng</b></div><p class="why">PEG khởi đầu 17 g/ngày, chỉnh theo đáp ứng, không có liều tối đa rõ ràng (AGA-ACG 2023 Khuyến cáo 2, Bảng 4; WGO 2025 Bảng 9).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Tiếp tục bisacodyl 5 mg buổi tối khi cần (tối đa 10 mg/ngày), kết hợp với PEG</b></div><p class="why">Phối hợp thuốc thẩm thấu với kích thích thường dùng khi đơn trị chưa đủ (AGA CPU 2026 Khuyến cáo 7); bisacodyl cứu hoặc ngắn hạn ≤ 4 tuần, tối đa 10 mg/ngày (AGA-ACG 2023 Khuyến cáo 5, Bảng 4; WGO 2025 mục 4.6). Chị đã dùng khoảng 3 tuần, còn trong mốc 4 tuần.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Tăng chất xơ chậm hơn, thêm vài gam mỗi tuần, uống nước đủ</b></div><p class="why">Chất xơ nên đưa vào từ từ qua nhiều tuần, tăng nhanh gây hơi, chướng, đau quặn (WGO 2025 mục 4.2).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Tập thói quen đi cầu cả ngày trực: xin đi vệ sinh theo giờ, không nhịn, ngồi sau bữa sáng, gác chân</b></div><p class="why">Đáp ứng ngay khi mắc đi cầu, tư thế ngồi xổm (WGO 2025 mục 4.6); nhịn đi cầu là yếu tố làm nặng (WGO 2025 Bảng 2).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn tái khám sau 4 tuần với nhật ký đi cầu; nếu dùng đủ liều, đều mà vẫn rặn, đi chưa hết thì chuyển tuyến đo áp lực hậu môn–trực tràng và test tống bóng; dặn dấu hiệu báo động</b></div><p class="why">Thăm dò sinh lý đại tràng–hậu môn khi đã thất bại điều trị bảo tồn và thuốc chuẩn (WGO 2025 mục 3.5); đo áp lực hậu môn–trực tràng với test tống bóng trước khi gán nhãn kháng trị (AGA CPU 2026 Khuyến cáo 2). Mốc 4 tuần là lựa chọn của ca, không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chưa làm thêm xét nghiệm: không lặp lại FIT, hoãn TSH, canxi, hẹn FIT lại sau 1–2 năm</b></div><p class="why">Chị đang đáp ứng, không dấu báo động, hụt tiền; xét nghiệm tìm nguyên nhân thứ phát thuộc bước điều trị ban đầu thất bại (WGO 2025 Hình 3, bước 4). FIT định lượng mỗi 1–2 năm (Asia-Pacific 2022 Statement 3).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Thêm psyllium hoặc đổi sang lactulose 15 g/ngày nếu đầy hơi do PEG khiến chị không uống được</b></div><p class="why">Psyllium khuyến cáo có điều kiện (AGA-ACG 2023 Khuyến cáo 1); lactulose 15 g/ngày có điều kiện, dễ đầy hơi (Khuyến cáo 4, Bảng 4; WGO 2025 mục 4.6).</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Tăng bisacodyl lên trên 10 mg/ngày hoặc dùng hằng ngày dài hạn không giới hạn</b></div><p class="why">Vượt liều tối đa 10 mg/ngày (AGA-ACG 2023 Bảng 4); điều trị bước đầu chỉ dùng cứu hoặc ngắn hạn (WGO 2025 mục 4.6). Xem sổ mâu thuẫn mục TH-0870.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Gán nhãn táo bón kháng trị và chuyển tuyến ngay đo thời gian vận chuyển, đo áp lực hậu môn–trực tràng, nội soi</b></div><p class="why">Chưa dùng đủ liều và đủ thời gian nên chưa thể gọi kháng trị (AGA CPU 2026 Khuyến cáo 1, 7); thăm dò sinh lý dành cho người đã thất bại điều trị chuẩn (WGO 2025 mục 3.5).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho prucalopride hoặc linaclotide vì &#x27;đỡ chưa hết&#x27;</b></div><p class="why">Chỉ cho người không đáp ứng thuốc không kê đơn (AGA-ACG 2023 Khuyến cáo 7–10; WGO 2025 mục 4.7); chị chưa dùng đủ PEG và đang hụt tiền.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chị Hạnh bị gửi ngay bệnh viện tỉnh đo áp lực hậu môn–trực tràng, nội soi và đo thời gian vận chuyển với lý do &#x27;không khỏi hẳn&#x27;: chị mới dùng PEG khoảng nửa liều, 4–5 ngày mỗi tuần, chưa phải thất bại điều trị đủ liều (AGA CPU 2026 Khuyến cáo 1, 2). Chị xin nghỉ ngày công, tốn chi phí khi đang hụt tiền, và có thể bị gán nhãn &#x27;kháng trị&#x27; sai. Vấn đề thật là liều thuốc và thói quen nhịn đi cầu khi trực vẫn còn nguyên.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Chị Hạnh bị nhập viện thụt tháo vì &#x27;đi chưa hết&#x27;: bụng mềm, không chướng, không dấu tắc ruột, bóng trực tràng ít phân mềm; không có ứ phân nặng cần lấy phân (WGO 2025 mục 3.3). Chị nghỉ nhiều ngày làm, tốn viện phí, còn nhận thông điệp sai là bệnh nặng thay vì dùng thuốc đúng liều (AGA CPU 2026 Khuyến cáo 4).</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Táo bón chức năng đáp ứng một phần sau 3 tuần điều trị bước đầu, do dùng PEG khoảng nửa liều và 4–5 ngày/tuần, tăng chất xơ quá nhanh rồi bỏ, vẫn nhịn đi cầu khi trực đêm</li><li>Chưa phải táo bón kháng trị; chưa có chỉ định đo áp lực hậu môn–trực tràng (AGA CPU 2026 Khuyến cáo 1, 2)</li><li>Vẫn không có dấu báo động; FIT lượt 1 âm tính</li><li>Nhiễu chi phí: ngại đi tỉnh, tự giảm liều thuốc cho đỡ tốn</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự hỏi bệnh lượt 2: (1) đỡ đến đâu, có nhật ký không; (2) thuốc dùng thật: liều, số ngày, vì sao; (3) lối sống đã làm, những ngày phân cứng nhất là ngày nào (nhịn khi trực); (4) dấu báo động; (5) lo ngại chi phí. Khám: bụng, thăm trực tràng đánh giá lại. Không cần cận lâm sàng mới.</li><li>Phân biệt hồi phục chậm bình thường với thất bại điều trị sớm: nhật ký cho thấy có tiến bộ (12/21 ngày phân mềm), PEG chỉ dùng nửa liều và không đều, chất xơ tăng nhanh rồi bỏ, vẫn nhịn khi trực. Khi điều trị chưa đủ liều, đỡ một phần là bình thường; táo bón kháng trị cần thất bại sau một đợt lối sống, thuốc đủ liều, kể cả phối hợp (AGA CPU 2026 Khuyến cáo 1, 7). Mốc số tuần để gọi là thất bại sớm: không có trong tài liệu đã tải.</li><li>Dyssynergia: khoảng 37% người táo bón mạn làm thăm dò sàn chậu có rối loạn đại tiện (AGA CPU 2026 Khuyến cáo 2). Chị chưa có dấu gợi ý (cơ thắt giãn khi rặn, đỡ khi dùng thuốc), nên đo áp lực hậu môn–trực tràng và test tống bóng để sau nếu vẫn không đáp ứng sau điều trị đủ liều (WGO 2025 mục 3.5, 4.9).</li><li>Loại ung thư đại trực tràng và tắc ruột: FIT âm tính, không dấu báo động (WGO 2025 Bảng 6; Asia-Pacific 2022 Statement 3), bụng mềm, trung tiện bình thường (WSES Bologna 2018); vẫn dặn dấu hiệu báo động vì FIT là xét nghiệm sàng lọc theo chu kỳ.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Việc đầu: tìm lý do đáp ứng một phần (liều PEG, tính đều, chất xơ, nhịn khi trực) trước khi đổi thuốc hay chuyển tuyến (AGA CPU 2026 Khuyến cáo 1, 7).</li><li>Thuốc: PEG 17 g mỗi ngày đúng liều (AGA-ACG 2023 Khuyến cáo 2, Bảng 4); bisacodyl 5 mg buổi tối khi cần, tối đa 10 mg/ngày, phối hợp với PEG (AGA CPU 2026 Khuyến cáo 7; AGA-ACG 2023 Khuyến cáo 5). Chị dùng bisacodyl 3 tuần, còn trong mốc ≤ 4 tuần: cần chốt kế hoạch (ngừng hay dùng cứu ngắt quãng) trước khi hết mốc. AGA CPU 2026 (Khuyến cáo 7) cho rằng lo ngại dùng dài hạn ở táo bón kháng trị là không có cơ sở, WGO 2025 giới hạn dùng ngắt quãng ở bước đầu: khác đối tượng.</li><li>Lối sống: chất xơ tăng dần (WGO 2025 mục 4.2), tập thói quen đi cầu, không nhịn ở ca trực (WGO 2025 mục 4.6). Giải thích diễn tiến và nhu cầu điều trị lâu dài (AGA CPU 2026 Khuyến cáo 4).</li><li>Chi phí: không thêm xét nghiệm; chọn thuốc rẻ nhưng đủ liều thay vì tự giảm liều. Giá thuốc ở Việt Nam: không có trong tài liệu đã tải.</li><li>Hẹn 4 tuần (mốc của ca); nếu dùng đủ liều đều mà không đỡ: chuyển tuyến đo áp lực hậu môn–trực tràng, test tống bóng, có thể thời gian vận chuyển và điều trị sinh phản hồi nếu có rối loạn đại tiện (AGA CPU 2026 Khuyến cáo 2, 5; WGO 2025 mục 3.5, 4.8).</li><li>Những việc sai: gán kháng trị và chuyển tuyến ngay (AGA CPU 2026 Khuyến cáo 1), dùng ngay prucalopride hoặc linaclotide (AGA-ACG 2023 Khuyến cáo 7–10), tăng bisacodyl trên 10 mg/ngày (AGA-ACG 2023 Bảng 4).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Macrogol (PEG 3350 hoặc 4000)</b><div class="sub">Gói bột pha uống; liều theo gam hoạt chất</div></td><td data-l="Liều">17 g × 1 lần/ngày, mỗi ngày<div class="sub">Uống, pha với nước · Buổi sáng</div></td><td data-l="Thời gian">Duy trì, tái khám sau 4 tuần</td><td class="gc" data-l="Ghi chú">AGA-ACG 2023 Khuyến cáo 2, Bảng 4 (17 g/ngày, chỉnh theo đáp ứng, đáp ứng bền 6 tháng); WGO 2025 Bảng 9. Quy đổi gói chế phẩm trong nước: không có trong tài liệu đã tải.</td></tr><tr><td><b>Bisacodyl</b><div class="sub">5 mg</div></td><td data-l="Liều">1 viên (5 mg) khi 2 ngày liền không đi cầu, tối đa 2 viên (10 mg)/ngày<div class="sub">Uống · Buổi tối</div></td><td data-l="Thời gian">Dùng cứu, đã dùng khoảng 3 tuần, không quá 4 tuần liên tục</td><td class="gc" data-l="Ghi chú">AGA-ACG 2023 Khuyến cáo 5, Bảng 4; WGO 2025 mục 4.6; phối hợp thẩm thấu với kích thích khi đơn trị chưa đủ (AGA CPU 2026 Khuyến cáo 7).</td></tr><tr><td><b>Naphazolin 0,05% nhỏ mũi (đang dùng)</b><div class="sub">Dung dịch nhỏ mũi</div></td><td data-l="Liều">Tiếp tục giảm dần như đã dặn, rồi ngừng<div class="sub">Nhỏ mũi · Buổi tối</div></td><td data-l="Thời gian">Đánh giá khi khám mũi</td><td class="gc" data-l="Ghi chú">ARIA-EAACI 2024–2025 Part I; QĐ 5643/2015 Viêm mũi xoang cấp mục 4.2; giữ nguyên hướng dẫn lượt 1.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Đỡ một phần sau 3 tuần là có tiến bộ; thuốc cần đủ liều và đều đặn mới thấy hiệu quả; đây là bệnh mạn cần chăm sóc lâu dài (AGA CPU 2026 Khuyến cáo 4).</li><li>Macrogol 17 g mỗi sáng, uống đủ liều và đều mỗi ngày, đừng tự giảm cho đỡ tốn (AGA-ACG 2023 Bảng 4). Bisacodyl 5 mg buổi tối khi 2 ngày liền không đi, không quá 10 mg/ngày.</li><li>Tăng chất xơ chậm, thêm dần mỗi tuần; ăn rau nhiều một lúc sẽ sôi bụng đầy hơi (WGO 2025 mục 4.2).</li><li>Những đêm trực: xin đi vệ sinh, đừng nhịn; sáng sau ca ngồi vào nhà vệ sinh sau ăn sáng (WGO 2025 mục 4.6).</li><li>Tiếp tục ghi nhật ký đi cầu; tái khám sau 4 tuần (mốc của ca, không có trong tài liệu đã tải).</li><li>Chưa phải làm thêm xét nghiệm. Nếu dùng đúng liều mà vẫn không đỡ thì mới lên tuyến trên đo áp lực hậu môn–trực tràng (AGA CPU 2026 Khuyến cáo 2).</li><li>Đến ngay nếu ra máu, phân đen, sụt cân, nôn, đau quặn kèm chướng bụng, bí không trung tiện (WGO 2025 Bảng 6; WSES Bologna 2018). FIT lặp lại mỗi 1–2 năm (Asia-Pacific 2022 Statement 3).</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-13">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Táo bón chức năng</b></div>
+<p class="note">Phải loại trừ: Ung thư đại trực tràng, Tắc ruột</p><p>Sau lượt 2 chị Hạnh uống PEG 17 g đều mỗi sáng, bisacodyl 5 mg chỉ khi hai ngày liền không đi, tăng rau dần và xin đi vệ sinh trong ca trực. Tuần thứ 6 phân Bristol 3–4 hầu hết các ngày, ít rặn; những tuần có nhiều đêm trực chị vẫn có một hai ngày phân cứng. Đến tuần thứ 8 đi cầu thoải mái, bụng hết căng, không cần bisacodyl. Chị vẫn dùng PEG duy trì và đỡ đi cầu khó nhờ không nhịn; hẹn FIT lại sau 1–2 năm (Asia-Pacific 2022 Statement 3). Không cần chuyển tuyến đo áp lực hậu môn–trực tràng. Chậm hơn dự kiến vì tự giảm liều, tăng xơ quá nhanh rồi bỏ, nhịn đi cầu lúc trực.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-14">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Nhiễu &#x27;không đủ tiền xét nghiệm&#x27;: lượt 1 chỉ làm công thức máu và FIT, hoãn TSH, canxi, glucose (WGO 2025 mục 3.3, Hình 3); lượt 2 không thêm xét nghiệm nào. Chị tự giảm liều PEG cho đỡ tốn nên đỡ chậm: nhiễu chi phí đi vào cả điều trị.</li><li>Không có siêu âm (kéo theo không có CT, nội soi): không ảnh hưởng quyết định ở ca này, nội soi đại tràng chỉ là lựa chọn sàng lọc thay FIT; thăm trực tràng là công cụ chính tại phòng khám.</li><li>Thuốc nhỏ mũi kéo dài là dữ kiện nhiễu: không có tên trong danh sách thuốc gây táo bón (WGO 2025 Bảng 4), ngừng dần vì lý do mũi (ARIA-EAACI 2024–2025 Part I).</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Táo bón không điển hình: đi cầu mỗi ngày vẫn có thể là táo bón. Rome IV chỉ cần ≥ 2 tiêu chuẩn như rặn, phân cứng, đi chưa hết (WGO 2025 Bảng 5); người bệnh có thể tự nghĩ &#x27;ai cũng vậy&#x27; hoặc &#x27;viêm đại tràng&#x27; (WGO 2025 mục 3.1).</li><li>Không có đau liên quan đi cầu thì không phải IBS-C (ACG 2021 IBS Bảng 1); đau bụng tái diễn kèm thay đổi đi cầu mới đổi hướng chẩn đoán.</li><li>Loại ung thư đại trực tràng: hỏi dấu báo động (WGO 2025 Bảng 6), thăm trực tràng, công thức máu; ở tuổi 52 chưa sàng lọc thì làm FIT hoặc nội soi theo tuổi, không vì táo bón (Asia-Pacific 2022 Statement 3; USPSTF 2021).</li><li>Khi thiếu tiền: xét nghiệm nào đổi được quyết định thì làm (công thức máu, FIT), xét nghiệm tìm nguyên nhân thứ phát để dành cho khi điều trị đủ liều thất bại (WGO 2025 Hình 3).</li><li>Đỡ một phần: trước khi đổi thuốc hay chuyển tuyến, hỏi liều thực dùng, số ngày, chất xơ và thói quen nhịn; chưa đủ liều thì chưa thể gọi kháng trị (AGA CPU 2026 Khuyến cáo 1, 7).</li><li>Khỏi chậm hơn dự kiến thường do tuân thủ và thói quen (liều, tăng xơ nhanh, nhịn đi cầu), không phải bệnh nặng; đặt kỳ vọng: bệnh mạn, điều trị lâu dài (AGA CPU 2026 Khuyến cáo 4).</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Rome IV (WGO 2025 Bảng 5): ≥ 2 trong rặn, phân Bristol 1–2, đi chưa hết, tắc nghẽn hậu môn–trực tràng, dùng tay hỗ trợ, &lt; 3 lần/tuần; ≥ 25% lần đi; 3 tháng, khởi phát ≥ 6 tháng. Rome V người lớn: không có trong tài liệu đã tải.</li><li>PEG 17 g/ngày (AGA-ACG 2023 Khuyến cáo 2, Bảng 4); bisacodyl 5 mg, tối đa 10 mg/ngày, ngắn hạn ≤ 4 tuần hoặc cứu (Khuyến cáo 5, Bảng 4); magie oxid tránh khi suy thận (Khuyến cáo 3).</li><li>Kháng trị chỉ khi đã thử đủ lối sống, thuốc đủ liều; thăm dò sinh lý (đo áp lực hậu môn–trực tràng, test tống bóng) trước khi gán nhãn (AGA CPU 2026 Khuyến cáo 1, 2).</li><li>Sàng lọc ung thư đại trực tràng: USPSTF 2021 từ 45 tuổi; Asia-Pacific 2022 từ 50 tuổi; FIT mỗi 1–2 năm hoặc nội soi mỗi 10 năm; FIT dương tính thì nội soi &lt; 3 tháng (Statement 3, 21).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-15">Nguồn tài liệu <small>10</small></h3></summary><ul class=""><li>WGO Global Guideline – Chronic Constipation 2025 – kho cũ tltk-10000-ca (02 Tiêu hóa – gan mật/Quốc tế) – mục 2, 3.1–3.5, 4.1, 4.2, 4.6, 4.7; Bảng 2, 3, 4, 5, 6, 9; Hình 3</li><li>AGA-ACG 2023 – Pharmacological management of chronic idiopathic constipation – TL-0208 – Khuyến cáo 1–10 (Bảng 1), Bảng 4</li><li>AGA Clinical Practice Update 2026 – Refractory constipation – TL-0184 – Khuyến cáo 1, 2, 4, 5, 7</li><li>Asia-Pacific Working Group 2022 – Colorectal cancer screening – TL-0217 – Statement 3, 6, 21</li><li>USPSTF 2021 – Colorectal cancer screening – TL-0221 – tuổi 45–49 (Grade B), 50–75 (Grade A)</li><li>ACG 2021 – Management of irritable bowel syndrome – kho cũ tltk-10000-ca – Bảng 1 (tiêu chuẩn Rome IV cho IBS)</li><li>WSES Bologna 2018 – Adhesive small bowel obstruction – TL-0093 – mục History taking and physical examination, Plain X-rays</li><li>ARIA-EAACI 2024–2025 – Allergic rhinitis Part I intranasal treatments – kho cũ tltk-10000-ca (09 Tai mũi họng + Mắt/Quốc tế) – khuyến cáo về thuốc co mạch nhỏ mũi; BYT QĐ 5643/2015 – TL-0130 – Viêm mũi xoang cấp tính do vi khuẩn, mục 4.2</li><li>Rome V (TL-0187): bản đã tải là khảo sát dịch tễ, không có tiêu chuẩn chẩn đoán táo bón người lớn; dùng Rome IV qua WGO 2025.</li><li>Không có trong tài liệu đã tải: tiêu chuẩn Rome V người lớn; quy đổi PEG 17 g theo gói chế phẩm trong nước và lượng nước pha; lượng nước uống mỗi ngày (mL); giá thuốc ở Việt Nam; mốc tái khám 3 và 4 tuần, mốc &#x27;khi 2 ngày liền không đi&#x27;; thời gian tối thiểu để gọi là thất bại điều trị sớm; ảnh hưởng của thuốc nhỏ mũi lên nhu động ruột; lịch giảm dần thuốc nhỏ mũi.</li></ul></details>
+<details class="card"><summary><h3 id="m-16">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Tiêu hóa - gan mật</dd><dt>chan_doan_dich</dt><dd>Táo bón chức năng</dd><dt>chan_doan_phai_loai_tru</dt><dd>Ung thư đại trực tràng; Tắc ruột</dd><dt>nhom_tuoi</dt><dd>Trung niên (40–59 tuổi)</dd><dt>gioi</dt><dd>Nữ</dd><dt>do_kho</dt><dd>Không điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>2</dd><dt>dien_tien_tai_kham</dt><dd>Đỡ một phần</dd><dt>nhieu_benh_nhan</dt><dd>Không đủ tiền xét nghiệm</dd><dt>rang_buoc_nguon_luc</dt><dd>Không có siêu âm</dd><dt>nghe_nghiep</dt><dd>Điều dưỡng</dd><dt>yeu_to_khoi_phat</dt><dd>Sau đi xa ngồi lâu</dd><dt>thuoc_dang_dung</dt><dd>Thuốc nhỏ mũi kéo dài</dd><dt>ly_do_that_su_den_kham</dt><dd>Tái khám theo hẹn</dd><dt>loai_ket_cuc</dt><dd>Khỏi chậm hơn dự kiến</dd></dl><ul class=""><li>2026-10-18 (viết: Sonnet): ca 2 lượt, bản 1. Đã đọc: WGO 2025 (mục 2–4, Bảng 2–9, Hình 3), AGA-ACG 2023 (Khuyến cáo 1–10, Bảng 4), AGA CPU 2026 (Khuyến cáo 1–7), Asia-Pacific 2022 (Statement 3, 6, 21), USPSTF 2021 (tóm tắt), ACG 2021 IBS (Bảng 1), WSES Bologna 2018 (History taking, Plain X-rays), ARIA-EAACI 2024–2025 và QĐ 5643/2015 (thuốc co mạch nhỏ mũi), TL-0187 (chỉ là dịch tễ).</li><li>Biến sổ cái: không điển hình = đi cầu mỗi ngày, tự nhận không táo bón, đầy hơi là chính; lý do thật = tái khám theo hẹn (viêm mũi); thuốc nhỏ mũi kéo dài = dữ kiện nhiễu, nêu rõ không có trong Bảng 4 WGO; khởi phát = xe khách 11 giờ, nhịn đi cầu; không đủ tiền = ưu tiên công thức máu + FIT, tự giảm liều PEG; không siêu âm = khóa kéo theo CT, nội soi (khai noi_soi_dt có thay_the = fit).</li><li>Áp dụng sổ mâu thuẫn: Rome IV vs Rome V (mục TH-0870 số 1), stimulant ngắn hạn vs dài hạn (số 2). Không có mâu thuẫn thật mới (xem tệp mâu thuẫn).</li><li>Chỗ do ca tự chọn: nhận định &#x27;đợt nặng lên 3 tuần chưa kể là dấu báo động mới vì nền ≥ 2 năm và có yếu tố khởi phát&#x27; là đánh giá lâm sàng của ca (WGO Bảng 6 liệt kê &#x27;recent onset&#x27;); đã bù bằng FIT và dặn dấu hiệu báo động. Giá FIT 150.000, nội soi 500.000, CT 1.800.000 đồng lấy từ danh mục CLS dùng chung.</li></ul></details>
+<p class="chan-trang">Ca TH-0859 · phiên bản ca 1 · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

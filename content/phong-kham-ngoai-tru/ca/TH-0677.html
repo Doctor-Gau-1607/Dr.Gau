@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TH-0677 · Tiêu chảy cấp nhiễm trùng</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · TH-0677</div>
+   <h1>Đi ngoài phân lỏng hai ngày, mệt, choáng khi đứng</h1>
+   <p class="dich-gia">Trần Thị Sáu · Nữ · 78 tuổi · 45 kg</p>
+   <div class="chips"><span class="chip">Tiêu hóa - gan mật</span><span class="chip">Điển hình</span><span class="chip">3 lượt khám</span><span class="chip">Có cờ đỏ</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Bán tạp hóa nhỏ</dd><dt>Chiều cao, cân nặng</dt><dd>150 cm · 45 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi bà. Bà tự xưng &#x27;bà&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;, gọi con gái là &#x27;con Hạnh&#x27;.</dd><dt>Tính cách</dt><dd>Thật thà, nói chậm, hay quên ngày tháng, hợp tác khi được giải thích rõ. Sợ kim tiêm và sợ tốn tiền. Mấy tuần nay ở nhà cháu ngoại chăm cháu mới sinh, thiếu ngủ, lo cho cháu. Ngại nói chuyện xin thuốc ngủ vì sợ con cháu mắng.</dd><dt>Người nhà</dt><dd>Con gái (chị Hạnh) – Con gái, chị Hạnh, 52 tuổi, đưa bà đến bằng xe máy, ngồi cùng trong phòng. Biết mẹ đi ngoài và mệt; không biết mẹ tự mua thuốc giảm đau khớp mỗi ngày và không biết mẹ muốn xin thuốc ngủ. Muốn mẹ làm xét nghiệm nhưng không ép.</dd></dl></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/3</span> </h2>
+ <div class="card intro"><h3 id="m-2">Tiếp đón</h3><p>Bà Trần Thị Sáu, 78 tuổi, bán tạp hóa nhỏ, con gái Hạnh đưa đến. Đi ngoài phân lỏng hai ngày, mệt lả, đứng lên thì choáng. Gầy, ước 45 kg. Sinh hiệu ngồi: HA 112/70 mmHg, mạch 96 l/p, nhiệt 37,8 °C, SpO₂ 97%.</p>
+  <blockquote>“Chào bác sĩ. Bà đi ngoài lỏng hai bữa rồi, người rã rời, đứng lên thì choáng. Con gái bắt bà đi khám chứ bà định ở nhà.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>96</b><small>l/p</small></div><div class="vs"><span>HA</span><b>112/70</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>37,8</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>18</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>97</b><small>%</small></div><div class="vs warn wide"><span>Cảnh báo</span><b>Tuổi ≥ 75, gầy yếu: nhóm nguy cơ mất nước nặng; Huyết áp tụt khi đứng</b></div></div></div>
+ <details class="card" open><summary><h3 id="m-3">Hỏi bệnh <small>9 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám</b><span class="tag t-g">Tự kể</span></div><p>Đi ngoài phân lỏng đã hai ngày, người mệt lả, đứng lên thì choáng.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Số lần, tính chất phân</b><span class="tag t-b">Khi được hỏi</span></div><p>Hôm kia 3–4 lần, hôm qua khoảng 8 lần, đêm qua dậy 4 lần. Phân lỏng vàng như nước, không máu, không nhầy, không mót rặn, không giống nước vo gạo. Đi xong thì bụng bớt quặn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Sốt, đau bụng, nôn</b><span class="tag t-b">Khi được hỏi</span></div><p>Hôm qua ớn lạnh, đo ở nhà 37,8 °C. Đau quặn từng cơn quanh rốn, không đau cố định ở bụng dưới bên phải. Buồn nôn, nôn một lần hôm qua, hôm nay không nôn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dấu hiệu mất nước</b><span class="tag t-b">Khi được hỏi</span></div><p>Khát, miệng khô, hôm nay tiểu hai lần, nước tiểu vàng sậm. Sợ &#x27;uống vào là chạy ra&#x27; nên chỉ nhấp vài ngụm nước ấm, chưa uống gói bột nào.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Nguồn lây, người cùng ăn</b><span class="tag t-b">Khi được hỏi</span></div><p>Hai tuần nay ở nhà cháu ngoại để chăm cháu mới sinh ba tuần. Trưa ba hôm trước ăn phần canh chân giò hầm còn thừa, để ngoài bếp qua đêm rồi hâm lại qua loa; sáng hôm kia bắt đầu đi ngoài. Cháu rể cũng ăn món đó, đi ngoài hai lần hôm qua rồi hết. Nước uống đun sôi, không ăn hải sản sống, không đi xa.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc giảm đau khớp tự mua (NSAID)</b><span class="tag t-b">Khi được hỏi</span></div><p>Đau gối phải nhiều năm; ba tuần nay mua ở tiệm thuốc tây vỉ giảm đau khớp (meloxicam 7,5 mg), uống 1–2 viên mỗi ngày, hôm qua và hôm nay vẫn uống. Không dùng kháng sinh trong ba tháng qua.</p></div><div class="fact"><div class="fh"><b>Bệnh nền</b><span class="tag t-b">Khi được hỏi</span></div><p>Thoái hóa khớp gối. Không tăng huyết áp, tiểu đường, bệnh tim, bệnh thận; không sụt cân gần đây; trước đó chưa từng bị tiêu chảy kéo dài.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Từ chối xét nghiệm</b><span class="tag t-b">Khi được hỏi</span></div><p>Khi được đề nghị thử máu, thử phân: bà không đồng ý lấy máu (sợ kim, lần trước bị bầm cả tuần) và ngại lấy phân (sợ tốn tiền); đồng ý thử nước tiểu. Bà nói rõ: &#x27;Bác sĩ cứ khám, cho thuốc, bà không thử máu đâu.&#x27; Con gái Hạnh muốn bà làm nhưng không ép.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật: xin thuốc ngủ</b><span class="tag t-r">Giấu</span></div><p>Từ khi lên nhà cháu, mỗi đêm bà ngủ chưa tới 3 tiếng: bé khóc, lo cho cháu mới sinh, đau gối, mấy đêm nay lại phải dậy đi ngoài. Bà đến khám chủ yếu để xin ít viên thuốc ngủ, sợ nói ra bị con cháu mắng &#x27;già rồi còn uống thuốc ngủ&#x27;.</p><div class="cond">Điều kiện nói ra: Chỉ kể khi bác sĩ hỏi về giấc ngủ, ban đêm, hoặc hỏi bà còn muốn nhờ gì khác hôm nay. Hỏi &#x27;có mệt không&#x27; thì bà chỉ nói mệt vì đi ngoài.</div></div></details>
+ <details class="card"><summary><h3 id="m-4">Khám <small>6 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, tiếp xúc tốt, gầy. Môi khô, lưỡi khô; mắt không trũng; nếp véo da mu tay trở lại chậm. Không vàng da.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đo huyết áp tư thế nằm – đứng</b></div><p><span class="lbl">Kết quả:</span> Nằm 118/72 mmHg, mạch 92 l/p; đứng 1 phút 100/62 mmHg, mạch 108 l/p, bà nói choáng và phải vịn thành giường.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm, hơi chướng, nhu động ruột tăng. Ấn đau nhẹ quanh rốn, không đau khu trú hố chậu phải, không phản ứng thành bụng, không sờ thấy khối.</p></div><div class="row"><div class="rh"><b>Thăm trực tràng</b></div><p><span class="lbl">Kết quả:</span> Ống hậu môn không đau, găng dính phân vàng lỏng, không máu, không nhầy.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số khoảng 96 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 96 l/p, không âm thổi.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b></div><p><span class="lbl">Kết quả:</span> Gối phải biến dạng nhẹ, ấn đau khe khớp trong, không nóng đỏ, không tràn dịch.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 18 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-5">Cận lâm sàng <small>5 mục</small></h3></summary><div class="row"><div class="rh"><b>Que thử nước tiểu 10 thông số (tại giường)</b><span class="tag t-b">Hữu ích</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Tỷ trọng (SG)</td><td class="num">1,025</td><td></td><td class="ref">1,005–1,03</td></tr><tr class=""><td>pH</td><td class="num">5,5</td><td></td><td class="ref">5,0–8,0</td></tr><tr class=""><td>Bạch cầu (LEU)</td><td class="num">Âm tính</td><td>Leu/µL</td><td class="ref"></td></tr><tr class=""><td>Nitrit (NIT)</td><td class="num">Âm tính</td><td></td><td class="ref"></td></tr><tr class=""><td>Protein (PRO)</td><td class="num">Âm tính</td><td>g/L</td><td class="ref"></td></tr><tr class=""><td>Glucose (GLU)</td><td class="num">Âm tính</td><td>mmol/L</td><td class="ref"></td></tr><tr class=""><td>Thể ceton (KET)</td><td class="num">Dương tính (+)</td><td>mmol/L</td><td class="ref"></td></tr><tr class=""><td>Bilirubin (BIL)</td><td class="num">Âm tính</td><td>µmol/L</td><td class="ref"></td></tr><tr class=""><td>Urobilinogen (UBG)</td><td class="num">Bình thường</td><td>µmol/L</td><td class="ref"></td></tr><tr class=""><td>Hồng cầu (ERY)</td><td class="num">Âm tính</td><td>Ery/µL</td><td class="ref"></td></tr></tbody></table><p class="why">Bà đồng ý vì không đau: nước tiểu cô đặc, hợp mất nước (QĐ 5642/2015 mục 3.1: nước tiểu ít). Là một phần của phương án B khi bà từ chối lấy máu.</p></div><div class="row"><div class="rh"><b>Ure, creatinin, eGFR</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Bà không đồng ý lấy máu hôm nay (sợ kim, từng bầm tím cả tuần). Điều dưỡng Linh đã ghi nhận từ chối vào hồ sơ; không có kết quả.</p><p class="why">Ure, creatinin là xét nghiệm nên làm vì có thể có rối loạn điện giải, suy thận kèm theo (QĐ 5642/2015 mục 3.3), nhất là khi đang dùng NSAID. Quyết định hôm nay không phụ thuộc kết quả: tôn trọng từ chối, dùng lâm sàng thay thế.</p></div><div class="row"><div class="rh"><b>Điện giải đồ (Na, K, Cl)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Bà không đồng ý lấy máu hôm nay. Điều dưỡng Linh đã ghi nhận từ chối vào hồ sơ; không có kết quả.</p><p class="why">Điện giải đồ giúp tìm rối loạn điện giải (QĐ 5642/2015 mục 3.3); không thay được bằng khám lâm sàng nhưng không bắt buộc để bù dịch đường uống.</p></div><div class="row"><div class="rh"><b>Cấy phân</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Bà không đồng ý lấy phân (ngại, sợ tốn tiền). Điều dưỡng Linh đã ghi nhận từ chối; không có kết quả.</p><p class="why">Cấy phân là chẩn đoán xác định (QĐ 5642/2015 mục 3.4). IDSA 2017 KC 8 chỉ định thử phân khi sốt, phân máu/nhầy, đau quặn nặng hoặc nhiễm trùng huyết; ca này chỉ sốt 37,8 °C, không máu, xử trí hôm nay không đổi.</p></div><div class="row"><div class="rh"><b>Siêu âm bụng (gan, thận, thượng thận)</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Quai ruột chứa dịch, tăng nhu động; không dịch tự do, không thấy ổ viêm hố chậu phải; ruột thừa không quan sát rõ.</p><p class="why">Không bắt buộc: bụng mềm, không đau khu trú. Nếu sau này đau khu trú ở người cao tuổi thì ưu tiên CT liều thấp (WSES 2025, khuyến cáo 3.4).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-6">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Theo dõi tại phòng khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Tiêu chảy cấp nhiễm trùng (nghi nhiễm khuẩn qua thức ăn để qua đêm), kèm mất nước độ 1 ranh giới độ 2 ở người 78 tuổi gầy yếu đang dùng NSAID, nguy cơ suy thận cấp</b></div><p class="why">Phân lỏng nước 8 lần/ngày, không máu, sốt nhẹ 37,8 °C, đau quặn quanh rốn, người cùng ăn cũng bị, ủ bệnh khoảng một ngày (QĐ 5642/2015 mục 3.2, 3.4). Mất nước: khát vừa, da khô, mạch nằm 92 lên 108 khi đứng, tiểu ít (mục 3.1 bảng). Chưa xác định tác nhân vì bà từ chối lấy phân.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tả</b></div><p class="why">Tả: tiêu chảy dữ dội 20–50 lần/ngày, phân như nước vo gạo, không sốt (QĐ 5642/2015 mục 3.2; QĐ 4178/2007 mục II.1.a). Bà đi 8 lần, phân vàng, có sốt nhẹ, không ở vùng dịch, người cùng ăn nhẹ hơn.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Lỵ trực trùng</b></div><p class="why">Hội chứng lỵ: sốt cao, đau quặn, mót rặn, phân nhầy máu (QĐ 5642/2015 mục 3.2; bài Lỵ trực khuẩn mục 3.1c). Bà sốt nhẹ, không mót rặn, phân không nhầy máu, thăm trực tràng không máu.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm ruột thừa</b></div><p class="why">Người cao tuổi có thể không điển hình và tiêu chảy có thể đi kèm, nhưng bà đau quanh rốn từng cơn đỡ sau khi đi ngoài, bụng mềm, không đau khu trú hố chậu phải. Thang điểm Alvarado không đủ tin cậy ở người già (WSES 2020, tuyên bố 1.3); đau khu trú hoặc tăng dần thì chụp CT (WSES 2025, khuyến cáo 3.4).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ngộ độc thực phẩm do độc tố (tụ cầu...)</b></div><p class="why">Độc tố tụ cầu ủ 1–6 giờ, nôn nhiều, không sốt (QĐ 5642/2015 mục 3.2). Bà ủ khoảng một ngày, nôn một lần, có sốt nhẹ: nghiêng về nhiễm trùng hơn.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Đánh giá mất nước bằng lâm sàng (nếp véo da, huyết áp và mạch nằm – đứng, nước tiểu) vì không có xét nghiệm; cho bà uống Oresol ngay tại phòng khám từng ngụm nhỏ và giữ theo dõi 3–4 giờ, đo lại huyết áp mạch nằm – đứng và hỏi tiểu trước khi về</b></div><p class="why">Mất nước độ 1, uống được: bù bằng Oresol (QĐ 5642/2015 mục 4.2.3a); ORS giảm thẩm thấu là đầu tay cho mất nước nhẹ – vừa, bù đến khi hết mất nước lâm sàng (IDSA 2017 KC 39, 42); người già nặng nên dùng ORS cân bằng điện giải (ACG 2016 KC 5, tr. 607). Thể tích cho người lớn, thời gian theo dõi 3–4 giờ: không có trong tài liệu đã tải, là lựa chọn của ca.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Bù dịch bằng Oresol hoặc nước cháo muối, súp; bù thêm sau mỗi lần phân lỏng cho đến khi hết tiêu chảy</b></div><p class="why">Bù lượng mất qua phân bằng ORS đến khi hết tiêu chảy (IDSA 2017 KC 43; QĐ 5642/2015 mục 4.2.3a); đa số người lớn bù được bằng nước, súp, bánh mặn (ACG 2016 KC 5). Hai nguồn đều đúng, không mâu thuẫn thật.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Tôn trọng việc bà từ chối lấy máu và phân: giải thích lợi ích bằng lời đơn giản (xem thận và điện giải), hỏi lại một lần, ghi hồ sơ lý do và việc đã giải thích; dùng phương án B (khám, que nước tiểu, theo dõi, hẹn lại sớm, xin lại xét nghiệm khi cần)</b></div><p class="why">Quyền tự quyết của người bệnh. Xét nghiệm máu có ích để tìm suy thận, rối loạn điện giải (QĐ 5642/2015 mục 3.3), thử phân khi sốt, máu, nhầy (IDSA 2017 KC 8) nhưng không đổi xử trí hôm nay. Mẫu hồ sơ từ chối: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ngưng meloxicam và thuốc giảm đau khớp tự mua trong lúc tiêu chảy; đau gối dùng paracetamol liều thấp</b></div><p class="why">Người cao tuổi, gầy yếu: nhóm nguy cơ cao, tránh NSAID nếu có thể, dùng acetaminophen dưới 3 g/ngày, theo dõi creatinin và điện giải (QĐ 361/2014, Phụ lục NSAID mục 3.3). Beers 2023 Bảng 6: NSAID có thể tăng nguy cơ tổn thương thận cấp khi CrCl dưới 30 mL/ph. Nguồn trực tiếp về NSAID cộng mất nước không có trong tài liệu đã tải; suy luận của ca. Paracetamol tối đa 3 g/ngày (Phụ lục NSAID) hoặc 4 g/ngày (Phụ lục thuốc giảm đau mục 3.1): ca chọn mức thận trọng hơn.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không kê thuốc ngủ hôm nay: hỏi nguyên nhân mất ngủ (con cháu, đau gối, đi ngoài đêm), giải thích rủi ro, hướng dẫn vệ sinh giấc ngủ và nhờ người nhà chia ca đêm</b></div><p class="why">Beers 2023 Bảng 2: tránh benzodiazepin và nhóm Z ở người ≥ 65 tuổi (sảng, ngã, gãy xương; chứng cứ vừa, khuyến cáo mạnh); ESRS 2023 mục 4.2.1: dung nạp, lú lẫn đêm, ngã. QĐ 2058/2020 Bài 27 mục 4.3 có liệt kê thuốc nhưng chẩn đoán mất ngủ không thực tổn cần ≥ 3 lần/tuần trong ≥ 1 tháng và không có bệnh nội khoa (mục 3.1.1): hai nguồn khác đối tượng, xem sổ mâu thuẫn. Vệ sinh giấc ngủ: QĐ 2058/2020 mục 4.3.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn quay lại ngay: phân có máu hoặc nhầy, sốt ≥ 38,3 °C hoặc ớn lạnh, lú lẫn, ngất, nôn nhiều không uống được, ít hoặc không tiểu, đau bụng khu trú bên phải hoặc tăng dần</b></div><p class="why">Sốt hoặc phân máu cần tìm tác nhân (IDSA 2017 KC 3, 8; sốt ≥ 38,3 °C là ngưỡng của ACG 2016 Hình 1); mất nước độ 2–3: mạch 100–120, HA dưới 90, thiểu niệu (QĐ 5642/2015 mục 3.1); biến chứng sốc, suy thận cấp (mục 5); đau khu trú ở người già: WSES 2025 khuyến cáo 3.4.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn tái khám sau 2 ngày (hoặc sớm hơn khi có dấu hiệu cảnh báo); con gái đi cùng; dặn ăn lại cháo, cơm mềm sớm, ăn chín, uống nước đun sôi, bỏ thức ăn thừa để qua đêm, rửa tay trước khi bế bé</b></div><p class="why">Ăn lại bình thường sớm trong hoặc ngay sau bù dịch (IDSA 2017 KC 45); ăn chín, uống nước đun sôi, rửa tay (QĐ 5642/2015 mục 6; IDSA 2017 KC 52). Mốc 2 ngày là lựa chọn của ca, không có trong tài liệu đã tải.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Không dùng kháng sinh lúc này</b></div><p class="why">Phần lớn tiêu chảy nước cấp không cần kháng sinh (IDSA 2017 KC 36; ACG 2016 KC 9, 10). Mâu thuẫn với QĐ 5642/2015 mục 4.2.1 (cân nhắc kháng sinh khi người già, có sốt): xem sổ mâu thuẫn &#x27;Ngưỡng dùng kháng sinh theo kinh nghiệm&#x27;, cả hai cách đều đúng.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Ciprofloxacin 0,5 g uống × 2 lần/ngày × 5 ngày theo kinh nghiệm vì tuổi cao và có sốt</b></div><p class="why">QĐ 5642/2015 mục 4.2.1 (người già, sốt) và 4.2.2a (ciprofloxacin 0,5 g × 2 lần/ngày × 5 ngày). Fluoroquinolon có nguy cơ nhiễm C. difficile, bệnh gân khớp (ACG 2016 tr. 610). Chỉnh liều theo thận ở người 78 tuổi: không có trong tài liệu đã tải.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Loperamid cắt cơn đi ngoài ngay hôm nay</b></div><p class="why">Chưa bù đủ dịch, đang có sốt nhẹ và đau quặn: IDSA 2017 KC 46 chỉ cân nhắc sau khi đã bù dịch, KC 47 tránh khi tiêu chảy có sốt; QĐ 5642/2015 mục 4.2.3b không lạm dụng thuốc cầm tiêu chảy. Người 78 tuổi nên càng thận trọng (suy luận của ca).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê thuốc ngủ (zolpidem, diazepam...) cho bà dùng mỗi tối</b></div><p class="why">Bà đang mất nước, đứng lên choáng: thuốc an thần tăng nguy cơ ngã, lú lẫn (Beers 2023 Bảng 2; ESRS 2023 mục 4.2.1); nguyên nhân mất ngủ chưa xử trí.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Truyền Ringer lactat tĩnh mạch ngay hoặc nhập viện vì bà 78 tuổi</b></div><p class="why">Bà uống được, không sốc, tỉnh: ORS là đầu tay (QĐ 5642/2015 mục 4.2.3a; IDSA 2017 KC 39); dịch tĩnh mạch khi mất nước nặng, sốc, rối loạn ý thức và ORS thất bại (KC 41).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho về ngay, dặn &#x27;uống nước nhiều&#x27;, vẫn dùng tiếp meloxicam và không hẹn tái khám</b></div><p class="why">Bỏ qua mất nước ranh giới độ 2, nguy cơ thận và nhóm tuổi nguy cơ (QĐ 5642/2015 mục 3.1, 5; QĐ 361/2014 Phụ lục NSAID mục 3.3).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Cho về, hẹn tái khám</span></div><p>Cho bà Sáu về ngay với vài gói Oresol, hẹn hai ngày sau, không cho uống thử tại phòng khám: bà đang ở ranh giới mất nước độ 1–2 (khát vừa, da khô, mạch nằm 92 lên 108 khi đứng, tiểu hai lần/ngày – QĐ 5642/2015 mục 3.1) và sợ &#x27;uống vào là chạy ra&#x27; nên về nhà nhiều khả năng uống không đủ. Bà từ chối lấy máu nên không có creatinin làm lưới an toàn, lại đang uống meloxicam; mất nước kéo dài dễ dẫn tới suy thận cấp (QĐ 5642/2015 mục 5), và người cao tuổi chiếm hơn 80% ca tử vong do tiêu chảy ở Hoa Kỳ (ACG 2016 tr. 607).</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhập viện truyền dịch cho bà Sáu hôm nay là quá tay: bà tỉnh, uống được, HA nằm 118/72, không sốc nên chưa có chỉ định truyền tĩnh mạch (QĐ 5642/2015 mục 4.2.3a; IDSA 2017 KC 39, 41). Bà sợ kim, đã từ chối lấy máu, nằm viện dễ xin về giữa chừng và mất lòng tin; con gái phải bỏ tiệm trong khi cháu mới sinh cần người.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển cấp cứu</span></div><p>Gọi xe cấp cứu chuyển bà Sáu là quá mức: không sốc, không lơ mơ, HA tâm thu trên 90 mmHg (QĐ 5642/2015 mục 3.1). Bà 78 tuổi phải chờ ở khoa cấp cứu, tốn tiền xe, vẫn từ chối lấy máu nên tuyến trên cũng không có thêm dữ liệu.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Tiêu chảy cấp nhiễm trùng, khả năng cao do thức ăn nấu để qua đêm; tác nhân chưa xác định vì bà từ chối lấy phân</li><li>Mất nước độ 1 ranh giới độ 2, uống được, chưa sốc</li><li>Yếu tố nguy cơ nặng: 78 tuổi, gầy 45 kg, đang dùng meloxicam tự mua (nguy cơ tổn thương thận cấp)</li><li>Đã loại trừ tả, lỵ trực trùng, viêm ruột thừa bằng lâm sàng; mất ngủ nhiều đêm kèm nhu cầu xin thuốc ngủ là lý do thật đến khám</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Hỏi bệnh: số lần và tính chất phân (nước, không máu nhầy, không nước vo gạo), sốt, nôn, đau quặn, khởi phát sau bữa ăn để qua đêm và người cùng ăn cũng bị (QĐ 5642/2015 mục 3.1, 3.2, 3.4); hỏi thuốc đang dùng, kháng sinh gần đây, giấc ngủ (lộ lý do thật).</li><li>Khám: nếp véo da, môi lưỡi, huyết áp mạch nằm – đứng, bụng, thăm trực tràng. Mất nước theo bảng mục 3.1: khát vừa và da khô (cột độ 2) nhưng mạch dưới 100, HA trên 90, uống được (cột độ 1): ranh giới độ 1–2.</li><li>Cận lâm sàng: bà từ chối máu và phân nên chỉ có que nước tiểu (cô đặc) và siêu âm bụng; không làm đổi xử trí hôm nay (IDSA 2017 KC 8: thử phân khi sốt cao, máu, nhầy, đau quặn nặng).</li><li>Loại trừ tả (20–50 lần/ngày, nước vo gạo, không sốt – QĐ 5642/2015 mục 3.2), lỵ (mót rặn, nhầy máu, sốt cao – mục 3.2), viêm ruột thừa (không đau khu trú; Alvarado không đáng tin ở người già – WSES 2020 tuyên bố 1.3). Không phải ngộ độc độc tố thuần túy: ủ khoảng một ngày, có sốt nhẹ (tụ cầu ủ 1–6 giờ, không sốt – mục 3.2).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Bù dịch đường uống tại chỗ rồi đánh giá lại là cốt lõi: mất nước độ 1, uống được → ORS (QĐ 5642/2015 mục 4.2.3a; IDSA 2017 KC 39, 42, 43). Giữ theo dõi 3–4 giờ vì tuổi, gầy, không có xét nghiệm làm lưới an toàn; thời gian là lựa chọn của ca.</li><li>Ngưng NSAID tự mua; dùng paracetamol thấp liều (QĐ 361/2014 Phụ lục NSAID mục 3.3; Beers 2023 Bảng 6).</li><li>Kháng sinh: không dùng thường quy (IDSA 2017 KC 36; ACG 2016 KC 9, 10) hoặc cân nhắc ciprofloxacin vì tuổi và sốt (QĐ 5642/2015 mục 4.2.1, 4.2.2a); hai cách đều đúng, giải thích ở sổ mâu thuẫn. Loperamid chưa dùng vì còn sốt và chưa bù đủ dịch.</li><li>Thuốc ngủ: không kê (Beers 2023 Bảng 2; ESRS 2023 mục 4.2.1); xử trí nguyên nhân và vệ sinh giấc ngủ (QĐ 2058/2020 Bài 27 mục 4.3).</li><li>Từ chối xét nghiệm: tôn trọng, ghi hồ sơ, phương án B và hẹn lại 2 ngày; dặn cờ đỏ rõ vì bà ở nhóm nguy cơ cao (ACG 2016 tr. 607; IDSA 2017 KC 5).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Oresol (ORS giảm thẩm thấu)</b><div class="sub">Gói pha theo nhãn</div></td><td data-l="Liều">Uống từng ngụm nhỏ ngay tại phòng khám; về nhà uống thêm sau mỗi lần đi ngoài lỏng<div class="sub">Uống · Suốt ngày, nhấp từng ngụm</div></td><td data-l="Thời gian">Đến khi hết tiêu chảy</td><td class="gc" data-l="Ghi chú">QĐ 5642/2015 mục 4.2.3a; IDSA 2017 KC 39, 42, 43. Thể tích cụ thể cho người lớn không có trong tài liệu đã tải; tiêu chí đủ dịch: hết khát, tiểu đều, hết choáng khi đứng.</td></tr><tr><td><b>Paracetamol</b><div class="sub">500 mg</div></td><td data-l="Liều">500 mg × 1 viên khi đau gối, cách nhau ít nhất 6 giờ, tối đa 3 viên (1,5 g)/ngày<div class="sub">Uống · Sau ăn</div></td><td data-l="Thời gian">Khi đau, tối đa vài ngày</td><td class="gc" data-l="Ghi chú">Thay NSAID. Trần 3 g/ngày (QĐ 361/2014 Phụ lục NSAID mục 3.3) hoặc 4 g/ngày (Phụ lục thuốc giảm đau mục 3.1); ca chọn 1,5 g vì gầy 45 kg, ăn kém. Liều theo cân nặng người lớn không có trong tài liệu đã tải.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Ngưng viên giảm đau khớp meloxicam; đau gối chỉ dùng paracetamol theo đơn, chườm ấm. Mang vỉ thuốc đang dùng khi tái khám.</li><li>Uống Oresol hoặc nước cháo muối từng ngụm nhỏ, đều suốt ngày, kể cả khi sợ &#x27;uống vào là chạy ra&#x27;; ăn lại cháo, cơm mềm sớm.</li><li>Quay lại ngay hoặc gọi con gái đưa đi khi: phân có máu hoặc nhầy, sốt cao, lú lẫn, ngất, nôn nhiều không uống được, ít hoặc không tiểu, đau bụng một chỗ bên phải hoặc tăng dần. (IDSA 2017 KC 3, 8)</li><li>Không dùng thuốc ngủ lúc này; tối nay tắt đèn sớm, nhờ cháu rể hoặc con gái trông bé giúp một đêm để bà ngủ liền.</li><li>Hẹn tái khám sau 2 ngày với con gái (mốc của ca); nếu đồng ý, lần sau thử máu xem thận. Ăn chín, bỏ thức ăn thừa qua đêm, rửa tay trước khi bế bé (QĐ 5642/2015 mục 6).</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-2">
+ <h2 id="h-luot-2"><span class="ln">Lượt 2/3</span> · sau 2 ngày</h2>
+ <div class="card intro"><h3 id="m-7">Tiếp đón</h3><p>Bà Sáu tái khám đúng hẹn, con gái Hạnh đưa đến. Hai ngày trước bà uống Oresol tại phòng khám, hết choáng khi đứng, đi tiểu một lần rồi về; được dặn ngưng thuốc giảm đau khớp tự mua. Sinh hiệu: HA 120/74 mmHg, mạch 84 l/p, nhiệt 36,9 °C, SpO₂ 97%.</p>
+  <blockquote>“Bác sĩ ơi, bà đỡ nhiều rồi mà vẫn còn đi ngoài lỏng, người còn rã rời. Đêm nào cũng không ngủ được.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>84</b><small>l/p</small></div><div class="vs"><span>HA</span><b>120/74</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,9</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>16</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>97</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-8">Hỏi bệnh <small>5 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đỡ một phần</b><span class="tag t-g">Tự kể</span></div><p>Hôm nay còn 3–4 lần/ngày, phân sệt đến lỏng, không máu, không nhầy. Hết ớn lạnh, hết sốt từ hôm kia; đau quặn thưa dần. Ăn được cháo, bánh mì nhưng chán ăn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Bù dịch, nước tiểu</b><span class="tag t-b">Khi được hỏi</span></div><p>Uống Oresol khoảng 3 gói mỗi ngày và nước cháo muối; tiểu 4–5 lần/ngày, nước tiểu vàng nhạt; đứng dậy còn hơi choáng vài giây rồi hết.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Vẫn dùng NSAID</b><span class="tag t-r">Giấu</span></div><p>Gối đau về đêm nên hai đêm qua vẫn uống 1 viên meloxicam trước khi ngủ, nghĩ &#x27;một viên thôi, uống sau ăn tối thì không sao&#x27;.</p><div class="cond">Điều kiện nói ra: Hỏi chung &#x27;có uống thuốc đều không&#x27; bà chỉ nói về Oresol. Chỉ kể khi bác sĩ hỏi cụ thể còn uống thuốc giảm đau khớp, thuốc tự mua, thuốc cho gối không.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Mất ngủ, xin thuốc ngủ</b><span class="tag t-b">Khi được hỏi</span></div><p>Hai đêm qua chỉ ngủ khoảng 3–4 tiếng: gối đau, bé khóc, lo cho cháu. Bà nói: &#x27;Bác sĩ cho bà vài viên thuốc ngủ, loại nào cũng được, bà mệt vì thiếu ngủ chứ không phải vì đi ngoài.&#x27; Không uống rượu, chưa từng dùng thuốc ngủ, không buồn chán, không có ý nghĩ tự hại.</p></div><div class="fact"><div class="fh"><b>Dấu hiệu cảnh báo</b><span class="tag t-b">Khi được hỏi</span></div><p>Không nôn, không đau bụng một chỗ, không phân đen hay máu, không khó thở, không lú lẫn.</p></div></details>
+ <details class="card"><summary><h3 id="m-9">Khám <small>3 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, tiếp xúc tốt. Môi lưỡi ẩm, nếp véo da trở lại bình thường. Không vàng da.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đo huyết áp tư thế nằm – đứng</b></div><p><span class="lbl">Kết quả:</span> Nằm 122/74 mmHg, mạch 80 l/p; đứng 1 phút 114/70 mmHg, mạch 90 l/p, hơi choáng thoáng qua.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm, nhu động ruột tăng nhẹ, ấn đau nhẹ quanh rốn, không đau khu trú, không phản ứng thành bụng.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Tim</b><span class="tag t-m">Bình thường</span></div><p>Tim đều 84 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 16 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-10">Cận lâm sàng <small>3 mục</small></h3></summary><div class="row"><div class="rh"><b>Que thử nước tiểu 10 thông số (tại giường)</b><span class="tag t-b">Hữu ích</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Tỷ trọng (SG)</td><td class="num">1,015</td><td></td><td class="ref">1,005–1,03</td></tr><tr class=""><td>pH</td><td class="num">6,0</td><td></td><td class="ref">5,0–8,0</td></tr><tr class=""><td>Bạch cầu (LEU)</td><td class="num">Âm tính</td><td>Leu/µL</td><td class="ref"></td></tr><tr class=""><td>Nitrit (NIT)</td><td class="num">Âm tính</td><td></td><td class="ref"></td></tr><tr class=""><td>Protein (PRO)</td><td class="num">Âm tính</td><td>g/L</td><td class="ref"></td></tr><tr class=""><td>Glucose (GLU)</td><td class="num">Âm tính</td><td>mmol/L</td><td class="ref"></td></tr><tr class=""><td>Thể ceton (KET)</td><td class="num">Âm tính</td><td>mmol/L</td><td class="ref"></td></tr><tr class=""><td>Bilirubin (BIL)</td><td class="num">Âm tính</td><td>µmol/L</td><td class="ref"></td></tr><tr class=""><td>Urobilinogen (UBG)</td><td class="num">Bình thường</td><td>µmol/L</td><td class="ref"></td></tr><tr class=""><td>Hồng cầu (ERY)</td><td class="num">Âm tính</td><td>Ery/µL</td><td class="ref"></td></tr></tbody></table><p class="why">Nước tiểu hết cô đặc: mất nước đã được bù. Bà vẫn đồng ý thử nước tiểu.</p></div><div class="row"><div class="rh"><b>Ure, creatinin, eGFR</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Bà vẫn không đồng ý lấy máu (&#x27;đỡ rồi, khỏi thử&#x27;). Điều dưỡng Linh đã ghi nhận từ chối lần hai vào hồ sơ; không có kết quả.</p><p class="why">Vì hai đêm qua bà còn dùng meloxicam lúc đang mất nước, xét nghiệm creatinin có giá trị (QĐ 361/2014 Phụ lục NSAID mục 3.3: theo dõi creatinin, điện giải). Giải thích lại một lần, không ép; lâm sàng và nước tiểu đủ để quyết định hôm nay.</p></div><div class="row"><div class="rh"><b>Cấy phân</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Chưa chỉ định ở lượt này.</p><p class="why">Mới ngày thứ 4, đang giảm, không máu, không sốt. ACG 2016 KC 2: xét nghiệm phân khi trên 7 ngày hoặc lỵ/bệnh vừa – nặng.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-11">Đáp án lượt 2 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Tiêu chảy cấp nhiễm trùng đang hồi phục chậm bình thường (ngày thứ 4), mất nước đã bù; không thất bại điều trị. Mất ngủ do hoàn cảnh (chăm cháu, đau gối, đi ngoài đêm), còn dùng NSAID giấu</b></div><p class="why">Số lần đi ngoài giảm 8 → 3–4, hết sốt, tiểu đều, nước tiểu hết cô đặc, huyết áp mạch tư thế gần bình thường (QĐ 5642/2015 mục 5: bệnh cải thiện nhanh nếu bù dịch kịp thời). Không có dấu hiệu thất bại điều trị: sốt trở lại, máu, đau khu trú, không uống được.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tiêu chảy kéo dài hoặc thất bại điều trị</b></div><p class="why">Mới ngày thứ 4. Tiêu chảy kéo dài tính từ 14 ngày (IDSA 2017 KC 36); xét nghiệm phân khi trên 7 ngày (ACG 2016 KC 2).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tổn thương thận cấp trước thận (mất nước cộng NSAID)</b></div><p class="why">Chưa có bằng chứng: tiểu nhiều lên, nước tiểu nhạt, huyết áp ổn, nhưng chưa loại trừ vì chưa có creatinin do bà từ chối (QĐ 5642/2015 mục 5).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Mất ngủ không thực tổn mạn tính</b></div><p class="why">Mới vài đêm, có nguyên nhân thực tổn (đau gối, đi ngoài đêm, thay đổi chỗ ngủ). Chẩn đoán cần ≥ 3 lần/tuần trong ≥ 1 tháng và không có bệnh nội khoa hoặc thuốc (QĐ 2058/2020 Bài 27 mục 3.1.1, 3.2).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Nhận định hồi phục chậm bình thường, chưa phải thất bại điều trị: nêu tiêu chí (số lần giảm, hết sốt, không máu, uống được, tiểu đều, huyết áp tư thế ổn) và tiêu chí chuyển sang nghĩ thất bại (sốt trở lại, phân máu, đau khu trú, không uống được, ít tiểu)</b></div><p class="why">Bệnh cải thiện nhanh nếu điều trị kịp thời; biến chứng sốc, suy thận cấp nếu không (QĐ 5642/2015 mục 5). Chỉ dẫn xét nghiệm phân: sốt, máu, đau quặn nặng (IDSA 2017 KC 8) hoặc trên 7 ngày (ACG 2016 KC 2). Tiêu chí cụ thể là của ca.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi cụ thể còn thuốc giảm đau khớp tự mua không; phát hiện còn uống meloxicam, ngưng hẳn, đổi paracetamol; không trách, ghi nhận bà đã nói thật</b></div><p class="why">Người cao tuổi, gầy yếu: tránh NSAID nếu có thể, acetaminophen dưới 3 g/ngày (QĐ 361/2014 Phụ lục NSAID mục 3.3); Beers 2023 Bảng 2: tránh dùng NSAID kéo dài. Bà đã bù dịch được nhưng chưa có creatinin.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Tiếp tục Oresol hoặc nước cháo muối, bù thêm sau mỗi lần phân lỏng đến khi hết tiêu chảy; ăn dần cơm mềm</b></div><p class="why">Bù lượng mất qua phân bằng ORS đến khi hết tiêu chảy (IDSA 2017 KC 43), ăn lại bình thường sớm (KC 45); đa số người lớn bù được bằng nước, súp, bánh mặn (ACG 2016 KC 5).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không kê thuốc ngủ; xử trí nguyên nhân mất ngủ: paracetamol buổi tối cho đau gối, chườm ấm, nhờ con cháu chia ca đêm, giờ ngủ đều, tránh trà cà phê buổi chiều; hẹn xem lại nếu còn mất ngủ khi con cháu ổn</b></div><p class="why">Beers 2023 Bảng 2: tránh benzodiazepin, nhóm Z ở người ≥ 65 tuổi; ESRS 2023 mục 4.2.1: ngã, lú lẫn đêm, dung nạp; vệ sinh giấc ngủ (QĐ 2058/2020 Bài 27 mục 4.3). Mất ngủ ngắn ngày do bệnh nội khoa: tài liệu đã tải không có khuyến cáo riêng cho người ≥ 75 tuổi.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không kê kháng sinh vì đã hết sốt, không phân máu nhầy, đang đỡ</b></div><p class="why">IDSA 2017 KC 36; ACG 2016 KC 9, 10. QĐ 5642/2015 mục 4.2.1 nêu người già, sốt, phân nhầy máu, bạch cầu tăng là các trường hợp cân nhắc kháng sinh; hôm nay hết sốt, không nhầy máu, đang đỡ nên không có tiêu chí nào còn lại ngoài tuổi.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không dùng thuốc cầm tiêu, hoặc loperamid ngắn ngày (4 mg rồi 2 mg sau mỗi lần phân lỏng, tối đa 8 mg/ngày, không quá 48 giờ) vì đã hết sốt, không máu, đã bù dịch</b></div><p class="why">Hai cách đều đúng: QĐ 5642/2015 mục 4.2.3b không lạm dụng thuốc cầm tiêu chảy; ACG 2016 tr. 609–610 và IDSA 2017 KC 46, 47 cho phép ở người lớn tiêu chảy nước, không sốt, sau bù dịch. Con số thận trọng hơn: 8 mg/ngày. Dùng ở người ≥ 75 tuổi: không có trong tài liệu đã tải, nên thận trọng.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn cờ đỏ quay lại ngay; hẹn tái khám sau 3 ngày hoặc sớm hơn; nếu còn tiêu chảy quá 7 ngày thì xét nghiệm phân; xin lại xét nghiệm creatinin nếu bà đồng ý</b></div><p class="why">Tiêu chí quay lại như lượt 1 (IDSA 2017 KC 3, 8; QĐ 5642/2015 mục 3.1, 5). Mốc 7 ngày: ACG 2016 KC 2; kéo dài 14 ngày: tránh kháng sinh theo kinh nghiệm (IDSA 2017 KC 36). Mốc tái khám 3 ngày là lựa chọn của ca.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê thuốc ngủ (zolpidem, diazepam...) vì bà nói mệt do thiếu ngủ</b></div><p class="why">Beers 2023 Bảng 2; ESRS 2023 mục 4.2.1: ngã, lú lẫn đêm. Nguyên nhân mất ngủ còn nguyên (đau gối, hoàn cảnh).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho tiếp meloxicam hoặc đổi sang NSAID khác (diclofenac, ibuprofen) để gối hết đau, ngủ được</b></div><p class="why">QĐ 361/2014 Phụ lục NSAID mục 3.3: người cao tuổi, gầy yếu thuộc nhóm nguy cơ cao, tránh NSAID nếu có thể, theo dõi creatinin – bà chưa có kết quả nào. Paracetamol thay được.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê ciprofloxacin vì &#x27;đi ngoài chưa hết&#x27;, bà đã 78 tuổi</b></div><p class="why">Không còn sốt, không nhầy máu, đang đỡ: kháng sinh không rút ngắn bệnh cộng đồng (ACG 2016 KC 10); fluoroquinolon có nguy cơ nhiễm C. difficile, bệnh gân khớp (ACG 2016 tr. 610). Tuổi là điều kiện &#x27;cân nhắc&#x27; của QĐ 5642/2015 mục 4.2.1, không phải chỉ định bắt buộc.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Giữ bà Sáu nằm viện truyền dịch sau hai ngày đỡ dần là quá tay: đi ngoài giảm từ 8 xuống 3–4 lần, hết sốt, uống được, tiểu 4–5 lần/ngày, huyết áp mạch nằm – đứng gần như không đổi nên không còn tiêu chuẩn mất nước (QĐ 5642/2015 mục 3.1, 5; IDSA 2017 KC 39, 41). Bà sợ kim, nằm viện lạ làm mất ngủ thêm, dễ lú lẫn ở tuổi 78, trong khi việc còn lại là thuốc giảm đau và giấc ngủ, xử trí được ngoại trú.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Gửi bà Sáu lên tuyến trên nội soi hoặc cấy phân ngay hôm nay vì &#x27;đi ngoài chưa hết&#x27; là chưa cần: mới ngày thứ 4, đang giảm dần; ACG 2016 KC 2 chỉ dùng xét nghiệm phân khi triệu chứng trên 7 ngày, lỵ hoặc bệnh vừa – nặng, và KC 12 không khuyến cáo nội soi khi triệu chứng 14–30 ngày mà cấy phân âm. Bà ở nhà cháu tạm, con gái phải bỏ tiệm đưa đi, tốn kém và bà càng ngại tái khám.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Tiêu chảy cấp nhiễm trùng ngày thứ 4, đáp ứng một phần, đang hồi phục chậm bình thường; mất nước đã bù</li><li>Còn dùng NSAID (meloxicam 1 viên mỗi đêm) tuy được dặn ngưng; nguy cơ thận chưa đánh giá được vì không có creatinin</li><li>Mất ngủ do hoàn cảnh: đau gối về đêm, chăm cháu sơ sinh, đi ngoài đêm; bà xin thuốc ngủ</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Phân biệt hồi phục chậm bình thường với thất bại điều trị bằng xu hướng: số lần giảm 8 → 3–4, hết sốt, không máu, tỷ trọng nước tiểu 1,015, huyết áp mạch tư thế gần bình thường. Tiêu chí thất bại: sốt trở lại, phân máu, đau khu trú, không uống được (IDSA 2017 KC 3, 8).</li><li>Hỏi chung &#x27;uống thuốc đều không&#x27; chỉ ra Oresol; hỏi cụ thể thuốc giảm đau khớp mới phát hiện meloxicam, chỗ hay bỏ sót ở người cao tuổi (QĐ 361/2014 Phụ lục NSAID mục 3.3). Mất ngủ có nguyên nhân thực tổn nên chưa thể chẩn đoán mất ngủ không thực tổn (QĐ 2058/2020 Bài 27 mục 3.1.1, 3.2).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Bù dịch theo lượng mất đến khi hết tiêu chảy (IDSA 2017 KC 43); không kháng sinh vì đang đỡ, hết sốt, không nhầy máu (IDSA 2017 KC 36; ACG 2016 KC 9, 10).</li><li>Thuốc cầm tiêu: không dùng hoặc loperamid ngắn ngày đều đúng (QĐ 5642/2015 mục 4.2.3b; ACG 2016 tr. 609–610; IDSA 2017 KC 47); trần 8 mg/ngày thận trọng hơn.</li><li>Ngưng NSAID hẳn, thay paracetamol: gối đau về đêm là gốc của cả thói quen uống thuốc lẫn mất ngủ (QĐ 361/2014 Phụ lục NSAID mục 3.3). Không thuốc ngủ (Beers 2023 Bảng 2; ESRS 2023 mục 4.2.1). Hẹn 3 ngày, xin lại creatinin; tôn trọng nếu bà từ chối.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Oresol (ORS giảm thẩm thấu)</b><div class="sub">Gói pha theo nhãn</div></td><td data-l="Liều">Uống bù sau mỗi lần đi ngoài lỏng<div class="sub">Uống · Suốt ngày</div></td><td data-l="Thời gian">Đến khi hết tiêu chảy</td><td class="gc" data-l="Ghi chú">IDSA 2017 KC 43. Thể tích người lớn không có trong tài liệu đã tải.</td></tr><tr><td><b>Paracetamol</b><div class="sub">500 mg</div></td><td data-l="Liều">500 mg × 1 viên khi đau gối, buổi tối trước ngủ 1 viên; tối đa 3 viên (1,5 g)/ngày<div class="sub">Uống · Sau ăn; 1 viên 30–60 phút trước ngủ nếu đau gối</div></td><td data-l="Thời gian">Khi đau, vài ngày đến khi tái khám</td><td class="gc" data-l="Ghi chú">Thay NSAID. QĐ 361/2014 Phụ lục NSAID mục 3.3 (dưới 3 g/ngày) hoặc Phụ lục thuốc giảm đau mục 3.1 (không quá 4 g/ngày); ca chọn 1,5 g vì gầy. Thời điểm 30–60 phút trước ngủ là lựa chọn của ca.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Bỏ hẳn vỉ meloxicam, đưa cho con gái giữ hoặc hủy; chỉ dùng paracetamol theo đơn khi đau gối, chườm ấm buổi tối.</li><li>Tiếp tục Oresol sau mỗi lần đi ngoài, ăn cháo, cơm mềm; bỏ thức ăn thừa qua đêm, rửa tay trước khi bế bé.</li><li>Không dùng thuốc ngủ: nhờ con gái hoặc cháu rể trông bé một hai đêm, giờ đi ngủ đều, không uống trà buổi chiều.</li><li>Quay lại ngay khi: phân máu hoặc nhầy, sốt, ít tiểu, choáng ngất, nôn nhiều, đau bụng một chỗ bên phải (IDSA 2017 KC 3, 8). Tái khám sau 3 ngày; còn đi ngoài quá 7 ngày thì thử phân (ACG 2016 KC 2).</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-3">
+ <h2 id="h-luot-3"><span class="ln">Lượt 3/3</span> · sau 3 ngày nữa</h2>
+ <div class="card intro"><h3 id="m-12">Tiếp đón</h3><p>Bà Sáu tái khám lần ba, tự bước vào cùng con gái Hạnh, đã hơn một tuần kể từ lúc bắt đầu đi ngoài. Sinh hiệu: HA 126/76 mmHg, mạch 76 l/p, nhiệt 36,6 °C, SpO₂ 98%.</p>
+  <blockquote>“Bác sĩ ơi, bà hết đi ngoài rồi, ăn cơm được. Bà đến cho bác sĩ coi lần cuối, với lại con gái nói thử máu coi thận có sao không, bà thử cũng được.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>76</b><small>l/p</small></div><div class="vs"><span>HA</span><b>126/76</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,6</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>16</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-13">Hỏi bệnh <small>4 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khỏi tiêu chảy</b><span class="tag t-g">Tự kể</span></div><p>Hai ngày nay mỗi sáng đi ngoài một lần, phân thành khuôn, không đau bụng, hết choáng, ăn cơm bình thường, tiểu đều.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Giấc ngủ</b><span class="tag t-b">Khi được hỏi</span></div><p>Mấy đêm nay ngủ được 5–6 tiếng nhờ hết đi ngoài, uống paracetamol tối và chườm ấm đầu gối, bé ngoan hơn. Không còn đòi thuốc ngủ nhưng &#x27;có thì bà vẫn thích&#x27;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Nguy cơ dùng lại NSAID</b><span class="tag t-r">Giấu</span></div><p>Còn nửa vỉ meloxicam ở nhà, bà định để dành uống khi gối &#x27;ê ẩm&#x27; lại; cô bán thuốc từng bảo &#x27;thuốc đó an toàn&#x27;.</p><div class="cond">Điều kiện nói ra: Chỉ kể khi bác sĩ hỏi thuốc giảm đau còn lại ở nhà hoặc bà định làm gì khi đau gối lại.</div></div><div class="fact"><div class="fh"><b>Nghề buôn bán nhỏ, quay lại làm việc</b><span class="tag t-b">Khi được hỏi</span></div><p>Bà muốn mai về nhà mở tiệm lại. Tiệm bán cả bánh, trứng cút luộc nên bà hỏi có phải nghỉ thêm không.</p></div></details>
+ <details class="card"><summary><h3 id="m-14">Khám <small>4 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, hồng hào hơn, môi ẩm, nếp véo da bình thường. Cân nặng 46 kg.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đo huyết áp tư thế nằm – đứng</b></div><p><span class="lbl">Kết quả:</span> Nằm 126/76 mmHg, mạch 76 l/p; đứng 1 phút 124/76 mmHg, mạch 80 l/p, không choáng.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm, không đau, nhu động bình thường, không sờ thấy khối.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b></div><p><span class="lbl">Kết quả:</span> Gối phải đau nhẹ khi gấp hết tầm, không nóng đỏ, không tràn dịch.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Tim</b><span class="tag t-m">Bình thường</span></div><p>Tim đều 76 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 16 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-15">Cận lâm sàng <small>3 mục</small></h3></summary><div class="row"><div class="rh"><b>Ure, creatinin, eGFR</b><span class="tag t-y">Chấp nhận</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Ure</td><td class="num">5,4</td><td>mmol/L</td><td class="ref">2,5–7,5</td></tr><tr class=""><td>Creatinin</td><td class="num">84</td><td>µmol/L</td><td class="ref">53–100</td></tr><tr class="lo"><td>eGFR (CKD-EPI 2021)</td><td class="num">61 ↓</td><td>mL/ph/1,73m²</td><td class="ref">≥ 90</td></tr></tbody></table><p class="why">Bà đồng ý lấy máu hôm nay. Phù hợp tuổi, không có bằng chứng tổn thương thận sau mất nước và hai đêm dùng NSAID. Làm không sai nhưng không bắt buộc: không có trong tài liệu đã tải yêu cầu kiểm tra khi đã khỏi; hợp lý vì NSAID kèm mất nước (QĐ 361/2014 Phụ lục NSAID mục 3.3: theo dõi creatinin).</p></div><div class="row"><div class="rh"><b>Điện giải đồ (Na, K, Cl)</b><span class="tag t-y">Chấp nhận</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Natri (Na⁺)</td><td class="num">140</td><td>mmol/L</td><td class="ref">135–145</td></tr><tr class=""><td>Kali (K⁺)</td><td class="num">4,1</td><td>mmol/L</td><td class="ref">3,5–5,0</td></tr><tr class=""><td>Clo (Cl⁻)</td><td class="num">103</td><td>mmol/L</td><td class="ref">98–106</td></tr></tbody></table><p class="why">Bình thường. Điện giải đồ giúp tìm rối loạn điện giải sau tiêu chảy (QĐ 5642/2015 mục 3.3, 5); đã khỏi nên không bắt buộc.</p></div><div class="row"><div class="rh"><b>Cấy phân</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Chưa chỉ định ở lượt này.</p><p class="why">Đã khỏi, không cần cấy phân (ACG 2016 KC 2, 11).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-16">Đáp án lượt 3 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Tiêu chảy cấp nhiễm trùng đã khỏi (tác nhân không xác định); chức năng thận bình thường theo tuổi; đau gối do thoái hóa cần giảm đau không dùng NSAID; mất ngủ đã cải thiện khi nguyên nhân được xử trí</b></div><p class="why">Đi ngoài 1 lần/ngày phân thành khuôn, ăn uống, tiểu bình thường, huyết áp mạch tư thế ổn (QĐ 5642/2015 mục 5: bệnh cải thiện nhanh khi điều trị kịp thời). Creatinin 84 µmol/L, eGFR 61.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tiêu chảy kéo dài hoặc bệnh đại tràng mạn tính, ung thư đại tràng</b></div><p class="why">Chẩn đoán phân biệt của tiêu chảy do vi khuẩn gồm viêm đại tràng mạn, ung thư đại tràng (QĐ 5642/2015 mục 3.5); bà khỏi trong một tuần, không máu, không sụt cân: chưa đặt ra. Tái khám nếu tái phát hoặc kéo dài (ACG 2016 KC 2, 11, 12).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Xác nhận khỏi bằng tiêu chí (phân thành khuôn, ăn uống, tiểu bình thường, huyết áp tư thế ổn), ngưng Oresol; không cần cấy phân, nội soi hay xét nghiệm lặp</b></div><p class="why">Bệnh cải thiện nhanh khi bù dịch kịp thời (QĐ 5642/2015 mục 5). Không có tài liệu đã tải yêu cầu kiểm tra khi đã khỏi; xét nghiệm phân/nội soi chỉ khi kéo dài (ACG 2016 KC 2, 11, 12). Tiêu chí cụ thể là của ca.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Đọc kết quả creatinin 84, eGFR 61 cho bà nghe để yên tâm; nói rõ dù thận ổn, bà gầy yếu và 78 tuổi nên vẫn tránh NSAID tự mua; hỏi và thu lại nửa vỉ meloxicam còn ở nhà</b></div><p class="why">Người cao tuổi, gầy yếu thuộc nhóm nguy cơ cao: tránh NSAID nếu có thể, acetaminophen dưới 3 g/ngày (QĐ 361/2014 Phụ lục NSAID mục 3.3); Beers 2023 Bảng 2: tránh NSAID dùng kéo dài. eGFR dưới 30 mới là ngưỡng tránh của Beers Bảng 6, nhưng QĐ 361/2014 nghiêm hơn: chọn bên thận trọng.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giảm đau gối không NSAID: paracetamol khi cần (tối đa 3 viên 500 mg/ngày), chườm ấm; nếu đau nhiều hoặc không đáp ứng thì tái khám cơ xương khớp, không tự mua thuốc</b></div><p class="why">QĐ 361/2014 Phụ lục NSAID mục 3.3 và Phụ lục thuốc giảm đau mục 3.1. Điều trị thoái hóa khớp gối chi tiết: không phải trọng tâm ca, không đọc thêm.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giấc ngủ: tiếp tục giờ ngủ đều, không thuốc ngủ; nếu sau khi con cháu ổn vẫn mất ngủ ≥ 3 lần/tuần kéo dài ≥ 1 tháng thì quay lại khám đánh giá mất ngủ</b></div><p class="why">QĐ 2058/2020 Bài 27 mục 3.1.1 (mốc 1 tháng), mục 4.3 (vệ sinh giấc ngủ); Beers 2023 Bảng 2; ESRS 2023 mục 4.2.1.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Về tiệm được khi đã hết tiêu chảy; rửa tay xà phòng trước khi xử lý đồ ăn và sau vệ sinh; bảo quản đồ ăn lạnh, hâm chín kỹ, bỏ thức ăn thừa qua đêm</b></div><p class="why">Ăn chín, nước đun sôi, rửa tay trước ăn và sau vệ sinh (QĐ 5642/2015 mục 6; IDSA 2017 KC 52). Thời gian nghỉ bán đồ ăn sau tiêu chảy: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn tái khám khi: tiêu chảy tái phát, phân máu, sốt, kéo dài quá 7 ngày (thử phân) hoặc 14 ngày, sụt cân; không cần hẹn định kỳ</b></div><p class="why">Xét nghiệm phân khi trên 7 ngày, tiêu chảy kéo dài 14–30 ngày cần cấy phân (ACG 2016 KC 2, Hình 1); tránh kháng sinh theo kinh nghiệm khi trên 14 ngày (IDSA 2017 KC 36).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cấy phân, nội soi đại tràng hoặc kháng sinh phòng tái phát cho yên tâm</b></div><p class="why">Đã khỏi: ACG 2016 KC 12 không khuyến cáo nội soi khi triệu chứng 14–30 ngày và cấy âm; không dùng kháng sinh thường quy (ACG 2016 KC 9, 10; IDSA 2017 KC 36).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho phép bà giữ meloxicam, uống khi đau gối vì thận ổn</b></div><p class="why">Bà gầy yếu, 78 tuổi: nhóm nguy cơ cao, tránh NSAID nếu có thể (QĐ 361/2014 Phụ lục NSAID mục 3.3); Beers 2023 Bảng 2. Tự mua không có PPI hay theo dõi.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Gửi bà Sáu đi nội soi đại tràng hoặc khám chuyên khoa tiêu hóa &#x27;cho chắc&#x27; là quá tay: bà đã hết tiêu chảy hơn hai ngày, ăn uống bình thường, khám bụng bình thường. ACG 2016 KC 11, 12 không khuyến cáo xét nghiệm huyết thanh hay nội soi ngay cả khi tiêu chảy kéo dài 14–30 ngày mà cấy phân âm; bà chưa tới mức đó. Bà 78 tuổi, ngại thủ thuật, đã từ chối lấy máu hai lần, dễ bỏ cuộc và mất niềm tin.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Giữ bà Sáu lại nằm viện theo dõi thêm khi bà đã khỏi là không cần: không còn tiêu chuẩn mất nước, huyết áp mạch tư thế ổn, creatinin bình thường (QĐ 5642/2015 mục 3.1, 5). Con gái phải tiếp tục bỏ tiệm, bà càng xa chỗ ở quen thuộc và nhà cháu mới sinh, trong khi việc cần làm là dặn dò thuốc giảm đau, giấc ngủ và an toàn thực phẩm.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Tiêu chảy cấp nhiễm trùng đã khỏi sau khoảng một tuần, tác nhân không xác định</li><li>Chức năng thận bình thường theo tuổi sau mất nước và hai đêm dùng NSAID (creatinin 84 µmol/L, eGFR 61)</li><li>Thoái hóa khớp gối cần giảm đau không dùng NSAID; mất ngủ đã cải thiện</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Xác nhận khỏi bằng tiêu chí lâm sàng chứ không bằng xét nghiệm lặp: phân thành khuôn 1 lần/ngày, hết choáng, huyết áp mạch tư thế ổn, ăn uống bình thường (QĐ 5642/2015 mục 5).</li><li>Bà tự đồng ý thử máu sau hai lần từ chối: việc tôn trọng quyết định của bà ở hai lượt trước giữ được lòng tin; kết quả bình thường làm bà yên tâm.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Không cần xét nghiệm phân hay nội soi khi đã khỏi (ACG 2016 KC 2, 11, 12); hẹn lại chỉ khi tái phát, máu, sốt, kéo dài.</li><li>Giải quyết gốc: đau gối được giảm bằng paracetamol, thay vì NSAID tự mua (QĐ 361/2014 Phụ lục NSAID mục 3.3); cùng một giải pháp xử trí mất ngủ và đau.</li><li>Phòng bệnh trong gia đình có trẻ sơ sinh và nghề bán đồ ăn: rửa tay, bảo quản, hâm chín (QĐ 5642/2015 mục 6; IDSA 2017 KC 52).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Paracetamol</b><div class="sub">500 mg</div></td><td data-l="Liều">500 mg × 1 viên khi đau gối, tối đa 3 viên (1,5 g)/ngày<div class="sub">Uống · Sau ăn; 1 viên trước ngủ nếu đau gối về đêm</div></td><td data-l="Thời gian">Khi cần</td><td class="gc" data-l="Ghi chú">QĐ 361/2014 Phụ lục NSAID mục 3.3 (dưới 3 g/ngày) và Phụ lục thuốc giảm đau mục 3.1 (không quá 4 g/ngày); ca chọn 1,5 g vì gầy. Thời gian dùng dài ngày cho thoái hóa khớp: không có trong tài liệu đã tải.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Không dùng meloxicam hay thuốc giảm đau khớp tự mua nữa; đưa nửa vỉ còn lại cho con gái hủy. Đau gối: paracetamol, chườm ấm, đi lại nhẹ nhàng.</li><li>Về tiệm được từ mai nếu không đi ngoài lỏng; rửa tay xà phòng trước khi bán đồ ăn và sau vệ sinh; hâm chín kỹ, cất đồ ăn thừa tủ lạnh (QĐ 5642/2015 mục 6).</li><li>Giờ ngủ đều, không dùng thuốc ngủ; nếu thấy mất ngủ nhiều đêm trở lại kéo dài thì tới khám.</li><li>Quay lại khi: tiêu chảy tái phát, phân máu hoặc nhầy, sốt, đi ngoài quá 7 ngày (ACG 2016 KC 2), sụt cân, đau bụng bất thường.</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-17">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Tiêu chảy cấp nhiễm trùng</b></div>
+<p class="note">Phải loại trừ: Tả, Lỵ trực trùng, Viêm ruột thừa</p><p>Hai tuần sau, chị Hạnh gọi báo: bà Sáu không đi ngoài lại, đã mở tiệm trở lại và rửa tay mỗi lần xử lý đồ ăn. Nửa vỉ meloxicam được hủy; đau gối dùng paracetamol buổi tối và chườm ấm, bà ngủ 6 tiếng mỗi đêm. Tác nhân tiêu chảy không xác định vì bà không lấy phân. Nhờ bù dịch đường uống sớm có theo dõi, bỏ NSAID và không dùng thuốc ngủ, bà tránh được suy thận cấp, ngã và nhập viện.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-18">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Thuốc giảm đau khớp tự mua (meloxicam): vừa là yếu tố nguy cơ (mất nước ở người 78 tuổi gầy 45 kg dùng NSAID) vừa là chi tiết bà không tự kể ở lượt 2; phải hỏi cụ thể từng thuốc.</li><li>Sốt nhẹ, đau quặn quanh rốn ở người rất cao tuổi dễ gợi viêm ruột thừa; nhưng đau đỡ sau khi đi ngoài, không đau khu trú, bụng mềm (WSES 2020 tuyên bố 1.3; WSES 2025 khuyến cáo 3.4).</li><li>Từ chối lấy máu và phân: mất lưới an toàn thận và điện giải; bù bằng khám tư thế, que nước tiểu, hẹn lại sớm, dặn cờ đỏ rõ.</li><li>Lý do thật là xin thuốc ngủ: chỉ lộ khi hỏi về giấc ngủ; câu trả lời đúng là không kê thuốc ngủ mà xử trí nguyên nhân, nói với bà không mắng, không từ chối thẳng.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Rất cao tuổi (≥ 75): mất nước nhanh và nguy hiểm hơn (ACG 2016 tr. 607; IDSA 2017 KC 5). Ghi chú áp dụng: IDSA 2017 và ACG 2016 chủ yếu dành cho người lớn khỏe và người đi du lịch, người ≥ 75 tuổi rất ít được nghiên cứu; bảng mất nước QĐ 5642/2015 mục 3.1 không điều chỉnh theo tuổi nên ca dùng thêm huyết áp mạch nằm – đứng và giữ theo dõi.</li><li>Từ chối xét nghiệm: giải thích, hỏi lại một lần, ghi hồ sơ, dùng phương án B (lâm sàng, que nước tiểu, hẹn lại), không ép; ở lượt 3 bà tự đồng ý.</li><li>Đỡ một phần ở lượt 2: phân biệt hồi phục chậm bình thường (số lần giảm, hết sốt, không máu, uống được) với thất bại (sốt trở lại, máu, đau khu trú); hỏi lại thuốc tự mua.</li><li>Yếu tố khởi phát &#x27;sau sinh&#x27; ở bà ngoại: thức ăn hầm bồi bổ cho sản phụ để qua đêm là nguồn lây; hỏi người cùng ăn.</li><li>Xin thuốc ngủ ở người cao tuổi đang ốm: không kê benzodiazepin, nhóm Z (Beers 2023 Bảng 2); tìm nguyên nhân (đau gối, đi ngoài đêm, chăm cháu).</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Mất nước độ 1 uống được: Oresol đầu tay (QĐ 5642/2015 mục 4.2.3a; IDSA 2017 KC 39); bù lượng mất qua phân đến khi hết tiêu chảy (KC 43).</li><li>Tiêu chảy nước cấp: không kháng sinh thường quy (IDSA 2017 KC 36; ACG 2016 KC 9, 10); QĐ 5642/2015 mục 4.2.1 cân nhắc kháng sinh với người già, sốt: ghi cả hai.</li><li>Người cao tuổi, gầy yếu: tránh NSAID nếu có thể, acetaminophen dưới 3 g/ngày (QĐ 361/2014 Phụ lục NSAID mục 3.3); NSAID tránh khi CrCl dưới 30 (Beers 2023 Bảng 6).</li><li>Không thuốc ngủ benzodiazepin hoặc nhóm Z cho người ≥ 65 tuổi (Beers 2023 Bảng 2); vệ sinh giấc ngủ (QĐ 2058/2020 Bài 27 mục 4.3).</li><li>Xét nghiệm phân khi sốt, máu, nhầy, đau quặn nặng (IDSA 2017 KC 8) hoặc trên 7 ngày (ACG 2016 KC 2); không nội soi khi 14–30 ngày và cấy âm (KC 12).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-19">Nguồn tài liệu <small>9</small></h3></summary><ul class=""><li>BYT QĐ 5642/2015 – TL-0038 – Bệnh tiêu chảy do vi khuẩn mục 3.1–3.5, 4.2.1, 4.2.2a, 4.2.3a–b, 5, 6; bài Bệnh lỵ trực khuẩn mục 3.1c</li><li>BYT QĐ 4178/2007 – TL-0176 – Bệnh tả mục II.1.a (Bảng 1), II.2</li><li>IDSA 2017 – TL-0230 – KC 3, 5, 8, 20, 36, 39, 41, 42, 43, 45, 46, 47, 49, 52</li><li>ACG 2016 – TL-0233 – KC 2, 5, 6, 9, 10, 11, 12; tr. 607, 609–610; Hình 1</li><li>WSES 2020 – TL-0263 – tuyên bố 1.3; WSES 2025 – TL-0053 – khuyến cáo 3.4</li><li>BYT QĐ 361/2014 – TL-0286 – Phụ lục NSAID mục 3.3; Phụ lục thuốc giảm đau mục 3.1</li><li>AGS Beers 2023 – TL-0022 – Bảng 2 (benzodiazepin, nhóm Z, NSAID), Bảng 6</li><li>BYT QĐ 2058/2020 – TL-0443 – Bài 27 Mất ngủ không thực tổn, mục 3.1.1, 3.2, 4.1, 4.3</li><li>European Insomnia Guideline 2023 (ESRS) – TL-0464 – mục 4.2.1</li></ul></details>
+<details class="card"><summary><h3 id="m-20">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Tiêu hóa - gan mật</dd><dt>chan_doan_dich</dt><dd>Tiêu chảy cấp nhiễm trùng</dd><dt>chan_doan_phai_loai_tru</dt><dd>Tả; Lỵ trực trùng; Viêm ruột thừa</dd><dt>nhom_tuoi</dt><dd>Rất cao tuổi (≥75 tuổi)</dd><dt>do_kho</dt><dd>Điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>dien_tien_tai_kham</dt><dd>Đỡ một phần</dd><dt>nhieu_benh_nhan</dt><dd>Bệnh nhân hợp tác tốt</dd><dt>rang_buoc_nguon_luc</dt><dd>Bệnh nhân từ chối xét nghiệm</dd><dt>loai_ket_cuc</dt><dd>Ổn định, khỏi bệnh</dd><dt>gioi</dt><dd>Nữ</dd><dt>co_co_do</dt><dd>Có</dd><dt>so_luot_kham</dt><dd>3</dd><dt>nghe_nghiep</dt><dd>Buôn bán nhỏ (bán tạp hóa)</dd><dt>yeu_to_khoi_phat</dt><dd>Sau sinh (ở nhà cháu ngoại chăm cháu mới sinh ba tuần; ăn thức ăn thừa để qua đêm)</dd><dt>thuoc_dang_dung</dt><dd>Thuốc giảm đau khớp tự mua (meloxicam 7,5 mg)</dd><dt>ly_do_that_su_den_kham</dt><dd>Muốn được cho thuốc ngủ</dd></dl><ul class=""><li>2026-10-25: viết bản 1. Đã đọc TL-0038 mục 3–6 và bài Lỵ trực khuẩn; TL-0176 mục II; TL-0230 KC 3–52; TL-0233 KC 1–12; TL-0263 tuyên bố 1.2–1.3; TL-0053 khuyến cáo 3.4; TL-0286 Phụ lục NSAID, thuốc giảm đau; TL-0022 Bảng 2, 6; TL-0443 Bài 27; TL-0464 mục 4.2.1.</li><li>Không có trong tài liệu đã tải: thể tích Oresol người lớn; thời gian giữ theo dõi 3–4 giờ; mốc tái khám 2–3 ngày; liều smecta, loperamid và chỉnh liều ciprofloxacin ở người ≥ 75 tuổi; tác dụng NSAID cộng mất nước lên thận (chỉ có Beers Bảng 6 với CrCl dưới 30); NSAID gây tiêu chảy; mẫu hồ sơ từ chối xét nghiệm; thời gian nghỉ bán đồ ăn sau tiêu chảy; khuyến cáo mất ngủ cấp ở người ≥ 75 tuổi.</li><li>Mâu thuẫn đã có trong sổ, ca áp dụng: kháng sinh kinh nghiệm tiêu chảy nước (TH-0624), loperamid, dạng dịch bù (TH-0624), thuốc ngủ ở người ≥ 65 tuổi (TT-0161, HH-1388), bạch cầu trong phân (TH-0601), paracetamol tối đa ở người cao tuổi (TH-0295). Không có mâu thuẫn mới.</li><li>Thiết kế: &#x27;sau sinh&#x27; diễn giải là bà ngoại ở nhà cháu chăm cháu mới sinh, ăn thức ăn thừa hầm cho sản phụ; khoa_cls để null, từ chối xét nghiệm thể hiện bằng r trong cls như NT-0098; không dùng ảnh hay âm thanh.</li></ul></details>
+<p class="chan-trang">Ca TH-0677 · phiên bản ca 1 – viết mới (2026-10-25) · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

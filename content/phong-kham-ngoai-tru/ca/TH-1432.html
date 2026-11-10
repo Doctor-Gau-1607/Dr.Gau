@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TH-1432 · Nuốt nghẹn / khó nuốt (đánh giá)</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · TH-1432</div>
+   <h1>Ăn cơm, thịt hay bị nghẹn ở giữa ngực, nặng lên từ sau bữa nhậu hải sản</h1>
+   <p class="dich-gia">Nguyễn Văn Phước · Nam · 54 tuổi · 62 kg</p>
+   <div class="chips"><span class="chip">Tiêu hóa - gan mật</span><span class="chip">Điển hình</span><span class="chip">2 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Nông dân trồng lúa và làm vườn</dd><dt>Chiều cao, cân nặng</dt><dd>165 cm · 62 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi ông &#x27;chú&#x27;. Ông tự xưng &#x27;tui&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;.</dd><dt>Tính cách</dt><dd>Hiền, thật thà, ít lời, làm ruộng quen chịu đựng nên coi nghẹn thức ăn là chuyện &#x27;ăn vội&#x27;. Trả lời đúng điều được hỏi, không vòng vo. Ngại tốn tiền và mất ngày công, giấu vợ nỗi sợ riêng.</dd></dl></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/2</span> </h2>
+ <div class="card intro"><h3 id="m-2">Tiếp đón</h3><p>Ông Nguyễn Văn Phước, 54 tuổi, nông dân trồng lúa. Đến vì ăn cơm, thịt hay bị nghẹn ở giữa ngực, nặng lên từ sau một bữa nhậu hải sản ba tuần trước. Sinh hiệu: HA 128/80 mmHg, mạch 76 l/p, nhiệt độ 36,7 °C, SpO₂ 98%.</p>
+  <blockquote>“Bác sĩ ơi, tui ăn cơm với thịt hay bị nghẹn ở giữa ngực, ba tuần nay. Hôm nhậu ốc với tôm xong là bị nặng hơn. Uống nước thì trôi. Bác sĩ coi giùm tui.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>76</b><small>l/p</small></div><div class="vs"><span>HA</span><b>128/80</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,7</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>16</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-3">Hỏi bệnh <small>11 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám và sự kiện khởi phát sau ăn hải sản</b><span class="tag t-g">Tự kể</span></div><p>Ba tuần nay cơm khô, thịt, bánh mì hay dừng lại ở giữa ngực. Bữa nhậu ốc len xào dừa với tôm nướng, ông ăn vội: miếng thịt tôm mắc lại sau xương ức, ông uống nước không trôi, ngồi gục khoảng một lúc rồi trớ ra mới hết. Từ hôm đó hễ ăn đồ đặc là nghẹn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Nuốt nghẹn thức đặc, vị trí thực quản, không sặc</b><span class="tag t-b">Khi được hỏi</span></div><p>Nghẹn với thức ăn đặc (cơm khô, thịt, bánh mì), còn nước, cháo, canh nuốt bình thường. Chỉ nghẹn ở giữa ngực, dưới xương ức, không ở cổ họng. Thức ăn dừng vài giây, uống thêm nước mới trôi xuống. Không sặc, không ho khi ăn, không đau khi nuốt, giọng không khàn. Ba tuần nay giữ nguyên, ít khi nặng thêm.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Nghẹn lẻ tẻ gần một năm trước đợt này</b><span class="tag t-r">Giấu</span></div><p>Thật ra khoảng 8–10 tháng nay thỉnh thoảng đã nghẹn cơm, mỗi tháng 2–3 lần, uống nước là hết nên ông cho là &#x27;ăn vội&#x27;. Chỉ sau bữa nhậu mới nghẹn thường xuyên.</p><div class="cond">Điều kiện nói ra: Chỉ kể khi bác sĩ hỏi nghẹn đã có trước ba tuần chưa, hoặc hỏi thời gian kéo dài, diễn tiến từ lúc đầu.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Trào ngược nhiều năm, không điều trị đều</b><span class="tag t-r">Giấu</span></div><p>Khoảng 3 năm nay ợ nóng sau xương ức, ợ chua 3–4 lần mỗi tuần, nhất là sau bữa chiều ăn no rồi nằm võng; thỉnh thoảng thức giấc vì vị chua trong miệng. Ông thỉnh thoảng mua gói thuốc dạ dày ở hiệu thuốc uống khi nóng rát, không uống đều, không biết tên.</p><div class="cond">Điều kiện nói ra: Chỉ kể khi bác sĩ hỏi ợ nóng, ợ chua, đau dạ dày hoặc thuốc dạ dày tự mua.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Sàng lọc dấu báo động: sụt cân, chảy máu, sặc, nôn</b><span class="tag t-b">Khi được hỏi</span></div><p>Cân nặng 62 kg, vẫn như năm ngoái (cân ở chợ lúa). Không nôn ra máu, phân vàng, không đi phân đen. Không nôn dai dẳng, không sặc ho khi ăn, giọng không khàn, không mệt, không xanh xao.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiền triệu co thắt tâm vị: không có</b><span class="tag t-b">Khi được hỏi</span></div><p>Nước, cháo, canh uống bình thường, không nghẹn nước. Không trớ thức ăn chưa tiêu lên miệng, không ho đêm vì sặc, không đau ngực từng cơn. Vị chua dâng lên là dịch chua, không phải cơm cũ.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Bia, ăn uống nóng: yếu tố nguy cơ ung thư thực quản</b><span class="tag t-b">Khi được hỏi</span></div><p>Uống bia 2–3 lon mỗi lần, 2–3 lần mỗi tuần, nhiều hơn khi có đám nhậu. Không hút thuốc lá hay thuốc lào. Thích húp canh và uống trà còn nóng.</p></div><div class="fact"><div class="fh"><b>thuoc_khac</b><span class="tag t-b">Khi được hỏi</span></div><p>Không uống thuốc giảm đau, thuốc khớp, kháng sinh gần đây. Không có thuốc dùng thường xuyên. Không uống viên thuốc nào mà thấy mắc lại.</p></div><div class="fact"><div class="fh"><b>di_vat_di_ung</b><span class="tag t-b">Khi được hỏi</span></div><p>Hôm ăn ốc, tôm, cua có cả xương cá nhỏ nhưng ông không thấy đau nhói, không nôn máu, không sốt sau đó. Ăn hải sản nhiều năm không nổi mề đay, không khò khè.</p></div><div class="fact"><div class="fh"><b>tien_su</b><span class="tag t-b">Khi được hỏi</span></div><p>Khỏe, không tăng huyết áp, không tiểu đường, chưa mổ gì, chưa từng nội soi dạ dày. Bụng không đau, đi cầu bình thường.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Động cơ thật: sợ mắc ung thư thực quản như người chú</b><span class="tag t-r">Giấu</span></div><p>Chú ruột của ông mất cách đây hai năm vì &#x27;ung thư thực quản&#x27;, lúc 61 tuổi, sau 5 tháng nuốt nghẹn rồi ốm dần. Đám giỗ chú vừa qua ông nhớ lại, càng nghĩ càng sợ mình cũng bị. Ông đi khám sau lần kẹt thịt tôm, chưa nói với vợ vì sợ bà lo.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi ông lo nhất điều gì, trong nhà có ai bị bệnh tương tự không, hoặc vì sao hôm nay mới đi khám.</div></div></details>
+ <details class="card"><summary><h3 id="m-4">Khám <small>8 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, tiếp xúc tốt, hơi lo. Niêm mạc hồng, không vàng da, không phù. Cân nặng 62 kg, cao 165 cm, BMI 22,8.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Không sờ thấy hạch cổ, hạch thượng đòn. Tuyến giáp không to.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Họng hồng nhẹ, amidan không to, lưỡi sạch.</p><p><span class="lbl">Kết quả:</span> Họng hồng nhẹ, amidan không to, lưỡi sạch, không mảng trắng.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Quan sát nuốt thử (từng ngụm nước, miếng bánh mì mềm: ho sặc, giọng ướt, vị trí vướng, thời gian trôi)</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Uống nước nuốt liền, không sặc. Bánh mì mềm trôi chậm, ông chỉ vào giữa ngực dưới xương ức.</p><p><span class="lbl">Kết quả:</span> Uống từng ngụm 50 mL nước ấm: nuốt liền, không sặc, giọng không ướt. Bánh mì mềm: nhai kỹ, trôi sau vài giây, ông chỉ vào giữa ngực dưới xương ức; miếng thứ hai dừng lâu hơn, nhăn mặt, uống thêm nước mới trôi. Không trớ ngược, không đau ở cổ họng.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm, không đau, ấn thượng vị không đau, không sờ thấy khối, gan lách không to.</p></div><div class="row"><div class="rh"><b>Thần kinh</b></div><p><span class="lbl">Kết quả:</span> Mặt cân đối, lưỡi thè thẳng, nói rõ, phản xạ nôn có hai bên, sức cơ 5/5. Không dấu thần kinh khu trú.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số khoảng 76 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều khoảng 76 l/p, T1, T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi, không T3.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Thở đều, êm, hai bên đều.</p><p><span class="lbl">Kết quả:</span> Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi hai bên</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-5">Cận lâm sàng <small>5 mục</small></h3></summary><div class="row"><div class="rh"><b>Nội soi dạ dày – tá tràng</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Nội soi thực quản – dạ dày – tá tràng: thực quản trên và giữa niêm mạc hồng, nhu động bình thường, không giãn, không ứ đọng thức ăn hay dịch. Đoạn dưới có nhiều vết trợt nối nhau giữa các đỉnh nếp niêm mạc, chiếm dưới 75% chu vi (viêm thực quản trào ngược Los Angeles độ C), kèm vòng hẹp mềm, ngắn ngay trên chỗ nối thực quản – dạ dày, thành không cứng, không u; ống soi qua được sau khi bơm hơi. Thoát vị hoành khoảng 2 cm. Tâm vị đóng mở bình thường. Dạ dày và hành tá tràng không tổn thương đáng kể. Sinh thiết 6 mảnh vùng hẹp và bờ vết trợt gửi giải phẫu bệnh.</p><p class="why">Nuốt khó mới thì nội soi tiêu hóa trên là xét nghiệm đầu tiên [III, A] (ESMO 2022, Recommendations); ACG 2022 GERD chẩn đoán KC 6; VNAGE 2026 KC 3; nội soi ống mềm có giá trị chẩn đoán ung thư thực quản (QĐ 1514/2020 Bài 35 mục 2.2.1). Sinh thiết nhiều mảnh ở vùng nghi ngờ (ESMO 2022: 6 mảnh khi nghi u); VNAGE 2026 cũng nêu sinh thiết khi nghi viêm thực quản tăng bạch cầu ái toan ở người nuốt khó. Phòng khám có nội soi nên làm ngay hôm nay; không cấp cứu vì ông không kẹt thức ăn lúc này.</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Hb 139 g/L · BC 6,8 G/L · TC 245 G/L</p><p class="why">Thiếu máu là dấu báo động (VNAGE 2026 KC 3); không thiếu máu ở ông. Không bắt buộc.</p></div><div class="row"><div class="rh"><b>Điện tâm đồ 12 chuyển đạo</b><span class="tag t-r">Không cần</span></div><p class="why">Không đau ngực, không khó thở, không có chỉ định; ACG 2022 GERD chẩn đoán KC 4 chỉ đặt vấn đề loại trừ tim khi đau ngực không ợ nóng.</p></div><div class="row"><div class="rh"><b>Chụp thực quản có cản quang (barium)</b><span class="tag t-r">Không cần</span></div><p class="why">Không chụp thực quản cản quang làm xét nghiệm đầu tiên: nội soi trước (ACG 2022 GERD chẩn đoán KC 6); ACG 2022 KC 5 không dùng barium chỉ để chẩn đoán GERD. Barium chỉ bổ sung khi nghi co thắt tâm vị (ACG 2020; UEG/ESNM 2020, phần chẩn đoán).</p></div><div class="row"><div class="rh"><b>X-quang ngực thẳng</b><span class="tag t-r">Không cần</span></div><p class="why">Không ho, không sặc, phổi bình thường: không có chỉ định.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-6">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Nuốt nghẹn thực quản với thức ăn đặc (đợt nặng ba tuần sau kẹt thức ăn khi ăn hải sản, nghẹn lẻ tẻ gần một năm trước), nền trào ngược ba năm không điều trị đều; nội soi: viêm thực quản trào ngược LA-C kèm vòng hẹp nhẹ thực quản dưới, thoát vị hoành nhỏ; chưa có dấu báo động; chờ giải phẫu bệnh để loại trừ ác tính</b></div><p class="why">Nghẹn thức đặc, đúng vị trí thực quản, tiến triển từng đợt cả năm, kèm ợ nóng ợ chua nhiều năm và hình ảnh viêm trợt LA-C kèm hẹp: nghiêng về nguyên nhân trào ngược. Viêm trợt LA-B, C, D và hẹp do trào ngược đều là bằng chứng chắc chắn của GERD (Lyon 2.0 2024, Bảng 2); hẹp là biến chứng của GERD (VNAGE 2026, đoạn biến chứng). Hải sản chỉ là chất kích hoạt đợt kẹt, không phải nguyên nhân. Kết quả giải phẫu bệnh quyết định cuối cùng (ESMO 2022).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ung thư thực quản</b></div><p class="why">Chưa loại trừ hoàn toàn khi chưa có giải phẫu bệnh, nên phải sinh thiết. Chống lại: không sụt cân, không nôn máu, không hạch, nội soi không u, vòng hẹp mềm; ung thư thường nuốt nghẹn tăng dần trong 3–4 tháng, gầy sút trên 90% (QĐ 1514/2020 Bài 35 mục 2.1). Yếu tố nguy cơ ở ông: tuổi 50–60, bia, ăn uống nóng (Bài 35 mục 1).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Co thắt tâm vị (achalasia)</b></div><p class="why">Không có tiền triệu: nghẹn nước không, không trớ thức ăn chưa tiêu, không ho đêm, thực quản không giãn, tâm vị đóng mở bình thường. Achalasia thường nuốt khó cả đặc lẫn lỏng và chỉ nghĩ tới khi nội soi đã loại trừ rối loạn khác (UEG/ESNM 2020, phần chẩn đoán); nghi achalasia luôn phải nội soi loại trừ giả co thắt do khối u (ACG 2020).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm thực quản tăng bạch cầu ái toan</b></div><p class="why">Cần nghĩ vì nuốt khó thức ăn đặc và kẹt thức ăn; VNAGE 2026 nêu sinh thiết khi nghi ngờ, nhất là có nuốt khó, tắc nghẽn hoặc đáp ứng PPI kém. Ở ông có viêm trợt LA-C và trào ngược điển hình giải thích; sinh thiết đã lấy sẽ trả lời. Đặc điểm lâm sàng riêng của bệnh này không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Khó nuốt hầu họng do thần kinh hoặc bệnh vùng cổ</b></div><p class="why">Vướng ở giữa ngực chứ không ở cổ họng, không sặc, nuốt nước bình thường, khám thần kinh bình thường, họng và cổ không bất thường.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Dị vật thực quản (xương, vỏ ốc)</b></div><p class="why">Nuốt xong không đau nhói, không nôn máu, nội soi không thấy dị vật hay vết xước; hẹp do viêm giải thích. Tiêu chuẩn riêng về dị vật không có trong tài liệu đã tải.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Omeprazol 20 mg uống 1 lần/ngày, 30–60 phút trước ăn sáng, 8 tuần</b></div><p class="why">Viêm thực quản trợt: PPI liều chuẩn 8 tuần giúp lành niêm mạc (VNAGE 2026 KC 13); PPI hơn kháng H2 để chữa lành viêm thực quản (ACG 2022 GERD điều trị KC 6). Liều omeprazol 20 mg (VNAGE 2024 Bảng 4). Giờ uống 30–60 phút trước ăn sáng (ACG 2022 điều trị KC 8, mới hơn); QĐ 361/2014 Phụ lục NSAID mục 3.3 ghi uống tối: chấm a, theo sổ mâu thuẫn mục &#x27;Thời điểm uống PPI 1 lần/ngày&#x27;. Liều gấp đôi chỉ cân nhắc khi kháng trị (VNAGE 2026 thảo luận), chưa cần ở lượt đầu.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chỉnh lối sống: không ăn trong 2–3 giờ trước khi nằm, kê cao đầu giường, giảm rồi bỏ bia, tránh nhậu</b></div><p class="why">Tránh ăn trong 2–3 giờ trước ngủ (ACG 2022 GERD lối sống KC 2), kê cao đầu giường khi có triệu chứng ban đêm (KC 5), tránh thức ăn khởi phát (KC 4); VNAGE 2026 KC 12. Rượu bia cũng là yếu tố nguy cơ ung thư thực quản (QĐ 1514/2020 Bài 35 mục 1).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn tái khám nhận kết quả giải phẫu bệnh và nội soi kiểm tra sau 6–8 tuần dùng PPI để đánh giá lành vết trợt và biến chứng hẹp</b></div><p class="why">Nội soi lại sau 6–8 tuần PPI ở viêm thực quản nặng LA-C, D để đánh giá lành và biến chứng (hẹp, Barrett, ung thư) vì viêm nặng che các tổn thương khác (VNAGE 2026, đoạn nội soi lại). Thời gian có kết quả giải phẫu bệnh và mốc nhận kết quả không có trong tài liệu đã tải: lựa chọn của ca.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích: nội soi chưa thấy u, đang chờ sinh thiết để khẳng định; hỏi và trả lời nỗi lo ung thư như người chú, không hứa chắc trước khi có kết quả</b></div><p class="why">Chẩn đoán ung thư thực quản dựa vào mô bệnh học của nhiều mảnh sinh thiết (ESMO 2022 [I, B]); vì vậy không thể nói &#x27;chắc chắn không ung thư&#x27; khi chưa có giải phẫu bệnh.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn quay lại ngay hoặc đến cấp cứu nếu kẹt thức ăn không nuốt được cả nước bọt, nôn ra máu, phân đen, sốt, đau ngực dữ dội, sặc ho khi ăn, sụt cân</b></div><p class="why">Nuốt khó mới, chảy máu tiêu hóa, nôn hoặc hít tái diễn, sụt cân là chỉ định nội soi (ESMO 2022 Recommendations). Ngưỡng thời gian kẹt thức ăn phải đi cấp cứu không có trong tài liệu đã tải.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Ăn mềm, thái nhỏ, nhai kỹ, ăn chậm, uống nước xen kẽ; tránh ăn vội thịt, ốc, tôm miếng lớn</b></div><p class="why">Chế độ ăn cụ thể cho nuốt khó do hẹp không có trong tài liệu đã tải; là biện pháp thông thường phòng kẹt thức ăn.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Esomeprazol 20–40 mg hoặc pantoprazol 40 mg thay omeprazol</b></div><p class="why">Liều PPI chuẩn: omeprazol 20 mg, pantoprazol 40 mg, esomeprazol 20–40 mg, rabeprazol 20 mg (VNAGE 2024 Bảng 4).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê thêm domperidon hoặc thuốc vận động ruột cho &#x27;ăn không xuống&#x27;</b></div><p class="why">ACG 2022 GERD điều trị KC 14: không dùng thuốc vận động ruột cho GERD trừ khi có bằng chứng liệt dạ dày; ở ông thực quản không ứ đọng.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kết luận &#x27;viêm dạ dày&#x27;, cho thuốc dạ dày một đợt rồi hẹn lại, không nội soi</b></div><p class="why">Nuốt khó mới phải nội soi [III, A] (ESMO 2022); là chỉ định nội soi đầu tiên (ACG 2022 GERD chẩn đoán KC 6).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhập viện ông Phước ngay hôm nay là quá tay: ông nuốt được nước và cháo, không còn kẹt thức ăn, không nôn máu, không sốt, nội soi đã làm tại chỗ và không thấy u hay tắc hoàn toàn. Viêm thực quản trợt LA-C cần PPI dùng lâu dài và nội soi kiểm tra sau đó, không cần nằm viện (ACG 2022 GERD điều trị KC 6, 12; VNAGE 2026 đoạn nội soi lại sau 6–8 tuần PPI). Ông bỏ ruộng giữa vụ gặt, tốn thêm chi phí, và nghe &#x27;phải nhập viện&#x27; ông càng tin mình mắc bệnh nặng giống người chú đã mất.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển ông lên bệnh viện tỉnh ngay trong ngày khi phòng khám đã nội soi và lấy sinh thiết xong là thừa: ống soi qua được chỗ hẹp, thực quản không ứ đọng thức ăn, không có chỉ định can thiệp cấp. Điều trị PPI, hẹn kết quả sinh thiết và nội soi lại sau 6–8 tuần làm được tại phòng khám (VNAGE 2026, đoạn nội soi lại; ACG 2022 GERD điều trị KC 12). Ông đi xa, mất ngày công, có thể bị soi lại vì kết quả không đi cùng ông.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển cấp cứu</span></div><p>Gọi cấp cứu cho ông là sai hướng: sinh hiệu ổn, ông nuốt được nước bọt, nước và cháo, không có dấu thiếu oxy, không nôn máu. Kẹt thức ăn hoàn toàn mới cần xử trí cấp, nhưng tiêu chuẩn cấp cứu cụ thể không có trong tài liệu đã tải. Ông bị đưa vào phòng cấp cứu làm thêm xét nghiệm đã có kết quả nội soi, tốn kém và hoang mang.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Nuốt nghẹn thực quản với thức ăn đặc, nặng lên ba tuần sau kẹt thức ăn khi ăn hải sản, lẻ tẻ gần một năm trước đó</li><li>Viêm thực quản trào ngược LA-C kèm vòng hẹp nhẹ thực quản dưới và thoát vị hoành nhỏ (nội soi); trào ngược ba năm không điều trị đều</li><li>Chưa có dấu báo động khác (không sụt cân, không chảy máu, không hạch); giải phẫu bệnh đang chờ để khẳng định không ác tính</li><li>Ung thư thực quản và co thắt tâm vị: nghiêng về không, cần giải phẫu bệnh và theo dõi</li><li>Nỗi lo thật: sợ mắc ung thư thực quản như người chú</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Hỏi bệnh: câu then chốt là phân biệt nghẹn đặc hay cả đặc lẫn lỏng, vị trí ở cổ hay ngực, thời gian kéo dài. Phải hỏi trực tiếp nghẹn có trước đợt này không để ra tám tháng nghẹn lẻ tẻ, hỏi ợ nóng ợ chua để ra ba năm trào ngược (ông không tự kể). Sàng lọc dấu báo động: sụt cân, chảy máu, sặc, nôn (ESMO 2022; VNAGE 2026 KC 3). Hỏi bia, ăn nóng (QĐ 1514/2020 Bài 35 mục 1). Hỏi ông lo nhất điều gì để ra nỗi sợ ung thư như người chú.</li><li>Khám: nuốt thử cho thấy thức ăn đặc dừng ở giữa ngực, không sặc; hạch cổ và thượng đòn âm tính; khám thần kinh bình thường loại nguyên nhân hầu họng.</li><li>Cận lâm sàng: nuốt khó mới thì nội soi là xét nghiệm đầu tiên [III, A] (ESMO 2022; ACG 2022 GERD chẩn đoán KC 6), và phòng khám có nội soi nên làm ngay, kèm sinh thiết vùng hẹp và bờ vết trợt. Không chụp barium trước (ACG 2022 KC 5); công thức máu không bắt buộc.</li><li>Chẩn đoán: viêm thực quản LA-C kèm hẹp là bằng chứng chắc chắn của GERD (Lyon 2.0 2024, Bảng 2) và giải thích nghẹn đặc; ung thư thực quản không loại trừ trước khi có giải phẫu bệnh (ESMO 2022), co thắt tâm vị bị loại bằng thực quản không giãn, tâm vị bình thường, không nghẹn nước (UEG/ESNM 2020; ACG 2020).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>PPI liều chuẩn 8 tuần, 30–60 phút trước ăn sáng (VNAGE 2026 KC 13; ACG 2022 điều trị KC 6, 8). Không dùng thuốc vận động ruột (ACG 2022 điều trị KC 14).</li><li>Lối sống đúng nghề và thói quen: không nằm võng ngay sau bữa chiều, kê cao đầu giường, giảm bia (ACG 2022 lối sống KC 2, 5; VNAGE 2026 KC 12).</li><li>Về, không nhập viện, không chuyển tuyến: ông nuốt được nước, không kẹt, không chảy máu; nội soi đã làm tại chỗ. Tái khám có nội soi kiểm tra sau 6–8 tuần PPI vì viêm LA-C có thể che tổn thương khác (VNAGE 2026). Thời hạn nhận giải phẫu bệnh không có trong tài liệu đã tải.</li><li>Nói thật rằng ung thư chưa loại trừ đến khi có giải phẫu bệnh, đồng thời trấn an có căn cứ: không sụt cân, nội soi chưa thấy u (QĐ 1514/2020 Bài 35 mục 2.1; ESMO 2022).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Omeprazol</b><div class="sub">20 mg</div></td><td data-l="Liều">20 mg × 1 lần/ngày<div class="sub">Uống · 30–60 phút trước ăn sáng (hoặc buổi tối trước ngủ theo QĐ 361/2014: chấm a)</div></td><td data-l="Thời gian">8 tuần, rồi nội soi kiểm tra và đánh giá lại</td><td class="gc" data-l="Ghi chú">Liều: VNAGE 2024 Bảng 4. Thời gian: VNAGE 2026 KC 13. Thời điểm: ACG 2022 điều trị KC 8; QĐ 361/2014 Phụ lục NSAID mục 3.3. Viêm LA-C cần duy trì PPI dài hạn sau đợt đầu (ACG 2022 điều trị KC 12), quyết ở tái khám.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Uống omeprazol mỗi sáng 30–60 phút trước ăn sáng, đủ 8 tuần, không ngưng sớm khi hết ợ nóng (ACG 2022 điều trị KC 8, 12).</li><li>Ăn chậm, thái nhỏ thịt, nhai kỹ, uống nước xen kẽ; tạm tránh nhậu hải sản và ăn vội thịt, ốc, tôm miếng lớn (chế độ cụ thể không có trong tài liệu đã tải).</li><li>Không ăn trong 2–3 giờ trước khi nằm, kê cao đầu giường, giảm bia rượu (ACG 2022 lối sống KC 2, 5).</li><li>Đến ngay cơ sở y tế nếu kẹt thức ăn không nuốt được cả nước bọt, nôn máu, phân đen, sốt, đau ngực dữ dội, sặc ho khi ăn, sụt cân (ESMO 2022).</li><li>Quay lại nhận kết quả giải phẫu bệnh và hẹn nội soi kiểm tra sau 6–8 tuần dùng thuốc (VNAGE 2026); nói với vợ về nỗi lo, kết quả sẽ có trước khi kết luận.</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-2">
+ <h2 id="h-luot-2"><span class="ln">Lượt 2/2</span> </h2>
+ <div class="card intro"><h3 id="m-7">Tiếp đón</h3><p>Ông Phước tái khám sau 8 tuần uống omeprazol đều, mang phiếu giải phẫu bệnh. Hết ợ nóng, nhưng cơm khô và thịt vẫn còn nghẹn, tuần trước có một lần kẹt thịt gà phải nôn ra. Sinh hiệu: HA 126/78 mmHg, mạch 74 l/p, nhiệt độ 36,6 °C, SpO₂ 98%.</p>
+  <blockquote>“Bác sĩ ơi, tui uống thuốc đều hết ợ nóng rồi, mà ăn thịt với cơm khô vẫn còn nghẹn. Tuần rồi nghẹn miếng thịt gà lâu lắm, phải móc họng ra. Kết quả đây, bác sĩ coi giùm.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>74</b><small>l/p</small></div><div class="vs"><span>HA</span><b>126/78</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,6</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>16</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-8">Hỏi bệnh <small>7 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám: đỡ một phần</b><span class="tag t-g">Tự kể</span></div><p>Tái khám theo hẹn sau 8 tuần uống omeprazol. Hết ợ nóng ợ chua, nhưng cơm khô, thịt vẫn nghẹn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đáp ứng một phần với PPI: hết ợ nóng, còn nghẹn đặc</b><span class="tag t-b">Khi được hỏi</span></div><p>Ợ nóng giảm gần hết, chỉ còn thoáng một lần mỗi tuần. Nghẹn thức đặc còn khoảng 2–3 lần mỗi tuần, ít hơn lúc đầu một nửa; cháo, canh, nước vẫn bình thường. Ông ăn mềm được nhưng cơm khô và thịt vẫn dừng ở giữa ngực.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Một lần kẹt thức ăn (tắc nghẽn thực quản thoáng qua)</b><span class="tag t-b">Khi được hỏi</span></div><p>Tuần trước ông ăn thịt gà xé, miếng thịt kẹt sau xương ức khoảng 20 phút, uống nước không xuống, ông móc họng nôn ra rồi mới hết. Sau đó đau ngực nhẹ một ngày rồi hết. Không nôn máu, không sốt, không ho sặc.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Kết quả sinh thiết lượt 1: lành tính, không tăng bạch cầu ái toan</b><span class="tag t-b">Khi được hỏi</span></div><p>Có phiếu giải phẫu bệnh 6 mảnh vùng hẹp và bờ vết trợt: niêm mạc thực quản viêm mạn hoạt động, tăng sản lớp đáy, không tăng bạch cầu ái toan, không loạn sản, không có tế bào ác tính.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tuân thủ PPI và lối sống tốt</b><span class="tag t-b">Khi được hỏi</span></div><p>Ông uống omeprazol 20 mg mỗi sáng trước ăn khoảng 45 phút, không quên ngày nào, đủ 8 tuần hôm qua. Ăn chiều sớm hơn, kê cao đầu giường, giảm bia còn 1 lon mỗi tuần, thôi húp canh quá nóng.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dấu báo động vẫn âm tính</b><span class="tag t-b">Khi được hỏi</span></div><p>Cân nặng 62 kg như cũ. Không nôn máu, phân vàng, không sặc ho khi ăn, giọng không khàn.</p></div><div class="fact"><div class="fh"><b>lo_lang</b><span class="tag t-b">Khi được hỏi</span></div><p>Thấy phiếu giải phẫu bệnh &#x27;không ác tính&#x27; ông nhẹ người nhưng vẫn lo &#x27;chắc chưa, sao còn nghẹn&#x27;. Ông đã kể với vợ chuyện của chú. Gặt xong nên ông đi viện tỉnh được.</p></div></details>
+ <details class="card"><summary><h3 id="m-9">Khám <small>6 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, thoải mái hơn lần trước. Niêm mạc hồng. Cân nặng 62 kg.</p></div><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Không sờ thấy hạch cổ, hạch thượng đòn. Tuyến giáp không to.</p></div><div class="row"><div class="rh"><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm, không đau, không khối, gan lách không to.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Quan sát nuốt thử (từng ngụm nước, miếng bánh mì mềm: ho sặc, giọng ướt, vị trí vướng, thời gian trôi)</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Uống nước nuốt liền. Bánh mì mềm trôi hơi chậm; cơm khô dừng, ông chỉ vào giữa ngực dưới xương ức.</p><p><span class="lbl">Kết quả:</span> Nước từng ngụm: nuốt liền. Bánh mì mềm: trôi sau vài giây; miếng cơm khô dừng lâu hơn, ông chỉ vào giữa ngực dưới xương ức, nhăn mặt, uống thêm nước mới xuống. Không sặc.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số khoảng 74 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều khoảng 74 l/p, T1, T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi, không T3.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Thở đều, êm, hai bên đều.</p><p><span class="lbl">Kết quả:</span> Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi hai bên</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-10">Cận lâm sàng <small>4 mục</small></h3></summary><div class="row"><div class="rh"><b>Nội soi dạ dày – tá tràng</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Nội soi kiểm tra sau 8 tuần PPI: các vết trợt đoạn dưới đã lành, còn sẹo mờ, không còn vết trợt nào xếp được độ LA. Vòng hẹp ngắn ngay trên chỗ nối thực quản – dạ dày còn, niêm mạc phẳng, mềm, không loét, không u, không cứng; ống soi qua được nhưng có cảm giác cản nhẹ. Thoát vị hoành khoảng 2 cm. Không thấy niêm mạc dạng Barrett. Thực quản trên và giữa không giãn, không ứ đọng thức ăn; tâm vị đóng mở bình thường. Sinh thiết thêm 4 mảnh vùng hẹp gửi giải phẫu bệnh.</p><p class="why">Viêm LA-C, D nên nội soi lại sau 6–8 tuần PPI để đánh giá lành và biến chứng (hẹp, Barrett, ung thư) (VNAGE 2026, đoạn nội soi lại). Sinh thiết thêm vì hẹp còn dai dẳng, theo nguyên tắc sinh thiết vùng nghi ngờ (ESMO 2022); số mảnh cho hẹp lành tính không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><b>Chụp thực quản có cản quang (barium)</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần: nội soi đã thấy vòng hẹp và thực quản không giãn, không ứ đọng. Barium chỉ bổ sung khi nghi co thắt tâm vị mà nội soi chưa giải thích (ACG 2020; UEG/ESNM 2020).</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-r">Không cần</span></div><p class="why">Không thay đổi quyết định: không dấu báo động, lượt trước Hb 139 g/L.</p></div><div class="row"><div class="rh"><b>CT ngực (có hoặc không cản quang, gồm CT động mạch phổi)</b><span class="tag t-r">Không cần</span></div><p class="why">Không có chỉ định: nội soi đã đánh giá lòng và thành thực quản, không u; CT chỉ dùng khi đã có ung thư để xếp giai đoạn (QĐ 1514/2020 Bài 35 mục 2.2.3).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-11">Đáp án lượt 2 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Chuyển tuyến / chuyên khoa</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Hẹp thực quản dưới do trào ngược còn tồn tại sau 8 tuần PPI, viêm thực quản LA-C đã lành; có một lần kẹt thức ăn; sinh thiết lành tính, không tăng bạch cầu ái toan; đáp ứng một phần (hết ợ nóng, còn nghẹn đặc)</b></div><p class="why">Viêm thực quản trợt và hẹp do trào ngược là bằng chứng chắc chắn của GERD (Lyon 2.0 2024, Bảng 2); hẹp là biến chứng gặp được khi nội soi lại sau PPI (VNAGE 2026: hẹp 2,3% trong nghiên cứu 964 bệnh nhân viêm nặng). PPI làm lành vết trợt và hết ợ nóng, nhưng nghẹn đặc còn vì hẹp cơ học nên đáp ứng một phần. Phải chuyển để nong qua nội soi nếu tuyến tại chỗ không nong được.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ung thư thực quản</b></div><p class="why">Đã loại trừ ở mức hiện có: hai đợt sinh thiết, đợt đầu 6 mảnh lành tính (ESMO 2022); nội soi hai lần không u, vòng hẹp mềm; không sụt cân. Vẫn theo dõi vì hẹp còn dai dẳng và sinh thiết thêm đang chờ.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Co thắt tâm vị (achalasia)</b></div><p class="why">Đã loại trừ: thực quản không giãn, không ứ đọng, tâm vị đóng mở bình thường, không nghẹn nước; có hẹp cơ học giải thích. Đo áp lực thực quản chỉ khi nội soi đã loại trừ nguyên nhân khác mà vẫn nghẹn (UEG/ESNM 2020).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm thực quản tăng bạch cầu ái toan</b></div><p class="why">Sinh thiết 6 mảnh không tăng bạch cầu ái toan; ợ nóng đáp ứng PPI; nội soi không có hình ảnh gợi ý. VNAGE 2026 nêu sinh thiết khi nuốt khó, tắc nghẹn hoặc PPI kém.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Barrett thực quản</b></div><p class="why">Nội soi không thấy niêm mạc dạng Barrett; sinh thiết đợt đầu không nêu. Đây là một trong các phát hiện mới có thể gặp khi nội soi lại sau PPI (10,1% trong nghiên cứu được VNAGE 2026 dẫn) nên phải nhìn kỹ.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Viết giấy giới thiệu nội soi nong thực quản ở bệnh viện tuyến tỉnh theo hẹn sớm (không cấp cứu), kèm tóm tắt hai lần nội soi và giải phẫu bệnh</b></div><p class="why">Hẹp thực quản dưới do trào ngược còn gây nghẹn và đã kẹt thức ăn sau 8 tuần PPI. Phương pháp, đường kính và thời điểm nong không có trong tài liệu đã tải (ASGE 2006 dùng ở ca TH-1449 không mở lại được lượt này); phòng khám chỉ nội soi chẩn đoán nên chuyển tuyến. Lý do chuyển do ca tự quyết, không cấp cứu vì ông không kẹt hiện tại.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Tiếp tục omeprazol 20 mg × 1 lần/ngày trước ăn sáng, hoặc tăng 20 mg × 2 lần/ngày (trước ăn sáng và trước ăn tối) nếu còn nghẹn, ợ nóng, không ngưng</b></div><p class="why">Viêm thực quản LA-C: duy trì PPI dài hạn hoặc phẫu thuật chống trào ngược (ACG 2022 điều trị KC 12, mạnh); PPI liều thấp nhất kiểm soát được (KC 10). Liều chuẩn 8 tuần (VNAGE 2026 KC 13) hoặc liều gấp đôi khi kháng trị (VNAGE 2026 thảo luận); hai lần/ngày thì uống trước ăn sáng và ăn tối (ACG 2022, phần liều PPI). Theo sổ mâu thuẫn mục PPI 1 hay 2 lần/ngày cho LA-C kèm hẹp (TH-1449).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích giải phẫu bệnh lành tính, hẹp là biến chứng của trào ngược, cần nong qua nội soi; đáp ứng một phần là bình thường, không phải điều trị thất bại</b></div><p class="why">Giải phẫu bệnh quyết định chẩn đoán ung thư (ESMO 2022 [I, B]). Hẹp là biến chứng của GERD (VNAGE 2026, đoạn biến chứng); hẹp tái phát trên PPI tối ưu thuộc GERD kháng trị (Lyon 2.0 2024 Bảng 2). Tái lập niềm tin, đáp nỗi sợ như người chú.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn quay lại hoặc đến cấp cứu ngay nếu kẹt thức ăn không nuốt được cả nước bọt, nôn máu, phân đen, sốt, đau ngực dữ dội, sặc ho, sụt cân; ăn mềm, thái nhỏ trong lúc chờ</b></div><p class="why">Nôn hoặc hít tái diễn, sụt cân, chảy máu là chỉ định nội soi (ESMO 2022 Recommendations). Ngưỡng thời gian đi cấp cứu khi kẹt thức ăn và chế độ ăn cụ thể không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn tái khám tại phòng khám sau khi nong và có kết quả sinh thiết thêm (mốc theo ca), tiếp tục theo dõi PPI và nuốt</b></div><p class="why">Sinh thiết thêm cần xem lại (ESMO 2022). Mốc tái khám sau nong không có trong tài liệu đã tải: lựa chọn của ca.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Đo áp lực thực quản (HRM) hoặc chụp barium trước khi chuyển nong</b></div><p class="why">Chưa cần: nội soi đã thấy hẹp cơ học và loại trừ giả co thắt (ACG 2020); đo áp lực chỉ khi vẫn nghẹn sau khi hẹp đã được giải quyết (UEG/ESNM 2020).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Ngưng omeprazol vì đã hết ợ nóng</b></div><p class="why">Viêm thực quản LA-C: nên duy trì PPI dài hạn (ACG 2022 điều trị KC 12); chỉ thử ngưng ở người không viêm trợt/Barrett (KC 9). Ngưng sớm dễ tái viêm và tái hẹp.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho ăn bình thường, nuốt nghẹn thì uống nhiều nước, không cần xử trí gì thêm, tái khám khi nặng</b></div><p class="why">Nghẹn đặc còn sau 8 tuần PPI và đã kẹt thức ăn: hẹp còn là biến chứng cần xử trí (VNAGE 2026, đoạn biến chứng); nôn hoặc hít tái diễn là dấu báo động (ESMO 2022).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Cho về, hẹn tái khám</span></div><p>Cho ông về, tiếp PPI rồi hẹn lại 8 tuần nữa là bỏ qua việc ông còn nghẹn thịt và vừa kẹt thịt gà một lần: viêm thực quản đã lành nhưng vòng hẹp còn đó, hẹp là biến chứng của GERD (VNAGE 2026, đoạn biến chứng; Lyon 2.0 2024 Bảng 2: hẹp tái phát trên PPI tối ưu là GERD kháng trị). Ông tiếp tục ăn kiêng không đủ, có thể kẹt thức ăn lần nữa; nôn hoặc hít tái diễn là dấu báo động cần nội soi (ESMO 2022). Cách xử trí hẹp còn dai dẳng không có trong tài liệu đã tải, nhưng không thể là chờ thêm.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhập viện ông Phước hôm nay là quá tay: ông nuốt được nước và cháo, hiện không kẹt thức ăn, không sốt, không chảy máu, sinh hiệu ổn. Nội soi can thiệp theo hẹn ở tuyến trên làm được ngoại trú; nằm viện nội khoa không làm thủ thuật sớm hơn. Ông tốn tiền, mất ngày công, trong khi tiêu chuẩn nhập viện cho hẹp thực quản không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển cấp cứu</span></div><p>Gọi cấp cứu hoặc chuyển ngay trong đêm là sai hướng: ông không kẹt thức ăn lúc này, nuốt được nước bọt, không đau ngực, sinh hiệu ổn. Tiêu chuẩn cấp cứu cho kẹt thức ăn không có trong tài liệu đã tải. Ông hoảng hơn, tốn chi phí, trong khi giấy giới thiệu hẹn sớm là đủ.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Hẹp thực quản dưới do trào ngược còn tồn tại sau 8 tuần PPI, viêm thực quản LA-C đã lành; đã kẹt thức ăn một lần</li><li>Đáp ứng một phần: hết ợ nóng, còn nghẹn thức đặc</li><li>Giải phẫu bệnh lành tính, không tăng bạch cầu ái toan; ung thư thực quản và co thắt tâm vị đã loại trừ ở mức hiện có</li><li>Không Barrett qua nội soi; sinh thiết thêm vùng hẹp đang chờ</li><li>Nỗi lo ung thư như người chú được giải thích có căn cứ</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Hỏi bệnh: tách hai triệu chứng đáp ứng khác nhau: ợ nóng đã hết nhưng nghẹn đặc còn, nghĩa là PPI trị được viêm, chưa giải quyết hẹp cơ học. Hỏi tuân thủ PPI (đúng giờ, đủ 8 tuần, theo VNAGE 2026 KC 13) trước khi gọi là thất bại. Hỏi kẹt thức ăn, dấu báo động, giải phẫu bệnh.</li><li>Khám: nuốt thử cho thấy cơm khô dừng ở giữa ngực, không sặc; cân nặng không đổi; hạch âm tính.</li><li>Cận lâm sàng: nội soi lại sau 6–8 tuần PPI ở viêm LA-C để xem lành, tìm hẹp, Barrett, ung thư (VNAGE 2026). Kết quả: lành vết trợt, hẹp còn, không u, không Barrett. Barium và đo áp lực thực quản chưa cần (ACG 2020; UEG/ESNM 2020).</li><li>Chẩn đoán: hẹp do trào ngược là bằng chứng chắc chắn của GERD (Lyon 2.0 2024 Bảng 2); hẹp tái phát trên PPI tối ưu là GERD kháng trị. Ung thư thực quản đã loại ở mức hiện có nhờ giải phẫu bệnh lành tính (ESMO 2022), co thắt tâm vị bị loại vì thực quản không giãn và tâm vị bình thường.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Chuyển giấy giới thiệu nội soi nong thực quản ở tuyến trên: hẹp còn gây nghẹn và đã kẹt thức ăn; phòng khám không nong được. Cách nong, thời điểm và an toàn không có trong tài liệu đã tải. Không cấp cứu, không nhập viện: ông nuốt được nước bọt và nước, không kẹt hiện tại.</li><li>Tiếp tục PPI dài hạn: LA-C cần duy trì PPI hoặc phẫu thuật (ACG 2022 điều trị KC 12), liều thấp nhất kiểm soát được (KC 10). Liều chuẩn 8 tuần (VNAGE 2026 KC 13) hoặc gấp đôi nếu kháng trị (VNAGE 2026; ACG 2022 phần liều PPI); thời điểm trước ăn sáng (ACG 2022 điều trị KC 8). Ngưng PPI chấm w.</li><li>Giải thích và dặn dấu hiệu cần đi cấp cứu; ăn mềm trong lúc chờ (không có trong tài liệu đã tải).</li><li>Không HRM, barium trước nong (ACG 2020; UEG/ESNM 2020): chỉ khi vẫn nghẹn sau nong.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Omeprazol</b><div class="sub">20 mg</div></td><td data-l="Liều">20 mg × 1 lần/ngày, hoặc 20 mg × 2 lần/ngày nếu còn nghẹn, ợ nóng<div class="sub">Uống · 30–60 phút trước ăn sáng (và trước ăn tối nếu uống 2 lần)</div></td><td data-l="Thời gian">Dài hạn, đánh giá lại ở mỗi lần tái khám</td><td class="gc" data-l="Ghi chú">Liều: VNAGE 2024 Bảng 4. Duy trì cho LA-C: ACG 2022 điều trị KC 12; liều thấp nhất KC 10; thời điểm KC 8. Liều gấp đôi: VNAGE 2026 thảo luận; ACG 2022 phần liều PPI. Tiếp tục thuốc đang dùng, không đổi.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Tiếp tục omeprazol mỗi sáng 30–60 phút trước ăn sáng, không tự ngưng dù đã hết ợ nóng (ACG 2022 điều trị KC 8, 12).</li><li>Cầm giấy giới thiệu đi bệnh viện tỉnh nong thực quản trong thời gian sớm nhất sắp xếp được; mang phiếu nội soi hai lần và giải phẫu bệnh. Thời hạn cụ thể không có trong tài liệu đã tải.</li><li>Trong lúc chờ: ăn mềm, thái nhỏ, nhai kỹ, uống nước xen kẽ; tạm tránh thịt miếng lớn, ốc, tôm (không có trong tài liệu đã tải).</li><li>Đến cấp cứu ngay nếu kẹt thức ăn không nuốt được nước bọt, nôn máu, phân đen, sốt, đau ngực dữ dội, sặc ho khi ăn, sụt cân (ESMO 2022).</li><li>Vẫn không ăn trong 2–3 giờ trước nằm, kê cao đầu giường, ít bia (ACG 2022 lối sống KC 2, 5). Tái khám sau nong để xem kết quả sinh thiết thêm (mốc theo ca).</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-12">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Nuốt nghẹn / khó nuốt (đánh giá)</b></div>
+<p class="note">Phải loại trừ: Ung thư thực quản, Co thắt tâm vị</p><p>Ông Phước đi bệnh viện tỉnh theo giấy giới thiệu, hẹn nong thực quản sau hai tuần. Trong tuần chờ, giữa đám giỗ ở quê, ông ăn miếng thịt bò rồi kẹt sau xương ức hơn ba giờ, không nuốt được cả nước bọt, được đưa đến bệnh viện huyện, gắp thức ăn qua nội soi, sau đó mới nong. Giải phẫu bệnh thêm vẫn lành tính. Hai tháng sau chỗ hẹp tái phát một phần và ông phải nong thêm hai lần, vẫn uống PPI đều; ông ăn mềm được và hết sợ ung thư. Đây là kết cục xấu dù mọi quyết định đều đúng: bác sĩ nội soi sớm, giấy giới thiệu rõ ràng, ông tuân thủ thuốc, nhưng hẹp vẫn gây kẹt thức ăn trong lúc chờ và tái hẹp sau nong (nguy cơ biến chứng hẹp của GERD: VNAGE 2026; hẹp tái phát trên PPI tối ưu: Lyon 2.0 2024 Bảng 2). Không được kết luận ngược rằng lượt 2 chuyển tuyến sai hay lẽ ra nên chờ thêm.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-13">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Bữa nhậu hải sản và miếng tôm kẹt khiến cả bác sĩ lẫn người bệnh nghĩ &#x27;dị vật&#x27; hoặc &#x27;dị ứng&#x27;. Nuốt nghẹn thực quản thức đặc, nền trào ngược, nội soi không dị vật và hẹp do viêm mới là câu trả lời.</li><li>Bia rượu và ăn uống nóng của ông làm ung thư thực quản thành khả năng thật (QĐ 1514/2020 Bài 35 mục 1), nhưng không sụt cân, không hạch, nội soi chưa thấy u; không loại trừ trước khi có giải phẫu bệnh.</li><li>Ông không tự kể nghẹn lẻ tẻ gần một năm và ợ nóng ba năm: hỏi chung chỉ ra &#x27;ba tuần&#x27;, hỏi đúng ra thời gian dài.</li><li>Hết ợ nóng sau PPI dễ khiến tưởng đã khỏi, trong khi nghẹn đặc còn: hai triệu chứng đáp ứng khác nhau.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Nuốt khó mới = nội soi đầu tiên, dù nguyên nhân nghe lành tính; phòng khám có nội soi thì làm ngay và sinh thiết vùng nghi ngờ (ESMO 2022 [III, A]; ACG 2022 GERD KC 6).</li><li>Hỏi nghẹn đã có từ trước và ợ nóng ợ chua một cách trực tiếp; người bệnh nông thôn hay coi đó là chuyện thường.</li><li>Viêm thực quản LA-C: PPI 8 tuần, nội soi lại sau 6–8 tuần, duy trì PPI dài hạn (VNAGE 2026 KC 13; ACG 2022 điều trị KC 12).</li><li>Đáp ứng một phần cần tách từng triệu chứng: ợ nóng đáp ứng PPI, nghẹn đặc do hẹp cơ học thì không (Lyon 2.0 2024 Bảng 2).</li><li>Chống outcome bias: xử trí đúng vẫn có thể kẹt thức ăn và tái hẹp, và ngược lại một kết cục tốt không làm một quyết định ẩu thành đúng.</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Nuốt khó mới: nội soi tiêu hóa trên [III, A] (ESMO 2022); nuốt khó là chỉ định nội soi đầu tiên (ACG 2022 GERD KC 6; VNAGE 2026 KC 3).</li><li>Ung thư thực quản: nuốt nghẹn tăng dần 3–4 tháng, gầy sút trên 90%; yếu tố nguy cơ rượu bia, thuốc lá, ăn uống nóng (QĐ 1514/2020 Bài 35 mục 1, 2.1).</li><li>Co thắt tâm vị: nghẹn cả đặc và lỏng, trớ; nghi thì luôn nội soi loại giả co thắt do u (ACG 2020; UEG/ESNM 2020).</li><li>Viêm trợt LA-B, C, D và hẹp do trào ngược xác định GERD (Lyon 2.0 2024 Bảng 2); LA-C, D cần PPI duy trì (ACG 2022 điều trị KC 12).</li><li>Nội soi lại sau 6–8 tuần PPI chỉ cho LA-C, D, để xem lành và biến chứng (VNAGE 2026).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-14">Nguồn tài liệu <small>10</small></h3></summary><ul class=""><li>ESMO 2022 – Oesophageal cancer: ESMO Clinical Practice Guideline – TL-0216 – Diagnosis, Recommendations [III, A], [I, B]</li><li>BYT QĐ 1514/2020 – Hướng dẫn chẩn đoán và điều trị một số bệnh ung bướu – bản chữ ở kho cũ tltk-10000-ca (00 Dùng chung/BYT) – Bài 35 Ung thư thực quản mục 1, 2.1, 2.2.1, 2.2.3</li><li>ACG 2020 – Diagnosis and Management of Achalasia – TL-0224 – Epidemiology and Diagnosis; bảng khuyến cáo (nội soi loại giả co thắt tâm vị)</li><li>UEG/ESNM 2020 – European guidelines on achalasia – TL-0225 – phần chẩn đoán</li><li>ACG 2022 – Diagnosis and Management of GERD – TL-0212 – chẩn đoán KC 4–6; lối sống KC 2, 4, 5; điều trị KC 6, 8, 9, 10, 12, 14; phần liều PPI</li><li>VNAGE 2026 – Guideline on the management of GERD – TL-0177 – KC 3, 12, 13, 15, 16; đoạn biến chứng; đoạn nội soi lại sau 6–8 tuần PPI</li><li>Lyon Consensus 2.0 2024 – TL-0206 – Bảng 2 (viêm LA-B, C, D và hẹp do trào ngược xác định GERD; hẹp tái phát trên PPI tối ưu)</li><li>VNAGE 2024 – chẩn đoán và điều trị khó tiêu chức năng – TL-0178 – Bảng 4 (liều PPI chuẩn)</li><li>BYT QĐ 361/2014 – bệnh cơ xương khớp – TL-0286 – Phụ lục NSAID mục 3.3 (PPI uống buổi tối)</li><li>Không có trong tài liệu đã tải: kỹ thuật, thời điểm và an toàn nong thực quản; ngưỡng thời gian kẹt thức ăn phải đi cấp cứu; số mảnh sinh thiết cho hẹp lành tính; thời gian có giải phẫu bệnh; chế độ ăn cho nuốt khó do hẹp; mốc tái khám sau nong. ASGE 2006 (đã dùng ở TH-1449) không mở lại được lượt này.</li></ul></details>
+<details class="card"><summary><h3 id="m-15">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Tiêu hóa - gan mật</dd><dt>chan_doan_dich</dt><dd>Nuốt nghẹn / khó nuốt (đánh giá)</dd><dt>chan_doan_phai_loai_tru</dt><dd>Ung thư thực quản; Co thắt tâm vị</dd><dt>nhom_tuoi</dt><dd>Trung niên (40–59 tuổi)</dd><dt>do_kho</dt><dd>Điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>dien_tien_tai_kham</dt><dd>Đỡ một phần</dd><dt>nhieu_benh_nhan</dt><dd>Bệnh nhân hợp tác tốt</dd><dt>rang_buoc_nguon_luc</dt><dd>Nguồn lực đầy đủ</dd><dt>loai_ket_cuc</dt><dd>Xử trí đúng nhưng diễn tiến xấu</dd><dt>gioi</dt><dd>Nam</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>2</dd><dt>nghe_nghiep</dt><dd>Nông dân</dd><dt>yeu_to_khoi_phat</dt><dd>Sau ăn hải sản</dd><dt>thuoc_dang_dung</dt><dd>Không</dd><dt>ly_do_that_su_den_kham</dt><dd>Sợ mắc ung thư</dd></dl><ul class=""><li>2026-11-04: viết ca TH-1432. Tài liệu đã đọc: TL-0216 (Diagnosis, Recommendations), kho cũ QĐ 1514/2020 (Bài 35 mục 1–2.2.4), TL-0224 (Epidemiology and Diagnosis, khuyến cáo), TL-0225 (phần chẩn đoán), TL-0212 (chẩn đoán KC 1–8, lối sống 1–5, điều trị 6–16), TL-0177 (KC 3, 12–16, đoạn biến chứng, nội soi lại), TL-0206 (Bảng 2), TL-0178 (Bảng 4).</li><li>Chẩn đoán đích &#x27;nuốt nghẹn/khó nuốt (đánh giá)&#x27; dựng thành nuốt nghẹn do hẹp thực quản dưới trong GERD (viêm LA-C); ung thư thực quản và co thắt tâm vị được loại ở lượt 1 bằng nội soi và sinh thiết, ở lượt 2 bằng giải phẫu bệnh lành tính và nội soi lại. Biến &#x27;đỡ một phần&#x27; = ợ nóng hết nhưng nghẹn đặc còn; &#x27;xử trí đúng nhưng diễn tiến xấu&#x27; = kẹt thức ăn khi chờ nong và tái hẹp (nằm ở ket_cuc).</li><li>Mâu thuẫn đã có mục trong sổ và được áp dụng: thời điểm uống PPI 1 lần/ngày (TH-0295), PPI liều chuẩn hay gấp đôi cho LA-C kèm hẹp (TH-1449). Không có mâu thuẫn mới.</li><li>Chỗ thiếu tài liệu: nong thực quản (kỹ thuật, thời điểm, an toàn), ngưỡng cấp cứu khi kẹt thức ăn, số mảnh sinh thiết cho hẹp lành tính, thời gian có giải phẫu bệnh, chế độ ăn cho nuốt khó do hẹp, mốc tái khám. WebFetch trang ASGE 2006 bị chặn.</li></ul></details>
+<p class="chan-trang">Ca TH-1432 · phiên bản ca 1 · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

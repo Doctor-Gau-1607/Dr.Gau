@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HH-1355 · Ho kéo dài sau nhiễm virus</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · HH-1355</div>
+   <h1>Ho khan hơn 4 tuần sau lần cảm, đã khám 3 nơi và uống nhiều thuốc vẫn không khỏi</h1>
+   <p class="dich-gia">Đặng Thị Kim Loan · Nữ · 48 tuổi · 56 kg</p>
+   <div class="chips"><span class="chip">Hô hấp cấp tính</span><span class="chip">Điển hình</span><span class="chip">2 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Chủ quán bún bò ở thị trấn, dậy 3 giờ sáng nấu nước dùng, đứng bếp và bán đến trưa, tự rửa chén</dd><dt>Chiều cao, cân nặng</dt><dd>155 cm · 56 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi chị là &#x27;chị Loan&#x27;; chị xưng &#x27;tui&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;. Chồng gọi chị là &#x27;bà xã&#x27; hoặc &#x27;má nó&#x27;, xưng &#x27;tôi&#x27; với bác sĩ.</dd><dt>Tính cách</dt><dd>Nhanh nhảu, nói thẳng, quen nói lớn vì bán hàng nhưng giờ giọng hơi khàn và mệt. Hay kể chuyện quán, ngắt lời khi thấy bác sĩ hỏi dài. Sợ nghỉ quán mất khách quen, sợ tốn tiền đi lại. Tỉnh táo, trả lời rõ ràng.</dd><dt>Người nhà</dt><dd>Anh Tâm (chồng) – Chồng, anh Võ Văn Tâm, 51 tuổi, phụ bếp ở quán, chở chị bằng xe máy cả hai lượt. Ít nói, hay lo. Anh biết: chị ho từ sau lúc anh và chị cùng bị cảm, tối nào chị cũng ho làm cả hai khó ngủ, chị đi ba nơi và uống nhiều thuốc, chuyện anh vợ (anh ruột chị) đột quỵ cách đây 5 tuần. Anh KHÔNG biết hũ kem của chị lấy ở đâu. Hỏi giờ giấc ngủ, chuyện nhà, tiếp xúc ở quán thì anh trả lời bổ sung khi chị nói sót.</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Trạm y tế thị trấn không làm được xét nghiệm nào, không có X-quang, không có siêu âm. Có ống nghe, nhiệt kế, máy đo huyết áp, máy đo SpO₂, đèn soi họng. Thuốc hít phải kê đơn để chị mua ở nhà thuốc huyện. X-quang, xét nghiệm đờm, đo chức năng hô hấp làm được ở Trung tâm Y tế huyện, cách 20 km.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/2</span> </h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Chị Đặng Thị Kim Loan, 48 tuổi, chủ quán bún bò, chồng chở đến trạm vì ho khan hơn 4 tuần sau lần cảm, nói đã khám ba nơi, uống nhiều thuốc mà không khỏi. Sinh hiệu: nhiệt độ 36,8 °C, mạch 78 l/p, HA 128/82 mmHg, nhịp thở 16 l/p, SpO₂ 98% khí trời, cân nặng 56 kg, cao 155 cm.</p>
+  <blockquote>“Bác sĩ ơi, tui ho cả tháng nay rồi, đi ba chỗ, chỗ nào cũng cho thuốc uống mà ho vẫn y chang. Giờ bác sĩ định cho tui thuốc gì nữa đây? Tui ho muốn không ngủ được, sợ có bệnh gì nặng lắm.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>78</b><small>l/p</small></div><div class="vs"><span>HA</span><b>128/82</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,8</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>16</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>14 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám nêu ra (ho dai, mất niềm tin)</b><span class="tag t-g">Tự kể</span></div><p>Ho khan hơn 4 tuần, khám 3 nơi uống thuốc nhiều mà không hết, ho làm mất ngủ. Muốn hết ho và muốn biết có bệnh gì nặng không.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Ho bắt đầu sau một đợt cảm có người cùng bị: ho sau nhiễm virus</b><span class="tag t-b">Khi được hỏi</span></div><p>Ngày 1–3: đau họng, sổ mũi trong, hắt hơi, ớn lạnh, sốt nhẹ 37,8 °C hai ngày. Chồng cũng bị cảm cùng lúc, hết sau 5 ngày. Ngày 6–7: hết sốt, hết sổ mũi nhưng ho khan nhiều lên rồi kéo dài tới nay (hôm nay là ngày thứ 32). Chưa từng sốt lại.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tính chất ho: không có đặc điểm ho gà, không có khò khè</b><span class="tag t-b">Khi được hỏi</span></div><p>Ho khan là chính, từng tràng 3–5 tiếng, thỉnh thoảng 1–2 tiếng có đờm nhầy trắng ít vào buổi sáng. Ho cả ngày, tăng khi nói nhiều và khi hít khói chiên xào, ớt. Không thành cơn dài rũ rượi, không nôn sau ho, không nghe tiếng rít khi hít vào, không khò khè.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Ho đêm nhẹ; không đỡ khi rời nơi làm việc (không giống hen nghề nghiệp)</b><span class="tag t-b">Khi được hỏi</span></div><p>Nằm xuống ho vài tràng rồi ngủ được, thức giấc một lần mỗi đêm vì ho, ngủ chừng 4–5 tiếng. Ngày nghỉ về quê hai ngày vẫn ho y như ở quán.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Không có đặc điểm hen (khò khè, nặng ngực, thay đổi, cơ địa dị ứng)</b><span class="tag t-b">Khi được hỏi</span></div><p>Không khò khè, không nặng ngực, không khó thở khi gắng sức. Bản thân và gia đình không ai bị hen, chàm cơ địa, viêm mũi dị ứng. Ho không theo mùa hay thay đổi thời tiết. Trước nay chưa từng ho dai.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Không triệu chứng toàn thân nghi lao, không tiếp xúc</b><span class="tag t-b">Khi được hỏi</span></div><p>Không sốt về chiều, không ra mồ hôi đêm, ăn uống bình thường, cân nặng 56 kg như mọi khi. Không ho ra máu, không đau ngực. Không ở chung hay tiếp xúc gần người ho kéo dài hoặc bị lao; chồng và nhân viên quán khỏe. Không hút thuốc, không uống rượu.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Không dịch tễ ho gà</b><span class="tag t-b">Khi được hỏi</span></div><p>Không tiếp xúc ai ho thành cơn dài. Chồng ho vài ngày rồi hết. Khách quán không ai nói ho kéo dài. Không nhớ đã tiêm phòng ho gà người lớn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Ba đợt kháng sinh (một đợt tự mua) và omeprazol không giúp ích</b><span class="tag t-b">Khi được hỏi</span></div><p>Ngày 3: tự mua amoxicillin 500 mg ở tiệm thuốc, 3 viên mỗi ngày, uống 5 ngày, kèm thuốc cảm. Ngày 7 (phòng khám tư thứ nhất): cefuroxim 500 mg 2 viên mỗi ngày x 5 ngày + siro ho. Ngày 12 (bệnh viện huyện): chụp X-quang, azithromycin 500 mg x 3 ngày + acetylcystein. Ngày 21 (phòng khám tư thứ hai ở thị xã): omeprazol 20 mg mỗi ngày x 14 ngày, loratadin 10 mg, siro ho thảo dược. Ho không đổi sau cả bốn lần.</p><div class="cond">Điều kiện nói ra: Chỉ nói đủ khi bác sĩ hỏi từng nơi đã cho thuốc gì, tự mua thuốc gì, hoặc xin xem túi thuốc và đơn cũ.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>X-quang bình thường ở ngày thứ 12; không cần chụp lại hôm nay</b><span class="tag t-b">Khi được hỏi</span></div><p>Phiếu X-quang ngực thẳng ngày 12, bệnh viện huyện: &#x27;Hai phế trường sáng đều, không thấy đám mờ, góc sườn hoành nhọn, bóng tim không to. Kết luận: tim phổi chưa thấy bất thường.&#x27; Chị để trong túi thuốc, tưởng &#x27;chụp rồi mà không ra bệnh&#x27; là vô ích.</p><div class="cond">Điều kiện nói ra: Chỉ lộ khi bác sĩ hỏi đã làm xét nghiệm hay chụp hình gì chưa, hoặc xin xem giấy tờ cũ.</div></div><div class="fact"><div class="fh"><b>Nhiễu: ợ chua nhẹ, PPI không giúp</b><span class="tag t-b">Khi được hỏi</span></div><p>Thỉnh thoảng ợ chua nhẹ khi ăn tối muộn (sau 21 giờ dọn quán) rồi đi nằm ngay. Không nóng rát sau xương ức. Uống omeprazol 14 ngày ho không đổi.</p></div><div class="fact"><div class="fh"><b>Không chảy dịch mũi sau, không dùng ức chế men chuyển</b><span class="tag t-b">Khi được hỏi</span></div><p>Mũi thông, không nghẹt, không thấy dịch chảy xuống họng, thỉnh thoảng hắng giọng. Không đau mặt, không nhức đầu vùng trán. Không dùng thuốc huyết áp hay thuốc nào khác thường ngày ngoài những thuốc đã kể.</p></div><div class="fact"><div class="fh"><b>Thuốc đang dùng: kem bôi ngoài da không rõ thành phần</b><span class="tag t-r">Giấu</span></div><p>Hai bàn tay nứt, đỏ, ngứa khoảng 6 tháng nay do ngâm nước rửa chén. Một bà bán ở chợ cho hũ kem màu trắng không nhãn, chị bôi hai lần mỗi ngày hơn 1 tháng. Chị không coi đó là thuốc, không biết thành phần.</p><div class="cond">Điều kiện nói ra: Chỉ lộ khi bác sĩ hỏi riêng &#x27;có bôi, thoa gì lên da không&#x27; hoặc khám da hai bàn tay.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật đến khám: sợ đột quỵ như anh ruột</b><span class="tag t-r">Giấu</span></div><p>Anh ruột của chị (54 tuổi, có tăng huyết áp, bỏ thuốc) bị đột quỵ cách đây 5 tuần, đang liệt nhẹ nửa người trái. Nghe người ta nói &#x27;ho dữ là đứt mạch máu não&#x27;. Mấy đêm nay thức vì ho, chị tưởng tượng &#x27;tới lượt mình&#x27;. Chị chưa từng đo huyết áp. Chị không muốn nói ra vì sợ bị cho là nhát.</p><div class="cond">Điều kiện nói ra: Chỉ lộ khi bác sĩ hỏi &#x27;chị lo điều gì nhất&#x27;, &#x27;trong nhà có ai bệnh nặng không&#x27;, hoặc đưa ra câu hỏi mở về nỗi lo.</div></div><div class="fact"><div class="fh"><b>Không có dấu hiệu thần kinh</b><span class="tag t-r">Giấu</span></div><p>Thỉnh thoảng nhức đầu hai bên thái dương khi thức khuya, hết khi ngủ bù. Không yếu hay tê tay chân, không méo miệng, không nói khó, không nhìn mờ, không chóng mặt đột ngột.</p><div class="cond">Điều kiện nói ra: Chỉ lộ khi hỏi riêng về nhức đầu hoặc các dấu hiệu thần kinh (yếu liệt, méo miệng, nói khó, nhìn mờ).</div></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>8 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, tiếp xúc tốt, hơi mệt vì thiếu ngủ, giọng hơi khàn nhẹ. Da niêm hồng, BMI 23,3, không gầy sút rõ.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Không sờ thấy hạch cổ, hạch thượng đòn. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Họng, tai, mũi</b></div><p><span class="lbl">Kết quả:</span> Họng hơi đỏ nhẹ, amidan không to, không mủ. Thành sau họng không có dịch nhầy chảy xuống, không nổi hạt. Niêm mạc mũi hồng, không phù, không dịch. Màng nhĩ bình thường.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nhịp thở 16 l/p, không co kéo. Rung thanh đều, gõ trong hai bên. Khi hít sâu để nghe phổi chị ho 3–4 tiếng khan.</p><p><span class="lbl">Kết quả:</span> Lồng ngực cân đối, nhịp thở 16 l/p, không co kéo. Rung thanh đều, gõ trong hai bên. Rì rào phế nang êm dịu hai phế trường, không ran ẩm, ran nổ, ran rít, ran ngáy; thì thở ra không kéo dài. Khi hít sâu chị ho 3–4 tiếng khan.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 78 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 78 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b></div><p><span class="lbl">Kết quả:</span> Mu bàn tay và kẽ ngón hai tay khô, đỏ nhẹ, nứt nẻ, có vảy mịn, còn vệt kem trắng. Da mặt, thân, chi không ban.</p></div><div class="row"><div class="rh"><b>Nghiệm pháp đi bộ đo SpO₂</b></div><p><span class="lbl">Kết quả:</span> Đi bộ hành lang 40 m không phải dừng. SpO₂ 98% → 98%, nhịp thở 18 l/p, mạch 86. Ho 2–3 tiếng khan.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thần kinh</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, nói rõ, mặt cân đối, sức cơ 5/5 bốn chi, cảm giác bình thường, dấu cổ cứng âm tính, không dấu thần kinh khu trú.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>3 mục</small></h3></summary><div class="row"><div class="rh"><b>X-quang ngực thẳng</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> X-quang ngực thẳng: hai phế trường sáng đều, không đám mờ, không tổn thương mô kẽ, góc sườn hoành nhọn, bóng tim và trung thất bình thường.</p><p class="why">Ho &gt; 2 tuần là triệu chứng nghi lao quan trọng nhất và ACCP 2006 chỉ gọi là ho sau nhiễm khi X-quang bình thường (QĐ 162/2024 Phần II mục 1.1a Bảng 1; ACCP 2006 khuyến cáo 1). Chị ĐÃ có phiếu X-quang ngày 12 bình thường nên không chụp lại hôm nay; chụp lại khi ho &gt; 8 tuần hoặc có dấu hiệu báo động (ACCP 2006 khuyến cáo 3; ERS 2019, mục Initial assessment). Trạm không có máy.</p></div><div class="row"><div class="rh"><b>Xpert MTB/RIF và soi AFB đờm</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Chị khạc được ít đờm nhầy buổi sáng: Xpert MTB/RIF không phát hiện MTB, soi AFB âm tính.</p><p class="why">Người ho &gt; 2 tuần là người nghi lao, nên làm vi sinh &#x27;nếu có thể&#x27; (QĐ 162/2024 Phần II mục 3.2.2, Sơ đồ 1, tr. 24). Với X-quang bình thường, không sốt, không sụt cân, không tiếp xúc: xác suất thấp, theo dõi có mốc là chấp nhận; làm xét nghiệm khi đi tuyến huyện chấm a. Trạm không làm được.</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-r">Không cần</span></div><p class="why">Không có chỉ định: không sốt, không dấu nhiễm khuẩn; ca không cần để quyết định hôm nay (ACCP 2006: chẩn đoán lâm sàng). Trạm không có.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Ho kéo dài (bán cấp, 4–5 tuần) sau nhiễm virus hô hấp trên; X-quang ngày 12 bình thường; không dấu hiệu báo động</b></div><p class="why">Ho bắt đầu sau cảm có người cùng bị, kéo 3–8 tuần, X-quang bình thường, khám phổi sạch (ACCP 2006 khuyến cáo 1; QĐ 4235/2012, Ho kéo dài mục 2.1: ho bán cấp 3–8 tuần). Chẩn đoán lâm sàng và loại trừ (ACCP 2006, mục Diagnosis).</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Ho sau nhiễm virus; chưa loại trừ hẳn hen thể ho (không có đo chức năng hô hấp), sẽ theo dõi</b></div><p class="why">Chấp nhận làm chẩn đoán làm việc: GINA 2026 (tr. 36–37) và QĐ 1851/2020 mục 2.6.1 nêu hen thể ho khó loại trừ khi thiếu chức năng hô hấp; chị không có đặc điểm hen nên xếp sau.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ho gà</b></div><p class="why">Loại trừ lâm sàng: không cơn ho rũ rượi, không nôn sau ho, không tiếng rít hít vào, không tiếp xúc (ACCP 2006 khuyến cáo 5). Azithromycin ngày 12 không làm ho đổi, nhưng điều trị muộn thường không đáp ứng nên không dùng làm căn cứ loại (ACCP 2006 khuyến cáo 9).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Hen phế quản (kể cả hen thể ho)</b></div><p class="why">Chị không khò khè, không nặng ngực, không theo thời tiết, không cơ địa dị ứng, ho không nặng về đêm và không giảm khi rời quán (QĐ 1851/2020 mục 2.3.2 Bảng 1; mục 2.6.2 hỏi bệnh tốt hơn khi xa nơi làm việc không). Chưa loại tuyệt đối vì thiếu chức năng hô hấp: nếu ho &gt; 8 tuần phải xem lại.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Lao phổi</b></div><p class="why">Ho &gt; 2 tuần là triệu chứng nghi lao quan trọng nhất (QĐ 162/2024 Phần II mục 1.1a Bảng 1) nhưng chị không sốt chiều, không mồ hôi đêm, không sụt cân, không ho máu, không tiếp xúc, không hạch; X-quang ngày 12 bình thường: theo Sơ đồ 1 (tr. 24) thì tìm nguyên nhân khác. Mốc ho &gt; 8 tuần để xét nghiệm đờm.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm phế quản hoặc viêm phổi vi khuẩn chưa khỏi, cần đổi kháng sinh</b></div><p class="why">Không sốt, phổi sạch, X-quang bình thường; ba đợt kháng sinh không đổi ho. Kháng sinh không có vai trò trong ho sau nhiễm virus (ACCP 2006 khuyến cáo 4a).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Hội chứng chảy dịch mũi sau hoặc viêm xoang</b></div><p class="why">Mũi thông, không dịch sau họng, không đau mặt (QĐ 4235/2012 Ho kéo dài mục 2.2: bệnh đường hô hấp trên là nguyên nhân thường gặp nhất; phải khám để loại).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Trào ngược dạ dày – thực quản gây ho</b></div><p class="why">Chỉ ợ chua nhẹ khi ăn muộn; omeprazol 14 ngày không đổi ho. ERS 2019 (mục Reflux): thuốc kháng acid ít khi giúp ho nếu không có triệu chứng dạ dày rõ.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ngưng mọi kháng sinh, không kê kháng sinh mới; giải thích vì sao</b></div><p class="why">Ho sau nhiễm virus không do vi khuẩn nên kháng sinh không có vai trò (ACCP 2006 khuyến cáo 4a: net benefit none). Ngoại lệ ACCP nêu: viêm xoang vi khuẩn hoặc giai đoạn sớm của ho gà (đã loại).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dùng phiếu X-quang ngực ngày 12 (bình thường), ghi vào hồ sơ; không chụp lại và không chuyển tuyến chỉ để chụp hôm nay</b></div><p class="why">Định nghĩa ho sau nhiễm cần X-quang bình thường (ACCP 2006 khuyến cáo 1); Sơ đồ 1 QĐ 162/2024 (tr. 24): X-quang không nghi lao thì tìm nguyên nhân khác. Không lặp xét nghiệm vô ích khi chưa có chỉ định mới.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi nỗi lo, đo huyết áp, khám thần kinh; nói rõ kết quả bình thường cho chị và chồng</b></div><p class="why">Nỗi lo thật của chị là đột quỵ (anh ruột). Huyết áp 128/82 và khám thần kinh không dấu khu trú. Dấu hiệu phải gọi 115 theo QĐ 5331/2020, Chương 5 mục I. Chuyện &#x27;ho dữ làm đứt mạch máu não&#x27;: không có trong tài liệu đã tải, nên không khẳng định có hay không bằng nguồn.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích ho sau cảm thường tự hết trong tối đa 8 tuần; đặt mốc tái khám sau 2 tuần (ngày thứ 46) và mốc 8 tuần (ngày 56)</b></div><p class="why">Ho sau nhiễm tự giới hạn, kéo dài 3–8 tuần (ACCP 2006, mục Treatment, khuyến cáo 1); ho &gt; 8 tuần phải nghĩ nguyên nhân khác (khuyến cáo 3). Khoảng hẹn 2 tuần: lựa chọn của ca, không có số ngày cụ thể trong tài liệu đã tải.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Khi ho nhiều gây mất ngủ: dextromethorphan 30 mg buổi tối</b></div><p class="why">QĐ 4235/2012, Ho kéo dài mục 3.2: dùng khi ho quá nhiều, chưa rõ nguyên nhân, 30 mg/lần x 3 lần/ngày x 5–7 ngày. ACCP 2006 khuyến cáo 4e: cân nhắc thuốc ho trung ương khi các biện pháp khác thất bại, nên không bắt buộc ngay lượt 1.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Thử ipratropium hít</b></div><p class="why">ACCP 2006 khuyến cáo 4b (mức B). Trạm không có; liều của dạng hít định liều trong ho sau nhiễm: không có trong tài liệu đã tải (QĐ 4235 chỉ nêu ipratropium khí dung 2,5 ml cho hen, COPD).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Corticoid hít ngay hôm nay</b></div><p class="why">QĐ 4235/2012 mục 3.2 (250–500 mcg/ngày x 10 ngày) và ACCP 2006 khuyến cáo 4c (khi ho ảnh hưởng chất lượng sống và vẫn còn sau ipratropium). Chấp nhận nhưng chưa cần ở lượt 1; để dành cho lượt 2 nếu không đỡ.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Chuyển Trung tâm Y tế huyện ngay để chụp lại X-quang, xét nghiệm đờm và đo chức năng hô hấp</b></div><p class="why">An toàn, không sai (QĐ 162/2024 Sơ đồ 1; ERS 2019 mục Initial assessment: chức năng hô hấp và X-quang gần đây). Nhưng X-quang ngày 12 đã bình thường và chưa có dấu báo động nên không bắt buộc.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê kháng sinh khác (amoxicillin/clavulanat, quinolon…) vì &#x27;ba đợt trước chưa đủ mạnh&#x27;</b></div><p class="why">Không có chỉ định (ACCP 2006 khuyến cáo 4a). Quinolon còn làm che lấp lao khi chưa loại trừ (QĐ 162/2024 mục 3.2.2: thử kháng sinh ngoài lao không dùng nhóm fluoroquinolon).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Prednisolon uống 30–40 mg trong 2–3 tuần</b></div><p class="why">ACCP 2006 khuyến cáo 4d chỉ khi cơn ho dữ dội, đã loại các nguyên nhân thường gặp và ngắn ngày; chị ho vừa phải, chưa loại hen. Theo mục sổ HH-0671: corticoid toàn thân chấm w.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Lặp lại omeprazol hoặc thêm kháng histamin</b></div><p class="why">Omeprazol 14 ngày đã không đổi ho; ERS 2019 mục điều trị trào ngược: ít hiệu quả khi không có triệu chứng dạ dày rõ. Kháng histamin – co mạch thử 1–2 tuần chỉ khi chưa rõ nguyên nhân (QĐ 4235/2012 mục 2.3), chị không có triệu chứng mũi.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển chị Loan lên Trung tâm Y tế huyện để chụp lại X-quang, xét nghiệm đờm và đo chức năng hô hấp là an toàn nhưng chưa cần: phim ngày 12 đã bình thường, chị ho mới khoảng 4–5 tuần, không sốt, không ho máu, không sụt cân, tức chưa có dấu hiệu báo động (ACCP 2006 khuyến cáo 1; QĐ 162/2024 Sơ đồ 1). Chị là chủ quán bún bò, phải bỏ một buổi bán và trả thêm chi phí chụp phim trùng lặp, trong khi đã khám ba nơi nên dễ thêm mệt mỏi, mất niềm tin. Quan trọng hơn, nỗi lo ẩn về đột quỵ của chị vẫn chưa được trả lời bằng đo huyết áp và khám thần kinh ngay tại chỗ.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhập viện cho chị Loan vì ho sau cảm là quá tay: sinh hiệu bình thường, SpO₂ 98%, phổi sạch, X-quang ngày 12 bình thường, không dấu báo động (ACCP 2006 khuyến cáo 1; QĐ 162/2024 Bảng 1). Nằm viện làm chị nghỉ bán nhiều ngày, tốn kém và dễ được kê thêm kháng sinh khi ho sau nhiễm virus không cần (ACCP 2006 khuyến cáo 4a). Việc cần làm là ngưng kháng sinh cũ, trấn an bằng kết quả khám và hẹn mốc tái khám rõ ràng.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Ho kéo dài (bán cấp) sau nhiễm virus hô hấp trên: ho khan 4–5 tuần, bắt đầu ngày 7 của bệnh, hôm nay ngày thứ 32; X-quang ngực ngày 12 bình thường; không có dấu hiệu báo động</li><li>Đã loại trừ trên lâm sàng: ho gà, hen phế quản (kể cả hen thể ho, theo dõi tiếp), lao phổi; chưa thấy nguyên nhân khác (mũi xoang, trào ngược, thuốc ức chế men chuyển)</li><li>Dùng thuốc không phù hợp: ba đợt kháng sinh (amoxicillin tự mua, cefuroxim, azithromycin), omeprazol 14 ngày; đang bôi kem không rõ thành phần ở hai bàn tay (viêm da tay do ngâm nước)</li><li>Lý do thật đến khám: sợ đột quỵ vì anh ruột; huyết áp 128/82 mmHg, khám thần kinh bình thường</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự hỏi: (1) diễn tiến theo ngày để thấy ho bắt đầu sau cảm có người cùng bị; (2) từng nơi đã khám, thuốc đã uống kể cả tự mua, và XIN XEM giấy tờ, phim cũ; (3) tính chất ho: khô hay đờm, giờ nào, cái gì làm tăng; (4) hỏi riêng từng bệnh cần loại: ho gà (cơn rũ, nôn sau ho, tiếng rít, tiếp xúc), hen (khò khè, nặng ngực, ban đêm, dị ứng, thay đổi thời tiết, đỡ khi rời chỗ làm), lao (sốt chiều, mồ hôi đêm, sụt cân, ho máu, tiếp xúc); (5) nguyên nhân khác: mũi họng, ợ chua, thuốc huyết áp, hút thuốc; (6) hỏi &#x27;chị lo điều gì nhất&#x27;. Hỏi thuốc phải có câu riêng &#x27;có bôi, thoa gì lên da không&#x27; (QĐ 4235/2012 Ho kéo dài mục 2.2–2.3; ACCP 2006 khuyến cáo 2).</li><li>Khám: phổi (sạch), họng – mũi (không dịch sau họng), hạch cổ, toàn trạng, SpO₂ khi đi bộ, thần kinh, da tay. Ở trạm không có xét nghiệm nên lâm sàng và phiếu cũ là toàn bộ dữ liệu.</li><li>Cận lâm sàng: không làm được. Phiếu X-quang ngày 12 bình thường thỏa điều kiện của ACCP 2006 (khuyến cáo 1 và mục Definition: ho ≤ 8 tuần, X-quang âm tính, tự khỏi). Ho &gt; 2 tuần là &#x27;người nghi lao&#x27; (QĐ 162/2024 Phần II mục 1.1a Bảng 1) nhưng Sơ đồ 1 (tr. 24) cho X-quang không nghi lao thì tìm nguyên nhân khác.</li><li>Vì sao là ho sau nhiễm virus: khởi phát sau cảm, 3–8 tuần, phổi sạch, X-quang sạch, không có đặc điểm bệnh khác; cơ chế là viêm đường thở và tăng nhạy cảm thụ thể ho sau nhiễm, thường nhiều yếu tố (ACCP 2006, mục Pathogenesis, khuyến cáo 2). Chẩn đoán là lâm sàng và loại trừ.</li><li>Vì sao chưa phải ho gà: không có cơn ho rũ, nôn sau ho, tiếng rít, không dịch tễ (ACCP 2006 khuyến cáo 5). Vì sao chưa phải hen: không có biến đổi, khò khè, nặng ngực, cơ địa (QĐ 1851/2020 mục 2.3.2 Bảng 1); hen thể ho là chẩn đoán cần nhớ khi ho kéo dài và không đáp ứng (QĐ 1851/2020 mục 2.6.1; GINA 2026 tr. 36–37). Vì sao chưa phải lao: thiếu mọi triệu chứng toàn thân, X-quang bình thường (QĐ 162/2024 Bảng 1, Sơ đồ 1).</li><li>Nhiễu và bẫy tư duy: ba nơi đều &#x27;cho thuốc cho chắc&#x27; nên dễ cho nơi thứ tư; ợ chua nhẹ kéo về trào ngược nhưng PPI đã thất bại; ho tăng trong bếp kéo về hen nghề nghiệp nhưng nghỉ ở quê vẫn ho; tay nứt và kem lạ không liên quan ho nhưng phải vào danh sách thuốc. Diagnostic timeout: chưa nghĩ đến chẩn đoán nào mà mình chưa hỏi?</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Hướng đúng: ngoại trú, KHÔNG kháng sinh, dùng phiếu X-quang cũ, trấn an có bằng chứng (đo huyết áp, khám thần kinh), hẹn lại sau 2 tuần với mốc rõ (ACCP 2006 khuyến cáo 1, 3, 4a).</li><li>Tái lập niềm tin sau ba nơi cho kháng sinh: công nhận chị đã đi nhiều nơi, xem lại từng tờ giấy, nói điều có lợi cho chị là phiếu X-quang cũ còn giá trị nên không bắt chị chụp lại tốn tiền. Lời thoại mẫu: &#x27;Chị đi ba nơi mà ho vẫn vậy là bực lắm. Tôi xem hết giấy tờ chị mang rồi: phim phổi ngày 12 sạch, tôi khám phổi cũng sạch, chị không sốt, không sụt cân. Ho sau cảm có thể kéo tới tám tuần mà phổi vẫn không sao, kháng sinh không giúp được vì đây không phải vi trùng. Tôi sẽ không cho kháng sinh nữa, và tôi cho chị mốc cụ thể để quay lại.&#x27; (ACCP 2006 khuyến cáo 4a).</li><li>Nỗi lo đột quỵ: nêu kết quả đo của chính chị (128/82 mmHg, khám thần kinh bình thường), dặn dấu hiệu thật sự phải gọi 115, đề nghị đo huyết áp định kỳ và nhắc anh ruột uống thuốc huyết áp theo lời bác sĩ (QĐ 5331/2020 Chương 5 mục I). Khoảng đo huyết áp và ngưỡng chẩn đoán: không bàn ở ca này.</li><li>Thuốc triệu chứng chỉ khi cần: dextromethorphan buổi tối cho đêm ho (QĐ 4235/2012 mục 3.2), không bắt buộc. Ipratropium hít (ACCP 2006 khuyến cáo 4b) chấm a vì trạm không có. Corticoid hít để lượt 2 nếu không đỡ.</li><li>Mốc quay lại: sau 2 tuần, hoặc ngay khi có sốt, ho ra máu, sụt cân, đổ mồ hôi đêm, khó thở hay khò khè, đau ngực, ho thành cơn nôn (QĐ 162/2024 Bảng 1; ACCP 2006 khuyến cáo 5). Ho &gt; 8 tuần: xem lại chẩn đoán, chụp lại X-quang, đo chức năng hô hấp, xét nghiệm đờm (ACCP 2006 khuyến cáo 3; ERS 2019 mục Initial assessment).</li><li>Sai: kê kháng sinh thứ tư, quinolon, prednisolon uống, PPI lặp lại, chụp CT ngực khi X-quang bình thường (ERS 2019, khuyến cáo 1: không chụp CT thường quy).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Dextromethorphan hydrobromid</b><div class="sub">Viên 15 mg</div></td><td data-l="Liều">30 mg (2 viên) mỗi lần; tối đa 3 lần/ngày<div class="sub">Uống · Ưu tiên liều trước khi ngủ; thêm ban ngày chỉ khi ho nhiều (chị làm bếp, bưng nước sôi, cẩn thận buồn ngủ)</div></td><td data-l="Thời gian">5–7 ngày; chỉ dùng khi ho gây mất ngủ</td><td class="gc" data-l="Ghi chú">QĐ 4235/2012, Ho kéo dài mục 3.2 (30 mg/lần x 3 lần/ngày x 5–7 ngày, ho nhiều chưa rõ nguyên nhân); ACCP 2006 khuyến cáo 4e. Tác dụng buồn ngủ và lưu ý lái xe: không có trong tài liệu đã tải; cách chọn liều tối là lựa chọn của ca.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Ngưng mọi kháng sinh, không tự mua thuốc; ho sau cảm là chuyện thường gặp, có thể kéo 3–8 tuần rồi tự hết, kháng sinh không giúp vì không do vi trùng (ACCP 2006 khuyến cáo 1, 4a).</li><li>Mang theo túi thuốc, đơn cũ và hũ kem lần sau; ngưng hũ kem không nhãn cho tới khi biết thành phần (xử lý thuốc bôi không rõ nguồn gốc: không có trong tài liệu đã tải).</li><li>Chị đo huyết áp 128/82 và khám thần kinh bình thường. Nếu đột ngột yếu hoặc tê mặt, tay, chân một bên, méo miệng, nói khó, mất thị lực, chóng mặt mất thăng bằng, đau đầu dữ dội, lơ mơ: gọi 115 ngay (QĐ 5331/2020 Chương 5 mục I).</li><li>Quay lại ngay nếu sốt, ho ra máu, sụt cân, đổ mồ hôi đêm, khó thở hay khò khè, đau ngực, ho thành cơn dài rồi nôn (QĐ 162/2024 Phần II mục 1.1a Bảng 1; ACCP 2006 khuyến cáo 5).</li><li>Hẹn tái khám sau 2 tuần (ngày thứ 46). Nếu tới ngày 56 (tuần 8) vẫn ho: lên Trung tâm Y tế huyện chụp lại X-quang, đo chức năng hô hấp, xét nghiệm đờm (ACCP 2006 khuyến cáo 3; ERS 2019 mục Initial assessment).</li><li>Hạn chế khói chiên xào, đeo khẩu trang khi đứng bếp, ngủ đủ giấc. Bằng chứng riêng cho ho sau nhiễm virus: không có trong tài liệu đã tải; tránh yếu tố kích thích là nguyên tắc chung trong QĐ 4235/2012 mục 3.1.</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-2">
+ <h2 id="h-luot-2"><span class="ln">Lượt 2/2</span> · sau 2 tuần</h2>
+ <div class="card intro"><h3 id="m-8">Tiếp đón</h3><p>Chị Loan tái khám theo hẹn, ngày thứ 46 kể từ lúc cảm (6,5 tuần), nói vẫn ho y như cũ, chồng chở đến. Sinh hiệu: nhiệt độ 36,9 °C, mạch 80 l/p, HA 124/80 mmHg, nhịp thở 16 l/p, SpO₂ 98% khí trời, cân nặng 56 kg.</p>
+  <blockquote>“Bác sĩ ơi, hai tuần rồi mà tui ho y chang, không bớt chút nào. Thuốc bác sĩ cho tui uống có hai bữa rồi bỏ, sáng ra buồn ngủ quá mà quán thì mở sớm. Tui tính lên thành phố khám cho chắc, bác sĩ thấy sao?”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>80</b><small>l/p</small></div><div class="vs"><span>HA</span><b>124/80</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,9</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>16</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-9">Hỏi bệnh <small>7 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám nêu ra (không đỡ, mất niềm tin lần nữa)</b><span class="tag t-g">Tự kể</span></div><p>Hai tuần rồi ho y chang, không bớt. Chị nản, tính lên thành phố khám &#x27;cho chắc&#x27;, muốn bác sĩ cho &#x27;thuốc thiệt mạnh&#x27; hoặc chụp hình lại.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Không đỡ vì không dùng thuốc (tác dụng phụ buồn ngủ), không phải vì đề kháng</b><span class="tag t-b">Khi được hỏi</span></div><p>Uống dextromethorphan 2 đêm thì bỏ vì sáng ra buồn ngủ, sợ làm đổ nồi nước sôi ở quán. Không uống lại kháng sinh cũ, không tự mua thuốc mới. Mười hai ngày nay không dùng thuốc ho nào.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi có uống thuốc theo đơn không, uống được bao lâu, có tác dụng phụ gì.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Ho không đổi, không dấu hiệu báo động mới</b><span class="tag t-b">Khi được hỏi</span></div><p>Ho khan, tràng 3–5 tiếng, tần suất như cũ, buổi sáng còn vài tiếng đờm nhầy trắng. Không nặng hơn, không sốt, không khó thở, không khò khè, không ho ra máu, không ra mồ hôi đêm, không nôn sau ho. Cân 56 kg như cũ, ăn uống bình thường. Ngủ chừng 5 tiếng, một đêm thức giấc một lần vì ho.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Vẫn không có đặc điểm hen</b><span class="tag t-b">Khi được hỏi</span></div><p>Hỏi lại: không khò khè, không nặng ngực, ho không nặng hơn lúc nửa đêm về sáng, không liên quan thời tiết. Ra quán hay ở nhà ho như nhau. Không dị ứng thuốc, thức ăn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Yếu tố kích thích còn nguyên</b><span class="tag t-b">Khi được hỏi</span></div><p>Vẫn đứng bếp 5–6 tiếng mỗi ngày, không đeo khẩu trang, nói lớn khi bán hàng, uống nước đá và ăn ớt như thường. Cho rằng &#x27;quán phải mở, không nghỉ được&#x27;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật vẫn là sợ đột quỵ; đòi chụp hình đầu</b><span class="tag t-r">Giấu</span></div><p>Anh ruột xuất viện, tay trái còn yếu. Chị vẫn thức giấc ban đêm vì ho rồi nghĩ &#x27;tới lượt mình&#x27;. Chị hơi nhẹ lòng khi bác sĩ nhắc lại huyết áp và khám thần kinh bình thường, nhưng muốn &#x27;chụp hình đầu cho yên tâm&#x27;.</p><div class="cond">Điều kiện nói ra: Chỉ lộ khi bác sĩ hỏi lại về nỗi lo, hỏi tình hình anh ruột, hoặc hỏi chị mong muốn gì ở lần khám này.</div></div><div class="fact"><div class="fh"><b>Thuốc bôi ngoài da không rõ vẫn đang dùng</b><span class="tag t-r">Giấu</span></div><p>Hũ kem chị mang theo: nhãn tróc, mùi thuốc hắc. Tay bớt nứt, vẫn bôi 2 lần mỗi ngày. Chị không biết thành phần.</p><div class="cond">Điều kiện nói ra: Chỉ lộ khi bác sĩ hỏi lại về kem bôi hoặc yêu cầu xem hũ.</div></div></details>
+ <details class="card"><summary><h3 id="m-10">Khám <small>7 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, tiếp xúc tốt, hơi mệt, quầng thâm nhẹ dưới mắt. Cân 56 kg, không sụt.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Họng, tai, mũi</b></div><p><span class="lbl">Kết quả:</span> Họng hơi đỏ nhẹ, không mủ, thành sau họng không có dịch. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nhịp thở 16 l/p, không co kéo. Rung thanh đều, gõ trong hai bên. Khi hít sâu chị ho vài tiếng khan.</p><p><span class="lbl">Kết quả:</span> Nhịp thở 16 l/p, không co kéo. Rung thanh đều, gõ trong. Rì rào phế nang êm dịu hai bên, không ran. Chị ho vài tiếng khan khi hít sâu.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 80 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 80 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Không sờ thấy hạch cổ, hạch thượng đòn.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thần kinh</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, nói rõ, mặt cân đối, sức cơ 5/5 bốn chi, không dấu thần kinh khu trú.</p></div><div class="row"><div class="rh"><b>Khám tâm thần (dáng vẻ, khí sắc, tư duy, nhận thức, ý tưởng tự hại)</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, hợp tác, lo âu rõ khi nói về anh ruột, khí sắc không trầm, tư duy mạch lạc, không ý tưởng tự hại.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-11">Cận lâm sàng <small>3 mục</small></h3></summary><div class="row"><div class="rh"><b>X-quang ngực thẳng</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> X-quang ngực thẳng: hai phế trường sáng đều, không đám mờ, góc sườn hoành nhọn, bóng tim bình thường.</p><p class="why">Chưa bắt buộc: mới 14 ngày sau lượt 1, chưa tới ngày 56, không dấu báo động mới (ACCP 2006 khuyến cáo 3: xem lại khi ho &gt; 8 tuần). Chụp lại ở huyện chấm a. Trạm không có máy.</p></div><div class="row"><div class="rh"><b>Xpert MTB/RIF và soi AFB đờm</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Xpert MTB/RIF không phát hiện MTB; soi AFB âm tính.</p><p class="why">Ho &gt; 2 tuần là người nghi lao (QĐ 162/2024 Bảng 1) nên xét nghiệm đờm là chấp nhận được; không bắt buộc khi X-quang bình thường và không triệu chứng toàn thân (Sơ đồ 1, tr. 24). Trạm không làm được.</p></div><div class="row"><div class="rh"><b>CT ngực (có hoặc không cản quang, gồm CT động mạch phổi)</b><span class="tag t-r">Không cần</span></div><p class="why">Không có chỉ định: khám và X-quang bình thường (ERS 2019, khuyến cáo 1: không chụp CT ngực thường quy). Trạm không có.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-12">Đáp án lượt 2 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Ho kéo dài sau nhiễm virus, ngày thứ 46 (6,5 tuần), chưa đỡ do chưa dùng thuốc và còn yếu tố kích thích; không dấu hiệu báo động</b></div><p class="why">Vẫn trong khoảng 3–8 tuần, phổi sạch, không dấu hiệu mới (ACCP 2006 khuyến cáo 1; QĐ 4235/2012 Ho kéo dài mục 2.1). Rà thất bại điều trị: sai chẩn đoán (chưa có dấu hiệu mới), sai thuốc (chưa dùng thuốc), không tuân thủ (bỏ thuốc vì buồn ngủ), biến chứng (không), đề kháng (không áp dụng vì không do vi khuẩn).</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Ho sau nhiễm virus cộng yếu tố kích thích tại chỗ làm (khói chiên xào, nói nhiều); hen thể ho cần xem lại nếu hết 8 tuần vẫn ho</b></div><p class="why">Chấp nhận: ACCP 2006 khuyến cáo 2 nêu nhiều yếu tố góp phần; GINA 2026 (tr. 36–37) và QĐ 1851/2020 mục 2.6.1 về hen thể ho khi ho kéo dài không đáp ứng.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Hen phế quản thể ho</b></div><p class="why">Vẫn chưa có đặc điểm hen (khò khè, nặng ngực, ban đêm, thời tiết, cơ địa); thử corticoid hít 10 ngày vừa là điều trị vừa là phép thử (QĐ 1851/2020 mục 2.6.1: điều trị thử với corticoid hít). Đáp ứng với thuốc không đủ để phân biệt với diễn tiến tự nhiên của ho sau nhiễm; nếu ho tái phát khi ngưng cần chuyển tuyến đo chức năng hô hấp.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ho gà</b></div><p class="why">Không cơn rũ, không nôn sau ho, không tiếng rít, ho đã sáu tuần rưỡi; điều trị macrolide muộn thường không đáp ứng (ACCP 2006 khuyến cáo 5, 9). Không đổi.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Lao phổi</b></div><p class="why">Không sốt, không sụt cân, không mồ hôi đêm, không ho máu, X-quang ngày 12 bình thường (QĐ 162/2024 Bảng 1, Sơ đồ 1). Chưa tới mốc 8 tuần; đặt mốc xét nghiệm đờm ở ngày 56 nếu còn ho.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Bệnh lý thần kinh hoặc mạch não do ho</b></div><p class="why">Khám thần kinh bình thường, huyết áp 124/80 mmHg, không dấu hiệu khu trú (QĐ 5331/2020 Chương 5 mục I: dấu hiệu cần cấp cứu). Quan hệ ho – đột quỵ: không có trong tài liệu đã tải.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Rà vì sao không đỡ trước khi đổi thuốc: có dùng thuốc không, có tác dụng phụ không, còn yếu tố kích thích không, có dấu hiệu mới không</b></div><p class="why">Chị bỏ dextromethorphan sau 2 đêm vì buồn ngủ, còn đứng bếp 5–6 tiếng; không dấu hiệu mới. Ho sau nhiễm tự giới hạn, thường cần thêm thời gian (ACCP 2006, mục Treatment). Quy trình &#x27;không đỡ&#x27; là mục tiêu dạy của ca.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không kê kháng sinh; không chụp CT ngực hay CT sọ; giải thích rõ bằng kết quả khám</b></div><p class="why">Kháng sinh: ACCP 2006 khuyến cáo 4a. CT ngực khi X-quang và khám bình thường: ERS 2019, khuyến cáo 1 (không thường quy). CT sọ khi không có dấu thần kinh: không có chỉ định trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Bắt đầu corticoid hít liều nhỏ: budesonid 200 mcg x 2 lần/ngày trong 10 ngày, kèm súc miệng</b></div><p class="why">Ho vẫn ảnh hưởng chất lượng sống (mất ngủ), đã 6,5 tuần (ACCP 2006 khuyến cáo 4c); QĐ 4235/2012 mục 3.2: corticoid hít 250–500 mcg/ngày x 10 ngày cho ho nhiều, chưa rõ nguyên nhân. 400 mcg/ngày là liều thấp của budesonid (QĐ 1851/2020 Bảng 6). Ipratropium (ACCP 4b) trạm không có nên bỏ qua bước này, chấp nhận.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Dùng lại dextromethorphan liều tối nếu ho đêm, hỏi chị buồn ngủ ban ngày để chỉnh</b></div><p class="why">QĐ 4235/2012 mục 3.2 (30 mg/lần); ACCP 2006 khuyến cáo 4e. Không bắt buộc khi đã có corticoid hít.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn mốc 8 tuần (ngày 56): nếu còn ho thì lên Trung tâm Y tế huyện chụp lại X-quang, đo chức năng hô hấp, xét nghiệm đờm; tái khám sớm khi có dấu hiệu báo động</b></div><p class="why">ACCP 2006 khuyến cáo 3: ho &gt; 8 tuần phải nghĩ nguyên nhân khác. ERS 2019 mục Initial assessment: chức năng hô hấp và X-quang. Xét nghiệm đờm: QĐ 162/2024 Sơ đồ 1.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Nhắc lại huyết áp 124/80 và khám thần kinh bình thường; dặn dấu hiệu phải gọi 115; khuyên anh ruột tuân thủ điều trị; không chụp hình đầu</b></div><p class="why">QĐ 5331/2020 Chương 5 mục I. Chỉ định hình ảnh não: cần dấu hiệu thần kinh, chị không có.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Chuyển Trung tâm Y tế huyện ngay để làm đủ X-quang, đo chức năng hô hấp, xét nghiệm đờm</b></div><p class="why">An toàn và hợp lý khi bệnh nhân mất niềm tin (QĐ 162/2024 Sơ đồ 1; ERS 2019 mục Initial assessment), nhưng chưa bắt buộc vì chưa tới 8 tuần, X-quang ngày 12 bình thường, không dấu báo động. Chị có thể từ chối do chi phí.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Giữ nguyên chờ thêm 2 tuần, không thuốc, không mốc</b></div><p class="why">Ho đang ảnh hưởng giấc ngủ; không mốc cụ thể thì người bệnh sẽ tự đi tìm nơi thứ tư. Tài liệu cho phép thuốc (ACCP 2006 khuyến cáo 4b–4c).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Prednisolon uống 30–40 mg hoặc kê kháng sinh &#x27;mạnh&#x27; theo yêu cầu</b></div><p class="why">ACCP 2006 khuyến cáo 4d chỉ khi cơn ho dữ dội và đã loại nguyên nhân khác; kháng sinh không có vai trò (khuyến cáo 4a).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Chụp CT ngực hoặc chụp hình đầu cho chị yên tâm</b></div><p class="why">ERS 2019 khuyến cáo 1; CT sọ không có dấu thần kinh: không có chỉ định trong tài liệu đã tải.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chị Loan đang ở ngày thứ 46, vẫn trong khoảng 3–8 tuần của ho sau nhiễm, phổi sạch, không dấu hiệu báo động, X-quang ngày 12 bình thường; chuyển lên huyện chụp lại X-quang, xét nghiệm đờm, đo chức năng hô hấp là hợp lý về an toàn nhưng chưa bắt buộc (ACCP 2006 khuyến cáo 3: nghĩ nguyên nhân khác khi ho trên 8 tuần; ERS 2019 mục Initial assessment). Chị phải bỏ một buổi bán quán, tốn tiền đi lại và chi phí cận lâm sàng trùng lặp, mà lúc về vẫn chưa được thử thuốc nào theo bậc thuốc của ho sau nhiễm (ACCP 2006 khuyến cáo 4b–4c). Nếu chọn CT ngực hay chụp hình đầu thì còn sai hơn vì không có chỉ định khi X-quang và khám bình thường (ERS 2019 khuyến cáo 1).</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhập viện cho chị Loan vì ho chưa đỡ là không cần: nhiệt 36,9 °C, SpO₂ 98%, HA 124/80 mmHg, phổi sạch, không dấu hiệu báo động. Ho sau nhiễm tự giới hạn 3–8 tuần và chị mới ngày thứ 46 (ACCP 2006 khuyến cáo 1, 3). Nằm viện làm chị mất nhiều ngày bán quán, tốn chi phí và có nguy cơ dẫn đến kháng sinh hay thuốc không có chỉ định (ACCP 2006 khuyến cáo 4a), trong khi điều chị cần là thử thuốc theo bậc và một mốc tái khám rõ.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Ho kéo dài sau nhiễm virus, hôm nay ngày thứ 46 (6,5 tuần), chưa đỡ; không dấu hiệu báo động mới; X-quang ngày 12 bình thường</li><li>Lý do chưa đỡ: không dùng thuốc (bỏ dextromethorphan vì buồn ngủ), còn yếu tố kích thích khi đứng bếp, thời gian bệnh còn trong khoảng tự khỏi</li><li>Hen thể ho, lao phổi, ho gà: vẫn loại trừ trên lâm sàng, hẹn mốc 8 tuần để xét lại</li><li>Lý do thật vẫn là lo đột quỵ: huyết áp 124/80, khám thần kinh bình thường; đang dùng kem bôi không rõ thành phần</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự hỏi lượt 2: thuốc đã uống theo đơn chưa, uống bao lâu, tác dụng phụ; diễn tiến ho (đổi hay không), dấu hiệu mới; hỏi lại từng bệnh cần loại (ho gà, hen, lao); điều kiện làm việc; nỗi lo hiện tại; hũ kem. Quy trình &#x27;không đỡ&#x27;: chẩn đoán sai? thuốc sai? không tuân thủ? biến chứng? đề kháng?</li><li>Kết quả rà: không có dữ kiện mới nào bác bỏ ho sau nhiễm virus (không sốt, không sụt cân, không khò khè, không mồ hôi đêm, phổi sạch); thuốc chưa được dùng nên chưa thể gọi là thất bại thuốc; yếu tố kích thích còn; thời gian mới 6,5 tuần, vẫn trong khoảng 3–8 tuần (ACCP 2006 khuyến cáo 1, 3).</li><li>Cận lâm sàng: không làm được ở trạm. Không chụp lại X-quang hôm nay vì chưa có dữ kiện mới; chụp lại ở ngày 56 nếu còn ho (ACCP 2006 khuyến cáo 3; ERS 2019 mục Initial assessment; QĐ 162/2024 Sơ đồ 1, tr. 24).</li><li>Hen thể ho là chẩn đoán dễ bỏ sót: ho là triệu chứng duy nhất, chức năng hô hấp có thể bình thường, chẩn đoán xác định cần test kích thích phế quản (QĐ 1851/2020 mục 2.6.1; GINA 2026 tr. 36–37). Ở ca này chưa nghĩ nhiều vì không có đặc điểm hen và ho không đổi nơi làm việc; thử corticoid hít vừa điều trị vừa cho thông tin, nhưng đáp ứng không loại được diễn tiến tự nhiên.</li><li>Nỗi lo: nhiễu thứ hai của ca là mất niềm tin. Nếu chỉ chăm lo ho mà không trả lời nỗi sợ đột quỵ, chị sẽ đi nơi thứ tư (hoặc đòi chụp hình đầu). Trả lời bằng số đo thật và khám thần kinh thật, không bằng lời trấn an chung.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Hướng đúng: ngoại trú, không kháng sinh, bắt đầu thuốc đặc hiệu theo bậc (ACCP 2006: ipratropium → corticoid hít → prednisone ngắn ngày khi cơn ho dữ dội → thuốc ho trung ương), vì trạm không có ipratropium nên vào bước corticoid hít (ACCP 2006 khuyến cáo 4b, 4c; QĐ 4235/2012 mục 3.2).</li><li>Budesonid: 400 mcg/ngày x 10 ngày nằm trong khoảng 250–500 mcg/ngày của QĐ 4235/2012 mục 3.2 và là liều thấp theo QĐ 1851/2020 Bảng 6. Súc miệng sau mỗi lần hít (QĐ 4235/2012, phần hướng dẫn dụng cụ hít). Nói rõ với chị: đây là thuốc thử 10 ngày, không phải thuốc dùng suốt đời.</li><li>Mâu thuẫn nguồn đã cân nhắc: CHEST 2020 khuyến cáo không kê thường quy thuốc giảm ho, corticoid hít, kháng cholinergic cho ho do viêm phế quản CẤP (khuyến cáo 3), còn ca này ho đã 6,5 tuần (bán cấp), nên áp ACCP 2006 và QĐ 4235/2012. CHEST 2020 khuyến cáo 2 cũng nói ho kéo dài thì đánh giá lại và có xét nghiệm đích. Không phải mâu thuẫn thật: khác thời điểm bệnh.</li><li>Mốc 8 tuần (ngày 56): nếu vẫn ho, chuyển Trung tâm Y tế huyện chụp lại X-quang, đo chức năng hô hấp, xét nghiệm đờm; xem hen thể ho, trào ngược, mũi xoang (ACCP 2006 khuyến cáo 3; QĐ 4235/2012 mục 2.2–2.3).</li><li>Không làm: kháng sinh, prednisolon uống, CT ngực, chụp hình đầu, PPI lặp lại (ghi lý do ở phần xử trí).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Budesonid dạng hít</b><div class="sub">Bình xịt định liều hoặc bột khô, 200 mcg/liều</div></td><td data-l="Liều">200 mcg/lần (1 liều), 2 lần/ngày (tổng 400 mcg/ngày)<div class="sub">Hít qua miệng · Sáng và tối; súc miệng bằng nước ngay sau khi hít</div></td><td data-l="Thời gian">10 ngày</td><td class="gc" data-l="Ghi chú">QĐ 4235/2012, Ho kéo dài mục 3.2 (250–500 mcg/ngày x 10 ngày); ACCP 2006 khuyến cáo 4c; QĐ 1851/2020 Bảng 6 (liều thấp 200–400 mcg). Súc miệng: QĐ 4235/2012, phần dụng cụ hít. Chị mua ở nhà thuốc huyện theo đơn.</td></tr><tr><td><b>Dextromethorphan hydrobromid</b><div class="sub">Viên 15 mg</div></td><td data-l="Liều">30 mg (2 viên) mỗi lần<div class="sub">Uống · Chỉ khi ho đêm gây mất ngủ, uống trước ngủ; không dùng buổi sáng khi đứng bếp</div></td><td data-l="Thời gian">5–7 ngày, tùy chọn</td><td class="gc" data-l="Ghi chú">QĐ 4235/2012, Ho kéo dài mục 3.2 (30 mg/lần, tối đa 3 lần/ngày, 5–7 ngày); ACCP 2006 khuyến cáo 4e. Cách chọn chỉ liều tối vì chị bỏ thuốc do buồn ngủ ban ngày: lựa chọn của ca.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Lần trước chị bỏ thuốc vì buồn ngủ nên chưa biết thuốc có giúp không. Lần này dùng thuốc hít 10 ngày đúng giờ, súc miệng sau khi hít; thuốc ho chỉ uống buổi tối khi cần (QĐ 4235/2012 mục 3.2).</li><li>Ho sau cảm vẫn trong khoảng tự khỏi 3–8 tuần; kháng sinh không giúp. Chị chưa tới 8 tuần, ngày 56 là mốc (ACCP 2006 khuyến cáo 1, 3, 4a).</li><li>Nếu ngày 56 vẫn còn ho: lên Trung tâm Y tế huyện chụp lại X-quang, đo chức năng hô hấp, xét nghiệm đờm; mang theo toàn bộ giấy tờ và phiếu X-quang ngày 12 (ACCP 2006 khuyến cáo 3; ERS 2019 mục Initial assessment; QĐ 162/2024 Sơ đồ 1).</li><li>Quay lại ngay nếu sốt, ho ra máu, sụt cân, đổ mồ hôi đêm, khó thở, khò khè, đau ngực (QĐ 162/2024 Phần II mục 1.1a Bảng 1).</li><li>Huyết áp 124/80 và khám thần kinh bình thường, chị không cần chụp hình đầu. Anh ruột cần uống thuốc huyết áp đều và tái khám theo lịch của bệnh viện. Nếu chị đột ngột yếu hay tê một bên, méo miệng, nói khó, mất thị lực, đau đầu dữ dội: gọi 115 (QĐ 5331/2020 Chương 5 mục I).</li><li>Giảm khói chiên xào bằng khẩu trang và quạt hút khi đứng bếp, nghỉ ngơi đủ giấc. Hũ kem không nhãn: ngưng và mang đến để bác sĩ xem; cách xử lý thuốc bôi chưa rõ thành phần không có trong tài liệu đã tải.</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-13">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Ho kéo dài sau nhiễm virus</b></div>
+<p class="note">Phải loại trừ: Ho gà, Hen phế quản, Lao phổi</p><p>Chị Loan dùng budesonid hít 10 ngày đúng giờ, súc miệng, thỉnh thoảng uống dextromethorphan buổi tối. Khoảng ngày 52 ho thưa còn vài tiếng buổi sáng, ngày 57 (tuần thứ 8) hết hẳn, nên không phải lên huyện. Không thể nói thuốc hít có công hay do diễn tiến tự nhiên (ACCP 2006: ho sau nhiễm tự giới hạn). Chị chịu đo huyết áp lại sau một tháng (bình thường), anh ruột tập vật lý trị liệu. Hũ kem: gia đình mang đến, ngưng. Quyết định đúng nhất của ca là không thêm kháng sinh thứ tư, dùng phiếu X-quang cũ, đặt mốc 8 tuần và trả lời nỗi sợ đột quỵ của chị bằng khám thật.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-14">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Từng khám 3 nơi không khỏi: ba đợt kháng sinh (amoxicillin tự mua, cefuroxim, azithromycin) là neo &#x27;ho này cần thêm thuốc mạnh&#x27;; bác sĩ thứ tư dễ cho thêm.</li><li>Phiếu X-quang ngày 12 trong túi thuốc: chị coi là &#x27;chụp rồi không ra bệnh&#x27;, chỉ đưa khi được xin. Bẫy: chụp lại vô ích hoặc chuyển tuyến chỉ để chụp.</li><li>Ợ chua nhẹ khi ăn tối muộn kéo về trào ngược; omeprazol 14 ngày đã thất bại.</li><li>Ho tăng khi đứng bếp chiên xào kéo về hen nghề nghiệp; nhưng nghỉ về quê vẫn ho y như vậy.</li><li>Đờm nhầy trắng ít buổi sáng và ho đêm 1 lần kéo về viêm phế quản/hen; thực ra ho sau nhiễm có thể có đờm nhầy ít.</li><li>Tay nứt do ngâm nước và hũ kem không nhãn: không liên quan ho nhưng thuộc &#x27;thuốc đang dùng&#x27;, chỉ lộ khi hỏi riêng.</li><li>Lý do thật: sợ đột quỵ vì anh ruột; chị không nói; lượt 2 đòi chụp hình đầu. Lượt 2 &#x27;không đỡ&#x27; vì bỏ thuốc ho do buồn ngủ.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Ho sau nhiễm virus là chẩn đoán lâm sàng và loại trừ: ho 3–8 tuần sau cảm, phổi sạch, X-quang bình thường (ACCP 2006 khuyến cáo 1). Kháng sinh không có vai trò (khuyến cáo 4a): đọc lại ba toa cũ thay vì thêm toa thứ tư.</li><li>Không có xét nghiệm nào: dùng kết quả cũ nếu có. Hỏi &#x27;đã chụp hay làm xét nghiệm gì chưa, có giấy không&#x27; thay vì bắt làm lại; lập luận X-quang bình thường (Sơ đồ 1 QĐ 162/2024) thì tìm nguyên nhân khác.</li><li>Hỏi theo thứ tự: khởi phát, thuốc (kể cả tự mua, thuốc bôi), tính chất ho, hỏi riêng ho gà – hen – lao, nguyên nhân khác, rồi hỏi nỗi lo. Nỗi lo thật (đột quỵ) đứng sau &#x27;sợ bệnh nặng&#x27;; chỉ lộ khi hỏi mở và hỏi tiền sử gia đình.</li><li>Tái lập niềm tin sau ba nơi: xem hết giấy tờ, nói đúng điều đã làm được (phim cũ còn dùng), đặt mốc cụ thể (2 tuần, 8 tuần) thay vì chỉ &#x27;cho thuốc rồi về&#x27;.</li><li>Không đỡ ở lượt 2 không đồng nghĩa chẩn đoán sai: rà theo thứ tự chẩn đoán – thuốc – tuân thủ – biến chứng – đề kháng. Ở ca này lý do là bỏ thuốc vì buồn ngủ, yếu tố kích thích còn, thời gian chưa tới 8 tuần.</li><li>Mốc 8 tuần là lưới an toàn: quá mốc thì nghĩ hen thể ho, trào ngược, mũi xoang, lao (ACCP 2006 khuyến cáo 3; QĐ 1851/2020 mục 2.6.1; QĐ 162/2024 Sơ đồ 1).</li><li>Cặp tương phản P-0080 với HH-1330 (lao phổi, chưa viết): cùng ho dai và đã dùng kháng sinh nhưng bên lao có sốt chiều, mồ hôi đêm, sụt cân hoặc X-quang bất thường; điểm phân biệt chốt khi viết HH-1330.</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Ho bán cấp 3–8 tuần; ho mạn &gt; 8 tuần (QĐ 4235/2012 Ho kéo dài mục 2.1). Ho sau nhiễm: khởi phát sau nhiễm hô hấp, ≤ 8 tuần, X-quang âm tính, tự khỏi (ACCP 2006 mục Definition, khuyến cáo 1, 3).</li><li>Kháng sinh không có vai trò (ACCP 2006 khuyến cáo 4a), trừ viêm xoang vi khuẩn hoặc ho gà sớm. Ho gà: ho &gt; 2 tuần kèm cơn rũ, nôn sau ho, tiếng rít hít vào (khuyến cáo 5); macrolide hữu ích khi điều trị sớm, muộn thì ít đáp ứng (khuyến cáo 9).</li><li>Ho &gt; 2 tuần là triệu chứng nghi lao quan trọng nhất, kèm sốt nhẹ chiều, mồ hôi đêm, gầy sút, ho máu (QĐ 162/2024 Phần II mục 1.1a Bảng 1). Thử kháng sinh ngoài lao không dùng fluoroquinolon (mục 3.2.2).</li><li>Hen thể ho: ho là triệu chứng duy nhất hoặc nổi bật nhất, thường về đêm, thay đổi thời tiết; chẩn đoán xác định cần test kích thích phế quản hoặc điều trị thử (QĐ 1851/2020 mục 2.6.1; GINA 2026 tr. 36–37).</li><li>Bậc thuốc cho ho sau nhiễm (ACCP 2006): ipratropium hít (4b) → corticoid hít (4c) → prednisone 30–40 mg ngắn ngày chỉ khi cơn ho dữ dội (4d) → dextromethorphan/codein khi các cách khác thất bại (4e). QĐ 4235/2012 mục 3.2: corticoid hít 250–500 mcg/ngày x 10 ngày; dextromethorphan 30 mg x 3 lần/ngày x 5–7 ngày.</li><li>ERS 2019: đánh giá ban đầu ho mạn gồm X-quang gần đây và chức năng hô hấp (Good Practice Statement); không chụp CT ngực thường quy khi X-quang và khám bình thường (khuyến cáo 1).</li><li>Dấu hiệu cảnh báo đột quỵ để dặn người nhà: yếu hoặc tê mặt, tay, chân một bên, nói khó, mất thị lực, chóng mặt mất thăng bằng, đau đầu dữ dội; FAST (QĐ 5331/2020 Chương 5 mục I).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-15">Nguồn tài liệu <small>9</small></h3></summary><ul class=""><li>TL-0160 · ACCP 2006 (Braman, Chest 129:138S–146S) – Postinfectious cough – Background, Definition, Pathogenesis, khuyến cáo 1–4e, mục Diagnosis, khuyến cáo 5–9, Summary of Recommendations</li><li>TL-0131 · QĐ 4235/QĐ-BYT 2012 – Hướng dẫn chẩn đoán và điều trị bệnh hô hấp – bài Ho kéo dài mục 2.1–2.3, 3.1, 3.2 (Bảng 1.1); phần hướng dẫn dùng dụng cụ hít (súc miệng)</li><li>TL-0123 · QĐ 162/QĐ-BYT 2024 – Hướng dẫn chẩn đoán, điều trị và dự phòng bệnh lao – Phần II mục 1 (Bảng 1: triệu chứng nghi lao phổi), mục 3.2.1–3.2.2, Sơ đồ 1 (tr. 24)</li><li>TL-0127 · QĐ 1851/QĐ-BYT 2020 – Hen phế quản người lớn và trẻ em ≥ 12 tuổi – mục 2.3.2 (Bảng 1), 2.6.1, 2.6.2, Bảng 6 (liều ICS tương đương)</li><li>TL-0137 · GINA 2026 – Mục 1 Diagnosis: &#x27;Patients presenting with persistent cough as the only reported respiratory symptom&#x27; (tr. 36–37) và bảng chẩn đoán phân biệt (tr. 30)</li><li>TL-0154 · ERS 2019 (Eur Respir J 2020;55:1901136) – Chronic cough in adults and children – mục Initial assessment (X-quang và chức năng hô hấp), Chest CT khuyến cáo 1, mục điều trị trào ngược</li><li>TL-0151 · CHEST 2020 – Acute cough due to acute bronchitis – khuyến cáo 1–3 (chỉ để phân biệt giai đoạn ho cấp với ho bán cấp)</li><li>TL-0030 · QĐ 5331/QĐ-BYT 2020 – Hướng dẫn chẩn đoán và xử trí đột quỵ não – Chương 5 mục I (Truyền thông giáo dục người bệnh, FAST)</li><li>Không có trong tài liệu đã tải: liều ipratropium dạng hít định liều cho ho sau nhiễm; quan hệ ho dữ dội với đột quỵ; xử lý thuốc bôi không rõ nguồn gốc; số ngày hẹn tái khám cho ho sau nhiễm; tác dụng buồn ngủ của dextromethorphan; ICD-10 cho ho kéo dài (chưa tra TT 06/2026); khoảng đo huyết áp định kỳ</li></ul></details>
+<details class="card"><summary><h3 id="m-16">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Hô hấp cấp tính</dd><dt>chan_doan_dich</dt><dd>Ho kéo dài sau nhiễm virus</dd><dt>chan_doan_phai_loai_tru</dt><dd>Ho gà; Hen phế quản; Lao phổi</dd><dt>nhom_tuoi</dt><dd>Trung niên (40–59 tuổi)</dd><dt>do_kho</dt><dd>Điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>dien_tien_tai_kham</dt><dd>Không đỡ</dd><dt>nhieu_benh_nhan</dt><dd>Từng khám 3 nơi không khỏi</dd><dt>rang_buoc_nguon_luc</dt><dd>Không có xét nghiệm nào</dd><dt>loai_ket_cuc</dt><dd>Ổn định, khỏi bệnh</dd><dt>gioi</dt><dd>Nữ</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>2</dd><dt>nghe_nghiep</dt><dd>Chủ quán ăn</dd><dt>yeu_to_khoi_phat</dt><dd>Sau tự uống kháng sinh</dd><dt>thuoc_dang_dung</dt><dd>Thuốc bôi ngoài da không rõ</dd><dt>ly_do_that_su_den_kham</dt><dd>Sợ đột quỵ</dd></dl><ul class=""><li>2026-10-12 – bản 1, viết: Sonnet. Chẩn đoán đích không đổi (ho kéo dài sau nhiễm virus); ho gà, hen phế quản, lao phổi đều có trong chan_doan của cả hai lượt kèm lý do.</li><li>Tài liệu đã đọc: TL-0160 (toàn bài), TL-0131 (bài Ho kéo dài mục 1–3, phần dụng cụ hít), TL-0123 (Phần II mục 1.1, 3.2.1–3.2.2, Sơ đồ 1), TL-0127 (mục 2.3.2, 2.6.1–2.6.2, Bảng 6), TL-0137 (đoạn ho là triệu chứng duy nhất, bảng chẩn đoán phân biệt), TL-0154 (Initial assessment, CT, trào ngược), TL-0151 (khuyến cáo 1–4), TL-0030 (Chương 5 mục I).</li><li>Thiết kế: có phiếu X-quang cũ ngày 12 (bình thường) trong túi thuốc để thỏa điều kiện của ACCP 2006 và Sơ đồ 1 QĐ 162/2024 mà vẫn giữ &#x27;trạm không có xét nghiệm nào&#x27;; không bắt chụp lại. Mốc ngày 56 (8 tuần) là lưới an toàn.</li><li>Không đỡ ở lượt 2 do bỏ dextromethorphan vì buồn ngủ, còn yếu tố kích thích, chưa tới 8 tuần – không phải sai chẩn đoán. Corticoid hít 10 ngày vì trạm không có ipratropium (ACCP 2006 khuyến cáo 4b) và ho ảnh hưởng giấc ngủ (khuyến cáo 4c; QĐ 4235/2012 mục 3.2).</li><li>Mâu thuẫn nguồn: xem HH-1355_mau_thuan.md. ACCP 2006 là nguồn cũ nhất; PubMed không thấy hướng dẫn riêng mới hơn cho ho sau nhiễm. Âm thanh: AT-PHOI-BT-NL-01 hai lượt; AT-TIM-BT-NL-01 (mạch 78, 80). Không dùng ảnh da. Số liệu phụ tự đặt: sinh hiệu, BMI, các lần khám trước, nội dung phiếu X-quang, kết quả Xpert giả định ở huyện.</li><li>khoa_cls: &#x27;xn&#x27; (app khóa X-quang, CT, nội soi) và &#x27;sieu_am&#x27;. Danh mục chưa có đo chức năng hô hấp nên không đưa vào ca.</li></ul></details>
+<p class="chan-trang">Ca HH-1355 · phiên bản ca 1 – soạn mới theo quy trình bản 3, nguồn kèm vị trí (2026-10-12) · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

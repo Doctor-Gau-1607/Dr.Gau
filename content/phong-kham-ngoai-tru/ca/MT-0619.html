@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MT-0619 · Gút (cơn cấp và quản lý)</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · MT-0619</div>
+   <h1>Đau sưng đỏ ngón chân cái phải hai ngày; lo bệnh làm hư thận</h1>
+   <p class="dich-gia">Lê Văn Tư · Nam · 46 tuổi · 72 kg</p>
+   <div class="chips"><span class="chip">Bệnh mạn tính người lớn</span><span class="chip">Điển hình</span><span class="chip">2 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Thợ sơn nhà (nhận công trình theo đợt, leo giàn giáo, hay đi xa 2–3 tuần mỗi lần)</dd><dt>Chiều cao, cân nặng</dt><dd>168 cm · 72 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi anh là &#x27;anh Tư&#x27;. Anh tự xưng &#x27;tôi&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;.</dd><dt>Tính cách</dt><dd>Chân chất, kiệm lời, ngại tốn tiền xe và ngày công. Tin thuốc nam, thuốc đắp &#x27;gia truyền&#x27; hơn thuốc Tây; hay đọc Facebook, Zalo rồi lo xa. Chỉ nghe lời dặn khi được viết ra giấy.</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Cơ sở không có xét nghiệm nào (không có acid uric, creatinin, công thức máu, CRP, chọc dịch khớp), cũng không có X-quang, siêu âm. Chỉ có khám lâm sàng.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/2</span> · ngày thứ 2 của cơn đau</h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Anh Lê Văn Tư, 46 tuổi, thợ sơn, từ thôn cách trạm 22 km ra khám. Đau sưng đỏ ngón chân cái phải từ đêm kia, hôm nay đi cà nhắc. Mạch 88 l/p, HA 128/80 mmHg, nhiệt 37,6 °C, nhịp thở 18 l/p, SpO₂ 98%. Cân nặng 72 kg, cao 168 cm. Trạm không có xét nghiệm, X-quang, siêu âm.</p>
+  <blockquote>“Chào bác sĩ. Cái ngón chân cái bên phải của tôi sưng đỏ hai ngày rồi, đau không đi nổi. Tôi đọc trên mạng nói bệnh này làm hư thận, có khi phải cưa chân. Bác sĩ coi giùm tôi bị gì, rồi cho thuốc uống một lần cho hết, nhà tôi xa lắm, đi lại khó.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>88</b><small>l/p</small></div><div class="vs"><span>HA</span><b>128/80</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>37,6</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>18</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>10 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám (lời khai)</b><span class="tag t-g">Tự kể</span></div><p>Ngón chân cái phải đau sưng đỏ hai ngày, không đi nổi. Anh lo vì đọc trên mạng thấy &#x27;bệnh này hư thận, phải cưa chân&#x27;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khởi phát ban đêm sau bữa nhiều đạm, rượu bia</b><span class="tag t-b">Khi được hỏi</span></div><p>Tối thứ bảy đi đám cưới trong xóm: ăn gỏi cá, lòng heo, hải sản, uống khoảng 5 lon bia. Nửa đêm đang ngủ thì ngón cái phải đau như dao đâm, sáng ra sưng đỏ, chạm vào cái mềm cũng đau. Không té ngã, không dập chân, không có vết thương ở chân.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Cơn trước cùng vị trí, tự khỏi hoàn toàn: đây là cơn thứ hai</b><span class="tag t-b">Khi được hỏi</span></div><p>Khoảng 8 tháng trước (mùa mưa) ngón cái phải cũng đột ngột đau, sưng đỏ như vậy, kéo dài khoảng 6 ngày rồi tự hết hẳn nhờ thuốc nam và đắp lá; không đi khám. Sau đó đi lại bình thường cho tới đêm kia.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đông y đắp ngoài da, kích ứng da; không có thuốc uống</b><span class="tag t-r">Giấu</span></div><p>Từ chiều qua anh đắp bã lá giã nhuyễn và dán miếng cao dán &#x27;gia truyền&#x27; mua ở chợ lên khớp ngón cái, thay hai lần/ngày, thêm xoa rượu thuốc. Chỗ dán nóng rát hơn từ sáng nay. Không uống thuốc giảm đau hay thuốc tây nào.</p><div class="cond">Điều kiện nói ra: Hỏi chung &#x27;đang uống thuốc gì&#x27; anh nói &#x27;không&#x27;. Chỉ kể khi bác sĩ hỏi cụ thể thuốc nam, thuốc bôi, thuốc đắp, cao dán, rượu thuốc, hay đã tự làm gì cho ngón chân.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Số khớp, triệu chứng toàn thân; loại trừ nhiễm khuẩn và biến chứng</b><span class="tag t-b">Khi được hỏi</span></div><p>Chỉ đau ngón cái phải. Các khớp khác (cổ chân, gối, tay, vai) không đau, sáng dậy không cứng khớp. Hơi ớn lạnh, không rét run. Không đau bụng, tiêu chảy, tiểu buốt, tiểu ra sỏi, đau hông lưng, ban da hay đau mắt.</p></div><div class="fact"><div class="fh"><b>tien_su</b><span class="tag t-b">Khi được hỏi</span></div><p>Chưa bao giờ đo huyết áp, đường huyết hay thử máu. Không biết bệnh thận, không dùng thuốc lợi tiểu hay thuốc lao. Anh trai ruột từng &#x27;bị gút&#x27;, bố mất sớm không rõ bệnh.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Yếu tố nguy cơ lối sống, nghề nghiệp</b><span class="tag t-b">Khi được hỏi</span></div><p>Bia 3–4 lon mỗi chiều sau giờ làm, nhiều hơn khi có tiệc; ăn nhiều thịt, nội tạng, đồ biển; uống nước ngọt đóng chai; làm ngoài nắng, ra mồ hôi nhiều nhưng ít uống nước. Leo giàn giáo, đứng và ngồi xổm sơn tường cả ngày.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khoảng cách, khả năng tái khám, nhu cầu dặn dò trọn gói</b><span class="tag t-b">Khi được hỏi</span></div><p>Nhà cách trạm 22 km đường đất, ra huyện hơn 40 km, xe buýt một chuyến/ngày. Tuần sau lại nhận công trình xa, ở lại 2–3 tuần, chỗ làm gần như không có sóng điện thoại. Có thẻ BHYT. Anh nói &#x27;không có phiếu hẹn rõ ràng thì tôi không quay lại đâu&#x27;.</p></div><div class="fact"><div class="fh"><b>google</b><span class="tag t-g">Tự kể</span></div><p>Anh đọc Facebook và Zalo: &#x27;gút ăn vào xương, hư thận, cưa chân; thuốc Tây hại gan thận, phải uống cả đời&#x27;. Vì vậy anh thích thuốc nam hơn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Động cơ thật: nỗi lo hư thận từ thông tin mạng</b><span class="tag t-r">Giấu</span></div><p>Lý do thật: lần trước tự khỏi nên đáng lẽ anh cứ đắp lá tiếp. Nhưng đọc tin &#x27;gút làm hư thận&#x27; anh mất ngủ vì lo, sợ nếu để lâu &#x27;thận hư không chữa được&#x27;. Anh muốn được xác nhận bệnh gì và thận có sao không.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi vì sao lần này mới đi khám trong khi lần trước tự khỏi, hoặc hỏi anh lo nhất điều gì.</div></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>7 mục</small></h3></summary><div class="row"><div class="rh"><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, đi cà nhắc, tránh chạm gót chân phải. BMI 25,5, vòng bụng 90 cm. Vành tai, khuỷu, ngón tay, gân Achille: không hạt tôphi.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Cơ xương khớp, cột sống</b></div><p><span class="lbl">Kết quả:</span> Khớp bàn–ngón chân cái phải: sưng căng, đỏ tím bóng, nóng, ấn đau chói, gấp duỗi hạn chế nhiều. Cổ chân phải, gối, háng hai bên, cổ chân trái, bàn tay, cổ tay: không sưng, không đau, vận động đủ.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b></div><p><span class="lbl">Kết quả:</span> Da quanh khớp bàn–ngón I đỏ thẫm, căng bóng. Chỗ dán cao: đỏ rát, bong vảy mỏng ở mép miếng dán, không phồng nước, không vết thương, không mủ. Không đường đỏ dọc cẳng chân, không hạch bẹn, không ban nơi khác.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b></div><p><span class="lbl">Kết quả:</span> Không phù chân, mạch mu chân phải bắt rõ, cẳng chân mềm không đau, không giãn tĩnh mạch.</p></div><div class="row"><div class="rh"><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm, không đau, gan lách không to.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 88 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 88 l/p, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi, không T3.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Thở êm, nhịp thở 18 l/p.</p><p><span class="lbl">Kết quả:</span> Thở êm, nhịp thở 18 l/p, phế âm rõ hai phổi, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Hai đáy phổi</b> – Rì rào phế nang bình thường, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>6 mục</small></h3></summary><div class="row"><div class="rh"><b>Acid uric máu</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Cơ sở không làm được.</p><p class="why">Xác nhận chẩn đoán khi có (NICE NG219 2022 mục 1.1.7: urat ≥ 360 µmol/L), nhưng không bắt buộc: gút chẩn đoán lâm sàng được theo tiêu chuẩn Bennett–Wood, &#x27;phù hợp điều kiện thiếu xét nghiệm&#x27; (QĐ 361/2014 bài Bệnh gút mục 3.3); khoảng 40% người có cơn cấp vẫn có acid uric bình thường (mục 3.2).</p></div><div class="row"><div class="rh"><b>Ure, creatinin, eGFR</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Cơ sở không làm được.</p><p class="why">Để chọn colchicin, NSAID (EULAR 2016 khuyến cáo 2: tránh ở suy thận nặng). Vì không đo được nên ca chọn corticoid uống ngắn ngày, hợp lý cho người 46 tuổi, không tiền sử thận (nhận định của tác giả ca).</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-r">Không cần</span></div><p class="why">Không thay đổi xử trí; bạch cầu có thể tăng ở cả gút lẫn nhiễm khuẩn (QĐ 361/2014 bài Bệnh gút mục 3.1; bài Viêm khớp nhiễm khuẩn mục 3.2). Cơ sở cũng không có.</p></div><div class="row"><div class="rh"><b>Chọc hút dịch khớp: đếm tế bào, nhuộm Gram, soi tinh thể (kính phân cực), cấy</b><span class="tag t-r">Không cần</span></div><p class="why">Không chọc: khớp bàn–ngón chân không làm ở tuyến xã; chọc dịch chỉ khi chẩn đoán còn nghi ngờ (NICE NG219 2022 mục 1.1.8). Tiêm hay chọc vào khớp cần thầy thuốc chuyên khoa sau khi loại viêm khớp nhiễm khuẩn (QĐ 361/2014 bài Bệnh gút mục 4.2.2).</p></div><div class="row"><div class="rh"><b>X-quang khớp (tay, cổ tay, gối, chân)</b><span class="tag t-r">Không cần</span></div><p class="why">Giai đoạn đầu X-quang bình thường (QĐ 361/2014 bài Bệnh gút mục 3.2); cơ sở không có.</p></div><div class="row"><div class="rh"><b>RF và anti-CCP</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần: một khớp, 2 ngày, không đối xứng, tay không viêm; khớp bàn–ngón I bị loại khỏi phần chấm điểm (TL-0391 Bảng 3 chú thích §). Cơ sở không có.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Cơn gút cấp (cơn thứ 2 trong khoảng 8 tháng), viêm khớp bàn–ngón chân cái phải, ngày thứ 2; chẩn đoán lâm sàng, chưa xét nghiệm acid uric; chưa tôphi</b></div><p class="why">Tiêu chuẩn Bennett–Wood: có hai yếu tố của mục b là hai đợt sưng đau một khớp khởi phát đột ngột, khỏi hoàn toàn trong 2 tuần, và sưng đau khớp bàn–ngón chân cái (QĐ 361/2014 bài Bệnh gút mục 3.3). Cũng đạt 6/12 tiêu chí ILAR/OMERACT chỉ bằng lâm sàng: viêm tối đa trong 1 ngày, hơn một cơn, một khớp, đỏ, sưng đau khớp bàn–ngón I, một bên (mục 3.3). Khởi phát ban đêm sau bữa nhiều thịt, cá, rượu (mục 3.1; NICE 2022 mục 1.1.1).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm khớp nhiễm khuẩn</b></div><p class="why">Thường một khớp (90%) kèm hội chứng nhiễm trùng: sốt, rét run (QĐ 361/2014 bài Viêm khớp nhiễm khuẩn mục 3.1). Anh sốt nhẹ 37,6 °C, ớn lạnh, không rét run, không vết thương hay đường vào, tiền sử có cơn giống hệt tự khỏi; cần nghĩ tới (NICE 2022 mục 1.1.3) và chuyển ngay nếu nghi ngờ (mục 1.1.4); hẹn theo dõi sát.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm khớp dạng thấp</b></div><p class="why">Mới 2 ngày, một khớp, không cứng khớp buổi sáng, bàn tay không viêm; tiêu chuẩn ACR 1987 cần thời gian viêm ≥ 6 tuần (QĐ 361/2014 bài VKDT mục 3.1) và ACR/EULAR 2010 loại khớp bàn–ngón I khỏi phần chấm điểm (TL-0391 Bảng 3 chú thích §).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm da tiếp xúc kích ứng do thuốc đắp; viêm mô tế bào; giả gút</b></div><p class="why">Mảng đỏ rát ở mép cao dán chỉ là kích ứng tại chỗ; da đỏ lan từ khớp, không mủ, không đường đỏ, không hạch (nhận định của tác giả ca). Viêm mô tế bào, giả gút nằm trong chẩn đoán phân biệt của gút (QĐ 361/2014 bài Bệnh gút mục 3.5); tiêu chuẩn riêng của giả gút: không có trong tài liệu đã tải.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Cắt cơn: prednisolon 30–35 mg/ngày × 3–5 ngày, hoặc NSAID đủ liều kèm PPI (vd etoricoxib 90–120 mg tối đa 8 ngày), hoặc colchicin liều thấp</b></div><p class="why">Ba nhóm đều bậc 1 (ACR 2020 Bảng 6; NICE NG219 2022 mục 1.3.1; EULAR 2016 khuyến cáo 2: prednisolon 30–35 mg/ngày 3–5 ngày; QĐ 361/2014 Phụ lục NSAID mục 4: etoricoxib 90 hoặc 120 mg tối đa 8 ngày). Colchicin: ACR 1,2 mg rồi 0,6 mg sau 1 giờ; EULAR 1 mg rồi 0,5 mg sau 1 giờ nếu trong 12 giờ đầu; QĐ 361 mục 4.2.2: 1 mg/ngày phối hợp NSAID trong 12 giờ đầu. Ca đã ngày thứ 2 và chưa đo được creatinin nên chọn corticoid ngắn ngày (nhận định của tác giả ca).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Ngưng đắp lá, cao dán, rượu thuốc lên khớp; rửa sạch da</b></div><p class="why">Thành phần thuốc đắp và tác dụng trên gút: không có trong tài liệu đã tải. Da đỏ rát ở mép cao dán là dấu kích ứng, nên ngưng (nhận định của tác giả ca).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích bằng lời dễ hiểu: gút là bệnh viêm khớp do acid uric, kiểm soát được; trả lời nỗi sợ &#x27;hư thận, cưa chân&#x27;; thuốc cắt cơn chỉ dùng ngắn ngày</b></div><p class="why">Mọi người bệnh gút cần được thông tin đầy đủ về bệnh, bệnh đồng mắc và nguyên tắc điều trị (EULAR 2016 nguyên tắc A); gút có thể dẫn tới sỏi thận, tổn thương thận khi kéo dài nhiều năm (QĐ 361/2014 bài Bệnh gút mục 3.1, 5).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn trọn gói bằng văn bản: thuốc, dấu hiệu phải quay lại ngay hoặc ra huyện, số điện thoại trạm; hẹn tái khám 10–14 ngày và ghi vào phiếu</b></div><p class="why">Anh ở xa, chỉ làm theo lời dặn viết ra giấy (đặc tả ca). NICE 2022 mục 1.3.6: hẹn tái khám sau cơn để đo urat, giáo dục, đánh giá bệnh đồng mắc, bàn thuốc hạ acid uric. Mốc 10–14 ngày do tác giả ca đặt; cơn thường giảm sau 5–7 ngày (QĐ 361 bài Bệnh gút mục 3.1).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Lối sống: bỏ bia rượu, giảm nội tạng, cá, tôm, thịt đỏ, nước ngọt; uống nhiều nước; chườm đá lên khớp; đi giày rộng, nghỉ chân</b></div><p class="why">QĐ 361/2014 bài Bệnh gút mục 4.2.1 (tránh tạng động vật, thịt, cá, tôm, cua; không rượu; 2–4 lít nước/24 giờ); ACR 2020 Bảng 6 (chườm đá), Bảng 7 (hạn chế rượu, purin, đường fructose); EULAR 2016 nguyên tắc B; NICE 2022 mục 1.3.5, 1.4.2.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Báo cho anh biết cần đo acid uric và creatinin ở nơi có xét nghiệm, và sẽ bàn thuốc hạ acid uric lâu dài ở lần hẹn</b></div><p class="why">NICE 2022 mục 1.1.7 (đo urat), mục 1.5.2 (bàn về thuốc hạ urat với người đã có cơn đầu hay các cơn sau); EULAR 2016 khuyến cáo 5; ACR 2020 Bảng 1.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Paracetamol 500–1000 mg khi đau, tối đa 4 g/24 giờ</b></div><p class="why">QĐ 361/2014 Phụ lục thuốc giảm đau mục 3.1 (500–1000 mg/lần, không quá 4 g/24 giờ); chỉ hỗ trợ, không thay thuốc cắt cơn.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Tiêm corticoid vào khớp hoặc chọc hút khớp tại trạm</b></div><p class="why">Tiêm corticoid trực tiếp vào khớp phải do thầy thuốc chuyên khoa cơ xương khớp thực hiện sau khi loại viêm khớp nhiễm khuẩn (QĐ 361/2014 bài Bệnh gút mục 4.2.2).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê kháng sinh &#x27;phòng nhiễm trùng&#x27; vì da đỏ, sốt nhẹ</b></div><p class="why">Kháng sinh dành cho viêm khớp nhiễm khuẩn đã có tiêu chuẩn (QĐ 361/2014 bài Viêm khớp nhiễm khuẩn mục 3.3, 4.1); tài liệu đã tải không nêu kháng sinh cho cơn gút. Anh không có bằng chứng nhiễm khuẩn khớp.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Anh Tư bị giữ lại bệnh viện huyện cách nhà hơn 40 km vì &#x27;sưng đỏ nóng khớp&#x27;, mất 3–4 ngày công thợ sơn và tiền xe. Cơn gút cấp điều trị được ngoại trú bằng thuốc uống (ACR 2020 Bảng 6; QĐ 361/2014 bài Bệnh gút mục 4.2.2); anh chỉ sốt nhẹ, một khớp, không rét run (QĐ 361/2014 bài Viêm khớp nhiễm khuẩn mục 3.1). Về nhà anh vẫn nghĩ &#x27;bệnh nặng, thuốc Tây hại&#x27; và càng ngại quay lại khám.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Anh bị chuyển lên huyện &#x27;để làm xét nghiệm&#x27; ngay hôm nay: xe buýt chỉ một chuyến, ngón chân sưng đau khó đi, phải ngủ lại huyện. Chưa có thuốc cắt cơn nên viêm vẫn kéo dài 5–7 ngày (QĐ 361/2014 bài Bệnh gút mục 3.1), trong khi chẩn đoán hôm nay làm được bằng lâm sàng (tiêu chuẩn Bennett–Wood, QĐ 361/2014 mục 3.3). Nhiều khả năng anh không đi, bỏ giấy chuyển và quay lại đắp lá.</p></div><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Anh chỉ được dặn &#x27;đau thì tự theo dõi, uống thuốc giảm đau&#x27;, không có thuốc cắt cơn, không phiếu hẹn, không số điện thoại. Anh về tiếp tục đắp lá và dán cao trên vùng da đã đỏ rát, rồi đi công trình xa vài tuần; cơn kéo dài nhiều ngày (QĐ 361/2014 bài Bệnh gút mục 3.1) và anh không biết khi nào phải đi khám lại. Nỗi lo &#x27;hư thận, cưa chân&#x27; từ mạng vẫn không được trả lời.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Cơn gút cấp thứ 2 trong khoảng 8 tháng, viêm khớp bàn–ngón chân cái phải, ngày thứ 2; chẩn đoán lâm sàng theo Bennett–Wood và ILAR/OMERACT 6/12 (chưa đo acid uric, không có xét nghiệm tại cơ sở)</li><li>Viêm da tiếp xúc kích ứng nhẹ tại chỗ dán cao, thuốc đắp không rõ thành phần</li><li>Yếu tố thuận lợi: tiệc gỏi cá, lòng heo, hải sản, bia khoảng 5 lon; yếu tố nguy cơ: bia hằng ngày, ít uống nước khi làm ngoài nắng, thừa cân nhẹ (BMI 25,5), anh trai bị gút; thận và huyết áp chưa từng được kiểm tra</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Hướng gút: đau dữ dội khởi phát ban đêm, bàn–ngón chân cái sưng nóng đỏ căng bóng, sốt nhẹ, sau bữa nhiều đạm và rượu bia (QĐ 361/2014 bài Bệnh gút mục 3.1; NICE NG219 2022 mục 1.1.1). Nam, 46 tuổi, trong lứa tuổi hay gặp cơn đầu 35–55 (mục 3.1).</li><li>Xác nhận không cần xét nghiệm: tiêu chuẩn Bennett–Wood &#x27;được áp dụng rộng rãi nhất ở Việt Nam do dễ nhớ và phù hợp với điều kiện thiếu xét nghiệm&#x27; (QĐ 361/2014 bài Bệnh gút mục 3.3); anh có 2 yếu tố của mục b (≥ 2 đợt sưng đau một khớp khởi phát đột ngột, khỏi hoàn toàn trong 2 tuần; sưng đau khớp bàn–ngón chân cái). Độ nhạy 70%, đặc hiệu 82,7% nên theo dõi sát và xác nhận bằng acid uric khi có điều kiện (NICE 2022 mục 1.1.7).</li><li>Loại viêm khớp nhiễm khuẩn: một khớp là thường gặp nhưng cần hội chứng nhiễm trùng (sốt, rét run) và dịch khớp mủ hoặc cấy dương tính (QĐ 361/2014 bài Viêm khớp nhiễm khuẩn mục 3.1, 3.3). Anh chỉ sốt 37,6 °C, không vết thương, từng có cơn giống hệt tự khỏi; vẫn dặn dấu hiệu chuyển ngay (NICE 2022 mục 1.1.4).</li><li>Loại VKDT: mới 2 ngày, một khớp, bàn tay không viêm, không cứng khớp buổi sáng (ACR 1987 cần ≥ 6 tuần, QĐ 361 bài VKDT mục 3.1); ACR/EULAR 2010 loại khớp bàn–ngón I khỏi phần chấm điểm (TL-0391 Bảng 3 chú thích §).</li><li>Mảng đỏ rát ở mép miếng dán là kích ứng da do thuốc đắp, không phải viêm mô tế bào (không mủ, không đường đỏ, không hạch); thành phần thuốc đắp: không có trong tài liệu đã tải.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Ba nhóm cắt cơn bậc 1 ngang nhau, chọn theo bệnh đi kèm và thuốc đang dùng (ACR 2020 Bảng 6; NICE 2022 mục 1.3.1; EULAR 2016 khuyến cáo 2). Với anh: đã qua 12 giờ nên colchicin mất lợi thế (EULAR; QĐ 361 mục 4.2.2); chưa đo được creatinin nên tránh NSAID, colchicin (EULAR khuyến cáo 2: tránh ở suy thận nặng); chọn prednisolon 30 mg × 5 ngày (EULAR 30–35 mg/ngày 3–5 ngày). Corticoid toàn thân cần &#x27;hạn chế, ngắn ngày&#x27; (QĐ 361 mục 4.2.2; Phụ lục glucocorticoid mục 1) nên chỉ dùng một đợt ngắn. Chọn NSAID kèm PPI hoặc colchicin liều thấp vẫn đúng nếu nêu được lý do.</li><li>Ngưng thuốc đắp: da đã đỏ rát, thành phần không rõ (không có trong tài liệu đã tải). Dặn trọn gói bằng văn bản vì anh ở xa, đi công trình nhiều tuần (đặc tả ca).</li><li>Hạ acid uric lâu dài chưa bắt đầu hôm nay: cơn đang cấp, chưa biết acid uric và thận. Bàn ở lần hẹn (NICE 2022 mục 1.3.6, 1.5.2; QĐ 361 mục 4.2.2: sau khi viêm thuyên giảm); ACR 2020 Bảng 2 cho phép khởi ngay trong cơn nhưng phải kèm dự phòng viêm và liều khởi đầu thấp.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Prednisolon</b><div class="sub">5 mg/viên</div></td><td data-l="Liều">30 mg (6 viên) mỗi ngày<div class="sub">Uống · 1 lần buổi sáng, sau ăn no</div></td><td data-l="Thời gian">5 ngày, ngưng hẳn không giảm dần</td><td class="gc" data-l="Ghi chú">EULAR 2016 khuyến cáo 2: 30–35 mg/ngày prednisolon trong 3–5 ngày. Thay thế: NSAID kèm PPI (QĐ 361 Phụ lục NSAID mục 3.3, 4) hoặc colchicin liều thấp (ACR 2020 Bảng 6). Theo dõi đau dạ dày, HA, đường máu (QĐ 361 Phụ lục glucocorticoid mục 1).</td></tr><tr><td><b>Paracetamol</b><div class="sub">500 mg/viên</div></td><td data-l="Liều">1–2 viên mỗi lần khi đau, cách nhau ít nhất 6 giờ<div class="sub">Uống · Khi đau nhiều, sau ăn</div></td><td data-l="Thời gian">Tối đa 3–4 ngày, không quá 4 g/24 giờ</td><td class="gc" data-l="Ghi chú">QĐ 361/2014 Phụ lục thuốc giảm đau mục 3.1 (500–1000 mg/lần, ngày 1–4 lần cách nhau 6–8 giờ, không quá 4 g/24 giờ). Chỉ hỗ trợ.</td></tr><tr><td><b>Thuốc đắp lá, cao dán, rượu thuốc</b><div class="sub">-</div></td><td data-l="Liều">NGƯNG<div class="sub">- · -</div></td><td data-l="Thời gian">-</td><td class="gc" data-l="Ghi chú">Thành phần và tác dụng trên gút: không có trong tài liệu đã tải; da đã đỏ rát (nhận định của tác giả ca).</td></tr><tr><td><b>Chưa kê hôm nay: allopurinol, colchicin dự phòng</b><div class="sub">-</div></td><td data-l="Liều">-<div class="sub">- · -</div></td><td data-l="Thời gian">-</td><td class="gc" data-l="Ghi chú">Bàn thuốc hạ acid uric ở lần hẹn, sau khi biết acid uric và thận (NICE 2022 mục 1.3.6, 1.5.2; QĐ 361 mục 4.2.2).</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Uống đủ 5 ngày prednisolon vào buổi sáng, sau ăn; không tự ngưng, không uống thêm thuốc giảm đau hay thuốc lạ (QĐ 361 Phụ lục NSAID mục 2); ngưng đắp lá, cao dán, rượu thuốc.</li><li>Viết ra giấy và đưa số điện thoại trạm: đến ngay trạm hoặc bệnh viện huyện nếu sốt cao hoặc rét run, khớp đỏ nóng lan rộng hay đau tăng dù uống thuốc 2 ngày, có vết loét hay mủ ở da, nôn ra máu hoặc đi cầu phân đen (QĐ 361 bài Viêm khớp nhiễm khuẩn mục 3.1; Phụ lục glucocorticoid mục 1; NICE 2022 mục 1.1.4).</li><li>Bỏ bia rượu, tránh nội tạng, cá, tôm, cua, thịt quá 150 g/ngày; uống 2–4 lít nước/ngày, nhất là khi làm ngoài nắng; chườm đá cạnh uống thuốc (QĐ 361 mục 4.2.1; ACR 2020 Bảng 6–7).</li><li>Tái khám sau 10–14 ngày, ghi ngày vào phiếu; trước khi đi công trình xa phải ghé khám để lấy đủ lời dặn; lần đó đo lại huyết áp và bàn thuốc hạ acid uric lâu dài, đi xét nghiệm acid uric và creatinin ở nơi có (NICE 2022 mục 1.3.6).</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-2">
+ <h2 id="h-luot-2"><span class="ln">Lượt 2/2</span> · ngày thứ 14, theo phiếu hẹn</h2>
+ <div class="card intro"><h3 id="m-8">Tiếp đón</h3><p>Anh Lê Văn Tư tái khám theo phiếu hẹn (14 ngày trước: cơn gút cấp ngón chân cái phải, kê prednisolon 30 mg × 5 ngày, dặn bỏ bia, ngưng thuốc đắp, hẹn tái khám). Mạch 80 l/p, HA 136/86 mmHg, nhiệt 37,3 °C, nhịp thở 18 l/p, SpO₂ 98%, cân nặng 72 kg. Trạm vẫn không có xét nghiệm, X-quang, siêu âm.</p>
+  <blockquote>“Chào bác sĩ. Ngón cái đỡ nhiều rồi mà vẫn còn ê. Mấy bữa nay cái cổ chân bên trái lại sưng đau, mang dép không nổi. Tôi đọc mạng nói gút cứ tái đi tái lại là hư thận, mà thuốc hạ acid uric uống suốt đời hại gan hại thận. Bác sĩ cho thuốc cắt cơn thôi, nhà tôi xa, đi lại mệt lắm.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>80</b><small>l/p</small></div><div class="vs"><span>HA</span><b>136/86</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>37,3</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>18</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-9">Hỏi bệnh <small>9 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám (lời khai)</b><span class="tag t-g">Tự kể</span></div><p>Ngón cái phải đỡ nhiều nhưng còn ê. Ba ngày nay cổ chân trái sưng đau, mang dép khó. Anh lo gút làm hư thận.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đáp ứng với điều trị cơn trước, còn đỡ một phần</b><span class="tag t-b">Khi được hỏi</span></div><p>Uống đủ 5 ngày prednisolon, đỡ từ ngày thứ 2, hết đau hẳn ngón cái ngày thứ 4, đi lại được. Từ ngày 8 đi làm lại; mang giày bảo hộ thấy ngón cái còn &#x27;ê ê, hơi to hơn bên kia&#x27;. Không đau dạ dày, không đi cầu phân đen.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Cơn mới ở khớp khác sau bia và vi chấn thương; tái phát</b><span class="tag t-b">Khi được hỏi</span></div><p>Cách đây 3 ngày đi đám giỗ, uống 4 lon bia, ăn đồ nhậu; hôm sau leo giàn giáo, bước hụt một nấc thang nhưng không té, không đau ngay. Tối đó cổ chân trái bắt đầu đau, sáng sau sưng đỏ. Đây là cơn thứ ba trong khoảng 8 tháng.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tuân thủ lối sống; nguyên nhân nền chưa xử lý</b><span class="tag t-b">Khi được hỏi</span></div><p>Sau lần khám trước anh bỏ bia được 10 ngày, rồi &#x27;không uống thì mất mặt&#x27; ở đám giỗ. Ngày thường 1–2 lon, ít uống nước khi đứng giàn giáo.</p></div><div class="fact"><div class="fh"><b>thuoc</b><span class="tag t-b">Khi được hỏi</span></div><p>Từ lần khám trước không đắp lá, không dán cao, không uống thuốc giảm đau tự mua. Không còn prednisolon. Chưa dùng allopurinol hay colchicin bao giờ.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Loại nhiễm khuẩn; hỏi tiểu trước khi dùng colchicin; bệnh hệ thống</b><span class="tag t-b">Khi được hỏi</span></div><p>Không sốt rét run, tiểu bình thường (không ít, không đỏ, không buốt), không đau hông lưng, không đau bụng, không tiêu chảy, không phát ban. Các khớp khác không đau, tay không cứng sáng.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khả năng đi xét nghiệm tuyến huyện, ràng buộc tái khám</b><span class="tag t-b">Khi được hỏi</span></div><p>Mỗi tháng anh ra huyện một lần để mua sơn; tuần sau lại đi công trình xa 3 tuần, không có sóng điện thoại. Có thẻ BHYT. Nếu đi xét nghiệm được vào sáng mai khi ra huyện lấy sơn thì anh chịu; bác sĩ viết rõ ra giấy là phải làm gì ở huyện.</p></div><div class="fact"><div class="fh"><b>google</b><span class="tag t-g">Tự kể</span></div><p>Anh đọc trên mạng: &#x27;uống allopurinol hại gan hại thận, phải uống suốt đời; mới uống còn đau dữ hơn&#x27;. Anh muốn &#x27;chỉ xin thuốc cắt cơn thôi&#x27;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Động cơ thật: sợ thuốc dài hạn và hư thận, chưa hiểu mục đích thuốc hạ acid uric</b><span class="tag t-r">Giấu</span></div><p>Lý do thật: ngón cái chưa hết to hẳn nên anh sợ &#x27;bệnh đã ăn vào xương&#x27;, sợ nghe bác sĩ nói phải uống thuốc cả đời rồi hư thận. Anh cần được nghe rõ thuốc hạ acid uric làm gì, và thận sẽ được kiểm tra trước khi dùng.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi anh sợ gì nhất, hoặc hỏi anh nghĩ vì sao ngón cái chưa hết to hẳn.</div></div></details>
+ <details class="card"><summary><h3 id="m-10">Khám <small>7 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, đi cà nhắc nhẹ bên trái. BMI 25,5. Vành tai, khuỷu, gân Achille, ngón tay: không hạt tôphi.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Cơ xương khớp, cột sống</b></div><p><span class="lbl">Kết quả:</span> Khớp bàn–ngón chân cái phải: hết đỏ nóng, còn sưng nhẹ, ấn đau nhẹ, gấp duỗi gần đủ. Cổ chân trái: sưng nhẹ mặt trước, ấm, hơi đỏ, đau khi gập duỗi, hạn chế vừa, tràn dịch ít; ấn khớp sên–gót không đau. Gối, háng, bàn tay, cổ tay: không sưng.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b></div><p><span class="lbl">Kết quả:</span> Da cũ quanh ngón cái phải sạm nhẹ, bong vảy khô, không đỏ, không vết loét. Da cổ chân trái hơi đỏ lan đều, không vết thương, không mủ, không đường đỏ.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b></div><p><span class="lbl">Kết quả:</span> Không phù chân, mạch mu chân hai bên rõ, cẳng chân mềm không đau.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b></div><p><span class="lbl">Kết quả:</span> Hố thắt lưng hai bên không đau khi gõ, không căng bàng quang.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 80 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 80 l/p, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi, không T3.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Thở êm, nhịp thở 18 l/p.</p><p><span class="lbl">Kết quả:</span> Thở êm, nhịp thở 18 l/p, phế âm rõ hai phổi, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Hai đáy phổi</b> – Rì rào phế nang bình thường, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-11">Cận lâm sàng <small>7 mục</small></h3></summary><div class="row"><div class="rh"><b>Acid uric máu</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Cơ sở không làm được.</p><p class="why">Cần trước khi và trong khi dùng thuốc hạ acid uric theo đích (ACR 2020 Bảng 3: dưới 6 mg/dL; NICE 2022 mục 1.5.5–1.5.6: đo hằng tháng, đích dưới 360 µmol/L); xác nhận chẩn đoán (NICE mục 1.1.7). Thay bằng: chuyển tuyến có xét nghiệm.</p></div><div class="row"><div class="rh"><b>Ure, creatinin, eGFR</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Cơ sở không làm được.</p><p class="why">Liều allopurinol tối đa chỉnh theo độ thanh thải creatinin (EULAR 2016 khuyến cáo 9); khởi đầu thấp hơn nữa khi bệnh thận mạn (ACR 2020 Bảng 2); sàng lọc bệnh thận đi kèm (EULAR nguyên tắc C; NICE 2022 mục 1.3.6). Thay bằng: chuyển tuyến có xét nghiệm.</p></div><div class="row"><div class="rh"><b>Xét nghiệm HLA-B*58:01 (trước khi dùng allopurinol)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Cơ sở không làm được.</p><p class="why">ACR 2020 Bảng 4: khuyến cáo có điều kiện thử HLA-B*5801 trước allopurinol ở người gốc Đông Nam Á, Hán, Hàn, Thái; EULAR 2016 và QĐ 361/2014 không nêu (QĐ 361 mục 4.2.2 chỉ dặn theo dõi sát dị ứng). Xét nghiệm tốn kém, làm ở tuyến trên (nhận định của tác giả ca).</p></div><div class="row"><div class="rh"><b>Bộ mỡ máu</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Cơ sở không làm được.</p><p class="why">Bệnh đồng mắc cần sàng lọc ở người gút: tim mạch, tăng huyết áp, rối loạn lipid, đái tháo đường (EULAR 2016 nguyên tắc C). Không bắt buộc hôm nay.</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-r">Không cần</span></div><p class="why">Không đổi xử trí (QĐ 361/2014 bài Bệnh gút mục 3.1). Cơ sở cũng không có.</p></div><div class="row"><div class="rh"><b>Chọc hút dịch khớp: đếm tế bào, nhuộm Gram, soi tinh thể (kính phân cực), cấy</b><span class="tag t-r">Không cần</span></div><p class="why">Không chọc: không nghi ngờ nhiễm khuẩn; chọc dịch chỉ khi chẩn đoán còn nghi ngờ (NICE NG219 2022 mục 1.1.8). Cơ sở không có.</p></div><div class="row"><div class="rh"><b>X-quang khớp (tay, cổ tay, gối, chân)</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần: không nghi gãy xương; bước hụt thang nhưng đi được ngay và sưng xuất hiện sau bia. Cơ sở không có X-quang.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-12">Đáp án lượt 2 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Chuyển tuyến / chuyên khoa</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Gút tái phát: cơn cấp thứ 3 trong khoảng 8 tháng ở cổ chân trái (ngày thứ 3), cơn ngón cái phải đã đỡ một phần; chưa tôphi; chưa xác nhận acid uric và chức năng thận; cần bắt đầu thuốc hạ acid uric</b></div><p class="why">Hai yếu tố Bennett–Wood vẫn thỏa và nay có thêm đợt thứ ba (QĐ 361/2014 bài Bệnh gút mục 3.3); cơn cấp có thể lan sang nhiều khớp: bàn chân, cổ chân, gối (mục 3.1); bia và vi chấn thương là yếu tố khởi phát (mục 3.1). ULT được chỉ định cho cơn tái phát (EULAR 2016 khuyến cáo 5; NICE 2022 mục 1.5.1; ACR 2020 Bảng 1).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm khớp nhiễm khuẩn cổ chân</b></div><p class="why">Không sốt 37,3 °C, không rét run, không vết thương hay đường vào, tiền sử hai cơn giống nhau tự lui hoặc đáp ứng cơn trước; vẫn là chẩn đoán phân biệt của khớp đỏ nóng (NICE 2022 mục 1.1.3; QĐ 361 bài Viêm khớp nhiễm khuẩn mục 3.1).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm khớp dạng thấp</b></div><p class="why">Mới 2 tuần (ACR 1987 cần ≥ 6 tuần: QĐ 361 bài VKDT mục 3.1), hai khớp luân phiên không đối xứng, tay không viêm, không cứng khớp buổi sáng; cổ chân là một khớp lớn (TL-0391 Bảng 3: 1 khớp lớn 0 điểm), khớp bàn–ngón I bị loại. Gút không phân biệt được bằng huyết thanh khi cơ sở không có xét nghiệm, nên dựa vào lâm sàng.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Bong gân cổ chân do bước hụt thang</b></div><p class="why">Sưng đỏ nóng tăng dần sau 1 ngày, bước hụt không đau ngay, không té; vi chấn thương là yếu tố khởi phát cơn gút (QĐ 361/2014 bài Bệnh gút mục 3.1). Tiêu chuẩn riêng của bong gân: không có trong tài liệu đã tải.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Cắt cơn cổ chân trái: prednisolon 30–35 mg/ngày × 3–5 ngày, hoặc prednisolon giảm dần 14–21 ngày kèm colchicin liều thấp, hoặc NSAID kèm PPI, hoặc colchicin liều thấp</b></div><p class="why">EULAR 2016 khuyến cáo 2: prednisolon 30–35 mg/ngày 3–5 ngày. Hướng dẫn Trung Quốc 2024 (TL-0306) mục 3.3, khuyến cáo 6–7: gút tái phát (nhất là trong 3 tháng sau cơn trước hoặc chưa dự phòng) giảm dần trong 14–21 ngày, kèm colchicin liều thấp; hai cách khác nhau vì TQ 2024 nhắm nhóm hay tái phát để tránh cơn dội, EULAR viết cho cơn chung; không nguồn nào nói cách kia gây hại. NSAID kèm PPI hoặc colchicin liều thấp đơn độc cũng chấp nhận (ACR 2020 Bảng 6; QĐ 361/2014 Phụ lục NSAID mục 4); creatinin chưa đo nên thận trọng (EULAR khuyến cáo 2). Lịch giảm liều cụ thể: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chuyển tuyến có hẹn trong 1–2 ngày (bệnh viện huyện) để đo acid uric, creatinin/eGFR, đường huyết, mỡ máu, cân nhắc HLA-B*5801 và bắt đầu thuốc hạ acid uric theo đích, có tái khám đo urat hằng tháng</b></div><p class="why">Thuốc hạ acid uric theo đích (treat-to-target) cần đo urat nhiều lần (ACR 2020 Bảng 3; NICE 2022 mục 1.5.1, 1.5.5–1.5.6; EULAR 2016 khuyến cáo 5, 6, 7); allopurinol khởi ≤ 100 mg/ngày, thấp hơn nữa khi bệnh thận (ACR 2020 Bảng 2; EULAR khuyến cáo 8–9); thử HLA-B*5801 (ACR 2020 Bảng 4). Trạm không làm được các xét nghiệm này nên chuyển tuyến không cấp cứu; tiêu chuẩn chuyển tuyến riêng của gút: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Viết giấy chuyển tuyến và phiếu dặn: tóm tắt 3 cơn, thuốc đã dùng, việc cần làm ở huyện, dấu hiệu phải đến ngay, số điện thoại trạm; hẹn ngày ra huyện trùng ngày anh lấy sơn</b></div><p class="why">Anh chỉ làm theo lời dặn viết (đặc tả ca); anh ra huyện mỗi tháng, tuần sau đi công trình xa 3 tuần (su_that o_xa). Dặn dò và sự tham gia của người bệnh: EULAR 2016 nguyên tắc A, khuyến cáo 5.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích mục đích thuốc hạ acid uric (dùng lâu dài, đo thận trước và chỉnh liều theo thận), cơn có thể xảy ra lúc mới dùng nên kèm colchicin dự phòng; trả lời nỗi sợ &#x27;hại thận&#x27;</b></div><p class="why">Thuốc hạ urat thường dùng liên tục sau khi đạt đích, thường suốt đời (NICE 2022 mục 1.5.3); dự phòng cơn khi bắt đầu thuốc hạ urat: colchicin 0,5–1 mg/ngày trong 6 tháng đầu (EULAR 2016 khuyến cáo 4; QĐ 361 mục 4.2.2: ít nhất 6 tháng) hoặc 3–6 tháng (ACR 2020 Bảng 2); thời gian ghi cả hai, 6 tháng nằm trong mọi khoảng. Liều allopurinol theo eGFR: EULAR khuyến cáo 9.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Bàn lại bia rượu, nội tạng, nước uống; chườm đá khi đau; nghỉ chân, bước thang cẩn thận</b></div><p class="why">QĐ 361/2014 bài Bệnh gút mục 4.2.1; ACR 2020 Bảng 6–7; EULAR 2016 nguyên tắc B; NICE 2022 mục 1.3.5, 1.4.2. Bia là nguyên nhân nền chưa xử lý của cơn tái phát (đặc tả ca).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Khởi allopurinol ≤ 100 mg/ngày ngay tại trạm kèm colchicin dự phòng khi chưa đo được creatinin, urat, HLA-B*5801</b></div><p class="why">ACR 2020 Bảng 2: khởi allopurinol ≤ 100 mg/ngày được phép bắt đầu ngay trong cơn; Bảng 4: thử HLA-B*5801 chỉ là khuyến cáo có điều kiện; QĐ 361/2014 mục 4.2.2 yêu cầu theo dõi sát dị ứng nhiều ngày đến 1–2 tuần đầu. Không nguồn nào cấm, nhưng tại trạm không đo được urat, creatinin, không theo dõi hằng tháng được nên ca chọn chuyển tuyến (nhận định của tác giả ca).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cắt cơn rồi cho về, hẹn &#x27;khi nào đau lại mới ghé&#x27;, không xét nghiệm, không bàn thuốc hạ acid uric</b></div><p class="why">Gút tái phát cần thuốc hạ acid uric theo đích (EULAR 2016 khuyến cáo 5: chỉ định cho mọi người có cơn tái phát; NICE 2022 mục 1.5.1; ACR 2020 Bảng 1). Không điều trị hạ acid uric thì cơn sẽ lặp lại, có thể tới tôphi, bệnh khớp do urat (QĐ 361/2014 mục 3.1, 5).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Tiêm corticoid hay chọc hút khớp cổ chân tại trạm</b></div><p class="why">Tiêm corticoid vào khớp phải do thầy thuốc chuyên khoa sau khi loại viêm khớp nhiễm khuẩn (QĐ 361/2014 bài Bệnh gút mục 4.2.2).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Cho về, hẹn tái khám</span></div><p>Anh được cắt cơn cổ chân rồi cho về với lời hẹn &#x27;khi nào đau lại thì ghé&#x27;, không xét nghiệm, không bàn thuốc hạ acid uric dù đã 3 cơn trong khoảng 8 tháng. Anh làm công trình xa nhiều tuần, không có sóng điện thoại; cơn sẽ lặp lại khi gặp bia hoặc vi chấn thương, và gút không hạ acid uric có thể dần có tôphi, bệnh khớp do urat, sỏi thận (QĐ 361/2014 bài Bệnh gút mục 3.1, 5). Thuốc hạ acid uric được chỉ định cho gút tái phát (EULAR 2016 khuyến cáo 5; NICE NG219 2022 mục 1.5.1; ACR 2020 Bảng 1).</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Anh bị nhập viện huyện nhiều ngày &#x27;để truyền thuốc và xét nghiệm&#x27; dù chỉ viêm một đến hai khớp, sinh hiệu ổn, ăn uống được. Cơn gút cấp điều trị được ngoại trú bằng thuốc uống (ACR 2020 Bảng 6); đo acid uric, creatinin và bắt đầu thuốc hạ acid uric làm được trong một lần đến cơ sở có xét nghiệm. Anh mất vài ngày công và tiền viện phí, càng ngại điều trị lâu dài (nhận định của tác giả ca).</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Gút tái phát: cơn cấp thứ 3 trong khoảng 8 tháng ở cổ chân trái (ngày thứ 3), cơn bàn–ngón chân cái phải đã đỡ một phần (còn sưng nhẹ); chưa tôphi</li><li>Chưa biết acid uric, creatinin/eGFR, đường huyết, mỡ máu (cơ sở không có xét nghiệm); HA 136/86 mmHg cần đo lại</li><li>Yếu tố khởi phát: bia 4 lon ở đám giỗ, vi chấn thương leo thang; nguyên nhân nền chưa xử lý: bia thường xuyên, ít uống nước, chưa dùng thuốc hạ acid uric. Chỉ định thuốc hạ acid uric đã rõ, cần xét nghiệm để bắt đầu an toàn</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Cơn thứ ba, vị trí mới (cổ chân trái), khởi phát sau bia và vi chấn thương, không sốt, các khớp khác bình thường: hợp gút (QĐ 361/2014 bài Bệnh gút mục 3.1: cơn cấp dễ tái phát, lan sang bàn chân, cổ chân, gối; điều kiện thuận lợi gồm rượu và vi chấn thương). Bennett–Wood vẫn thỏa (mục 3.3).</li><li>Ngón cái đỡ một phần: chỉ còn sưng nhẹ, hết đỏ nóng; cơn gút thường lui sau 5–7 ngày và khớp trở lại bình thường, nhưng cũng có thể nhẹ, kín đáo (QĐ 361/2014 bài Bệnh gút mục 3.1). Anh vẫn đi giày bảo hộ chật cả ngày và uống bia lại (nhận định của tác giả ca).</li><li>Loại viêm khớp nhiễm khuẩn cổ chân: không sốt, không rét run, không đường vào, tiền sử cơn giống nhau (QĐ 361 bài Viêm khớp nhiễm khuẩn mục 3.1; NICE 2022 mục 1.1.3–1.1.4). Loại VKDT: mới 2 tuần (ACR 1987 cần ≥ 6 tuần, QĐ 361 bài VKDT mục 3.1), không đối xứng, tay không viêm (TL-0391 Bảng 3).</li><li>Bong gân: tiền sử bước hụt nhưng không đau ngay, sưng đỏ nóng xuất hiện sau bia; vi chấn thương là yếu tố khởi phát của chính gút (QĐ 361 mục 3.1).</li><li>Chỉ định thuốc hạ acid uric: cơn thứ ba trong khoảng 8 tháng, tức nhiều cơn (EULAR 2016 khuyến cáo 5: tất cả người có cơn tái phát; NICE 2022 mục 1.5.1: nhiều cơn hoặc cơn gây phiền; ACR 2020 Bảng 1: nhiều hơn 1 cơn, khuyến cáo có điều kiện nếu dưới 2 cơn/năm, mạnh nếu thường xuyên). Các nguồn đều dẫn tới cùng hướng.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Cắt cơn: hai cách đều đúng. Prednisolon 30–35 mg/ngày × 3–5 ngày (EULAR 2016 khuyến cáo 2) hoặc giảm dần 14–21 ngày kèm colchicin liều thấp khi tái phát trong 3 tháng (TQ 2024 mục 3.3, khuyến cáo 6–7); khác nhau vì TQ 2024 nhắm nhóm hay tái phát. Ca kê prednisolon 30 mg × 5 ngày (lần thứ hai trong 3 tuần, vẫn ngắn ngày theo QĐ 361 Phụ lục glucocorticoid mục 1) kèm colchicin 0,5 mg/ngày cầu nối tới khi gặp tuyến trên. NSAID hoặc colchicin liều thấp đơn độc cũng chấp nhận (ACR 2020 Bảng 6); chưa biết creatinin nên thận trọng (EULAR khuyến cáo 2).</li><li>Vì sao chuyển tuyến: thuốc hạ acid uric phải đo urat và creatinin trước và theo dõi hằng tháng (NICE 2022 mục 1.5.5; ACR 2020 Bảng 3), chọn liều theo thận (EULAR khuyến cáo 9), thử HLA-B*5801 ở người gốc Đông Nam Á (ACR Bảng 4); trạm không làm được. Khởi tại trạm không bị tài liệu nào cấm nhưng mất an toàn và hiệu quả vì không theo dõi được; vì vậy ca chọn chuyển tuyến có hẹn, một lần đến gói gọn.</li><li>Thời điểm khởi thuốc hạ acid uric: ACR 2020 Bảng 2 (có điều kiện) khởi ngay trong cơn; NICE 2022 mục 1.5.4: ít nhất 2–4 tuần sau cơn lui, trừ khi cơn dày thì khởi trong cơn; QĐ 361 mục 4.2.2: sau khi viêm thuyên giảm (1–2 tuần colchicin). Tuyến trên quyết định theo tình trạng lúc đến; cả hai thời điểm chấp nhận. Liều khởi ≤ 100 mg/ngày (ACR Bảng 2) hoặc 100 mg, tăng 100 mg mỗi 2–4 tuần (EULAR khuyến cáo 8); QĐ 361 mục 4.2.2: 100 mg/ngày 1 tuần rồi 200–300 mg/ngày.</li><li>Dự phòng cơn khi bắt đầu thuốc hạ acid uric: colchicin 0,5–1 mg/ngày trong 6 tháng (EULAR khuyến cáo 4; QĐ 361 mục 4.2.2) hoặc 3–6 tháng (ACR Bảng 2), TQ 2024 khuyến cáo 10–11: ≥ 3 tháng (không tôphi) sau khi đạt đích. Anh ở xa nên cần dặn lặp lại: không bỏ thuốc khi hết đau.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Prednisolon</b><div class="sub">5 mg/viên</div></td><td data-l="Liều">30 mg (6 viên) mỗi ngày<div class="sub">Uống · 1 lần buổi sáng, sau ăn no</div></td><td data-l="Thời gian">5 ngày</td><td class="gc" data-l="Ghi chú">EULAR 2016 khuyến cáo 2: 30–35 mg/ngày prednisolon 3–5 ngày. Cách khác: giảm dần 14–21 ngày kèm colchicin liều thấp (TQ 2024 mục 3.3); lịch giảm liều cụ thể không có trong tài liệu đã tải. Theo dõi dạ dày, HA, đường máu (QĐ 361 Phụ lục glucocorticoid mục 1).</td></tr><tr><td><b>Colchicin</b><div class="sub">0,5 mg/viên (hàm lượng lưu hành tại Việt Nam: không có trong tài liệu đã tải)</div></td><td data-l="Liều">0,5 mg mỗi ngày<div class="sub">Uống · Buổi tối, sau ăn</div></td><td data-l="Thời gian">Từ hôm nay cho tới khi gặp bác sĩ tuyến huyện (tối đa 14 ngày)</td><td class="gc" data-l="Ghi chú">EULAR 2016 khuyến cáo 4: colchicin 0,5–1 mg/ngày; QĐ 361 mục 4.2.2: 0,5–1,2 mg/ngày; TQ 2024 mục 3.3 khuyến cáo 7: kèm colchicin liều thấp khi dùng corticoid cho gút tái phát. Ngưng nếu tiêu chảy, nôn; không dùng với clarithromycin (EULAR khuyến cáo 2). Mốc tối đa 14 ngày do tác giả ca đặt.</td></tr><tr><td><b>Allopurinol</b><div class="sub">-</div></td><td data-l="Liều">CHƯA kê tại trạm<div class="sub">- · -</div></td><td data-l="Thời gian">-</td><td class="gc" data-l="Ghi chú">Khởi ở tuyến huyện sau khi có urat, creatinin (ACR 2020 Bảng 2–4; EULAR khuyến cáo 8–9; NICE 1.5.5). Kê tại trạm chấm chấp nhận, không bắt buộc.</td></tr><tr><td><b>Giấy chuyển tuyến và phiếu dặn</b><div class="sub">-</div></td><td data-l="Liều">Đưa cho anh Tư mang theo<div class="sub">- · Đi vào sáng hôm sau khi anh ra huyện lấy sơn</div></td><td data-l="Thời gian">1 lần, hẹn tái khám đo urat theo tuyến trên</td><td class="gc" data-l="Ghi chú">Nội dung: 3 cơn trong khoảng 8 tháng, thuốc đã dùng, yêu cầu đo acid uric, creatinin/eGFR, đường huyết, mỡ máu, thử HLA-B*5801, khởi thuốc hạ acid uric (NICE 2022 mục 1.3.6, 1.5.1, 1.5.5; ACR 2020 Bảng 4).</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Uống đủ 5 ngày prednisolon buổi sáng sau ăn; colchicin mỗi tối, ngưng và báo nếu tiêu chảy nhiều hoặc nôn; không uống thuốc giảm đau lạ, không đắp lá hay cao dán (QĐ 361 Phụ lục NSAID mục 2; EULAR 2016 khuyến cáo 2).</li><li>Sáng mai ra bệnh viện huyện cùng lúc đi lấy sơn: đưa giấy chuyển, đo acid uric, creatinin, đường huyết, mỡ máu, hỏi xét nghiệm HLA-B*5801, nhận thuốc hạ acid uric; xin phiếu hẹn đo lại acid uric hằng tháng ở nơi gần nhất (NICE 2022 mục 1.5.5; ACR 2020 Bảng 3–4).</li><li>Thuốc hạ acid uric dùng lâu dài, không bỏ khi hết đau; mới dùng có thể lên cơn nên phải uống colchicin kèm theo, dự phòng ít nhất vài tháng (NICE 2022 mục 1.5.3; EULAR 2016 khuyến cáo 4; ACR 2020 Bảng 2).</li><li>Viết ra giấy số điện thoại trạm. Đến ngay trạm hoặc bệnh viện huyện nếu sốt cao, rét run, khớp sưng đỏ nóng lan nhanh hoặc đau tăng dù uống thuốc 2 ngày, tiểu ít hoặc tiểu máu, nôn ra máu hoặc phân đen, nổi ban hoặc sốt sau khi uống thuốc mới (QĐ 361 bài Viêm khớp nhiễm khuẩn mục 3.1; bài Bệnh gút mục 3.1, 4.2.2: theo dõi sát dị ứng allopurinol).</li><li>Bỏ bia rượu, tránh nội tạng, cá, tôm, cua, uống 2–4 lít nước/ngày kể cả khi đứng giàn giáo; chườm đá khi đau; giảm cân dần (QĐ 361 mục 4.2.1; ACR 2020 Bảng 6–7; EULAR 2016 nguyên tắc B).</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-13">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Gút (cơn cấp và quản lý)</b></div>
+<p class="note">Phải loại trừ: Viêm khớp nhiễm khuẩn, Viêm khớp dạng thấp</p><p>Sáng hôm sau anh Tư ra bệnh viện huyện: acid uric 520 µmol/L, creatinin bình thường, bắt đầu allopurinol liều thấp kèm colchicin dự phòng. Sau 6 tuần anh đi công trình xa, ngưng colchicin khi hết đau và uống bia dịp khánh thành; cơn tái phát nhẹ ở ngón cái, anh nhắn qua người nhà, quay lại huyện, được tăng liều theo urat và dặn không ngưng thuốc. Acid uric dần xuống dưới 360 µmol/L, cơn thưa dần (kết cục và số liệu do tác giả ca đặt).</p></details>
+<details class="card" id="bai"><summary><h3 id="m-14">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Ở xa, khó tái khám: không có phiếu hẹn viết tay anh không quay lại; lượt 1 phải dặn trọn gói bằng văn bản, kèm số điện thoại trạm, dấu hiệu quay lại; lượt 2 chuyển tuyến phải gắn vào chuyến anh ra huyện lấy sơn thì anh mới đi.</li><li>Thuốc đắp ngoài da chỉ lộ khi hỏi cụ thể &#x27;thuốc nam, cao dán, rượu thuốc&#x27;; hỏi chung thì anh nói &#x27;không uống thuốc gì&#x27;. Miếng dán làm da đỏ rát, dễ nhầm viêm mô tế bào hay nhiễm khuẩn khớp.</li><li>Nỗi sợ từ mạng (hư thận, cưa chân, thuốc hại gan thận) là lý do thật anh đi khám; trả lời bằng thông tin cụ thể: gút kiểm soát được, thận sẽ được đo trước khi chọn liều thuốc hạ acid uric.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Gút chẩn đoán được bằng lâm sàng khi không có xét nghiệm: tiêu chuẩn Bennett–Wood (2 yếu tố của mục b: ≥ 2 đợt khởi phát đột ngột khỏi hoàn toàn trong 2 tuần; sưng đau khớp bàn–ngón chân cái) và ILAR/OMERACT (QĐ 361/2014 bài Bệnh gút mục 3.3). Cơn thứ hai ở cùng vị trí, tự khỏi, rất có giá trị.</li><li>Chỉ định thuốc hạ acid uric đã đến từ cơn tái phát (EULAR 2016 khuyến cáo 5; NICE NG219 2022 mục 1.5.1; ACR 2020 Bảng 1); nhưng bắt đầu an toàn cần urat, creatinin và theo dõi hằng tháng, nên trạm không có xét nghiệm thì chuyển tuyến có hẹn thay vì cho về.</li><li>Ở xa, khó tái khám: ngưỡng an toàn đổi; xử trí trọn gói bằng giấy, nối chuyến chuyển tuyến vào chuyến người bệnh vẫn đi, nói rõ vì sao cần thuốc dài hạn và vì sao bỏ thuốc khi hết đau là nguyên nhân tái phát.</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Cắt cơn bậc 1: prednisolon 30–35 mg/ngày × 3–5 ngày (EULAR 2016 khuyến cáo 2), NSAID kèm PPI (QĐ 361 Phụ lục NSAID mục 4: etoricoxib 90–120 mg tối đa 8 ngày), colchicin liều thấp (ACR 2020 Bảng 6); tái phát trong 3 tháng: giảm dần 14–21 ngày kèm colchicin liều thấp (TQ 2024 mục 3.3).</li><li>Hạ acid uric theo đích dưới 360 µmol/L (6 mg/dL) (ACR 2020 Bảng 3; NICE 2022 mục 1.5.6; EULAR khuyến cáo 6); allopurinol khởi ≤ 100 mg, tăng mỗi 2–4 tuần, đo urat hằng tháng (ACR Bảng 2; EULAR khuyến cáo 8; NICE mục 1.5.5); HLA-B*5801 có điều kiện ở người gốc Đông Nam Á (ACR Bảng 4).</li><li>Dự phòng cơn 3–6 tháng (ACR Bảng 2) hoặc 6 tháng (EULAR khuyến cáo 4; QĐ 361 mục 4.2.2); khớp bàn–ngón I bị loại khỏi chấm điểm VKDT (TL-0391 Bảng 3).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-15">Nguồn tài liệu <small>6</small></h3></summary><ul class=""><li>BYT – QĐ 361/QĐ-BYT 2014 Hướng dẫn chẩn đoán và điều trị các bệnh cơ xương khớp (TL-0286): bài Bệnh gút mục 2, 3.1–3.5, 4.1, 4.2.1, 4.2.2, 5; bài Viêm khớp nhiễm khuẩn mục 3.1–3.3, 4.1; bài VKDT mục 3.1–3.2; Phụ lục NSAID mục 2, 3.3, bảng liều và mục 4; Phụ lục thuốc giảm đau mục 3.1; Phụ lục glucocorticoid mục 1.</li><li>ACR 2020 Guideline for the Management of Gout (TL-0318): Bảng 1, 2, 3, 4, 6, 7 và phần bình luận.</li><li>EULAR 2016 updated recommendations for the management of gout (TL-0325): nguyên tắc A, B, C; khuyến cáo 1, 2, 4, 5, 6, 7, 8, 9.</li><li>2024 Update of Chinese Guidelines for Diagnosis and Treatment of Hyperuricemia and Gout, Part I (Sun 2025; TL-0306): Bảng 2, mục 3.3–3.4, khuyến cáo 6–7, 10–11.</li><li>NICE NG219 2022 Gout: diagnosis and management (kho cũ tltk-10000-ca, Bệnh mạn tính người lớn/Quốc tế): mục 1.1.1–1.1.9, 1.3.1–1.3.6, 1.4.2, 1.5.1–1.5.6.</li><li>2010 ACR/EULAR rheumatoid arthritis classification criteria (TL-0391): Bảng 3 và chú thích.</li></ul></details>
+<details class="card"><summary><h3 id="m-16">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Bệnh mạn tính người lớn</dd><dt>chan_doan_dich</dt><dd>Gút (cơn cấp và quản lý)</dd><dt>chan_doan_phai_loai_tru</dt><dd>Viêm khớp nhiễm khuẩn; Viêm khớp dạng thấp</dd><dt>nhom_tuoi</dt><dd>Trung niên (40–59 tuổi)</dd><dt>gioi</dt><dd>Nam</dd><dt>do_kho</dt><dd>Điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>2</dd><dt>dien_tien_tai_kham</dt><dd>Đỡ một phần</dd><dt>nhieu_benh_nhan</dt><dd>Ở xa, khó tái khám</dd><dt>rang_buoc_nguon_luc</dt><dd>Không có xét nghiệm nào</dd><dt>nghe_nghiep</dt><dd>Thợ sơn</dd><dt>yeu_to_khoi_phat</dt><dd>Sau ăn đồ sống, gỏi cá</dd><dt>thuoc_dang_dung</dt><dd>Đông y đắp ngoài da</dd><dt>ly_do_that_su_den_kham</dt><dd>Đọc thông tin trên mạng, lo lắng</dd><dt>loai_ket_cuc</dt><dd>Tái phát</dd></dl><ul class=""><li>2026-10-24, bản 1. Tài liệu đã đọc: TL-0286 (bài Bệnh gút; Viêm khớp nhiễm khuẩn mục 3.1–3.3, 4.1; VKDT mục 3.1–3.2; Phụ lục NSAID, thuốc giảm đau, glucocorticoid), TL-0318 (Bảng 1–4, 6–7), TL-0325 (nguyên tắc A–C, khuyến cáo 1–9), TL-0306 (Bảng 2, mục 3.3–3.4), TL-0391 (Bảng 3), NICE NG219 2022 (mục 1.1–1.5). Con số đối chiếu bằng rg trên bản chữ.</li><li>Thiếu trong tài liệu đã tải: tiêu chuẩn chuyển tuyến/nhập viện riêng của gút; hàm lượng colchicin lưu hành; lịch giảm liều prednisolon 14–21 ngày; liều allopurinol theo eGFR cụ thể; thành phần và tác dụng thuốc đắp; tiêu chuẩn giả gút và bong gân; danh mục thuốc của trạm y tế xã; xử trí khởi thuốc hạ acid uric khi không đo được urat, creatinin.</li><li>Do tác giả ca đặt: mốc tái khám 10–14 ngày; colchicin 0,5 mg/ngày cầu nối tối đa 14 ngày; cơn trước 8 tháng; việc huyện có xét nghiệm và HLA-B*5801; mọi sinh hiệu; kết cục. Chọn prednisolon ở lượt 1 vì chưa đo được creatinin (nhận định của tác giả ca, có EULAR khuyến cáo 2 làm cơ sở tránh colchicin/NSAID khi suy thận nặng).</li><li>Mục CLS dùng sẵn: hla_b5801 (đã có trong danh mục). Mâu thuẫn nguồn: ghi cả hai cách theo các mục sổ &#x27;Từ ca MT-0578&#x27; (colchicin, thời điểm khởi allopurinol, liều khởi, HLA-B*5801, corticoid, thời gian dự phòng) và &#x27;Từ ca MT-0556&#x27; (prednisolon trong cơn tái phát sớm); đề xuất thêm một mục nhỏ trong MT-0619_mau_thuan.md. Không dùng ảnh da: thuốc đắp chỉ gây kích ứng nhẹ, không phải dấu hiệu da then chốt.</li></ul></details>
+<p class="chan-trang">Ca MT-0619 · phiên bản ca 1 · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

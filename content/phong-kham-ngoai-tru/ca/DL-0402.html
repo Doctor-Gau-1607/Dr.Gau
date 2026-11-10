@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DL-0402 · Chốc / nhiễm khuẩn da (viêm mô tế bào nhẹ)</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · DL-0402</div>
+   <h1>Cẳng tay phải sưng đỏ đau 3 ngày sau khi khiêng bao phân; ông rất sợ bệnh &#x27;ăn lan&#x27; và muốn được cho thuốc kháng sinh; đến khám lúc 19 giờ 40</h1>
+   <p class="dich-gia">Trần Văn Tư · Nam · 68 tuổi · 58 kg</p>
+   <div class="chips"><span class="chip">Da liễu</span><span class="chip">Không điển hình</span><span class="chip">1 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Nông dân trồng lúa và làm vườn ở xã cách phòng khám khoảng 28 km, mùa này đang chuyển phân và gặt, hằng ngày khiêng bao phân, bao lúa 40–50 kg</dd><dt>Chiều cao, cân nặng</dt><dd>163 cm · 58 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi ông là &#x27;bác&#x27;. Ông xưng &#x27;tôi&#x27;, gọi &#x27;bác sĩ&#x27;, hay thêm &#x27;nghen&#x27; &#x27;hông&#x27; cuối câu. Vợ là bà Sáu: bác sĩ gọi &#x27;bà&#x27;, bà xưng &#x27;tôi&#x27; và gọi chồng là &#x27;ổng&#x27;.</dd><dt>Tính cách</dt><dd>Gầy, rám nắng, nói nhanh và nhiều khi run giọng. Tối nay đi khám vì sợ: hàng xóm là ông Tám bị nhiễm trùng ở cẳng chân, &#x27;lan từ từ rồi phải cưa chân&#x27; cách đây hai tháng. Ông chỉ dám nói thật nỗi sợ khi được hỏi nhẹ nhàng; bị gạt đi (&#x27;có gì đâu mà sợ&#x27;) thì càng lo, hỏi dồn, vã mồ hôi tay. Hay bỏ thuốc khi thấy bớt đau vì &#x27;sợ hại gan thận&#x27;.</dd><dt>Người nhà</dt><dd>Vợ (bà Sáu) – Vợ, bà Nguyễn Thị Sáu, 65 tuổi, không biết chữ, đi cùng bằng xe máy ông chở, rất lo, hay chen ngang &#x27;ổng sợ lắm bác sĩ ơi, cho ổng thuốc mạnh đi&#x27;. Bà nhớ rõ ông đã bỏ thuốc khi nào, nhưng chỉ kể khi được hỏi.</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Ngoài giờ (19 giờ 40): kỹ thuật viên xét nghiệm và chẩn đoán hình ảnh đã về, phòng khám không có xét nghiệm máu, cấy, X-quang, siêu âm (nên cũng không có CT, nội soi). Còn làm được tại giường: đường huyết mao mạch, que thử nước tiểu, điện tim. Quyết định phải dựa vào hỏi bệnh, khám và đánh giá nguy cơ; kết quả có sau nhiều giờ nên không chờ.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/1</span> </h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Ông Trần Văn Tư, 68 tuổi, nông dân, vợ (bà Sáu) chở đến phòng khám lúc 19 giờ 40 (ngoài giờ hành chính, chỉ còn bác sĩ và điều dưỡng Linh) vì cẳng tay phải sưng đỏ đau khoảng 3 ngày, sau buổi khiêng bao phân 5 ngày trước. Ông run giọng, hỏi liên tục có bị &#x27;ăn lan&#x27; không và xin được cho thuốc kháng sinh. Tiền sử hen phế quản và tăng huyết áp, đang xịt thuốc hen hằng ngày. Sinh hiệu: mạch 88 l/p, HA 150/90 mmHg, nhiệt độ 37,6 °C, nhịp thở 20 l/p, SpO2 96%. Cân nặng 58 kg, cao 163 cm.</p>
+  <blockquote>“Bác sĩ ơi, coi giùm tôi cái tay với. Nó sưng đỏ lên, đau, tôi sợ nó lan ra như ông Tám hàng xóm dữ lắm. Có sao hông bác sĩ?”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>88</b><small>l/p</small></div><div class="vs"><span>HA</span><b>150/90</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>37,6</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>20</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>96</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>10 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám, tổn thương chính và nhiễu sợ hãi</b><span class="tag t-g">Tự kể</span></div><p>Ông Tư run giọng: cẳng tay phải sưng đỏ, đau, ba ngày nay càng đỏ và nóng. Bà Sáu: &#x27;Ổng sợ lắm bác sĩ ơi&#x27;. Ông hỏi liên tục &#x27;có ăn lan lên mình không, có phải cưa tay không&#x27;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khởi phát khiêng vật nặng gây trầy, nhiều ngày; loại zona; ông quy sưng đau cho &#x27;sái tay&#x27; nên dễ bị bỏ qua</b><span class="tag t-b">Khi được hỏi</span></div><p>Ông kể: cách đây 5 ngày ông khiêng khoảng 20 bao phân 50 kg ra ruộng suốt một buổi, mép bao tải thô cọ trầy mặt trong cẳng tay phải, chảy ít nước, hôm sau đóng vảy, ngứa nên ông gãi. Hôm sau nữa có vài chấm mủ nhỏ vỡ ra, rồi 3 ngày nay chỗ đó sưng đỏ nóng lan rộng. Ông nghĩ &#x27;chắc tại khiêng nặng sái tay&#x27;, nên xoa dầu nóng và đắp lá. Không có mụn nước thành chùm, không đau rát hay châm chích theo một dải trước khi nổi.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Không dấu nhiễm trùng toàn thân rõ; paracetamol có thể che sốt</b><span class="tag t-b">Khi được hỏi</span></div><p>Ông không thấy sốt cao hay rét run, chỉ hơi ớn buổi chiều; ăn uống được, không buồn nôn, không lú lẫn. Hôm qua ông uống 2 viên paracetamol 500 mg mua ở tiệm để bớt đau (không rõ có sốt không vì ở nhà không có nhiệt kế).</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đau tương xứng, không dấu hoại tử; hạch vùng; loại căng cơ đơn thuần</b><span class="tag t-b">Khi được hỏi</span></div><p>Đau âm ỉ, rát khi chạm vào vùng đỏ, đau tương xứng với những gì nhìn thấy; ông co duỗi khuỷu, cử động các ngón tay bình thường, không tê, không yếu. Không có chỗ nào đen hay phồng nước máu. Cánh tay phía trên không sưng, nhưng ông thấy &#x27;cái hạch ở nách đau đau&#x27;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc đang dùng: thuốc xịt hen; không dị ứng; không ức chế miễn dịch</b><span class="tag t-b">Khi được hỏi</span></div><p>Thuốc đang dùng: xịt Seretide 25/125, mỗi lần 2 nhát sáng và tối, xịt Ventolin khi khó thở (tuần này dùng 1–2 lần); amlodipin 5 mg mỗi sáng. Không uống hay tiêm corticoid, không thuốc ức chế miễn dịch, chưa từng uống thuốc kháng sinh trong tháng này trừ đợt viêm họng tháng trước. Không dị ứng thuốc, từng uống amoxicillin không sao.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiền sử, đa bệnh lý; loại ghẻ (không người nhà có biểu hiện tương tự)</b><span class="tag t-b">Khi được hỏi</span></div><p>Hen phế quản khoảng 10 năm, ổn nhờ xịt; tăng huyết áp 5 năm. Chưa bao giờ thử đường huyết (không biết có tiểu đường hay không), không hút thuốc lá, ít uống rượu. Không bệnh da trước đây; không ngứa về đêm, vợ không ngứa, không ai trong nhà có mụn tương tự.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tuân thủ điều trị kém (tiêu chuẩn nhập viện ở IDSA 2014 KC 18)</b><span class="tag t-b">Khi được hỏi</span></div><p>Nếu hỏi về thói quen dùng thuốc: ông thừa nhận đợt viêm họng tháng trước bác sĩ cho kháng sinh 7 ngày, ông uống 2 ngày thấy hết đau là bỏ vì &#x27;sợ hại gan thận&#x27;. Thuốc huyết áp thì có khi quên. Bà Sáu xác nhận: &#x27;ổng hay bỏ thuốc lắm&#x27;. Ông nói trước sẽ uống đủ, nhưng nếu &#x27;thấy khỏe thì thôi&#x27;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Ràng buộc đi lại và tái khám; căn cứ chuyển tuyến</b><span class="tag t-b">Khi được hỏi</span></div><p>Nhà ông cách phòng khám 28 km đường đất, hai vợ chồng chạy một xe máy; đêm nay xe ôm đã nghỉ, ngày mai đến vụ gặt, không ai thay. Ông không có điện thoại thông minh; số máy con trai ở Sài Gòn bà Sáu nhớ. Nếu bác sĩ nói chuyển bệnh viện huyện (cách phòng khám 12 km), ông lo tiền nhưng sẽ đi nếu hiểu lý do.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Nỗi sợ gây nhiễu: sợ hãi quá mức</b><span class="tag t-r">Giấu</span></div><p>Nếu bác sĩ hỏi nhẹ nhàng &#x27;bác sợ điều gì nhất&#x27; hoặc &#x27;ai ở làng mình bị tương tự&#x27;: ông kể ông Tám hàng xóm bị đạp đinh, vết sưng đỏ, đi tiệm thuốc mua thuốc bôi, &#x27;nó lan từ từ lên đùi&#x27; rồi phải cưa chân hai tháng trước; ông mất ngủ hai đêm nay, sợ &#x27;cưa tay không làm ruộng được nữa&#x27;.</p><div class="cond">Điều kiện nói ra: hỏi nhẹ nhàng nỗi sợ lớn nhất, hoặc hỏi có ai quen bị bệnh tương tự không</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật đến khám: muốn được kê kháng sinh</b><span class="tag t-r">Giấu</span></div><p>Nếu bác sĩ hỏi &#x27;hôm nay bác muốn được giúp điều gì&#x27; hoặc &#x27;bác mong muốn gì ở buổi khám&#x27;: ông nói thẳng &#x27;tôi muốn bác sĩ cho tôi kháng sinh, thuốc mạnh nhất&#x27;. Ông nghe người ta nói &#x27;bị viêm là phải có kháng sinh, không có thì nó lan&#x27;; ông Tám lúc đầu chỉ được cho thuốc bôi. Ông sợ về mà không có kháng sinh thì &#x27;không dám nằm ngủ&#x27;.</p><div class="cond">Điều kiện nói ra: hỏi ông mong muốn gì hôm nay, hoặc ông nghĩ thuốc nào sẽ chữa được</div></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>8 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Da, niêm mạc, ban</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Cẳng tay phải, mặt trong 1/3 trên sát nếp khuỷu: đám 5 tổn thương nhỏ phủ vảy mỏng xám vàng dính trên vết trợt; vùng da quanh đỏ sẫm, hơi phù, nóng, ấn đau, khoảng 7 × 9 cm, bờ không rõ; một vệt hồng mờ dài 4 cm hướng lên cánh tay; hạch nách phải ấn đau. Tay trái, thân mình, kẽ ngón tay: không có tổn thương.</p><p><span class="lbl">Kết quả:</span> Cẳng tay phải, mặt trong 1/3 trên sát nếp khuỷu: 5 tổn thương nhỏ 0,5–1,5 cm xếp thành đám 4 × 3 cm, đa số là vết trợt nông phủ vảy tiết mỏng màu xám vàng dính chặt (đã bị gãi và xoa dầu nên khó thấy vảy vàng mật ong điển hình), không bọng nước còn nguyên, một tổn thương có ít dịch vàng đục ở rìa. Quanh đám tổn thương là vùng da đỏ sẫm hơi nâu (da rám nắng nên màu đỏ kín đáo), khoảng 7 × 9 cm, bờ không rõ, hơi phù, nóng, ấn đau vừa. Từ rìa vùng đỏ có một vệt hồng mờ dài khoảng 4 cm hướng lên mặt trong cánh tay. Không bọng nước lớn, không bọng xuất huyết, không bầm tím, không hoại tử, không bong da, không ấn lạo xạo. Hạch nách phải 1,5 cm, di động, ấn đau; nách trái không hạch. Không mụn nước thành chùm theo dải, không vòng tròn đỏ có vảy trắng ở rìa và lành ở giữa, không đường hầm ở kẽ ngón tay, không tổn thương ở tay trái, chân, thân mình, mặt, da đầu.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tỉnh, lo lắng, nói nhanh, tay ẩm mồ hôi; không có vẻ mệt lả.</p><p><span class="lbl">Kết quả:</span> Tỉnh, tiếp xúc tốt nhưng lo lắng, nói nhanh, lòng bàn tay ẩm mồ hôi. Da niêm hồng, không mất nước, không vẻ nhiễm trùng nặng. Thể trạng gầy.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Mạch ngoại biên, âm thổi động mạch</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Mạch quay hai bên rõ, bàn tay ấm, đổ đầy mao mạch nhanh; phù nhẹ chỉ ở cẳng tay phải.</p><p><span class="lbl">Kết quả:</span> Mạch quay và mạch trụ hai bên bắt rõ, đều. Thời gian đổ đầy mao mạch bàn tay phải dưới 2 giây; bàn tay ấm, hồng, không tím. Phù ấn lõm nhẹ giới hạn ở cẳng tay phải quanh vùng đỏ, bàn tay và cánh tay không phù, chu vi hai cánh tay trên khuỷu bằng nhau. Không giãn tĩnh mạch nông bất thường.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Cơ xương khớp, cột sống</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Khuỷu và vai phải vận động đủ biên độ, không đau sâu khi chống lực; chỉ đau ở vùng da đỏ.</p><p><span class="lbl">Kết quả:</span> Khuỷu và vai phải gập duỗi, xoay đủ biên độ, đau chỉ khi chạm vào vùng đỏ; không sưng nóng khớp; cơ nhị đầu và cơ cẳng tay ấn không đau sâu, không đau khi căng cơ chống lực. Không điểm đau xương. Sức cơ bàn tay 5/5.</p></div><div class="row"><div class="rh"><b>Thần kinh</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Cảm giác bàn tay và ngón tay bình thường, không tê, không yếu.</p><p><span class="lbl">Kết quả:</span> Cảm giác chạm và kim châm bàn tay, các ngón hai bên bình thường; không tê, không yếu; không đau dây thần kinh theo dải.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, 88 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 88 l/p, T1 T2 rõ, không âm thổi.</p></div><div class="row"><div class="rh"><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Phổi trong, không ran rít; nhịp thở 20 l/p.</p><p><span class="lbl">Kết quả:</span> Rì rào phế nang êm hai bên, không ran rít, không ran ngáy ẩm. Nhịp thở 20 l/p.</p></div><div class="row"><div class="rh"><b>Khám tâm thần (dáng vẻ, khí sắc, tư duy, nhận thức, ý tưởng tự hại)</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tỉnh, lo âu rõ, tư duy mạch lạc, dịu lại khi được giải thích.</p><p><span class="lbl">Kết quả:</span> Tỉnh, hợp tác, khí sắc lo âu rõ nhưng tư duy mạch lạc, không hoang tưởng; trấn an bằng giải thích cụ thể thì dịu lại; không ý tưởng tự hại.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>9 mục</small></h3></summary><div class="row"><div class="rh"><b>Đường huyết mao mạch (máy thử tại giường)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Đường huyết mao mạch 6,1 mmol/L (làm lúc 19 giờ 50, bữa tối đã ăn khoảng 1 giờ trước).</p><p class="why">Hữu ích, làm được tại giường dù ngoài giờ: ông chưa bao giờ thử đường huyết; QĐ 4416 (Nhọt, áp xe da, mục 1.3) nêu tiểu đường, hen phế quản trong nhóm bệnh mạn hay gặp ở người bị áp xe da; QĐ 4416 (Chốc mục 1.2) nêu suy giảm miễn dịch là yếu tố thuận lợi. Giá trị 6,1 sau ăn không đổi xử trí; ngưỡng chẩn đoán đái tháo đường: không có trong tài liệu đã tải cho ca này.</p></div><div class="row"><div class="rh"><b>Nhuộm Gram và cấy dịch, mủ tổn thương da (kháng sinh đồ)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Nhuộm Gram dịch tổn thương: nhiều bạch cầu đa nhân, cầu khuẩn Gram dương xếp chùm. Cấy: tụ cầu vàng nhạy methicillin, có sau 48–72 giờ (làm ở tuyến trên).</p><p class="why">Hữu ích nhưng phòng khám không làm được tối nay, nên là việc của tuyến trên: QĐ 4416 (Chốc mục 2.2) cấy mủ, kháng sinh đồ giúp điều trị ca khó; IDSA 2014 (Chốc KC 1) nhuộm Gram, cấy để xác định tụ cầu hay liên cầu nhưng điều trị không cần cấy ở ca điển hình. IDSA 2014 (viêm mô tế bào KC 12) không cấy thường quy ở viêm mô tế bào điển hình.</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-y">Chấp nhận</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class="hi"><td>Số lượng bạch cầu (WBC)</td><td class="num">11,8 ↑</td><td>G/L</td><td class="ref">4,0–10,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu trung tính (NEU%)</td><td class="num">74</td><td>%</td><td class="ref">45–75</td></tr><tr class="lo"><td>Tỷ lệ bạch cầu lympho (LYM%)</td><td class="num">18 ↓</td><td>%</td><td class="ref">20–40</td></tr><tr class=""><td>Tỷ lệ bạch cầu mono (MONO%)</td><td class="num">6</td><td>%</td><td class="ref">2–10</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa acid (EOS%)</td><td class="num">2</td><td>%</td><td class="ref">0–7</td></tr><tr class=""><td>Lượng huyết sắc tố (HGB)</td><td class="num">138</td><td>g/L</td><td class="ref">130–170</td></tr><tr class=""><td>Số lượng tiểu cầu (PLT)</td><td class="num">262</td><td>G/L</td><td class="ref">150–400</td></tr></tbody></table><p class="why">Chấp nhận, không bắt buộc, phòng khám không làm được tối nay: QĐ 4416 (Chốc mục 2.2) bạch cầu, CRP &#x27;có thể tăng&#x27;; chẩn đoán xác định chủ yếu dựa lâm sàng (mục 2.3). Bạch cầu bất thường là một tiêu chí dấu hiệu toàn thân (IDSA 2014, chú thích Hình 1).</p></div><div class="row"><div class="rh"><b>CRP</b><span class="tag t-y">Chấp nhận</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class="hi"><td>CRP</td><td class="num">38 ↑</td><td>mg/L</td><td class="ref">≤ 5</td></tr></tbody></table><p class="why">Chấp nhận, không bắt buộc: QĐ 4416 (Chốc mục 2.2) CRP có thể tăng; không quyết định kháng sinh.</p></div><div class="row"><div class="rh"><b>Ure, creatinin, eGFR</b><span class="tag t-y">Chấp nhận</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Ure</td><td class="num">5,6</td><td>mmol/L</td><td class="ref">2,5–7,5</td></tr><tr class=""><td>Creatinin</td><td class="num">88</td><td>µmol/L</td><td class="ref">62–120</td></tr><tr class="lo"><td>eGFR (CKD-EPI 2021)</td><td class="num">78 ↓</td><td>mL/ph/1,73m²</td><td class="ref">≥ 90</td></tr></tbody></table><p class="why">Chấp nhận, ở tuyến trên: người cao tuổi dùng kháng sinh uống, NICE NG153 2020 (Bảng 1) dặn xem BNF chỉnh liều khi suy gan, thận; ngưỡng chỉnh liều cephalexin: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><b>Soi tươi tìm nấm (KOH) bệnh phẩm da, móng, tóc</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Soi tươi KOH: không thấy sợi nấm (làm ở tuyến trên).</p><p class="why">Chấp nhận để loại nấm da (QĐ 4416, Chốc mục 2.4: nấm da trong chẩn đoán phân biệt); hình thái vảy tiết trên vết trợt, không bờ vòng, đã gợi ý không phải nấm.</p></div><div class="row"><div class="rh"><b>Nhuộm Gram, cấy đờm và cấy máu</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Cấy máu: không làm tối nay.</p><p class="why">Không cần: IDSA 2014 (viêm mô tế bào KC 12–13) không cấy thường quy; chỉ cấy máu khi ung thư đang hóa trị, giảm bạch cầu đa nhân, suy giảm miễn dịch tế bào nặng, ngâm nước, thú cắn. Ông không có yếu tố nào.</p></div><div class="row"><div class="rh"><b>X-quang khớp (tay, cổ tay, gối, chân)</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> X-quang cẳng tay, khuỷu: không có tổn thương xương, không khí dưới da (không làm được tối nay).</p><p class="why">Không cần và không có kỹ thuật viên: không nghi viêm xương hay khí dưới da; ông đòi chụp &#x27;xem ăn vô xương&#x27; là nỗi sợ, không phải chỉ định. Tiêu chuẩn chụp X-quang cho chốc, viêm mô tế bào nhẹ: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><b>Điện tâm đồ 12 chuyển đạo</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Điện tim: nhịp xoang 88 l/p, không bất thường.</p><p class="why">Không cần: ông lo sợ, đánh trống ngực nhưng tim đều, không đau ngực; điện tim &#x27;cho chắc&#x27; là xét nghiệm chiều lòng. Chỉ định điện tim cho nhiễm khuẩn da: không có trong tài liệu đã tải.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Chuyển tuyến / chuyên khoa</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Chốc không bọng nước ở cẳng tay phải, bội nhiễm sau trầy da do khiêng bao phân, kèm viêm mô tế bào nhẹ quanh tổn thương (vùng đỏ 7 × 9 cm, viêm bạch mạch khu trú và hạch nách phải phản ứng, không dấu toàn thân) do tụ cầu vàng/liên cầu, ở người 68 tuổi có hen và tăng huyết áp; cần gửi bệnh viện vì tuân thủ điều trị kém và không thể đánh giá lại ngoài giờ</b></div><p class="why">Chốc không bọng nước: sẩn đỏ, mụn mủ dập vỡ đóng vảy tiết, nền đỏ ướt, thường ở chi, có xu hướng lan (QĐ 4416, Chốc mục 2.1); chẩn đoán xác định chủ yếu dựa lâm sàng (mục 2.3). Ở người cao tuổi biểu hiện mờ nhạt: vảy mỏng xám vàng vì gãi và xoa dầu, đỏ kín đáo trên da rám nắng, sưng đau bị gán cho &#x27;sái tay&#x27;. Chốc có thể tiến triển thành viêm mô bào, viêm bạch mạch, viêm mủ hạch (QĐ 4416, Chốc mục 2.1); viêm mô tế bào có thể kèm viêm bạch mạch và viêm hạch vùng (IDSA 2014, phần viêm mô tế bào, Evidence summary). Mức nhẹ vì không có dấu hiệu toàn thân (IDSA 2014, Hình 1: nhẹ = viêm mô tế bào điển hình không có dấu hiệu toàn thân).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm mô tế bào nặng / nhiễm trùng mô mềm hoại tử</b></div><p class="why">Loại vì không có dấu hiệu toàn thân (không sốt cao, mạch 88, HA 150/90 do lo sợ, nhịp thở 20, tỉnh táo), không bọng xuất huyết, bầm tím, hoại tử, khí dưới da, đau tương xứng với tổn thương, mô dưới da không cứng như gỗ, chưa thất bại điều trị kháng sinh (IDSA 2014, Hình 1 và phần nhiễm trùng hoại tử, Evidence summary: 8 đặc điểm gợi ý viêm cân mạc hoại tử). Mức nặng khi thất bại kháng sinh uống, dấu hiệu toàn thân, suy giảm miễn dịch hay dấu hiệu nhiễm trùng sâu (IDSA 2014, chú thích Hình 1). Cần theo dõi vì vùng đỏ và vệt hồng có thể lan.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Zona</b></div><p class="why">Loại vì không có đau rát hay châm chích theo một dải thần kinh trước khi nổi, không mụn nước thành chùm, tổn thương khởi phát từ vết trầy, hóa mủ vỡ đóng vảy; zona nằm trong chẩn đoán phân biệt của chốc (QĐ 4416, Chốc mục 2.4).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Nấm da</b></div><p class="why">Loại vì không có bờ hoạt động dạng vòng có vảy trắng, giữa không lành; tổn thương là vết trợt phủ vảy tiết trên da bị trầy, khởi phát vài ngày. Nấm da nằm trong chẩn đoán phân biệt (QĐ 4416, Chốc mục 2.4); nếu cần xác nhận thì soi tươi KOH ở tuyến trên.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ghẻ bội nhiễm</b></div><p class="why">Loại vì không ngứa về đêm, không đường hầm hay mụn nước ở kẽ ngón tay, cổ tay, quanh thắt lưng và vợ không có biểu hiện tương tự; QĐ 4416 (Ghẻ mục 2.1) nêu yếu tố dịch tễ là nhiều thành viên trong gia đình có biểu hiện tương tự và tổn thương ở vùng da mỏng (kẽ ngón, cổ tay, cẳng tay, quanh thắt lưng). Ở ông chỉ có một đám ở nơi trầy da.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Căng cơ hay tụ máu do khiêng nặng</b></div><p class="why">Loại vì có đám trợt phủ vảy và vệt hồng, hạch nách đau, ấn cơ không đau sâu, vận động khuỷu đủ biên độ, sức cơ 5/5; sưng đau của ông là viêm da và mô dưới da chứ không phải cơ. Tiêu chuẩn chẩn đoán căng cơ: không có trong tài liệu đã tải.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Trấn an có cấu trúc: gọi tên nỗi sợ (&#x27;bác sợ bị cưa tay như ông Tám&#x27;), nói điều khám thấy trên chính tay ông (không sốt cao, mạch ổn, không đen, không bọng máu, đau tương xứng, cử động tốt), nói rõ kế hoạch đêm nay và dấu hiệu nào làm đổi kế hoạch; không hứa &#x27;chắc chắn không sao&#x27;</b></div><p class="why">Kỹ năng giao tiếp, không bắt buộc nguồn. Những dấu hiệu dùng để trấn an có nguồn: IDSA 2014 (phần nhiễm trùng hoại tử, Evidence summary) liệt kê đau không tương xứng, mô cứng như gỗ, độc toàn thân, hoại tử, bọng nước, khí dưới da; ông không có dấu nào.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không chiều lòng đòi &#x27;chụp xem ăn vô xương&#x27;, &#x27;thử máu liền&#x27;, &#x27;chích thuốc mạnh nhất&#x27;; giải thích vì sao không làm và phòng khám tối nay cũng không có</b></div><p class="why">IDSA 2014 (viêm mô tế bào KC 12) không cấy thường quy; chốc điển hình điều trị không cần cấy (Chốc KC 1). Chẩn đoán chốc chủ yếu dựa lâm sàng (QĐ 4416, Chốc mục 2.3). Kháng sinh tiêm tĩnh mạch ngay không cần ở mức nhẹ (IDSA 2014 KC 18). Chỉ định X-quang, CT, MRI khi nghi nhiễm trùng hoại tử là chuyện khác; ông không có dấu gợi ý.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chuyển bệnh viện (huyện) ngay đêm nay, gọi báo trước, kèm thư và bàn giao; không cho về nhà</b></div><p class="why">Cả hai nguồn: NICE NG153 2020 (mục 1.1.15) &#x27;refer to hospital&#x27; người chốc có dấu hiệu gợi ý bệnh nặng hơn, ví dụ viêm mô tế bào; IDSA 2014 (viêm mô tế bào KC 18) cho điều trị ngoại trú ở mức nhẹ (không SIRS, rối loạn ý thức, huyết động ổn) nhưng khuyến cáo nhập viện khi tuân thủ kém hoặc ngoại trú thất bại. Ở ông Tư có thêm hai yếu tố riêng: bỏ thuốc khi bớt đau và không thể đánh giá lại trong 24–48 giờ vì ngoài giờ, đường xa (NICE 2020 mục 1.1.7–1.1.8; IDSA 2014 KC 15 xem lại khi chưa cải thiện sau 5 ngày). Xem sổ mâu thuẫn mục &#x27;Chốc kèm viêm mô tế bào nhẹ: ngoại trú hay chuyển bệnh viện&#x27;.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chuẩn bị trước chuyển: đo lại và ghi sinh hiệu, khoanh bút viền vùng đỏ kèm giờ, ghi thuốc đang dùng (Seretide, Ventolin, amlodipin), tiền sử hen và tăng huyết áp, không dị ứng, đường huyết mao mạch, đã dùng paracetamol hôm qua; kê cao tay; mang theo ống xịt hen</b></div><p class="why">IDSA 2014 (viêm mô tế bào KC 16) nâng cao vùng bị viêm. Việc khoanh bút, bàn giao SBAR, nhiệt độ ghi lại: kỹ thuật thực hành, không có trong tài liệu đã tải; chấm c vì liên quan trực tiếp đến an toàn chuyển tuyến (người học cần nêu được). Tiếp tục thuốc hen và huyết áp: không có trong tài liệu đã tải về tương tác của chúng với kháng sinh trong chốc.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Gọi điện bàn giao bác sĩ tuyến trên: ông 68 tuổi, chốc kèm viêm mô tế bào nhẹ cẳng tay phải 7 × 9 cm, vệt hồng 4 cm, hạch nách, nhiệt 37,6 °C, mạch 88, HA 150/90, nền hen và tăng huyết áp, tuân thủ thuốc kém, ngoài giờ chưa làm được xét nghiệm và cấy; xin khám và nhận bệnh</b></div><p class="why">NICE NG153 2020 (mục 1.1.15) và IDSA 2014 (KC 18) xác định chỉ định chuyển. Khung bàn giao SBAR: không có trong tài liệu đã tải. Cấy dịch và công thức máu làm ở tuyến trên (QĐ 4416, Chốc mục 2.2; IDSA 2014 Chốc KC 1).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Kháng sinh uống phủ tụ cầu và liên cầu ngay, liều đầu uống tại phòng khám hoặc giao cho tuyến trên: cephalexin 250 mg × 4 lần/ngày (QĐ 4416, Chốc mục 3.2.2; IDSA 2014 Bảng 2, dòng chốc) hoặc 500 mg × 4 lần/ngày (IDSA 2014 Bảng 2, dòng nhiễm khuẩn S. aureus nhạy methicillin), hoặc dicloxacillin 500 mg × 4 lần/ngày, hoặc flucloxacillin 500 mg × 4 lần/ngày (NICE NG153 2020 Bảng 1); 5–7 ngày, kéo dài nếu chưa đỡ</b></div><p class="why">QĐ 4416 (Chốc mục 3.2.2): kháng sinh uống khi tổn thương nhiều, lan tỏa; cephalexin 250 mg × 4 lần/ngày, dicloxacillin 500 mg × 4 lần/ngày (người lớn); không ghi số ngày. IDSA 2014: chốc uống 7 ngày (KC 2b), viêm mô tế bào điển hình 5 ngày và kéo dài nếu chưa cải thiện (KC 15); viêm mô tế bào điển hình cần kháng sinh phủ liên cầu (KC 14). NICE NG153 2020 (mục 1.1.5, Bảng 1): flucloxacillin 500 mg × 4 lần/ngày trong 5 ngày; clarithromycin 250 mg × 2 lần/ngày nếu dị ứng penicillin. Xem sổ mâu thuẫn &#x27;thuốc, liều và số ngày kháng sinh&#x27;. Việc cho liều đầu trước chuyển: không có trong tài liệu đã tải; tuyến trên quyết định cuối. Ông muốn được kê kháng sinh nên đây cũng là điều ông cần nghe.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chăm sóc tại chỗ: đắp gạc nước muối sinh lý 9‰ hoặc Jarish cho vảy tiết, ngâm hoặc rửa thuốc tím loãng 1/10.000; bôi mupirocin hay acid fusidic cùng kháng sinh uống (QĐ 4416) hoặc chỉ dùng kháng sinh uống, không bôi kèm (NICE)</b></div><p class="why">QĐ 4416 (Chốc mục 3.1, 3.2.1): kết hợp tại chỗ và toàn thân, ngâm thuốc tím 1/10.000 ngày 1 lần, Jarish hoặc nước muối 9‰ khi nhiều vảy, mupirocin, acid fusidic hoặc retapamulin 2 lần/ngày thường 7 ngày. NICE NG153 2020 (mục 1.1.6): không kết hợp kháng sinh bôi và uống. Xem sổ mâu thuẫn &#x27;kết hợp kháng sinh bôi với kháng sinh uống&#x27;. Cả hai cách đều đúng.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Dặn vệ sinh và ngừng đắp lá, xoa dầu nóng lên chỗ trầy: không gãi, rửa tay, giữ khăn và quần áo riêng</b></div><p class="why">NICE NG153 2020 (mục 1.1.1) và QĐ 4416 (Chốc mục 3.1, 4) khuyên vệ sinh và tránh gãi. Việc ngừng đắp lá, xoa dầu nóng: không có trong tài liệu đã tải; chấm a vì là thực hành hợp lý.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Cho về điều trị ngoại trú với kháng sinh uống và hẹn tái khám sau 24–48 giờ</b></div><p class="why">IDSA 2014 (viêm mô tế bào KC 18) cho ngoại trú ở mức nhẹ, nên là lựa chọn chấp nhận được cho người có điều kiện theo dõi. Chấm a, không chấm c, vì ông có tuân thủ kém (cũng là tiêu chuẩn nhập viện ở KC 18), ở xa 28 km, đêm nay không có xe và không thể tái khám; NICE NG153 2020 (mục 1.1.15) còn khuyên gửi bệnh viện. Xem sổ mâu thuẫn mục &#x27;Chốc kèm viêm mô tế bào nhẹ: ngoại trú hay chuyển bệnh viện&#x27;.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Tiêm ceftriaxon 1–2 g tĩnh mạch hoặc bắp ngay tại phòng khám trước khi chuyển</b></div><p class="why">QĐ 4416 (Chốc mục 3.2.2) có ceftriaxon 1–2 g/ngày tiêm tĩnh mạch trong bảng kháng sinh cho chốc nhiều tổn thương, nên không phải cách sai; nhưng ở mức nhẹ IDSA 2014 (KC 18) chọn điều trị ngoại trú bằng thuốc uống, ngoài giờ không đủ điều kiện theo dõi phản ứng và tuyến trên sẽ quyết định. Chấm a.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Cho prednisone uống vì sưng đau nhiều</b></div><p class="why">IDSA 2014 (viêm mô tế bào KC 19, khuyến cáo yếu) có thể cân nhắc corticoid toàn thân (prednisone 40 mg/ngày trong 7 ngày) ở người lớn không đái tháo đường, và yêu cầu loại trừ nhiễm trùng sâu. Ông chưa biết có đái tháo đường hay không, không đủ điều kiện loại trừ sâu ngoài giờ, đang có sợ hãi và tăng huyết áp; chấm a, không phải cách ưu tiên.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Chỉ kê thuốc giảm đau, thuốc bôi và trấn an, không kê kháng sinh toàn thân</b></div><p class="why">IDSA 2014 (viêm mô tế bào KC 14) điển hình cần dùng kháng sinh phủ liên cầu; NICE NG153 2020 (mục 1.1.5) chốc ở người có nguy cơ biến chứng cần kháng sinh uống. Không kê kháng sinh bỏ sót đúng điều ông cần và để viêm lan.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Khuyên đắp lá, xoa dầu nóng, chờ xem 2–3 ngày</b></div><p class="why">Chờ không điều trị bỏ sót chỉ định kháng sinh (IDSA 2014 KC 14, 15) và chuyển tuyến (NICE NG153 2020, mục 1.1.15); chốc có thể tiến triển thành viêm mô bào, viêm bạch mạch (QĐ 4416, Chốc mục 2.1). Hiệu quả của lá, dầu nóng: không có trong tài liệu đã tải.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Cho về, hẹn tái khám</span></div><p>Cho ông Tư về với một đơn kháng sinh uống và hẹn tái khám là hợp lý nếu ở gần và uống đều (IDSA 2014, viêm mô tế bào KC 18, mức nhẹ). Nhưng đây là hai ông bà già ở cách 28 km đường đất, đêm nay không còn xe, mùa gặt không ai thay; ông lại có thói quen bỏ thuốc khi bớt đau (đợt viêm họng tháng trước bỏ sau 2 ngày), đúng nhóm &#x27;tuân thủ kém&#x27; mà IDSA 2014 KC 18 khuyến cáo nhập viện. Không ai đánh giá lại sau 24–48 giờ (NICE NG153 2020, mục 1.1.7–1.1.8; IDSA 2014 KC 15 cần kéo dài hoặc xem lại khi chưa cải thiện), trong khi chốc có thể tiến triển thành viêm mô bào, viêm bạch mạch, viêm mủ hạch bạch huyết, nhiễm khuẩn huyết (QĐ 4416, Chốc mục 2.1), và NICE NG153 2020 (mục 1.1.15) xếp chốc kèm dấu hiệu như viêm mô tế bào vào nhóm cần gửi bệnh viện. Nỗi sợ &#x27;cưa tay&#x27; không được gỡ và không có nơi đo lại; nếu vùng đỏ lan hay ông sốt trong đêm, hai vợ chồng sẽ đến muộn và hoảng hơn.</p></div><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Giữ ông Tư ở lại phòng khám &#x27;theo dõi qua đêm&#x27; là chưa đủ: tối nay chỉ có một bác sĩ, không xét nghiệm, không cấy, không siêu âm nên không có gì mới để quyết định vào sáng mai ngoài việc chờ vùng đỏ lan thêm. Ông sẽ lo nhiều hơn khi thấy mình bị &#x27;bỏ lại&#x27;, còn nguy cơ cần bệnh viện (viêm mô tế bào kèm chốc: NICE NG153 2020, mục 1.1.15; tuân thủ kém: IDSA 2014 KC 18) vẫn không được xử trí. Mất thêm vài giờ so với việc chuyển ngay.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển cấp cứu</span></div><p>Gọi xe cấp cứu và báo tình trạng nguy kịch là quá tay: ông tỉnh, mạch 88, HA 150/90, nhiệt 37,6 °C, nhịp thở 20, không có dấu hiệu toàn thân, bọng xuất huyết, hoại tử hay đau không tương xứng (IDSA 2014, viêm mô tế bào Hình 1; KC 27–29 cho nhiễm trùng hoại tử). Gọi cấp cứu làm ông tin &#x27;mình sắp chết&#x27;, tăng hoảng sợ và huyết áp, tốn chi phí lớn cho gia đình, trong khi chỉ cần chuyển bình thường bằng xe nhà kèm thư giới thiệu và gọi báo trước.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Chốc không bọng nước ở cẳng tay phải, bội nhiễm trên vết trầy do khiêng bao phân 5 ngày, do tụ cầu vàng/liên cầu</li><li>Viêm mô tế bào nhẹ quanh tổn thương (vùng đỏ 7 × 9 cm) kèm viêm bạch mạch khu trú (vệt hồng 4 cm) và hạch nách phải phản ứng 1,5 cm; không dấu hiệu toàn thân (mức nhẹ, IDSA 2014 Hình 1)</li><li>Không phải viêm mô tế bào nặng hay nhiễm trùng hoại tử, zona, nấm da, ghẻ, căng cơ</li><li>Bệnh nền: hen phế quản (đang dùng Seretide, Ventolin), tăng huyết áp (amlodipin); đường huyết mao mạch 6,1 mmol/L</li><li>Yếu tố nguy cơ cần gửi bệnh viện: tuân thủ điều trị kém, ở xa, ngoài giờ không xét nghiệm, không đánh giá lại được trong 24–48 giờ</li><li>Lý do thật đến khám: muốn được kê kháng sinh; nhiễu: sợ hãi quá mức vì hàng xóm bị cưa chân</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Hỏi bệnh: khởi phát từ trầy da khi khiêng bao phân, hóa mủ vỡ đóng vảy, sưng đỏ lan, không đau dây thần kinh theo dải, không ngứa đêm và vợ không ngứa. Thứ tự hỏi: khởi phát và tổn thương, triệu chứng toàn thân (có che bằng paracetamol), thuốc đang dùng (xịt hen, không corticoid), bệnh nền, thói quen uống thuốc, hoàn cảnh đi lại, rồi hỏi riêng nỗi sợ và điều ông mong muốn.</li><li>Khám: tổn thương ở cẳng tay phải; vảy tiết mỏng vì gãi và dầu nóng nên khó thấy hình ảnh điển hình (QĐ 4416, Chốc mục 2.1); da rám nắng nên đỏ kín đáo; ấn đau vừa, tương xứng; không bọng xuất huyết, hoại tử, khí; mạch quay rõ, đổ đầy mao mạch nhanh; hạch nách phải đau. Chẩn đoán xác định chủ yếu dựa lâm sàng (QĐ 4416, Chốc mục 2.3).</li><li>Mức nhẹ: viêm mô tế bào điển hình không có dấu hiệu toàn thân (IDSA 2014, Hình 1). Mạch 88 (dưới 90), nhịp thở 20, nhiệt 37,6; ông đã uống paracetamol nên dấu sốt có thể bị che, đây là điều cần tính tới ở người cao tuổi, chi tiết che sốt: không có trong tài liệu đã tải. Chốc thường gặp ở trẻ em (QĐ 4416, Chốc mục 1.2); ở ông biểu hiện mờ nhạt vì tuổi, gãi, dầu nóng, da sẫm.</li><li>Cận lâm sàng: ngoài giờ chỉ làm được đường huyết mao mạch và điện tim; không chờ kết quả vì chẩn đoán dựa lâm sàng (QĐ 4416 mục 2.3) và quyết định chuyển tuyến không phụ thuộc kết quả. Công thức máu, CRP, cấy dịch, KOH làm ở bệnh viện.</li><li>Vì sao suýt bỏ qua: ông cho rằng sưng đau do khiêng nặng &#x27;sái tay&#x27;; tổn thương nhỏ; không sốt; sợ hãi lấn át lời kể. Lý do thật (muốn kháng sinh) và nỗi sợ chỉ lộ khi hỏi nhẹ nhàng.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Chuyển bệnh viện đêm nay (chọn c). NICE NG153 2020 (mục 1.1.15) gửi bệnh viện khi chốc kèm dấu hiệu gợi ý bệnh nặng hơn như viêm mô tế bào. IDSA 2014 (KC 18) cho ngoại trú ở mức nhẹ nhưng khuyến cáo nhập viện khi tuân thủ kém hoặc ngoại trú thất bại; ông có tuân thủ kém, ở xa 28 km, ngoài giờ nên không thể xem lại trong 24–48 giờ (NICE 1.1.7–1.1.8; IDSA KC 15). Hai nguồn khác mức đề nghị (xem sổ mâu thuẫn); nếu ông ở gần, uống thuốc đều, có thể tái khám sớm thì ngoại trú theo IDSA hoàn toàn chấp nhận được. Đây là chuyển tuyến kịp thời, không phải cấp cứu: đi bằng xe nhà, có thư, có gọi báo trước.</li><li>Kháng sinh vì viêm mô tế bào điển hình cần kháng sinh phủ liên cầu, thường thêm phủ tụ cầu nhạy methicillin (IDSA 2014 KC 14) và vì chốc ở người có nguy cơ cần kháng sinh uống (NICE 1.1.5). Chọn cephalexin hay dicloxacillin, flucloxacillin tùy thuốc có (QĐ 4416, IDSA, NICE); thời gian 5 ngày (NICE Bảng 1; IDSA KC 15) hoặc 7 ngày (IDSA KC 2b). Ông muốn kháng sinh nên cần nói rõ: kháng sinh là phần của kế hoạch, việc chuyển bệnh viện là để theo dõi và xét nghiệm, không phải vì thuốc &#x27;không đủ mạnh&#x27;. Liều thận và gan cho người cao tuổi: không có trong tài liệu đã tải; NICE dặn xem BNF.</li><li>Tránh xét nghiệm chiều lòng: không X-quang, CT, cấy máu, điện tim &#x27;cho chắc&#x27; (IDSA 2014 KC 12–13). Đường huyết mao mạch hợp lý vì ông chưa biết đường huyết (QĐ 4416, Nhọt, áp xe da, mục 1.3 nêu tiểu đường, hen).</li><li>Trấn an có cấu trúc: (1) gọi tên nỗi sợ và cảm xúc; (2) cho biết điều khám thấy trên tay ông (không có dấu hoại tử, không sốt cao, đau tương xứng); (3) nói rõ kế hoạch đêm nay; (4) nói dấu hiệu thay đổi kế hoạch (đỏ lan thêm, sốt, rét run, đau dữ dội, bọng máu, lú lẫn); (5) hỏi lại ông hiểu thế nào. Không hứa chắc, không dùng từ &#x27;ung thư&#x27; hay &#x27;cưa tay&#x27; trừ khi ông nhắc.</li><li>Chuyển tuyến kịp thời: gọi bác sĩ tuyến trên, ghi giờ, sinh hiệu, khoanh bút vùng đỏ, thuốc đang dùng, bệnh nền, đường huyết mao mạch; kê cao tay (IDSA KC 16); đưa thư giới thiệu và ống xịt hen. Khung bàn giao SBAR và khoanh bút: không có trong tài liệu đã tải.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Cephalexin</b><div class="sub">viên 250 mg hoặc 500 mg</div></td><td data-l="Liều">250 mg × 4 lần/ngày (QĐ 4416; IDSA 2014 Bảng 2, dòng chốc) hoặc 500 mg × 4 lần/ngày (IDSA 2014 Bảng 2, dòng nhiễm khuẩn S. aureus nhạy methicillin); mức 500 mg cao hơn nên cân nhắc ở người cao tuổi chưa biết chức năng thận<div class="sub">Uống · Mỗi 6 giờ, liều đầu tại phòng khám trước khi đi</div></td><td data-l="Thời gian">5 ngày (NICE 2020 Bảng 1; IDSA 2014 KC 15 cho viêm mô tế bào) hoặc 7 ngày (IDSA 2014 KC 2b cho chốc), kéo dài nếu chưa cải thiện (IDSA KC 15)</td><td class="gc" data-l="Ghi chú">QĐ 4416 (Chốc mục 3.2.2): cephalexin 250 mg × 4 lần/ngày (người lớn), không ghi số ngày. IDSA 2014 Bảng 2. Tuyến trên quyết định thuốc và đường dùng; chức năng thận: làm ở tuyến trên, ngưỡng chỉnh liều: không có trong tài liệu đã tải.</td></tr><tr><td><b>Dicloxacillin (hoặc flucloxacillin thay thế)</b><div class="sub">viên 500 mg</div></td><td data-l="Liều">500 mg × 4 lần/ngày (QĐ 4416, Chốc mục 3.2.2; IDSA 2014 Bảng 2, dòng nhiễm khuẩn S. aureus nhạy methicillin); flucloxacillin 500 mg × 4 lần/ngày (NICE NG153 2020, Bảng 1)<div class="sub">Uống · Mỗi 6 giờ, lúc bụng đói (cách bữa ăn)</div></td><td data-l="Thời gian">5 ngày (NICE 2020 Bảng 1) hoặc 7 ngày cho chốc (IDSA 2014 KC 2b)</td><td class="gc" data-l="Ghi chú">Thay cho cephalexin khi thuốc có sẵn. Dị ứng penicillin hay flucloxacillin không phù hợp: clarithromycin 250 mg × 2 lần/ngày × 5 ngày (NICE 2020 Bảng 1); ông không dị ứng. Thời điểm uống lúc đói: không có trong tài liệu đã tải.</td></tr><tr><td><b>Kali permanganat (thuốc tím) hoặc nước muối sinh lý 9‰ hoặc dung dịch Jarish</b><div class="sub">thuốc tím pha loãng 1/10.000; gạc tẩm Jarish hoặc nước muối 9‰</div></td><td data-l="Liều">Ngâm, rửa tay bằng thuốc tím 1 lần/ngày; đắp gạc vảy tiết đến khi bong<div class="sub">Tại chỗ · Thuốc tím ngày 1 lần; Jarish ngày 2 lần sáng tối, mỗi lần 30 phút (bọng nước, bọng mủ)</div></td><td data-l="Thời gian">Đến khi vảy bong và vết trợt khô</td><td class="gc" data-l="Ghi chú">QĐ 4416 (Chốc mục 3.2.1). Tuyến trên có thể dùng cách khác.</td></tr><tr><td><b>Mupirocin 2% hoặc acid fusidic 2% (tùy chọn theo cách của QĐ 4416)</b><div class="sub">mỡ hoặc kem bôi</div></td><td data-l="Liều">Bôi mỏng lên tổn thương 2 lần/ngày (QĐ 4416, Chốc mục 3.2.1; IDSA 2014 KC 2a) hoặc 3 lần/ngày (NICE 2020 Bảng 1)<div class="sub">Bôi ngoài da · Sáng và tối (QĐ 4416)</div></td><td data-l="Thời gian">Thường 7 ngày (QĐ 4416); 5 ngày (IDSA 2014 KC 2a; NICE 2020 Bảng 1)</td><td class="gc" data-l="Ghi chú">QĐ 4416 (Chốc mục 3.2.1) kết hợp bôi và uống. NICE NG153 2020 (mục 1.1.6) không kết hợp thuốc bôi và uống; nếu chọn cách NICE thì chỉ cho kháng sinh uống. Cả hai cách đều đúng (xem sổ mâu thuẫn).</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Với ông Tư: đây là nhiễm khuẩn da từ chỗ trầy, không phải bệnh &#x27;ăn lan&#x27; như ông Tám; ông không có dấu nặng. Vì ông ở xa, đêm nay không có xét nghiệm và ông hay bỏ thuốc, bác sĩ gửi ông lên bệnh viện huyện để uống thuốc đúng cách và theo dõi, không phải vì bệnh nguy hiểm.</li><li>Kháng sinh uống đủ liều, đều giờ, không bỏ khi thấy bớt đau (IDSA 2014 KC 15: 5 ngày, kéo dài nếu chưa cải thiện). Nhờ bà Sáu nhắc và ghi giờ trên giấy.</li><li>Tay kê cao hơn tim khi nằm (IDSA 2014 KC 16); không gãi, không xoa dầu nóng hay đắp lá lên chỗ trầy; rửa tay, giữ khăn riêng (NICE NG153 2020, mục 1.1.1; QĐ 4416, Chốc mục 4).</li><li>Trên đường đi và ở bệnh viện, báo ngay nếu sốt, rét run, vùng đỏ lan thêm so với đường bút khoanh, đau dữ dội tăng nhanh, nổi bọng máu hay bọng nước, da tím đen, lú lẫn, khó thở nặng (IDSA 2014, phần nhiễm trùng hoại tử). Mang theo ống xịt hen, thuốc huyết áp, tờ thư giới thiệu.</li><li>Khi lành: nói rõ nên khám lại đường huyết ở tuyến trên (chỉ định theo dõi sau điều trị: không có trong tài liệu đã tải).</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-8">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Chốc / nhiễm khuẩn da (viêm mô tế bào nhẹ)</b></div>
+<p class="note">Phải loại trừ: Viêm mô tế bào nặng, Zona, Nấm da</p><p>Ông Tư nghe bác sĩ nói tên nỗi sợ và thấy tay mình không có dấu nặng, dịu lại, đồng ý đi. Phòng khám gọi báo trước bệnh viện huyện, bà Sáu cầm thư và ống xịt hen, hai vợ chồng chạy xe nhà theo xe phòng khám dẫn đường. Tối đó ở bệnh viện huyện làm công thức máu (bạch cầu 11,8 G/L, CRP 38 mg/L), cấy dịch (tụ cầu vàng nhạy methicillin sau 48–72 giờ), ông được uống kháng sinh đầy đủ liều, có người nhắc. Sáng hôm sau vùng đỏ vượt đường bút khoanh khoảng 1 cm rồi dừng; đến ngày thứ 3 đỡ rõ, ông được cho về với thuốc uống đủ 5–7 ngày và hẹn tái khám ở phòng khám khi hết thuốc (IDSA 2014 KC 15: kéo dài nếu chưa cải thiện). Nhờ chuyển sớm, vùng đỏ lan thêm được phát hiện ngay chứ không đến muộn; ông nói &#x27;may mà nghe bác sĩ, ở nhà chắc tôi bỏ thuốc rồi&#x27;. Số ngày chính xác nằm viện và thuốc tuyến trên chọn: không có trong tài liệu đã tải, ca dùng để dạy tiêu chí chuyển, chuẩn bị trước chuyển và bàn giao.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-9">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Sợ hãi quá mức: hỏi dồn &#x27;có ăn lên mình không&#x27;, đòi chụp, thử máu, chích thuốc mạnh nhất; cần trấn an có cấu trúc, không chiều lòng xét nghiệm (IDSA 2014 KC 12–13: không cấy thường quy).</li><li>Lý do thật là muốn được kê kháng sinh: chỉ nói khi được hỏi mong muốn; kháng sinh có trong kế hoạch, không cần cãi.</li><li>Khởi phát khiêng vật nặng làm ông gán sưng đau cho &#x27;sái tay&#x27;, dễ bỏ qua nhiễm khuẩn; paracetamol, dầu nóng, đắp lá che dấu hiệu.</li><li>Thuốc xịt hen đang dùng (Seretide, Ventolin) dễ làm nghĩ tới &#x27;ức chế miễn dịch&#x27;; ông không dùng corticoid uống, và tài liệu đã tải không nêu corticoid hít là yếu tố nguy cơ của chốc.</li><li>Ngoài giờ, không có kỹ thuật viên: không xét nghiệm, quyết định phải dựa lâm sàng và không chờ kết quả.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Người cao tuổi: chốc và viêm mô tế bào biểu hiện mờ nhạt (vảy mỏng, đỏ kín đáo trên da sẫm, không sốt, sưng đau bị gán cho chấn thương); dựa vào hình thái, khởi phát và khám kỹ (QĐ 4416, Chốc mục 2.1, 2.3).</li><li>Chốc có thể tiến triển thành viêm mô bào, viêm bạch mạch, viêm mủ hạch, nhiễm khuẩn huyết (QĐ 4416, Chốc mục 2.1).</li><li>Tiêu chí chuyển: NICE NG153 2020 mục 1.1.15 (chốc kèm dấu hiệu như viêm mô tế bào, hoặc chốc lan rộng ở người suy giảm miễn dịch); IDSA 2014 KC 18 (nhập viện khi nghi sâu hoặc hoại tử, tuân thủ kém, suy giảm miễn dịch nặng, ngoại trú thất bại); cộng yếu tố bối cảnh (ngoài giờ, xa, không đánh giá lại được).</li><li>Chuẩn bị trước chuyển và bàn giao: sinh hiệu, giờ, khoanh bút viền đỏ, thuốc đang dùng, bệnh nền, gọi báo trước; kê cao tay (IDSA 2014 KC 16).</li><li>Trấn an có cấu trúc cho người sợ hãi: gọi tên nỗi sợ, giải thích bằng chính dấu hiệu của họ, nói kế hoạch và dấu hiệu đổi kế hoạch; tránh xét nghiệm chiều lòng.</li><li>Người muốn kê kháng sinh: kháng sinh được chỉ định ở ca này (IDSA 2014 KC 14; NICE 2020 mục 1.1.5), nhưng cần giải thích vì sao và uống đủ liều.</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Chốc do tụ cầu vàng, liên cầu hoặc cả hai (QĐ 4416, Chốc mục 1.3); chẩn đoán chủ yếu dựa lâm sàng (mục 2.3).</li><li>Chẩn đoán phân biệt chốc: nấm da, thủy đậu, herpes simplex, hội chứng bong vảy da do tụ cầu, zona, pemphigus vulgaris, pemphigoid (QĐ 4416, Chốc mục 2.4).</li><li>Cephalexin 250 mg × 4 lần/ngày hoặc dicloxacillin 500 mg × 4 lần/ngày, người lớn (QĐ 4416, Chốc mục 3.2.2); IDSA 2014 Bảng 2 cephalexin 500 mg × 4 lần cho nhiễm khuẩn S. aureus nhạy methicillin.</li><li>Viêm mô tế bào điển hình: kháng sinh phủ liên cầu, 5 ngày và kéo dài nếu chưa cải thiện (IDSA 2014 KC 14, 15); ngoại trú nếu không SIRS, rối loạn ý thức, huyết động ổn (KC 18).</li><li>NICE NG153 2020: không kết hợp kháng sinh bôi và uống (mục 1.1.6); gửi bệnh viện khi chốc kèm dấu hiệu bệnh nặng hơn như viêm mô tế bào (mục 1.1.15).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-10">Nguồn tài liệu <small>3</small></h3></summary><ul class=""><li>Bộ Y tế – QĐ 4416/QĐ-BYT 2023, hướng dẫn chẩn đoán và điều trị bệnh da liễu (TL-0397) – Chốc mục 1.2, 1.3, 2.1, 2.2, 2.3, 2.4, 3.1, 3.2.1, 3.2.2, 4; Nhọt, áp xe da mục 1.2, 1.3; Ghẻ mục 2.1.</li><li>IDSA 2014, Practice guidelines for the diagnosis and management of skin and soft tissue infections (TL-0270) – Chốc KC 1–2, Bảng 2, viêm mô tế bào KC 12–19 và Hình 1, nhiễm trùng hoại tử KC 27–29 (Evidence summary).</li><li>NICE NG153 2020, Impetigo: antimicrobial prescribing (TL-0428) – mục 1.1.1, 1.1.5–1.1.8, 1.1.15, Bảng 1.</li></ul></details>
+<details class="card"><summary><h3 id="m-11">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Da liễu</dd><dt>chan_doan_dich</dt><dd>Chốc / nhiễm khuẩn da (viêm mô tế bào nhẹ)</dd><dt>chan_doan_phai_loai_tru</dt><dd>Viêm mô tế bào nặng; Zona; Nấm da</dd><dt>nhom_tuoi</dt><dd>Cao tuổi (60–74 tuổi)</dd><dt>do_kho</dt><dd>Không điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>dien_tien_tai_kham</dt><dd>Không áp dụng (ca 1 lượt khám)</dd><dt>nhieu_benh_nhan</dt><dd>Sợ hãi quá mức</dd><dt>rang_buoc_nguon_luc</dt><dd>Ngoài giờ, không có kỹ thuật viên</dd><dt>loai_ket_cuc</dt><dd>Chuyển tuyến kịp thời</dd><dt>gioi</dt><dd>Nam</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>1</dd><dt>nghe_nghiep</dt><dd>Nông dân</dd><dt>yeu_to_khoi_phat</dt><dd>Khiêng vật nặng</dd><dt>thuoc_dang_dung</dt><dd>Thuốc xịt hen đang dùng</dd><dt>ly_do_that_su_den_kham</dt><dd>Muốn được kê kháng sinh</dd></dl><ul class=""><li>Bản 1 (26/10/2026): ca da liễu 1 lượt, cặp tương phản P-0470 vai A (cặp: DL-0451 ghẻ). Tài liệu đã đọc: TL-0397 (Chốc mục 1–4; Nhọt, áp xe mục 1.2–1.3; Ghẻ mục 2.1), TL-0270 (Chốc KC 1–2, Bảng 2, viêm mô tế bào KC 12–19, Hình 1, nhiễm trùng hoại tử KC 27–29), TL-0428 (toàn văn).</li><li>Biến sổ cái: nhóm tuổi cao tuổi (68), không điển hình (vảy mỏng, đỏ kín đáo, không sốt, bị gán cho &#x27;sái tay&#x27;); không bẫy cấu trúc; 1 lượt; sợ hãi quá mức (ông Tám bị cưa chân); ngoài giờ không có kỹ thuật viên (khoa_cls xn, xquang, sieu_am; còn glu_mm, ecg); nghề nông dân; khởi phát khiêng bao phân; thuốc xịt hen Seretide, Ventolin; lý do thật muốn được kê kháng sinh; kết cục chuyển tuyến kịp thời (gọi báo trước, bàn giao).</li><li>Chỗ thiếu tài liệu: liên quan corticoid hít với nguy cơ nhiễm khuẩn da; paracetamol che sốt; khung SBAR và khoanh bút; thuốc cho liều đầu trước chuyển; chỉnh liều cephalexin theo thận ở người cao tuổi; tiêu chuẩn X-quang, điện tim cho nhiễm khuẩn da nhẹ; ngưỡng đường huyết sau ăn; theo dõi đường huyết sau điều trị.</li><li>Mâu thuẫn dùng theo mục có sẵn của DL-0416: kết hợp bôi với uống (QĐ 4416 vs NICE); thuốc, liều và số ngày; ngoại trú hay chuyển bệnh viện (IDSA KC 18 vs NICE 1.1.15). Chuyển tuyến chấm c vì ông có tuân thủ kém (tiêu chuẩn của chính IDSA KC 18); ngoại trú chấm a, như ở DL-0429.</li><li>Ảnh da: đã thử quy trình SCIN 2 vòng (nhãn Impetigo, Folliculitis, Insect Bite) nhưng không có ảnh phù hợp (ảnh nách và môi của nam trẻ, lộ mặt hoặc trang sức, không phải cẳng tay người lớn tuổi; ảnh cẳng tay và cẳng chân quá mờ, không thấy vảy tiết). Không đưa ảnh nào lên web; dùng chữ.</li></ul></details>
+<p class="chan-trang">Ca DL-0402 · phiên bản ca 1 · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

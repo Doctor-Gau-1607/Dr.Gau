@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MT-0523 · Rối loạn lipid máu</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · MT-0523</div>
+   <h1>Ê hai bắp đùi mấy hôm, lo vì được báo mỡ máu cao</h1>
+   <p class="dich-gia">Phạm Văn Tám · Nam · 66 tuổi · 76 kg</p>
+   <div class="chips"><span class="chip">Bệnh mạn tính người lớn</span><span class="chip">Điển hình</span><span class="chip">1 lượt khám</span><span class="chip">Có cờ đỏ</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Bảo vệ khu chung cư (trực ca đêm 22 giờ đến 6 giờ sáng, đi tuần mỗi 2 giờ)</dd><dt>Chiều cao, cân nặng</dt><dd>168 cm · 76 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi ông là &#x27;bác&#x27;. Ông tự xưng &#x27;tôi&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;.</dd><dt>Tính cách</dt><dd>Hiền, cẩn thận quá mức, hay lo xa. Tin tin nhắn Zalo và lời hàng xóm hơn tờ giấy xét nghiệm. Sợ thuốc tây &#x27;nặng gan nặng thận&#x27; nhưng cũng sợ chết bất ngờ như anh trai. Thương con gái út Hạnh nên miễn cưỡng nghe lời con.</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Ngoài giờ, kỹ thuật viên xét nghiệm đã về: phòng khám không làm được xét nghiệm máu tối nay (kể cả bộ mỡ máu, CK, men gan); mẫu lấy sáng mai, kết quả sau nhiều giờ. Điều dưỡng Linh vẫn đo được điện tâm đồ và đường huyết mao mạch tại giường. Quyết định tối nay phải dựa vào hỏi bệnh, khám và giấy tờ cũ nếu có.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/1</span> </h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Ông Phạm Văn Tám, 66 tuổi, bảo vệ khu chung cư, trực ca đêm. Đến lúc 19 giờ 30 tối thứ Sáu, ngoài giờ hành chính, trước giờ vào ca. Lý do ghi tại quầy: ê hai bắp đùi mấy hôm, lo vì mỡ máu cao. Sinh hiệu: HA 136/82 mmHg, mạch 76 l/p, nhiệt 36,8 °C, nhịp thở 18 l/p, SpO2 98%, cân nặng 76 kg, cao 168 cm (BMI 26,9).</p>
+  <blockquote>“Bác sĩ ơi, tôi sợ quá. Hai bắp đùi tôi mấy hôm nay ê như bị ai đánh. Tôi nghe nói mỡ trong máu cao là mỡ bám vào cơ, bám vào mạch, rồi nghẽn... anh tôi hồi xưa cũng vậy đó bác sĩ. Con gái tôi nó bắt tôi phải đi khám tối nay, không đi là nó giận. Tôi có sao không bác sĩ? Sắp tới giờ tôi vào ca rồi.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>76</b><small>l/p</small></div><div class="vs"><span>HA</span><b>136/82</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,8</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>18</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>13 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám (lời khai) và nỗi sợ</b><span class="tag t-g">Tự kể</span></div><p>Hai bắp đùi (và hai bắp chân) ê như sau khi đi bộ xa, bắt đầu cách đây 3 hôm. Ông sợ là &#x27;mỡ bám vào cơ&#x27; và là dấu hiệu sắp bị tai biến như anh trai. Tối nay con gái bắt đi khám trước giờ vào ca.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đặc điểm đau cơ: đối xứng, nhẹ, bắt đầu khi dùng kháng sinh cùng thực phẩm chức năng, đang đỡ</b><span class="tag t-b">Khi được hỏi</span></div><p>Ê cả hai bên, đối xứng, vùng đùi và bắp chân, bắt đầu ngày thứ 3 uống thuốc kháng sinh (cách đây 3 hôm), nặng nhất hôm kia, vẫn đi tuần và leo cầu thang được. Từ hôm qua, sau khi ngưng kháng sinh, đỡ nhiều, nay chỉ còn ê nhẹ khi ấn. Không sốt, không sưng nóng đỏ, không chuột rút, không té ngã hay làm việc nặng, không tập thể thao.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Cờ đỏ tiêu cơ vân: nước tiểu sẫm, yếu cơ, sốt (đều không có)</b><span class="tag t-b">Khi được hỏi</span></div><p>Nước tiểu vẫn vàng nhạt như mọi ngày, không sẫm như nước trà, đi tiểu bình thường. Không yếu tay chân, đứng lên ngồi xuống không khó, không khó nuốt, không sốt.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Yếu tố khởi phát: thực phẩm chức năng chứa men gạo đỏ (hoạt chất kiểu statin)</b><span class="tag t-b">Khi được hỏi</span></div><p>Cách đây 3 tuần, sau khi biết mỡ cao, ông mua qua người quen một hộp &#x27;thực phẩm chức năng hạ mỡ máu&#x27; (nhãn: chiết xuất men gạo đỏ 600 mg/viên, tỏi đen, omega-3), 480.000 đồng, uống 2 viên × 2 lần/ngày, kể cả sáng nay. Nhãn không ghi hàm lượng monacolin. Con gái lo vì thấy ông uống &#x27;thuốc lạ&#x27; và đau cơ.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc đang dùng (vừa dùng): kháng sinh nhóm macrolid cùng lúc với men gạo đỏ</b><span class="tag t-b">Khi được hỏi</span></div><p>Cách đây 5 hôm bị đau họng, ho, sổ mũi nhẹ khi trực đêm gió lạnh. Ra nhà thuốc mua 6 viên clarithromycin 500 mg, uống 2 viên/ngày (1 viên sáng, 1 viên tối) trong 3 ngày rồi hết thuốc, ngưng từ hôm qua. Họng và ho đã hết, không còn sốt. Không có đơn bác sĩ.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Kết quả cũ mang theo: lipid, TSH và các xét nghiệm loại thứ phát (tối nay không làm được xét nghiệm)</b><span class="tag t-b">Khi được hỏi</span></div><p>Trong túi ông có phiếu khám sức khỏe định kỳ do công ty tổ chức cách đây 7 tuần (ông quên đưa, con gái dặn mang theo): lấy máu buổi sáng sau nhịn đói 12 giờ, cholesterol toàn phần 7,4 · LDL-C 5,5 · HDL-C 1,2 · triglycerid 1,6 mmol/L; glucose đói 5,3 mmol/L; creatinin 84 µmol/L (eGFR 86); AST 27, ALT 31 U/L; TSH 2,1 mIU/L. Bác sĩ khám công ty dặn &#x27;mỡ máu cao nhiều, cần điều trị, đến phòng khám tái khám&#x27;, ông không đi.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Loại trừ suy giáp bằng hỏi triệu chứng và thuốc</b><span class="tag t-b">Khi được hỏi</span></div><p>Không sợ lạnh hơn người khác, không táo bón, giọng không khàn, da không khô, cân nặng ổn định mấy năm nay (76 kg). Không mệt bất thường ngoài việc thức đêm. Chưa từng bị bệnh tuyến giáp, không dùng amiodaron hay lithium, không xạ trị vùng cổ.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Sàng lọc triệu chứng bệnh tim mạch xơ vữa (cờ đỏ)</b><span class="tag t-b">Khi được hỏi</span></div><p>Không đau tức ngực, không khó thở khi leo 5 tầng đi tuần, không hồi hộp, không ngất. Chưa bao giờ yếu liệt một bên, méo miệng, nói khó hay mờ mắt thoáng qua. Đi bộ không bị đau bắp chân. Chưa đo thấy HA cao.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiền sử gia đình: anh ruột bệnh mạch vành sớm (dưới 55 tuổi ở nam)</b><span class="tag t-b">Khi được hỏi</span></div><p>Anh ruột bị nhồi máu cơ tim năm 54 tuổi, đặt stent, nay 71 tuổi còn sống. Mẹ tai biến mạch não lúc 78 tuổi. Bố mất lúc 70 tuổi vì bệnh phổi. Con gái Hạnh (36 tuổi) và con trai (40 tuổi) chưa từng thử mỡ máu.</p></div><div class="fact"><div class="fh"><b>Thuốc có thể làm tăng lipid; dị ứng thuốc</b><span class="tag t-b">Khi được hỏi</span></div><p>Không uống thuốc thường xuyên nào khác: không thuốc huyết áp, lợi tiểu, corticoid, thuốc nội tiết hay thuốc tim. Không dị ứng thuốc. Thỉnh thoảng uống 1 viên paracetamol khi nhức đầu.</p></div><div class="fact"><div class="fh"><b>Yếu tố lối sống góp phần</b><span class="tag t-b">Khi được hỏi</span></div><p>Bỏ thuốc lá 8 năm. Bia 1–2 lon cuối tuần. Trực đêm hay ăn khuya: mì gói trứng, xúc xích, lòng heo, bánh ngọt. Đi tuần quanh chung cư nhưng không tập thể dục riêng. Vòng eo tăng dần mấy năm.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Niềm tin sai về statin, lý do không điều trị 7 tuần</b><span class="tag t-r">Giấu</span></div><p>Ông sợ thuốc hạ mỡ &#x27;tây&#x27;: hàng xóm là ông Bốn uống thuốc mỡ rồi &#x27;hư thận, chạy thận&#x27;, nên ông bỏ qua lời dặn của bác sĩ khám công ty và mua thực phẩm chức năng &#x27;lành, từ thiên nhiên&#x27;. Cơn đau đùi vừa rồi làm ông càng tin thuốc mỡ độc.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi vì sao 7 tuần qua chưa điều trị mỡ máu, hỏi ông nghĩ gì về thuốc hạ mỡ, hoặc bác sĩ công ty đã dặn gì. Nếu bác sĩ chỉ nói &#x27;phải uống thuốc&#x27; mà không hỏi thì ông im lặng, gật đầu rồi không uống.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Động cơ thật: gia đình thúc ép; mong được trấn an và tránh thuốc</b><span class="tag t-r">Giấu</span></div><p>Lý do thật: con gái Hạnh dọa &#x27;bố không đi khám thì con nghỉ làm dẫn bố vào bệnh viện lớn chụp hết&#x27;. Ông đi để bác sĩ nói là &#x27;không sao, khỏi cần thuốc&#x27; cho con yên tâm, nhưng trong bụng vẫn sợ mình sắp bị tai biến.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi ai bảo ông đi khám, vì sao hôm nay mới đến, ông mong gì ở buổi khám, hoặc điều gì làm ông lo nhất. Nếu bác sĩ không hỏi thì ông chỉ nói &#x27;con gái bắt đi&#x27;.</div></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>10 mục</small></h3></summary><div class="row"><div class="rh"><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, tiếp xúc tốt, lo lắng, tay hay xoa hai đùi. Béo bụng nhẹ, vòng eo 92 cm. Da niêm hồng, không vàng da, không phù.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Cung giác mạc nhẹ hai mắt (vòng trắng nhạt quanh mống mắt). Không ban vàng mi mắt. Tuyến giáp không to, không nhân, di động theo nhịp nuốt. Không hạch cổ.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Da, niêm mạc, ban</b></div><p><span class="lbl">Kết quả:</span> Không u vàng gân (gân Achille, mu bàn tay), không u vàng khuỷu hay đầu gối, không ban vàng lòng bàn tay. Da ấm, không khô, không ban.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 76 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 76 l/p, T1 T2 rõ, không âm thổi, không T3.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi, không T3.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Lồng ngực cân đối, rung thanh đều, gõ trong hai bên.</p><p><span class="lbl">Kết quả:</span> Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng béo nhẹ, mềm, không đau, gan lách không sờ thấy, không âm thổi động mạch chủ bụng.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Mạch ngoại biên, âm thổi động mạch</b></div><p><span class="lbl">Kết quả:</span> Mạch cảnh, quay, mu chân, chày sau bắt rõ, đều hai bên. Không âm thổi động mạch cảnh.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Sức cơ: gốc chi, ngọn chi, gập cổ, ngồi xổm – đứng dậy</b></div><p><span class="lbl">Kết quả:</span> Sức cơ gốc chi và ngọn chi 5/5 hai bên, gập cổ 5/5. Ngồi xổm – đứng dậy không cần vịn, không đau. Ấn cơ tứ đầu đùi hai bên chỉ thấy ê nhẹ, không teo, không sưng.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Quan sát màu, độ trong nước tiểu mẫu mới (bằng mắt)</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Vàng nhạt, trong.</p><p><span class="lbl">Kết quả:</span> Nước tiểu mẫu mới (điều dưỡng Linh lấy): vàng nhạt, trong, không màu nâu hay màu nước trà.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thần kinh</b></div><p><span class="lbl">Kết quả:</span> Không dấu thần kinh khu trú. Phản xạ gân gót hai bên bình thường, thời gian thư giãn không chậm. Cảm giác bàn chân đủ.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>10 mục</small></h3></summary><div class="row"><div class="rh"><b>Bộ mỡ máu</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Tối nay không làm được (kỹ thuật viên đã về). Lấy máu sáng mai, kết quả sau nhiều giờ. Hiện chỉ có phiếu cũ 7 tuần trước: cholesterol toàn phần 7,4 · LDL-C 5,5 · HDL-C 1,2 · TG 1,6 mmol/L (non-HDL-C 6,2).</p><p class="why">Chẩn đoán xác định bằng xét nghiệm lipid: cholesterol &gt; 5,2, LDL-C &gt; 2,58 mmol/L (QĐ 3879/2014 mục III.2). Phiếu 7 tuần trước đủ để chẩn đoán và quyết định tối nay: LDL-C 5,5 mmol/L (≥ 4,9 = 190 mg/dL) là tăng cholesterol nặng (ACC/AHA 2026 mục 4.2.4.3). Lấy lại sáng mai làm lần đo thứ hai (ESC/EAS 2019 Bảng 13: ít nhất hai lần đo cách nhau 1–12 tuần); lúc đói (QĐ 3879 mục III.2) hoặc không cần đói (ESC/EAS 2019 mục 5.4.3; ACC/AHA 2026 mục 3.5).</p></div><div class="row"><div class="rh"><b>TSH, FT4</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Tối nay không làm được. Phiếu 7 tuần trước: TSH 2,1 mIU/L (bình thường).</p><p class="why">Đã có TSH bình thường cách đây 7 tuần cùng lúc với lipid cao, lại không có triệu chứng suy giáp: không cần lặp lại để loại suy giáp (QĐ 3879 Suy giáp ở người lớn mục IV.2.1, IV.3; ACC/AHA 2026 mục 4.2.4.3 KC 1, Bảng 15). Cho lại: chấp nhận.</p></div><div class="row"><div class="rh"><b>AST, ALT</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Tối nay không làm được. Phiếu 7 tuần trước: AST 27, ALT 31 U/L.</p><p class="why">ALT trước khi điều trị (ESC/EAS 2019 Bảng 13); đã có kết quả bình thường 7 tuần trước. Chấp nhận lấy lại sáng mai cùng lipid.</p></div><div class="row"><div class="rh"><b>Ure, creatinin, eGFR</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Tối nay không làm được. Phiếu 7 tuần trước: creatinin 84 µmol/L, eGFR 86 mL/ph/1,73 m².</p><p class="why">Bệnh thận là nguyên nhân thứ phát tăng LDL-C (ACC/AHA 2026 Bảng 15; QĐ 3879 mục II.2): đã loại bằng phiếu cũ.</p></div><div class="row"><div class="rh"><b>Đường huyết mao mạch (máy thử tại giường)</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Đường huyết mao mạch (điều dưỡng Linh), sau ăn tối khoảng 2 giờ: 5,6 mmol/L.</p><p class="why">ĐTĐ và tăng đường huyết là nguyên nhân thứ phát (ACC/AHA 2026 Bảng 15). Glucose đói 5,3 mmol/L ở phiếu cũ cộng với đường huyết ngẫu nhiên 5,6 mmol/L: không gợi ĐTĐ. Không bắt buộc.</p></div><div class="row"><div class="rh"><b>CK (creatine kinase)</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Tối nay không làm được, lấy sáng mai. Chưa có kết quả.</p><p class="why">CK nền: ESC/EAS 2019 Bảng 13 (đo trước điều trị, CK &gt; 4 lần giới hạn trên thì chưa bắt đầu thuốc, đo lại khi đau cơ). ACC/AHA 2026 mục 4.2.11 KC 1 chỉ đo CK khi đau cơ nặng hoặc yếu cơ; ông đau nhẹ, sức cơ 5/5, nước tiểu trong. Hai cách đều chấp nhận (sổ mâu thuẫn, ca MT-0425 mục 4).</p></div><div class="row"><div class="rh"><b>Lipoprotein(a) [Lp(a)]</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Tối nay không làm được. Làm một lần trong đời khi có điều kiện (không cần nhịn đói).</p><p class="why">ACC/AHA 2026 mục 3.4 KC 1 (COR 1): đo Lp(a) ít nhất một lần cho mọi người lớn; ESC/EAS 2025 mục 6, Bảng khuyến cáo 4: cân nhắc đo ít nhất một lần, Lp(a) &gt; 50 mg/dL (105 nmol/L) là yếu tố tăng nguy cơ. Thêm ý nghĩa khi nghi tăng cholesterol gia đình. Không bắt buộc.</p></div><div class="row"><div class="rh"><b>Điện tâm đồ 12 chuyển đạo</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Điện tâm đồ (điều dưỡng Linh): nhịp xoang 74 l/p, trục bình thường, không ST-T bất thường, không sóng Q.</p><p class="why">Không đau ngực, khó thở: không bắt buộc. Làm một lần giúp loại cờ đỏ tim mạch và trấn an, không hại, nhưng không thay được lời giải thích (chỉ định ECG không có trong tài liệu đã tải; theo lâm sàng).</p></div><div class="row"><div class="rh"><b>Troponin T hs</b><span class="tag t-r">Không cần</span></div><p class="why">Không đau ngực, ECG không thiếu máu, đau cơ ở chi dưới đối xứng: không có chỉ định (không có trong tài liệu đã tải; theo lâm sàng).</p></div><div class="row"><div class="rh"><b>Siêu âm tim</b><span class="tag t-r">Không cần</span></div><p class="why">Không triệu chứng tim, tim phổi bình thường: không có chỉ định siêu âm tim chỉ để trấn an (không có trong tài liệu đã tải; theo lâm sàng).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Rối loạn lipid máu: tăng cholesterol nặng (LDL-C 5,5 mmol/L ≥ 4,9 mmol/L, TG bình thường), nghi tăng cholesterol gia đình thể &#x27;có thể&#x27; (Dutch 4 điểm); chưa có bệnh tim mạch xơ vữa lâm sàng; nguy cơ cao</b></div><p class="why">Phiếu cũ: cholesterol 7,4, LDL-C 5,5 mmol/L (QĐ 3879 mục III.2); LDL-C ≥ 190 mg/dL là &#x27;tăng cholesterol nặng&#x27; (ACC/AHA 2026 mục 4.2.4.3). Điểm Dutch: LDL-C 5,0–6,4 mmol/L được 3 điểm, anh ruột bệnh mạch vành dưới 55 tuổi được 1 điểm, tổng 4 điểm = &#x27;có thể&#x27; FH (ESC/EAS 2019 Bảng 12, mục 9.1.2.1). LDL-C &gt; 4,9 mmol/L tự nó xếp nguy cơ cao (ESC/EAS 2025 Bảng 3).</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Đau cơ nhẹ hai đùi và bắp chân đang giảm, liên quan dùng clarithromycin cùng men gạo đỏ (hoạt chất kiểu statin); không có dấu tiêu cơ vân</b></div><p class="why">Đối xứng, nhẹ, bắt đầu ngày 3 của clarithromycin, đỡ sau khi ngưng; sức cơ 5/5, nước tiểu vàng trong. Tăng men cơ dễ gặp ở người già hoặc dùng macrolid (QĐ 3879 mục IV.4.1); men gạo đỏ tác động như statin, có tác dụng phụ giống statin (ESC/EAS 2019 mục 7.5.2); clarithromycin tương tác với statin (ESC/EAS 2019 Bảng 10; ACC/AHA 2026 Bảng 8). Tài liệu đã tải không nêu riêng cặp men gạo đỏ + clarithromycin; đau cơ sau nhiễm virus hô hấp cũng có thể góp phần.</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Dùng thực phẩm chức năng men gạo đỏ tự mua, hàm lượng không rõ, không có lợi ích chứng minh</b></div><p class="why">ACC/AHA 2026 mục 4.1.5 KC 1 (COR 3: không lợi ích, B-R) và ESC/EAS 2025 mục 10, Bảng khuyến cáo 8 (Class III, B): không khuyến cáo thực phẩm chức năng để hạ LDL-C; ESC/EAS 2019 mục 7.5.2: thành phần và độ tinh khiết không rõ, an toàn lâu dài chưa được ghi nhận đầy đủ.</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Lo sợ quá mức về bệnh và về thuốc hạ mỡ (niềm tin sai về độc gan, thận), được gia đình thúc ép đi khám</b></div><p class="why">Nỗi sợ dẫn tới 7 tuần chưa điều trị. Nhìn nhận mối lo trước khi giải thích (ACC/AHA 2026 mục 4.2.11 KC 2); triệu chứng cơ nhiều khi do kỳ vọng tiêu cực (ESC/EAS 2019 mục 8.1.4.1; ACC/AHA 2026 mục 4.2.11).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>RL lipid thứ phát do suy giáp</b></div><p class="why">Loại: không sợ lạnh, không táo bón, giọng bình thường, cân nặng ổn; tuyến giáp không to, phản xạ gót thư giãn bình thường; TSH 2,1 mIU/L (7 tuần trước). Suy giáp chẩn đoán dựa vào lâm sàng và TSH tăng, hormon giảm (QĐ 3879 Suy giáp mục IV.1, IV.2.1, IV.3); suy giáp là nguyên nhân thứ phát cần loại khi LDL-C ≥ 190 mg/dL (ACC/AHA 2026 mục 4.2.4.3 KC 1, Bảng 15).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>RL lipid thứ phát do ĐTĐ, bệnh thận, bệnh gan tắc mật, thuốc, rượu</b></div><p class="why">Glucose đói 5,3 mmol/L, eGFR 86, ALT 31, không vàng da, không dùng thiazid, corticoid hay estrogen; bia ít. Không giải thích được LDL-C 5,5 mmol/L (ACC/AHA 2026 Bảng 15; QĐ 3879 mục II.2). Ăn mỡ bão hòa và thừa cân là yếu tố góp phần, không đủ giải thích LDL-C cao như vậy.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tiêu cơ vân do tương tác clarithromycin – men gạo đỏ</b></div><p class="why">Loại: tiêu cơ vân là đau cơ nặng, hoại tử cơ, myoglobin niệu, CK tăng ≥ 10 lần giới hạn trên (ESC/EAS 2019 mục 8.1.4.1). Ông đau nhẹ, đang đỡ, sức cơ 5/5, nước tiểu trong. CK chưa đo được tối nay; vẫn dặn dấu hiệu quay lại ngay.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Bệnh mạch vành hoặc cơn thiếu máu não thoáng qua (đã có bệnh tim mạch xơ vữa)</b></div><p class="why">Loại theo lâm sàng: không đau ngực, khó thở, yếu liệt thoáng qua, đau cách hồi; mạch ngoại biên rõ; ECG bình thường. Nếu có ASCVD thì mục tiêu LDL-C là &lt; 1,4 mmol/L (ACC/AHA 2026 mục 4.2.4.3 KC 5), không áp dụng ở ca này.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Nhìn nhận nỗi sợ trước, rồi trấn an có cấu trúc bằng số liệu: đau cơ nhẹ và đang đỡ, không dấu nguy hiểm; mỡ máu cao nặng nhưng điều trị được và &#x27;không phải sắp chết tối nay&#x27;; để ông tự nhắc lại điều bác sĩ vừa giải thích</b></div><p class="why">Ghi nhận lo lắng của người bệnh và nói rõ nguy cơ tim mạch tăng nếu bỏ thuốc (ACC/AHA 2026 mục 4.2.11 KC 2). Kỹ thuật trấn an (nhìn nhận – giải thích – nhắc lại) không có trong tài liệu đã tải; theo kỹ năng giao tiếp.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi lý do thật hôm nay đến khám và ông nghĩ gì về thuốc hạ mỡ</b></div><p class="why">Động cơ thật là gia đình thúc ép và sợ thuốc; không hỏi thì ông gật đầu rồi không uống (không có trong tài liệu đã tải; kỹ năng khai thác lý do thật).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi và khám để loại cờ đỏ: cường độ và đặc điểm đau cơ, sức cơ, màu nước tiểu, sốt; triệu chứng tim mạch – thần kinh; đo HA, nghe tim phổi</b></div><p class="why">Tiêu cơ vân: đau cơ nặng, myoglobin niệu, CK ≥ 10 lần (ESC/EAS 2019 mục 8.1.4.1); đau cơ nặng hoặc yếu cơ thì khám sức cơ và đo CK (ACC/AHA 2026 mục 4.2.11 KC 1). Triệu chứng tim mạch xơ vữa quyết định mục tiêu LDL-C (ACC/AHA 2026 mục 4.2.4.3).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi kỹ thuốc, thực phẩm chức năng và kháng sinh đã dùng (tên, liều, ngày) và xin xem hộp, phiếu xét nghiệm cũ</b></div><p class="why">Men gạo đỏ tác động như statin; macrolid tương tác với statin (ESC/EAS 2019 mục 7.5.2, Bảng 10; QĐ 3879 mục IV.4.1). Phiếu cũ cho lipid, TSH, glucose, creatinin, ALT để quyết định tối nay dù không xét nghiệm được (theo thực hành lâm sàng).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ngưng ngay thực phẩm chức năng men gạo đỏ, không uống chồng lên statin</b></div><p class="why">Không khuyến cáo thực phẩm chức năng để hạ LDL-C (ACC/AHA 2026 mục 4.1.5 KC 1, COR 3; ESC/EAS 2025 mục 10, Bảng khuyến cáo 8, Class III B). Men gạo đỏ ức chế HMG-CoA reductase như statin, hàm lượng monacolin khác nhau giữa sản phẩm (ESC/EAS 2019 mục 7.5.2). Không chồng lên statin vì cùng cơ chế (suy ra từ mục 7.5.2; không có nghiên cứu phối hợp trong tài liệu đã tải).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Tìm và loại nguyên nhân thứ phát: suy giáp (TSH 2,1 từ phiếu cũ), ĐTĐ, bệnh thận, bệnh gan, thuốc, rượu</b></div><p class="why">LDL-C ≥ 190 mg/dL: phải loại trừ và xử trí nguyên nhân thứ phát (ACC/AHA 2026 mục 4.2.4.3 KC 1, Bảng 15); QĐ 3879 mục II.2 (ĐTĐ, bệnh thận, suy giáp, xơ gan, thuốc thiazid, corticoid).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn lấy máu sáng mai: bộ mỡ máu, ALT, creatinin; lấy lúc đói hoặc không cần nhịn</b></div><p class="why">Lần đo lipid thứ hai trước khi dùng thuốc dài hạn và ALT trước điều trị (ESC/EAS 2019 Bảng 13); xét nghiệm lipid lúc đói (QĐ 3879 mục III.2) hoặc không đói (ESC/EAS 2019 mục 5.4.3; ACC/AHA 2026 mục 3.5): hai nguồn khác nhau, cả hai chấp nhận. Giải thích vì sao tối nay không làm được.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Bắt đầu thuốc hạ LDL-C bằng atorvastatin 40 mg/ngày (có thể lên 80 mg) tối nay hoặc sau khi có CK, ALT sáng mai; hoặc tối ưu lối sống 2–3 tháng rồi mới dùng atorvastatin 10–20 mg nếu LDL-C chưa đạt</b></div><p class="why">Cách 1: LDL-C ≥ 190 mg/dL, chưa ASCVD: statin liều tối đa dung nạp (ACC/AHA 2026 mục 4.2.4.3 KC 2, COR 1); cường độ cao là atorvastatin 40–80 mg (Bảng 6). Nếu chờ CK nền: CK &gt; 4 lần giới hạn trên thì chưa bắt đầu (ESC/EAS 2019 Bảng 13). Cách 2: lối sống là chỉ định đầu tiên, 2–3 tháng không hiệu quả mới dùng thuốc, atorvastatin 10–20 mg, tối đa 80 mg (QĐ 3879/2014 mục IV.1, IV.4, IV.4.1); ESC/EAS 2025 Bảng khuyến cáo 1: thuốc khi nguy cơ cao và LDL-C ≥ 2,6 mmol/L &#x27;despite optimization of non-pharmacological measures&#x27;. Hai cách khác nhau do năm xuất bản và cách đặt vấn đề: QĐ 3879 (2014) và ESC/EAS ưu tiên lối sống trước; ACC/AHA 2026 coi LDL-C ≥ 190 mg/dL là chỉ định statin ngay. Cả hai đều đúng (sổ mâu thuẫn, ca MT-0425 mục 1, MT-0439 mục 1).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Đặt mục tiêu LDL-C: &lt; 2,6 mmol/L (non-HDL-C &lt; 3,4) hoặc giảm ≥ 50% và &lt; 1,8 mmol/L (non-HDL-C &lt; 2,6)</b></div><p class="why">ACC/AHA 2026 mục 4.2.4.3 KC 3: &lt; 100 mg/dL (2,6 mmol/L), non-HDL-C &lt; 130 mg/dL (3,4); KC 4 (HeFH xác nhận hoặc có yếu tố nguy cơ khác): &lt; 70 mg/dL (1,8), non-HDL-C &lt; 100 mg/dL (2,6). ESC/EAS 2019 Bảng 7 (nguy cơ cao) và ESC/EAS 2025 Bảng 3 (LDL-C &gt; 4,9 mmol/L là nguy cơ cao): giảm ≥ 50% và &lt; 1,8 mmol/L. Cả hai chấp nhận (sổ mâu thuẫn, ca MT-0425 mục 2).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Lối sống: ăn nhiều rau, trái cây, hạt, đậu, ngũ cốc nguyên hạt, thay mỡ bão hòa bằng dầu thực vật, bớt ăn khuya xúc xích, lòng heo; vận động vừa ≥ 150 phút mỗi tuần; hạn chế bia</b></div><p class="why">ACC/AHA 2026 mục 4.1.2.1 KC 1 (COR 1) và mục 4.1.4 KC 1 (COR 1: ≥ 150 phút/tuần vận động vừa-mạnh cộng tập kháng lực 2 ngày/tuần); QĐ 3879 mục IV.2 (30–45 phút mỗi ngày, 5 ngày mỗi tuần), IV.3 (hạn chế mỡ bão hòa, bia rượu). Dùng thuốc song song, không chờ.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn tái khám sau khi có kết quả sáng mai, rồi lipid lại 4–12 tuần sau khởi statin (khoảng 8 tuần), sau đó mỗi 6–12 tháng</b></div><p class="why">ACC/AHA 2026 mục 3.5 KC 1 (COR 1, A): lipid 4–12 tuần sau khởi hoặc đổi liều, sau đó mỗi 6–12 tháng; ESC/EAS 2019 Bảng 13: 8 (± 4) tuần, đạt mục tiêu thì hằng năm; ALT một lần 8–12 tuần sau khi bắt đầu.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn quay lại ngay hoặc đi cấp cứu khi đau cơ tăng, yếu cơ, nước tiểu sẫm màu; đau ngực, khó thở; méo miệng, nói khó, yếu liệt</b></div><p class="why">Tiêu cơ vân: đau cơ nặng, myoglobin niệu (ESC/EAS 2019 mục 8.1.4.1); đau cơ nặng hoặc yếu cơ cần khám sức cơ và đo CK (ACC/AHA 2026 mục 4.2.11 KC 1). Triệu chứng tim mạch – thần kinh cần cấp cứu: không có ngưỡng cụ thể trong tài liệu đã tải; theo lâm sàng.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn báo bác sĩ trước khi dùng kháng sinh macrolid (clarithromycin, erythromycin) hoặc thuốc lạ khác khi đang uống statin</b></div><p class="why">ACC/AHA 2026 Bảng 8: clarithromycin, erythromycin là thuốc có thể dùng với statin khi giảm nguy cơ (tránh phối hợp, dùng statin khác, hoặc giới hạn liều); ESC/EAS 2019 Bảng 10; QĐ 3879 mục IV.4.1. Kháng sinh thay thế cụ thể không có trong tài liệu đã tải.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Mời con gái, con trai (và anh ruột) kiểm tra bộ mỡ máu; hỏi thêm tiền sử gia đình bệnh mạch vành sớm</b></div><p class="why">Sàng lọc người thân bằng lipid khi nghi FH (ESC/EAS 2019 mục 9.1.2.1; ACC/AHA 2026 mục 4.2.4.3 giải thích 1). Xét nghiệm gen: ACC/AHA 2026 mục 4.3.3.2 (COR 2a) khi LDL-C ≥ 190 mg/dL không có nguyên nhân thứ phát; không bắt buộc nên chấm a.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Phối hợp ezetimibe 10 mg ngay từ đầu cùng statin</b></div><p class="why">Thêm ezetimibe khi đã dùng statin liều tối đa dung nạp mà chưa đạt mục tiêu (ACC/AHA 2026 mục 4.2.4.3 KC 3–4); ESC/EAS 2019 mục 9.1.2.1: FH khởi trị statin cường độ cao, thường phối hợp ezetimibe. Ezetimibe 10 mg/ngày (QĐ 3879 mục IV.4.5). Phối hợp ngay chấp nhận (sổ mâu thuẫn, ca MT-0425 mục 3).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Chọn rosuvastatin 20 mg thay cho atorvastatin 40 mg</b></div><p class="why">Rosuvastatin 20 (40) mg cũng là cường độ cao (ACC/AHA 2026 Bảng 6) và không chuyển hóa qua CYP3A4 (Bảng 7; ESC/EAS 2019 mục 8.1.4.6), hợp lý khi vừa dùng macrolid. Chấp nhận.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Kê thêm thuốc bảo vệ tế bào gan khi dùng statin</b></div><p class="why">QĐ 3879/2014 mục IV.4 (Chú ý) khuyên kèm thuốc bảo vệ gan; ESC/EAS 2019 mục 8.1.4.2 và ACC/AHA 2026 không nêu và cho rằng tăng ALT nhẹ không phải độc gan thật. Thuốc cụ thể không có trong tài liệu đã tải. Chấp nhận (sổ mâu thuẫn, ca MT-0425 mục 5).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Bảo ông tiếp tục men gạo đỏ &#x27;cho đỡ phải uống thuốc tây&#x27;, hoặc kê statin chồng lên men gạo đỏ đang dùng</b></div><p class="why">Không lợi ích (ACC/AHA 2026 mục 4.1.5 KC 1, COR 3; ESC/EAS 2025 Bảng khuyến cáo 8, Class III B), hàm lượng không rõ, tác dụng phụ giống statin (ESC/EAS 2019 mục 7.5.2). Bản 2019 còn viết men gạo đỏ tinh chế &#x27;có thể cân nhắc&#x27; cho người không đủ tiêu chuẩn statin; ca này đủ tiêu chuẩn và bản 2025 mới hơn không khuyến cáo.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê thêm kháng sinh macrolid (clarithromycin, erythromycin) cho họng đã hết triệu chứng, trong lúc khởi statin</b></div><p class="why">Họng và ho đã hết nên không có lý do dùng thêm. Macrolid tăng nguy cơ bệnh cơ khi đi cùng statin (QĐ 3879 mục IV.4.1; ESC/EAS 2019 Bảng 10); ACC/AHA 2026 Bảng 8 cho dùng với biện pháp giảm nguy cơ nên chấm w, không phải h.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Chiều theo nỗi sợ: chuyển viện, chụp CT, siêu âm tim, đo troponin ngay tối nay dù không triệu chứng tim – thần kinh</b></div><p class="why">Không triệu chứng tim – thần kinh, ECG bình thường, đau cơ đối xứng đang giảm. Chỉ định hình ảnh theo lâm sàng (không có trong tài liệu đã tải); chiều theo nỗi sợ củng cố niềm tin &#x27;mình sắp chết&#x27; và tốn kém.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Chuyển cấp cứu</span></div><p>Ông Tám 66 tuổi chỉ ê hai đùi nhẹ, đang đỡ, sức cơ 5/5, nước tiểu trong, không đau ngực, khó thở hay yếu liệt, ECG bình thường; chuyển cấp cứu tối nay không có chỉ định vì tiêu cơ vân là đau cơ nặng, myoglobin niệu, CK ≥ 10 lần (ESC/EAS 2019 mục 8.1.4.1) và ông không có dấu hiệu nào. Ông lỡ ca trực đêm 22 giờ, mất thu nhập, tốn kém cho gia đình, còn được nhận &#x27;phải đi cấp cứu&#x27; như bằng chứng bệnh nặng, đúng điều ông đang sợ và là nguyên nhân khiến ông ngại thuốc hạ mỡ. Việc cần làm vẫn chưa xong: ngưng men gạo đỏ, loại nguyên nhân thứ phát, quyết định statin và hẹn lấy CK, ALT, lipid (ACC/AHA 2026 mục 4.1.5, 4.2.4.3).</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển ông Tám lên tuyến trên ngay tối thứ Sáu để chụp CT, siêu âm tim, troponin trong khi không có triệu chứng tim mạch hay thần kinh là chiều theo nỗi sợ, không theo lâm sàng. Ông bảo vệ phải bỏ ca đêm, ngồi chờ nơi đông người ngoài giờ hành chính, tốn kém cho một cơn đau cơ nhẹ đang giảm mà vấn đề thật là LDL-C 5,5 mmol/L cần lập kế hoạch lâu dài (ACC/AHA 2026 mục 4.2.4.3 KC 2). Điều ông thật sự thiếu là được giải thích có cấu trúc để bớt sợ thuốc (ACC/AHA 2026 mục 4.2.11 KC 2): nếu không có, lần sau ông vẫn khó chịu uống statin đều.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Rối loạn lipid máu: tăng cholesterol nặng, LDL-C 5,5 mmol/L (≥ 4,9 mmol/L = 190 mg/dL), non-HDL-C 6,2 mmol/L, TG 1,6 và HDL-C 1,2 mmol/L (phiếu 7 tuần trước); nghi tăng cholesterol gia đình thể &#x27;có thể&#x27; (Dutch 4 điểm); chưa có ASCVD lâm sàng</li><li>Đã loại nguyên nhân thứ phát: suy giáp (TSH 2,1 mIU/L), ĐTĐ (glucose đói 5,3 mmol/L), bệnh thận (eGFR 86), bệnh gan (ALT 31 U/L), thuốc (không dùng thiazid, corticoid, estrogen)</li><li>Đau cơ nhẹ hai đùi và bắp chân đang giảm, liên quan clarithromycin 3 ngày cùng men gạo đỏ; chưa có dấu tiêu cơ vân (sức cơ 5/5, nước tiểu trong); CK chưa đo được tối nay</li><li>Đang tự dùng thực phẩm chức năng men gạo đỏ 3 tuần, không lợi ích chứng minh, hàm lượng không rõ</li><li>Yếu tố góp phần: thừa cân nhẹ (BMI 26,9, vòng eo 92 cm), ăn khuya nhiều mỡ bão hòa, tiền sử gia đình (anh ruột nhồi máu cơ tim lúc 54 tuổi)</li><li>Lo sợ quá mức về bệnh và thuốc hạ mỡ; lý do thật là gia đình thúc ép, ông mong nghe &#x27;không cần thuốc&#x27;</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Hỏi bệnh: nhìn nhận nỗi sợ, rồi hỏi đặc điểm đau cơ (đối xứng, nhẹ, bắt đầu ngày 3 kháng sinh, đang đỡ). Hỏi thuốc và thực phẩm chức năng mới lộ clarithromycin cộng men gạo đỏ. Hỏi giấy tờ cũ: phiếu khám sức khỏe có lipid, TSH, glucose, creatinin, ALT. Hỏi triệu chứng suy giáp, tim – thần kinh, tiền sử gia đình, lối sống.</li><li>Khám: tuyến giáp không to, phản xạ gót bình thường, không u vàng gân, không ban vàng, sức cơ 5/5, nước tiểu trong. Cung giác mạc ở người 66 tuổi không đặc hiệu: giá trị chủ yếu ở người dưới 50 tuổi (QĐ 3879 mục III.1.1), điểm Dutch chỉ tính khi dưới 45 tuổi (ESC/EAS 2019 Bảng 12).</li><li>Cận lâm sàng: tối nay không làm được xét nghiệm máu (ngoài giờ). Phiếu cũ đủ dữ kiện: LDL-C 5,5 mmol/L (212 mg/dL) vượt xa 2,58 mmol/L (QĐ 3879 mục III.2), thuộc &#x27;tăng cholesterol nặng&#x27; ≥ 190 mg/dL (ACC/AHA 2026 mục 4.2.4.3). Xét nghiệm lại sáng mai cho lần đo thứ hai, ALT và CK nền (ESC/EAS 2019 Bảng 13). ECG và đường huyết mao mạch bình thường.</li><li>Loại thứ phát (yêu cầu của ca): LDL-C ≥ 190 mg/dL buộc phải loại và xử trí nguyên nhân thứ phát trước (ACC/AHA 2026 mục 4.2.4.3 KC 1, Bảng 15). TSH 2,1 mIU/L cộng không triệu chứng loại suy giáp (QĐ 3879 Suy giáp mục IV.1, IV.2.1, IV.3). Suy giáp cũng gây đau cơ và tăng CK (QĐ 3879 Suy giáp mục IV.1.4, IV.2.5), nên loại suy giáp còn giúp giải thích đau cơ.</li><li>Cờ đỏ (yêu cầu của ca): đau cơ đi cùng clarithromycin và men gạo đỏ cần loại tiêu cơ vân. Tiêu cơ vân là đau cơ nặng, hoại tử cơ, myoglobin niệu, CK tăng ≥ 10 lần (ESC/EAS 2019 mục 8.1.4.1). Ông đau nhẹ, đang giảm, sức cơ 5/5, nước tiểu trong, nên không cần đo CK gấp (ACC/AHA 2026 mục 4.2.11 KC 1: CK khi đau nặng hoặc yếu cơ); đo CK nền sáng mai vẫn hợp lý (ESC/EAS 2019 Bảng 13). Tuổi ≥ 65, béo, thuốc làm tăng nồng độ statin là yếu tố nguy cơ bệnh cơ (ACC/AHA 2026 Bảng 24), cần dặn kỹ khi bắt đầu statin.</li><li>Nguy cơ và FH: Dutch 4 điểm = &#x27;có thể&#x27; FH (ESC/EAS 2019 Bảng 12); LDL-C &gt; 4,9 mmol/L tự nó xếp nguy cơ cao (ESC/EAS 2025 Bảng 3). Công cụ PREVENT/SCORE2: không có trong tài liệu đã tải; không cần vì LDL-C ≥ 190 mg/dL đã đủ chỉ định statin (ACC/AHA 2026 mục 4.2.4.3 KC 2).</li><li>Lý do thật: ông sợ thuốc hạ mỡ vì chuyện hàng xóm và đến chỉ vì con gái ép; hỏi &#x27;điều gì làm ông lo nhất&#x27;, &#x27;ai bảo ông đi khám&#x27; mới lộ.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Việc đầu tiên là trấn an có cấu trúc: nhìn nhận nỗi sợ, nói rõ đau cơ nhẹ đang đỡ, không có dấu nguy hiểm, mỡ máu cao là bệnh điều trị được, và để ông nhắc lại. Không chiều đòi chụp, chuyển viện. Ghi nhận lo lắng và nói rõ nguy cơ khi bỏ điều trị (ACC/AHA 2026 mục 4.2.11 KC 2); phản ứng tiêu cực phần nào do kỳ vọng (ESC/EAS 2019 mục 8.1.4.1).</li><li>Ngưng thực phẩm chức năng men gạo đỏ ngay: không khuyến cáo (ACC/AHA 2026 mục 4.1.5 KC 1; ESC/EAS 2025 Bảng khuyến cáo 8), cùng cơ chế với statin nên không dùng chồng (ESC/EAS 2019 mục 7.5.2). Bản ESC/EAS 2019 từng ghi men gạo đỏ tinh chế có thể cân nhắc ở người không đủ tiêu chuẩn statin; ca này đủ tiêu chuẩn và bản 2025 mới hơn không khuyến cáo.</li><li>Thuốc hạ LDL-C: LDL-C ≥ 190 mg/dL, chưa ASCVD thì dùng statin liều tối đa dung nạp (ACC/AHA 2026 mục 4.2.4.3 KC 2); atorvastatin 40–80 mg là cường độ cao (Bảng 6). Cách khác là tối ưu lối sống 2–3 tháng rồi mới dùng atorvastatin 10–20 mg (QĐ 3879 mục IV.4, IV.4.1; ESC/EAS 2025 Bảng khuyến cáo 1). Hai nguồn khác nhau vì năm xuất bản, bằng chứng và cách đặt vấn đề: QĐ 3879 (2014) đặt lối sống trước; ACC/AHA 2026 (mới hơn) coi LDL-C rất cao là chỉ định ngay. Cả hai chấp nhận. Chọn atorvastatin 40 mg: đủ cường độ cao nhưng chừa chỗ tăng lên 80 mg nếu chưa đạt (QĐ 3879 mục IV.4.1: tối đa 80 mg).</li><li>Thời điểm bắt đầu: ông vừa uống macrolid và còn men gạo đỏ. Có thể kê tối nay (ngưng men gạo đỏ từ nay) hoặc khởi sau khi có CK, ALT sáng mai; ESC/EAS 2019 Bảng 13 ghi CK nền &gt; 4 lần giới hạn trên thì chưa bắt đầu. Tài liệu đã tải không nêu khoảng cách an toàn sau ngưng clarithromycin trước khi bắt đầu statin: không có trong tài liệu đã tải.</li><li>Mục tiêu LDL-C: tối thiểu &lt; 2,6 mmol/L với non-HDL-C &lt; 3,4 (ACC/AHA 2026 mục 4.2.4.3 KC 3), hoặc &lt; 1,8 mmol/L với non-HDL-C &lt; 2,6 nếu coi anh ruột bệnh mạch vành sớm là yếu tố nguy cơ thêm hoặc xác nhận HeFH (KC 4); ESC/EAS giảm ≥ 50% và &lt; 1,8 mmol/L (ESC/EAS 2019 Bảng 7; 2025 Bảng 3). Chưa thêm ezetimibe vì chưa dùng statin liều tối đa dung nạp (KC 3).</li><li>Theo dõi: lipid 4–12 tuần sau khởi (ACC/AHA 2026 mục 3.5 KC 1; ESC/EAS 2019 Bảng 13: 8 ± 4 tuần), ALT một lần 8–12 tuần, không theo dõi ALT thường quy về sau (ESC/EAS 2019 mục 8.1.4.2). Đo Lp(a) một lần (ACC/AHA 2026 mục 3.4 KC 1).</li><li>Nỗi sợ gan thận: tăng ALT nhẹ gặp 0,5–2% người dùng statin, không chứng minh độc gan thật (ESC/EAS 2019 mục 8.1.4.2); không có bằng chứng rõ statin ảnh hưởng chức năng thận có ý nghĩa lâm sàng (mục 8.1.4.5).</li><li>Điều không làm: tiếp tục men gạo đỏ, kê macrolid khi đang statin, chụp chiều theo nỗi sợ.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Atorvastatin</b><div class="sub">40 mg</div></td><td data-l="Liều">40 mg × 1 lần/ngày (ACC/AHA 2026 Bảng 6); hoặc cách thứ hai: 10–20 mg/ngày sau 2–3 tháng lối sống không đạt (QĐ 3879 mục IV.4.1)<div class="sub">Uống · Một giờ cố định mỗi ngày, ông chọn trước giờ vào ca để dễ nhớ; bắt đầu tối nay hoặc sau khi có CK, ALT sáng mai</div></td><td data-l="Thời gian">Dùng lâu dài; lipid lại sau 4–12 tuần (hẹn khoảng 8 tuần)</td><td class="gc" data-l="Ghi chú">Cường độ cao: atorvastatin 40–80 mg (ACC/AHA 2026 Bảng 6; mục 4.2.4.3 KC 2); tối đa 80 mg (QĐ 3879 mục IV.4.1). Có thể tăng men gan, men cơ, nhất là người già hoặc đang dùng macrolid (QĐ 3879 mục IV.4.1); thận trọng bệnh gan. Atorvastatin chuyển hóa qua CYP3A4, clarithromycin là thuốc tương tác (ACC/AHA 2026 Bảng 7, Bảng 8). Đau cơ nặng, yếu cơ, nước tiểu sẫm: ngưng và đo CK (ACC/AHA 2026 mục 4.2.11 KC 1).</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Ngưng ngay viên &#x27;hạ mỡ&#x27; men gạo đỏ từ tối nay, mang cả hộp theo khi tái khám để xem nhãn. Không mua thêm thực phẩm chức năng &#x27;hạ mỡ&#x27; khi chưa hỏi bác sĩ (ACC/AHA 2026 mục 4.1.5; ESC/EAS 2025 Bảng khuyến cáo 8).</li><li>Đau đùi lần này nhẹ, đang đỡ, không có dấu hiệu nguy hiểm. Đi khám ngay hoặc gọi cấp cứu nếu đau cơ tăng lên, yếu tay chân, nước tiểu sẫm như nước trà, sốt; hoặc đau ngực, khó thở, méo miệng, nói khó, yếu liệt một bên (ESC/EAS 2019 mục 8.1.4.1; ACC/AHA 2026 mục 4.2.11).</li><li>Sáng mai lấy máu: bộ mỡ máu, ALT, creatinin, CK; nhịn đói theo QĐ 3879 (không bắt buộc theo ESC/EAS 2019, ACC/AHA 2026). Lp(a) làm một lần khi có điều kiện. Quay lại đọc kết quả khi có, rồi lipid lại sau khoảng 8 tuần.</li><li>Statin: uống mỗi ngày cùng một giờ, không tự ngưng. Nếu thấy đau cơ sau khi bắt đầu, báo bác sĩ trước khi bỏ thuốc: nhiều trường hợp đau do lo lắng, và bỏ thuốc làm nguy cơ tim mạch tăng lại (ACC/AHA 2026 mục 4.2.11 KC 2).</li><li>Gan và thận: statin làm men gan tăng nhẹ ở 0,5–2% người dùng, thường không phải tổn thương gan thật, không có bằng chứng rõ gây hại thận (ESC/EAS 2019 mục 8.1.4.2, 8.1.4.5). Sẽ thử máu lại để theo dõi. Chuyện ông Bốn cần biết bệnh nền của ông ấy mới kết luận được.</li><li>Khi cần kháng sinh hoặc thuốc mới, nói với bác sĩ là đang uống statin; không tự mua kháng sinh nhóm macrolid như clarithromycin, erythromycin (ACC/AHA 2026 Bảng 8; QĐ 3879 mục IV.4.1).</li><li>Ăn nhiều rau, trái cây, hạt, đậu, ngũ cốc nguyên hạt; thay mỡ bão hòa bằng dầu thực vật; bớt mì gói, xúc xích, lòng heo khi ăn khuya; hạn chế bia (ACC/AHA 2026 mục 4.1.2.1; QĐ 3879 mục IV.3). Mỗi tuần đi bộ nhanh hoặc vận động vừa tổng cộng ít nhất 150 phút, ngoài việc đi tuần (ACC/AHA 2026 mục 4.1.4 KC 1; QĐ 3879 mục IV.2: 30–45 phút mỗi ngày, 5 ngày mỗi tuần).</li><li>Gia đình: nói con gái Hạnh và con trai đi thử bộ mỡ máu, vì anh của ông bị bệnh tim sớm và LDL-C của ông rất cao, có thể có yếu tố di truyền (ESC/EAS 2019 mục 9.1.2.1).</li><li>Mục tiêu: LDL-C xuống dưới 2,6 mmol/L, tốt hơn là dưới 1,8 mmol/L, và giảm ít nhất một nửa so với 5,5 (ACC/AHA 2026 mục 4.2.4.3 KC 3–4; ESC/EAS 2019 Bảng 7). Nếu sau 8 tuần chưa đạt, sẽ tăng liều rồi thêm thuốc khác; chưa đạt ngay không có nghĩa là thất bại.</li><li>Nói với con gái: đã khám, có bệnh cần điều trị, đã có kế hoạch rõ; không cần đi viện lớn tối nay.</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-8">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Rối loạn lipid máu</b></div>
+<p class="note">Phải loại trừ: RL lipid thứ phát (suy giáp)</p><p>Ông Tám ngưng men gạo đỏ, lấy máu sáng hôm sau: LDL-C 5,4 mmol/L, CK và ALT bình thường, đau đùi hết hẳn. Ông bắt đầu atorvastatin 40 mg nhưng uống không đều vì nhớ lời ông Bốn, bỏ liền 10 ngày khi bắp chân ê trở lại sau một đêm trực lạnh. Sau 8 tuần LDL-C còn 3,6 mmol/L, giảm khoảng 35%, ít hơn cường độ cao kỳ vọng (≥ 50%, ACC/AHA 2026 Bảng 6). Bác sĩ hỏi tuân thủ, thấy CK bình thường, giải thích lại, cho ông ghi sổ uống thuốc và gọi điện nhắc; tăng lên atorvastatin 80 mg. Sau thêm 8 tuần LDL-C 2,5 mmol/L, bác sĩ thêm ezetimibe 10 mg, tháng thứ 5 LDL-C 1,7 mmol/L. Con gái thử lipid: LDL-C 4,3 mmol/L, được chuyển phòng khám lipid. Đạt mục tiêu chậm hơn dự kiến vì sợ thuốc và dùng thuốc không đều, không phải vì thuốc kém hoặc xử trí ban đầu sai.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-9">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Sợ hãi quá mức: ông kể toàn điều tồi tệ nhất, hỏi đi hỏi lại &#x27;có sao không&#x27;, đòi chụp đòi đo. Dễ bị cuốn vào việc chiều theo bằng xét nghiệm hoặc gạt đi &#x27;không sao đâu&#x27;; cả hai đều không hiệu quả. Giải thích có cấu trúc: nhìn nhận, số liệu, kế hoạch, nhắc lại.</li><li>Đau cơ hai đùi: giống tác dụng phụ statin nhưng ông chưa dùng statin; nguyên nhân là clarithromycin cộng men gạo đỏ (hoạt chất kiểu statin), không phải mỡ máu cao &#x27;bám vào cơ&#x27;.</li><li>Cung giác mạc nhẹ: ở người 66 tuổi không đặc hiệu cho FH; tiền sử anh ruột bệnh mạch vành sớm mới có giá trị.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Sợ hãi quá mức: nhìn nhận nỗi sợ trước, giải thích từng bước bằng số liệu, để bệnh nhân nhắc lại. Không chiều bằng xét nghiệm hay hình ảnh khi không có chỉ định; không gạt đi (ACC/AHA 2026 mục 4.2.11 KC 2; kỹ năng giao tiếp, tài liệu đã tải không có phần riêng).</li><li>Ngoài giờ, không có kỹ thuật viên: hỏi giấy tờ cũ mang theo (phiếu khám sức khỏe) để có lipid, TSH, glucose, creatinin, ALT; quyết định hôm nay không chờ kết quả, hẹn lấy máu sáng mai và dặn dấu hiệu quay lại.</li><li>Thực phẩm chức năng &#x27;hạ mỡ&#x27; và kháng sinh tự mua là thuốc đang dùng cần hỏi: men gạo đỏ tác động như statin, clarithromycin là thuốc tương tác với statin (ESC/EAS 2019 mục 7.5.2, Bảng 10; ACC/AHA 2026 Bảng 8; QĐ 3879 mục IV.4.1). Không khuyến cáo thực phẩm chức năng hạ LDL-C (ACC/AHA 2026 mục 4.1.5; ESC/EAS 2025 Bảng khuyến cáo 8).</li><li>Cờ đỏ của đau cơ: sức cơ, nước tiểu sẫm, sốt, CK ≥ 10 lần khi nghi tiêu cơ vân (ESC/EAS 2019 mục 8.1.4.1; ACC/AHA 2026 mục 4.2.11 KC 1). Đau nhẹ, đang giảm, sức cơ bình thường thì theo dõi, không hoảng.</li><li>LDL-C ≥ 190 mg/dL: loại thứ phát (nhất là suy giáp), nghĩ tới FH (điểm Dutch, tiền sử gia đình), statin liều tối đa dung nạp, sàng lọc người thân (ACC/AHA 2026 mục 4.2.4.3; ESC/EAS 2019 mục 9.1.2.1).</li><li>Lý do thật là gia đình thúc ép: hỏi &#x27;ai bảo ông đi khám, ông mong gì hôm nay&#x27; để lộ nỗi sợ thuốc; nếu không, ông gật đầu rồi không uống.</li><li>Khỏi chậm hơn dự kiến: statin cường độ cao kỳ vọng giảm ≥ 50% LDL-C; giảm ít hơn thì hỏi tuân thủ trước, rồi tăng liều, rồi thêm ezetimibe (ACC/AHA 2026 mục 3.5; mục 4.2.4.3 KC 3). Đo mức giảm theo phần trăm so với ban đầu.</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Chẩn đoán RLLPM: cholesterol &gt; 5,2, LDL-C &gt; 2,58 mmol/L (QĐ 3879/2014 mục III.2). LDL-C ≥ 4,9 mmol/L (190 mg/dL) là tăng cholesterol nặng (ACC/AHA 2026 mục 4.2.4.3).</li><li>LDL-C ≥ 190 mg/dL: loại thứ phát (Bảng 15), statin liều tối đa dung nạp (KC 2); chưa HeFH/yếu tố khác: LDL-C &lt; 2,6 mmol/L; có HeFH/yếu tố khác: &lt; 1,8 mmol/L (KC 3–4). ESC/EAS: giảm ≥ 50% và &lt; 1,8 mmol/L cho nguy cơ cao.</li><li>Cường độ cao: atorvastatin 40–80 mg, rosuvastatin 20–40 mg (ACC/AHA 2026 Bảng 6). QĐ 3879: atorvastatin 10–20 mg, tối đa 80 mg, sau 2–3 tháng lối sống.</li><li>Men gạo đỏ: tác động như statin, không khuyến cáo (ESC/EAS 2019 mục 7.5.2; ESC/EAS 2025 Bảng khuyến cáo 8; ACC/AHA 2026 mục 4.1.5). Clarithromycin, erythromycin tương tác với statin (ACC/AHA 2026 Bảng 8; ESC/EAS 2019 Bảng 10; QĐ 3879 mục IV.4.1).</li><li>Tiêu cơ vân: đau cơ nặng, myoglobin niệu, CK ≥ 10 lần (ESC/EAS 2019 mục 8.1.4.1). CK khi đau cơ nặng hoặc yếu cơ (ACC/AHA 2026 mục 4.2.11 KC 1); CK nền trước điều trị (ESC/EAS 2019 Bảng 13).</li><li>Lipid 4–12 tuần sau khởi hoặc đổi liều, rồi mỗi 6–12 tháng (ACC/AHA 2026 mục 3.5 KC 1); ALT một lần 8–12 tuần (ESC/EAS 2019 Bảng 13); Lp(a) một lần (ACC/AHA 2026 mục 3.4 KC 1).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-10">Nguồn tài liệu <small>4</small></h3></summary><ul class=""><li>ACC/AHA/AACVPR/ABC/ACPM/ADA/AGS/APhA/ASPC/NLA/PCNA 2026 Guideline on the Management of Dyslipidemia (TL-0292; J Am Coll Cardiol 2026;87:2624-2757) – ĐÃ ĐỌC mục 3.4 (KC 1), 3.5 (KC 1), 4.1.2.1 (KC 1), 4.1.4 (KC 1), 4.1.5 (KC 1), 4.2.4.3 (KC 1–5, giải thích 1, Bảng 15), 4.2.11 (KC 1–2, Bảng 24), 4.3.3.2, Bảng 6, 7, 8.</li><li>Bộ Y tế – QĐ 3879/QĐ-BYT 2014 (TL-0039) – ĐÃ ĐỌC Rối loạn lipid máu (mục II.2, III.1.1, III.2, IV.1–IV.4, IV.4.1, IV.4.5); Suy giáp ở người lớn (mục IV.1, IV.2.1, IV.2.5, IV.3).</li><li>ESC/EAS 2019 Guidelines for the management of dyslipidaemias (TL-0320; Atherosclerosis 2019;290:140-205) – ĐÃ ĐỌC mục 5.4.3, 7.5.2, 8.1.4.1, 8.1.4.2, 8.1.4.5, 8.1.4.6, 9.1.2.1; Bảng 7, 10, 12, 13. Các bảng khuyến cáo (Class/Level) của bản này là hình ảnh, không có trong bản chữ.</li><li>ESC/EAS 2025 Focused Update (TL-0298; Eur Heart J 2025;46:4359-4378) – ĐÃ ĐỌC Bảng 3, Bảng khuyến cáo 1, 4, mục 6, mục 10 và Bảng khuyến cáo 8.</li></ul></details>
+<details class="card"><summary><h3 id="m-11">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Bệnh mạn tính người lớn</dd><dt>chan_doan_dich</dt><dd>Rối loạn lipid máu</dd><dt>chan_doan_phai_loai_tru</dt><dd>RL lipid thứ phát (suy giáp)</dd><dt>nhom_tuoi</dt><dd>Cao tuổi (60–74 tuổi)</dd><dt>do_kho</dt><dd>Điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>dien_tien_tai_kham</dt><dd>Không áp dụng (ca 1 lượt khám)</dd><dt>nhieu_benh_nhan</dt><dd>Sợ hãi quá mức</dd><dt>rang_buoc_nguon_luc</dt><dd>Ngoài giờ, không có kỹ thuật viên</dd><dt>loai_ket_cuc</dt><dd>Khỏi chậm hơn dự kiến</dd><dt>gioi</dt><dd>Nam</dd><dt>co_co_do</dt><dd>Có</dd><dt>so_luot_kham</dt><dd>1</dd><dt>nghe_nghiep</dt><dd>Bảo vệ</dd><dt>yeu_to_khoi_phat</dt><dd>Sau dùng thực phẩm chức năng</dd><dt>thuoc_dang_dung</dt><dd>Kháng sinh đã dùng 3 ngày</dd><dt>ly_do_that_su_den_kham</dt><dd>Gia đình thúc ép đi khám</dd></dl><ul class=""><li>Bản 1 (12/10/2026): viết: Sonnet. Tài liệu đã đọc: TL-0292 (ACC/AHA 2026), TL-0039 (QĐ 3879/2014: Rối loạn lipid máu và Suy giáp ở người lớn), TL-0320 (ESC/EAS 2019), TL-0298 (ESC/EAS 2025) với các mục nêu ở `nguon`.</li><li>Sổ mâu thuẫn: theo MT-0425 mục 1 (thời điểm bắt đầu thuốc khi LDL-C ≥ 190 mg/dL), mục 2 (mục tiêu LDL-C), mục 3 (ezetimibe), mục 4 (CK), mục 5 (thuốc bảo vệ gan); đã ghi cả hai cách theo quy tắc 12/10/2026. Đề xuất mục mới: xem MT-0523_mau_thuan.md (men gạo đỏ ESC/EAS 2019 và 2025; lấy máu đói hay không).</li><li>Chỗ thiếu tài liệu: công cụ PREVENT/SCORE2; khoảng chờ an toàn sau ngưng clarithromycin trước khi khởi statin; kháng sinh thay thế cụ thể khi đang dùng statin; thuốc bảo vệ gan cụ thể; kỹ thuật trấn an (kỹ năng giao tiếp); tương tác riêng men gạo đỏ – macrolid; danh mục app chưa có xét nghiệm apoB.</li><li>Âm thanh: tim 76 l/p dùng AT-TIM-BT-NL-01 (≈60 l/p, mạch &lt; 90); phổi bình thường AT-PHOI-BT-NL-01.</li><li>Ràng buộc nguồn lực: khoa_cls.nhom = [xn]; app tự khóa thêm X-quang, CT, nội soi. ECG và đường huyết mao mạch thuộc nhóm tham_do nên không bị khóa. Kết quả lipid, TSH, CK ... chỉ có qua phiếu cũ ông mang theo (su_that phieu_cu), kết quả khai trong `cls` là mô tả tại chỗ cho các xét nghiệm bị khóa.</li></ul></details>
+<p class="chan-trang">Ca MT-0523 · phiên bản ca 1 · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

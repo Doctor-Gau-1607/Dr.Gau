@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TQ-0046 · Thiếu máu nhẹ phát hiện tình cờ</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · TQ-0046</div>
+   <h1>Cầm phiếu khám sức khỏe có chỉ số huyết sắc tố thấp, nhờ bác sĩ xem có sao không</h1>
+   <p class="dich-gia">Nguyễn Thị Hòe · Nữ · 53 tuổi · 58 kg</p>
+   <div class="chips"><span class="chip">Tư vấn kết quả khám tổng quát</span><span class="chip">Điển hình</span><span class="chip">1 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Thợ sơn nhà (sơn nước, dặm bả, thỉnh thoảng sơn chống gỉ lan can sắt), làm theo đội của chồng, hay đứng giàn giáo 3–4 tầng</dd><dt>Chiều cao, cân nặng</dt><dd>154 cm · 58 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi bà là &#x27;cô&#x27;. Bà xưng &#x27;tôi&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;, gọi chồng là &#x27;ông xã tôi&#x27;.</dd><dt>Tính cách</dt><dd>Thợ sơn hơn 30 năm, nhanh nhẹn, nói to, hay cười nhưng sợ mất việc. Tin nhà thuốc đầu ngõ, quen &#x27;tự mua thuốc bổ&#x27;. Thấy chữ in đậm và mũi tên đi xuống trên phiếu thì hoảng; học hết lớp 7, đọc phiếu xét nghiệm chậm.</dd><dt>Người nhà</dt><dd>Ông Dũng (chồng) – Chồng, ông Phạm Văn Dũng, 56 tuổi, thợ hồ, đi xe máy chở bà đến và ngồi chờ ngoài hành lang; bà không muốn ông biết mình lo mất việc.</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Cơ sở không có máy CT. Xét nghiệm máu, điện tim, siêu âm, X-quang làm được trong ngày; nội soi tiêu hóa làm theo lịch hẹn.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/1</span> · tư vấn kết quả khám</h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Sáng thứ Bảy, 8 giờ 40. Bà Nguyễn Thị Hòe, 53 tuổi, thợ sơn nhà, đến phòng khám cầm tờ phiếu khám sức khỏe làm ở cơ sở khác 8 ngày trước, trong đó dòng công thức máu in đậm kèm mũi tên đi xuống. Bà nhờ bác sĩ &#x27;coi giùm có sao không&#x27;. Cân nặng 58 kg, cao 154 cm. Sinh hiệu: mạch 74 l/p, HA 132/82 mmHg, nhiệt độ 36,7 °C, nhịp thở 16 l/p, SpO₂ 98%. Lưu ý cơ sở: phòng khám không có máy CT; xét nghiệm máu, điện tim, siêu âm, X-quang làm được trong ngày; nội soi tiêu hóa làm theo lịch hẹn.</p>
+  <blockquote>“Bác sĩ coi giùm tôi cái phiếu này. Người ta in đậm cái chữ máu, có mũi tên đi xuống, tôi thấy sợ. Tôi đang uống thuốc loãng máu mới, có phải thuốc nó làm tôi hết máu không?”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>74</b><small>l/p</small></div><div class="vs"><span>HA</span><b>132/82</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,7</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>16</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>12 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám, mốc phát hiện thiếu máu</b><span class="tag t-g">Tự kể</span></div><p>Tám ngày trước bà khám sức khỏe ở một cơ sở khác để nhận việc: phiếu ghi &#x27;huyết sắc tố 112 g/L (↓)&#x27;. Bà không thấy khó chịu gì nhiều nên không để ý, đến khi đọc phiếu thì sợ và nhờ bác sĩ xem. Bà đang uống thuốc loãng máu mới nên lo &#x27;thuốc làm mình hết máu&#x27;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Kết quả cũ (có mốc Hb trước đây) và những gì chưa làm: ferritin, hồng cầu lưới</b><span class="tag t-b">Khi được hỏi</span></div><p>Phiếu khám 8 ngày trước: Hb 112 g/L, hồng cầu 3,8 T/L, tiểu cầu 262 G/L, bạch cầu 6,9 G/L (không in MCV); đường huyết đói 5,2 mmol/L; creatinin 62 µmol/L; AST 24, ALT 21 U/L; X-quang ngực bình thường; siêu âm bụng bình thường. Phiếu khám công ty 14 tháng trước (bà còn giữ): Hb 126 g/L.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiền sử thiếu máu thiếu sắt do rong kinh trước mãn kinh (mỏ neo chẩn đoán)</b><span class="tag t-b">Khi được hỏi</span></div><p>Ba năm trước, lúc còn có kinh ra nhiều, bà từng được nói &#x27;thiếu máu thiếu sắt&#x27; (Hb 104 g/L, ferritin thấp), uống viên sắt 3 tháng thì Hb lên 124 g/L. Bà đã mãn kinh hai năm nay, không ra huyết âm đạo từ đó. Bà nghĩ &#x27;lần này cũng thiếu máu như lần trước&#x27;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc kháng đông đang dùng và lý do đổi thuốc (yếu tố khởi phát)</b><span class="tag t-b">Khi được hỏi</span></div><p>Rung nhĩ kịch phát bốn năm nay, tăng huyết áp nhẹ. Thuốc: amlodipin 5 mg mỗi sáng; apixaban 5 mg × 2 lần/ngày từ hai tháng nay. Trước đó bác sĩ tim mạch cho warfarin nhưng xét nghiệm INR lên xuống thất thường nên đổi sang thuốc mới. Bà uống đều, chưa bỏ lần nào, nhưng nhiều lần dặn mình &#x27;sợ nó làm chảy máu trong&#x27;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Viên sắt tự mua 5 ngày: ảnh hưởng xét nghiệm sắt và màu phân</b><span class="tag t-r">Giấu</span></div><p>Sau khi đọc phiếu, bà ra nhà thuốc đầu ngõ mua &#x27;thuốc bổ máu&#x27; là viên sắt (sắt II fumarat) có acid folic, uống 1 viên × 2 lần/ngày sau ăn, được 5 ngày (bắt đầu thứ Hai). Viên cuối cùng uống tối hôm qua. Bà không nghĩ đây là &#x27;thuốc&#x27; nên lúc đầu không kể.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi từng loại thuốc, thuốc bổ, thuốc mua ở nhà thuốc, hoặc hỏi bà đã tự làm gì cho thiếu máu. Hỏi chung &#x27;có uống thuốc gì không&#x27; thì bà đáp &#x27;chỉ thuốc tim&#x27;.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Phân sẫm màu bắt đầu SAU khi uống sắt, đặc điểm phân (phân biệt với đi cầu phân đen do chảy máu)</b><span class="tag t-b">Khi được hỏi</span></div><p>Từ thứ Tư (ngày thứ 3 uống viên sắt) phân bà sẫm màu, gần đen, thành khuôn, đi ngày 1 lần, không nhão dính, không mùi thối khác thường, không đau bụng, không buồn nôn. Trước đó phân vàng nâu. Bà nghĩ phân đen là do &#x27;thuốc loãng máu&#x27; nên rất sợ.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Triệu chứng thiếu máu và dấu chảy máu (tiêu hóa, tiết niệu, phụ khoa)</b><span class="tag t-b">Khi được hỏi</span></div><p>Không nôn ra máu, không đi ngoài ra máu tươi, không tiểu máu, không chảy máu cam hay chảy máu chân răng kéo dài, không ra huyết âm đạo. Không sụt cân, ăn ngon, thói quen đại tiện không đổi. Vài vết bầm nhỏ ở cẳng tay do va giàn giáo. Gần đây leo giàn giáo tầng 3–4 thấy hụt hơi sớm hơn một chút, không ngất, không đau ngực.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>NSAID tự mua ở người đang dùng kháng đông</b><span class="tag t-r">Giấu</span></div><p>Đau vai phải vì cầm cọ lăn sơn, mỗi tuần bà mua 2–3 viên ibuprofen 400 mg ở nhà thuốc, uống khi đau. Bà không coi đó là &#x27;thuốc&#x27; vì &#x27;ai cũng uống&#x27;. Chưa bao giờ đau thượng vị hay ợ nóng.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi thuốc giảm đau, thuốc kháng viêm, hoặc hỏi có đau nhức chỗ nào và bà làm gì cho đỡ.</div></div><div class="fact"><div class="fh"><b>Phơi nhiễm nghề nghiệp (sơn, chì)</b><span class="tag t-b">Khi được hỏi</span></div><p>Sơn nước và dặm bả là chính; thỉnh thoảng sơn chống gỉ màu đỏ cam cho lan can sắt, không rõ thành phần. Đeo khẩu trang vải, rửa tay trước khi ăn. Không ai cùng đội bị &#x27;nhiễm độc&#x27;. Không ăn đồ gốm, không dùng thuốc cam, thuốc nam không rõ nguồn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiền sử bản thân và gia đình (thalassemia, bệnh mạn)</b><span class="tag t-b">Khi được hỏi</span></div><p>Không ai trong nhà bị thiếu máu từ nhỏ, truyền máu, vàng da hay lách to. Bà không bị thiếu máu từ nhỏ. Không bệnh thận, tiểu đường, viêm khớp, lao, gan, tuyến giáp; không uống rượu; không hút thuốc.</p></div><div class="fact"><div class="fh"><b>Chế độ ăn, chè uống sau ăn</b><span class="tag t-b">Khi được hỏi</span></div><p>Ăn thịt hoặc cá 3–4 bữa/tuần, rau xanh hằng ngày, không ăn chay. Có thói quen uống chè đặc ngay sau bữa trưa tại công trình.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật đến khám: xin giấy chứng nhận sức khỏe</b><span class="tag t-r">Giấu</span></div><p>Điều bà thực sự cần: thứ Hai tuần sau đội nhận sơn một tòa nhà 12 tầng, chủ thầu đòi &#x27;giấy chứng nhận đủ sức khỏe làm việc trên cao&#x27; trước thứ Hai. Bà sợ phiếu có chữ &#x27;thiếu máu&#x27; sẽ làm mình mất việc và nhờ bác sĩ &#x27;ký giúp cái giấy&#x27; sau khi xem phiếu. Bà không nhắc chuyện này vì thấy ngại.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi bà mong gì nhất ở buổi khám này, vì sao khám đúng thời điểm này, hoặc việc gì đang gấp.</div></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>7 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tỉnh, hơi lo; niêm mạc mắt hồng nhạt; không vàng da, không phù.</p><p><span class="lbl">Kết quả:</span> Tỉnh, nói nhanh, hơi lo. Niêm mạc mắt hồng nhạt hơn bình thường nhẹ, lòng bàn tay hồng. Không vàng da, không phù, không sao mạch, không móng lõm hình thìa. Mạch quay đều 74 l/p. Cân nặng 58 kg.</p></div><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Không hạch; tuyến giáp không to.</p><p><span class="lbl">Kết quả:</span> Không hạch cổ, nách; tuyến giáp không to; lưỡi không teo gai, không viêm khóe miệng.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 74 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 74 l/p, không âm thổi.</p></div><div class="row"><div class="rh"><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Phổi thông khí đều, nhịp thở 16 l/p.</p><p><span class="lbl">Kết quả:</span> Hai phổi thông khí đều, không ran. Nhịp thở 16 l/p.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Bụng</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Bụng mềm, không điểm đau, không sờ thấy khối.</p><p><span class="lbl">Kết quả:</span> Bụng mềm, không chướng, không điểm đau, không sờ thấy khối; gan, lách không sờ thấy.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thăm trực tràng</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Trực tràng không khối; găng dính phân sẫm màu, thành khuôn, không máu tươi.</p><p><span class="lbl">Kết quả:</span> Hậu môn bình thường, không trĩ ngoại; trực tràng không khối; găng dính phân sẫm màu gần đen, thành khuôn, không nhão dính, không máu tươi.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Vài vết bầm nhỏ ở cẳng tay; không chấm xuất huyết.</p><p><span class="lbl">Kết quả:</span> Da khô, rám nắng. Vài vết bầm xanh nhỏ ở cẳng tay, không chấm xuất huyết, không ban.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>16 mục</small></h3></summary><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-g">Cần làm</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Số lượng bạch cầu (WBC)</td><td class="num">6,8</td><td>G/L</td><td class="ref">4,0–10,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu trung tính (NEU%)</td><td class="num">58,0</td><td>%</td><td class="ref">45–75</td></tr><tr class=""><td>Số lượng bạch cầu trung tính (NEU#)</td><td class="num">3,94</td><td>G/L</td><td class="ref">2,0–7,5</td></tr><tr class=""><td>Tỷ lệ bạch cầu lympho (LYM%)</td><td class="num">32,0</td><td>%</td><td class="ref">20–40</td></tr><tr class=""><td>Số lượng bạch cầu lympho (LYM#)</td><td class="num">2,18</td><td>G/L</td><td class="ref">1,0–4,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu mono (MONO%)</td><td class="num">7,0</td><td>%</td><td class="ref">2–10</td></tr><tr class=""><td>Số lượng bạch cầu mono (MONO#)</td><td class="num">0,48</td><td>G/L</td><td class="ref">0,2–1,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa acid (EOS%)</td><td class="num">2,5</td><td>%</td><td class="ref">0–7</td></tr><tr class=""><td>Số lượng bạch cầu ưa acid (EOS#)</td><td class="num">0,17</td><td>G/L</td><td class="ref">0–0,5</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa base (BASO%)</td><td class="num">0,5</td><td>%</td><td class="ref">0–1</td></tr><tr class=""><td>Số lượng bạch cầu ưa base (BASO#)</td><td class="num">0,03</td><td>G/L</td><td class="ref">0–0,1</td></tr><tr class=""><td>Số lượng hồng cầu (RBC)</td><td class="num">3,8</td><td>T/L</td><td class="ref">3,8–4,8</td></tr><tr class="lo"><td>Lượng huyết sắc tố (HGB)</td><td class="num">113 ↓</td><td>g/L</td><td class="ref">120–150</td></tr><tr class="lo"><td>Thể tích khối hồng cầu (HCT)</td><td class="num">0,335 ↓</td><td>L/L</td><td class="ref">0,36–0,46</td></tr><tr class=""><td>Thể tích trung bình hồng cầu (MCV)</td><td class="num">88,2</td><td>fL</td><td class="ref">80–100</td></tr><tr class=""><td>Lượng HST trung bình hồng cầu (MCH)</td><td class="num">29,7</td><td>pg</td><td class="ref">27–32</td></tr><tr class=""><td>Nồng độ HST trung bình hồng cầu (MCHC)</td><td class="num">337</td><td>g/L</td><td class="ref">320–360</td></tr><tr class=""><td>Dải phân bố kích thước hồng cầu (RDW-CV)</td><td class="num">13,4</td><td>%</td><td class="ref">11,5–14,5</td></tr><tr class=""><td>Số lượng tiểu cầu (PLT)</td><td class="num">258</td><td>G/L</td><td class="ref">150–400</td></tr></tbody></table><p class="why">Xác nhận thiếu máu nhẹ và cho đủ chỉ số hồng cầu (phiếu cũ không in MCV): Hb 113 g/L dưới ngưỡng 120 g/L ở nữ không có thai (WHO 2024 Bảng 2), mức nhẹ 110–119 g/L (WHO 2024 Bảng 3) hoặc 90–120 g/L (QĐ 1832/2022 Thiếu máu mục 2.1a). Hồng cầu bình thể tích, bình sắc (MCV 80–100 fL, QĐ 1832 mục 2.2a). Phân loại theo MCV định hướng nguyên nhân (QĐ 1832 mục 3.3, Bảng 1).</p></div><div class="row"><div class="rh"><b>Ferritin, sắt huyết thanh, độ bão hòa transferrin</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Ferritin 68 ng/mL; sắt huyết thanh 26 µmol/L; TIBC 62 µmol/L; độ bão hòa transferrin 42%.</p><p class="why">Ferritin là chỉ số hữu ích nhất để xác định thiếu sắt (BSG 2021 khuyến cáo 4, tr. 4); 68 ng/mL cao hơn ngưỡng 45 ng/mL (AGA 2020 khuyến cáo 1; BSG 2021 tr. 4) và ngưỡng 30 ng/mL (QĐ 1832/2022 Thiếu máu thiếu sắt mục 4.1): không thiếu sắt. Sắt huyết thanh và độ bão hòa transferrin cao bất thường vì mẫu lấy sau 5 ngày uống sắt; ảnh hưởng của vài ngày uống sắt lên ferritin, sắt huyết thanh, độ bão hòa: không có trong tài liệu đã tải, nên ca dựa vào ferritin cùng CRP bình thường.</p></div><div class="row"><div class="rh"><b>Hồng cầu lưới</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Hồng cầu lưới 0,9% (34 G/L).</p><p class="why">Bình thường 0,5–1% (20–40 G/L); tăng ≥ 2% gợi ý mất máu hoặc tan máu, giảm gợi ý tủy đáp ứng kém (QĐ 1832/2022 Thiếu máu mục 2.2d, 3.3).</p></div><div class="row"><div class="rh"><b>Phết máu ngoại vi (soi hình thái hồng cầu)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Hồng cầu kích thước và màu sắc khá đồng đều, không hồng cầu nhỏ nhược sắc, không hồng cầu bia, không hạt ưa kiềm, không hồng cầu méo; bạch cầu và tiểu cầu hình thái bình thường.</p><p class="why">Không gợi ý thalassemia (hồng cầu nhỏ nhược sắc, QĐ 1832 Bệnh huyết sắc tố mục 2.3b) và không có hồng cầu hạt ưa kiềm gặp trong ngộ độc chì (QĐ 3610/2015 Ngộ độc chì mục 3.2).</p></div><div class="row"><div class="rh"><b>CRP</b><span class="tag t-b">Hữu ích</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>CRP</td><td class="num">1,2</td><td>mg/L</td><td class="ref">≤ 5</td></tr></tbody></table><p class="why">Ferritin là protein pha cấp, có thể &#x27;bình thường giả&#x27; khi viêm (BSG 2021 tr. 4; AGA 2020 khuyến cáo 1, lời bàn); CRP bình thường giúp tin ferritin 68 ng/mL và không gợi ý thiếu máu bệnh mạn (QĐ 1832 Thiếu máu thiếu sắt mục 4.3b).</p></div><div class="row"><div class="rh"><b>Ure, creatinin, eGFR</b><span class="tag t-b">Hữu ích</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Ure</td><td class="num">4,6</td><td>mmol/L</td><td class="ref">2,5–7,5</td></tr><tr class=""><td>Creatinin</td><td class="num">62</td><td>µmol/L</td><td class="ref">53–100</td></tr><tr class=""><td>eGFR (CKD-EPI 2021)</td><td class="num">103</td><td>mL/ph/1,73m²</td><td class="ref">≥ 90</td></tr></tbody></table><p class="why">Loại thiếu máu do bệnh thận (QĐ 1832 Thiếu máu mục 3.3, Bảng 1; BSG 2021 tr. 16 (CKD)). Cũng cần cho việc dùng apixaban; tiêu chí giảm liều apixaban: không có trong tài liệu đã đọc cho ca này (bà 53 tuổi, 58 kg).</p></div><div class="row"><div class="rh"><b>Vitamin B12 huyết thanh (cobalamin toàn phần)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Vitamin B12 trong giới hạn bình thường của phòng xét nghiệm.</p><p class="why">Thiếu B12/folate gây thiếu máu, thường hồng cầu to (QĐ 1832 Thiếu máu Bảng 1, mục 4.2.1b); MCV 88 fL làm khả năng thấp nên là xét nghiệm hữu ích chứ không bắt buộc. Folate: không có trong danh mục.</p></div><div class="row"><div class="rh"><b>TSH, FT4</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> TSH 2,1 mIU/L; FT4 trong giới hạn bình thường.</p><p class="why">QĐ 1832 Thiếu máu thiếu sắt mục 3.2 liệt kê chức năng tuyến giáp trong bộ tầm soát chung khi thiếu máu; chấp nhận được, không bắt buộc.</p></div><div class="row"><div class="rh"><b>Chì máu toàn phần</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Chì máu toàn phần 4 µg/dL.</p><p class="why">Thợ sơn có thể phơi nhiễm chì; chì máu bình thường &lt; 10 µg/dL, &gt; 10 µg/dL là tiêu chuẩn chẩn đoán quan trọng nhất; thiếu máu xuất hiện ở mức chì cao hơn (QĐ 3610/2015 Ngộ độc chì mục 1, Bảng 32.2, mục 3.2). Bà chủ yếu dùng sơn nước, không triệu chứng thần kinh, tiêu hóa nên chỉ là chấp nhận được, không bắt buộc.</p></div><div class="row"><div class="rh"><b>Thử phân tìm máu ẩn miễn dịch (FIT)</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> FIT âm tính.</p><p class="why">Bà 53 tuổi, chưa từng sàng lọc: FIT hằng năm là một lựa chọn sàng lọc (USPSTF 2021 Bảng 1; Asia-Pacific 2022 Statement 3: FIT định lượng mỗi 1–2 năm hoặc nội soi mỗi 10 năm). Đây là xét nghiệm sàng lọc, không phải để phân tầng nguy cơ ở thiếu máu thiếu sắt (BSG 2021 khuyến cáo 10), nên âm tính không thay thế việc theo dõi Hb.</p></div><div class="row"><div class="rh"><b>Nội soi đại tràng</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Đặt lịch nội soi đại tràng sàng lọc theo hẹn; không thực hiện trong buổi khám này (cần chuẩn bị đại tràng; việc tạm ngưng hay giữ apixaban quanh thủ thuật phải theo bác sĩ tim mạch).</p><p class="why">Sàng lọc từ 45 tuổi (USPSTF 2021) hoặc 50 tuổi (Asia-Pacific 2022 Statement 6); bà 53 tuổi nên cả hai áp dụng. Không khẩn vì không thiếu sắt (khuyến cáo nội soi hai đầu của BSG 2021 KC 11, AGA 2020 KC 2 dành cho thiếu máu THIẾU SẮT). Cách xử trí thuốc kháng đông quanh nội soi: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><b>Siêu âm bụng (gan, thận, thượng thận)</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Không làm lại. Siêu âm bụng 8 ngày trước: bình thường.</p><p class="why">Đã có kết quả bình thường; không đổi hướng xử trí.</p></div><div class="row"><div class="rh"><b>AST, ALT</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Không làm lại. Phiếu 8 ngày trước: AST 24, ALT 21 U/L.</p><p class="why">Đã có kết quả bình thường.</p></div><div class="row"><div class="rh"><b>PT/INR (đông máu, theo dõi thuốc kháng đông)</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Không cần: bà dùng apixaban, không theo dõi bằng INR.</p><p class="why">INR dùng cho thuốc kháng vitamin K (warfarin); apixaban có xét nghiệm đặc hiệu riêng và không dùng thường quy (ESC AF 2024 mục 6.7.2).</p></div><div class="row"><div class="rh"><b>Điện di huyết sắc tố (hoặc HPLC)</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Điện di Hb: không thấy HbA2 hoặc HbF tăng, không có Hb bất thường.</p><p class="why">BSG 2021 (tr. 4) khuyến cáo điện di Hb khi hồng cầu nhỏ mà sắt bình thường; bà MCV 88 fL, MCH 29,7 pg, RDW 13,4% nên không có chỉ định (QĐ 1832 Bệnh huyết sắc tố mục 2.3b: người mang gen có MCV, MCH giảm, RDW &gt; 14%).</p></div><div class="row"><div class="rh"><b>Nghiệm pháp Coombs trực tiếp</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Coombs trực tiếp âm tính.</p><p class="why">Không vàng da, hồng cầu lưới 0,9%, hồng cầu bình thể tích: không gợi ý tan máu (QĐ 1832 Bệnh huyết sắc tố mục 2.7b).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Thiếu máu nhẹ phát hiện tình cờ, hồng cầu bình thể tích bình sắc, không thiếu sắt, chưa xác định nguyên nhân</b></div><p class="why">Hb 112–113 g/L (WHO 2024 Bảng 2, 3; QĐ 1832/2022 Thiếu máu mục 2.1a); MCV 88,2 fL, MCH 29,7 pg, RDW 13,4%; ferritin 68 ng/mL; hồng cầu lưới 0,9%; CRP, creatinin, TSH, B12 bình thường. Bà không có triệu chứng chảy máu, nên chưa có nguyên nhân cụ thể; cần theo dõi lặp lại.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Thiếu máu thiếu sắt tái phát (như 3 năm trước)</b></div><p class="why">Ferritin 68 ng/mL trên ngưỡng 45 ng/mL (AGA 2020 KC 1; BSG 2021 tr. 4) và 30 ng/mL (QĐ 1832 mục 4.1); MCV, MCH, RDW bình thường. Lần trước thiếu sắt do rong kinh trước mãn kinh; nay bà đã mãn kinh 2 năm. Sắt huyết thanh, độ bão hòa cao do vừa uống sắt nên không dùng để loại trừ.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Thalassemia (thể nhẹ, người mang gen)</b></div><p class="why">Người mang gen thường có MCV, MCH giảm, RDW &gt; 14%, ferritin bình thường hoặc tăng (QĐ 1832 Bệnh huyết sắc tố mục 2.3b). Bà MCV 88,2 fL, MCH 29,7 pg, RDW 13,4%, không thiếu máu từ nhỏ, không tiền sử gia đình, phết máu không hồng cầu bia; không cần điện di Hb (BSG 2021 tr. 4).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Thiếu máu do bệnh mạn (viêm mạn, bệnh thận, suy giáp)</b></div><p class="why">Thiếu máu viêm mạn: ferritin tăng, CRP và máu lắng tăng (QĐ 1832 Thiếu máu thiếu sắt mục 4.3b); bà CRP 1,2 mg/L, eGFR 103, TSH bình thường, không bệnh nền viêm, thận, lao, gan. Chưa thể loại hẳn mọi bệnh mạn nhưng chưa có bằng chứng.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Chảy máu tiêu hóa mạn / ung thư đại trực tràng</b></div><p class="why">Không thiếu sắt (ferritin 68 ng/mL), không triệu chứng tiêu hóa, trực tràng không khối, phân sẫm màu bắt đầu SAU viên sắt và là tác dụng thường gặp của thuốc sắt (QĐ 1832 Thiếu máu thiếu sắt mục 5.2, lưu ý). Ung thư được tìm thấy ở khoảng 8–10% nam và nữ sau mãn kinh có THIẾU SẮT được thăm dò (BSG 2021 tr. 8; KC 9: nguy cơ ung thư ở người không thiếu máu thiếu sắt thấp), không áp dụng khi ferritin bình thường. Tuy vậy bà 53 tuổi, chưa sàng lọc, đang dùng kháng đông nên vẫn hẹn sàng lọc (BSG 2021 tr. 15: kháng đông có thể làm nặng thêm chảy máu từ tổn thương niêm mạc).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Xuất huyết tiêu hóa trên đang diễn ra (phân đen) do thuốc kháng đông</b></div><p class="why">Phân thành khuôn, không dính, không hôi, bắt đầu 2 ngày sau khi uống sắt; mạch 74, HA 132/82; Hb 113 g/L bằng phiếu 8 ngày trước (trước khi uống sắt): không phù hợp xuất huyết đang diễn ra. Nếu phân tiếp tục đen, dính sau khi ngưng sắt hoặc có choáng, cần đánh giá lại (ESC AF 2024 mục 6.7.2).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Thiếu máu do ngộ độc chì nghề nghiệp (thợ sơn)</b></div><p class="why">Chì máu 4 µg/dL dưới 10 µg/dL (QĐ 3610/2015 Ngộ độc chì mục 1, 3.2); không hạt ưa kiềm, không triệu chứng thần kinh, tiêu hóa.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Thiếu máu do thiếu B12 hoặc folate</b></div><p class="why">MCV 88,2 fL (hồng cầu to khi thiếu B12, folate: QĐ 1832 Thiếu máu Bảng 1); B12 bình thường; folate: không có trong danh mục.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi từng loại thuốc, phát hiện viên sắt tự mua 5 ngày và ibuprofen; giải thích phân sẫm màu là do thuốc sắt, không vội xem là chảy máu tiêu hóa</b></div><p class="why">QĐ 1832/2022 Thiếu máu mục 3.3: khai thác sử dụng thuốc; Thiếu máu thiếu sắt mục 5.2 (lưu ý): thuốc sắt làm phân đen, táo, không phải xuất huyết tiêu hóa; BSG 2021 tr. 11: thuốc sắt uống thường làm đổi màu phân.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Xét nghiệm xác định thiếu máu và hướng nguyên nhân: công thức máu đủ chỉ số, ferritin kèm độ bão hòa transferrin, hồng cầu lưới, CRP, creatinin; không dựa vào phiếu cũ không in MCV</b></div><p class="why">QĐ 1832/2022 Thiếu máu mục 3.3, Bảng 1; BSG 2021 KC 4; AGA 2020 KC 1 (ferritin, kèm CRP khi nghi viêm). Xét nghiệm thêm (B12, TSH, chì máu): chấp nhận được hoặc hữu ích.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Kết luận thiếu máu nhẹ KHÔNG do thiếu sắt (ferritin 68 ng/mL &gt; 45 ng/mL theo AGA 2020 và BSG 2021, và &gt; 30 ng/mL theo QĐ 1832); ngưng viên sắt tự mua, không bổ sung sắt</b></div><p class="why">Ngưỡng ferritin khác nhau giữa các nguồn (AGA 2020 KC 1, BSG 2021 tr. 4: 45 ng/mL; QĐ 1832 mục 4.1: &lt; 30 ng/mL và/hoặc độ bão hòa &lt; 30%); cả hai đều cho kết quả cùng hướng ở bà. Bổ sung sắt dành cho thiếu sắt (QĐ 1832 Thiếu máu mục 4.2.1a, Thiếu máu thiếu sắt mục 5.1); không có chỉ định ở bà.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chưa nội soi tiêu hóa khẩn vì không thiếu sắt; hẹn sàng lọc ung thư đại trực tràng theo tuổi (53 tuổi, chưa sàng lọc): FIT mỗi 1–2 năm hoặc nội soi đại tràng mỗi 10 năm</b></div><p class="why">USPSTF 2021 (Bảng 1): FIT hằng năm hoặc nội soi mỗi 10 năm từ 45 tuổi; Asia-Pacific 2022 Statement 3: FIT định lượng mỗi 1–2 năm hoặc nội soi mỗi 10 năm, Statement 6: từ 50 tuổi. Nội soi hai đầu khẩn là cho thiếu máu THIẾU SẮT (BSG 2021 KC 11; AGA 2020 KC 2). Chụp CT đại tràng không phải lựa chọn sàng lọc đầu tay ở châu Á (Asia-Pacific 2022 Statement 4), cơ sở cũng không có CT.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giữ nguyên apixaban, không tự ngưng hay đổi chỉ vì Hb 113 g/L; tránh NSAID tự mua; báo bác sĩ tim mạch kết quả</b></div><p class="why">ESC AF 2024 mục 6.7.1, Hình 10: thiếu máu là yếu tố nguy cơ chảy máu cần xử trí cùng người bệnh; tránh NSAID; yếu tố nguy cơ chảy máu hiếm khi là lý do rút kháng đông vì nguy cơ đột quỵ thường lớn hơn nguy cơ chảy máu nặng; không dùng thang điểm chảy máu để ngừng kháng đông (Class III).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn lặp lại công thức máu và ferritin sau 8 tuần (đã ngưng sắt); tái khám sớm khi có dấu chảy máu hoặc mệt tăng</b></div><p class="why">Mốc 8 tuần do người soạn chọn, không có trong tài liệu đã tải. BSG 2021 KC 22–23 (theo dõi công thức máu định kỳ, mỗi 6 tháng khi đã điều trị) áp dụng cho thiếu sắt nên chỉ để tham khảo. Thiếu máu chưa rõ nguyên nhân kéo dài cần khám huyết học (QĐ 1832 Thiếu máu mục 3.3).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích phạm vi buổi hôm nay: tư vấn kết quả, không phân loại sức khỏe; muốn có giấy khám sức khỏe phải khám đủ nội dung theo Mẫu 03 do bác sĩ có chứng chỉ hành nghề thực hiện; thiếu máu nhẹ này không phải bệnh nặng</b></div><p class="why">TT 25/2026/TT-BYT Điều 2 khoản 3 (Điều 36 mới) khoản 3a, 6, 7: khám phân loại sức khỏe đi làm phải khám đủ nội dung mẫu 03; khám theo yêu cầu chỉ kết luận từng chuyên khoa và không phân loại sức khỏe. Tiêu chuẩn sức khỏe cho làm việc trên cao: không có trong tài liệu đã tải.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Tiếp tục uống viên sắt 3–6 tháng &#x27;cho chắc&#x27;</b></div><p class="why">Liều 3–6 tháng là cho thiếu sắt (QĐ 1832 Thiếu máu mục 4.2.1a); bà ferritin bình thường. Thuốc sắt gây phân đen, táo (QĐ 1832 mục 5.2; BSG 2021 tr. 11), làm khó theo dõi chảy máu tiêu hóa ở người dùng kháng đông. Tài liệu không nêu tác hại trực tiếp: chấm w (không phù hợp).</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Tự ngưng hoặc khuyên ngưng apixaban vì sợ &#x27;thuốc làm hết máu&#x27;</b></div><p class="why">ESC AF 2024 mục 6.7.1, Hình 10: không dùng nguy cơ chảy máu để rút kháng đông; nguy cơ đột quỵ khi không kháng đông thường lớn hơn. Bà có rung nhĩ kịch phát nên có hại.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Truyền máu hoặc nhập viện vì thiếu máu và phân đen</b></div><p class="why">Hb 113 g/L, huyết động ổn định: QĐ 1832 Thiếu máu mục 4.1: duy trì Hb tối thiểu 80 g/L; Thiếu máu thiếu sắt mục 5.1: hạn chế truyền máu, chỉ khi thiếu máu nặng, mất bù.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Nội soi dạ dày và đại tràng ngay trong tuần, hoặc chuyển tuyến chỉ để nội soi</b></div><p class="why">Không thiếu sắt nên không thuộc chỉ định nội soi hai đầu (BSG 2021 KC 11; AGA 2020 KC 2); tốn kém và phải xử trí kháng đông quanh thủ thuật (không có trong tài liệu đã tải).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhập viện để &#x27;theo dõi thiếu máu và phân đen&#x27; là quá tay: Hb 113 g/L là thiếu máu nhẹ, bà tỉnh, mạch 74, HA 132/82, phân sẫm là do viên sắt; chỉ định truyền máu bắt đầu ở Hb thấp hơn nhiều (QĐ 1832/2022 Thiếu máu mục 4.1: duy trì tối thiểu 80 g/L); tiêu chuẩn nhập viện cho thiếu máu nhẹ: không có trong tài liệu đã tải. Bà mất 2–3 ngày công sát hạn nhận việc ở tòa nhà 12 tầng, vẫn chỉ làm lại ferritin, hồng cầu lưới, CRP như ở phòng khám, và ra viện càng tin mình &#x27;bệnh nặng&#x27; vì thuốc loãng máu.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển tuyến tỉnh để nội soi dạ dày và đại tràng ngay là quá tay: nội soi hai đầu được khuyến cáo cho thiếu máu THIẾU SẮT ở nam và nữ sau mãn kinh (BSG 2021 KC 11; AGA 2020 KC 2), còn bà có ferritin 68 ng/mL. Bà tốn một ngày đi lại, chờ lịch, và phải tính chuyện giữ hay tạm ngưng apixaban quanh thủ thuật (không có trong tài liệu đã tải); bà đang sợ thuốc nên rất dễ tự bỏ thuốc trước khi được dặn, trong khi nguy cơ đột quỵ khi không kháng đông thường lớn hơn nguy cơ chảy máu nặng (ESC AF 2024 mục 6.7.1).</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển cấp cứu</span></div><p>Gọi cấp cứu vì &#x27;phân đen và đang dùng thuốc loãng máu&#x27; là quá tay: phân thành khuôn bắt đầu 2 ngày sau khi uống sắt là tác dụng thường gặp của thuốc sắt, không phải xuất huyết tiêu hóa (QĐ 1832/2022 Thiếu máu thiếu sắt mục 5.2, lưu ý; BSG 2021 tr. 11), bà không choáng, mạch 74, và Hb 113 g/L gần bằng phiếu 8 ngày trước lúc chưa uống sắt. Xe cấp cứu và phòng cấp cứu không đổi hướng điều trị, bà thêm sợ hãi và tốn kém; tiêu chuẩn chuyển cấp cứu cụ thể: không có trong tài liệu đã tải.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Thiếu máu nhẹ phát hiện tình cờ ở nữ 53 tuổi đã mãn kinh: Hb 112–113 g/L (WHO 2024: mức nhẹ 110–119 g/L; QĐ 1832/2022: mức nhẹ 90–120 g/L), hồng cầu bình thể tích bình sắc (MCV 88,2 fL, MCH 29,7 pg, RDW 13,4%), hồng cầu lưới 0,9%; chưa xác định nguyên nhân.</li><li>Đã loại trừ trong mức có thể: không thiếu sắt (ferritin 68 ng/mL, trên 45 ng/mL của AGA 2020/BSG 2021 và trên 30 ng/mL của QĐ 1832), không gợi ý thalassemia (MCV, MCH, RDW bình thường), không gợi ý thiếu máu bệnh mạn (CRP 1,2 mg/L, eGFR 103, TSH, B12 bình thường), chì máu 4 µg/dL.</li><li>Chưa có bằng chứng chảy máu tiêu hóa: phân sẫm màu bắt đầu sau 2 ngày uống sắt, thành khuôn; nhưng bà 53 tuổi, chưa từng sàng lọc ung thư đại trực tràng và đang dùng apixaban nên có kế hoạch sàng lọc.</li><li>Yếu tố liên quan: rung nhĩ kịch phát, apixaban (đổi từ warfarin 2 tháng trước), tăng huyết áp nhẹ; tự dùng viên sắt 5 ngày và ibuprofen 2–3 viên/tuần; thợ sơn (phơi nhiễm chì chưa có bằng chứng); lo mất việc vì cần giấy chứng nhận sức khỏe.</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Hỏi: lý do khám và mốc phát hiện; phiếu cũ và mốc Hb trước (126 g/L 14 tháng trước); tiền sử thiếu sắt do rong kinh và mãn kinh; thuốc từng loại (apixaban, vì sao đổi; viên sắt 5 ngày; ibuprofen); màu phân và thời điểm đổi màu so với viên sắt; chảy máu tiêu hóa, tiết niệu, phụ khoa; nghề (sơn chống gỉ); tiền sử gia đình, bệnh nền; mong muốn thật (giấy chứng nhận) (QĐ 1832/2022 Thiếu máu mục 3.3).</li><li>Khám: niêm mạc nhạt nhẹ, không vàng da, không hạch, bụng không khối, thăm trực tràng không khối, phân sẫm màu thành khuôn không máu tươi; không có dấu hiệu mất bù (QĐ 1832 mục 3.1a, 3.3).</li><li>Cận lâm sàng: công thức máu đủ chỉ số và ferritin là hai xét nghiệm then chốt (BSG 2021 KC 4; QĐ 1832 mục 3.3); hồng cầu lưới, CRP, creatinin hữu ích; chì máu, TSH, FIT, nội soi theo hẹn chấp nhận được. Sắt huyết thanh và độ bão hòa transferrin của hôm nay bị viên sắt làm cao; ảnh hưởng này không có trong tài liệu đã tải nên ca dựa vào ferritin và CRP.</li><li>Ngưỡng ferritin: QĐ 1832 mục 4.1 dùng &lt; 30 ng/mL và/hoặc độ bão hòa &lt; 30%; AGA 2020 KC 1 chọn 45 ng/mL (độ nhạy 85%, độ đặc hiệu 92%) hơn 15 ng/mL (độ nhạy 59%); BSG 2021 tr. 4 nêu &lt; 15 là cạn kho sắt, &lt; 30 là kho sắt thấp, 45 là ngưỡng tối ưu đề xuất. Khác năm và bối cảnh (bài huyết học tuyến cơ sở và hướng dẫn tiêu hóa Anh–Mỹ); ferritin 68 trên cả ba nên kết luận như nhau.</li><li>Diagnostic timeout: (1) &#x27;lần trước thiếu sắt nên lần này cũng thiếu sắt&#x27; là mỏ neo nguy hiểm vì mãn kinh đã loại nguyên nhân trước (rong kinh) và ferritin bình thường; (2) phân đen ở người dùng kháng đông cần được hỏi đúng thời điểm so với viên sắt; (3) thiếu máu nhẹ chưa rõ nguyên nhân không phải bệnh lành tính tuyệt đối nên phải hẹn lặp lại và sàng lọc theo tuổi; (4) Hb 112 g/L giảm 14 g/L trong 14 tháng ở người dùng kháng đông: cần theo dõi, không cần xử trí khẩn (ESC AF 2024 Hình 10: thiếu máu là yếu tố nguy cơ chảy máu cần xử trí; QĐ 1832 mục 3.3).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Cho về, hẹn lặp lại: không dấu mất bù, ferritin bình thường nên không có chỉ định nội soi hai đầu khẩn (BSG 2021 KC 11; AGA 2020 KC 2 dành cho thiếu sắt); tiêu chí nhập viện thiếu máu nhẹ: không có trong tài liệu đã tải. Truyền máu không đặt ra khi Hb 113 g/L (QĐ 1832 Thiếu máu mục 4.1).</li><li>Ngưng viên sắt: không có chỉ định khi ferritin bình thường (QĐ 1832 mục 4.2.1a; Thiếu máu thiếu sắt mục 5.1) và thuốc sắt làm phân đen, che dấu chảy máu thật ở người dùng kháng đông (QĐ 1832 mục 5.2; BSG 2021 tr. 11). Sau ngưng sắt, thời gian phân trở lại màu thường: không có trong tài liệu đã tải.</li><li>Giữ apixaban, tránh NSAID: thiếu máu là yếu tố nguy cơ chảy máu cần xử trí cùng bác sĩ tim mạch, nhưng không là lý do rút kháng đông (ESC AF 2024 mục 6.7.1, Hình 10). Lý do bác sĩ tim mạch đổi từ warfarin sang DOAC là INR không ổn định (ESC AF 2024 Hình 10: chuyển DOAC khi không giữ được TTR &gt; 70% trên VKA, Class I).</li><li>Sàng lọc ung thư đại trực tràng theo tuổi: USPSTF 2021 (từ 45 tuổi, FIT hằng năm hoặc nội soi mỗi 10 năm) và Asia-Pacific 2022 (từ 50 tuổi, FIT mỗi 1–2 năm hoặc nội soi mỗi 10 năm) cùng áp dụng cho bà 53 tuổi nên ghi cả hai. Chụp CT đại tràng không được khuyến cáo là xét nghiệm sàng lọc chính ở châu Á (Statement 4) và cơ sở không có CT.</li><li>Giấy chứng nhận sức khỏe: buổi tư vấn không phân loại sức khỏe; khám đủ Mẫu 03 mới cấp giấy (TT 25/2026 Điều 2 khoản 3, Điều 36 khoản 3a, 6, 7). Tiêu chuẩn sức khỏe làm việc trên cao: không có trong tài liệu đã tải; không nói thay chủ thầu.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Apixaban (đang dùng, không đổi)</b><div class="sub">5 mg/viên (liều bác sĩ tim mạch kê)</div></td><td data-l="Liều">1 viên × 2 lần/ngày<div class="sub">Uống · Sáng và tối, cách nhau khoảng 12 giờ, như bà đang dùng</div></td><td data-l="Thời gian">Dài hạn theo bác sĩ tim mạch; không tự ngưng</td><td class="gc" data-l="Ghi chú">Giữ nguyên, không đổi liều. Hb 113 g/L không là lý do rút kháng đông (ESC AF 2024 mục 6.7.1, Hình 10). Liều giảm và tiêu chuẩn giảm liều apixaban: không có trong tài liệu đã đọc cho ca này; theo đơn tim mạch.</td></tr><tr><td><b>Amlodipin (đang dùng, không đổi)</b><div class="sub">5 mg/viên</div></td><td data-l="Liều">1 viên × 1 lần/ngày<div class="sub">Uống · Buổi sáng</div></td><td data-l="Thời gian">Dài hạn theo đơn đang dùng</td><td class="gc" data-l="Ghi chú">Giữ nguyên theo đơn đang dùng; kiểm soát tăng huyết áp là một yếu tố giảm nguy cơ chảy máu khi dùng kháng đông (ESC AF 2024 Hình 10).</td></tr><tr><td><b>Viên sắt (sắt II fumarat) kèm acid folic mua ở nhà thuốc: NGỪNG</b><div class="sub">—</div></td><td data-l="Liều">Không uống nữa<div class="sub">— · Từ hôm nay</div></td><td data-l="Thời gian">Ngừng hẳn; chỉ dùng lại nếu ferritin thấp ở lần xét nghiệm sau</td><td class="gc" data-l="Ghi chú">Ferritin 68 ng/mL nên không có chỉ định bổ sung sắt (AGA 2020 KC 1; QĐ 1832 mục 4.1, 5.1); thuốc sắt làm phân đen, táo (QĐ 1832 mục 5.2).</td></tr><tr><td><b>Ibuprofen mua ở nhà thuốc: NGỪNG</b><div class="sub">400 mg/viên</div></td><td data-l="Liều">Không dùng nữa<div class="sub">— · Từ hôm nay</div></td><td data-l="Thời gian">Ngừng hẳn khi còn dùng apixaban</td><td class="gc" data-l="Ghi chú">Tránh NSAID ở người dùng kháng đông (ESC AF 2024 mục 6.7.1, Hình 10); thuốc giảm đau thay thế: không kê hôm nay (liều và chọn thuốc: không có trong tài liệu đã đọc cho ca này), hỏi bác sĩ trước khi mua thuốc đau vai.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Ngưng viên sắt và ibuprofen từ hôm nay; giải thích phân sẫm màu là do viên sắt, phân sẽ trở lại màu bình thường sau khi ngưng (thời gian: không có trong tài liệu đã tải). Tiếp tục apixaban và amlodipin đúng giờ, không tự ngưng (ESC AF 2024 mục 6.7.1).</li><li>Đến khám ngay hoặc gọi 115 nếu: phân vẫn đen, nhão, dính, hôi sau khi ngưng sắt vài ngày; nôn ra máu hoặc ra máu tươi; chóng mặt, ngất, tim đập nhanh, khó thở, mệt tăng nhanh; tiểu máu; chảy máu không cầm. Danh sách dấu hiệu do người soạn chọn, không có trong tài liệu đã tải; nguyên tắc đánh giá chảy máu khi dùng kháng đông: ESC AF 2024 mục 6.7.2.</li><li>Tái khám sau 8 tuần: làm lại công thức máu và ferritin; hẹn sàng lọc ung thư đại trực tràng (FIT hằng năm hoặc 1–2 năm, hoặc nội soi mỗi 10 năm: USPSTF 2021, Asia-Pacific 2022); mang kết quả này đến bác sĩ tim mạch. Thiếu máu kéo dài chưa rõ nguyên nhân: khám huyết học (QĐ 1832 mục 3.3).</li><li>Về giấy chứng nhận sức khỏe: buổi hôm nay không cấp giấy phân loại sức khỏe; đăng ký khám đủ nội dung theo Mẫu 03 ở nơi đủ điều kiện (TT 25/2026 Điều 36 khoản 3a, 6, 7) và mang kết quả hôm nay theo. Ăn đủ thịt cá, rau; không uống chè đặc ngay sau bữa ăn (QĐ 1832 Thiếu máu thiếu sắt mục 7).</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-8">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Thiếu máu nhẹ phát hiện tình cờ</b></div>
+<p class="note">Phải loại trừ: Thiếu sắt, Thalassemia, Bệnh mạn, Ung thư đại tràng</p><p>Tuần 8: Hb 115 g/L, ferritin 66 ng/mL, bà đã ngưng viên sắt và ibuprofen từ buổi khám, phân vàng trở lại sau khoảng 4 ngày, vẫn uống apixaban đều. Giấy chứng nhận bà lấy ở nơi khám đủ Mẫu 03 và nhận được việc. Tuần 20: nội soi đại tràng sàng lọc bình thường. Tuần 28: Hb 111 g/L, ferritin 70 ng/mL, thiếu máu nhẹ vẫn còn, tái phát khi theo dõi mà vẫn không thiếu sắt; bà được hẹn khám huyết học để tìm tiếp nguyên nhân. Bà không còn tự mua sắt và mang kết quả đến bác sĩ tim mạch mỗi lần tái khám. Phần xử trí huyết học ngoài phạm vi tài liệu đã tải.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-9">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Viên sắt tự mua 5 ngày: làm phân sẫm màu (dễ nhầm với chảy máu tiêu hóa ở người dùng kháng đông) và làm sắt huyết thanh, độ bão hòa transferrin cao; chỉ lộ khi hỏi từng loại thuốc. Ferritin vẫn là chỉ số chính.</li><li>Tiền sử &#x27;thiếu máu thiếu sắt lần trước đã khỏi&#x27; tạo mỏ neo chẩn đoán lại thiếu sắt; lần trước do rong kinh trước mãn kinh, lần này ferritin bình thường.</li><li>Bà không nhắc ibuprofen và giấy chứng nhận vì không coi là &#x27;thuốc&#x27; và ngại; chỉ lộ khi hỏi thuốc giảm đau, hỏi mong muốn thật hoặc việc đang gấp.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Thiếu máu nhẹ phải gọi tên theo bảng: Hb 112–113 g/L ở nữ là thiếu máu nhẹ (WHO 2024 Bảng 2, 3; QĐ 1832/2022 mục 2.1a); thiếu sắt phải xác định bằng ferritin, không suy từ tiền sử (BSG 2021 KC 4; AGA 2020 KC 1).</li><li>Thuốc tự mua 5 ngày thay đổi kết quả: sắt làm phân đen (QĐ 1832 mục 5.2) và nhiễu xét nghiệm sắt; hỏi chính xác thuốc gì, mấy ngày, bắt đầu so với triệu chứng nào.</li><li>Người dùng kháng đông có thiếu máu: xử trí cùng bác sĩ tim mạch, không rút kháng đông và tránh NSAID (ESC AF 2024 mục 6.7.1, Hình 10).</li><li>Nội soi hai đầu khẩn dành cho thiếu máu THIẾU SẮT ở nam và nữ sau mãn kinh (BSG 2021 KC 11; AGA 2020 KC 2); thiếu máu không thiếu sắt thì sàng lọc đại trực tràng theo tuổi (USPSTF 2021; Asia-Pacific 2022). Hẹn theo dõi vì thiếu máu có thể tái phát chưa rõ nguyên nhân.</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Ngưỡng Hb định nghĩa thiếu máu nữ không có thai &lt; 120 g/L; mức nhẹ 110–119 g/L (WHO 2024 Bảng 2, 3), QĐ 1832 xếp nhẹ 90–120 g/L (mục 2.1a).</li><li>Ngưỡng ferritin: 45 ng/mL (AGA 2020 KC 1; BSG 2021 tr. 4) hoặc &lt; 30 ng/mL và/hoặc độ bão hòa transferrin &lt; 30% (QĐ 1832 mục 4.1).</li><li>Thalassemia mang gen: MCV, MCH giảm, RDW &gt; 14%, ferritin bình thường hoặc tăng (QĐ 1832 Bệnh huyết sắc tố mục 2.3b); điện di Hb khi hồng cầu nhỏ mà sắt bình thường (BSG 2021 tr. 4).</li><li>Chì máu bình thường &lt; 10 µg/dL (QĐ 3610/2015 Ngộ độc chì mục 1); khám sức khỏe theo yêu cầu không phân loại sức khỏe (TT 25/2026 Điều 36 khoản 7).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-10">Nguồn tài liệu <small>9</small></h3></summary><ul class=""><li>WHO 2024 – Guideline on haemoglobin cutoffs to define anaemia – TL-0244 – Bảng 2, Bảng 3 (Executive summary tr. xi), Normative statement 1.a, 1.b</li><li>BYT QĐ 1832/QĐ-BYT 2022 – hướng dẫn chẩn đoán và điều trị một số bệnh lý huyết học – kho cũ tltk-10000-ca – Thiếu máu mục 2.1a, 2.2, 3.1, 3.3, Bảng 1, 4.1, 4.2.1; Thiếu máu thiếu sắt mục 3.2, 4.1, 4.3, 5.1, 5.2, 7; Bệnh huyết sắc tố mục 2.3b, 2.7</li><li>BSG 2021 – iron deficiency anaemia in adults – TL-0219 – KC 3–11, 22–23 (tr. 1–2); mục Iron deficiency tr. 4; non-anaemic iron deficiency tr. 5; Oral IRT tr. 11; người cao tuổi tr. 15</li><li>AGA 2020 – gastrointestinal evaluation of iron deficiency anemia – TL-0684 – khuyến cáo 1, 2, Bảng 3</li><li>ESC 2024 – Atrial fibrillation – TL-0303 – mục 6.7.1, 6.7.2, Hình 10</li><li>USPSTF 2021 – Colorectal cancer screening – TL-0221 – tóm tắt khuyến cáo, Bảng 1</li><li>Asia-Pacific 2022 – colorectal cancer screening – TL-0217 – Statement 3, 4, 6</li><li>BYT QĐ 3610/QĐ-BYT 2015 – hướng dẫn chẩn đoán và xử trí ngộ độc – TL-0035 – Ngộ độc chì mục 1, 3.1 (Bảng 32.2), 3.2</li><li>BYT TT 25/2026/TT-BYT – sửa đổi bổ sung khám sức khỏe (kho cũ) – Điều 2 khoản 3 (Điều 36 mới) khoản 3a, 6, 7</li></ul></details>
+<details class="card"><summary><h3 id="m-11">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Tư vấn kết quả khám tổng quát</dd><dt>chan_doan_dich</dt><dd>Thiếu máu nhẹ phát hiện tình cờ</dd><dt>chan_doan_phai_loai_tru</dt><dd>Thiếu sắt; Thalassemia; Bệnh mạn; Ung thư đại tràng</dd><dt>nhom_tuoi</dt><dd>Trung niên (40–59 tuổi)</dd><dt>do_kho</dt><dd>Điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>dien_tien_tai_kham</dt><dd>Không áp dụng (ca 1 lượt khám)</dd><dt>nhieu_benh_nhan</dt><dd>Tự uống thuốc trước 5 ngày</dd><dt>rang_buoc_nguon_luc</dt><dd>Không có CT</dd><dt>loai_ket_cuc</dt><dd>Tái phát</dd><dt>gioi</dt><dd>Nữ</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>1</dd><dt>nghe_nghiep</dt><dd>Thợ sơn</dd><dt>yeu_to_khoi_phat</dt><dd>Đổi thuốc điều trị</dd><dt>thuoc_dang_dung</dt><dd>Thuốc kháng đông đang dùng</dd><dt>ly_do_that_su_den_kham</dt><dd>Xin giấy chứng nhận sức khỏe</dd></dl><ul class=""><li>2026-10-26: viết mới. Biến sổ cái: trung niên 53 tuổi nữ; điển hình, không bẫy cấu trúc, không cờ đỏ; 1 lượt; nhiễu &#x27;tự uống thuốc trước 5 ngày&#x27; (viên sắt); không có CT (khoa_cls nhóm ct); thợ sơn; khởi phát đổi thuốc điều trị (warfarin sang apixaban 2 tháng); thuốc kháng đông đang dùng; lý do thật xin giấy chứng nhận sức khỏe; kết cục tái phát (Hb tụt lại, vẫn không thiếu sắt).</li><li>Tài liệu đã đọc: TL-0244 (Bảng 2, 3, Normative statement 1.b), kho cũ QĐ 1832/2022 (Thiếu máu; Thiếu máu thiếu sắt; Bệnh huyết sắc tố), TL-0219 (KC 3–11, 22–23; tr. 4, 5, 11, 15), TL-0684 (KC 1, 2), TL-0303 (mục 6.7, Hình 10), TL-0221, TL-0217 (Statement 3, 4, 6), TL-0035 (Ngộ độc chì), TT 25/2026 (kho cũ).</li><li>Mâu thuẫn: ngưỡng ferritin người lớn (QĐ 1832 &lt; 30 ng/mL và/hoặc độ bão hòa &lt; 30% so với AGA 2020 và BSG 2021 45 ng/mL) và ngưỡng định nghĩa/phân độ Hb người lớn (WHO 2024 so với QĐ 1832, AGA 2020): ghi cả hai, chi tiết trong TQ-0046_mau_thuan.md. Tuổi sàng lọc đại trực tràng (USPSTF 45, Asia-Pacific 50): mục đã có trong sổ, ghi cả hai.</li><li>Không có trong tài liệu đã tải: ảnh hưởng vài ngày uống sắt lên ferritin và độ bão hòa; thời gian phân trở lại màu thường sau ngưng sắt; mốc lặp lại công thức máu trong thiếu máu không thiếu sắt; tiêu chuẩn nhập viện/cấp cứu cho thiếu máu nhẹ; xử trí apixaban quanh nội soi; tiêu chí giảm liều apixaban (không cần cho ca); tiêu chuẩn sức khỏe làm việc trên cao; tính CKD-EPI (số eGFR do người soạn tính).</li><li>Chi tiết do người soạn chọn, không có nguồn (đã ghi trong n): số liệu xét nghiệm, tên nhân vật, liều apixaban và amlodipin của bà (chỉ là dữ kiện người bệnh), mốc tái khám 8 tuần, danh sách dấu hiệu cảnh báo, diễn biến ở mục ket_cuc.</li></ul></details>
+<p class="chan-trang">Ca TQ-0046 · phiên bản ca 1 – viết mới theo WHO 2024, QĐ 1832/2022, BSG 2021, AGA 2020 (2026-10-26) · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

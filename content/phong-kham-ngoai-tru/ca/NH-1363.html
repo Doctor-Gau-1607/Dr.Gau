@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NH-1363 · Co giật do sốt</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · NH-1363</div>
+   <h1>Bé 3 tuổi giật một cơn lúc 15 giờ chiều nay, mẹ sợ bệnh nặng</h1>
+   <p class="dich-gia">Trần Khánh Vy · Nữ · 3 tuổi · 14 kg</p>
+   <div class="chips"><span class="chip">Nhi ngoại trú</span><span class="chip">Điển hình</span><span class="chip">1 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Trẻ mẫu giáo</dd><dt>Chiều cao, cân nặng</dt><dd>96 cm · 14 kg</dd>
+<dt>Xưng hô</dt><dd>Bé 3 tuổi, xưng &#x27;con&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;, nói câu ngắn. Mẹ là người kể bệnh chính: bác sĩ gọi mẹ là &#x27;chị&#x27;, mẹ xưng &#x27;em&#x27;.</dd><dt>Tính cách</dt><dd>Mẹ 32 tuổi, nhân viên kế toán, lo lắng, trả lời gọn và hay nói &#x27;dạ không, bé khỏe lắm&#x27; khi hỏi về tiền sử; tránh nhìn bác sĩ khi bị hỏi về người trong nhà. Bé mệt, bám mẹ, nói ít, hay ho khan.</dd><dt>Người nhà</dt><dd>Mẹ bé (chị Mai) – Mẹ bé, chị Mai, 32 tuổi, đi cùng. Hầu hết câu hỏi do mẹ trả lời (nguoi_noi = nguoi_nha); khi bác sĩ hỏi thẳng bé thì bé trả lời rất ngắn (nguoi_noi = benh_nhan).</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Cơ sở không có CT và MRI sọ não. Còn xét nghiệm máu, nước tiểu, X-quang ngực, điện tim và que thử đường huyết tại giường.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/1</span> </h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Bé gái 3 tuổi 2 tháng, 14 kg, mẹ đưa đến lúc 16 giờ 30 vì chiều nay giật một cơn lúc 15 giờ. Nhiệt độ nách 38,8 °C, mạch 118 l/p, nhịp thở 26 l/p, SpO₂ 98%. Bé tỉnh, mệt nhẹ, bám mẹ.</p>
+  <blockquote>“Bác sĩ ơi, chiều nay con em ngủ dậy ngồi chơi tự nhiên giật cả người, em sợ quá. Sáng nay nó chạy nhảy ngoài sân cả buổi, chắc kiệt sức. Bác sĩ khám giúp em xem cháu có bị gì nặng không, có phải chụp đầu không?”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>118</b><small>l/p</small></div><div class="vs"><span>HA</span><b>Không đo</b><small>mmHg</small></div><div class="vs warn"><span>Nhiệt</span><b>38,8</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>26</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>13 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám</b><span class="tag t-g">Tự kể</span></div><p>Chiều nay khoảng 15 giờ, bé vừa ngủ trưa dậy ngồi chơi thì đột ngột giật cả người. Mẹ sợ bé bị động kinh, hoặc do sáng nay chạy nhảy quá sức, mất nước, kiệt sức nên xin bác sĩ khám và cho biết có phải bệnh nặng không.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đặc điểm cơn: toàn thể, dưới 15 phút, một cơn (QĐ 3312 mục 2.2; AAP 2011 tr. 390)</b><span class="tag t-b">Khi được hỏi</span></div><p>Bé bỗng trợn mắt, cứng người rồi giật đều cả hai tay hai chân, môi hơi tím, gọi không trả lời. Mẹ nhìn đồng hồ: khoảng 3 phút thì hết giật. Không giật riêng một bên, không quay mặt hay mắt về một phía, không tiểu dầm, không sùi bọt mép.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Hồi phục hoàn toàn trong 1 giờ, không liệt sau cơn (QĐ 3312 mục 2.2b)</b><span class="tag t-b">Khi được hỏi</span></div><p>Sau cơn bé lịm đi chừng 10 phút rồi mở mắt, nhận ra mẹ, khóc đòi uống nước. Khoảng 30 phút sau bé nói chuyện được, cử động hai tay hai chân đều, không yếu liệt bên nào.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Có sốt và nguồn sốt hô hấp trên (QĐ 3312 mục 1)</b><span class="tag t-b">Khi được hỏi</span></div><p>Bé ho khan và chảy mũi trong từ 3 ngày nay. Trưa nay mẹ sờ thấy người nóng nhưng không đo. Sau cơn giật mẹ đo nách được 38,6 °C. Bé không nôn, không tiêu chảy, không kêu đau tai, không tiểu buốt hay tiểu đục. Ở lớp mầm non có vài bạn ho sổ mũi tuần này; khu phố không có ca sốt xuất huyết gần đây.</p></div><div class="fact"><div class="fh"><b>Gắng sức làm mẹ nghĩ tới mất nước, kiệt sức</b><span class="tag t-b">Khi được hỏi</span></div><p>Sáng nay cả nhà về quê dự giỗ, bé chạy nhảy, đạp xe và nhảy trên bạt phao ngoài sân suốt khoảng 3 giờ, ra nhiều mồ hôi, uống ít nước vì mải chơi. Sau cơn bé vẫn đi tiểu bình thường.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Không có dấu hiệu chấn thương, ngộ độc, màng não (QĐ 3312 mục 2.2d)</b><span class="tag t-b">Khi được hỏi</span></div><p>Bé không ngã đập đầu khi chơi, không bị đánh vào đầu, không uống nhầm thuốc hay hóa chất, không nôn, không đau đầu, không kêu đau cổ, không sợ ánh sáng, không nổi ban. Không li bì, vẫn đòi chơi khi hạ sốt. Chiều nay chỉ giật một cơn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc đang dùng (siro ho thảo dược), chưa dùng hạ sốt</b><span class="tag t-b">Khi được hỏi</span></div><p>Từ 3 ngày nay mẹ cho bé uống siro ho thảo dược mua ở nhà thuốc, mỗi lần 5 mL, ngày 3 lần. Nhãn ghi chiết xuất thảo dược và mật ong, không ghi rõ hàm lượng; mẹ không nhớ có cồn hay không. Mẹ chưa cho thuốc hạ sốt, không kháng sinh, không thuốc nào khác.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Cơn giật đầu tiên lúc 20 tháng, cũng khi sốt</b><span class="tag t-r">Giấu</span></div><p>Năm bé 20 tháng bé từng giật một lần khi sốt 39,5 °C do viêm họng, giật khoảng 3 phút, đi cấp cứu ở bệnh viện nhi tỉnh, nằm viện một ngày rồi về, bác sĩ nói &#x27;sốt cao co giật&#x27;, không cho thuốc phòng. Sau đó đến nay bé không giật lại, không giật khi không sốt.</p><div class="cond">Điều kiện nói ra: Mẹ không tự kể vì sợ bị gọi là &#x27;động kinh&#x27;. Chỉ nói khi bác sĩ hỏi &#x27;trước đây bé từng giật lần nào chưa, kể cả khi còn nhỏ hay khi đi viện&#x27;, hoặc hỏi nhẹ nhàng không phán xét về lần nằm viện trước.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiền sử gia đình co giật do sốt, không động kinh (QĐ 3312 mục 5)</b><span class="tag t-b">Khi được hỏi</span></div><p>Bố bé kể hồi nhỏ cũng bị giật khi sốt vài lần, sau đó không sao. Không ai trong hai bên gia đình bị động kinh hay chậm phát triển.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiếp xúc hộ gia đình nguồn lây lao phổi</b><span class="tag t-r">Giấu</span></div><p>Ông ngoại 62 tuổi sống cùng nhà và trông bé ban ngày. Ông ho kéo dài nhiều tháng, 5 tuần trước được chẩn đoán lao phổi, đang uống thuốc lao ở trạm y tế (tháng thứ hai). Bé ngủ chung phòng với ông tới khi ông bị bệnh; chưa ai khám sàng lọc cho bé hay cho cả nhà. Mẹ không rõ ông đã làm xét nghiệm kháng thuốc chưa.</p><div class="cond">Điều kiện nói ra: Mẹ không tự kể vì xấu hổ, sợ bác sĩ từ chối khám hoặc hàng xóm biết. Chỉ nói khi bác sĩ hỏi ai trong nhà ho lâu hoặc đang uống thuốc dài ngày, hoặc hỏi &#x27;chị đang lo nhất điều gì&#x27; bằng giọng nhẹ nhàng.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật sự đến khám: sợ con mắc lao</b><span class="tag t-r">Giấu</span></div><p>Điều mẹ sợ nhất là bé bị lao &#x27;giống ông&#x27;: mẹ nghe người quen nói &#x27;trẻ ho, sốt rồi giật là lao não&#x27;. Mẹ muốn được nghe bác sĩ nói bé có bị lao hay không và có phải chụp phổi hay không, chứ không phải chỉ cơn giật.</p><div class="cond">Điều kiện nói ra: Mẹ chỉ nói khi bác sĩ hỏi &#x27;chị lo nhất điều gì&#x27;, &#x27;chị muốn tôi giúp gì nhất hôm nay&#x27;, hoặc sau khi mẹ đã kể chuyện ông ngoại.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Không triệu chứng nghi lao hoạt động trước đợt này (BYT 2024, Phần II mục 1.1, Bảng 1)</b><span class="tag t-b">Khi được hỏi</span></div><p>Bé ăn ngủ bình thường những tuần qua, không ra mồ hôi trộm ban đêm, không sút cân. Sổ khám 6 tháng trước ghi 12,8 kg; hôm nay 14 kg. Không ho kéo dài, không khò khè tái diễn, không hạch cổ to trước đây, không sốt kéo dài trước 3 ngày nay.</p></div><div class="fact"><div class="fh"><b>Tiền sử bản thân</b><span class="tag t-b">Khi được hỏi</span></div><p>Sinh đủ tháng, bình thường. Phát triển vận động và ngôn ngữ phù hợp tuổi, đi học mầm non từ 2 tuổi. Tiêm chủng đủ theo chương trình, có sẹo BCG vai trái. Không bệnh mạn tính, không dị ứng thuốc.</p></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>9 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Bé tỉnh, mệt nhẹ, bám mẹ. Môi ẩm, khóc có nước mắt. Thời gian đầy mao mạch dưới 2 giây.</p><p><span class="lbl">Kết quả:</span> Tỉnh, mệt nhẹ, bám mẹ, đáp ứng khi gọi. Da ấm, hơi đỏ, còn mồ hôi nhẹ. Môi và niêm mạc ẩm, khóc có nước mắt, mắt không trũng. Mao mạch phục hồi dưới 2 giây. Không tím, không vàng da.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thần kinh</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tỉnh, cử động bốn chi đều hai bên. Cổ mềm.</p><p><span class="lbl">Kết quả:</span> Tỉnh, nhận ra mẹ, nói câu ngắn. Cổ mềm, cúi cằm chạm ngực dễ; dấu Kernig và Brudzinski âm tính. Hai đồng tử đều, phản xạ ánh sáng bình thường. Cử động bốn chi tự nhiên, sức cơ và trương lực đều hai bên, đi vững. Không dấu thần kinh khu trú, không liệt sau cơn.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Vài hạch dưới hàm và hạch cổ nhỏ dưới 1 cm, di động, không đau. Không hạch cổ to.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Họng, tai, mũi</b></div><p><span class="lbl">Kết quả:</span> Họng đỏ nhẹ, amidan to độ I, không xuất tiết, không giả mạc. Dịch mũi trong, niêm mạc mũi phù nhẹ. Màng nhĩ hai bên bình thường.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số khoảng 118 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều, nhanh khoảng 118 l/p (do sốt), T1 T2 rõ, không âm thổi, không tiếng ngựa phi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – Tim nhanh đều, T1 T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-NHANH-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><span class="key">★</span><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nhịp thở 26 l/p. Không co lõm ngực.</p><p><span class="lbl">Kết quả:</span> Nhịp thở 26 l/p. Không co lõm ngực, không phập phồng cánh mũi. Rì rào phế nang rõ hai bên, không ran. Thỉnh thoảng ho khan.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm, không chướng, không điểm đau khu trú. Gan lách không sờ thấy. Nhu động ruột bình thường.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Da, niêm mạc, ban</b></div><p><span class="lbl">Kết quả:</span> Da ấm, không ban, không chấm xuất huyết, không bầm; ấn kính không có ban nào không mất. Sẹo BCG vai trái.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Nhân trắc trẻ em (cân nặng, chiều dài/chiều cao, MUAC, vòng đầu)</b></div><p><span class="lbl">Kết quả:</span> Cân nặng 14,0 kg, chiều cao 96 cm, vòng cánh tay giữa 15,2 cm. Không gầy, không phù. Cân nặng tăng so với 12,8 kg ghi trong sổ khám 6 tháng trước.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>10 mục</small></h3></summary><div class="row"><div class="rh"><b>Đường huyết mao mạch (máy thử tại giường)</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> 5,2 mmol/L</p><p class="why">Không bắt buộc cho bé tỉnh sau cơn, nhưng hạ đường huyết nằm trong chẩn đoán phân biệt (QĐ 3312 mục 2.2d); WHO 2013 xem đường huyết dưới 2,5 mmol/L là hạ đường huyết (Bảng 3, tr. 23–24). Que thử tại giường làm được, làm hay không đều không bị trừ điểm.</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Không cần</p><p class="why">Không làm thường quy để giải thích cơn giật đơn thuần (AAP 2011, Action Statement 3, tr. 392); QĐ 3312 mục 3.2 chỉ làm &#x27;nếu cần thiết&#x27; để đánh giá nhiễm trùng. Nguồn sốt đã rõ qua khám.</p></div><div class="row"><div class="rh"><b>Điện giải đồ (Na, K, Cl)</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Không cần</p><p class="why">Không đo điện giải, canxi, magie thường quy (AAP 2011, Action Statement 3, tr. 392); bé không nôn, không tiêu chảy, không mất nước trên khám (tr. 393).</p></div><div class="row"><div class="rh"><b>CRP</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Không cần</p><p class="why">Xét nghiệm máu nhằm tìm nguồn sốt, không giải thích cơn giật (AAP 2011 tr. 392–393); nguồn sốt đã rõ, bé tỉnh.</p></div><div class="row"><div class="rh"><b>X-quang ngực thẳng</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Phổi sáng, không thâm nhiễm, không hạch rốn phổi to, không tràn dịch màng phổi. Bóng tim bình thường.</p><p class="why">Không cần cho quyết định hôm nay: thở 26 l/p (dưới 40 l/p, WHO 2013 Bảng 7, tr. 81), phổi sạch. Trẻ dưới 5 tuổi tiếp xúc hộ gia đình được loại trừ lao hoạt động bằng khám lâm sàng, không bắt buộc X-quang (BYT 2024, Phần IV mục 1.2.1); chụp thêm để trấn an là chấp nhận được nên chấm a. Phim bình thường lúc đang ho sốt cấp không thay việc đánh giá lại sau đợt này.</p></div><div class="row"><div class="rh"><b>Quantiferon (IGRA) hoặc test Mantoux</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Không cần</p><p class="why">Trẻ dưới 5 tuổi tiếp xúc hộ gia đình: chẩn đoán lao tiềm ẩn dựa vào loại trừ lao hoạt động, không cần test da hay IGRA (BYT 2024, Phần IV mục 1.2.1; test chỉ yêu cầu từ 5 tuổi, mục 1.2.2).</p></div><div class="row"><div class="rh"><b>Xpert MTB/RIF Ultra trên dịch dạ dày, dịch hút tỵ hầu hoặc phân (trẻ nhỏ chưa khạc đờm)</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Không cần ở lượt này</p><p class="why">Chưa có bệnh kéo dài trên 2 tuần hay triệu chứng nghi lao (BYT 2024, Phần II mục 1.1, Bảng 1); ho mới 3 ngày. Làm khi ho hoặc sốt kéo dài, sụt cân.</p></div><div class="row"><div class="rh"><b>Chọc dò tủy sống, xét nghiệm dịch não tủy</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Không chỉ định</p><p class="why">Chọc dò khi có dấu màng não hoặc nghi nhiễm trùng thần kinh (AAP 2011, Action Statement 1a, tr. 391) hoặc trẻ dưới 6 tháng (QĐ 3312 mục 3.2). Bé 3 tuổi, cổ mềm, Kernig và Brudzinski âm, tỉnh, tiêm chủng đủ, chưa dùng kháng sinh (Action Statement 1b–1c): không chỉ định.</p></div><div class="row"><div class="rh"><b>Điện não đồ</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Không chỉ định</p><p class="why">Không làm điện não đồ cho trẻ thần kinh bình thường có cơn giật do sốt đơn thuần (AAP 2011, Action Statement 2, tr. 392); QĐ 3312 mục 3.2: điện não đồ ít giá trị ở cơn đơn thuần.</p></div><div class="row"><div class="rh"><b>CT sọ não không cản quang</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Không chỉ định</p><p class="why">Không chụp hình ảnh thần kinh thường quy cho cơn đơn thuần (AAP 2011, Action Statement 4, tr. 393); CT phơi nhiễm tia xạ. Cơ sở cũng không có CT.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Co giật do sốt đơn thuần, lần thứ hai (cơn đầu lúc 20 tháng), bé gái 3 tuổi 2 tháng, sốt do viêm mũi họng cấp nghĩ do virus</b></div><p class="why">Tuổi trong khoảng 6–60 tháng; cơn toàn thể khoảng 3 phút (dưới 15 phút), một cơn trong đợt sốt, hồi phục hoàn toàn trong 1 giờ, thần kinh bình thường (QĐ 3312 mục 1, 2.2a–2.2b; AAP 2011 tr. 390). Sốt 38,6 °C sau cơn và 38,8 °C lúc khám (từ 38 °C trở lên, AAP 2011 tr. 390). Cơn đầu cũng khi sốt, chưa có cơn lúc không sốt; AAP 2008 (tr. 1281) áp dụng cho trẻ có 1 cơn đơn thuần trở lên.</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Viêm mũi họng cấp nghĩ do virus (nguồn sốt)</b></div><p class="why">Ho khan, chảy mũi 3 ngày, họng đỏ nhẹ, amidan không mủ, màng nhĩ bình thường, phổi sạch, thở 26 l/p. Ho cảm là bệnh virus tự giới hạn, không cần kháng sinh (WHO 2013 mục 4.4, tr. 90).</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Tiếp xúc hộ gia đình với nguồn lây lao phổi (ông ngoại), trẻ dưới 5 tuổi, hiện chưa có dấu hiệu nghi lao hoạt động; cần sàng lọc và cân nhắc điều trị lao tiềm ẩn</b></div><p class="why">Sống cùng nhà và ngủ chung phòng với người bệnh lao phổi là người tiếp xúc (BYT 2024, Phần I mục 1.5). Trẻ dưới 5 tuổi tiếp xúc hộ gia đình: chẩn đoán lao tiềm ẩn dựa vào loại trừ lao hoạt động (Phần IV mục 1.2.1, Sơ đồ 7). Bé đang ho sốt cấp nên chưa loại trừ chắc chắn lao hoạt động; đánh giá lại khi hết đợt cấp.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm màng não (loại trừ)</b></div><p class="why">Cổ mềm, Kernig và Brudzinski âm tính, không ban xuất huyết, không nôn, không đau đầu, tỉnh sau cơn (QĐ 3312, Viêm màng não mủ mục 2.1.1; NICE NG143 mục 1.2.18–1.2.19). Khoảng 25% trẻ nhỏ viêm màng não có co giật là dấu hiệu khởi đầu (AAP 2011 tr. 392) nên khám kỹ; bé không có dấu màng não.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm màng não lao</b></div><p class="why">Diễn tiến thường âm thầm qua nhiều ngày đến nhiều tuần (TBM guideline 2025, phần mở đầu); nghi khi sốt trên 5 ngày kèm đau đầu, nôn, cổ cứng, ho, liệt dây sọ, yếu tố nguy cơ gồm tiếp xúc nguồn lây lao trong 1–2 năm (Hình 1, chú thích Box 1). Bé sốt mới 1 ngày, không triệu chứng nào kể trên: chưa nghi; tiếp xúc lao là lý do dặn theo dõi, không phải lý do chọc dò hay chuyển tuyến hôm nay.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Động kinh</b></div><p class="why">Cơn giật chỉ khi sốt, phát triển và thần kinh bình thường. Nguy cơ động kinh sau co giật do sốt đơn thuần khoảng 1%; 2% nếu có 1 yếu tố nguy cơ (gia đình động kinh, chậm phát triển, giật kéo dài hoặc cục bộ); bé không có yếu tố nào trong số đó (QĐ 3312 mục 5; AAP 2008 tr. 1282).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Hạ đường huyết, rối loạn điện giải hoặc mất nước sau gắng sức</b></div><p class="why">Không nôn, tiêu chảy; sau cơn đi tiểu bình thường, có nước mắt, niêm mạc ẩm, mao mạch dưới 2 giây, đường huyết 5,2 mmol/L. Gắng sức khiến mẹ nghĩ tới mất nước, nhưng trên khám bé không mất nước (QĐ 3312 mục 2.2d; NICE NG143 mục 1.2.16).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Chấn thương sọ não, ngộ độc, cơn giật phức tạp</b></div><p class="why">Không ngã đập đầu, không uống nhầm thuốc (QĐ 3312 mục 2.2d). Cơn không khu trú, không kéo dài trên 15 phút, không tái phát trong đợt sốt, hồi phục trong 1 giờ nên không phải cơn phức tạp (QĐ 3312 mục 2.2b).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích cho mẹ: đây là co giật do sốt đơn thuần, lần thứ hai, thường lành tính và không ảnh hưởng phát triển; có thể giật lại, nguy cơ động kinh sau này thấp (khoảng 1%)</b></div><p class="why">QĐ 3312 mục 6: giải thích để cha mẹ yên tâm; mục 5: nguy cơ động kinh khoảng 1% khi không có yếu tố nguy cơ. AAP 2008 tr. 1282: cơn đầu sau 12 tháng tuổi có khoảng 30% cơn thứ hai, và khoảng 50% trong số đó còn thêm ít nhất 1 cơn; không thấy ảnh hưởng lâu dài ngoài tái phát (tr. 1281). Ảnh hưởng của tiền sử bố co giật do sốt lên tái phát: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không làm CT hoặc MRI sọ não, điện não đồ, chọc dò tủy sống, công thức máu, điện giải; chỉ khám kỹ tìm nguồn sốt và dấu màng não</b></div><p class="why">AAP 2011 Action Statement 1a–1c (tr. 391), 2 (tr. 392), 3 (tr. 392–393), 4 (tr. 393): cơn đơn thuần thường không cần điện não đồ, xét nghiệm máu hay hình ảnh; chọc dò khi có dấu màng não. QĐ 3312 mục 3.2 cùng hướng. Cơ sở không có CT và CT cũng không có chỉ định.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không dùng thuốc chống co giật dự phòng (cả liên tục lẫn ngắt quãng), hoặc trong đợt sốt dùng Depakin 20 mg/kg/ngày chia 2 lần hay Gardenal 5 mg/kg/ngày</b></div><p class="why">Cách 1: AAP 2008 tr. 1281, 1283: không dùng thuốc chống động kinh liên tục hay ngắt quãng cho trẻ có 1 cơn đơn thuần trở lên vì độc tính lớn hơn lợi ích. Cách 2: QĐ 3312 mục 4.1: trong đợt sốt có thể dùng Depakin 20 mg/kg/ngày chia 2 lần hoặc Gardenal 5 mg/kg/ngày; mục 4.2: thuốc dài hạn thường không chỉ định, chỉ cân nhắc khi tái phát thường xuyên hoặc nguy cơ cao. Hai nguồn khác nhau vì AAP 2008 cân nhắc lợi hại theo thử nghiệm, QĐ 3312 không nêu cơ sở bằng chứng; cả hai đều chấp nhận (sổ mâu thuẫn, ca đầu NH-1351). Hai cơn cách 18 tháng chưa phải &#x27;tái phát thường xuyên&#x27;.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hạ sốt bằng paracetamol 15 mg/kg/lần (≈ 210 mg), uống, nhắc lại sau 4–6 giờ nếu còn sốt, không quá 60 mg/kg/24 giờ (≈ 840 mg), khi sốt trên 38 °C; hoặc chỉ khi bé khó chịu và không dùng chỉ để hạ con số nhiệt độ; thuốc hạ sốt không phòng được co giật</b></div><p class="why">Cách 1: QĐ 3312 mục 4.1: sốt trên 38 °C hạ sốt bằng paracetamol 15 mg/kg/lần, nhắc lại sau 4–6 giờ, không quá 60 mg/kg/24 giờ (hoặc ibuprofen 10 mg/kg/lần, 6 giờ/lần). Cách 2: NICE NG143 mục 1.6.4–1.6.6: paracetamol hoặc ibuprofen khi trẻ khó chịu, không dùng chỉ để hạ nhiệt độ, không dùng cả hai cùng lúc; WHO 2013 mục 4.4 (tr. 91): paracetamol khi sốt từ 39 °C làm trẻ khó chịu. Cùng liều, khác ngưỡng dùng thuốc. Hạ sốt không ngăn tái phát co giật (NICE mục 1.6.1; AAP 2008 tr. 1284–1285). Theo sổ mâu thuẫn &#x27;Hạ sốt ở trẻ&#x27;.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giữ bé thoáng mát, nới quần áo, không ủ; chườm trán, nách, bẹn bằng nước ấm 32–35 °C hoặc không chườm lau</b></div><p class="why">Cách 1: QĐ 3312 mục 4.1: chườm trán, nách, bẹn nước ấm 32–35 °C, nới bỏ quần áo. Cách 2: NICE NG143 mục 1.6.2–1.6.3: không khuyến cáo lau nước ấm, không để trẻ mặc thiếu hoặc quấn quá kín; WHO 2013 Chart 9 (tr. 15): cởi bớt quần áo. Không nguồn nào nói chườm ấm gây hại (sổ mâu thuẫn mục &#x27;Hạ sốt ở trẻ&#x27;).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ngưng siro ho thảo dược chưa rõ thành phần; chỉ làm dịu họng bằng đồ uống ấm, ngọt; không kháng sinh, không thuốc nhỏ mũi có hoạt chất</b></div><p class="why">WHO 2013 mục 4.4 (tr. 90–91): ho cảm là bệnh virus tự giới hạn, không dùng kháng sinh; làm dịu họng bằng đồ uống ấm ngọt; không dùng thuốc chứa atropin, codein hoặc cồn (có thể gây hại) hay thuốc tiêu nhầy, không nhỏ mũi thuốc có hoạt chất. Tác dụng và ảnh hưởng lên ngưỡng co giật của siro thảo dược này: không có trong tài liệu đã tải; chọn dừng vì nhãn không rõ thành phần.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi ra và giải quyết nỗi sợ thật của mẹ: ghi nhận ông ngoại cùng nhà đang điều trị lao phổi; giải thích bé hiện chưa có dấu hiệu nghi lao hoạt động và cơn giật hôm nay không phải lao não</b></div><p class="why">Nghi lao ở trẻ em: bệnh kéo dài trên 2 tuần kèm ho kéo dài, sụt hoặc không tăng cân, sốt không rõ nguyên nhân, mệt, giảm chơi, chán ăn, ra mồ hôi đêm (BYT 2024, Phần II mục 1.1, Bảng 1); bé không có, đang tăng cân (12,8 lên 14 kg). Lao màng não khởi phát âm thầm nhiều ngày đến nhiều tuần (TBM guideline 2025, phần mở đầu), không phải sốt 1 ngày rồi giật.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Đưa bé vào kế hoạch sàng lọc người tiếp xúc: khám lại khi hết sốt và ho để loại trừ lao hoạt động, sau đó cân nhắc điều trị lao tiềm ẩn (isoniazid 6 tháng hoặc phác đồ 3HP) qua chương trình chống lao nơi ông đang điều trị; làm X-quang ngực và Xpert nếu ho hoặc sốt kéo dài trên 2 tuần, sụt cân</b></div><p class="why">BYT 2024, Phần IV mục 1.2.1: trẻ dưới 5 tuổi tiếp xúc hộ gia đình, loại trừ lao hoạt động nếu khám không thấy ho, sốt, sụt cân, mồ hôi trộm, suy dinh dưỡng, nhiễm trùng hô hấp kéo dài, hạch (tr. 110–111; Sơ đồ 7, tr. 113). Phác đồ 6H: isoniazid 10 mg/kg/ngày (7–15), tối đa 300 mg, 6 tháng (mục 2.2.1, tr. 115); 3HP: isoniazid + rifapentine hằng tuần 12 tuần cho trẻ từ 2 tuổi (mục 2.2.2, tr. 116); chống chỉ định khi người tiếp xúc nghi hoặc xác định kháng isoniazid (mục 2.2.1c). Không kê isoniazid hôm nay vì bé còn đang sốt ho cấp và chưa biết ông có kháng thuốc hay không. Người từ 5 tuổi trở lên có cách sàng lọc riêng (mục 1.2.2). Lưu ý Sơ đồ 7 (tr. 113): trẻ dưới 5 tuổi tiếp xúc có ho hoặc sốt đi nhánh &#x27;khám phát hiện, chẩn đoán bệnh lao&#x27;, chưa vào nhánh điều trị lao tiềm ẩn. Hôm nay ho sốt mới 1 ngày, giải thích được bằng viêm mũi họng cấp, nên ca chọn đánh giá lại khi hết đợt cấp; khoảng thời gian chờ cụ thể không có trong tài liệu đã tải. Triệu chứng không hết như dự kiến thì đưa bé khám phát hiện lao ngay.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hướng dẫn xử trí khi bé giật lại: đặt nằm yên, nghiêng đầu sang phải, nới quần áo, bấm giờ; đưa đến cơ sở y tế hoặc gọi cấp cứu nếu giật quá 10 phút hoặc sau 30 phút bé chưa tỉnh bình thường; liên hệ lại khi bé giật bất kỳ lần nào</b></div><p class="why">QĐ 3312 mục 4.1 và 6: nằm yên, đầu nghiêng bên phải, nới quần áo; đến cơ sở y tế khi cơn quá 10 phút hoặc 30 phút sau cơn chưa bình thường. NICE NG143 mục 1.7.3: liên hệ lại nếu trẻ giật (mọi lần). Hai nguồn bổ sung nhau (QĐ cho cơn kéo dài, NICE cho mọi cơn tái phát).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn dấu hiệu quay lại ngay: giật lại, cổ cứng, nôn vọt, đau đầu, li bì, ban không mất khi ấn, khó thở, không uống được; sốt từ 5 ngày trở lên; ho trên 2 tuần</b></div><p class="why">NICE NG143 mục 1.7.3 (giật, ban không mất khi ấn, mẹ thấy bé tệ hơn, sốt từ 5 ngày), mục 1.2.19 (cổ cứng, giảm tri giác). QĐ 3312 Viêm màng não mủ mục 2.1.1 (nôn, đau đầu, gáy cứng). Sốt trên 5 ngày kèm đau đầu, nôn, cổ cứng ở người tiếp xúc lao: nghĩ lao màng não (TBM guideline 2025, Box 1). WHO 2013 mục 4.4 (tr. 90): ho từ 14 ngày có thể do lao, hen, ho gà.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Cho bé nghỉ học khi còn sốt và báo trường; hẹn tái khám sau 5 ngày nếu còn sốt hoặc không đỡ, và khám sàng lọc lao ngay khi hết đợt cấp</b></div><p class="why">NICE NG143 mục 1.7.2: giữ trẻ nghỉ học khi còn sốt, báo trường. WHO 2013 Bảng 7 (tr. 81): ho cảm tái khám sau 5 ngày nếu không đỡ, ho trên 14 ngày chuyển đánh giá ho mạn. Khoảng cách tái khám định kỳ sau cơn giật: không có trong tài liệu đã tải (QĐ 3312 mục 4.2 chỉ ghi &#x27;hẹn khám lại định kỳ&#x27;).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Kê sẵn diazepam bơm hậu môn tại nhà để cắt cơn khi bé giật lại</b></div><p class="why">QĐ 3312 mục 4.1: cơn kéo dài có thể thụt diazepam 0,5 mg/kg đường hậu môn; mục 6: hướng dẫn cha mẹ dùng thuốc chống co giật &#x27;trong trường hợp cần thiết&#x27;. WHO 2013 Chart 9 (tr. 15): dung dịch 10 mg/2 mL, trẻ 14–19 kg bơm 1,5 mL, tối đa hai liều. Chỉ định kê sẵn cho cơn đơn thuần không được nêu rõ; AAP 2008 tr. 1283–1285 không khuyến cáo thường quy, nêu tác dụng phụ ngủ gà, thất điều. Bé cơn ngắn nên không cần, kê cũng chấp nhận được.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Diazepam uống hoặc hậu môn ngay bây giờ, khi cơn đã tự hết</b></div><p class="why">Cơn đã hết, bé tỉnh; QĐ 3312 mục 4.1 chỉ dùng diazepam khi cơn kéo dài; AAP 2008 tr. 1284–1285: ngủ gà, thất điều, có thể che lấp nhiễm trùng thần kinh.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Chuyển tuyến chụp CT sọ não, chọc dò tủy sống hoặc điện não đồ thường quy cho cơn này</b></div><p class="why">AAP 2011 Action Statement 2 và 4 (tr. 392–393, khuyến cáo mạnh): không làm. CT phơi nhiễm tia xạ, MRI có thể cần an thần (tr. 393); chọc dò là thủ thuật xâm lấn, đau (tr. 391). QĐ 3312 mục 3.2.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho kháng sinh để &#x27;phòng viêm màng não&#x27; hoặc điều trị viêm mũi họng</b></div><p class="why">Viêm mũi họng virus không dùng kháng sinh (WHO 2013 mục 4.4, tr. 90). Bé không có dấu màng não nên không có chỉ định kháng sinh phòng; kháng sinh dùng không đúng chỉ định còn có thể che dấu hiệu viêm màng não về sau (AAP 2011, Action Statement 1c, tr. 391).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Bắt đầu điều trị lao (4 thuốc) hoặc isoniazid dự phòng ngay hôm nay cho bé</b></div><p class="why">Chưa có triệu chứng hay hình ảnh nghi lao hoạt động (BYT 2024, Phần II mục 1.1, Bảng 1). Điều trị lao tiềm ẩn chỉ sau khi loại trừ lao hoạt động và biết nguồn lây có kháng isoniazid hay không (Phần IV mục 1.2.1, 2.2.1c); bé đang sốt ho cấp nên chưa loại trừ hôm nay.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhập viện nhi theo dõi cho Vy là quá tay: bé tỉnh, uống được, cổ mềm, cơn đơn thuần, thuộc nhóm có thể chăm sóc tại nhà kèm dặn dò (NICE NG143 2021, mục 1.2.7 và 1.4.5); tiêu chuẩn nhập viện riêng cho cơn đơn thuần không có trong tài liệu đã tải. Bé phải nằm viện, bị kim tiêm và dễ bị chỉ định thêm điện não, hình ảnh không cần (AAP 2011, Action Statement 2 và 4, tr. 392–393). Mẹ nghe nhập viện sẽ tin &#x27;đúng là lao não&#x27;, nỗi sợ thật chưa được hỏi tới, còn việc bé tiếp xúc ông ngoại bị lao phổi vẫn không ai sàng lọc (BYT 2024, Hướng dẫn bệnh Lao, Phần IV mục 1.2.1).</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển Vy lên bệnh viện tỉnh để chụp CT sọ não hoặc chọc dò tủy sống là không có chỉ định: cơn đơn thuần, bé tỉnh, Kernig và Brudzinski âm tính, tiêm chủng đủ (AAP 2011, Action Statement 1a, tr. 391; Action Statement 4, tr. 393). Chọc dò xâm lấn và thường đau (tr. 391); CT có tia xạ có thể làm tăng nguy cơ ung thư về sau (tr. 393), kết quả bình thường cũng không đổi xử trí. Cơ sở này không có CT nên chuyến đi mất cả buổi chiều tối vô ích, mẹ hoảng hơn và tiếp tục giấu chuyện ông ngoại.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Co giật do sốt đơn thuần, lần thứ hai (cơn đầu lúc 20 tháng), bé gái 3 tuổi 2 tháng, 14 kg</li><li>Nguyên nhân sốt: viêm mũi họng cấp nghĩ do virus, chưa biến chứng</li><li>Tiếp xúc hộ gia đình với nguồn lây lao phổi (ông ngoại, đang điều trị tháng thứ hai); chưa có dấu hiệu nghi lao hoạt động nhưng đang sốt ho cấp nên cần đánh giá lại; ứng viên điều trị lao tiềm ẩn</li><li>Đã loại trừ: viêm màng não (kể cả lao màng não), động kinh, hạ đường huyết, mất nước, chấn thương, ngộ độc, cơn giật phức tạp</li><li>Thuốc đang dùng: siro ho thảo dược chưa rõ thành phần; lý do thật khi đến khám: sợ con mắc lao</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Hỏi bệnh (1) Mô tả cơn: toàn thể, khoảng 3 phút, không khu trú, một cơn trong đợt sốt, hồi phục sau khoảng nửa giờ, không liệt: cơn đơn thuần (QĐ 3312 mục 2.2a–2.2b; AAP 2011 tr. 390). Bé 38 tháng tuổi, trong khoảng 6–60 tháng (QĐ 3312 mục 1).</li><li>Hỏi bệnh (2) Nguồn sốt: ho khan, chảy mũi 3 ngày, họng đỏ nhẹ, màng nhĩ bình thường, phổi sạch, thở 26 l/p dưới 40 l/p (WHO 2013 Bảng 7, tr. 81). Nhiễm trùng hô hấp là nguyên nhân thường gặp (QĐ 3312 mục 1); khám nhằm tìm nguyên nhân gây sốt (AAP 2011 tr. 393).</li><li>Hỏi bệnh (3) Gắng sức cả buổi sáng ngoài nắng làm dễ nghĩ tới mất nước, hạ đường huyết, say nắng. Hỏi lượng nước uống, nước tiểu, nước mắt và khám niêm mạc cho thấy không mất nước (NICE NG143 mục 1.2.16); đường huyết mao mạch 5,2 mmol/L (WHO 2013 Bảng 3, tr. 23–24). Gắng sức hay say nắng ở trẻ em: không có trong tài liệu đã tải.</li><li>Hỏi bệnh (4) Mảnh bị giấu 1: cơn giật lúc 20 tháng, mẹ giấu vì sợ chẩn đoán &#x27;động kinh&#x27;; chỉ giật khi sốt, bố bé hồi nhỏ cũng bị. Hai cơn đều trong lúc sốt, cách nhau 18 tháng: vẫn là cơn đơn thuần, không phải &#x27;tái phát trong đợt sốt&#x27; (QĐ 3312 mục 2.2b). Động kinh khoảng 1% khi không có yếu tố nguy cơ (QĐ 3312 mục 5; AAP 2008 tr. 1282).</li><li>Hỏi bệnh (5) Mảnh bị giấu 2: ông ngoại cùng nhà đang điều trị lao phổi, cũng là lý do thật mẹ đến. Câu hỏi mở được: &#x27;Trong nhà có ai ho lâu hoặc uống thuốc dài ngày không?&#x27;, &#x27;Chị lo nhất điều gì?&#x27;, kèm lý do hỏi (bảo vệ bé, không phán xét). Bé là người tiếp xúc hộ gia đình (BYT 2024, Phần I mục 1.5). Hỏi &#x27;tiền sử&#x27; chung thì mẹ trả lời &#x27;không&#x27; và hai mảnh này không lộ.</li><li>Hỏi bệnh (6) Thuốc: siro ho thảo dược 3 ngày, chưa hạ sốt, chưa kháng sinh. Triệu chứng nghi lao ở trẻ em (BYT 2024, Phần II mục 1.1, Bảng 1): không có.</li><li>Khám: cổ mềm, Kernig và Brudzinski âm tính, không ban xuất huyết, không dấu thần kinh khu trú (QĐ 3312 Viêm màng não mủ mục 2.1.1; NICE NG143 mục 1.2.18–1.2.19). Mao mạch dưới 2 giây, mạch 118 l/p dưới 140 l/p của trẻ 2–5 tuổi (mục 1.2.15), SpO₂ 98%: nhóm nguy cơ thấp (mục 1.2.7). Tăng 1,2 kg trong 6 tháng, hạch cổ dưới 1 cm: không hướng tới lao.</li><li>Cận lâm sàng: không có CT và cũng không cần (AAP 2011, Action Statement 4, tr. 393); điện não đồ, chọc dò, xét nghiệm máu không có chỉ định (Action Statement 1–3). X-quang ngực, IGRA, Xpert không cần cho quyết định hôm nay.</li><li>Kết luận: co giật do sốt đơn thuần lần hai, cho về (ve_hen) kèm kế hoạch sàng lọc lao. Không có tiêu chuẩn nhập viện hay chuyển tuyến cho cơn đơn thuần ở trẻ tỉnh trong tài liệu đã tải; sẽ chuyển ngay khi giật quá 10 phút hoặc 30 phút sau chưa bình thường, giật lại, có dấu màng não, ban xuất huyết (QĐ 3312 mục 6; NICE NG143 mục 1.2.19, 1.7.3).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Trấn an: cơn đơn thuần lành tính; có thể giật lại (khoảng 30% sau cơn đầu sau 12 tháng tuổi, đã giật hai lần thì khoảng 50% còn thêm ít nhất một cơn; AAP 2008 tr. 1282); nguy cơ động kinh khoảng 1% (QĐ 3312 mục 5). Gọi tên nỗi sợ &#x27;lao não&#x27; và trả lời trực tiếp: sốt 1 ngày rồi giật khác diễn tiến âm thầm của lao màng não (TBM guideline 2025, phần mở đầu).</li><li>Thuốc chống co giật: ghi cả hai cách (AAP 2008 không dùng; QĐ 3312 mục 4.1 Depakin hoặc Gardenal trong đợt sốt), không kê ở bé này; diazepam kê sẵn tại nhà chấm a.</li><li>Hạ sốt: paracetamol 15 mg/kg ≈ 210 mg (siro 160 mg/5 mL lấy 6,5 mL), cách 4–6 giờ, tối đa 60 mg/kg/24 giờ ≈ 840 mg (QĐ 3312 mục 4.1) hoặc chỉ khi bé khó chịu (NICE NG143 mục 1.6.4–1.6.5). WHO 2013 Annex 2 cho &#x27;tối đa 6 lần một ngày&#x27;, lỏng hơn QĐ 3312; ca chọn mức thận trọng 60 mg/kg/24 giờ (sổ mâu thuẫn mục 6 NH-0199). Ibuprofen 10 mg/kg mỗi 6 giờ (QĐ 3312) cũng được, không dùng cùng lúc (NICE mục 1.6.6).</li><li>Siro thảo dược: dừng vì không rõ thành phần; WHO 2013 mục 4.4 dặn tránh thuốc chứa atropin, codein, cồn.</li><li>Phần lao: (1) ghi tiếp xúc hộ gia đình vào hồ sơ; (2) đánh giá lại khi hết đợt sốt ho, nếu không còn ho, sốt, sụt cân, mồ hôi trộm, hạch thì loại trừ lao hoạt động và cân nhắc điều trị lao tiềm ẩn (BYT 2024, Phần IV mục 1.2.1, Sơ đồ 7); (3) ho hoặc sốt kéo dài trên 2 tuần, sụt cân: X-quang ngực, Xpert, chuyển chương trình lao (Phần II mục 1.1, Bảng 1, mục 3.2.1); (4) hỏi chương trình lao về kháng thuốc của ông, vì chống chỉ định isoniazid khi nguồn nghi kháng isoniazid (mục 2.2.1c).</li><li>Không làm CT, chọc dò, điện não, xét nghiệm máu, kháng sinh, thuốc chống co giật: AAP 2011 Action Statement 1–4; QĐ 3312 mục 3.2.</li><li>Dặn quay lại và hẹn tái khám: NICE NG143 mục 1.7.2–1.7.3, QĐ 3312 mục 6, WHO 2013 Bảng 7.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Paracetamol (siro hoặc gói bột cho trẻ em)</b><div class="sub">Siro 160 mg/5 mL hoặc gói tương đương</div></td><td data-l="Liều">15 mg/kg/lần ≈ 210 mg (siro 160 mg/5 mL lấy 6,5 mL ≈ 208 mg)<div class="sub">Uống · Khi bé sốt trên 38 °C hoặc có vẻ khó chịu; nhắc lại sau 4–6 giờ nếu còn sốt; không dùng cùng lúc với ibuprofen</div></td><td data-l="Thời gian">Những ngày còn sốt gây khó chịu; tối đa 60 mg/kg/24 giờ ≈ 840 mg (không quá 4 lần)</td><td class="gc" data-l="Ghi chú">QĐ 3312 mục 4.1: 15 mg/kg/lần, 4–6 giờ, không quá 60 mg/kg/24 giờ. NICE NG143 mục 1.6.4–1.6.6: khi bé khó chịu. Số mL là quy đổi theo hàm lượng siro.</td></tr><tr><td><b>Nước ấm, đồ uống ngọt nhẹ (không phải thuốc kê đơn)</b><div class="sub">Không áp dụng</div></td><td data-l="Liều">Uống nhiều lần, từng ngụm nhỏ theo nhu cầu của bé<div class="sub">Uống · Suốt đợt sốt ho</div></td><td data-l="Thời gian">Đến khi hết sốt, hết ho</td><td class="gc" data-l="Ghi chú">WHO 2013 mục 4.4 (tr. 90–91): làm dịu họng bằng đồ uống ấm ngọt; NICE NG143 mục 1.7.2: cho uống nước đều. Lượng cụ thể mỗi ngày: không có trong tài liệu đã tải.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Với mẹ (lời giao tiếp, không cần nguồn): &#x27;Chị lo bé bị lao là dễ hiểu vì nhà có người bệnh. Tôi hỏi để giữ bé an toàn, không phải để đánh giá gia đình. Hôm nay bé không có dấu hiệu lao, cơn giật này do sốt.&#x27;</li><li>Đây là co giật do sốt đơn thuần, thường lành, không làm bé chậm phát triển, ít khi thành động kinh (khoảng 1%, QĐ 3312 mục 5, 6); có thể giật lại (AAP 2008 tr. 1282).</li><li>Nếu bé giật lại: đặt bé nằm yên, nghiêng đầu sang bên phải, nới quần áo, nhìn đồng hồ tính giờ (QĐ 3312 mục 4.1). Đưa bé đến cơ sở y tế hoặc gọi cấp cứu nếu giật quá 10 phút hoặc sau 30 phút bé chưa trở lại bình thường (QĐ 3312 mục 6); và liên hệ lại bác sĩ khi bé giật bất kỳ lần nào (NICE NG143 mục 1.7.3).</li><li>Hạ sốt bằng paracetamol 6,5 mL siro 160 mg/5 mL khi bé sốt trên 38 °C hoặc khó chịu, cách 4–6 giờ, không quá 4 lần trong 24 giờ (QĐ 3312 mục 4.1; NICE NG143 mục 1.6.4–1.6.6). Thuốc hạ sốt chỉ làm bé dễ chịu, không ngăn giật lại (NICE mục 1.6.1). Mặc thoáng, không ủ; có thể chườm nách, bẹn bằng khăn nước ấm (QĐ 3312 mục 4.1) hoặc chỉ cởi bớt quần áo (NICE mục 1.6.3).</li><li>Ngưng siro ho thảo dược; cho bé uống nước ấm, đồ uống ngọt nhẹ từng ngụm; không tự cho kháng sinh (WHO 2013 mục 4.4). Cho bé nghỉ học khi còn sốt và báo trường (NICE NG143 mục 1.7.2).</li><li>Về lao: mang hồ sơ điều trị của ông ngoại (thông tin kháng thuốc nếu có) đến lần khám sau. Khi bé hết sốt, hết ho, đưa bé đi sàng lọc tại cơ sở chống lao để xem có cần điều trị lao tiềm ẩn (isoniazid 6 tháng hoặc 3HP) không (BYT 2024, Phần IV mục 1.2.1, 2.2); người nhà từ 5 tuổi trở lên cũng cần khám (mục 1.2.2). Không tự cho bé uống thuốc lao.</li><li>Đưa bé đi khám ngay khi: giật lại, cổ cứng, nôn vọt, đau đầu, li bì khó gọi, ban hay đốm đỏ không mất khi ấn, thở nhanh hoặc rút lõm ngực, không uống được (NICE NG143 mục 1.7.3, 1.2.19; QĐ 3312 mục 6). Khám lại nếu sốt từ 5 ngày (NICE mục 1.7.3), hoặc ho trên 2 tuần, sút cân, ra mồ hôi trộm, bé kém chơi, kém ăn (BYT 2024, Phần II mục 1.1, Bảng 1; WHO 2013 mục 4.4, tr. 90).</li><li>Tái khám sau 5 ngày nếu còn sốt hoặc bé không đỡ (WHO 2013 Bảng 7, tr. 81; NICE NG143 mục 1.7.3).</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-8">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Co giật do sốt</b></div>
+<p class="note">Phải loại trừ: Viêm màng não, Động kinh</p><p>Bé về nhà theo dõi. Sốt hạ vào ngày thứ 4, không giật lại; ho còn kéo dài khoảng hai tuần rồi hết dần, nên khỏi chậm hơn mẹ tưởng. Khi hết ho, bé được khám sàng lọc ở cơ sở chống lao: không triệu chứng nghi lao hoạt động, được đưa vào chương trình điều trị lao tiềm ẩn sau khi biết ông không kháng thuốc; mẹ không còn giấu chuyện trong nhà. Đây là kết cục thiết kế của ca, không phải số liệu từ tài liệu.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-9">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Giấu tiền sử: mẹ không kể cơn giật lúc 20 tháng (sợ bị gọi là động kinh) và việc ông ngoại cùng nhà đang điều trị lao phổi (xấu hổ, sợ bị xa lánh); chỉ lộ khi hỏi cụ thể, nhẹ nhàng, nói rõ mục đích.</li><li>Lý do thật: sợ con mắc lao &#x27;giống ông&#x27;, nghe nói &#x27;ho, sốt, giật là lao não&#x27;; mẹ cần được trả lời nỗi sợ này hơn là chỉ nghe về cơn giật.</li><li>Gắng sức buổi sáng làm mẹ nghĩ tới mất nước, kiệt sức, lệch khỏi tìm nguồn sốt và dấu màng não.</li><li>Không có CT: phải dựa vào khám lâm sàng; CT cũng không có chỉ định cho cơn đơn thuần.</li><li>Thuốc đang dùng: siro ho thảo dược chưa rõ thành phần, nằm ngoài điều trị chuẩn, cần hỏi và dừng.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Giấu tiền sử: hỏi &#x27;tiền sử&#x27; chung chung chỉ nhận &#x27;không&#x27;. Hỏi từng mảnh (từng giật chưa, ai trong nhà ho lâu hay uống thuốc dài ngày), nói rõ mục đích, hỏi &#x27;chị lo nhất điều gì&#x27;.</li><li>Co giật do sốt đơn thuần ở trẻ tỉnh: không CT, điện não, chọc dò, xét nghiệm máu thường quy (AAP 2011); không có CT buộc dựa vào khám lâm sàng.</li><li>Tiếp xúc lao hộ gia đình ở trẻ dưới 5 tuổi: loại trừ lao hoạt động bằng lâm sàng rồi điều trị lao tiềm ẩn (BYT 2024, Phần IV mục 1.2.1). Phát hiện tiếp xúc này là giá trị của ca, không phải đi tìm lao màng não.</li><li>Khỏi chậm hơn dự kiến: sốt hạ sau vài ngày là bình thường, nhưng ho từ 14 ngày, sốt từ 5 ngày, sụt cân ở trẻ tiếp xúc lao là lúc khám lại, làm X-quang, Xpert (WHO 2013 mục 4.4; BYT 2024, Bảng 1).</li><li>Hạ sốt không phòng được co giật (NICE NG143 mục 1.6.1); ghi cả ngưỡng 38 °C của QĐ 3312 lẫn &#x27;khi bé khó chịu&#x27; của NICE.</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Co giật do sốt đơn thuần: trẻ 6–60 tháng, cơn toàn thể dưới 15 phút, hồi phục hoàn toàn trong 1 giờ, không tái phát trong đợt sốt (QĐ 3312 mục 1, 2.2; AAP 2011 tr. 390).</li><li>AAP 2011: không điện não đồ, xét nghiệm máu, hình ảnh thần kinh cho cơn đơn thuần; chọc dò khi có dấu màng não (Action Statement 1–4, tr. 391–393).</li><li>Tái phát khoảng 30% khi cơn đầu sau 12 tháng tuổi; nguy cơ động kinh khoảng 1% khi không có yếu tố nguy cơ (AAP 2008 tr. 1282; QĐ 3312 mục 5).</li><li>Trẻ dưới 5 tuổi tiếp xúc hộ gia đình nguồn lây lao phổi: khám triệu chứng (ho, sốt, sụt cân, mồ hôi trộm...), nếu không có thì điều trị lao tiềm ẩn; 6H: isoniazid 10 mg/kg/ngày, tối đa 300 mg, 6 tháng (BYT 2024, Phần IV mục 1.2.1, 2.2.1).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-10">Nguồn tài liệu <small>7</small></h3></summary><ul class=""><li>QĐ 3312/QĐ-BYT 2015 (Hướng dẫn chẩn đoán và điều trị một số bệnh thường gặp ở trẻ em) – TL-0037 – ĐÃ ĐỌC: Co giật do sốt mục 1–6 (tr. 455–458); Viêm màng não mủ mục 2.1.1 (tr. 482–483)</li><li>AAP 2011 – Duffner PK và cs., Neurodiagnostic evaluation of the child with a simple febrile seizure, Pediatrics 2011;127(2):389–394 – TL-0272 – ĐÃ ĐỌC: toàn văn (định nghĩa tr. 390; Action Statement 1a–1c tr. 391; 2–3 tr. 392; 3–4 tr. 393)</li><li>AAP 2008 – Febrile seizures: long-term management of the child with simple febrile seizures, Pediatrics 2008;121(6):1281–1286 – TL-0274 – ĐÃ ĐỌC: tr. 1281–1285 (tóm tắt, tái phát và động kinh tr. 1282, khuyến cáo tr. 1283, diazepam và hạ sốt tr. 1284–1285)</li><li>NICE NG143 2021 (Fever in under 5s, bản cập nhật 2025) – TL-0262 – ĐÃ ĐỌC: mục 1.2.7, 1.2.14–1.2.16, 1.2.18–1.2.19, 1.2.25–1.2.26, 1.4.5, 1.6.1–1.6.6, 1.7.2–1.7.3</li><li>WHO 2013 Pocket book of hospital care for children, ấn bản 2 – TL-0250 – ĐÃ ĐỌC: Chart 9 (tr. 15), Bảng 3 (tr. 23–24), mục 4.4 (tr. 90–91), Bảng 7 (tr. 81)</li><li>BYT 2024 – Hướng dẫn chẩn đoán, điều trị và dự phòng bệnh Lao (thay QĐ 1314/QĐ-BYT 2020) – TL-0123 – ĐÃ ĐỌC: Phần I mục 1.5; Phần II mục 1.1 (Bảng 1), 3.2.1; Phần IV mục 1.1–1.2, Sơ đồ 7, mục 2.2.1–2.2.2</li><li>Donovan J và cs. 2025 – A clinical practice guideline for tuberculous meningitis, Lancet Infect Dis 2025 – TL-0450 – ĐÃ ĐỌC: phần mở đầu; Hình 1, chú thích Box 1</li></ul></details>
+<details class="card"><summary><h3 id="m-11">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Nhi ngoại trú</dd><dt>chan_doan_dich</dt><dd>Co giật do sốt</dd><dt>chan_doan_phai_loai_tru</dt><dd>Viêm màng não; Động kinh</dd><dt>nhom_tuoi</dt><dd>Mẫu giáo (1–5 tuổi)</dd><dt>gioi</dt><dd>Nữ</dd><dt>do_kho</dt><dd>Điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>1</dd><dt>dien_tien_tai_kham</dt><dd>Không áp dụng (ca 1 lượt khám)</dd><dt>nhieu_benh_nhan</dt><dd>Giấu tiền sử</dd><dt>rang_buoc_nguon_luc</dt><dd>Không có CT</dd><dt>nghe_nghiep</dt><dd>Trẻ mẫu giáo</dd><dt>yeu_to_khoi_phat</dt><dd>Sau gắng sức nặng (chạy nhảy cả buổi sáng ngoài nắng)</dd><dt>thuoc_dang_dung</dt><dd>Siro ho thảo dược mẹ tự mua</dd><dt>ly_do_that_su_den_kham</dt><dd>Sợ con mắc lao (ông ngoại cùng nhà đang điều trị lao phổi)</dd><dt>loai_ket_cuc</dt><dd>Khỏi chậm hơn dự kiến</dd></dl><ul class=""><li>Viết 2026-10-18 – viết: Claude (Sonnet). Đặc tả sổ cái NH-1363 (lô 44, thứ tự 157).</li><li>Tài liệu đã đọc: TL-0037 (QĐ 3312: Co giật do sốt mục 1–6; Viêm màng não mủ mục 2.1.1); TL-0272 (AAP 2011); TL-0274 (AAP 2008); TL-0262 (NICE NG143); TL-0250 (WHO 2013: Chart 9, Bảng 3, mục 4.4, Bảng 7); TL-0123 (BYT 2024 Lao: Phần I 1.5, Phần II 1.1, 3.2.1, Phần IV 1.1–1.2, 2.2.1–2.2.2); TL-0450 (TBM 2025).</li><li>Không có trong tài liệu đã tải: tiêu chuẩn nhập viện cho cơn giật do sốt đơn thuần; tác dụng và ảnh hưởng lên ngưỡng co giật của siro ho thảo dược; ảnh hưởng của tiền sử gia đình co giật do sốt lên nguy cơ tái phát; khoảng cách tái khám định kỳ sau cơn giật; quy định về kỳ thị, bảo mật thông tin gia đình người bệnh lao.</li><li>Số trang BYT 2024 suy từ số trang in trong bản chữ; số hiệu quyết định không in trong bản chữ (chỉ &#x27;Số: /QĐ-BYT&#x27;, thay QĐ 1314/QĐ-BYT 2020).</li><li>Kết cục (sốt hạ ngày 4, ho hai tuần, sàng lọc lao) và chi tiết ông ngoại 62 tuổi là thiết kế ca, không phải số liệu từ tài liệu.</li><li>Mâu thuẫn dùng theo các mục đã có: thuốc chống co giật dự phòng (NH-1351), hạ sốt ở trẻ và chườm ấm (NH-0199, NH-1351), liều paracetamol tối đa (NH-0199 mục 6). Không có mâu thuẫn mới.</li></ul></details>
+<p class="chan-trang">Ca NH-1363 · phiên bản ca 1 – viết 2026-10-18 · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

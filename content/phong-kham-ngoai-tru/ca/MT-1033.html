@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MT-1033 · Rung nhĩ (theo dõi)</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · MT-1033</div>
+   <h1>Xin giấy chứng nhận sức khỏe</h1>
+   <p class="dich-gia">Võ Văn Nghĩa · Nam · 68 tuổi · 58 kg</p>
+   <div class="chips"><span class="chip">Bệnh mạn tính người lớn</span><span class="chip">Điển hình</span><span class="chip">2 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Buôn bán nhỏ: bán tạp hóa và nước giải khát ở đầu ngõ chợ, dậy từ 4 giờ 30, tự bưng két bia và thùng nước đá</dd><dt>Chiều cao, cân nặng</dt><dd>163 cm · 58 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi ông là &#x27;bác&#x27;. Ông tự xưng &#x27;tôi&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;.</dd><dt>Tính cách</dt><dd>Điềm đạm, thật thà, chịu khó, nói chậm rãi. Làm ăn nhỏ nên ngại tốn tiền và sợ mất chỗ bán ở chợ, nhưng tin bác sĩ và nói thật khi được hỏi. Hiểu biết y khoa sơ sơ: gọi huyết áp là &#x27;áp huyết&#x27;, tim đập loạn là &#x27;tim đánh trống&#x27;; hay nhờ nhà thuốc đo huyết áp.</dd><dt>Người nhà</dt><dd>Bà Hoa (vợ) – Vợ, bà Nguyễn Thị Hoa, 64 tuổi, cùng bán hàng. Đưa ông đến ở lượt 2, kể đúng tình hình (ông ngồi thở dốc, đêm qua kê hai gối), chia thuốc vào hộp mỗi ngày và nhớ giờ uống thuốc.</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Ngoài giờ (18 giờ 40 thứ Sáu), không có kỹ thuật viên: phòng khám không làm được xét nghiệm máu, X-quang, siêu âm (kể cả siêu âm tim). Mẫu máu lấy sáng hôm sau, kết quả sau nhiều giờ. Còn dùng được: máy điện tim 12 chuyển đạo, huyết áp kế, máy đo SpO₂, máy đo đường huyết mao mạch, ống nghe. Bệnh viện huyện cách 12 km, siêu âm tim hẹn được ngày làm việc.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/2</span> </h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Nam 68 tuổi, bán tạp hóa nhỏ ở đầu ngõ chợ, đến phòng khám lúc 18 giờ 40 thứ Sáu (ngoài giờ, kỹ thuật viên đã về) để xin giấy chứng nhận sức khỏe nộp ban quản lý chợ. Đi một mình. Điều dưỡng Linh: HA 154/92 mmHg, mạch 112 l/p, nhiệt 36,7 °C, nhịp thở 18 l/p, SpO₂ 97%, cân nặng 58 kg, chiều cao 163 cm, BMI 21,8.</p>
+  <blockquote>“Chào bác sĩ. Tôi đến xin tờ giấy sức khỏe để nộp ban quản lý chợ, người ta bắt có giấy mới cho gia hạn chỗ bán. Tiện thể bác sĩ coi giùm, mấy bữa nay thỉnh thoảng tim tôi đánh trống loạn xạ. Bác sĩ cứ hỏi, tôi nói thật hết.”</blockquote>
+  <div class="vitals"><div class="vs warn"><span>Mạch</span><b>112</b><small>l/p</small></div><div class="vs warn"><span>HA</span><b>154/92</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,7</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>18</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>97</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>10 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật sự đến khám và thái độ về giấy chứng nhận</b><span class="tag t-g">Tự kể</span></div><p>Đến xin giấy chứng nhận sức khỏe để nộp ban quản lý chợ gia hạn chỗ bán (hợp đồng hết hạn cuối tháng). Ông hơi sợ có bệnh thì bị thu chỗ bán, nhưng nói: &#x27;có bệnh thì tôi cũng phải biết, bác sĩ cứ ghi thật&#x27;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khởi phát, thời gian rung nhĩ liên tục, mức ảnh hưởng triệu chứng</b><span class="tag t-b">Khi được hỏi</span></div><p>Mười ngày nay thỉnh thoảng tim đập nhanh, loạn xạ từng đợt vài giờ rồi tự hết, hay vào buổi chiều. Từ trưa hôm qua (khoảng 30 giờ) hồi hộp liên tục, không dứt. Mệt hơn thường, bưng thùng nước nặng thấy hụt hơi, nhưng vẫn bán hàng được cả ngày.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Triệu chứng âm tính: suy tim, đau ngực, ngất</b><span class="tag t-b">Khi được hỏi</span></div><p>Không đau ngực, không ngất hay xây xẩm, không khó thở khi nằm, không phải kê gối cao, không phù chân, không ho, không sốt. Đêm ngủ được.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Triệu chứng gợi ý cường giáp (âm tính)</b><span class="tag t-b">Khi được hỏi</span></div><p>Cân nặng 58 kg ổn định mấy năm nay, không sụt cân; ăn uống bình thường, không sợ nóng, không ra mồ hôi nhiều, không run tay, đại tiện 1 lần/ngày, không bướu cổ, mắt không thay đổi. Không dùng thuốc bổ, thuốc nam.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tăng huyết áp, tự ngưng thuốc</b><span class="tag t-b">Khi được hỏi</span></div><p>Hai năm trước khám ở trạm y tế được nói huyết áp cao, cho amlodipin 5 mg mỗi sáng. Bốn tuần trước thấy khỏe, đo ở nhà thuốc 126/80 một lần nên tự ngưng, không tái khám. Từ đó không uống thuốc huyết áp.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc đang dùng và nguy cơ tương tác khi dùng chống đông</b><span class="tag t-b">Khi được hỏi</span></div><p>Chỉ còn atorvastatin 20 mg uống tối, đã 3 năm vì mỡ máu cao, uống đều, không đau cơ. Không aspirin, không thuốc giảm đau chống viêm (ibuprofen, diclofenac), không thuốc cảm, không thuốc nam, không thuốc bổ. Mang theo hộp thuốc.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Rượu bia và thói quen (yếu tố sửa được)</b><span class="tag t-b">Khi được hỏi</span></div><p>Uống bia 1–2 lon mỗi tối cùng bạn hàng khoảng 10 năm nay (chừng 10 lon mỗi tuần), không say. Cà phê 2 ly buổi sáng. Hút thuốc lá 20 năm, bỏ cách đây 8 năm.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Các thành phần CHA₂DS₂-VA và nguy cơ chảy máu</b><span class="tag t-b">Khi được hỏi</span></div><p>Chưa từng đột quỵ hay thoáng liệt, chưa từng nhồi máu cơ tim hay đau thắt ngực, không đái tháo đường, không bệnh van tim đã biết, chưa từng chảy máu tiêu hóa hay đi ngoài phân đen, không bệnh gan, bệnh thận.</p></div><div class="fact"><div class="fh"><b>Tiền sử gia đình</b><span class="tag t-b">Khi được hỏi</span></div><p>Bố mất năm 76 tuổi sau cơn &#x27;tai biến&#x27;. Trong nhà không ai biết bị rung nhĩ hay bệnh tuyến giáp.</p></div><div class="fact"><div class="fh"><b>Hoàn cảnh nghề nghiệp, khả năng tái khám</b><span class="tag t-g">Tự kể</span></div><p>Bán từ 5 giờ sáng đến 19 giờ, tự bưng két bia, thùng nước đá. Nhà cách phòng khám 2 km, có xe máy; vợ cùng bán hàng. Bệnh viện huyện cách 12 km.</p></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>10 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, tiếp xúc tốt, nói chuyện bình thường không hụt hơi. Da niêm hồng, da ấm khô, không vã mồ hôi, lòng bàn tay không ẩm. Gầy vừa (58 kg, BMI 21,8), không phù.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Tuyến giáp không to, không nhân, không âm thổi. Mắt không lồi, không co kéo mi trên. Tĩnh mạch cổ không nổi khi ngồi 45°. Hạch cổ không to.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Khám run (lúc nghỉ, giữ tư thế, khi làm động tác)</b></div><p><span class="lbl">Kết quả:</span> Không run lúc nghỉ; giơ hai tay thẳng và đặt tờ giấy lên bàn tay không thấy run đầu ngón.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Tim</b></div><p><span class="lbl">Kết quả:</span> Nhịp tim không đều hoàn toàn, không theo quy luật, tần số 112 l/p. T1 cường độ thay đổi từng nhịp, T2 rõ, không âm thổi, không T3. Mỏm tim khoang liên sườn V đường trung đòn trái, không rung miu.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b></div><p><span class="lbl">Kết quả:</span> Mạch quay hai bên cân xứng nhưng nhịp không đều, biên độ thay đổi; mạch cảnh, đùi, mu chân sờ rõ; không âm thổi động mạch cảnh.</p></div><div class="row"><div class="rh"><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Lồng ngực cân đối, gõ trong hai bên. Nhịp thở 18 l/p.</p><p><span class="lbl">Kết quả:</span> Rì rào phế nang êm hai phế trường, không ran. Nhịp thở 18 l/p.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm, gan không to, lách không sờ thấy, phản hồi gan–tĩnh mạch cổ âm tính.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b></div><p><span class="lbl">Kết quả:</span> Không phù hai chân, bắp chân mềm, không đau, hai bên đối xứng, không giãn tĩnh mạch.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thần kinh</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, nói rõ, không méo miệng, sức cơ 5/5 bốn chi, cảm giác bình thường, không dấu thần kinh khu trú.</p></div><div class="row"><div class="rh"><b>Đo lại huyết áp hai tay</b></div><p><span class="lbl">Kết quả:</span> Tay phải 154/92, tay trái 150/90 mmHg; chênh dưới 10 mmHg.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>9 mục</small></h3></summary><div class="row"><div class="rh"><b>Điện tâm đồ 12 chuyển đạo</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Điều dưỡng Linh: nhịp không đều hoàn toàn, khoảng RR thay đổi từng nhịp; không thấy sóng P rõ, đường nền lăn tăn; không sóng răng cưa ở D2, D3, aVF. Tần số thất 90–150, trung bình khoảng 112 l/p. QRS hẹp 88 ms, trục bình thường, không sóng delta, không dày thất trái; không ST chênh, không sóng Q; QTc 420 ms.</p><p class="why">ECG xác lập chẩn đoán rung nhĩ lâm sàng (ESC AF 2024, mục 3.2, Bảng khuyến cáo 1: I, A). RR không đều, không sóng răng cưa nên không phải cuồng nhĩ (ACC/AHA 2023, mục 2.2.2). QRS hẹp, không sóng delta: không tiền kích thích, nên dùng được thuốc kiểm soát tần số (ESC AF 2024, Bảng 12, chú thích a).</p></div><div class="row"><div class="rh"><b>Đường huyết mao mạch (máy thử tại giường)</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> 5,9 mmol/L (ăn trưa lúc 12 giờ, đo lúc 18 giờ 50).</p><p class="why">Thay một phần glucose/HbA1c trong bộ xét nghiệm ban đầu của rung nhĩ (ESC AF 2024, Bảng 8). Không đái tháo đường: không thêm điểm CHA₂DS₂-VA.</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Tối nay không làm được (kỹ thuật viên đã về). Lấy máu 7 giờ sáng mai, kết quả sau nhiều giờ.</p><p class="why">Xét nghiệm cho mọi người rung nhĩ: công thức máu, thận, điện giải, gan, đường huyết, tuyến giáp (ESC AF 2024, mục 3.4, Bảng 8). Thiếu máu, tiểu cầu thấp là yếu tố nguy cơ chảy máu khi dùng chống đông (ESC AF 2024, Hình 10).</p></div><div class="row"><div class="rh"><b>Ure, creatinin, eGFR</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Tối nay không làm được (kỹ thuật viên đã về). Lấy máu 7 giờ sáng mai, kết quả sau nhiều giờ.</p><p class="why">Creatinin quyết định liều apixaban: giảm còn 2,5 mg × 2 khi đủ 2 trong 3 tiêu chí tuổi ≥ 80, cân nặng ≤ 60 kg, creatinin ≥ 133 µmol/L (ESC AF 2024, Bảng 11). Ông 58 kg nên creatinin sáng mai là tiêu chí còn lại cần biết. Bảng 11 in đơn vị mmol/L, nhiều khả năng lỗi in (sổ mâu thuẫn đã ghi).</p></div><div class="row"><div class="rh"><b>Điện giải đồ (Na, K, Cl)</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Tối nay không làm được (kỹ thuật viên đã về). Lấy máu 7 giờ sáng mai, kết quả sau nhiều giờ.</p><p class="why">Điện giải thuộc bộ xét nghiệm ban đầu (ESC AF 2024, Bảng 8); không đổi xử trí tối nay.</p></div><div class="row"><div class="rh"><b>AST, ALT</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Tối nay không làm được (kỹ thuật viên đã về). Lấy máu 7 giờ sáng mai, kết quả sau nhiều giờ.</p><p class="why">Chức năng gan thuộc bộ xét nghiệm ban đầu (ESC AF 2024, Bảng 8); ông có uống bia (ESC AF 2024, mục 5.7).</p></div><div class="row"><div class="rh"><b>TSH, FT4</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Tối nay không làm được (kỹ thuật viên đã về). Lấy máu 7 giờ sáng mai, kết quả sau nhiều giờ.</p><p class="why">Rung nhĩ mới khởi phát cần thử TSH (ESC AF 2024, mục 9.10); cường giáp tăng nguy cơ rung nhĩ và đột quỵ, điều trị cường giáp giúp giảm. Lâm sàng không gợi ý cường giáp (QĐ 3879/2014, Cường chức năng tuyến giáp, mục 3.1, 3.3) nên không chờ TSH để kiểm soát tần số và chống đông.</p></div><div class="row"><div class="rh"><b>Troponin T hs</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Tối nay không làm được (kỹ thuật viên đã về).</p><p class="why">Không đau ngực, ECG không thiếu máu cơ tim. Troponin chỉ là xét nghiệm chọn lọc để tinh chỉnh nguy cơ (ESC AF 2024, Bảng 8).</p></div><div class="row"><div class="rh"><b>Siêu âm tim</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Tối nay không làm được (không có người làm siêu âm). Có thể hẹn siêu âm tim qua thành ngực ở bệnh viện huyện trong tuần.</p><p class="why">Siêu âm tim qua thành ngực được khuyến cáo khi giúp quyết định xử trí (ESC AF 2024, mục 3.4, Bảng khuyến cáo 3: I, C); ở tuyến cơ sở khó làm thì không được làm chậm việc bắt đầu chống đông. Cần biết LVEF để chọn thuốc: chẹn kênh canxi không-DHP chống chỉ định nếu LVEF ≤ 40% (ESC AF 2024, Bảng 12).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Rung nhĩ mới chẩn đoán, tần số thất nhanh vừa, huyết động ổn; CHA₂DS₂-VA 2 điểm; mEHRA 2b</b></div><p class="why">ECG không sóng P, RR không đều (ESC AF 2024, mục 3.1–3.2, Bảng khuyến cáo 1). Chưa từng được chẩn đoán nên là rung nhĩ mới chẩn đoán (ESC AF 2024, Bảng 5). Huyết động ổn: HA 154/92 mmHg, SpO₂ 97%, không ngất, không đau ngực (Hình 4). CHA₂DS₂-VA: tuổi 65–74 = 1, tăng huyết áp = 1 (Bảng 10). Khó chịu nhưng vẫn làm việc: mEHRA 2b (Bảng 7).</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Tăng huyết áp chưa kiểm soát do tự ngưng amlodipin</b></div><p class="why">HA 154/92 mmHg, đã được chẩn đoán 2 năm, tự ngưng 4 tuần. Tăng huyết áp là yếu tố nguy cơ sửa được của rung nhĩ và của chảy máu khi dùng chống đông (ESC AF 2024, mục 5.1, Hình 10). Tài liệu đã tải không nêu ngưng thuốc huyết áp là nguyên nhân khởi phát rung nhĩ.</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Rối loạn lipid máu, đang dùng atorvastatin 20 mg</b></div><p class="why">Bệnh cũ, thuốc dùng đều; không tương tác với apixaban (ESC AF 2024, Hình 9).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Cường giáp (nhiễm độc giáp)</b></div><p class="why">Không sụt cân, không sợ nóng, không ra mồ hôi, không run, tuyến giáp không to, mắt không lồi, da khô ấm (QĐ 3879/2014, Cường chức năng tuyến giáp, mục 3.1.1, 3.3, 3.4.3). Cường giáp là nguyên nhân phải loại trừ ở mọi rung nhĩ mới (ESC AF 2024, mục 9.10); TSH lấy sáng mai. Nghĩ lại nếu TSH thấp.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Cuồng nhĩ</b></div><p class="why">Cuồng nhĩ điển hình có sóng răng cưa ở chuyển đạo dưới (ACC/AHA 2023, mục 2.2.2); ECG ông RR không đều hoàn toàn, không sóng răng cưa. Chống đông theo cùng nguy cơ như rung nhĩ (ESC AF 2024, Bảng khuyến cáo 30; ACC/AHA 2023, mục 6.8.6).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Hội chứng vành cấp</b></div><p class="why">Không đau ngực, ECG không ST-T mới (QĐ 1857/2022, Phần III mục 2.1 nêu hội chứng vành cấp là nguyên nhân thúc đẩy suy tim cấp). Troponin không làm được ngoài giờ; nghĩ lại nếu đau ngực.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Suy tim kèm theo</b></div><p class="why">Không khó thở khi nằm, không phù, tĩnh mạch cổ không nổi, phổi không ran (QĐ 1857/2022, Phần III mục 3.1: dấu hiệu sung huyết). Chưa có siêu âm tim nên chưa biết LVEF; vì vậy chọn thuốc kiểm soát tần số dùng được ở mọi LVEF (ESC AF 2024, mục 7.1.2).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Kiểm soát tần số bằng chẹn beta chọn lọc β1 liều thấp (ví dụ bisoprolol 2,5 mg uống mỗi sáng), chỉnh liều theo tần số; mục tiêu tần số lúc nghỉ dưới 110 l/p</b></div><p class="why">Kiểm soát tần số là điều trị đầu tay ở rung nhĩ (ESC AF 2024, Bảng khuyến cáo 14: I, B). Chẹn beta dùng được ở mọi LVEF (ESC AF 2024, mục 7.1.2); bisoprolol 1,25–20 mg/ngày (Bảng 12); liều khởi đầu 2,5 mg: không có trong tài liệu đã tải. Mục tiêu dưới 110 l/p (ESC AF 2024, Bảng khuyến cáo 14: IIa, B); ACC/AHA 2023, mục 7.1, KC 2 (2a, B-R): dưới 100–110 l/p ở người không suy tim, cùng hướng.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Bắt đầu chống đông đường uống bằng DOAC ngay, không chờ siêu âm tim: apixaban 5 mg × 2 lần/ngày từ tối nay, rà creatinin sáng mai</b></div><p class="why">CHA₂DS₂-VA 2 điểm: chống đông được khuyến cáo (ESC AF 2024, Bảng khuyến cáo 6: I, C; ACC/AHA 2023, mục 6.3.1, KC 1: CHA₂DS₂-VASc ≥ 2 ở nam, I, A). DOAC hơn thuốc kháng vitamin K (ESC AF 2024, Bảng khuyến cáo 7: I, A; ACC/AHA 2023, mục 6.3.1, KC 2). Liều chuẩn 5 mg × 2; giảm 2,5 mg chỉ khi đủ 2/3 tiêu chí (ESC AF 2024, Bảng 11; giảm liều sai: III, B). Thiếu siêu âm tim không được làm chậm chống đông (ESC AF 2024, mục 3.4).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Hoãn thuốc chống đông đến sáng mai, khi có creatinin và Hb rồi mới bắt đầu</b></div><p class="why">Tài liệu đã tải không nêu thời hạn tối đa để bắt đầu chống đông khi chưa có xét nghiệm. Cả hai cách chấp nhận được: bắt đầu tối nay với liều chuẩn (dữ kiện đã biết chưa đủ 2/3 tiêu chí giảm liều) hoặc chờ creatinin sáng mai. Chỉ không chấp nhận hoãn chống đông để chờ siêu âm tim (ESC AF 2024, mục 3.4).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Digoxin uống thay chẹn beta để kiểm soát tần số</b></div><p class="why">Digoxin là lựa chọn đầu tay (ESC AF 2024, Bảng khuyến cáo 14: I, B; Bảng 12: 0,0625–0,25 mg/ngày, kiểm tra thận trước khi dùng). Tối nay chưa có creatinin nên chẹn beta tiện hơn.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Diltiazem hoặc verapamil uống để kiểm soát tần số</b></div><p class="why">Dùng được khi LVEF &gt; 40% (ESC AF 2024, Bảng khuyến cáo 14: I, B) nhưng chống chỉ định nếu LVEF ≤ 40% (Bảng 12). Chưa biết LVEF nên chọn chẹn beta an toàn hơn.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Chuyển nhịp ngay tối nay (sốc điện hoặc thuốc)</b></div><p class="why">Huyết động ổn nên không có chỉ định sốc điện cấp cứu (ESC AF 2024, Hình 4). Rung nhĩ kéo dài hơn 24 giờ: không chuyển nhịp sớm khi chưa chống đông đủ hoặc chưa loại huyết khối bằng siêu âm qua thực quản (ESC AF 2024, Bảng khuyến cáo 15: III, C).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Dùng aspirin (hoặc aspirin + clopidogrel) thay thuốc chống đông</b></div><p class="why">Thuốc kháng tiểu cầu không thay được chống đông (ESC AF 2024, Bảng khuyến cáo 6: III, A; ACC/AHA 2023, mục 6.3.1, KC 4: gây hại, B-R).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Lấy máu 7 giờ sáng mai: công thức máu, creatinin, điện giải, men gan, TSH (kèm FT4)</b></div><p class="why">Bộ xét nghiệm ban đầu của rung nhĩ gồm công thức máu, thận, điện giải, gan, đường huyết, tuyến giáp (ESC AF 2024, mục 3.4, Bảng 8); rung nhĩ mới cần TSH (ESC AF 2024, mục 9.10).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn siêu âm tim qua thành ngực trong tuần ở bệnh viện huyện</b></div><p class="why">ESC AF 2024, mục 3.4, Bảng khuyến cáo 3 (I, C); không được vì thế mà trì hoãn chống đông.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Uống lại amlodipin 5 mg mỗi sáng; mục tiêu HA nếu dung nạp: tâm thu 120–129 mmHg (ESC), hoặc dưới 130/80 (VSH/VNHA), hoặc 130 đến dưới 140 mmHg (QĐ 5904)</b></div><p class="why">Hạ huyết áp ở rung nhĩ kèm tăng huyết áp (ESC AF 2024, Bảng khuyến cáo 5: I, B). Mục tiêu: ESC 2024 về tăng huyết áp, Bảng khuyến cáo 18 (I, A): tâm thu 120–129 mmHg; VSH/VNHA 2024, Bảng 4: dưới 130/80; QĐ 5904/2019, Phần 1 Bước 5 mục A.2: 130 đến dưới 140 ở ≥ 65 tuổi, có thể thấp hơn nếu dung nạp. Khác năm ban hành và bối cảnh (QĐ 5904 viết cho trạm y tế xã); không nguồn nào nói mục tiêu kia có hại.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giảm bia còn tối đa 3 đơn vị mỗi tuần (khoảng 30 g cồn)</b></div><p class="why">ESC AF 2024, Bảng khuyến cáo 5 (I, B) và mục 5.7: ≤ 3 đơn vị chuẩn/tuần để giảm tái phát; cai rượu sau chẩn đoán giảm nguy cơ đột quỵ. Ông đang uống chừng 10 lon/tuần.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giữ nguyên atorvastatin 20 mg buổi tối</b></div><p class="why">Thuốc đang dùng đều; không nằm trong thuốc cần tránh hay giảm liều của apixaban (ESC AF 2024, Hình 9; statin chỉ ở cột kháng vitamin K).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giấy chứng nhận sức khỏe: ghi trung thực rung nhĩ mới phát hiện đang khởi trị, chưa kết luận &#x27;sức khỏe bình thường&#x27;; hẹn hoàn thiện sau tái khám</b></div><p class="why">Mẫu giấy khám sức khỏe người từ đủ 18 tuổi (TT 25/2026/TT-BYT, Phụ lục XXIV, Mẫu số 03, mục IV) yêu cầu ghi tình trạng sức khỏe, bệnh, tật mắc phải kèm phân loại. Tài liệu đã tải không nêu cách cấp giấy khi phát hiện rung nhĩ lúc khám; cách làm này suy từ mẫu giấy, cần bác sĩ xác nhận.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cấp giấy ghi sức khỏe bình thường để ông nộp chợ</b></div><p class="why">Trái sự thật: đã chẩn đoán rung nhĩ, mẫu giấy yêu cầu ghi bệnh, tật mắc phải (TT 25/2026/TT-BYT, Phụ lục XXIV, Mẫu số 03, mục IV).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn dấu hiệu phải đến ngay và hẹn tái khám sau 5–7 ngày (sớm hơn nếu mệt tăng, thở hụt, phù chân)</b></div><p class="why">Dấu hiệu đột quỵ (QĐ 5331/2020, Chương 5 mục I); dấu hiệu suy tim (QĐ 1857/2022, Phần III mục 3.1). Khoảng 5–7 ngày để xem tần số sau chẹn beta là lựa chọn của ca; tài liệu đã tải không nêu lịch tái khám ngắn hạn (ESC AF 2024, Hình 3 chỉ nêu đánh giá lại sau 6 tháng rồi ít nhất mỗi năm).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Chuyển cấp cứu</span></div><p>Ông Nghĩa bị gọi xe cấp cứu đưa lên bệnh viện để sốc điện ngay trong đêm, dù HA 154/92 mmHg, SpO₂ 97%, không ngất, không đau ngực: huyết động ổn nên chưa có chỉ định chuyển nhịp điện cấp cứu (ESC AF 2024, Hình 4). Ông đã rung nhĩ liên tục khoảng 30 giờ mà chưa chống đông, nên chuyển nhịp sớm có nguy cơ gây tắc mạch (ESC AF 2024, Bảng khuyến cáo 15, III C). Ông tốn một đêm viện phí, nghỉ bán một ngày, còn thuốc kiểm soát tần số và chống đông thì chưa được bắt đầu.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Ông Nghĩa bị giữ nhập viện qua đêm để theo dõi nhịp tim dù huyết động ổn (HA 154/92 mmHg, SpO₂ 97%, không đau ngực, không ngất, không dấu suy tim). Chẹn beta, chống đông, lấy máu sáng mai và hẹn siêu âm tim đều làm được ngoại trú (ESC AF 2024, mục 3.4 và Hình 4). Ông mất hai ngày bán hàng, lo mất chỗ bán ở chợ, và giấy chứng nhận sức khỏe vẫn chưa xong.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Rung nhĩ mới chẩn đoán, khởi phát liên tục khoảng 30 giờ (trước đó có cơn từng đợt 10 ngày), tần số thất khoảng 112 l/p, huyết động ổn, mEHRA 2b</li><li>Nguy cơ huyết khối: CHA₂DS₂-VA 2 điểm (tuổi 65–74, tăng huyết áp): có chỉ định chống đông</li><li>Tăng huyết áp chưa kiểm soát do tự ngưng amlodipin; rối loạn lipid máu đang dùng atorvastatin</li><li>Yếu tố sửa được: bia khoảng 10 lon/tuần. Chưa có TSH, creatinin, LVEF</li><li>Đã loại bằng lâm sàng và ECG: cuồng nhĩ, tiền kích thích; cường giáp chờ TSH sáng mai</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Hỏi bệnh: ông đến xin giấy sức khỏe nhưng tự nhắc &#x27;tim đánh trống&#x27;. Hỏi cụ thể mới ra cơn từng đợt 10 ngày, liên tục từ trưa hôm qua (&gt; 24 giờ: quyết định chuyển nhịp, ESC AF 2024, Bảng khuyến cáo 15), mệt khi gắng sức. Hỏi triệu chứng âm tính để loại suy tim, đau ngực, ngất, cường giáp.</li><li>Hỏi thuốc và tiền sử để tính nguy cơ: tăng huyết áp, tuổi 68; chưa đột quỵ, đái tháo đường, bệnh mạch vành, suy tim nên CHA₂DS₂-VA = 2 (ESC AF 2024, Bảng 10), cùng 2 điểm với CHA₂DS₂-VASc ở nam (ACC/AHA 2023, mục 6.3.1, KC 1); hai thang chỉ khác ở nữ. Không dùng aspirin/NSAID, bia chừng 10 lon/tuần cần đưa vào kế hoạch (ESC AF 2024, Hình 10).</li><li>Khám: mạch và tim không đều hoàn toàn, T1 thay đổi, không âm thổi, không dấu sung huyết; tuyến giáp không to, không run, mắt bình thường, da khô ấm; thần kinh bình thường (mốc trước chống đông).</li><li>Cận lâm sàng: ECG xác lập rung nhĩ (ESC AF 2024, Bảng khuyến cáo 1: I, A), loại cuồng nhĩ và tiền kích thích. Máu và siêu âm tim không làm được tối nay: lấy máu sáng mai, hẹn siêu âm tim; không chờ kết quả để quyết định hôm nay (ESC AF 2024, mục 3.4).</li><li>Cường giáp: lâm sàng không có, nhưng ở người cao tuổi có thể chỉ biểu hiện tim mạch (QĐ 3879/2014, mục 3.4.3) nên vẫn thử TSH (ESC AF 2024, mục 9.10); nếu TSH thấp thì điều trị cường giáp, rung nhĩ có thể tự hết khi bình giáp (QĐ 3879/2014, mục 3.1.2).</li><li>Phân loại: chưa từng được chẩn đoán nên là rung nhĩ mới chẩn đoán (ESC AF 2024, Bảng 5), chưa gọi paroxysmal hay persistent.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Khuôn AF-CARE (ESC AF 2024, Hình 3): [C] bệnh đi kèm: huyết áp, bia; [A] tránh đột quỵ: chống đông; [R] giảm triệu chứng: kiểm soát tần số; [E] đánh giá lại.</li><li>Không chuyển nhịp tối nay: huyết động ổn, rung &gt; 24 giờ, chưa chống đông (ESC AF 2024, Hình 4 và Bảng khuyến cáo 15).</li><li>Kiểm soát tần số: chẹn beta vì chưa biết LVEF, mục tiêu dưới 110 l/p lúc nghỉ (ESC AF 2024, Bảng khuyến cáo 14; ACC/AHA 2023, mục 7.1, KC 2). Diltiazem/verapamil chỉ khi LVEF &gt; 40%; digoxin cần creatinin.</li><li>Chống đông: apixaban 5 mg × 2 (ESC AF 2024, Bảng 11). Ông 58 kg nên nếu creatinin ≥ 133 µmol/L sẽ đủ 2/3 tiêu chí giảm liều. Không dùng điểm nguy cơ chảy máu để từ chối chống đông (ESC AF 2024, Bảng khuyến cáo 12: III, B); sửa huyết áp, bia, NSAID (Hình 10).</li><li>Mục tiêu huyết áp ghi cả ba nguồn (ESC 120–129; VSH/VNHA dưới 130/80; QĐ 5904 130 đến dưới 140 ở ≥ 65 tuổi), khác năm và bối cảnh.</li><li>Giấy chứng nhận sức khỏe là động cơ đến khám của ông; không cấp giấy &#x27;bình thường&#x27;. Nói rõ lý do, hướng hoàn thiện giấy sau khi có kết quả và điều trị ổn định. Hẹn tái khám 5–7 ngày là lựa chọn của ca; tài liệu đã tải không nêu lịch ngắn hạn.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Apixaban</b><div class="sub">viên 5 mg (hàm lượng lưu hành tại Việt Nam: không có trong tài liệu đã tải)</div></td><td data-l="Liều">5 mg × 2 lần/ngày<div class="sub">Uống · Sáng và tối cách nhau khoảng 12 giờ; liều đầu tối nay</div></td><td data-l="Thời gian">Dùng lâu dài, đánh giá lại nguy cơ định kỳ</td><td class="gc" data-l="Ghi chú">Liều chuẩn (ESC AF 2024, Bảng 11); giảm 2,5 mg × 2 chỉ khi đủ 2/3: ≥ 80 tuổi, ≤ 60 kg, creatinin ≥ 133 µmol/L, sáng mai xem creatinin. DOAC hơn kháng vitamin K (ESC AF 2024, Bảng khuyến cáo 7: I, A; ACC/AHA 2023, mục 6.3.1, KC 2). Không dùng chung aspirin/NSAID (ESC AF 2024, Hình 9, 10).</td></tr><tr><td><b>Bisoprolol</b><div class="sub">viên 2,5 mg</div></td><td data-l="Liều">2,5 mg × 1 lần/ngày<div class="sub">Uống · Buổi sáng</div></td><td data-l="Thời gian">5–7 ngày rồi chỉnh liều theo tần số lúc tái khám</td><td class="gc" data-l="Ghi chú">Khoảng liều duy trì 1,25–20 mg/ngày (ESC AF 2024, Bảng 12); liều khởi đầu 2,5 mg: không có trong tài liệu đã tải. Mọi thuốc kiểm soát tần số chống chỉ định khi có hội chứng Wolff–Parkinson–White (Bảng 12, chú thích a): ECG ông không tiền kích thích. Theo dõi nhịp chậm (ESC AF 2024, mục 7.1.3).</td></tr><tr><td><b>Amlodipin</b><div class="sub">viên 5 mg</div></td><td data-l="Liều">5 mg × 1 lần/ngày<div class="sub">Uống · Buổi sáng (giờ ông đã quen)</div></td><td data-l="Thời gian">Dài ngày, chỉnh theo HA khi tái khám</td><td class="gc" data-l="Ghi chú">Thuốc ông đã dùng 2 năm, uống lại (ESC AF 2024, Bảng khuyến cáo 5: I, B). ESC AF 2024, mục 5.1: ACEi/ARB có thể ưu việt hơn trong phòng tái phát; thêm khi có creatinin, kali (QĐ 5904/2019, Phần 3 mục G).</td></tr><tr><td><b>Atorvastatin</b><div class="sub">viên 20 mg</div></td><td data-l="Liều">20 mg × 1 lần/ngày<div class="sub">Uống · Buổi tối</div></td><td data-l="Thời gian">Giữ nguyên, dài ngày</td><td class="gc" data-l="Ghi chú">Giữ nguyên thuốc đang dùng; không tương tác với apixaban (ESC AF 2024, Hình 9).</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Uống apixaban đủ 2 lần/ngày, nhờ bà Hoa chia thuốc vào hộp; không tự ngưng hay bỏ liều; không tự mua aspirin, ibuprofen, diclofenac (ESC AF 2024, Hình 9, 10).</li><li>Hạn chế bia còn tối đa 3 lon mỗi tuần (ESC AF 2024, Bảng khuyến cáo 5: I, B).</li><li>Lấy máu 7 giờ sáng mai tại phòng khám này; siêu âm tim hẹn ở bệnh viện huyện trong tuần. Không chờ kết quả để uống thuốc (ESC AF 2024, mục 3.4).</li><li>Đến ngay hoặc gọi cấp cứu khi: méo mặt, yếu tay chân, nói khó (QĐ 5331/2020, Chương 5 mục I); ngất, đau ngực, khó thở khi nằm, phù chân (QĐ 1857/2022, Phần III mục 3.1); chảy máu không cầm hoặc đi ngoài phân đen.</li><li>Tái khám sau 5–7 ngày (lịch do ca đặt, không có trong tài liệu đã tải), sớm hơn nếu mệt tăng hoặc thở hụt.</li><li>Giấy chứng nhận sức khỏe sẽ ghi đúng tình trạng đang điều trị và hoàn thiện khi tái khám; ông không phải giấu bệnh với ban quản lý chợ.</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-2">
+ <h2 id="h-luot-2"><span class="ln">Lượt 2/2</span> </h2>
+ <div class="card intro"><h3 id="m-8">Tiếp đón</h3><p>Sáu ngày sau, 19 giờ thứ Năm (ngoài giờ), bà Hoa đưa ông Nghĩa đến đúng hẹn tái khám nhưng ông mệt nhiều hơn, thở hụt hơi, ngồi tựa vào ghế. Ông đã uống thuốc theo đơn lượt trước. Điều dưỡng Linh: HA 112/70 mmHg, mạch 138 l/p, nhiệt 36,8 °C, nhịp thở 24 l/p, SpO₂ 93% (khí trời), cân nặng 60,5 kg.</p>
+  <blockquote>“Bác sĩ ơi, tôi uống thuốc đủ mà càng ngày càng mệt, đi vài bước là hụt hơi, đêm không nằm được. Tim cứ đập dồn dập hoài.”</blockquote>
+  <div class="vitals"><div class="vs warn"><span>Mạch</span><b>138</b><small>l/p</small></div><div class="vs"><span>HA</span><b>112/70</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,8</b><small>°C</small></div><div class="vs warn"><span>Nhịp thở</span><b>24</b><small>l/p</small></div><div class="vs warn"><span>SpO₂</span><b>93</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-9">Hỏi bệnh <small>7 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do tái khám nặng hơn: khó thở, phù, tim nhanh</b><span class="tag t-g">Tự kể</span></div><p>Sáu ngày nay mệt tăng dần, thở hụt hơi khi đi vài chục bước, nằm là khó thở; hai đêm nay phải kê hai gối, đêm qua thức dậy hai lần vì khó thở. Tim đập nhanh liên tục. Chân hơi sưng chiều tối, tiểu ít hơn. Bà Hoa nói thêm: &#x27;ổng ngồi thở dốc cả chiều&#x27;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tuân thủ thuốc và giờ uống thuốc cuối</b><span class="tag t-b">Khi được hỏi</span></div><p>Bà Hoa chia thuốc vào hộp mỗi ngày: ông uống đủ apixaban 5 mg lúc 7 giờ sáng và 19 giờ tối, bisoprolol 2,5 mg và amlodipin 5 mg buổi sáng, atorvastatin buổi tối; chưa quên liều nào. Hôm nay đã uống liều sáng lúc 7 giờ, chưa uống liều tối.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Kết quả xét nghiệm sau lượt trước, siêu âm tim chưa làm</b><span class="tag t-b">Khi được hỏi</span></div><p>Sáng hôm sau lần khám trước ông đi lấy máu ở phòng khám này, có mang theo phiếu: Hb 142 g/L, bạch cầu 7,4 G/L, tiểu cầu 228 G/L; creatinin 94 µmol/L, ure 5,4 mmol/L; Na 140, K 4,1, Cl 103 mmol/L; AST 26, ALT 29 U/L; TSH 1,9 mUI/L, FT4 bình thường. Siêu âm tim hẹn thứ Sáu tuần này ở bệnh viện huyện, chưa tới ngày.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Âm tính: hội chứng vành cấp, đột quỵ, chảy máu</b><span class="tag t-b">Khi được hỏi</span></div><p>Không đau ngực, không ngất, không sốt, không ho đờm, không nôn, không đi ngoài phân đen, không chảy máu cam, không tiểu ra máu. Không méo miệng, không yếu tay chân, nói bình thường.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Yếu tố thúc đẩy suy tim: muối, bia, NSAID (âm tính), tăng cân</b><span class="tag t-b">Khi được hỏi</span></div><p>Ăn nhạt như cũ, không uống thêm nhiều nước. Từ sau lần khám trước không uống bia. Không dùng thuốc giảm đau chống viêm, thuốc cảm hay thuốc nam. Cân nặng tăng từ 58 lên 60,5 kg trong 6 ngày.</p></div><div class="fact"><div class="fh"><b>Theo dõi tại nhà</b><span class="tag t-b">Khi được hỏi</span></div><p>Ở nhà đo bằng máy đo huyết áp bắp tay: mạch 120–140 l/p cả ngày, huyết áp 108–118/68–74.</p></div><div class="fact"><div class="fh"><b>Giấy chứng nhận sức khỏe</b><span class="tag t-b">Khi được hỏi</span></div><p>Vẫn chưa nộp giấy; ban quản lý chợ cho đến cuối tháng. Ông nói: &#x27;Giờ tôi chỉ cần hết mệt, giấy tính sau&#x27;.</p></div></details>
+ <details class="card"><summary><h3 id="m-10">Khám <small>9 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, ngồi tựa thành ghế, nói được câu ngắn rồi phải ngắt hơi. Da ấm, không vã mồ hôi, đầu chi ấm, không tím. Không lú lẫn. Cân nặng 60,5 kg.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Tĩnh mạch cổ nổi, đỉnh cột tĩnh mạch khoảng 5 cm trên góc ức khi ngồi 45°. Tuyến giáp không to.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Tim</b></div><p><span class="lbl">Kết quả:</span> Nhịp tim không đều hoàn toàn, tần số 138 l/p, T1 thay đổi từng nhịp. Khó đánh giá T3 vì nhịp nhanh và không đều; không nghe âm thổi mới.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b></div><p><span class="lbl">Kết quả:</span> Mạch quay nhanh, không đều, biên độ nhỏ thay đổi; đầu chi ấm, thời gian đổ đầy mao mạch dưới 2 giây.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Lồng ngực cân đối, gõ trong hai bên. Nhịp thở 24 l/p.</p><p><span class="lbl">Kết quả:</span> Ran nổ nhỏ hạt ở một phần ba dưới hai phế trường, không ran rít. Nhịp thở 24 l/p, thở nhanh nông, không co kéo cơ hô hấp.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Ran nổ nhỏ hạt ở thì hít vào.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-RAN-NO-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Ran nổ nhỏ hạt ở thì hít vào.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-RAN-NO-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><span class="key">★</span><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Gan to 2 cm dưới bờ sườn phải, mềm, hơi đau khi ấn; phản hồi gan–tĩnh mạch cổ dương tính; không cổ trướng.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b></div><p><span class="lbl">Kết quả:</span> Phù ấn lõm nhẹ hai mắt cá và một phần ba dưới cẳng chân, đối xứng hai bên; bắp chân mềm, không đau.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thần kinh</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, nói rõ, không méo miệng, sức cơ 5/5 bốn chi, không dấu thần kinh khu trú.</p></div><div class="row"><div class="rh"><b>Nghiệm pháp đi bộ đo SpO₂</b></div><p><span class="lbl">Kết quả:</span> Điều dưỡng Linh dừng nghiệm pháp sau 15 bước vì ông thở gấp, SpO₂ tụt 89%, mạch lên 148 l/p. Nghiệm pháp không giúp quyết định hôm nay và không an toàn lúc này.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-11">Cận lâm sàng <small>10 mục</small></h3></summary><div class="row"><div class="rh"><b>Điện tâm đồ 12 chuyển đạo</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Điều dưỡng Linh: rung nhĩ đáp ứng thất nhanh, nhịp không đều hoàn toàn, tần số thất 110–165, trung bình khoảng 138 l/p; QRS hẹp 90 ms, không sóng răng cưa; ST-T dẹt nhẹ V4–V6 kiểu do nhịp nhanh, không ST chênh lên hay xuống mới, không sóng Q mới; QTc 410 ms.</p><p class="why">Vẫn là rung nhĩ, không phải cuồng nhĩ (ACC/AHA 2023, mục 2.2.2). Tần số thất tăng 112 → 138 l/p dù đã dùng bisoprolol 2,5 mg: chưa đạt mục tiêu dưới 110 l/p (ESC AF 2024, Bảng khuyến cáo 14: IIa, B). Không ST chênh mới nên nghĩ hội chứng vành cấp ít.</p></div><div class="row"><div class="rh"><b>Đường huyết mao mạch (máy thử tại giường)</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> 6,4 mmol/L (ăn trưa lúc 12 giờ).</p><p class="why">Không đái tháo đường; không thay đổi xử trí.</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-y">Chấp nhận</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Số lượng bạch cầu (WBC)</td><td class="num">7,4</td><td>G/L</td><td class="ref">4,0–10,0</td></tr><tr class=""><td>Lượng huyết sắc tố (HGB)</td><td class="num">142</td><td>g/L</td><td class="ref">130–170</td></tr><tr class=""><td>Số lượng tiểu cầu (PLT)</td><td class="num">228</td><td>G/L</td><td class="ref">150–400</td></tr></tbody></table><p class="why">Không thiếu máu, tiểu cầu bình thường: không có yếu tố nguy cơ chảy máu này khi dùng chống đông (ESC AF 2024, Hình 10). Bệnh viện sẽ làm lại khi nhập viện.</p></div><div class="row"><div class="rh"><b>Ure, creatinin, eGFR</b><span class="tag t-y">Chấp nhận</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Ure</td><td class="num">5,4</td><td>mmol/L</td><td class="ref">2,5–7,5</td></tr><tr class=""><td>Creatinin</td><td class="num">94</td><td>µmol/L</td><td class="ref">62–120</td></tr></tbody></table><p class="why">Creatinin &lt; 133 µmol/L: ông chỉ đủ 1/3 tiêu chí giảm liều (cân nặng ≤ 60 kg lúc khám lượt 1), giữ apixaban 5 mg × 2 (ESC AF 2024, Bảng 11). Cần làm lại khi nhập viện vì sắp dùng lợi tiểu quai (QĐ 1857/2022, Phần III mục 3.2).</p></div><div class="row"><div class="rh"><b>Điện giải đồ (Na, K, Cl)</b><span class="tag t-y">Chấp nhận</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Natri (Na⁺)</td><td class="num">140</td><td>mmol/L</td><td class="ref">135–145</td></tr><tr class=""><td>Kali (K⁺)</td><td class="num">4,1</td><td>mmol/L</td><td class="ref">3,5–5,0</td></tr><tr class=""><td>Clo (Cl⁻)</td><td class="num">103</td><td>mmol/L</td><td class="ref">98–106</td></tr></tbody></table><p class="why">Điện giải nằm trong nhóm xét nghiệm nên làm khi nghi suy tim cấp (QĐ 1857/2022, Phần III mục 3.2); làm lại tại bệnh viện vì sắp dùng lợi tiểu.</p></div><div class="row"><div class="rh"><b>AST, ALT</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Phiếu mang theo (lấy sáng hôm sau lượt trước): AST 26 U/L · ALT 29 U/L (bình thường).</p><p class="why">Gan bình thường lúc dùng apixaban; không đổi xử trí hôm nay.</p></div><div class="row"><div class="rh"><b>TSH, FT4</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Phiếu mang theo (lấy sáng hôm sau lượt trước): TSH 1,9 mUI/L, FT4 bình thường.</p><p class="why">Loại cường giáp: cường giáp giảm TSH, tăng FT3/FT4 (QĐ 3879/2014, Cường chức năng tuyến giáp, mục 3.2.1). Đã làm đúng theo ESC AF 2024, mục 9.10.</p></div><div class="row"><div class="rh"><b>Troponin T hs</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Tối nay không làm được (kỹ thuật viên đã về, không có người làm siêu âm). Bệnh viện sẽ làm khi nhập viện.</p><p class="why">Troponin và peptide bài niệu thuộc nhóm xét nghiệm nên làm khi nghi suy tim cấp (QĐ 1857/2022, Phần III mục 3.2); làm ngay khi nhập viện. Không đau ngực, ECG không ST mới nên nghĩ hội chứng vành cấp ít.</p></div><div class="row"><div class="rh"><b>Siêu âm tim</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Tối nay không làm được (kỹ thuật viên đã về, không có người làm siêu âm). Bệnh viện sẽ làm khi nhập viện.</p><p class="why">Cần biết LVEF ngay: quyết định thuốc (chẹn kênh canxi không-DHP chống chỉ định nếu LVEF ≤ 40%: ESC AF 2024, Bảng 12; ACC/AHA 2023, mục 7.2.1, KC 5) và nghi bệnh cơ tim do nhịp nhanh (ESC AF 2024, mục 7.1.1; ACC/AHA 2023, mục 9.2, KC 1). Siêu âm tim nằm trong nhóm nên làm khi nghi suy tim cấp (QĐ 1857/2022, Phần III mục 3.2).</p></div><div class="row"><div class="rh"><b>X-quang ngực thẳng</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Tối nay không làm được (kỹ thuật viên đã về, không có người làm siêu âm). Bệnh viện sẽ làm khi nhập viện.</p><p class="why">X-quang tim phổi thẳng thuộc nhóm cân nhắc chỉ định khi nghi suy tim cấp (QĐ 1857/2022, Phần III mục 3.2).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-12">Đáp án lượt 2 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Nhập viện</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Rung nhĩ đáp ứng thất nhanh chưa kiểm soát (138 l/p) dù đã dùng chẹn beta liều thấp và chống đông</b></div><p class="why">Mạch 138 l/p, ECG rung nhĩ tần số thất trung bình 138; chưa đạt mục tiêu dưới 110 l/p (ESC AF 2024, Bảng khuyến cáo 14). Ông tuân thủ thuốc, nên không phải do quên thuốc.</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Suy tim cấp (sung huyết) do rung nhĩ nhanh; nghi bệnh cơ tim do nhịp nhanh, chưa biết LVEF</b></div><p class="why">Khó thở khi nằm, phải kê hai gối, ran nổ hai đáy phổi, tĩnh mạch cổ nổi, gan to, phù chân, tăng 2,5 kg/6 ngày (QĐ 1857/2022, Phần III mục 3.1: dấu hiệu sung huyết). Rối loạn nhịp nhanh là một nguyên nhân thúc đẩy (mục 2.1). Rung nhĩ nhanh có thể gây hoặc làm nặng rối loạn chức năng thất trái (ESC AF 2024, mục 7.1.1; ACC/AHA 2023, mục 9.2, KC 1).</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Tăng huyết áp (HA hiện 112/70 mmHg sau uống lại amlodipin và bisoprolol)</b></div><p class="why">HA đã xuống trong khoảng mục tiêu; không còn là vấn đề cấp. Huyết áp tâm thu 112 mmHg còn trên 90 mmHg, không giảm tưới máu mô (QĐ 1857/2022, Phần III mục 3.1, 4.3).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Cường giáp</b></div><p class="why">TSH 1,9 mUI/L, FT4 bình thường (phiếu sau lượt 1): đã loại (QĐ 3879/2014, Cường chức năng tuyến giáp, mục 3.2.1).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Cuồng nhĩ</b></div><p class="why">ECG không sóng răng cưa, RR không đều (ACC/AHA 2023, mục 2.2.2).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Hội chứng vành cấp</b></div><p class="why">Không đau ngực, ECG không ST chênh mới; troponin chưa làm được tối nay, làm khi nhập viện (QĐ 1857/2022, Phần III mục 2.1, 3.2).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Đột quỵ hoặc tắc mạch do huyết khối</b></div><p class="why">Không méo miệng, yếu liệt, nói khó; ông uống apixaban đủ 6 ngày (ESC AF 2024, Bảng khuyến cáo 6). Dặn FAST nếu có (QĐ 5331/2020, Chương 5 mục I).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Nhập viện tối nay ở bệnh viện có khoa tim mạch, chuyển bằng xe cấp cứu có điều dưỡng đi cùng; ông ngồi đầu cao, theo dõi SpO₂ và nhịp tim liên tục tới khi chuyển</b></div><p class="why">Tần số tim trên 130 l/p là một tiêu chí cần chuyển đơn vị tim mạch (QĐ 1857/2022, Phần III mục 4.3; ngưỡng khác: SpO₂ &lt; 90%, nhịp thở &gt; 25, huyết áp tâm thu &lt; 90 mmHg; ông chưa đạt các ngưỡng này). Cần siêu âm tim, troponin và theo dõi nhịp liên tục, mà phòng khám ngoài giờ không có.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Gọi bệnh viện trước, nói rõ (SBAR): apixaban 5 mg × 2, liều cuối 7 giờ sáng nay; bisoprolol 2,5 mg, amlodipin 5 mg, atorvastatin 20 mg; phiếu xét nghiệm sau lượt trước; cân nặng 58 → 60,5 kg</b></div><p class="why">Giờ liều chống đông cuối và kết quả creatinin cần cho quyết định tại bệnh viện (ESC AF 2024, Bảng 11 và mục 7.2.1: chuyển nhịp cần chống đông ≥ 3 tuần hoặc siêu âm qua thực quản).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Furosemid 20 mg tĩnh mạch chậm một lần trước khi chuyển</b></div><p class="why">Lợi tiểu quai tiêm tĩnh mạch càng sớm càng tốt sau chẩn đoán suy tim; chưa dùng thì khởi đầu 20–40 mg (QĐ 1857/2022, Phần III mục 4.4); lợi tiểu được khuyến cáo ở rung nhĩ kèm suy tim sung huyết (ESC AF 2024, Bảng khuyến cáo 5: I, C). Huyết áp tâm thu 112 mmHg, chưa có điện giải mới nên chuyển ngay cũng đúng.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không ngừng apixaban; tiếp tục chống đông trong lúc nhập viện</b></div><p class="why">Tiếp tục chống đông khi nguy cơ huyết khối còn, kể cả khi điều trị nhịp (ESC AF 2024, Hình 3, mục E: I).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Cho thở oxy</b></div><p class="why">Chỉ định oxy khi SpO₂ &lt; 90% (QĐ 1857/2022, Phần III mục 4.4); ông 93%, theo dõi sát và thở oxy nếu tụt dưới 90%.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho về, tăng bisoprolol lên 5 mg và hẹn tái khám vài ngày</b></div><p class="why">Tần số tim trên 130 l/p kèm sung huyết cần chuyển đơn vị tim mạch (QĐ 1857/2022, Phần III mục 4.3); chưa biết LVEF.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Thêm diltiazem hoặc verapamil uống vào bisoprolol rồi cho về</b></div><p class="why">Phối hợp chẹn beta với verapamil/diltiazem chỉ nên ở tuyến chuyên khoa có theo dõi nhịp chậm (ESC AF 2024, mục 7.1.3); chống chỉ định nếu LVEF ≤ 40% (Bảng 12) mà ông có suy tim, chưa biết LVEF (dạng tiêm gây hại khi đã biết rối loạn chức năng tâm thu thất trái vừa–nặng: ACC/AHA 2023, mục 7.2.1, KC 5).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Sốc điện chuyển nhịp tại phòng khám</b></div><p class="why">Huyết động chưa nguy kịch (HA 112/70) nên không có chỉ định sốc điện cấp cứu (ESC AF 2024, Hình 4). Rung nhĩ hơn 24 giờ, mới chống đông 6 ngày (&lt; 3 tuần), chưa siêu âm qua thực quản: không chuyển nhịp (ESC AF 2024, Bảng khuyến cáo 15: III, C).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích cho ông và bà Hoa lý do nhập viện; giấy chứng nhận sức khỏe hoãn đến sau điều trị</b></div><p class="why">Giấy phải ghi đúng tình trạng bệnh, tật đang mắc (TT 25/2026/TT-BYT, Phụ lục XXIV, Mẫu số 03, mục IV); ông đã nói giấy tính sau.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Cho về, hẹn tái khám</span></div><p>Ông Nghĩa được tăng bisoprolol lên 5 mg và hẹn lại sau 3 ngày. Đêm đó phù chân và khó thở tăng, ông phải gọi xe cấp cứu lúc 2 giờ sáng với tần số tim vẫn trên 130 l/p, đã gần như không nằm được. Tần số tim trên 130 l/p và dấu sung huyết là tình huống cần chuyển đơn vị tim mạch (QĐ 1857/2022, Phần III mục 4.3); rung nhĩ có suy tim làm nguy cơ đột quỵ và tắc mạch tăng gấp đôi (ESC AF 2024, mục 5.2). Bà Hoa phải thức chăm ông một mình.</p></div><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Ông Nghĩa được giữ lại phòng khám qua đêm để &#x27;theo dõi tim&#x27; với máy đo SpO₂ và huyết áp kế. Phòng khám ngoài giờ không có xét nghiệm, siêu âm tim hay thuốc tiêm kiểm soát tần số, nên không có gì để làm khi tần số vẫn trên 130 l/p. Sau vài giờ vẫn phải chuyển viện, muộn hơn so với chuyển ngay (QĐ 1857/2022, Phần III mục 4.3).</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Rung nhĩ đáp ứng thất nhanh chưa kiểm soát (138 l/p) dù đã dùng bisoprolol 2,5 mg và apixaban 5 mg × 2 (tuân thủ tốt)</li><li>Suy tim cấp sung huyết (khó thở khi nằm, ran nổ hai đáy, tĩnh mạch cổ nổi, gan to, phù, tăng 2,5 kg), LVEF chưa biết; nghi bệnh cơ tim do nhịp nhanh</li><li>Huyết động chưa nguy kịch: HA 112/70 mmHg, đầu chi ấm, SpO₂ 93%; tần số tim &gt; 130 l/p thuộc tiêu chí cần chuyển đơn vị tim mạch</li><li>Đã loại: cường giáp (TSH 1,9), cuồng nhĩ, đột quỵ; hội chứng vành cấp ít nghĩ, troponin chờ bệnh viện</li><li>Tăng huyết áp nay đã trong mục tiêu</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Hỏi bệnh: ông đã dùng thuốc theo đơn nên điều cần hỏi là tuân thủ, giờ uống thuốc, các yếu tố thúc đẩy suy tim (muối, bia, NSAID, cảm) và triệu chứng âm tính (đau ngực, thần kinh, chảy máu). Tuân thủ đầy đủ, không bia, không NSAID: loại các lý do quên thuốc hay thuốc làm nặng (QĐ 1857/2022, Phần III mục 2.2).</li><li>Khám: mạch 138 l/p không đều, tĩnh mạch cổ nổi, ran nổ hai đáy, gan to, phù, tăng cân: sung huyết (QĐ 1857/2022, Phần III mục 3.1); đầu chi ấm, HA 112 mmHg, tri giác bình thường: chưa giảm tưới máu mô.</li><li>ECG: rung nhĩ nhanh 138 l/p, không ST chênh mới. Xét nghiệm sau lượt 1: TSH bình thường loại cường giáp (QĐ 3879/2014, mục 3.2.1); creatinin 94 µmol/L giữ apixaban 5 mg × 2 (ESC AF 2024, Bảng 11). Troponin, siêu âm tim, X-quang không làm được tối nay.</li><li>Vì sao nặng hơn: tần số thất chưa đạt mục tiêu dưới 110 l/p ở liều chẹn beta khởi đầu thấp (ESC AF 2024, Bảng khuyến cáo 14), kèm sung huyết; khi nghi bệnh cơ tim do nhịp nhanh hoặc còn triệu chứng cần mục tiêu chặt hơn (ESC AF 2024, mục 7.1.1; ACC/AHA 2023, mục 9.2, KC 9: dưới 80 l/p lúc nghỉ và dưới 110 l/p khi gắng sức vừa, 2b).</li><li>Chưa biết LVEF: không tự chọn thuốc phụ thuộc LVEF tại phòng khám; đây là lý do chính phải chuyển nơi có siêu âm tim.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Nhập viện tối nay: tần số tim &gt; 130 l/p (QĐ 1857/2022, Phần III mục 4.3), sung huyết, cần siêu âm tim, troponin và theo dõi nhịp liên tục.</li><li>Hướng điều trị dự kiến ở bệnh viện (ngoài phạm vi phòng khám): lợi tiểu tĩnh mạch (QĐ 1857/2022, mục 4.4), thuốc kiểm soát tần số chọn theo LVEF (chẹn beta/digoxin nếu LVEF ≤ 40%; thêm diltiazem/verapamil nếu LVEF &gt; 40%: ESC AF 2024, Bảng khuyến cáo 14; thuốc tiêm amiodarone, digoxin, esmolol, landiolol chỉ &#x27;có thể cân nhắc&#x27; khi không ổn định huyết động hoặc LVEF giảm nặng: IIb, B), cân nhắc kiểm soát nhịp sớm nếu nghi bệnh cơ tim do nhịp nhanh (ACC/AHA 2023, mục 9.2, KC 1; ESC AF 2024, mục 7.2.1).</li><li>Giữ apixaban: ngưng chống đông tăng nguy cơ đột quỵ; nếu bệnh viện chuyển nhịp thì cần chống đông ≥ 3 tuần hoặc siêu âm qua thực quản (ESC AF 2024, mục 7.2.1).</li><li>Tránh: về nhà tăng thuốc uống (QĐ 1857/2022, mục 4.3), diltiazem/verapamil khi chưa biết LVEF (ESC AF 2024, Bảng 12), sốc điện tại phòng khám (ESC AF 2024, Bảng khuyến cáo 15).</li><li>Giấy chứng nhận sức khỏe: hoãn, ghi đúng bệnh khi hoàn thiện (TT 25/2026/TT-BYT, Phụ lục XXIV, Mẫu số 03, mục IV).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Furosemid (không bắt buộc ở phòng khám)</b><div class="sub">ống 20 mg</div></td><td data-l="Liều">20 mg một lần<div class="sub">Tiêm tĩnh mạch chậm · Trước khi lên xe chuyển viện</div></td><td data-l="Thời gian">Một liều; bệnh viện quyết tiếp theo</td><td class="gc" data-l="Ghi chú">QĐ 1857/2022, Phần III mục 4.4: chưa dùng lợi tiểu thì khởi đầu 20–40 mg tĩnh mạch; tránh liều cao vì tổn thương thận và kháng lợi tiểu. Chọn liều thấp vì HA tâm thu 112 mmHg.</td></tr><tr><td><b>Apixaban</b><div class="sub">viên 5 mg</div></td><td data-l="Liều">5 mg × 2 lần/ngày, không đổi<div class="sub">Uống · Liều tối: bệnh viện quyết giờ; liều cuối 7 giờ sáng nay</div></td><td data-l="Thời gian">Tiếp tục</td><td class="gc" data-l="Ghi chú">Đủ 1/3 tiêu chí giảm liều (cân nặng ≤ 60 kg lúc lượt 1; creatinin 94 µmol/L) nên giữ liều chuẩn (ESC AF 2024, Bảng 11). Ghi giờ liều cuối cho bệnh viện.</td></tr><tr><td><b>Bisoprolol, amlodipin, atorvastatin</b><div class="sub">2,5 mg; 5 mg; 20 mg</div></td><td data-l="Liều">Giữ nguyên đơn lượt 1<div class="sub">Uống · Bệnh viện quyết hôm nay</div></td><td data-l="Thời gian">Đến khi bệnh viện đổi</td><td class="gc" data-l="Ghi chú">Không tự đổi tại phòng khám khi chưa biết LVEF; ghi toàn bộ thuốc cho bệnh viện (ESC AF 2024, Bảng 12; QĐ 1857/2022, Phần III mục 4.2).</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Giải thích cho ông và bà Hoa: tim đập quá nhanh làm tim ứ máu, nước đọng ở phổi; cần bệnh viện có siêu âm tim, theo dõi nhịp và thuốc tiêm (QĐ 1857/2022, Phần III mục 4.2–4.3).</li><li>Mang theo hộp thuốc, phiếu xét nghiệm, ghi giờ uống apixaban cuối 7 giờ sáng; không tự uống thêm thuốc tim, thuốc giảm đau chống viêm (ESC AF 2024, Hình 9, 10).</li><li>Không uống bia; ăn nhạt và theo dõi cân nặng mỗi sáng (QĐ 1857/2022, Phần III mục 2.2: ăn nhiều muối là yếu tố thúc đẩy).</li><li>Giấy chứng nhận sức khỏe hoàn thiện sau điều trị; ban quản lý chợ nhận giấy khi ông ra viện.</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-13">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Rung nhĩ (theo dõi)</b></div>
+<p class="note">Phải loại trừ: Cường giáp, Cuồng nhĩ</p><p>Ông Nghĩa nhập khoa tim mạch bệnh viện huyện tối hôm đó. Siêu âm tim: LVEF 45%, nhĩ trái giãn nhẹ, không hẹp van hai lá. Sau lợi tiểu tĩnh mạch và chỉnh thuốc kiểm soát tần số, tần số lúc nghỉ xuống dưới 100 l/p, hết phù và nằm thoải mái sau 4 ngày, ông ra viện vẫn dùng apixaban. Sau 3 tháng LVEF lên 55%, tần số lúc nghỉ 76 l/p, huyết áp 126/78 mmHg, ông chỉ uống bia vào dịp giỗ. Giấy chứng nhận sức khỏe được ghi đúng là rung nhĩ đang điều trị ổn định, ban quản lý chợ nhận giấy và gia hạn chỗ bán. (Diễn biến sau nhập viện là kịch bản minh họa của ca; không phải khuyến cáo.)</p></details>
+<details class="card" id="bai"><summary><h3 id="m-14">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Giấy chứng nhận sức khỏe là động cơ đến khám, dễ khiến người khám nghe tim qua loa rồi ký. Ông tự nhắc &#x27;tim đánh trống&#x27; nên đây là cơ hội phát hiện rung nhĩ, không phải bẫy.</li><li>Atorvastatin: ông nghi &#x27;thuốc mỡ làm tim loạn&#x27;. Tài liệu đã tải không nêu statin gây rung nhĩ; atorvastatin không tương tác với apixaban (ESC AF 2024, Hình 9).</li><li>Bia 1–2 lon mỗi tối và cà phê sáng: bia là yếu tố nguy cơ sửa được (ESC AF 2024, mục 5.7); cà phê: tài liệu đã tải không nêu. Cả hai không đủ giải thích cơn rung nhĩ.</li><li>Tự ngưng amlodipin 4 tuần làm huyết áp tăng: là yếu tố nguy cơ, không phải nguyên nhân đã chứng minh. Lượt 2: tăng cân 2,5 kg là do ứ dịch, không phải ăn uống.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Bệnh nhân hợp tác tốt không có nghĩa ca dễ: vẫn phải hỏi cụ thể (kéo dài bao lâu, liên tục hay từng cơn) để biết rung nhĩ trên 24 giờ, điều quyết định chuyển nhịp và chống đông.</li><li>Ngoài giờ không có xét nghiệm: ECG vẫn chẩn đoán được rung nhĩ; chống đông và kiểm soát tần số không chờ TSH, creatinin hay siêu âm tim (ESC AF 2024, mục 3.4).</li><li>Chưa biết LVEF thì chọn thuốc kiểm soát tần số dùng được ở mọi LVEF (chẹn beta); chẹn kênh canxi không-DHP chỉ khi LVEF &gt; 40% (ESC AF 2024, Bảng 12, 14).</li><li>Lượt 2 nặng hơn dù xử trí đúng: nhận ra ngưỡng nâng mức chăm sóc (tần số &gt; 130 l/p kèm sung huyết: QĐ 1857/2022, Phần III mục 4.3) và chuyển đúng lúc. Giấy chứng nhận phải ghi trung thực.</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Chẩn đoán rung nhĩ cần ECG: không sóng P rõ, RR không đều (ESC AF 2024, mục 3.2, Bảng khuyến cáo 1: I, A).</li><li>CHA₂DS₂-VA: suy tim 1, tăng huyết áp 1, tuổi ≥ 75 = 2, đái tháo đường 1, đột quỵ/TIA/tắc mạch 2, bệnh mạch 1, tuổi 65–74 = 1; ≥ 2 điểm khuyến cáo chống đông (ESC AF 2024, Bảng 10; Bảng khuyến cáo 6).</li><li>DOAC hơn thuốc kháng vitamin K; apixaban giảm 2,5 mg × 2 chỉ khi đủ 2/3: ≥ 80 tuổi, ≤ 60 kg, creatinin ≥ 133 µmol/L (ESC AF 2024, Bảng 11).</li><li>Kiểm soát tần số: mục tiêu lúc nghỉ dưới 110 l/p, chặt hơn khi còn triệu chứng hoặc nghi bệnh cơ tim do nhịp nhanh (ESC AF 2024, Bảng khuyến cáo 14, mục 7.1.1; ACC/AHA 2023, mục 7.1 KC 2, mục 9.2 KC 9).</li><li>Rung nhĩ trên 24 giờ: không chuyển nhịp sớm nếu chưa chống đông ≥ 3 tuần hoặc chưa siêu âm qua thực quản (ESC AF 2024, mục 7.2.1, Bảng khuyến cáo 15).</li><li>Mọi rung nhĩ mới: thử TSH (ESC AF 2024, mục 9.10); bia ≤ 3 đơn vị/tuần (ESC AF 2024, Bảng khuyến cáo 5).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-15">Nguồn tài liệu <small>7</small></h3></summary><ul class=""><li>2024 ESC Guidelines for the management of atrial fibrillation – TL-0303 – mục 3.1–3.2 (Bảng 5; Bảng khuyến cáo 1), 3.4 (Bảng 8; Bảng khuyến cáo 3), Bảng 7, mục 3.6, 5.1–5.2, 5.7 (Bảng khuyến cáo 5), 6.1.1 (Bảng 10; Bảng khuyến cáo 6), 6.2.1 (Bảng 11; Bảng khuyến cáo 7), Hình 3, 4, 9, 10, Bảng khuyến cáo 12, mục 7.1.1–7.1.3 (Bảng 12; Bảng khuyến cáo 14), 7.2.1 (Bảng khuyến cáo 15), 9.10, 9.14 (Bảng khuyến cáo 30).</li><li>2023 ACC/AHA/ACCP/HRS Guideline for AF – TL-0309 (bản chữ từ kho cũ tltk-10000-ca) – mục 2.2.2, 6.3.1 (KC 1, 2, 4), 6.8.6, 7.1 (KC 2), 7.2.1 (KC 5), 9.2 (KC 1, 9).</li><li>BYT – QĐ 3879/QĐ-BYT 2014 – TL-0039 – Cường chức năng tuyến giáp, mục 3.1.1, 3.1.2, 3.2.1, 3.3, 3.4.3.</li><li>BYT – QĐ 1857/QĐ-BYT 2022, suy tim cấp và mạn – TL-0282 – Phần III, mục 2.1, 2.2, 3.1, 3.2, 4.2, 4.3, 4.4.</li><li>BYT – QĐ 5331/QĐ-BYT 2020, đột quỵ não – TL-0030 – Chương 5, mục I (FAST).</li><li>BYT – TT 25/2026/TT-BYT – TL-0668 – Phụ lục XXIV, Mẫu số 03 (mục IV).</li><li>ESC 2024 Guidelines for elevated blood pressure and hypertension – TL-0305 – Bảng khuyến cáo 18. VSH/VNHA 2024 – TL-0288 – Bảng 4. BYT – QĐ 5904/QĐ-BYT 2019 – TL-0284 – Phần 1 Bước 5 mục A.2; Phần 3 mục G.</li></ul></details>
+<details class="card"><summary><h3 id="m-16">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Bệnh mạn tính người lớn</dd><dt>chan_doan_dich</dt><dd>Rung nhĩ (theo dõi)</dd><dt>chan_doan_phai_loai_tru</dt><dd>Cường giáp; Cuồng nhĩ</dd><dt>nhom_tuoi</dt><dd>Cao tuổi (60–74 tuổi)</dd><dt>gioi</dt><dd>Nam</dd><dt>do_kho</dt><dd>Điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>2</dd><dt>dien_tien_tai_kham</dt><dd>Nặng hơn</dd><dt>nhieu_benh_nhan</dt><dd>Bệnh nhân hợp tác tốt</dd><dt>rang_buoc_nguon_luc</dt><dd>Ngoài giờ, không có kỹ thuật viên</dd><dt>nghe_nghiep</dt><dd>Buôn bán nhỏ</dd><dt>yeu_to_khoi_phat</dt><dd>Tự ngưng thuốc đang dùng</dd><dt>thuoc_dang_dung</dt><dd>Statin đang dùng</dd><dt>ly_do_that_su_den_kham</dt><dd>Xin giấy chứng nhận sức khỏe</dd><dt>loai_ket_cuc</dt><dd>Ổn định, khỏi bệnh</dd></dl><ul class=""><li>Bản 1 (2026-10-16): viết mới. Tài liệu đã đọc: xem mục nguon (TL-0303, TL-0309, TL-0039, TL-0282, TL-0030, TL-0668, TL-0305, TL-0288, TL-0284); liều, ngưỡng, khuyến cáo đã đối chiếu bằng rg với bản chữ.</li><li>Không có mâu thuẫn thật mới. Mục tiêu huyết áp ≥ 65 tuổi không ĐTĐ theo mục sẵn trong sổ (ca MT-0042). CHA₂DS₂-VA (ESC) và CHA₂DS₂-VASc (ACC/AHA) cùng kết quả ở nam. Mục tiêu tần số: ESC dưới 110, ACC/AHA dưới 100–110, chặt hơn khi nghi bệnh cơ tim do nhịp nhanh.</li><li>Thiếu tài liệu: liều khởi đầu bisoprolol; thời hạn tối đa bắt đầu chống đông khi chưa có creatinin; hàm lượng viên tại Việt Nam; lịch tái khám ngắn hạn sau khởi trị kiểm soát tần số; quy định cấp giấy khám sức khỏe khi phát hiện bệnh (TT 25/2026 chỉ có mẫu); tệp âm thanh tim loạn nhịp (tệp hiện có đều) nên khám tim không gắn âm thanh.</li><li>Bảng 11 ESC in creatinin &#x27;133 mmol/L&#x27;, nhiều khả năng lỗi in; ca dùng 133 µmol/L. ECG, siêu âm do điều dưỡng Linh mô tả bằng lời; diễn biến sau nhập viện là kịch bản minh họa.</li></ul></details>
+<p class="chan-trang">Ca MT-1033 · phiên bản ca 1 – viết mới theo kho tài liệu (2026-10-16) · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

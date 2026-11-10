@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TH-0045 · Khó tiêu chức năng</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · TH-0045</div>
+   <h1>Đầy bụng sau ăn, ăn nhanh no, nặng hơn 3 tuần</h1>
+   <p class="dich-gia">Trần Quốc Bảo · Nam · 29 tuổi · 64 kg</p>
+   <div class="chips"><span class="chip">Tiêu hóa - gan mật</span><span class="chip">Điển hình</span><span class="chip">2 lượt khám</span><span class="chip">Có cờ đỏ</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Điều dưỡng khoa Hồi sức, trực đêm 3–4 đêm mỗi tuần</dd><dt>Chiều cao, cân nặng</dt><dd>170 cm · 64 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi anh là &#x27;anh&#x27;. Anh tự xưng &#x27;tôi&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;.</dd><dt>Tính cách</dt><dd>Điềm tĩnh, nói gọn, quen kiểu người trong nghề: hay tự chẩn đoán và dùng thuật ngữ (&#x27;chắc viêm dạ dày&#x27;, &#x27;paracetamol an toàn mà&#x27;). Ngại làm phiền đồng nghiệp, sợ bị coi là yếu. Quan tâm nhiều chuyện vợ chồng nhưng xấu hổ không nói ra.</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Phòng khám chỉ làm được xét nghiệm cơ bản (công thức máu, sinh hóa nền, tổng phân tích nước tiểu); không có X-quang, siêu âm, CT, nội soi và không làm được các xét nghiệm chuyên sâu (test thở urê, kháng nguyên H. pylori trong phân, soi phân, TSH, huyết thanh celiac, calprotectin phân).</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/2</span> </h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Anh Trần Quốc Bảo, 29 tuổi, điều dưỡng khoa Hồi sức, trực đêm. Đến vì đầy bụng sau ăn, ăn nhanh no, nặng hơn 3 tuần nay; anh nói &quot;chắc viêm dạ dày, xin ít thuốc&quot;. Sinh hiệu: HA 118/72 mmHg, mạch 74 l/p, nhiệt 36,8 °C, nhịp thở 16 l/p, SpO₂ 99%. Cân nặng 64 kg.</p>
+  <blockquote>“Chào bác sĩ. Tôi bị đầy bụng, ăn một chút là no, mấy tuần nay nặng hơn. Tôi cũng làm trong nghề, chắc viêm dạ dày thôi, bác sĩ cho tôi ít thuốc là được. Cũng không có gì nghiêm trọng đâu.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>74</b><small>l/p</small></div><div class="vs"><span>HA</span><b>118/72</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,8</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>16</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>99</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>11 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám</b><span class="tag t-g">Tự kể</span></div><p>Đầy tức vùng trên rốn sau ăn, ăn nhanh no, nặng hơn 3 tuần nay. Anh nghĩ là viêm dạ dày và xin thuốc.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đặc điểm triệu chứng: thể sau ăn (PDS)</b><span class="tag t-b">Khi được hỏi</span></div><p>Khoảng 8 tháng nay, gần như ngày nào cũng vậy: 10–30 phút sau ăn thấy đầy tức vùng trên rốn kéo 1–2 giờ, kèm ợ hơi và hơi buồn nôn. Ăn chưa hết nửa chén cơm đã no, không ăn nổi nữa. Không đau và không nóng rát thượng vị, không ợ nóng, ợ chua. Đi cầu hay trung tiện không làm đỡ.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Mức ảnh hưởng (câu hỏi chức năng)</b><span class="tag t-b">Khi được hỏi</span></div><p>Ba tuần nay ngày nào cũng bỏ bữa tối; đêm trực không ăn khuya nổi, chỉ uống cà phê và nước ngọt cho tỉnh. Có hai đêm mệt phải nhờ đồng nghiệp làm thay phần việc nặng. Nếu chỉ hỏi &quot;có nặng không&quot; thì anh đáp &quot;cũng bình thường&quot;.</p></div><div class="fact"><div class="fh"><b>khoi_phat</b><span class="tag t-b">Khi được hỏi</span></div><p>Lần rõ rệt đầu tiên cách đây khoảng 8 tháng: sáng hôm sau một đêm quan hệ vợ chồng vào đúng ngày rụng trứng vợ tính (tối đó ăn khuya tô mì cay, uống 2 lon bia) anh dậy đầy tức, ăn không nổi. Từ đó hay đầy sau ăn. Anh tự nghĩ &quot;quan hệ xong là bị&quot;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Sàng lọc dấu báo động</b><span class="tag t-b">Khi được hỏi</span></div><p>Không nôn (chỉ buồn nôn nhẹ), không nuốt nghẹn hay đau khi nuốt, phân vàng không đen, không nôn ra máu. Cân nặng 65 kg đầu năm, nay 64 kg, không chủ ý giảm. Không vàng da, không đau hạ sườn phải, không thấy khối ở bụng.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiền sử gia đình ung thư dạ dày (dấu báo động)</b><span class="tag t-r">Giấu</span></div><p>Cha mất năm 56 tuổi vì ung thư dạ dày, phát hiện muộn, cách đây 7 năm. Mẹ 58 tuổi và em gái khỏe.</p><div class="cond">Điều kiện nói ra: Hỏi chung &quot;gia đình có bệnh gì&quot; thì chỉ kể mẹ bị tăng huyết áp. Chỉ kể chuyện cha khi bác sĩ hỏi cụ thể gia đình có ai bị ung thư, ung thư dạ dày hay bệnh dạ dày nặng.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc đang dùng: paracetamol liều cao kéo dài</b><span class="tag t-r">Giấu</span></div><p>Đau thắt lưng từ khi nâng, lật bệnh nhân, hơn 4 tháng nay. Mỗi ngày anh uống paracetamol 500 mg khoảng 8–10 viên (4–5 g) chia 4–5 lần, hôm trực đêm còn uống thêm. Anh tin paracetamol an toàn hơn thuốc chống viêm nên không dùng NSAID.</p><div class="cond">Điều kiện nói ra: Hỏi chung &quot;đang dùng thuốc gì&quot; thì đáp &quot;không dùng gì đặc biệt&quot;. Chỉ kể khi bác sĩ hỏi cụ thể về thuốc giảm đau, đau lưng uống gì, mỗi ngày mấy viên.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc khác và thời điểm làm test H. pylori</b><span class="tag t-b">Khi được hỏi</span></div><p>Không dùng NSAID, aspirin, corticoid, sắt hay thuốc nào khác. Không uống thuốc dạ dày (PPI), bismuth hay kháng sinh trong ít nhất 3 tháng qua. Chưa từng nội soi hay thử H. pylori.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Yếu tố ăn uống, lối sống, ca trực</b><span class="tag t-b">Khi được hỏi</span></div><p>Bia 2–3 lon vào cuối tuần, cà phê 3–4 ly/ngày khi trực, hay ăn khuya mì tôm, đồ chiên; ngủ ngày 4–5 giờ, bữa ăn thất thường theo ca. Không hút thuốc.</p></div><div class="fact"><div class="fh"><b>benh_nen</b><span class="tag t-b">Khi được hỏi</span></div><p>Không bệnh gan, không vàng da, đã tiêm đủ vắc xin viêm gan B. Không bệnh mạn tính khác.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Động cơ thật: lo lắng về khả năng sinh sản</b><span class="tag t-r">Giấu</span></div><p>Kết hôn 2 năm; vợ 27 tuổi, kinh đều. Hai vợ chồng tính ngày để có con 14 tháng nay chưa được, chưa ai đi khám. Anh sợ &quot;do mình&quot;: thức đêm, thuốc giảm đau uống nhiều, dạ dày yếu &quot;làm tinh trùng yếu&quot;, và cho rằng đầy bụng khởi phát ngay sau đêm quan hệ là dấu hiệu cơ thể có vấn đề. Anh xấu hổ, chưa nói với vợ hay đồng nghiệp.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi riêng về gia đình, vợ con, hoặc hỏi anh lo nhất điều gì hay còn điều gì muốn hỏi, bằng giọng kín đáo, không phán xét. Nếu bác sĩ chỉ hỏi dồn triệu chứng dạ dày thì anh không kể.</div></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>7 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng phẳng, mềm, ấn đau nhẹ không rõ vùng thượng vị, không phản ứng thành bụng, không sờ thấy khối, gan lách không to, không đau hạ sườn phải, Murphy âm tính.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, tiếp xúc tốt. Niêm mạc mắt hồng, không vàng da, củng mạc không vàng. BMI 22,1 (64 kg, 170 cm). Không hạch thượng đòn, không hạch cổ.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b></div><p><span class="lbl">Kết quả:</span> Co cứng cơ cạnh sống thắt lưng hai bên, ấn đau vùng L4–L5, cúi hạn chế nhẹ, Lasègue âm tính hai bên, sức cơ và cảm giác chi dưới bình thường.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p><span class="lbl">Kết quả:</span> Tim đều 74 l/p, không âm thổi.</p></div><div class="row"><div class="rh"><b>Phổi</b></div><p><span class="lbl">Kết quả:</span> Rì rào phế nang êm dịu, phổi không ran.</p></div><div class="row"><div class="rh"><b>Thăm trực tràng</b></div><p><span class="lbl">Kết quả:</span> Cơ vòng tốt, trực tràng không khối, găng không dính máu hay phân đen.</p></div><div class="row"><div class="rh"><b>Khám bìu, tinh hoàn, mào tinh, thừng tinh (phản xạ da bìu, nghiệm pháp nâng bìu), vùng bẹn</b></div><p><span class="lbl">Kết quả:</span> Hai tinh hoàn trong bìu, thể tích tương đương, mật độ đều, không đau; mào tinh không sưng; không sờ thấy đám rối tĩnh mạch tinh giãn khi đứng. Khám bình thường không loại trừ vô sinh nam (QĐ 315/2015, Vô sinh nam mục 1).</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>16 mục</small></h3></summary><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-g">Cần làm</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Số lượng bạch cầu (WBC)</td><td class="num">6,8</td><td>G/L</td><td class="ref">4,0–10,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu trung tính (NEU%)</td><td class="num">58,0</td><td>%</td><td class="ref">45–75</td></tr><tr class=""><td>Số lượng bạch cầu trung tính (NEU#)</td><td class="num">3,9</td><td>G/L</td><td class="ref">2,0–7,5</td></tr><tr class=""><td>Tỷ lệ bạch cầu lympho (LYM%)</td><td class="num">32,0</td><td>%</td><td class="ref">20–40</td></tr><tr class=""><td>Số lượng bạch cầu lympho (LYM#)</td><td class="num">2,2</td><td>G/L</td><td class="ref">1,0–4,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu mono (MONO%)</td><td class="num">6,0</td><td>%</td><td class="ref">2–10</td></tr><tr class=""><td>Số lượng bạch cầu mono (MONO#)</td><td class="num">0,41</td><td>G/L</td><td class="ref">0,2–1,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa acid (EOS%)</td><td class="num">3,0</td><td>%</td><td class="ref">0–7</td></tr><tr class=""><td>Số lượng bạch cầu ưa acid (EOS#)</td><td class="num">0,2</td><td>G/L</td><td class="ref">0–0,5</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa base (BASO%)</td><td class="num">0,5</td><td>%</td><td class="ref">0–1</td></tr><tr class=""><td>Số lượng bạch cầu ưa base (BASO#)</td><td class="num">0,03</td><td>G/L</td><td class="ref">0–0,1</td></tr><tr class=""><td>Số lượng hồng cầu (RBC)</td><td class="num">5,0</td><td>T/L</td><td class="ref">4,2–5,4</td></tr><tr class=""><td>Lượng huyết sắc tố (HGB)</td><td class="num">148</td><td>g/L</td><td class="ref">130–170</td></tr><tr class=""><td>Thể tích khối hồng cầu (HCT)</td><td class="num">0,44</td><td>L/L</td><td class="ref">0,4–0,5</td></tr><tr class=""><td>Thể tích trung bình hồng cầu (MCV)</td><td class="num">88,0</td><td>fL</td><td class="ref">80–100</td></tr><tr class=""><td>Lượng HST trung bình hồng cầu (MCH)</td><td class="num">29,6</td><td>pg</td><td class="ref">27–32</td></tr><tr class=""><td>Nồng độ HST trung bình hồng cầu (MCHC)</td><td class="num">336</td><td>g/L</td><td class="ref">320–360</td></tr><tr class=""><td>Dải phân bố kích thước hồng cầu (RDW-CV)</td><td class="num">13,0</td><td>%</td><td class="ref">11,5–14,5</td></tr><tr class=""><td>Số lượng tiểu cầu (PLT)</td><td class="num">262</td><td>G/L</td><td class="ref">150–400</td></tr></tbody></table><p class="why">Thiếu máu là dấu báo động (VNAGE 2024 KC 2); công thức máu nằm trong nhóm xét nghiệm hữu ích khi khó tiêu (KC 4). Không thiếu máu.</p></div><div class="row"><div class="rh"><b>AST, ALT</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> AST 27 · ALT 33 U/L</p><p class="why">Uống paracetamol 4–5 g/ngày kéo dài: kiểm tra men gan (QĐ 3610/2015, Ngộ độc paracetamol mục 3.3; QĐ 361/2014, Phụ lục thuốc giảm đau mục 3.1: thuốc có thể gây hại cho gan, chống chỉ định khi có tăng men gan). Men gan bình thường, may mắn, nhưng vẫn phải giảm liều.</p></div><div class="row"><div class="rh"><b>Ure, creatinin, eGFR</b><span class="tag t-y">Chấp nhận</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Ure</td><td class="num">4,4</td><td>mmol/L</td><td class="ref">2,5–7,5</td></tr><tr class=""><td>Creatinin</td><td class="num">82</td><td>µmol/L</td><td class="ref">62–120</td></tr><tr class=""><td>eGFR (CKD-EPI 2021)</td><td class="num">115</td><td>mL/ph/1,73m²</td><td class="ref">≥ 90</td></tr></tbody></table><p class="why">Thuộc nhóm xét nghiệm hữu ích khi khó tiêu (VNAGE 2024 KC 4); làm hay không đều không đổi xử trí.</p></div><div class="row"><div class="rh"><b>Glucose máu đói</b><span class="tag t-y">Chấp nhận</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Glucose</td><td class="num">5,0</td><td>mmol/L</td><td class="ref">3,9–6,4</td></tr></tbody></table><p class="why">VNAGE 2024 KC 4 (đường huyết đói); không đổi xử trí.</p></div><div class="row"><div class="rh"><b>Điện giải đồ (Na, K, Cl)</b><span class="tag t-y">Chấp nhận</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Natri (Na⁺)</td><td class="num">140</td><td>mmol/L</td><td class="ref">135–145</td></tr><tr class=""><td>Kali (K⁺)</td><td class="num">4,2</td><td>mmol/L</td><td class="ref">3,5–5,0</td></tr><tr class=""><td>Clo (Cl⁻)</td><td class="num">103</td><td>mmol/L</td><td class="ref">98–106</td></tr></tbody></table><p class="why">VNAGE 2024 KC 4 (điện giải); không đổi xử trí.</p></div><div class="row"><div class="rh"><b>CRP</b><span class="tag t-r">Không cần</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>CRP</td><td class="num">2</td><td>mg/L</td><td class="ref">≤ 5</td></tr></tbody></table><p class="why">Không cần: không sốt, không dấu hiệu viêm; Rome V 2026 (Clinical Evaluation) không khuyên xét nghiệm thường quy.</p></div><div class="row"><div class="rh"><b>Test thở urê (UBT) tìm H. pylori</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> (Phòng khám không làm được test thở urê.)</p><p class="why">Mọi người khó tiêu cần xác định H. pylori (VNAGE 2024 KC 3; Rome V 2026, Clinical Evaluation). Phòng khám không có test không xâm lấn; anh có chỉ định nội soi nên làm urease nhanh lúc nội soi (VNAGE 2024 KC 3; VNAGE 2023, Statement 3, 4).</p></div><div class="row"><div class="rh"><b>Kháng nguyên H. pylori trong phân</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> (Phòng khám không làm được kháng nguyên H. pylori trong phân.)</p><p class="why">Như test thở urê: dùng urease nhanh lúc nội soi (VNAGE 2023, Statement 4).</p></div><div class="row"><div class="rh"><b>Soi phân (hồng cầu, bạch cầu, ký sinh trùng)</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> (Phòng khám không làm được soi phân.)</p><p class="why">VNAGE 2024 KC 4 khuyên soi phân tìm ký sinh trùng; không làm được ở đây, không tiêu chảy nên không bắt buộc.</p></div><div class="row"><div class="rh"><b>TSH, FT4</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> (Phòng khám không làm được TSH.)</p><p class="why">VNAGE 2024 KC 4 nêu chức năng giáp là xét nghiệm hữu ích; không làm được ở đây, lâm sàng không gợi ý cường hay suy giáp.</p></div><div class="row"><div class="rh"><b>Siêu âm bụng (gan, thận, thượng thận)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> (Phòng khám không có siêu âm.)</p><p class="why">VNAGE 2024 KC 4: siêu âm bụng hữu ích. Triệu chứng không phải cơn đau quặn mật (VNAGE 2024, phần Introduction); có thể làm cùng chuyến nội soi, không bắt buộc.</p></div><div class="row"><div class="rh"><b>Nội soi dạ dày – tá tràng</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> (Phòng khám không có nội soi.)</p><p class="why">Có chỉ định vì cha ung thư dạ dày, một dấu báo động (VNAGE 2024 KC 2), kèm urease nhanh/sinh thiết xét H. pylori (VNAGE 2023, Statement 3, 4). Không cần khẩn (BSG 2022, Executive summary): làm theo hẹn ở bệnh viện tuyến trên.</p></div><div class="row"><div class="rh"><b>Định lượng paracetamol (acetaminophen) máu</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> (Phòng khám không làm được định lượng paracetamol máu.)</p><p class="why">Không cần: đây không phải uống quá liều cấp; nồng độ paracetamol máu dùng cho ngộ độc cấp, đối chiếu theo giờ uống (QĐ 3610/2015, mục 4.3).</p></div><div class="row"><div class="rh"><b>Huyết thanh bệnh celiac (anti-tTG IgA)</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> (Phòng khám không làm được huyết thanh celiac.)</p><p class="why">Không thường quy do giá trị chẩn đoán thấp (Rome V 2026, Clinical Evaluation).</p></div><div class="row"><div class="rh"><b>Lipase huyết thanh</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> (Phòng khám không làm được lipase.)</p><p class="why">Không đau thượng vị lan sau lưng, không nôn; không có chỉ định.</p></div><div class="row"><div class="rh"><b>Điện tâm đồ 12 chuyển đạo</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Nhịp xoang 74 l/p, không biến đổi ST–T.</p><p class="why">Không có triệu chứng tim mạch; không có chỉ định.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Khó tiêu chức năng thể sau ăn (PDS), chẩn đoán tạm thời; có tiền sử gia đình ung thư dạ dày nên cần nội soi xác nhận; lạm dụng paracetamol 4–5 g/ngày (men gan bình thường); đau thắt lưng cơ học</b></div><p class="why">Khởi phát 8 tháng, đầy tức và no sớm gần như hằng ngày, không có tổn thương thực thể giải thích trên lâm sàng và xét nghiệm cơ bản (Rome V 2026, B1, B1a; VNAGE 2024, phần Introduction). Chẩn đoán chỉ chắc chắn sau khi loại cấu trúc (Rome V, tr. 1242), nên cần nội soi vì dấu báo động tiền sử gia đình (VNAGE 2024 KC 2).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Loét dạ dày – tá tràng</b></div><p class="why">Chỉ khẳng định hay loại trừ bằng nội soi. Không đau kiểu loét, không NSAID, không thiếu máu, không phân đen (VNAGE 2024 KC 1, 2).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ung thư dạ dày</b></div><p class="why">Hiếm ở tuổi 29 và không sụt cân, thiếu máu, nôn, nuốt nghẹn, khối. Nhưng cha mắc ung thư dạ dày làm tăng nguy cơ (VNAGE 2024 KC 2; Taipei 2025, tr. 1780–1781), nên chưa loại trừ nếu chưa nội soi.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Nhiễm H. pylori</b></div><p class="why">Chưa xác định: không có test không xâm lấn ở đây, làm urease nhanh lúc nội soi (VNAGE 2023, Statement 3, 4). H. pylori chỉ được xem là nguyên nhân nếu diệt xong triệu chứng đỡ bền (Rome V, Clinical Evaluation).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tổn thương gan do paracetamol</b></div><p class="why">Chưa: AST 27, ALT 33 U/L. Nguy cơ còn nếu tiếp tục 4–5 g/ngày và uống bia cuối tuần (QĐ 3610/2015, mục 2).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Bệnh đường mật – tụy</b></div><p class="why">Không đau cơn, không sốt, không vàng da; đau liên quan bữa ăn phải loại trừ cơn đau quặn mật (VNAGE 2024, phần Introduction). Siêu âm không làm được.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Trào ngược dạ dày – thực quản</b></div><p class="why">Không ợ nóng, ợ chua; có thể chồng lấp với khó tiêu (VNAGE 2024 KC 14).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Yếu tố tâm lý (lo lắng chuyện con cái) làm nặng triệu chứng</b></div><p class="why">Lo âu và rối loạn giấc ngủ gắn với khó tiêu chức năng (Đồng thuận châu Á 2026, Statement 7, 15); chưa đủ để chẩn đoán rối loạn lo âu.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Hiếm muộn của cặp vợ chồng (chưa kết luận nguyên nhân)</b></div><p class="why">Sống chung và không tránh thai trên một năm mà chưa có thai là vô sinh (QĐ 315/2015, Vô sinh nữ mục 1; EAU 2026, mục 11.1). Nguyên nhân chưa biết, cần khám song song hai vợ chồng (QĐ 315/2015, Vô sinh nam mục 3).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích tiền sử cha ung thư dạ dày làm cần nội soi dù còn trẻ; viết giấy giới thiệu nội soi dạ dày – tá tràng theo hẹn (không khẩn) ở bệnh viện tuyến trên, kèm urease nhanh/sinh thiết xét H. pylori; HOẶC điều trị thử trước rồi nội soi sớm nếu không đáp ứng hay tái phát. Dù chọn cách nào cũng ghi mốc nội soi bằng văn bản</b></div><p class="why">Cách 1: tiền sử gia đình ung thư đường tiêu hóa trên là dấu báo động, nội soi bất kể tuổi (VNAGE 2024 KC 2); người có chỉ định nội soi thì làm urease nhanh khi nội soi (VNAGE 2024 KC 3; VNAGE 2023, Statement 2, 3, 4); ACG/CAG 2017 (Statement 2) cho nội soi sớm hơn khi có tiền sử gia đình. Cách 2: BSG 2022 (Executive summary) hạ ngưỡng nội soi còn trên 40 tuổi khi có tiền sử gia đình, không đặt ra dưới 40; ACG/CAG 2017 (Statement 2) không tự động nội soi người trẻ có dấu báo động; Rome V 2026 (Clinical Evaluation) cho không nội soi nếu không dấu báo động. Khác nhau do nguy cơ ung thư dạ dày của vùng (Việt Nam, châu Á cao hơn Bắc Mỹ) và cách định nghĩa dấu báo động; không nguồn nào nói cách kia gây hại. Mốc nội soi: dấu báo động mới, không đáp ứng sau 8 tuần (VNAGE 2024 KC 11), tái phát trong 2–4 tuần sau ngưng thuốc (VNAGE 2023, Bảng 2).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Điều trị triệu chứng thể sau ăn: thuốc vận động dạ dày (mosapride 5 mg × 3 lần/ngày hoặc itopride 50 mg × 3 lần/ngày) HOẶC PPI liều chuẩn 1 lần/ngày, 8 tuần rồi đánh giá lại; không dùng cùng lúc; nếu chọn PPI thì phải ngưng ít nhất 2 tuần trước khi lấy mẫu xét H. pylori</b></div><p class="why">Thuốc vận động là lựa chọn đầu tiên ở PDS (VNAGE 2024 KC 10, Bảng 5); PPI liều chuẩn 1 lần/ngày cho cả hai thể (KC 7, Bảng 4); 8 tuần rồi đánh giá lại (KC 11). Rome V 2026 (Treatment) xếp PPI 4–8 tuần là bậc đầu thường dùng và nói thuốc sẵn có quyết định chọn PPI hay thuốc vận động; Đồng thuận châu Á 2026 (Statement 23, 26): PPI chỉ &quot;có thể xem xét&quot;, itopride không lặp lại lợi ích ở pha 3. Khác bối cảnh, không nguồn nào nói cách kia gây hại. PPI làm âm tính giả test H. pylori (VNAGE 2023, Statement 6): vì anh sắp nội soi lấy mẫu, ca ưu tiên thuốc vận động (lựa chọn của ca). Cách uống so với bữa ăn: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giảm paracetamol về tối đa 3 g/ngày HOẶC tối đa 4 g/ngày, mỗi lần 500–1.000 mg cách 6–8 giờ; không tiếp tục 4–5 g/ngày; kiểm tra men gan</b></div><p class="why">Hai mức: không quá 4 g/24 giờ (QĐ 361/2014, Phụ lục thuốc giảm đau mục 3.1; Hội chứng đau thắt lưng mục 4.2.1: 0,5 g × 4–6 viên/24 giờ, tối đa 4.000 mg; WHO AWaRe 2022, tr. 48); hoặc bậc 1 500–3.000 mg/24 giờ (Phụ lục thuốc giảm đau mục 2) và dưới 3 g/ngày ở nhóm nguy cơ cao (Phụ lục NSAID mục 3.3). Ca chọn dưới 3 g vì anh uống bia cuối tuần, mà ngộ độc có thể xảy ra ở liều điều trị khi nghiện rượu hoặc bệnh gan (QĐ 3610/2015, mục 2). Mục sổ &quot;Trần liều paracetamol ở người uống rượu bia&quot; (TM-0250).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không thay paracetamol bằng thuốc chống viêm không steroid; đau lưng: duy trì hoạt động bình thường, tập luyện, sửa tư thế khi nâng bệnh nhân</b></div><p class="why">NSAID gây khó tiêu (VNAGE 2024, Bảng 3) và Rome V 2026 (Clinical Evaluation) khuyên ngưng thuốc có thể gây khó tiêu trước khi thăm dò. NICE NG59 (1.2.1, 1.2.2) khuyến khích hoạt động bình thường và tập luyện; QĐ 361/2014 (mục 4.2.1) còn nằm nghỉ, đeo đai, trong khi NICE (1.2.3) không dùng đai: nêu cả hai, không chấm w. Kỹ thuật nâng bệnh nhân an toàn: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Tư vấn ăn uống – sinh hoạt: ăn nhiều bữa nhỏ, giảm món nhiều mỡ, cà phê, bia, ăn khuya; giữ bữa đều trong ca trực; ngủ đủ</b></div><p class="why">Bữa nhỏ, tránh món nhiều mỡ (Rome V 2026, Treatment); chất béo, sữa, cay, nước ngọt có ga, cà phê có thể gây khó tiêu (VNAGE 2024 KC 13); hạn chế rượu, đồ ăn nhanh, bữa nhiều chất béo (Đồng thuận châu Á 2026, Statement 21); rối loạn giấc ngủ gắn với khó tiêu chức năng (Statement 15). Giờ ăn cụ thể cho người làm ca: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi riêng và đáp lại nỗi lo thật về con cái: ghi nhận, giải thích chậm có thai 14 tháng đã đủ mốc cần khám cả hai vợ chồng, đề nghị vợ chồng cùng đi khám, tinh dịch đồ làm ở tuyến trên; không hứa hẹn kết quả</b></div><p class="why">Vô sinh: sống chung trên một năm, không tránh thai, chưa có thai (QĐ 315/2015, Vô sinh nữ mục 1; EAU 2026, mục 11.1). Thăm dò nguyên nhân bao giờ cũng làm song song cả hai vợ chồng (QĐ 315/2015, Vô sinh nam mục 3); ở cặp vô sinh nam nên được đánh giá y khoa (EAU 2026, mục 11.2.1). Tinh dịch đồ gần như là thăm dò duy nhất, kết quả bình thường không loại trừ (QĐ 315/2015, Vô sinh nam mục 1). Khó tiêu hay paracetamol có ảnh hưởng sinh sản hay không: không có trong tài liệu đã tải, nên không khẳng định hay phủ nhận.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn dấu hiệu phải quay lại ngay (nôn ra máu, phân đen, nôn nhiều hoặc sau mỗi bữa, nuốt nghẹn, đau khi nuốt, sụt cân, xanh xao, vàng da, đau hạ sườn phải) và hẹn tái khám sau 4 tuần</b></div><p class="why">Dấu báo động: VNAGE 2024 KC 2. Đau hạ sườn phải, buồn nôn khi dùng paracetamol quá liều: QĐ 3610/2015 mục 3.2 (giai đoạn 2). Mốc tái khám 4 tuần là lựa chọn của ca, không có trong tài liệu đã tải.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Làm thêm creatinin, điện giải, đường huyết, soi phân, TSH, siêu âm bụng khi có điều kiện</b></div><p class="why">VNAGE 2024 KC 4 (khuyên, mạnh); Rome V 2026 (Clinical Evaluation): xét nghiệm thường quy giá trị thấp. Làm hay không đều không trừ điểm. Phòng khám không làm được soi phân, TSH, siêu âm.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Domperidon hoặc metoclopramid ngắn ngày thay cho mosapride</b></div><p class="why">VNAGE 2024 Bảng 5: domperidon 10 mg × 3 lần/ngày tối đa 1 tuần; metoclopramid 5–10 mg × 3 lần/ngày (tối đa 30 mg/ngày) tối đa 5 ngày; tác dụng phụ tăng prolactin, vú to ở nam (Đồng thuận châu Á 2026, Bảng 2: domperidon gây vú to, tiết sữa, loạn nhịp). Không nguồn nào cấm; ca ưu tiên mosapride vì anh lo về sinh sản (lựa chọn của ca).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Tiếp tục hoặc kê paracetamol quá 4 g/ngày như anh đang uống (4–5 g/ngày)</b></div><p class="why">Vượt cả hai mức: không quá 4 g/24 giờ, thuốc có thể gây hại cho gan, chống chỉ định khi tăng men gan (QĐ 361/2014, Phụ lục thuốc giảm đau mục 3.1; WHO AWaRe 2022, tr. 48); ngộ độc có thể xảy ra ở liều điều trị khi uống rượu (QĐ 3610/2015, mục 2).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Đổi sang NSAID (ibuprofen, diclofenac, meloxicam) cho đau lưng</b></div><p class="why">NSAID liên quan khó tiêu (VNAGE 2024, Bảng 3); phải ngưng thuốc có thể gây khó tiêu trước khi thăm dò (Rome V 2026, Clinical Evaluation); QĐ 361/2014 mục 4.2.1 và NICE NG59 (1.2.22) dặn cân nhắc nguy cơ tiêu hóa.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho kháng sinh diệt H. pylori &quot;cho chắc&quot; khi chưa có test dương tính</b></div><p class="why">Chỉ xét nghiệm H. pylori khi định diệt và chỉ diệt khi đã xác định nhiễm (VNAGE 2023, Statement 1, 2); kháng sinh trước test làm âm tính giả (Statement 6); phải dùng kháng sinh thận trọng (Taipei 2025, Table 1, Statement 16).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhập viện để &quot;làm hết các xét nghiệm&quot; cho anh Bảo là không cần: 29 tuổi, sinh hiệu ổn, Hb 148 g/L, không nôn, không phân đen, ăn uống còn được. Tiền sử cha ung thư dạ dày đúng là cần nội soi (VNAGE 2024, KC 2) nhưng nội soi làm ngoại trú theo hẹn được. Anh phải nghỉ trực, mất ngày công và viện phí, nỗi lo &quot;mình bệnh nặng&quot; tăng thêm trong khi nỗi lo thật (chuyện con cái) vẫn chưa ai hỏi tới. Giấy giới thiệu nội soi, thuốc điều trị triệu chứng và giảm paracetamol đều làm được ngoại trú (VNAGE 2024, KC 2, 10; Rome V 2026, mục Clinical Evaluation).</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển anh Bảo đi nội soi khẩn trong ngày hoặc chuyển cấp cứu là quá tay: không xuất huyết tiêu hóa, không thiếu máu, không nôn dai dẳng, không nuốt nghẹn, không sụt cân; nội soi khẩn chỉ đặt ra ở người từ 55 tuổi có sụt cân, hoặc trên 40 tuổi có nguy cơ cao hay tiền sử gia đình (BSG 2022, Executive summary). Nội soi vẫn cần nhưng theo hẹn (VNAGE 2024, KC 2). Chuyển gấp khiến anh nghỉ làm vội, tốn kém, mà thuốc giảm đau quá liều và nỗi lo thật vẫn chưa ai xử trí; nếu lỡ dùng PPI trước khi lấy sinh thiết thì test H. pylori dễ âm tính giả (VNAGE 2023, Statement 6).</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Khó tiêu chức năng thể sau ăn (PDS) theo Rome IV/V: đầy tức sau ăn và no sớm gần như hằng ngày, khởi phát 8 tháng, nặng lên 3 tuần; chẩn đoán tạm thời, xác nhận sau nội soi</li><li>Dấu báo động: cha mất vì ung thư dạ dày (VNAGE 2024 KC 2); chưa có thiếu máu, sụt cân, nôn, nuốt nghẹn, xuất huyết</li><li>Lạm dụng paracetamol 4–5 g/ngày vì đau thắt lưng cơ học do nghề; men gan bình thường</li><li>Chưa xác định H. pylori (làm lúc nội soi); chưa có tổn thương thực thể</li><li>Lo lắng thật: cặp vợ chồng chưa có thai sau 14 tháng, chưa được đánh giá</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự: hỏi bệnh (triệu chứng theo bữa ăn, thời gian, mức ảnh hưởng chức năng, dấu báo động, tiền sử gia đình, thuốc cụ thể, ăn uống) → khám bụng, toàn thân, hạch → công thức máu, men gan → chẩn đoán tạm thời → xử trí. Anh phủ nhận, nên câu hỏi chức năng (bỏ bữa, nhờ đồng nghiệp làm thay) mới cho thấy mức nặng thật.</li><li>Vì sao là PDS: đầy tức sau ăn và no sớm làm ảnh hưởng sinh hoạt, ≥ 3 ngày/tuần (VNAGE 2024, phần Introduction), ≥ 2 ngày/tuần theo Rome V (B1a), triệu chứng 3 tháng gần đây và khởi phát ≥ 6 tháng (Rome V, B1, chú thích a). Không đau hay rát thượng vị nên chưa đủ tiêu chuẩn EPS (Rome V, B1b).</li><li>Vì sao chưa chốt khó tiêu chức năng: tiêu chuẩn đòi không có bệnh cấu trúc giải thích triệu chứng (Rome V, B1); có dấu báo động tiền sử gia đình ung thư đường tiêu hóa trên, mỗi dấu tăng nguy cơ ung thư 2–3 lần (VNAGE 2024 KC 2). Không dấu báo động nào khác: Hb 148 g/L, cân nặng ổn, không nôn, không nuốt nghẹn.</li><li>Nội soi ở người dưới 40 tuổi có tiền sử gia đình: VNAGE 2024 KC 2 nội soi bất kể tuổi; BSG 2022 hạ ngưỡng còn trên 40 tuổi, ACG/CAG 2017 xét từng ca. Ghi cả hai, và phải có mốc nội soi bằng văn bản.</li><li>Paracetamol không thuộc danh sách thuốc gây khó tiêu (VNAGE 2024, Bảng 3) nhưng 4–5 g/ngày vượt trần 4 g (QĐ 361/2014, mục 3.1); men gan bình thường chỉ là may mắn.</li><li>Nỗi lo thật: câu &quot;đầy bụng sau đêm quan hệ&quot; là yếu tố khởi phát tình cờ về thời gian; không tài liệu đã tải nói quan hệ vợ chồng gây khó tiêu. Hiếm muộn cần khám song song hai vợ chồng.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Nội soi theo hẹn, không khẩn, kèm urease nhanh/sinh thiết; chuyển gấp là quá tay (BSG 2022: nội soi khẩn chỉ ở người ≥ 55 tuổi sụt cân hoặc &gt; 40 tuổi nguy cơ cao). Ghi mốc nội soi để nếu anh chọn điều trị thử trước thì vẫn an toàn.</li><li>Thuốc: thuốc vận động là lựa chọn đầu tiên ở PDS (VNAGE 2024 KC 10), PPI cũng được (KC 7; Rome V). Ca chọn mosapride vì sắp lấy sinh thiết xét H. pylori (PPI ngưng ≥ 2 tuần, VNAGE 2023 Statement 6) và vì mosapride không thuộc nhóm đối kháng dopamin gây tăng prolactin, vú to ở nam (VNAGE 2024 Bảng 5; Đồng thuận châu Á 2026 Bảng 2). Itopride 50 mg × 3 cũng được. 8 tuần rồi đánh giá (KC 11).</li><li>Paracetamol: hai mức 4 g (QĐ 361/2014 mục 3.1; AWaRe 2022) và dưới 3 g (bậc 1; nhóm nguy cơ cao); chọn dưới 3 g vì bia cuối tuần. Không đổi sang NSAID.</li><li>Đau lưng: hoạt động và tập luyện (NICE NG59 1.2.1, 1.2.2). Không dùng paracetamol đơn độc làm toàn bộ điều trị (NICE 1.2.26), nhưng ở đây thuốc chỉ là phần hỗ trợ.</li><li>Nỗi lo sinh sản: khám song song hai vợ chồng, xét nghiệm tinh dịch đồ ở tuyến trên (QĐ 315/2015; EAU 2026). Không hứa hẹn, vì kết quả bình thường cũng không loại trừ.</li><li>Những việc sai: cho tiếp 4–5 g paracetamol (QĐ 361/2014 mục 3.1); đổi NSAID (VNAGE 2024 Bảng 3); kháng sinh diệt H. pylori khi chưa có test dương tính (VNAGE 2023 Statement 1, 2, 6).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Mosapride</b><div class="sub">5 mg</div></td><td data-l="Liều">5 mg × 3 lần/ngày<div class="sub">Uống · Cách uống so với bữa ăn: không có trong tài liệu đã tải</div></td><td data-l="Thời gian">8 tuần rồi đánh giá lại (tái khám sau 4 tuần)</td><td class="gc" data-l="Ghi chú">VNAGE 2024 KC 10, KC 11, Bảng 5 (5 mg × 3 lần/ngày hoặc dạng phóng thích kéo dài 15 mg × 1 lần/ngày). Thay thế, không dùng cùng lúc: itopride 50 mg × 3 lần/ngày (Bảng 5). Chống chỉ định, tương tác: không có trong tài liệu đã tải.</td></tr><tr><td><b>Paracetamol</b><div class="sub">500 mg</div></td><td data-l="Liều">1–2 viên mỗi lần, cách 6–8 giờ, tối đa 6 viên (3 g)/24 giờ<div class="sub">Uống · Khi đau lưng; không uống đều nếu không đau</div></td><td data-l="Thời gian">Khi cần, ngắn ngày</td><td class="gc" data-l="Ghi chú">QĐ 361/2014, Phụ lục thuốc giảm đau mục 3.1 (500–1.000 mg/lần, cách 6–8 giờ, không quá 4 g/24 giờ); ca chọn dưới hoặc bằng 3 g (Phụ lục thuốc giảm đau mục 2; Phụ lục NSAID mục 3.3; QĐ 3610/2015 mục 2). Không dùng thêm thuốc khác có paracetamol.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Cầm giấy giới thiệu đi nội soi dạ dày ở bệnh viện tuyến trên theo hẹn; báo rõ cha mất vì ung thư dạ dày, và là chưa uống thuốc dạ dày, kháng sinh trước nội soi (mốc thời gian đi nội soi: không có trong tài liệu đã tải).</li><li>Không tự mua thuốc dạ dày nhóm PPI hoặc kháng sinh trước khi nội soi, vì làm sai kết quả thử H. pylori (VNAGE 2023, Statement 6).</li><li>Uống mosapride 5 mg ngày 3 lần theo đơn, đủ 8 tuần rồi tái khám đánh giá lại (VNAGE 2024 KC 11, Bảng 5).</li><li>Paracetamol tối đa 6 viên 500 mg mỗi ngày, ghi số viên mỗi ngày; không dùng thêm thuốc cảm, thuốc giảm đau hỗn hợp có paracetamol (QĐ 3610/2015, mục 2); hạn chế bia.</li><li>Ăn nhiều bữa nhỏ, giảm món nhiều mỡ, cà phê, bia, ăn khuya; giữ bữa đều trong ca trực; ngủ đủ. Đau lưng: giữ hoạt động bình thường, tập giãn cơ, sửa tư thế khi nâng bệnh nhân.</li><li>Chuyện con cái: nên nói với vợ và cùng đi khám; xét nghiệm tinh dịch đồ làm ở bệnh viện tuyến trên, kiêng giao hợp 2–7 ngày trước khi lấy mẫu (QĐ 315/2015, Vô sinh nam mục 2.2.1).</li><li>Quay lại ngay nếu nôn ra máu, đi cầu phân đen, nôn nhiều, nuốt nghẹn, sụt cân, vàng da, đau hạ sườn phải (VNAGE 2024 KC 2; QĐ 3610/2015 mục 3.2); tái khám sau 4 tuần (mốc là lựa chọn của ca).</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-2">
+ <h2 id="h-luot-2"><span class="ln">Lượt 2/2</span> · sau 4 tuần</h2>
+ <div class="card intro"><h3 id="m-8">Tiếp đón</h3><p>Tái khám sau 4 tuần. Anh Bảo cho biết đã hết đầy bụng, ăn được trọn bữa, và đã đi nội soi dạ dày ở bệnh viện tỉnh cách đây 10 ngày, mang theo phiếu kết quả. Sinh hiệu: HA 116/70 mmHg, mạch 70 l/p, nhiệt 36,7 °C, nhịp thở 16 l/p, SpO₂ 99%. Cân nặng 65 kg.</p>
+  <blockquote>“Bác sĩ ơi, tôi đỡ hẳn rồi, ăn trọn bát cơm luôn. Tôi đi nội soi rồi, bác sĩ xem giúp. Chắc hết bệnh, không cần uống thuốc nữa nhỉ?”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>70</b><small>l/p</small></div><div class="vs"><span>HA</span><b>116/70</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,7</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>16</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>99</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-9">Hỏi bệnh <small>7 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đáp ứng điều trị</b><span class="tag t-g">Tự kể</span></div><p>Hết đầy bụng từ tuần thứ ba; ăn được trọn bát cơm, không còn buồn nôn. Anh định ngưng hết thuốc vì &quot;khỏi rồi&quot;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Kết quả nội soi và test H. pylori</b><span class="tag t-g">Tự kể</span></div><p>Phiếu nội soi ở bệnh viện tỉnh (10 ngày trước): thực quản bình thường; dạ dày niêm mạc hồng, không loét, không trợt, không tổn thương nghi ác tính; tá tràng bình thường. Sinh thiết hang vị làm urease nhanh: âm tính. Trước nội soi anh không dùng PPI, kháng sinh hay bismuth.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tuân thủ và thuốc đang dùng</b><span class="tag t-b">Khi được hỏi</span></div><p>Uống mosapride 5 mg ngày 3 lần đều trong 4 tuần, chỉ quên vài liều. Không uống PPI, kháng sinh hay thuốc nào khác. Paracetamol giảm còn khoảng 5–6 viên 500 mg/ngày, hai hôm trực đêm lên 7–8 viên (3,5–4 g). Uống bia 1–2 lon vào cuối tuần.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Sàng lọc dấu báo động</b><span class="tag t-b">Khi được hỏi</span></div><p>Không nôn, không phân đen, không nuốt nghẹn, cân nặng 65 kg (tăng 1 kg).</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lối sống, ca trực</b><span class="tag t-b">Khi được hỏi</span></div><p>Tuần đầu bỏ cà phê và bia; sau đó cà phê trở lại 2 ly/ngày khi trực. Đêm trực vẫn hay nhịn ăn khuya &quot;cho đỡ nặng bụng&quot;. Chưa thấy tái phát. Nếu chỉ hỏi &quot;khỏe không&quot; thì anh đáp &quot;khỏe lắm&quot;.</p></div><div class="fact"><div class="fh"><b>dau_lung</b><span class="tag t-b">Khi được hỏi</span></div><p>Đau lưng đỡ hơn, còn đau khi lật bệnh nhân nặng. Tuần qua tập giãn cơ 3 buổi.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Nỗi lo sinh sản chưa được giải quyết</b><span class="tag t-r">Giấu</span></div><p>Anh đã kể chuyện lo con cái cho vợ; hai vợ chồng định đi khám sau khi anh xong chuyện dạ dày. Vợ đã hẹn khám phụ khoa tuần sau. Anh chưa đặt lịch tinh dịch đồ vì &quot;sợ kết quả&quot; và không biết nơi làm.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi lại chuyện vợ chồng, con cái hoặc hỏi anh còn điều gì chưa nói; hỏi chung &quot;còn gì không&quot; anh đáp &quot;không&quot;.</div></div></details>
+ <details class="card"><summary><h3 id="m-10">Khám <small>3 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng phẳng, mềm, không đau, không khối, gan lách không to.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, niêm mạc hồng, không vàng da. Cân nặng 65 kg, BMI 22,5. Không hạch thượng đòn.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b></div><p><span class="lbl">Kết quả:</span> Còn co cứng nhẹ cơ cạnh sống thắt lưng, cúi gần bình thường, Lasègue âm tính.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Tim</b><span class="tag t-m">Bình thường</span></div><p>Tim đều 70 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 16 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-11">Cận lâm sàng <small>5 mục</small></h3></summary><div class="row"><div class="rh"><b>AST, ALT</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> AST 25 · ALT 29 U/L</p><p class="why">Làm lại men gan khi vẫn dùng paracetamol 2–4 g/ngày và uống bia là hợp lý nhưng không bắt buộc; lịch theo dõi men gan khi dùng paracetamol kéo dài: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><b>Nội soi dạ dày – tá tràng</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> (Phòng khám không có nội soi; kết quả đã có từ bệnh viện tỉnh.)</p><p class="why">Không cần soi lại: đã soi bình thường, hết triệu chứng. Chỉ nội soi lại khi tái phát trong 2–4 tuần sau ngưng thuốc hoặc có dấu báo động mới (VNAGE 2023, Bảng 2; VNAGE 2024 KC 2).</p></div><div class="row"><div class="rh"><b>Test thở urê (UBT) tìm H. pylori</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> (Phòng khám không làm được test thở urê.)</p><p class="why">Không cần: urease nhanh âm tính khi nội soi, chưa dùng PPI, kháng sinh, bismuth (VNAGE 2023, Statement 4, 6).</p></div><div class="row"><div class="rh"><b>Kháng nguyên H. pylori trong phân</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> (Phòng khám không làm được kháng nguyên H. pylori trong phân.)</p><p class="why">Không cần, như test thở urê.</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Hb 150 g/L · BC 6,5 G/L · TC 255 G/L</p><p class="why">Không cần: không thiếu máu ở lượt 1, hết triệu chứng, nội soi bình thường.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-12">Đáp án lượt 2 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Chuyển tuyến / chuyên khoa</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Khó tiêu chức năng thể sau ăn (PDS), đáp ứng điều trị; nội soi bình thường, urease âm tính; có tiền sử gia đình ung thư dạ dày; paracetamol đã giảm; cặp vợ chồng chậm có thai 14 tháng cần khám hiếm muộn song song</b></div><p class="why">Nội soi không thấy tổn thương giải thích triệu chứng, xét nghiệm cơ bản bình thường, triệu chứng ≥ 6 tháng (Rome V 2026, B1; Đồng thuận châu Á 2026, Statement 3). Đáp ứng thuốc vận động phù hợp PDS (VNAGE 2024 KC 10).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Loét dạ dày – tá tràng</b></div><p class="why">Đã loại trừ bằng nội soi: không loét, không trợt (VNAGE 2024 KC 1, 2).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ung thư dạ dày</b></div><p class="why">Nội soi không thấy tổn thương nghi ác tính. Cha mắc ung thư dạ dày vẫn là yếu tố nguy cơ lâu dài (Taipei 2025, tr. 1780–1781); lịch nội soi định kỳ cho người đã soi bình thường: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Nhiễm H. pylori</b></div><p class="why">Urease nhanh âm tính khi chưa dùng PPI, kháng sinh, bismuth (VNAGE 2023, Statement 4, 6); không điều trị diệt.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tổn thương gan do paracetamol</b></div><p class="why">AST, ALT bình thường hai lần (lượt 1 và lượt 2 nếu làm lại); nguy cơ còn nếu quay lại 4–5 g/ngày (QĐ 3610/2015, mục 2).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Hiếm muộn của cặp vợ chồng</b></div><p class="why">Chưa có đánh giá: cần tinh dịch đồ và khám vợ song song (QĐ 315/2015, Vô sinh nam mục 3; EAU 2026, mục 11.2.1).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Xác nhận đáp ứng (hết triệu chứng làm phiền, ăn được trọn bữa, cân nặng ổn, không dấu báo động) và giải thích đây là khó tiêu chức năng thể sau ăn, không loét, không ung thư, nhưng tiền sử gia đình vẫn cần nhớ khi có triệu chứng mới</b></div><p class="why">Chẩn đoán dương tính theo Rome V khi nội soi và xét nghiệm không thấy tổn thương giải thích (Rome V 2026, B1; Đồng thuận châu Á 2026, Statement 3). Định nghĩa &quot;khỏi hoàn toàn&quot; và thời gian không triệu chứng tối thiểu: không có trong tài liệu đã tải; ca dùng &quot;không còn triệu chứng làm phiền&quot; (lựa chọn của ca).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Tiếp tục mosapride cho đủ 8 tuần rồi ngưng, không dùng kéo dài; dặn nếu tái phát trong 2–4 tuần sau ngưng hoặc có dấu báo động mới thì quay lại để đánh giá lại, kể cả nội soi lại</b></div><p class="why">Thuốc vận động hoặc PPI 8 tuần rồi đánh giá lại (VNAGE 2024 KC 11); mốc ngưng riêng cho mosapride, giảm liều dần: không có trong tài liệu đã tải. Tái phát trong 2–4 tuần sau ngưng là dấu báo động (VNAGE 2023, Bảng 2). Các mốc 4–8, 8, 12 tuần trong tài liệu nói về PPI (mục TH-0083). Đã nội soi bình thường nên không soi lại để &quot;xác nhận khỏi&quot;.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích nội soi bình thường và H. pylori âm tính; không điều trị diệt H. pylori, không làm lại test</b></div><p class="why">Urease nhanh âm tính khi chưa dùng PPI, kháng sinh, bismuth trước test (VNAGE 2023, Statement 4, 6); chỉ diệt khi đã xác định nhiễm (Statement 1, 2).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giữ paracetamol dưới hoặc bằng 3 g/ngày (hoặc tối đa 4 g/ngày) kể cả đêm trực; hạn chế bia; đau lưng: vận động, tập luyện</b></div><p class="why">Như lượt 1 (QĐ 361/2014, Phụ lục thuốc giảm đau mục 2, 3.1; WHO AWaRe 2022, tr. 48; QĐ 3610/2015, mục 2; NICE NG59 1.2.1, 1.2.2). Hôm trực đêm 7–8 viên (3,5–4 g) nằm trong 4 g nhưng vượt mức 3 g thận trọng hơn.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi lại chuyện con cái, ghi nhận nỗi sợ kết quả, giải thích và giới thiệu chuyên khoa nam học/hiếm muộn để làm tinh dịch đồ, khám song song với vợ; dặn cách lấy mẫu</b></div><p class="why">Tinh dịch đồ: kiêng giao hợp 2–7 ngày, ống đựng chuẩn vô khuẩn, không lấy mẫu mang từ nhà, không dùng bao cao su thường (QĐ 315/2015, Vô sinh nam mục 2.2.1); kết quả thay đổi nhiều nên bất thường cần lặp lại, bình thường cũng không loại trừ (mục 1); làm song song hai vợ chồng (mục 3). Nam được đánh giá y khoa bởi bác sĩ tiết niệu chuyên sinh sản (EAU 2026, mục 11.2.1). Khám sớm hơn 12 tháng còn tranh cãi ở vợ trên 35 tuổi (mục 11.2.1); vợ anh 27 tuổi. Phòng khám không làm được tinh dịch đồ; mốc giới thiệu cụ thể: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Nhắc ăn uống – sinh hoạt cho người làm ca (bữa nhỏ trong ca, không nhịn ăn kéo dài, giảm cà phê, bia, đồ chiên khuya; ngủ đủ) và dặn dấu hiệu quay lại, hẹn tái khám sau khi ngưng thuốc</b></div><p class="why">Rome V 2026 (Treatment); VNAGE 2024 KC 13; Đồng thuận châu Á 2026 (Statement 15, 21). Dấu báo động: VNAGE 2024 KC 2. Mốc tái khám là lựa chọn của ca.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Ngưng mosapride ngay vì đã hết triệu chứng</b></div><p class="why">VNAGE 2024 KC 11 nêu 8 tuần rồi đánh giá lại; tài liệu đã tải không nêu ngưng sớm là có hại.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Làm lại men gan</b></div><p class="why">Hợp lý khi còn uống paracetamol 3–4 g/ngày và bia; không bắt buộc (lịch theo dõi: không có trong tài liệu đã tải).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Quay lại paracetamol 4–5 g/ngày khi đau lưng nặng lên</b></div><p class="why">Vượt trần 4 g/24 giờ, thuốc có thể gây hại cho gan (QĐ 361/2014, Phụ lục thuốc giảm đau mục 3.1); ngộ độc ở liều điều trị khi uống rượu (QĐ 3610/2015, mục 2).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Cho về, hẹn tái khám</span></div><p>Cho anh Bảo về, hẹn tái khám dạ dày, vì đã hết triệu chứng và nội soi bình thường, mà không hỏi lại chuyện con cái là bỏ sót lý do thật anh đến khám. Hai vợ chồng đã chậm có thai 14 tháng, quá mốc 12 tháng cần khám cả hai (QĐ 315/2015, Vô sinh nữ mục 1, Vô sinh nam mục 3; EAU 2026, mục 11.1); phòng khám không làm được tinh dịch đồ nên anh cần giấy giới thiệu. Không ai nhắc, anh tiếp tục âm thầm lo, trì hoãn đi khám vì ngại kết quả, và vợ anh cũng chưa được đánh giá song song. Kết quả dạ dày tốt không giải quyết nỗi lo đó.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhập viện anh Bảo để &quot;theo dõi dạ dày&quot; là không cần: đã hết triệu chứng, nội soi bình thường, sinh hiệu ổn, men gan ổn. Anh mất ngày công, tốn viện phí, và bị giữ ở nơi không làm được điều anh thật sự cần là khám sinh sản (tinh dịch đồ, đánh giá song song với vợ; QĐ 315/2015, Vô sinh nam mục 2.2.1, 3). Việc còn lại là tiếp tục thuốc đủ 8 tuần và có mốc quay lại, làm được ngoại trú (VNAGE 2024, KC 11).</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Khó tiêu chức năng thể sau ăn (PDS), đã đáp ứng thuốc vận động; nội soi bình thường, urease nhanh âm tính</li><li>Có tiền sử cha ung thư dạ dày: yếu tố nguy cơ lâu dài, đã nội soi bình thường</li><li>Lạm dụng paracetamol đã giảm nhưng chưa dưới 3 g/ngày mỗi ngày; men gan bình thường</li><li>Đau thắt lưng cơ học đang đỡ</li><li>Cặp vợ chồng chậm có thai 14 tháng chưa được đánh giá: cần khám song song, tinh dịch đồ</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự: hỏi bệnh (đáp ứng, tuân thủ, thuốc cụ thể, dấu báo động, lối sống ca trực, chuyện vợ chồng) → khám bụng, cân nặng → xem phiếu nội soi → chẩn đoán → xử trí. Anh vẫn nói &quot;khỏe lắm&quot; nên phải hỏi từng việc cụ thể.</li><li>Kết quả nội soi bình thường và urease âm tính (khi chưa dùng PPI, kháng sinh, bismuth: VNAGE 2023, Statement 6) cùng xét nghiệm cơ bản bình thường cho phép chẩn đoán khó tiêu chức năng một cách dương tính (Rome V 2026, B1; Đồng thuận châu Á 2026, Statement 3). Đáp ứng thuốc vận động phù hợp PDS (VNAGE 2024 KC 10).</li><li>Hết triệu chứng không có nghĩa bỏ được nội soi: nếu anh chưa soi, tiền sử cha ung thư dạ dày vẫn cần giải quyết (VNAGE 2024 KC 2). Ở đây anh đã soi; việc còn lại là mốc quay lại.</li><li>Kết cục tốt không hợp thức hóa quy trình sai: nội soi bình thường lần này là may; trước khi đến anh tự dùng 4–5 g paracetamol/ngày (vượt trần 4 g, QĐ 361/2014 mục 3.1), tự chẩn đoán, bỏ qua tiền sử cha mất vì ung thư dạ dày (VNAGE 2024 KC 2).</li><li>Lý do thật vẫn còn đó: chưa có tinh dịch đồ, vợ mới sắp khám phụ khoa.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Tiếp tục mosapride đủ 8 tuần (VNAGE 2024 KC 11) rồi ngưng. Ngưng sớm vẫn chấp nhận. Mốc ngưng riêng và cách giảm dần cho mosapride: không có trong tài liệu đã tải. Các mốc PPI 4–8, 8, 12 tuần, hay thử ngưng sau 6 tháng nếu đáp ứng (KC 8), chỉ áp dụng khi dùng PPI.</li><li>Tái phát trong 2–4 tuần sau ngưng hoặc có dấu báo động mới là chỉ định đánh giá lại, gồm nội soi lại (VNAGE 2023, Bảng 2; VNAGE 2024 KC 2, 11). Không soi lại để xác nhận khỏi, không thử H. pylori lần hai.</li><li>Paracetamol: hai mức 4 g và dưới 3 g (mục sổ TM-0250); ca khuyên dưới hoặc bằng 3 g vì bia cuối tuần; đau lưng chủ yếu bằng vận động (NICE NG59 1.2.1, 1.2.2).</li><li>Chuyện con cái: giới thiệu nam học/hiếm muộn, tinh dịch đồ với cách lấy mẫu đúng (QĐ 315/2015, Vô sinh nam mục 2.2.1), khám song song vợ (mục 3). Phòng khám không làm được nên đây là chuyển chuyên khoa.</li><li>Tái khám dạ dày sau khi ngưng thuốc để kiểm tra tái phát (mốc là lựa chọn của ca).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Mosapride</b><div class="sub">5 mg</div></td><td data-l="Liều">5 mg × 3 lần/ngày<div class="sub">Uống · Cách uống so với bữa ăn: không có trong tài liệu đã tải</div></td><td data-l="Thời gian">Uống tiếp 4 tuần nữa cho đủ 8 tuần rồi ngưng</td><td class="gc" data-l="Ghi chú">VNAGE 2024 KC 10, KC 11, Bảng 5. Giảm liều dần khi ngưng: không có trong tài liệu đã tải.</td></tr><tr><td><b>Paracetamol</b><div class="sub">500 mg</div></td><td data-l="Liều">1–2 viên mỗi lần, cách 6–8 giờ, tối đa 6 viên (3 g)/24 giờ<div class="sub">Uống · Khi đau lưng</div></td><td data-l="Thời gian">Khi cần, ngắn ngày</td><td class="gc" data-l="Ghi chú">QĐ 361/2014, Phụ lục thuốc giảm đau mục 3.1 (≤ 4 g/24 giờ) và mục 2 (bậc 1: 500–3.000 mg/24 giờ); ca chọn ≤ 3 g vì bia cuối tuần (QĐ 3610/2015, mục 2).</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Uống mosapride đủ 8 tuần theo đơn (VNAGE 2024 KC 11), không tự mua thêm thuốc.</li><li>Paracetamol tối đa 6 viên 500 mg (3 g) mỗi ngày kể cả đêm trực (QĐ 361/2014, Phụ lục thuốc giảm đau mục 2, 3.1); hạn chế bia; không dùng thuốc giảm đau chống viêm tự mua (VNAGE 2024 Bảng 3).</li><li>Ăn bữa nhỏ, đều; đêm trực đừng nhịn ăn kéo dài; giảm cà phê, đồ chiên; ngủ đủ.</li><li>Cầm giấy giới thiệu khoa nam học/hiếm muộn làm tinh dịch đồ: kiêng giao hợp 2–7 ngày, dùng ống vô khuẩn của cơ sở, không lấy mẫu mang từ nhà, không dùng bao cao su thường (QĐ 315/2015, Vô sinh nam mục 2.2.1). Nên đi cùng vợ vì thăm dò làm song song (mục 3).</li><li>Quay lại ngay nếu nôn ra máu, phân đen, nôn nhiều, nuốt nghẹn, sụt cân, vàng da (VNAGE 2024 KC 2), hoặc đầy bụng tái phát trong 2–4 tuần sau ngưng thuốc (VNAGE 2023, Bảng 2). Tái khám khoảng 4 tuần sau ngưng thuốc (mốc là lựa chọn của ca).</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-13">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Khó tiêu chức năng</b></div>
+<p class="note">Phải loại trừ: Loét dạ dày-tá tràng, Ung thư dạ dày</p><p>Hai tuần sau lượt 2, anh Bảo cùng vợ đến khoa hiếm muộn của bệnh viện tỉnh. Tinh dịch đồ lấy sau 3 ngày kiêng giao hợp không thấy bất thường, nhưng bác sĩ chuyên khoa vẫn khám song song với vợ vì kết quả bình thường không loại trừ nguyên nhân do nam (QĐ 315/2015, Vô sinh nam mục 1, 3). Anh ngưng mosapride sau đủ 8 tuần, không tái phát trong 4 tuần sau đó, giữ paracetamol dưới 3 g/ngày. Đây là kết cục tốt nhưng may mắn nhiều hơn quy trình: trước khi đến khám anh đã tự uống 4–5 g paracetamol mỗi ngày nhiều tháng không xét nghiệm gì, tự chẩn đoán &quot;viêm dạ dày&quot; dù cha mất vì ung thư dạ dày; men gan bình thường và nội soi không có tổn thương chỉ là may. Nếu người khám cũng làm ẩu như vậy (không hỏi tiền sử gia đình, không hỏi thuốc giảm đau, không hỏi nỗi lo thật) thì lần này cũng &quot;không sao&quot;, nhưng đó là near miss: kết cục tốt không hợp thức hóa quy trình sai.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-14">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Phủ nhận triệu chứng nặng: hỏi &quot;có nặng không&quot; anh đáp &quot;bình thường&quot;; chỉ khi hỏi chức năng (bỏ bữa tối, đêm trực không ăn nổi, nhờ đồng nghiệp làm thay) mới lộ mức nặng thật. Cha mất vì ung thư dạ dày và paracetamol 4–5 g/ngày cũng chỉ lộ khi hỏi đúng câu.</li><li>Chi tiết gây nhiễu: đầy bụng khởi phát ngay sau đêm quan hệ (trùng thời gian, không có tài liệu nào nói quan hệ gây khó tiêu), bia, cà phê, đau lưng và paracetamol (không nằm trong Bảng 3 của VNAGE 2024 nhưng đáng lo vì gan). Không cái nào là nguyên nhân thực thể.</li><li>Ràng buộc nguồn lực: không siêu âm, nội soi, test H. pylori không xâm lấn, soi phân, TSH; công thức máu và men gan vẫn đủ để loại thiếu máu và đánh giá gan. Nội soi kèm urease và tinh dịch đồ làm ở tuyến trên.</li><li>Nội soi lượt 1 không cấp cứu: nội soi khẩn quá tay khi không xuất huyết, không thiếu máu, không sụt cân; chuyển tuyến theo hẹn là đúng.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Người trẻ vẫn phải hỏi tiền sử gia đình ung thư dạ dày bằng câu hỏi cụ thể; hỏi chung &quot;gia đình có bệnh gì&quot; sẽ bỏ sót (VNAGE 2024 KC 2).</li><li>Phủ nhận triệu chứng nặng: dùng câu hỏi chức năng (ăn được bao nhiêu, bỏ bữa chưa, ai làm thay) thay cho câu hỏi cảm giác.</li><li>Hỏi tên nhóm thuốc: người trong nghề tin paracetamol an toàn và tự dùng 4–5 g/ngày; trần là 4 g, nhóm nguy cơ thì dưới 3 g (QĐ 361/2014; QĐ 3610/2015).</li><li>Đi nội soi lấy mẫu H. pylori thì không dùng PPI trước (ngưng ít nhất 2 tuần); thuốc vận động là lựa chọn hợp lý cho PDS khi chờ nội soi (VNAGE 2024 KC 10; VNAGE 2023 Statement 6).</li><li>Đỡ hoàn toàn không phải để bỏ hết: dùng thuốc đủ liệu trình, dặn mốc tái phát 2–4 tuần sau ngưng (VNAGE 2023 Bảng 2), và vẫn hỏi lại lý do thật.</li><li>Lý do thật (lo sinh sản) cần hỏi riêng bằng giọng kín đáo; chậm có thai quá 12 tháng thì khám song song hai vợ chồng, và kết quả tinh dịch đồ bình thường không loại trừ.</li><li>Kết cục tốt không hợp thức hóa quy trình sai (near miss).</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Rome V 2026 (B1): triệu chứng 3 tháng gần đây, khởi phát ≥ 6 tháng; PDS ≥ 2 ngày/tuần (Rome IV, VNAGE 2024: ≥ 3 ngày/tuần).</li><li>Dấu báo động (VNAGE 2024 KC 2): xuất huyết, thiếu máu, sụt cân &gt; 10%, nôn dai dẳng, nuốt nghẹn/đau khi nuốt, khối, hạch, tiền sử gia đình ung thư đường tiêu hóa trên.</li><li>H. pylori: test sinh thiết/urease khi nội soi; test không xâm lấn khi không nội soi; ngưng PPI ≥ 2 tuần, kháng sinh/bismuth ≥ 4 tuần trước test (VNAGE 2023, Statement 3–6).</li><li>PDS: thuốc vận động đầu tiên (VNAGE 2024 KC 10, mosapride 5 mg × 3, itopride 50 mg × 3, Bảng 5); PPI liều chuẩn 1 lần/ngày, không tăng liều (KC 7); 8 tuần rồi đánh giá (KC 11).</li><li>Paracetamol: tối đa 4 g/24 giờ, nhóm nguy cơ dưới 3 g/ngày (QĐ 361/2014, Phụ lục thuốc giảm đau mục 2, 3.1; Phụ lục NSAID mục 3.3).</li><li>Vô sinh: ≥ 12 tháng không tránh thai chưa có thai; khám song song hai vợ chồng; tinh dịch đồ kiêng giao hợp 2–7 ngày (QĐ 315/2015; EAU 2026, mục 11).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-15">Nguồn tài liệu <small>12</small></h3></summary><ul class=""><li>VNAGE 2024 – khó tiêu chức năng – TL-0178 – phần Introduction, KC 1–14 (Bảng 1), Bảng 2–5</li><li>VNAGE 2023 – H. pylori – TL-0179 – Statement 1–6, Bảng 2 (dấu báo động)</li><li>Rome V – Gastroduodenal Disorders 2026 – TL-0191 (tệp _ban_02) – B1, B1a, B1b (tr. 1241), Clinical Evaluation, Treatment (tr. 1243–1245)</li><li>Đồng thuận châu Á về khó tiêu chức năng 2026 – TL-0193 – Statement 3, 7, 15, 21, 23, 26; Bảng 2</li><li>BSG 2022 – khó tiêu chức năng – TL-0213 – Executive summary (chỉ định nội soi)</li><li>ACG/CAG 2017 – khó tiêu – TL-0232 – Statement 2 (tr. 991–992)</li><li>Taipei Global Consensus 2025 – TL-0200 – Table 1 (Statement 16), tr. 1780–1781 (tiền sử gia đình)</li><li>BYT QĐ 361/2014 – bệnh cơ xương khớp – TL-0286 – Hội chứng đau thắt lưng (mục 4.2.1), Phụ lục thuốc giảm đau (mục 2, 3.1), Phụ lục NSAID (mục 3.3)</li><li>NICE NG59 – đau thắt lưng – TL-0372 – 1.2.1, 1.2.2, 1.2.3, 1.2.22, 1.2.26</li><li>BYT QĐ 3610/2015 – ngộ độc – TL-0035 – Ngộ độc paracetamol (mục 2, 3.2, 3.3, 4.3); WHO AWaRe 2022 – TL-0018 – tr. 48</li><li>BYT QĐ 315/2015 – sản phụ khoa – TL-0036 – Vô sinh nữ (mục 1), Vô sinh nam (mục 1, 2.1, 2.2.1, 3); EAU 2026 sức khỏe tình dục và sinh sản – TL-0509 – mục 11.1, 11.2.1</li><li>Không có trong tài liệu đã tải: cách uống thuốc vận động so với bữa ăn, chống chỉ định và tương tác của mosapride/itopride, mốc ngưng và giảm dần thuốc vận động; định nghĩa &quot;khỏi hoàn toàn&quot; và thời gian không triệu chứng tối thiểu; lịch theo dõi men gan khi dùng paracetamol kéo dài; mốc nội soi theo hẹn; mốc tái khám 4 tuần; lịch nội soi định kỳ cho người có cha ung thư dạ dày đã soi bình thường; kỹ thuật nâng bệnh nhân an toàn; ảnh hưởng của khó tiêu hay paracetamol lên khả năng sinh sản.</li></ul></details>
+<details class="card"><summary><h3 id="m-16">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Tiêu hóa - gan mật</dd><dt>chan_doan_dich</dt><dd>Khó tiêu chức năng</dd><dt>chan_doan_phai_loai_tru</dt><dd>Loét dạ dày-tá tràng; Ung thư dạ dày</dd><dt>nhom_tuoi</dt><dd>Thanh niên (16–39 tuổi)</dd><dt>gioi</dt><dd>Nam</dd><dt>do_kho</dt><dd>Điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>co_co_do</dt><dd>Có</dd><dt>so_luot_kham</dt><dd>2</dd><dt>dien_tien_tai_kham</dt><dd>Đỡ hoàn toàn khi tái khám</dd><dt>nhieu_benh_nhan</dt><dd>Phủ nhận triệu chứng nặng</dd><dt>rang_buoc_nguon_luc</dt><dd>Chỉ có xét nghiệm cơ bản</dd><dt>nghe_nghiep</dt><dd>Điều dưỡng</dd><dt>yeu_to_khoi_phat</dt><dd>Sau quan hệ tình dục</dd><dt>thuoc_dang_dung</dt><dd>Paracetamol liều cao kéo dài</dd><dt>ly_do_that_su_den_kham</dt><dd>Lo lắng về khả năng sinh sản</dd><dt>loai_ket_cuc</dt><dd>Xử trí ẩu nhưng may mắn không sao</dd></dl><ul class=""><li>2026-10-25 (bản 1). Đã đọc: VNAGE 2024 (TL-0178: KC 1–14, Bảng 2–5), VNAGE 2023 (TL-0179: Statement 1–6, Bảng 2), Rome V ban_02 (TL-0191: B1, Clinical Evaluation, Treatment), Đồng thuận châu Á 2026 (TL-0193: Statement 3, 7, 15, 21, 23, 26, Bảng 2), BSG 2022 (TL-0213: Executive summary, phần bàn luận nội soi), ACG/CAG 2017 (TL-0232: Statement 2), Taipei 2025 (TL-0200: Table 1, tr. 1780–1781), Maastricht VI (TL-0215: WG2 Statement 1, chỉ tra), QĐ 361/2014 (TL-0286), NICE NG59 (TL-0372), QĐ 3610/2015 (TL-0035), WHO AWaRe 2022 (TL-0018), QĐ 315/2015 (TL-0036), EAU 2026 (TL-0509).</li><li>Thiết kế: cờ đỏ (co_co_do Có) = cha mất vì ung thư dạ dày (VNAGE 2024 KC 2: tiền sử gia đình là dấu báo động) cộng paracetamol 4–5 g/ngày. Nội soi/urease làm ở tuyến trên vì phòng khám không có (khoa_cls), nên lượt 1 là ve_hen kèm giấy giới thiệu nội soi theo hẹn (cùng kiểu TH-0295). Lượt 2 sau 4 tuần: đã đỡ hoàn toàn, nội soi bình thường (xử trí lượt 1 đúng, bệnh nhân đã đi soi), việc còn lại là lý do thật nên ket_luan là chuyển chuyên khoa nam học/hiếm muộn.</li><li>Triệu chứng 8 tháng để thỏa Rome (khởi phát ≥ 6 tháng); khởi phát &quot;sau quan hệ tình dục&quot; đặt là lần rõ rệt đầu tiên, tình cờ về thời gian. Chọn mosapride thay PPI vì sắp lấy sinh thiết/urease (PPI ngưng ≥ 2 tuần) và để tránh nhóm đối kháng dopamin gây tăng prolactin, vú to ở nam (lựa chọn của ca, ghi trong n).</li><li>Ghi cả hai cách theo mục sổ: thời gian PPI (TH-0083), thuốc vận động hoặc PPI (TH-0061), liều paracetamol (TM-0250); mục mới: nội soi ở người dưới 40 tuổi có tiền sử gia đình ung thư dạ dày (xem TH-0045_mau_thuan.md). Không cần mục danh mục mới: mọi id khám và CLS đã có.</li><li>Thiếu tài liệu: xem mục cuối của nguon.</li></ul></details>
+<p class="chan-trang">Ca TH-0045 · phiên bản ca 1 · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

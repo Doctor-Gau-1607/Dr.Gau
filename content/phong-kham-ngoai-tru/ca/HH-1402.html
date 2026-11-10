@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HH-1402 · Đợt cấp giãn phế quản</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · HH-1402</div>
+   <h1>Mệt, ăn ít, ngủ nhiều mấy hôm nay (con gái đưa đi, xin truyền chai nước)</h1>
+   <p class="dich-gia">Lê Thị Nhàn · Nữ · 82 tuổi · 48 kg</p>
+   <div class="chips"><span class="chip">Hô hấp cấp tính</span><span class="chip">Không điển hình</span><span class="chip">1 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Cô giáo tiểu học đã nghỉ hưu</dd><dt>Chiều cao, cân nặng</dt><dd>152 cm · 48 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi bà là &#x27;cô&#x27; (bà thích được gọi cô vì làm giáo viên cả đời). Bà tự xưng &#x27;cô&#x27;, gọi bác sĩ là &#x27;em&#x27;. Chị Hạnh gọi mẹ là &#x27;mẹ&#x27;, xưng &#x27;em&#x27; với bác sĩ, gọi bác sĩ là &#x27;bác sĩ&#x27;.</dd><dt>Tính cách</dt><dd>Cứng cỏi, trọng thể diện, không thích làm phiền ai và ghét bị coi là yếu. Trả lời ngắn, hay gạt đi &#x27;cô không sao&#x27;. Hôm nay lờ đờ, hay thiếp đi giữa câu, đôi lúc lạc đề.</dd><dt>Người nhà</dt><dd>Chị Hạnh (con gái) – Con gái, chị Hạnh, 54 tuổi, kế toán. Lo lắng, nói nhanh, hay thay mẹ trả lời. Biết mẹ ăn ít, ngủ nhiều, lú lẫn đêm qua. Không biết mẹ nuốt đờm và uống thuốc giảm đau xương khớp mua ở tiệm. Muốn xin giấy bác sĩ để xin nghỉ làm, nói ra khi được hỏi.</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Phòng khám không có bất kỳ xét nghiệm nào: không xét nghiệm máu, nước tiểu, đờm; không X-quang, siêu âm, CT, nội soi. Còn dùng được: máy điện tim, ống nghe, nhiệt kế, huyết áp kế, máy đo SpO₂, cân, bình oxy. Quyết định phải đưa ra bằng lâm sàng.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/1</span> Lượt khám duy nhất</h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Nữ 82 tuổi, cựu giáo viên tiểu học, đến phòng khám đa khoa lúc 9 giờ sáng thứ Bảy cùng con gái là chị Hạnh. Chị kể mẹ mấy hôm nay mệt, ăn ít, ngủ nhiều, đêm qua suýt té khi dậy đi tiểu. Chị Hạnh xin bác sĩ truyền cho mẹ một chai nước và cho thuốc bổ. Bà tự nhận là chỉ mệt vì tuổi già. Sinh hiệu lúc tiếp đón: mạch 112 l/p, HA 96/58 mmHg, nhiệt độ 37,6 °C, nhịp thở 26 l/p, SpO₂ 91% khí trời.</p>
+  <blockquote>“Chào bác sĩ. Cô không sao đâu em, chỉ mệt chút thôi, tuổi già mà. Con gái nó cứ bắt cô đi khám. Em truyền cho cô chai nước là khỏe ngay.”</blockquote>
+  <div class="vitals"><div class="vs warn"><span>Mạch</span><b>112</b><small>l/p</small></div><div class="vs warn"><span>HA</span><b>96/58</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>37,6</b><small>°C</small></div><div class="vs warn"><span>Nhịp thở</span><b>26</b><small>l/p</small></div><div class="vs warn"><span>SpO₂</span><b>91</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>11 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lú lẫn mới, ăn kém, suýt té ở người rất cao tuổi (biểu hiện không điển hình)</b><span class="tag t-g">Tự kể</span></div><p>Chị Hạnh: mẹ em mấy hôm nay ăn rất ít, cứ ngủ gà ngủ gật ban ngày. Tối hôm qua mẹ gọi em bằng tên cô em, rồi dậy đi tiểu thì loạng choạng, em đỡ kịp. Mẹ không đập đầu. Trước nay bà minh mẫn, còn tự đi chợ.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khởi phát sau buổi tập ngoài trời lạnh, 4 ngày</b><span class="tag t-b">Khi được hỏi</span></div><p>Bà: cách đây bốn hôm, cô đi tập dưỡng sinh ở công viên từ sáng sớm, trời trở lạnh, ra mồ hôi rồi đứng hóng gió. Hôm sau thấy mệt, ho nhiều hơn mọi khi, rồi ăn không ngon.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đờm mủ tăng, nuốt không khạc (đổi tính chất đờm: tiêu chuẩn đợt cấp)</b><span class="tag t-r">Giấu</span></div><p>Bà thật ra đờm mấy hôm nay đặc, vàng xanh, nhiều hơn thường ngày, nhưng ho yếu nên bà nuốt xuống chứ không khạc ra. Chị Hạnh không thấy bà khạc nên không biết.</p><div class="cond">Điều kiện nói ra: Bà gạt đi &#x27;ho thường thôi&#x27; nếu chỉ hỏi chung có ho, có đờm không. Chỉ kể khi bác sĩ hỏi cụ thể màu đờm, đặc hay loãng, lượng so với bình thường, và bà khạc ra hay nuốt xuống.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Ho khạc đờm mạn 20 năm, sởi thuở nhỏ, nhiều đợt/năm; không hút thuốc</b><span class="tag t-b">Khi được hỏi</span></div><p>Bà: cô ho khạc đờm buổi sáng đã chừng hai chục năm, mỗi sáng khạc nửa chén đờm đục, ai cũng nói &#x27;ho người già&#x27;. Hồi nhỏ cô bị sởi rồi ho dai dẳng nhiều tháng. Mỗi năm cô uống kháng sinh vài đợt vì ho nhiều. Chưa ai chụp phổi hay đo hơi thở cho cô. Cô không hút thuốc, hồi trẻ nấu bếp củi, bếp than.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>NSAID tự mua 2 tuần, khi ăn kém và mất nước</b><span class="tag t-r">Giấu</span></div><p>Bà: hai tuần nay đau gối, cô mua ở tiệm thuốc đầu ngõ vỉ thuốc giảm đau xương khớp (ghi diclofenac 50 mg) uống ngày hai viên, đau đỡ nên cứ uống. Cô không nghĩ là liên quan, thuốc xương khớp mà.</p><div class="cond">Điều kiện nói ra: Bà trả lời &#x27;không uống thuốc gì&#x27; nếu bác sĩ hỏi chung. Chỉ kể khi hỏi cụ thể thuốc giảm đau, thuốc xương khớp, thuốc mua ở tiệm không cần toa.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Ăn uống kém 3 ngày, tiểu ít sẫm: mất nước</b><span class="tag t-b">Khi được hỏi</span></div><p>Chị Hạnh: ba ngày nay mẹ chỉ ăn vài thìa cháo, uống nước rất ít. Nước tiểu ít và sẫm màu. Mẹ không nôn, không tiêu chảy.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Không dấu hiệu lao đặc hiệu, không tiếp xúc lao, không ho máu</b><span class="tag t-b">Khi được hỏi</span></div><p>Chị Hạnh: mẹ không sốt về chiều, không ra mồ hôi đêm, cả năm nay sút chừng 2 kg vì ăn ít. Trong nhà không ai ho kéo dài hay điều trị lao. Mẹ chưa bao giờ bị ho ra máu.</p></div><div class="fact"><div class="fh"><b>Không sốt cao, không kêu khó thở (người rất cao tuổi)</b><span class="tag t-b">Khi được hỏi</span></div><p>Chị Hạnh: ở nhà em đo 37,5 độ, mẹ không rét run. Mẹ không đau ngực, cũng không kêu khó thở, chỉ thở &#x27;nghe nặng nặng&#x27; khi lên giường.</p></div><div class="fact"><div class="fh"><b>Đòi truyền dịch (nhiễu)</b><span class="tag t-g">Tự kể</span></div><p>Chị Hạnh và bà đều muốn truyền chai nước: tháng trước bà hàng xóm cũng mệt, đi truyền một chai là khỏe hẳn. Chị nói &#x27;bác sĩ cứ truyền cho mẹ có sức, em trả tiền&#x27;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Động cơ thật: xin giấy để nghỉ làm chăm mẹ</b><span class="tag t-r">Giấu</span></div><p>Chị Hạnh là nhân viên kế toán, công ty yêu cầu có giấy bác sĩ thì mới cho nghỉ phép chăm người thân ốm. Chị đưa mẹ đi chủ yếu để xin giấy này, nói thêm &#x27;em phải nghỉ ít nhất vài ngày mới lo được cho mẹ&#x27;.</p><div class="cond">Điều kiện nói ra: Lúc đầu chị chỉ nói &#x27;xin thuốc cho mẹ&#x27;. Chỉ nói thật khi bác sĩ hỏi chị còn cần gì khác hôm nay, hoặc hỏi ai sẽ chăm bà những ngày tới, công việc của chị.</div></div><div class="fact"><div class="fh"><b>Điều kiện chuyển tuyến</b><span class="tag t-b">Khi được hỏi</span></div><p>Nhà cách bệnh viện tỉnh khoảng 25 km. Con rể có ô tô nhưng đi làm, chị Hạnh gọi được. Bà sống cùng vợ chồng chị Hạnh, không có bảo hiểm y tế bị gián đoạn.</p></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>11 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Gầy, lờ đờ, trả lời chậm. Môi và lưỡi khô.</p><p><span class="lbl">Kết quả:</span> Gầy, 48 kg, cao 152 cm, BMI 20,8. Lờ đờ nhưng mở mắt khi gọi, trả lời chậm, hay lạc đề. Môi khô nứt, lưỡi khô, nếp véo da ở mu tay trở lại chậm. Không tím môi nhưng đầu ngón tay hơi sẫm.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Khám tâm thần (dáng vẻ, khí sắc, tư duy, nhận thức, ý tưởng tự hại)</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Hay mất tập trung, sai ngày tháng.</p><p><span class="lbl">Kết quả:</span> Tỉnh nhưng hay thiếp đi giữa câu. Sai ngày và tháng, biết tên mình, biết đang ở phòng khám, nhận ra con gái. Đếm ngược từ 20 lệch sau 3 số. Không ảo giác. Cơn lú lẫn mới trong vài ngày, trước đó minh mẫn.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, nhanh, 112 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 112 l/p. T1, T2 rõ, không âm thổi. Mỏm tim không lệch.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – Tim nhanh đều, T1 T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-NHANH-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><span class="key">★</span><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Thở nhanh nông, lồng ngực cân đối, gõ trong hai bên.</p><p><span class="lbl">Kết quả:</span> Thở nhanh nông 26 l/p, dùng nhẹ cơ hô hấp phụ, không co kéo khoang liên sườn. Đáy phổi phải: ran nổ to hạt cố định, không mất sau khi ho, kèm vài ran ngáy thoáng qua. Đáy phổi trái: rì rào phế nang giảm nhẹ, không ran. Rung thanh và gõ không rõ đông đặc.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Ran nổ to hạt, cố định ở đáy phải.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-RAN-NO-TO-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Rì rào phế nang, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Da đầu, móng tay chân</b></div><p><span class="lbl">Kết quả:</span> Móng tay hai bàn tay hơi khum, đầu ngón hơi tròn. Không tím ngoại biên rõ.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b></div><p><span class="lbl">Kết quả:</span> Họng hơi đỏ, không đờm chảy sau mũi, không ấn đau xoang. Không có biểu hiện viêm đa xoang đi kèm.</p></div><div class="row"><div class="rh"><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm, không điểm đau, gan lách không to. Không bí tiểu, cầu bàng quang không căng.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b></div><p><span class="lbl">Kết quả:</span> Không phù chân, bắp chân mềm không đau, hai bên đối xứng.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thần kinh</b></div><p><span class="lbl">Kết quả:</span> Không liệt khu trú, không lệch mặt, nói không ngọng, cổ mềm, sức cơ 5/5 bốn chi. Không có dấu hiệu màng não hay thần kinh khu trú giải thích được cơn lú lẫn.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đo huyết áp tư thế nằm – đứng</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> HA khi nằm và khi ngồi dậy được ghi lại.</p><p><span class="lbl">Kết quả:</span> Nằm 98/60 mmHg, mạch 108. Ngồi dậy hỗ trợ một phút: 86/54 mmHg, mạch 124, chóng mặt, SpO₂ 89%. Dừng nghiệm pháp, cho nằm lại.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Nghiệm pháp đi bộ đo SpO₂</b></div><p><span class="lbl">Kết quả:</span> Không làm được an toàn: bà không tự đứng vững, chỉ ngồi dậy cũng thở dốc, SpO₂ từ 91% xuống 89%. Việc đi bộ đo SpO₂ không phù hợp ở người đang lú lẫn và hạ huyết áp.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>11 mục</small></h3></summary><div class="row"><div class="rh"><b>X-quang ngực thẳng</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> X-quang ngực thẳng: các đường ray và vài ổ sáng nhỏ ở đáy phổi phải, đám mờ không đồng nhất vùng đáy phải, không tràn dịch màng phổi, bóng tim không to.</p><p class="note">Thay thế khi cơ sở không có: phoi</p><p class="why">Cơ sở không có X-quang: khám phổi kỹ thay thế một phần nhưng không thay được; X-quang thường bình thường ở 7–30% giãn phế quản (QĐ 4235/2012, bài Giãn phế quản mục 2.1.2). Bước này phải làm ở tuyến trên.</p></div><div class="row"><div class="rh"><b>CT ngực (có hoặc không cản quang, gồm CT động mạch phổi)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> CT ngực lớp mỏng: giãn phế quản dạng trụ và túi thùy dưới phải, thành phế quản dày, nút nhầy; đám đông đặc nhỏ quanh vùng giãn. Không hang, không nốt dạng lao.</p><p class="why">CT lớp mỏng độ phân giải cao là tiêu chuẩn vàng để xác định giãn phế quản (QĐ 4235/2012 mục 2.1.2; QĐ 708/2015 mục 3.2d), làm ở tuyến trên.</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-g">Cần làm</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class="hi"><td>Số lượng bạch cầu (WBC)</td><td class="num">15,4 ↑</td><td>G/L</td><td class="ref">4,0–10,0</td></tr><tr class="hi"><td>Tỷ lệ bạch cầu trung tính (NEU%)</td><td class="num">84,0 ↑</td><td>%</td><td class="ref">45–75</td></tr><tr class="hi"><td>Số lượng bạch cầu trung tính (NEU#)</td><td class="num">12,9 ↑</td><td>G/L</td><td class="ref">2,0–7,5</td></tr><tr class="lo"><td>Tỷ lệ bạch cầu lympho (LYM%)</td><td class="num">9,0 ↓</td><td>%</td><td class="ref">20–40</td></tr><tr class=""><td>Số lượng bạch cầu lympho (LYM#)</td><td class="num">1,39</td><td>G/L</td><td class="ref">1,0–4,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu mono (MONO%)</td><td class="num">6,0</td><td>%</td><td class="ref">2–10</td></tr><tr class=""><td>Số lượng bạch cầu mono (MONO#)</td><td class="num">0,92</td><td>G/L</td><td class="ref">0,2–1,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa acid (EOS%)</td><td class="num">0,7</td><td>%</td><td class="ref">0–7</td></tr><tr class=""><td>Số lượng bạch cầu ưa acid (EOS#)</td><td class="num">0,11</td><td>G/L</td><td class="ref">0–0,5</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa base (BASO%)</td><td class="num">0,3</td><td>%</td><td class="ref">0–1</td></tr><tr class=""><td>Số lượng bạch cầu ưa base (BASO#)</td><td class="num">0,05</td><td>G/L</td><td class="ref">0–0,1</td></tr><tr class=""><td>Số lượng hồng cầu (RBC)</td><td class="num">3,9</td><td>T/L</td><td class="ref">3,8–4,8</td></tr><tr class="lo"><td>Lượng huyết sắc tố (HGB)</td><td class="num">118 ↓</td><td>g/L</td><td class="ref">120–150</td></tr><tr class=""><td>Thể tích khối hồng cầu (HCT)</td><td class="num">0,36</td><td>L/L</td><td class="ref">0,36–0,46</td></tr><tr class=""><td>Thể tích trung bình hồng cầu (MCV)</td><td class="num">92,3</td><td>fL</td><td class="ref">80–100</td></tr><tr class=""><td>Lượng HST trung bình hồng cầu (MCH)</td><td class="num">30,3</td><td>pg</td><td class="ref">27–32</td></tr><tr class=""><td>Nồng độ HST trung bình hồng cầu (MCHC)</td><td class="num">328</td><td>g/L</td><td class="ref">320–360</td></tr><tr class=""><td>Dải phân bố kích thước hồng cầu (RDW-CV)</td><td class="num">13,8</td><td>%</td><td class="ref">11,5–14,5</td></tr><tr class=""><td>Số lượng tiểu cầu (PLT)</td><td class="num">268</td><td>G/L</td><td class="ref">150–400</td></tr></tbody></table><p class="why">Bạch cầu tăng, ưu thế đa nhân trung tính (QĐ 2147/2026 mục 3.1.2). Cơ sở không làm xét nghiệm.</p></div><div class="row"><div class="rh"><b>Ure, creatinin, eGFR</b><span class="tag t-g">Cần làm</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class="hi"><td>Ure</td><td class="num">11,6 ↑</td><td>mmol/L</td><td class="ref">2,5–7,5</td></tr><tr class="hi"><td>Creatinin</td><td class="num">132 ↑</td><td>µmol/L</td><td class="ref">53–100</td></tr><tr class="lo"><td>eGFR (CKD-EPI 2021)</td><td class="num">35 ↓</td><td>mL/ph/1,73m²</td><td class="ref">≥ 90</td></tr></tbody></table><p class="why">Ure &gt; 7 mmol/L tính 1 điểm CURB-65 (QĐ 2147/2026 mục 3.2.1). NSAID cần tránh khi độ thanh thải creatinin &lt; 30 mL/ph (AGS Beers 2023 Bảng 6); tránh dùng NSAID kéo dài ở người &gt; 75 tuổi (Bảng 2). Cơ sở không làm được.</p></div><div class="row"><div class="rh"><b>CRP</b><span class="tag t-b">Hữu ích</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class="hi"><td>CRP</td><td class="num">96,0 ↑</td><td>mg/L</td><td class="ref">≤ 5</td></tr></tbody></table><p class="why">CRP tăng trong viêm phổi (QĐ 2147/2026 mục 3.1.2).</p></div><div class="row"><div class="rh"><b>Xpert MTB/RIF và soi AFB đờm</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Xpert MTB/RIF: không phát hiện MTB. Soi AFB đờm: âm tính.</p><p class="why">Xpert là xét nghiệm ban đầu khi nghi lao (QĐ 162/2024, Sơ đồ 2); lấy đờm gửi đi cùng bà khi chuyển. Bà không có ho máu, sốt chiều, mồ hôi đêm nên lao ít khả năng nhưng ho kéo dài trên 2 tuần là triệu chứng nghi lao (QĐ 162/2024 Bảng 1).</p></div><div class="row"><div class="rh"><b>Nhuộm Gram, cấy đờm và cấy máu</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Nhuộm Gram đờm: nhiều bạch cầu đa nhân, trực khuẩn Gram âm. Cấy đờm: Haemophilus influenzae (kết quả sau 48–72 giờ).</p><p class="why">Lấy đờm trước kháng sinh (ERS 2025, câu hỏi tường thuật 2).</p></div><div class="row"><div class="rh"><b>Điện tâm đồ 12 chuyển đạo</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Nhịp xoang nhanh 110 l/p, không rung nhĩ, không ST chênh, trục trung gian.</p><p class="why">Điện tim giúp loại trừ rối loạn nhịp khi mạch nhanh; QĐ 708/2015 mục 3.2e: điện tim để phát hiện sớm tâm phế mạn. Máy điện tim dùng được (không phải xét nghiệm); kết quả không thay đổi quyết định chuyển tuyến.</p></div><div class="row"><div class="rh"><b>Hô hấp ký (đo chức năng thông khí) kèm test hồi phục phế quản</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> FEV1/FVC 0,64 sau test hồi phục phế quản (đo khi ổn định, ở tuyến trên).</p><p class="why">Không làm trong lúc đang đợt cấp và người lú lẫn không phối hợp được; chẩn đoán xác định COPD cần FEV1/FVC &lt; 70% sau test hồi phục (QĐ 2767/2023 mục 1.2.2). Giãn phế quản và COPD có thể cùng tồn tại (QĐ 2767/2023 mục 4.2.3).</p></div><div class="row"><div class="rh"><b>Quantiferon (IGRA) hoặc test Mantoux</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Dương tính (nhiễm lao tiềm ẩn).</p><p class="why">IGRA/Mantoux không giúp phân biệt lao hoạt động trong lúc bệnh cấp ở người 82 tuổi: không có trong tài liệu đã tải một chỉ định ở bối cảnh này; không cần ở ca này.</p></div><div class="row"><div class="rh"><b>Siêu âm phổi – màng phổi tại giường</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Siêu âm phổi: có vài đường B và đám đông đặc nhỏ dưới màng phổi đáy phải, không tràn dịch.</p><p class="why">Cơ sở không có máy siêu âm.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Chuyển tuyến / chuyên khoa</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Đợt cấp giãn phế quản mức nặng (chẩn đoán lâm sàng, chờ CT lớp mỏng), vùng đáy phổi phải, ở người 82 tuổi, biểu hiện không điển hình (lú lẫn mới, ăn kém, không sốt cao, nuốt đờm), có giảm oxy máu nhẹ</b></div><p class="why">Ho khạc đờm mạn nhiều năm, sởi thuở nhỏ, nhiều đợt kháng sinh/năm, ran nổ to hạt cố định, móng khum (QĐ 4235/2012, bài Giãn phế quản mục 2.1.1; QĐ 708/2015 mục 3.1). Đợt cấp là triệu chứng xấu đi vượt biến thiên hằng ngày, đòi hỏi đổi xử trí; dấu hiệu nặng gồm thở nhanh, SpO₂ giảm rõ, rối loạn nhận thức (ERS 2025, câu hỏi tường thuật 2). Ở người cao tuổi biểu hiện có thể không rầm rộ, có thể không sốt (QĐ 2147/2026 mục 3.1.1).</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Mất nước kèm hạ huyết áp tư thế, nguy cơ tổn thương thận cấp do NSAID tự mua (chưa có xét nghiệm)</b></div><p class="why">Ăn uống kém 3 ngày, tiểu ít, môi lưỡi khô, HA ngồi dậy tụt 98/60 xuống 86/54. Đang dùng diclofenac 2 tuần. NSAID tránh dùng kéo dài ở người &gt; 75 tuổi và khi độ thanh thải creatinin &lt; 30 (AGS Beers 2023 Bảng 2, Bảng 6); QĐ 361/2014 Phụ lục NSAID mục 3.3: người cao tuổi, gầy yếu thì tránh NSAID nếu có thể. Chưa đo được creatinin nên ghi là nguy cơ, chuyển tuyến để kiểm tra. Tiêu chuẩn chẩn đoán mất nước ở người cao tuổi: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm phổi mắc phải ở cộng đồng (chưa loại trừ, chồng lên giãn phế quản)</b></div><p class="why">Ran nổ cố định đáy phải, thở nhanh, tăng bạch cầu có thể gặp. Không có X-quang nên không loại trừ được. Điểm CRB-65 = 3 (lú lẫn mới, HA tâm trương 58 ≤ 60 mmHg, tuổi ≥ 65; thở 26 l/p dưới 30): nhóm điều trị nội trú (QĐ 2147/2026 mục 3.2.1). Xử trí kháng sinh và nơi điều trị gần như trùng với đợt cấp giãn phế quản nặng.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Lao phổi</b></div><p class="why">Chưa loại trừ hoàn toàn khi ho khạc kéo dài hai chục năm (ho trên 2 tuần là triệu chứng nghi lao, QĐ 162/2024 Phần II Bảng 1). Nghiêng về giãn phế quản vì không sốt chiều, không mồ hôi đêm, không ho máu, không tiếp xúc lao, tổn thương đáy phổi (lao hay gặp phân thùy 1, 2 thùy trên và phân thùy 6, Bảng 2). Gửi đờm Xpert (Sơ đồ 2) và tránh fluoroquinolon khi chưa loại trừ lao (Sơ đồ 1, chú thích *, theo sổ mâu thuẫn HH-1409).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>COPD</b></div><p class="why">Bà không hút thuốc, chỉ phơi nhiễm khói bếp củi thuở trẻ. Đờm mạn hai chục năm và ran khu trú nghiêng về giãn phế quản (QĐ 2767/2023 mục 1.2.3 nêu ho khạc đờm tái đi tái lại, ran khu trú, CT thấy giãn phế quản). Xác định COPD cần hô hấp ký FEV1/FVC &lt; 70% sau test hồi phục (mục 1.2.2), không làm được lúc đang đợt cấp và lú lẫn; hai bệnh có thể cùng có (mục 4.2.3).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Đột quỵ hoặc nguyên nhân thần kinh gây lú lẫn</b></div><p class="why">Không dấu thần kinh khu trú, khởi phát cùng lúc với đợt cấp hô hấp, có giảm oxy máu và mất nước. Nếu hết lú lẫn khi điều trị nhiễm trùng và bù nước thì không cần tìm thêm; tuyến trên đánh giá lại nếu còn lú lẫn. Chi tiết chẩn đoán sảng ở người cao tuổi: không có trong tài liệu đã tải.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chuyển ngay bệnh viện có X-quang/CT, xét nghiệm, oxy và kháng sinh tĩnh mạch (xe cấp cứu có nhân viên y tế đi kèm, người nhà đi cùng), gọi trước cho nơi nhận</b></div><p class="why">ERS 2025 (câu hỏi tường thuật 2): người không đáp ứng kháng sinh uống hoặc có dấu nặng (thở nhanh, SpO₂ giảm, rối loạn nhận thức) cần xem lại để đổi sang kháng sinh tĩnh mạch và/hoặc nhập viện. CRB-65 = 3 thuộc nhóm điều trị nội trú (QĐ 2147/2026 mục 3.2.1). Chẩn đoán xác định cần CT lớp mỏng (QĐ 4235/2012 mục 2.1.2). Cơ sở không có xét nghiệm, X-quang, siêu âm. Việc phối hợp vận chuyển, SBAR: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Cho thở oxy qua mũi nếu có bình oxy, cho nằm đầu cao, theo dõi SpO₂ và nhịp thở trong lúc chờ xe và trên đường chuyển</b></div><p class="why">Thở oxy trong đợt cấp khi có thiếu oxy máu (QĐ 708/2015, Giãn phế quản mục 4.1). Ngưỡng SpO₂ để bắt đầu và lưu lượng oxy: không có trong tài liệu đã tải (QĐ 2147/2026 mục 3.2.2 chỉ dùng SpO₂ &lt; 90% làm một yếu tố trong chỉ số PSI).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không truyền nhanh chai nước biển theo yêu cầu: cho uống nước từng ngụm nhỏ nếu nuốt tốt, đặt đường truyền ngoại vi sẵn; dịch truyền và tốc độ do tuyến trên quyết theo huyết áp, SpO₂ và nước tiểu</b></div><p class="why">QĐ 708/2015 mục 4.1 viết &#x27;uống đủ nước, truyền dịch để làm loãng đờm&#x27; nhưng không nêu chỉ định, thể tích hay tốc độ; QĐ 4235/2012 (Điều trị ho máu mục 3.5) chỉ nêu truyền dịch cho ho máu nặng. Người bệnh đang thở nhanh, SpO₂ 91%, 82 tuổi: lượng dịch an toàn không có trong tài liệu đã tải. Lập luận cho chị Hạnh: mẹ đang thiếu oxy chứ không chỉ thiếu nước, truyền nhanh có thể làm khó thở nặng hơn; dịch cần đo và chỉnh ở nơi theo dõi được.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ngừng ngay diclofenac tự mua, báo cho tuyến trên tên thuốc và thời gian đã dùng, không dùng NSAID khác</b></div><p class="why">AGS Beers 2023 Bảng 2: tránh dùng NSAID uống kéo dài ở người &gt; 75 tuổi, trừ khi không có thuốc khác và dùng được thuốc bảo vệ dạ dày; Bảng 6: tránh NSAID khi độ thanh thải creatinin &lt; 30 mL/ph. QĐ 361/2014 Phụ lục NSAID mục 3.3 (nguy cơ cao): tránh NSAID nếu có thể.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Lấy đờm vào lọ vô khuẩn nếu bà khạc được (hướng dẫn khạc nhẹ hoặc hút), ghi giờ lấy, đem theo bà để tuyến trên cấy và gửi Xpert; không trì hoãn chuyển để chờ đờm</b></div><p class="why">Lấy đờm trước kháng sinh (ERS 2025, câu hỏi tường thuật 2). Bà đang nuốt đờm nên có thể không lấy được; nếu lấy được thì chỉ lấy khi không làm chậm chuyển.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Cho liều kháng sinh uống đầu tiên trước khi chuyển nếu bà nuốt được: amoxicillin/acid clavulanic</b></div><p class="why">Giãn phế quản đợt cấp, nghi beta-lactamase: amoxicillin–clavulanat (QĐ 708/2015 mục 4.3.2b); uống hay tiêm tùy mức độ (mục 4.3.1). Đáp án chính là chuyển để dùng kháng sinh tĩnh mạch nên chỉ chấm a, tránh làm trễ chuyển. Nhiều phác đồ cho nhóm CURB65 = 2 phối hợp thêm macrolid (QĐ 4235/2012, bài Viêm phổi mắc phải ở cộng đồng mục 3.2.2); tuyến trên quyết.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Hỏi chị Hạnh còn cần gì hôm nay; giải thích bà cần chuyển viện, viết giấy chuyển tuyến ghi rõ tình trạng bệnh để chị dùng làm giấy xin nghỉ chăm mẹ</b></div><p class="why">Xử lý động cơ thật (cần giấy nghỉ). Giấy nghỉ ốm hưởng chế độ BHXH cấp theo TT 56/2017/TT-BYT Điều 3 khoản 1 và Điều 20 khoản 1 điểm c (nguồn bổ sung tự tìm, ghi trong sổ mâu thuẫn từ ca HH-1012; chưa đối chiếu bản hiện hành). Bà đã hưu trí; việc cấp giấy cho con xin nghỉ chăm mẹ: không có trong tài liệu đã tải; giấy chuyển tuyến ghi tình trạng bệnh là giấy tờ có thật.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Truyền dịch tại phòng khám theo yêu cầu (một hoặc hai chai nước biển) rồi cho nghỉ, không chuyển</b></div><p class="why">Không tài liệu đã tải nào chỉ định truyền dịch tại phòng khám cho đợt cấp giãn phế quản ở người thiếu oxy (sổ mâu thuẫn: truyền dịch theo yêu cầu chấm w). Làm chậm chuyển, có thể làm quá tải dịch, bỏ sót giảm oxy máu.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho thuốc ngủ, an thần để bà ngủ yên, hoặc thuốc giảm ho</b></div><p class="why">AGS Beers 2023 Bảng 2: tránh benzodiazepine ở người cao tuổi (nguy cơ lú lẫn, té ngã). Giãn phế quản cần ho để tống đờm; QĐ 4235/2012 (bài Giãn phế quản mục 3.5) chỉ nêu thuốc giảm ho, an thần cho ho máu nhẹ khi không có chống chỉ định (có dấu hiệu co thắt phế quản, suy hô hấp); bà có thiếu oxy nên không phù hợp. Sổ mâu thuẫn: thuốc ho ở nhiễm trùng hô hấp dưới chấm w.</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Cho về nhà uống kháng sinh, uống nhiều nước, hẹn tái khám sau 2 ngày</b></div><p class="why">Bỏ sót đợt cấp nặng ở người rất cao tuổi: lú lẫn mới, SpO₂ 91%, thở 26 l/p, HA 96/58, tụt HA tư thế. CRB-65 = 3: nhóm nội trú, tử vong 30 ngày 22% (QĐ 2147/2026 mục 3.2.1). ERS 2025: dấu hiệu đợt cấp nặng cần xem lại để nhập viện.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho bà đi xe máy cùng con gái đến bệnh viện huyện cách 25 km</b></div><p class="why">Người lú lẫn, tụt HA khi ngồi dậy, SpO₂ 91% không an toàn khi ngồi xe máy; cần xe có nhân viên y tế, oxy và người đi kèm. Chi tiết an toàn vận chuyển: không có trong tài liệu đã tải.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Dặn chị Hạnh cách nhận ra bà nặng thêm trên đường chuyển (thở nhanh hơn, tím môi, lịm đi, không gọi được) và phải báo ngay cho nhân viên đi kèm</b></div><p class="why">ERS 2025 (câu hỏi tường thuật 2): kế hoạch tự theo dõi cần hướng dẫn nhận biết đợt cấp; thở nhanh, tím mới xuất hiện, rối loạn nhận thức là dấu hiệu nặng.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Cho về, hẹn tái khám</span></div><p>Bà được truyền một chai nước biển rồi cho về với kháng sinh uống, hẹn tái khám hai ngày sau. Chiều tối bà lơ mơ hơn, bỏ ăn, không ai đo lại SpO₂ nên không ai biết bà đang thiếu oxy. Người trên 65 tuổi có lú lẫn mới và huyết áp thấp đã thuộc nhóm CRB-65 từ 3 điểm, nhóm cần điều trị nội trú, tử vong 30 ngày chừng 22% (QĐ 2147/2026 mục 3.2.1). Chị Hạnh phải đưa mẹ vào cấp cứu giữa đêm, muộn hơn nhiều giờ, thêm chai dịch đã truyền nhanh vào người đang thở nhanh, SpO₂ thấp.</p></div><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Bà được giữ lại phòng khám theo dõi vài giờ, truyền thêm dịch và uống kháng sinh. Phòng khám không có X-quang, xét nghiệm hay kháng sinh tĩnh mạch nên chờ thêm không cho thêm dữ kiện nào, chỉ làm muộn việc đưa bà đến nơi có phương tiện. ERS 2025 (câu hỏi tường thuật 2) xếp lú lẫn mới, thở nhanh và SpO₂ giảm là dấu hiệu đợt cấp nặng, cần xem lại để đổi sang kháng sinh tĩnh mạch hoặc nhập viện; QĐ 2147/2026 mục 5.2 khuyên bắt đầu kháng sinh sớm trong 4 giờ đầu nhập viện.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Bà được cho nằm lưu qua ngày tại phòng khám &#x27;cho chắc&#x27; mà không chuyển đi. Nơi này không có CT, vi sinh hay kháng sinh truyền tĩnh mạch nên bà không được làm rõ là giãn phế quản, viêm phổi hay lao, cũng không biết thận có bị ảnh hưởng do thuốc giảm đau tự mua. Chị Hạnh mất một ngày nghỉ làm cho một việc chuyển tuyến vẫn phải làm sau đó (QĐ 4235/2012, bài Giãn phế quản mục 2.1.2: chẩn đoán xác định cần CT lớp mỏng).</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Đợt cấp giãn phế quản mức nặng (chẩn đoán lâm sàng, chờ CT lớp mỏng), đáy phổi phải, người 82 tuổi, biểu hiện không điển hình (QĐ 4235/2012, bài Giãn phế quản mục 2.1; ERS 2025, câu hỏi tường thuật 2)</li><li>Giảm oxy máu nhẹ (SpO₂ 91%), thở nhanh 26 l/p, lú lẫn mới: dấu hiệu nặng (ERS 2025)</li><li>Mất nước, hạ huyết áp tư thế, nghi tổn thương thận do NSAID tự mua (AGS Beers 2023 Bảng 2, Bảng 6)</li><li>Chưa loại trừ viêm phổi chồng, lao phổi, COPD cùng tồn tại (cần X-quang, CT, Xpert, hô hấp ký khi ổn)</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự: (1) hỏi bệnh: hỏi chị Hạnh về thay đổi tri giác, ăn uống, té ngã; hỏi riêng bà màu đờm, nuốt hay khạc, bệnh nền ho khạc hai chục năm, kháng sinh các năm trước, thuốc giảm đau tự mua; (2) khám: sinh hiệu, tri giác, dấu mất nước, huyết áp tư thế, phổi; (3) cận lâm sàng: tại đây không có gì nên dựa hoàn toàn lâm sàng; (4) chẩn đoán; (5) xử trí.</li><li>Vì sao giãn phế quản chứ không dừng ở &#x27;ho người già&#x27;, &#x27;viêm phế quản mạn&#x27;: đờm đục buổi sáng hai chục năm, sởi thuở nhỏ, nhiều đợt kháng sinh/năm, ran nổ to hạt cố định, móng khum (QĐ 4235/2012 mục 2.1.1; QĐ 708/2015 mục 3.1). Nhãn &#x27;ho người già&#x27; đã bám suốt hai chục năm, không ai chụp phổi.</li><li>Vì sao nghĩ đợt cấp dù ho ít: đờm đổi màu và nhiều hơn nhưng bà nuốt (ERS 2025: thay đổi đờm, mệt, mất khả năng gắng sức là triệu chứng cốt lõi của đợt cấp). Người cao tuổi có thể biểu hiện không rầm rộ, không sốt (QĐ 2147/2026 mục 3.1.1). Lú lẫn, ăn kém, suýt té là cách bệnh phổi lộ ra ở tuổi 82.</li><li>Vì sao nặng: thở nhanh, SpO₂ giảm, rối loạn nhận thức là dấu hiệu đợt cấp nặng (ERS 2025). CRB-65 = 3 điểm: lú lẫn, HA tâm trương ≤ 60, tuổi ≥ 65 (QĐ 2147/2026 mục 3.2.1); thang này viết cho viêm phổi, dùng ở đây vì không có X-quang để loại trừ viêm phổi.</li><li>Mất nước và NSAID: bà ăn uống kém, tiểu ít, tụt HA khi ngồi dậy trong khi uống diclofenac 2 tuần. Dùng NSAID kéo dài ở người &gt; 75 tuổi cần tránh (Beers 2023 Bảng 2). Không có creatinin nên không khẳng định tổn thương thận.</li><li>Lao: ho kéo dài trên 2 tuần là triệu chứng nghi lao (QĐ 162/2024 Bảng 1) nhưng không có dấu lao đặc hiệu; cần Xpert đờm ở tuyến trên. COPD: cần hô hấp ký khi ổn định (QĐ 2767/2023 mục 1.2.2); giãn phế quản dễ bị bỏ sót ở người ho khạc đờm (mục 4.2.3).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Chuyển tuyến ngay vì bà có dấu hiệu đợt cấp nặng (lú lẫn mới, SpO₂ 91%, thở nhanh), CRB-65 = 3, mất nước và nghi ảnh hưởng thận, mà cơ sở không có oxy dài hạn, X-quang, CT, xét nghiệm hay kháng sinh tĩnh mạch (ERS 2025; QĐ 2147/2026 mục 3.2.1). Không có điều gì ở đây cần chờ đợi tại chỗ.</li><li>Không truyền chai nước theo yêu cầu: bà đang thiếu oxy và thở nhanh, lượng dịch cần chỉnh theo theo dõi. QĐ 708/2015 mục 4.1 có nhắc truyền dịch để làm loãng đờm nhưng không nêu chỉ định, thể tích hay tốc độ. Lập luận cho chị Hạnh: &#x27;mẹ mệt vì phổi đang nhiễm trùng và thiếu oxy; chai nước sẽ không giúp phổi, còn có thể làm mẹ khó thở hơn. Ở bệnh viện sẽ truyền nước đúng lượng và đo được&#x27;.</li><li>Kháng sinh: nghi beta-lactamase nên amoxicillin–clavulanat (QĐ 708/2015 mục 4.3.2b). Thời gian: 14 ngày là chuẩn, đặc biệt đợt cấp nặng hoặc P. aeruginosa (ERS 2025, câu hỏi tường thuật 2), hoặc thông thường 10 ngày đến 2 tuần, tới 3 tuần nếu nặng hoặc trực khuẩn mủ xanh (QĐ 708/2015 mục 4.3.3; QĐ 4235/2012 mục 3.1); hai nguồn khác năm và bằng chứng, tuyến trên quyết định. Tránh fluoroquinolon khi chưa loại trừ lao (QĐ 162/2024 Sơ đồ 1 chú thích *, ghi nhận từ HH-1409). Macrolid dài hạn để phòng đợt cấp (erythromycin 10 mg/kg/ngày, 6–24 tháng cho hội chứng xoang–phế quản: QĐ 4235/2012 mục 3.3; azithromycin sau khi loại trừ mycobacteria không lao: ERS 2025 khuyến cáo 7) không bắt đầu hôm nay, để chuyên khoa quyết sau CT và đờm (mục từ HH-1407).</li><li>Dẫn lưu đờm 2–3 lần/ngày là một nửa điều trị (QĐ 4235/2012 mục 3.2; ERS 2025) nhưng không thực hiện lúc bà đang lú lẫn, thiếu oxy, chuyển sang khi tỉnh và ổn. Giấy chuyển tuyến vừa là tài liệu bàn giao vừa đáp ứng điều chị Hạnh cần.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Oxy</b><div class="sub">Bình oxy (nếu cơ sở có)</div></td><td data-l="Liều">Lưu lượng: không có trong tài liệu đã tải<div class="sub">Thở qua ống thông mũi · Ngay khi SpO₂ thấp và suốt trên đường chuyển</div></td><td data-l="Thời gian">Đến khi tuyến trên tiếp nhận</td><td class="gc" data-l="Ghi chú">Thở oxy khi có thiếu oxy máu trong đợt cấp (QĐ 708/2015 mục 4.1). Mục tiêu SpO₂ và lưu lượng: không có trong tài liệu đã tải.</td></tr><tr><td><b>Amoxicillin/acid clavulanic</b><div class="sub">Viên 875/125 mg</div></td><td data-l="Liều">875/125 mg × 1 viên (liều đầu), tiếp theo mỗi 8–12 giờ (QĐ 2147/2026 Bảng 4.4) hoặc 1 g × 3 lần/ngày (QĐ 4235/2012, bài Viêm phổi mắc phải ở cộng đồng mục 3.2.2)<div class="sub">Uống (nếu nuốt được; nếu không, tuyến trên chuyển sang tiêm tĩnh mạch) · Liều đầu trước chuyển, sau khi lấy đờm nếu lấy được, nghiền hòa nước nếu bà khó nuốt</div></td><td data-l="Thời gian">Tuyến trên quyết định: 14 ngày (ERS 2025) hoặc 10 ngày đến 2 tuần, tới 3 tuần nếu nặng (QĐ 708/2015 mục 4.3.3)</td><td class="gc" data-l="Ghi chú">Chọn vì nghi beta-lactamase (QĐ 708/2015 mục 4.3.2b). Liều uống riêng cho giãn phế quản: không có trong tài liệu đã tải, mượn từ tài liệu viêm phổi cộng đồng. Creatinin chưa có, ước eGFR giảm nên tuyến trên cần chỉnh liều (QĐ 2147/2026 Phụ lục 1). Hai liều khác nhau, cả hai đều đúng; mục từ HH-0916.</td></tr><tr><td><b>Nước đun sôi để nguội</b><div class="sub">Cốc 100 ml</div></td><td data-l="Liều">Từng ngụm nhỏ nếu bà tỉnh và nuốt tốt; lượng cụ thể: không có trong tài liệu đã tải<div class="sub">Uống · Trong lúc chờ xe, đừng ép khi bà li bì</div></td><td data-l="Thời gian">Đến khi tuyến trên truyền dịch</td><td class="gc" data-l="Ghi chú">Uống đủ nước (QĐ 708/2015 mục 4.1). Người lú lẫn có nguy cơ sặc: ngồi nghiêng đầu cao, ngừng nếu ho sặc.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Với chị Hạnh: &#x27;Mẹ chị đang bị đợt nhiễm trùng nặng của bệnh giãn phế quản (phế quản phổi bị giãn nên ứ đờm), kèm thiếu oxy và thiếu nước. Việc này không điều trị được ở đây vì cần chụp phổi, xét nghiệm máu, thở oxy và kháng sinh truyền ở bệnh viện. Truyền một chai nước ở đây sẽ không giúp phổi mà còn có thể làm mẹ khó thở hơn.&#x27;</li><li>Ngừng thuốc giảm đau xương khớp mua ở tiệm (diclofenac) và không tự mua lại; mang vỉ thuốc đi theo cho bác sĩ bệnh viện xem (AGS Beers 2023 Bảng 2; QĐ 361/2014 Phụ lục NSAID mục 3.3).</li><li>Trên đường chuyển: cho bà nằm đầu cao, thở oxy nếu có, không để bà tự ngồi dậy; nếu bà thở nhanh hơn, tím môi, lịm đi thì báo ngay nhân viên đi kèm. Mang theo giấy chuyển tuyến, vỉ thuốc, thẻ BHYT.</li><li>Giấy chuyển tuyến ghi rõ tình trạng bệnh, ngày giờ; chị Hạnh nộp cho công ty làm minh chứng. Giấy nghỉ ốm hưởng BHXH và việc nghỉ chăm người thân do công ty và cơ quan BHXH quyết (TT 56/2017/TT-BYT, nguồn bổ sung tự tìm; chi tiết chăm người lớn: không có trong tài liệu đã tải).</li><li>Khi bà ổn và về nhà: dẫn lưu đờm 2–3 lần/ngày trước bữa ăn (QĐ 4235/2012 mục 3.2), tiêm cúm hằng năm (QĐ 4235/2012 mục 4), khám chuyên khoa hô hấp để xem CT và cân nhắc dự phòng đợt cấp.</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-8">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Đợt cấp giãn phế quản</b></div>
+<p class="note">Phải loại trừ: Lao phổi, COPD</p><p>Bà Nhàn được chuyển bằng xe cấp cứu, có thở oxy, đến bệnh viện tỉnh trong khoảng một giờ. Ở đó bà được xét nghiệm, chụp phim, truyền dịch đúng lượng và dùng kháng sinh tĩnh mạch; vài ngày sau tỉnh táo trở lại và hết lú lẫn. Chị Hạnh nộp giấy chuyển tuyến để xin nghỉ chăm mẹ. Các quyết định đều đúng; giãn phế quản đã có hai chục năm nhưng chưa ai chẩn đoán, và còn phải làm CT, theo dõi lâu dài, tránh NSAID.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-9">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Buổi tập dưỡng sinh sớm và chuyện &#x27;gió độc nhập&#x27;: gợi nghĩ cảm lạnh thông thường. Không có tài liệu đã tải nói buổi tập là nguyên nhân; chỉ là mốc khởi phát. Bà không có đau ngực, không đau cơ bất thường.</li><li>Đau gối, chị Hạnh xin thêm &#x27;thuốc bổ&#x27; và &#x27;thuốc xương khớp&#x27;: lạc hướng khỏi vấn đề phổi, nhưng NSAID tự mua là điều đáng hỏi vì nguy cơ thận ở người ăn uống kém.</li><li>Bà hàng xóm &#x27;truyền một chai là khỏe&#x27;: áp lực xã hội dẫn đến đòi truyền dịch, không phải chỉ định y khoa.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Ở người ≥ 75 tuổi, đợt cấp bệnh phổi có thể lộ ra bằng lú lẫn, ăn kém, suýt té; sốt và ho không nổi bật (QĐ 2147/2026 mục 3.1.1). Hỏi gia đình về thay đổi tri giác và sinh hoạt thường ngày, hỏi riêng bà về đờm (nuốt hay khạc).</li><li>Nhãn &#x27;ho người già&#x27; che giãn phế quản nhiều năm không chẩn đoán; ho khạc đờm mạn kèm ran nổ cố định cần CT lớp mỏng (QĐ 4235/2012 mục 2.1.2; QĐ 2767/2023 mục 4.2.3).</li><li>Không có xét nghiệm: tiêu chuẩn chuyển tuyến vẫn đủ từ lâm sàng (tri giác, nhịp thở, SpO₂, huyết áp tâm trương; CRB-65). Chuẩn bị trước chuyển: oxy, đường truyền sẵn, mang theo đờm và vỉ thuốc, người nhà đi cùng.</li><li>Đòi truyền dịch: trả lời bằng lý do cụ thể cho người bệnh này (đang thiếu oxy, truyền nhanh có hại) và đưa lựa chọn thay thế (truyền ở nơi theo dõi được), không chỉ nói &#x27;không cần&#x27;. Hỏi thêm &#x27;còn cần gì hôm nay&#x27; để bắt động cơ thật.</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Đợt cấp giãn phế quản nặng: thở nhanh, SpO₂ giảm rõ, rối loạn nhận thức, ho máu, tím mới, huyết động không ổn định (ERS 2025, câu hỏi tường thuật 2).</li><li>CRB-65 gồm lú lẫn mới, thở ≥ 30 l/p, HA tâm thu &lt; 90 và/hoặc tâm trương ≤ 60, tuổi ≥ 65; 1–2 yếu tố thì cân nhắc nhập viện (QĐ 2147/2026 mục 3.2.1).</li><li>Tránh NSAID dùng kéo dài ở người &gt; 75 tuổi và khi độ thanh thải creatinin &lt; 30 (AGS Beers 2023 Bảng 2, Bảng 6).</li><li>Kháng sinh đợt cấp giãn phế quản: lấy đờm trước kháng sinh; 14 ngày chuẩn (ERS 2025) hoặc 10 ngày đến 2 tuần, tới 3 tuần nếu nặng (QĐ 708/2015 mục 4.3.3).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-10">Nguồn tài liệu <small>10</small></h3></summary><ul class=""><li>TL-0131 · QĐ 4235/QĐ-BYT 2012 – Bệnh hô hấp – bài Giãn phế quản mục 2.1.1, 2.1.2, 2.2, 3.1–3.5, 4 (bản chữ tr. 108–112); bài Viêm phổi mắc phải ở cộng đồng mục 3.2.2; bài Giãn phế quản mục 3.5 (thuốc giảm ho, an thần)</li><li>TL-0015 · QĐ 708/QĐ-BYT 2015 – Hướng dẫn sử dụng kháng sinh – chương Giãn phế quản mục 3.1, 3.2d, 3.2e, 4.1, 4.3.1–4.3.5 (tr. 82–85)</li><li>TL-0142 · ERS 2025 – Management of adult bronchiectasis – Khuyến cáo 7; câu hỏi tường thuật 2 (định nghĩa đợt cấp, dấu hiệu nặng, đờm trước kháng sinh, 14 ngày chuẩn)</li><li>TL-0121 · QĐ 2147/QĐ-BYT 2026 – Viêm phổi mắc phải ở cộng đồng người lớn – mục 3.1.1, 3.1.2, 3.2.1 (CURB-65, CRB-65), 3.2.2, 5.2, Bảng 4.4, Phụ lục 1</li><li>TL-0123 · QĐ 162/QĐ-BYT 2024 – Bệnh lao – Phần II mục 1.1 Bảng 1, 1.2 Bảng 2; Sơ đồ 1, 2</li><li>TL-0125 · QĐ 2767/QĐ-BYT 2023 – COPD – mục 1.2.2, 1.2.3, 4.2.3</li><li>TL-0022 · AGS Beers Criteria 2023 – Bảng 2 (NSAID không chọn lọc COX-2 dùng đường uống; benzodiazepine), Bảng 6 (NSAID khi độ thanh thải creatinin &lt; 30)</li><li>TL-0286 · QĐ 361/QĐ-BYT 2014 – Cơ xương khớp – Phụ lục NSAID mục 3.3 (nhóm nguy cơ cao)</li><li>Nguồn bổ sung tự tìm (chưa đối chiếu bản hiện hành, ghi nhận trong sổ mâu thuẫn từ HH-1012): Thông tư 56/2017/TT-BYT (sửa đổi TT 18/2022/TT-BYT) Điều 3 khoản 1, Điều 20 khoản 1 điểm c – giấy nghỉ việc hưởng BHXH</li><li>Không có trong tài liệu đã tải: lưu lượng và mục tiêu SpO₂ khi thở oxy; thể tích và tốc độ truyền dịch ở người &gt; 75 tuổi thiếu oxy; tiêu chuẩn chẩn đoán mất nước và sảng ở người cao tuổi; liều kháng sinh tĩnh mạch chỉnh theo eGFR cho giãn phế quản; an toàn vận chuyển, SBAR; việc cấp giấy cho người nhà xin nghỉ chăm người lớn</li></ul></details>
+<details class="card"><summary><h3 id="m-11">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Hô hấp cấp tính</dd><dt>chan_doan_dich</dt><dd>Đợt cấp giãn phế quản</dd><dt>chan_doan_phai_loai_tru</dt><dd>Lao phổi; COPD</dd><dt>nhom_tuoi</dt><dd>Rất cao tuổi (≥75 tuổi)</dd><dt>do_kho</dt><dd>Không điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>dien_tien_tai_kham</dt><dd>Không áp dụng (ca 1 lượt khám)</dd><dt>nhieu_benh_nhan</dt><dd>Đòi truyền dịch</dd><dt>rang_buoc_nguon_luc</dt><dd>Không có xét nghiệm nào</dd><dt>loai_ket_cuc</dt><dd>Chuyển tuyến kịp thời</dd><dt>gioi</dt><dd>Nữ</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>1</dd><dt>nghe_nghiep</dt><dd>Hưu trí (cô giáo tiểu học về hưu)</dd><dt>yeu_to_khoi_phat</dt><dd>Sau chơi thể thao (tập dưỡng sinh buổi sáng sớm trời lạnh)</dd><dt>thuoc_dang_dung</dt><dd>NSAID tự mua (diclofenac 50 mg uống cho đau gối)</dd><dt>ly_do_that_su_den_kham</dt><dd>Xin giấy nghỉ ốm (con gái cần giấy để xin nghỉ chăm mẹ)</dd></dl><ul class=""><li>Viết ngày 2026-11-08 (bản 1). Tài liệu đã đọc: TL-0131 (bài Giãn phế quản, VPMPCĐ 3.2.2), TL-0015 (Giãn phế quản mục 3–4), TL-0142 (ERS 2025 phần đợt cấp), TL-0121 (mục 3.1.1, 3.2.1, Bảng 4.4), TL-0123 (Bảng 1, 2), TL-0125 (mục 1.2.2, 1.2.3, 4.2.3), TL-0022 (Bảng 2, 6), TL-0286 (Phụ lục NSAID 3.3).</li><li>Áp dụng mục có sẵn trong sổ mâu thuẫn: kháng sinh đợt cấp giãn phế quản (HH-1413), liều amoxicillin–clavulanat (HH-0916), macrolid dài hạn (HH-1407), fluoroquinolon khi chưa loại lao (HH-1409), truyền dịch theo yêu cầu chấm w, giấy nghỉ ốm (HH-1012). Mục mới đề xuất: xem HH-1402_mau_thuan.md.</li><li>Chỗ thiếu tài liệu: xem mục nguon (oxy, dịch truyền ở người thiếu oxy, mất nước và sảng ở người cao tuổi, chăm người lớn khi xin nghỉ). Kết quả cận lâm sàng trong cls là minh họa khi người bệnh được đưa tới nơi có phương tiện (cơ sở khóa).</li><li>Phản hồi cho trưởng nhóm: HA 96/58 để CRB-65 = 3 (huyết áp tâm trương ≤ 60). Không dùng ảnh da, không đề xuất danh mục mới.</li><li>08/11/2026 trưởng nhóm duyệt: bỏ &#x27;ecg&#x27; khỏi khoa_cls.nhom (app chỉ khóa theo nhóm danh mục xn/xquang/sieu_am/ct/noi_soi/tham_do, &#x27;ecg&#x27; không phải nhóm nên điện tim vẫn trả kết quả); ghi máy điện tim dùng được cho khớp.</li></ul></details>
+<p class="chan-trang">Ca HH-1402 · phiên bản ca 1 · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

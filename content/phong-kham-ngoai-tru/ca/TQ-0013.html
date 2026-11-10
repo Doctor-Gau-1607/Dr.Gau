@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TQ-0013 · Tư vấn kết quả khám sức khỏe bình thường</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · TQ-0013</div>
+   <h1>Mẹ đưa đi, cầm phiếu khám sức khỏe định kỳ ghi &#x27;bình thường&#x27; nhưng dạo này anh mệt, đau đầu, ăn ngủ kém, uống thuốc giảm đau suốt; nhờ bác sĩ xem phiếu và &#x27;khám lại cho chắc, đừng để sót bệnh&#x27;.</h1>
+   <p class="dich-gia">Lê Hoàng Tài · Nam · 32 tuổi · 68 kg</p>
+   <div class="chips"><span class="chip">Tư vấn kết quả khám tổng quát</span><span class="chip">Điển hình</span><span class="chip">2 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Chủ quán cơm tấm (mở quán 6 năm, đứng bếp nấu nước lèo và thu ngân, 3 nhân viên)</dd><dt>Chiều cao, cân nặng</dt><dd>168 cm · 68 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi anh là &#x27;anh Tài&#x27;; anh xưng &#x27;em&#x27;, gọi &#x27;bác sĩ&#x27;. Bà Sáu xưng &#x27;tôi&#x27;, gọi con là &#x27;thằng Tài&#x27;, gọi &#x27;bác sĩ&#x27;.</dd><dt>Tính cách</dt><dd>Anh Tài hiền, ít nói, hay tự trách, ngại nói chuyện riêng tư trước mặt mẹ; lo đến mất ngủ nhưng giấu. Chịu trách nhiệm, thương vợ con. Bà Sáu nhanh nhảu, thương con, nói nhiều và trả lời thay, nghe được khi bác sĩ giải thích rõ và nói nhẹ nhàng.</dd><dt>Người nhà</dt><dd>Bà Sáu (mẹ) – Mẹ, bà Phạm Thị Sáu, 59 tuổi, phụ bán quán, đi cùng cả hai lượt. Biết con tách chén đũa, không bế cháu, ngủ phòng riêng; KHÔNG biết chuyện quan hệ ngoài vợ và các xét nghiệm anh đã làm. Vợ anh (chị Nguyễn Thị Lan, 29 tuổi, thai 22 tuần) và con trai 3 tuổi ở nhà, không đi cùng.</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Phòng khám tư tuyến cơ sở chỉ làm được xét nghiệm cơ bản (công thức máu, đường huyết, mỡ máu, ure–creatinin, điện giải, AST–ALT, CRP, tổng phân tích nước tiểu, điện tim). Không có X-quang, siêu âm, CT, nội soi; không làm HIV, HBsAg, anti-HCV, giang mai, huyết thanh viêm gan, NS1 dengue, PT/INR, định lượng paracetamol máu. Trung tâm Kiểm soát bệnh tật tỉnh (phòng tư vấn xét nghiệm HIV, bảo mật) cách khoảng 12 km; Bệnh viện Bệnh nhiệt đới/khoa Truyền nhiễm bệnh viện tỉnh cách khoảng 25 km.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/2</span> Nhận kết quả khám sức khỏe định kỳ</h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Anh Lê Hoàng Tài, 32 tuổi, chủ quán cơm tấm, đi cùng mẹ (bà Phạm Thị Sáu, 59 tuổi), cầm phiếu khám sức khỏe định kỳ làm 4 ngày trước, kết luận &#x27;Bình thường&#x27;. Bà nói con dạo này mệt, đau đầu, ăn ngủ kém, uống thuốc giảm đau suốt, nhờ bác sĩ xem lại phiếu. Sinh hiệu lúc tiếp đón: mạch 84 l/p, HA 122/76 mmHg, nhiệt 36,9 °C, nhịp thở 16 l/p, SpO₂ 99%; cân nặng 68 kg, cao 168 cm.</p>
+  <blockquote>“Chào bác sĩ. Thằng Tài nhà tôi đi khám sức khỏe định kỳ, người ta ghi bình thường hết, mà nó cứ mệt, đau đầu, bỏ ăn, đêm không ngủ, uống thuốc giảm đau suốt ngày. Bà con nói khám tổng quát chưa chắc ra hết bệnh, bác sĩ coi giùm tờ phiếu này xem có sót gì không. Nó ngại nói lắm, để tôi nói cho.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>84</b><small>l/p</small></div><div class="vs"><span>HA</span><b>122/76</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,9</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>16</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>99</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>12 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám: nhận kết quả khám định kỳ bình thường nhưng còn mệt, đau đầu, mất ngủ</b><span class="tag t-g">Tự kể</span></div><p>(Mẹ kể) Thằng Tài đi khám sức khỏe định kỳ 4 ngày trước, phiếu ghi &#x27;bình thường&#x27;. Nhưng gần 10 ngày nay nó mệt, đau đầu, bỏ ăn, đêm không ngủ, uống thuốc giảm đau suốt. Tôi đưa nó đến nhờ bác sĩ xem phiếu có sót bệnh gì không.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Nội dung phiếu khám: đủ các chỉ số cơ bản bình thường, không có xét nghiệm bệnh lây qua đường tình dục</b><span class="tag t-b">Khi được hỏi</span></div><p>Khám 4 ngày trước tại phòng khám đa khoa gần chợ, gói định kỳ cơ bản mẹ đăng ký. Phiếu: BMI 24,1; HA 118/76 mmHg; công thức máu bình thường; glucose đói 5,0 mmol/L; cholesterol TP 4,9, LDL-C 2,9, HDL-C 1,2, TG 1,6 mmol/L; creatinin 82 µmol/L; AST 24, ALT 29 U/L; nước tiểu bình thường; điện tim nhịp xoang 78 l/p; X-quang ngực bình thường. Kết luận &#x27;Bình thường&#x27;. Phiếu KHÔNG có HIV, viêm gan B, C, giang mai.</p><div class="cond">Điều kiện nói ra: Nói khi bác sĩ hỏi nội dung phiếu, chỉ số cụ thể, hoặc xin xem phiếu; hỏi chung chung thì bà Sáu chỉ nói &#x27;bình thường hết&#x27;.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đặc điểm đau đầu, mất ngủ; không có dấu hiệu báo động</b><span class="tag t-b">Khi được hỏi</span></div><p>Khoảng 8 ngày nay đau đầu âm ỉ hai bên thái dương và gáy, 4–5/10, nặng hơn chiều tối và lúc nghĩ ngợi. Ngủ 3–4 tiếng, trằn trọc. Chán ăn. Không sốt, không nôn, không nhìn mờ, không yếu liệt, không cứng cổ, không đau đầu đột ngột dữ dội.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Paracetamol 4 g/ngày × 8 ngày, gồm cả thuốc cảm chứa paracetamol: thuốc đang dùng ẩn</b><span class="tag t-r">Giấu</span></div><p>Từ 8 ngày nay uống paracetamol 500 mg, 2 viên × 3 lần/ngày, thêm thuốc cảm tổng hợp mua ở tiệm 1 viên × 2 lần/ngày (vỉ ghi mỗi viên có paracetamol 500 mg): tổng 8 viên, tức 4 g paracetamol mỗi ngày. Anh không đọc nhãn nên không biết thuốc cảm cũng chứa paracetamol.</p><div class="cond">Điều kiện nói ra: Hỏi chung &#x27;có uống thuốc gì không&#x27; anh chỉ nói &#x27;thuốc đau đầu thôi&#x27;. Kể đủ tên, số viên, thuốc cảm khi bác sĩ hỏi tên từng loại thuốc tự mua, số viên mỗi ngày, hoặc xin xem vỉ thuốc (anh có mang theo trong túi).</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Bia trong 5 ngày gần đây và ăn ít: yếu tố nguy cơ gan khi dùng paracetamol</b><span class="tag t-b">Khi được hỏi</span></div><p>Chủ quán nên tối nào cũng tiếp khách: 2–3 lon bia mỗi tối, cả 8 ngày nay vẫn vậy (đêm qua 3 lon). Ăn ít, bỏ bữa sáng, trưa ăn nửa chén cơm. Không rượu mạnh, không hút thuốc lá.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Hành vi tránh người nhà: manh mối nỗi sợ lây bệnh</b><span class="tag t-b">Khi được hỏi</span></div><p>(Mẹ kể) Gần 10 ngày nay nó dọn ra ngủ phòng riêng, lấy chén đũa, ly riêng và tự rửa bằng nước nóng, không bế bé Bin, nói &#x27;ba đang mệt sợ lây&#x27;, không chịu ngồi ăn chung. Vợ hỏi thì nó bảo &#x27;ba stress, kệ ba&#x27;.</p><div class="cond">Điều kiện nói ra: Bà Sáu kể khi bác sĩ hỏi sinh hoạt ở nhà, ăn uống chung, quan hệ với vợ con hoặc có gì lạ trong cách cư xử. Anh Tài đứng cạnh chỉ cúi mặt.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật: sợ nhiễm bệnh lây qua đường tình dục và lây cho vợ con, mẹ</b><span class="tag t-r">Giấu</span></div><p>Lý do thật: anh sợ đã mắc bệnh (HIV, viêm gan, giang mai) sau một lần quan hệ không bao cao su và sợ lây cho vợ đang thai, con nhỏ và mẹ. Vì vậy mất ngủ, đau đầu, uống thuốc giảm đau liên tục. Anh định nhân dịp khám hỏi bác sĩ &#x27;khám tổng quát có ra bệnh lây không&#x27; nhưng ngại vì mẹ ngồi cạnh. Anh muốn kết quả nhanh, kín đáo.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ mời bà Sáu ra ngoài hoặc xin nói chuyện riêng với anh, rồi hỏi nhẹ nhàng, không phán xét về nỗi lo hay chuyện tình dục. Có mẹ ngồi cạnh anh chỉ đáp &#x27;dạ không có gì&#x27;.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Phơi nhiễm: quan hệ không an toàn 11 ngày trước, quá mốc 72 giờ</b><span class="tag t-r">Giấu</span></div><p>Mười một ngày trước, sau tiệc cưới bạn ở quê, uống nhiều bia, anh quan hệ qua đường âm đạo MỘT lần với một phụ nữ mới quen, không bao cao su. Không quan hệ qua đường miệng hay hậu môn. Không biết tình trạng sức khỏe người này, từ đó không liên lạc. Chưa từng quan hệ ngoài vợ trước đó. Từ đó không quan hệ với vợ, viện cớ mệt.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi nói chuyện riêng và được hỏi cụ thể về bạn tình, loại hình quan hệ, bao cao su, thời điểm. Anh trả lời rất nhỏ giọng.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Hiện không triệu chứng STI hay nhiễm cấp</b><span class="tag t-b">Khi được hỏi</span></div><p>Không tiểu buốt, không tiết dịch niệu đạo, không loét hay mụn nước ở dương vật. Không sốt, đau họng, nổi hạch, ban, loét miệng, đau khớp. Chưa từng bị bệnh lây qua đường tình dục, chưa bao giờ xét nghiệm HIV.</p><div class="cond">Điều kiện nói ra: Nói khi hỏi riêng về triệu chứng vùng kín và triệu chứng toàn thân sau quan hệ.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Nguy cơ HBV/HCV khác; chưa tiêm ngừa viêm gan B</b><span class="tag t-b">Khi được hỏi</span></div><p>Không tiêm chích ma túy, không xăm mình, không truyền máu, không dùng chung dao cạo hay bàn chải, không bị kim đâm. Sinh năm 1994, không nhớ đã tiêm ngừa viêm gan B. Chưa từng bị bệnh gan.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Người thân nguy cơ: vợ đang thai, con nhỏ, mẹ; xét nghiệm thai kỳ của vợ có trước phơi nhiễm</b><span class="tag t-b">Khi được hỏi</span></div><p>Vợ là chị Nguyễn Thị Lan, 29 tuổi, thai 22 tuần, con trai Bin 3 tuổi, mẹ ở cùng nhà, cả nhà ăn chung. Vợ khám thai tuần 12 có xét nghiệm HIV, HBsAg, giang mai đều âm tính (trước lần này). Anh chưa nói gì với vợ; sợ vợ động thai, sợ mất gia đình. Không bệnh mạn tính, không dị ứng thuốc.</p><div class="cond">Điều kiện nói ra: Nói khi hỏi riêng về vợ, thai kỳ, xét nghiệm của vợ hoặc đã nói với vợ chưa.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Sàng lọc tâm trạng, ý nghĩ tự hại</b><span class="tag t-b">Khi được hỏi</span></div><p>Chỉ tự trách và lo, vẫn đi làm; không có ý nghĩ tự hại, không buồn chán kéo dài. Thường ngày vui vẻ, ít lo.</p><div class="cond">Điều kiện nói ra: Nói khi bác sĩ hỏi riêng về tâm trạng, ý nghĩ tự hại.</div></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>10 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, hơi mệt, mắt thâm quầng, vẻ lo lắng. Da niêm hồng, không vàng da, không vàng mắt, không phù. Cao 168 cm, nặng 68 kg, BMI 24,1.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Không sờ thấy hạch cổ, hạch dưới hàm, hạch trên đòn. Cổ mềm, không khối, không đau khi cúi cổ.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b></div><p><span class="lbl">Kết quả:</span> Họng hồng, amidan không to, không loét niêm mạc miệng, không nấm miệng.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số khoảng 84 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 84 l/p, T1, T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Lồng ngực cân đối. Nhịp thở 16 l/p.</p><p><span class="lbl">Kết quả:</span> Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><span class="key">★</span><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm, không chướng, không ấn đau hạ sườn phải; gan không to, lách không sờ thấy; không khối.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Da, niêm mạc, ban</b></div><p><span class="lbl">Kết quả:</span> Không ban, không vàng da, không bầm, không loét. Lòng bàn tay, bàn chân bình thường. Không hình xăm, không sẹo tiêm chích.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Khám dương vật, miệng sáo, dịch niệu đạo (vắt niệu đạo)</b></div><p><span class="lbl">Kết quả:</span> Dương vật không loét, không mụn nước, không sẩn, lỗ sáo sạch, không tiết dịch. Hạch bẹn không sờ thấy.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thần kinh</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, định hướng tốt, cổ mềm, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Khám tâm thần (dáng vẻ, khí sắc, tư duy, nhận thức, ý tưởng tự hại)</b></div><p><span class="lbl">Kết quả:</span> Lo âu rõ, né tránh khi có mẹ ngồi cạnh; khi ở riêng cúi đầu, giọng nhỏ nhưng mạch lạc, không ý nghĩ tự hại.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>5 mục</small></h3></summary><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-r">Không cần</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Số lượng bạch cầu (WBC)</td><td class="num">6,4</td><td>G/L</td><td class="ref">4,0–10,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu trung tính (NEU%)</td><td class="num">58</td><td>%</td><td class="ref">45–75</td></tr><tr class=""><td>Số lượng bạch cầu trung tính (NEU#)</td><td class="num">3,71</td><td>G/L</td><td class="ref">2,0–7,5</td></tr><tr class=""><td>Tỷ lệ bạch cầu lympho (LYM%)</td><td class="num">32</td><td>%</td><td class="ref">20–40</td></tr><tr class=""><td>Số lượng bạch cầu lympho (LYM#)</td><td class="num">2,05</td><td>G/L</td><td class="ref">1,0–4,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu mono (MONO%)</td><td class="num">7</td><td>%</td><td class="ref">2–10</td></tr><tr class=""><td>Số lượng bạch cầu mono (MONO#)</td><td class="num">0,45</td><td>G/L</td><td class="ref">0,2–1,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa acid (EOS%)</td><td class="num">2</td><td>%</td><td class="ref">0–7</td></tr><tr class=""><td>Số lượng bạch cầu ưa acid (EOS#)</td><td class="num">0,13</td><td>G/L</td><td class="ref">0–0,5</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa base (BASO%)</td><td class="num">1</td><td>%</td><td class="ref">0–1</td></tr><tr class=""><td>Số lượng bạch cầu ưa base (BASO#)</td><td class="num">0,06</td><td>G/L</td><td class="ref">0–0,1</td></tr><tr class=""><td>Số lượng hồng cầu (RBC)</td><td class="num">5,0</td><td>T/L</td><td class="ref">4,2–5,4</td></tr><tr class=""><td>Lượng huyết sắc tố (HGB)</td><td class="num">149</td><td>g/L</td><td class="ref">130–170</td></tr><tr class=""><td>Thể tích khối hồng cầu (HCT)</td><td class="num">0,44</td><td>L/L</td><td class="ref">0,4–0,5</td></tr><tr class=""><td>Thể tích trung bình hồng cầu (MCV)</td><td class="num">88,0</td><td>fL</td><td class="ref">80–100</td></tr><tr class=""><td>Lượng HST trung bình hồng cầu (MCH)</td><td class="num">29,8</td><td>pg</td><td class="ref">27–32</td></tr><tr class=""><td>Nồng độ HST trung bình hồng cầu (MCHC)</td><td class="num">339</td><td>g/L</td><td class="ref">320–360</td></tr><tr class=""><td>Dải phân bố kích thước hồng cầu (RDW-CV)</td><td class="num">13,0</td><td>%</td><td class="ref">11,5–14,5</td></tr><tr class=""><td>Số lượng tiểu cầu (PLT)</td><td class="num">262</td><td>G/L</td><td class="ref">150–400</td></tr></tbody></table><p class="why">Đã có trong phiếu 4 ngày trước, còn giá trị nên không làm lại (CV 7311 mục 1.3).</p></div><div class="row"><div class="rh"><b>AST, ALT</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> AST 31 · ALT 38 U/L</p><p class="why">Lặp lại có lý do: paracetamol 4 g/ngày kèm bia sau ngày khám; dưới 50 U/L tiên lượng tốt (QĐ 3610/2015). Ngoại lệ của quy tắc không làm lại (CV 7311 mục 1.3).</p></div><div class="row"><div class="rh"><b>HBsAg, anti-HCV, HIV</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> HBsAg âm tính · Anti-HCV âm tính · HIV âm tính</p><p class="why">Cơ sở không làm được; giới thiệu Trung tâm Kiểm soát bệnh tật. Âm tính ở ngày 11 chưa loại trừ nhiễm, cần lặp lại (CDC STI 2021 tr. 24–25).</p></div><div class="row"><div class="rh"><b>Huyết thanh giang mai (RPR/TPHA)</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> RPR không phản ứng</p><p class="why">Có thể làm cùng đợt (USPSTF 2022, A); huyết thanh sớm có thể âm tính giả, cần lặp lại (QĐ 5186/2021, xét nghiệm không đặc hiệu).</p></div><div class="row"><div class="rh"><b>Định lượng paracetamol (acetaminophen) máu</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Dưới ngưỡng phát hiện</p><p class="why">Không cần ở người không triệu chứng, AST/ALT dưới 50 U/L (QĐ 3610/2015); cơ sở cũng không làm được.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Khám sức khỏe định kỳ bình thường: lâm sàng và cận lâm sàng cơ bản trong giới hạn (HA 118/76, BMI 24,1, glucose, lipid, creatinin, AST/ALT, nước tiểu, điện tim, X-quang ngực)</b></div><p class="why">Phiếu và xét nghiệm hôm nay đồng nhất (CV 7311 mục 1.2–1.3). &#x27;Bình thường&#x27; chỉ nói về những gì đã khám, không gồm HIV, HBV, HCV, giang mai (TT 25/2026 Mẫu 03 mục III: cận lâm sàng theo chỉ định bác sĩ).</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Đã quan hệ tình dục không bao cao su 11 ngày trước với bạn tình chưa rõ tình trạng; hiện không triệu chứng; chưa thể loại trừ HIV, viêm gan B, C, giang mai; quá thời hạn PEP</b></div><p class="why">PEP chỉ khi dưới 72 giờ (CDC STI 2021 tr. 24–25).</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Dùng paracetamol (kể cả thuốc cảm) khoảng 4 g/ngày × 8 ngày kèm bia và ăn ít: sát ngưỡng nguy cơ gan, AST/ALT hiện bình thường</b></div><p class="why">QĐ 361/2014 Phụ lục mục 3.1: tối đa 4 g/24 giờ; QĐ 3610/2015 mục 6: không quá 3 g/ngày; rượu trong 5 ngày, nhịn đói là yếu tố nguy cơ.</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Đau đầu căng thẳng và mất ngủ ngắn liên quan lo lắng, không dấu hiệu báo động</b></div><p class="why">Không sốt, cứng cổ, dấu thần kinh; đau từ từ 8 ngày, tăng khi lo nghĩ. Tiêu chuẩn đau đầu căng thẳng: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Bệnh bị bỏ sót qua khám định kỳ (tăng huyết áp, đái tháo đường, rối loạn lipid, bệnh thận, thiếu máu)</b></div><p class="why">Loại trừ: HA, glucose, lipid, creatinin, công thức máu trong giới hạn (CV 7311 mục 1.2).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tổn thương gan do paracetamol</b></div><p class="why">Chưa có: AST 31, ALT 38 U/L (dưới 50 tiên lượng tốt), không đau hạ sườn phải, không vàng da (QĐ 3610/2015). Hẹn lặp lại AST/ALT.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Nhiễm HIV, viêm gan B, viêm gan C, giang mai</b></div><p class="why">Phơi nhiễm 11 ngày, chưa loại trừ. HBsAg cho người quan hệ không an toàn (QĐ 1740/2026 mục II); giang mai cần lặp lại (QĐ 5186/2021).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Lậu, Chlamydia (viêm niệu đạo)</b></div><p class="why">Không tiết dịch, không tiểu buốt, khám sinh dục bình thường; NAAT/cấy không làm được và chưa có chỉ định khi không triệu chứng.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Đau đầu thứ phát nguy hiểm (xuất huyết, viêm màng não, khối choán chỗ)</b></div><p class="why">Không sốt, nôn, cứng cổ, dấu thần kinh khu trú, đau không đột ngột; cơ sở không có CT.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Mời bà Sáu ra ngoài (hoặc xin nói riêng với anh Tài); hỏi tiền sử tình dục theo 5 chữ P bằng câu hỏi mở, không phán xét, hứa giữ kín</b></div><p class="why">CDC STI 2021 tr. 3–4 (Prevention Counseling) và Box 1.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích phiếu: mọi chỉ số bình thường nhưng gói khám không gồm HIV, viêm gan B, C, giang mai; không làm lại xét nghiệm đã có</b></div><p class="why">CV 7311 mục 1.2 điểm 1, mục 1.3; TT 25/2026 Mẫu 03 mục III.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi tên từng loại thuốc tự mua, xem vỉ: phát hiện thuốc cảm cũng chứa paracetamol, tổng 4 g/ngày; hỏi bia, bữa ăn</b></div><p class="why">QĐ 3610/2015 mục 2 (nêu Decolgen, Pamin) và &#x27;Dùng paracetamol quá liều điều trị nhiều lần&#x27;.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Làm AST/ALT hôm nay; dưới 50 U/L thì không cần N-acetylcystein</b></div><p class="why">QĐ 3610/2015: AST/ALT dưới 50 U/L tiên lượng tốt; NAC khi có tổn thương gan hoặc paracetamol máu vượt ngưỡng (mục 4.3).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ngưng thuốc cảm chứa paracetamol và bia; paracetamol đơn chất chỉ khi đau, tối đa 3 g/ngày hoặc tối đa 4 g/ngày</b></div><p class="why">4 g/24 giờ (QĐ 361/2014 Phụ lục mục 3.1) hoặc 3 g/ngày (QĐ 3610/2015 mục 6; QĐ 361/2014 Phụ lục NSAID mục 3.3); 3 g thận trọng hơn, chọn vì anh uống bia (sổ TM-0250).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Nói rõ đã quá 72 giờ nên không có chỉ định PEP; không kê kháng sinh &#x27;đề phòng&#x27; khi chưa triệu chứng, chưa xét nghiệm</b></div><p class="why">CDC STI 2021 tr. 24–25; Bệnh viện Bệnh nhiệt đới: PEP không muộn hơn 72 giờ. Điều trị theo kinh nghiệm khi chưa triệu chứng: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giới thiệu Trung tâm Kiểm soát bệnh tật xét nghiệm HIV (Ag/Ab), HBsAg kèm anti-HBs, anti-HBc, anti-HCV, huyết thanh giang mai, theo mốc: làm ngay rồi lặp lại sau vài tuần (thêm HIV RNA nếu nghi nhiễm cấp), hoặc làm ở khoảng 1 tháng và 3 tháng sau phơi nhiễm</b></div><p class="why">Cách A: CDC STI 2021 tr. 24–25 (Ag/Ab, RNA khi nghi cấp, lặp lại sau vài tuần). Cách B: Bệnh viện Bệnh nhiệt đới (nguồn bổ sung tự tìm): lại HIV sau 1 và 3 tháng. Cùng hướng, khác mốc. HBsAg tối thiểu (QĐ 1740/2026 mục II); mốc từng xét nghiệm khác: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Trong lúc chờ: bao cao su đúng cách hoặc kiêng quan hệ (kể cả với vợ); không dùng chung dao cạo, bàn chải; giải thích đường lây chủ yếu qua máu, tình dục, mẹ sang con</b></div><p class="why">CDC STI 2021 (External Condoms); QĐ 1740/2026 mục I, 5.4. Ăn chung, bế con: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Bàn cách nói với vợ; giữ bí mật, không kể cho mẹ khi anh chưa đồng ý; nếu kết quả dương tính thì vợ phải xét nghiệm và theo dõi thai</b></div><p class="why">CDC STI 2021 tr. 26 (thông báo phơi nhiễm phải bảo mật).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn lại sau 1–2 tuần (hoặc ngay khi sốt, đau họng, nổi hạch, ban, loét miệng, vàng da) kèm kết quả xét nghiệm và AST/ALT lặp lại</b></div><p class="why">Lịch hẹn do người biên soạn. Triệu chứng quay lại: CDC STI 2021 (HIV cấp), QĐ 5447/2014 mục II.1.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Tiêm vắc xin viêm gan B sau khi HBsAg, anti-HBc âm và anti-HBs dưới 10 IU/mL</b></div><p class="why">QĐ 1740/2026 mục II (Bảng 1), 5.1.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho thuốc dự phòng sau phơi nhiễm HIV (PEP) ngay hôm nay</b></div><p class="why">Quá 72 giờ (CDC STI 2021 tr. 24–25).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê kháng sinh (ceftriaxone, azithromycin) &#x27;đề phòng&#x27; lậu/Chlamydia khi chưa triệu chứng, chưa xét nghiệm</b></div><p class="why">Tài liệu chỉ nêu điều trị khi đã chẩn đoán (sổ TM-0250).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho tiếp paracetamol và thuốc cảm 4–5 g/ngày &#x27;cho hết đau đầu&#x27;, uống bia như cũ</b></div><p class="why">Vượt cả hai trần 3 g và 4 g (QĐ 3610/2015 mục 6; QĐ 361/2014 Phụ lục mục 3.1).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kể chuyện quan hệ và xét nghiệm của anh cho bà Sáu hoặc vợ khi anh chưa đồng ý</b></div><p class="why">CDC STI 2021 tr. 26. Quy định bảo mật hồ sơ: không có trong tài liệu đã tải.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhập viện &#x27;truyền dịch giải độc gan, khám toàn diện&#x27; là quá tay: sinh hiệu bình thường, AST 31, ALT 38 U/L (dưới 50 là tiên lượng tốt, QĐ 3610/2015), không vàng da, không triệu chứng nhiễm trùng. Anh nằm viện cạnh mẹ và vợ nên nỗi sợ bị lộ nặng thêm, còn việc cần làm (xét nghiệm đúng mốc, ngưng thuốc cảm chứa paracetamol, nói với vợ) không được sắp xếp (CDC STI 2021 tr. 24–25).</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển anh lên bệnh viện tỉnh &#x27;khám lại tổng quát&#x27; là không cần: các chỉ số còn giá trị, không có bất thường chờ làm rõ (CV 7311 mục 1.2, 1.3). Anh mất một ngày công, bị làm lại xét nghiệm đã có, còn HIV, viêm gan B, C, giang mai lại không được hẹn đúng mốc, nên về nhà vẫn không biết mình có bệnh hay không, và mẹ biết chuyện.</p></div><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Giữ vài giờ &#x27;theo dõi&#x27; rồi cho về không kế hoạch xét nghiệm: anh tin &#x27;phiếu bình thường&#x27; là không bệnh lây, vẫn ngủ riêng, uống paracetamol 4 g/ngày kèm bia (trần 4 g/24 giờ, QĐ 361/2014 Phụ lục mục 3.1). HIV, viêm gan B, C, giang mai (không có trong gói khám) bị bỏ lỡ.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Khám sức khỏe định kỳ bình thường ở nam 32 tuổi: BMI 24,1, HA 118/76, glucose đói 5,0 mmol/L, lipid, công thức máu, creatinin, nước tiểu, điện tim, X-quang ngực; AST 31, ALT 38 U/L hôm nay (CV 7311 mục 1.2–1.3; QĐ 3610/2015: dưới 50 U/L là tiên lượng tốt)</li><li>Phơi nhiễm nguy cơ lây qua đường tình dục (một lần quan hệ không bao cao su, 11 ngày trước), hiện không triệu chứng; HIV, viêm gan B, C, giang mai chưa xét nghiệm, chưa loại trừ; quá thời hạn PEP (CDC STI 2021 tr. 24–25)</li><li>Dùng paracetamol khoảng 4 g/ngày × 8 ngày (gồm thuốc cảm) kèm bia và ăn ít, chưa tổn thương gan (QĐ 361/2014 Phụ lục mục 3.1; QĐ 3610/2015)</li><li>Đau đầu căng thẳng và mất ngủ ngắn do lo lắng; chưa tiêm ngừa viêm gan B</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>HỎI BỆNH: đọc phiếu (đã khám gì, THIẾU gì); đau đầu, mất ngủ; thuốc theo từng tên (kể cả thuốc cảm); bia, bữa ăn; hành vi ở nhà (tách chén đũa, ngủ riêng) là manh mối. Lý do thật cần mời mẹ ra ngoài, hỏi bạn tình, bao cao su, thời điểm theo 5 chữ P, không phán xét (CDC STI 2021 tr. 3–4, Box 1). Hỏi vợ, tiêm ngừa viêm gan B, tâm trạng.</li><li>KHÁM: da niêm (vàng da), hạch cổ, họng–miệng, bụng (gan), da (ban), dương vật–niệu đạo–bẹn, thần kinh, tâm thần. Hôm nay đều bình thường, là mốc nền để so với lượt sau.</li><li>CẬN LÂM SÀNG: không làm lại cái đã có (CV 7311 mục 1.3); chỉ AST/ALT vì paracetamol 4 g/ngày kèm bia sau ngày khám. HIV, HBsAg, anti-HCV, giang mai: cơ sở không có, giới thiệu.</li><li>VÌ SAO &#x27;BÌNH THƯỜNG&#x27; VẪN CÓ VIỆC: phiếu đúng nhưng chỉ cho những gì đã khám. Việc hôm nay nằm ngoài phiếu: hiểu nỗi sợ thật và đánh giá phơi nhiễm (quá 72 giờ nên không PEP (CDC STI 2021 tr. 24–25); xét nghiệm quá sớm chưa loại trừ nên phải lặp lại); sửa cách dùng paracetamol; giúp anh nói với vợ; tiêm ngừa viêm gan B nếu chưa có miễn dịch.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Hẹn lại, không nhập viện, không chuyển tuyến: sinh hiệu bình thường, AST/ALT dưới 50 U/L, không dấu hiệu nhiễm cấp. Xét nghiệm HIV, HBV, HCV, giang mai là việc ngoại trú ở nơi có điều kiện, giữ bí mật; mốc sai thì &#x27;đi cho chắc&#x27; không giải quyết nỗi sợ.</li><li>Paracetamol: trần 3 g/ngày (QĐ 3610/2015, Ngộ độc paracetamol mục 6; QĐ 361/2014 Phụ lục NSAID mục 3.3) hoặc 4 g/24 giờ (QĐ 361/2014 Phụ lục thuốc giảm đau mục 3.1), ngưng thuốc cảm và bia; không NAC vì AST/ALT dưới 50 IU/L (QĐ 3610/2015, dùng quá liều nhiều lần).</li><li>Không PEP (quá 72 giờ; CDC STI 2021 tr. 24–25), không kháng sinh đề phòng; bao cao su hoặc kiêng quan hệ, nhất là với vợ thai 22 tuần.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Paracetamol đơn chất (không dùng thuốc cảm chứa paracetamol)</b><div class="sub">500 mg/viên</div></td><td data-l="Liều">1 viên/lần khi đau đầu, cách nhau ít nhất 6 giờ; tối đa 6 viên/ngày (3 g, QĐ 3610/2015 mục 6) theo mức thận trọng, hoặc tối đa 8 viên/ngày (4 g) theo QĐ 361/2014 Phụ lục mục 3.1 và WHO AWaRe 2022<div class="sub">Uống · Sau ăn, chỉ khi đau; không uống cùng bia</div></td><td data-l="Thời gian">Chỉ khi cần, ngắn ngày; số ngày tối đa: không có trong tài liệu đã tải</td><td class="gc" data-l="Ghi chú">Chọn 3 g vì bia thường xuyên (sổ TM-0250). Ngưng thuốc cảm (QĐ 3610/2015 mục 2).</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Ngưng thuốc cảm và bia; paracetamol đơn chất chỉ khi đau, không quá 3 g (6 viên 500 mg) mỗi ngày (QĐ 3610/2015 mục 6; QĐ 361/2014 Phụ lục NSAID mục 3.3; trần 4 g theo Phụ lục mục 3.1).</li><li>Đến Trung tâm Kiểm soát bệnh tật tỉnh xét nghiệm HIV, viêm gan B, C, giang mai; hỏi tư vấn viên lịch lặp lại (khoảng 1 tháng và 3 tháng sau phơi nhiễm, Bệnh viện Bệnh nhiệt đới). Mốc theo CDC STI 2021 tr. 24–25 hoặc Bệnh viện Bệnh nhiệt đới. Kết quả giữ kín, mang về cho bác sĩ.</li><li>Trong lúc chờ: bao cao su đúng cách hoặc kiêng quan hệ (kể cả với vợ); không dùng chung dao cạo, bàn chải (QĐ 1740/2026 mục 5.4). Đường lây chủ yếu qua máu, tình dục, mẹ sang con (mục I).</li><li>Tìm lúc thích hợp nói với vợ; bác sĩ sẵn sàng hỗ trợ. Ngủ đúng giờ, ăn đủ bữa.</li><li>Quay lại ngay (dấu hiệu HIV cấp, CDC STI 2021; viêm gan, QĐ 5447/2014 mục II.1) nếu sốt, đau họng, nổi hạch, ban, loét miệng, vàng da, nước tiểu sẫm, đau hạ sườn phải. Tái khám sau 2 tuần kèm kết quả và AST/ALT.</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-2">
+ <h2 id="h-luot-2"><span class="ln">Lượt 2/2</span> Tái khám sau 3 tuần: sốt, hạch cổ, ban</h2>
+ <div class="card intro"><h3 id="m-8">Tiếp đón</h3><p>Anh Tài tái khám sau 3 tuần, đi cùng bà Sáu. Từ lượt trước anh đã ngưng thuốc cảm và bia, giảm paracetamol, đi xét nghiệm ở Trung tâm Kiểm soát bệnh tật theo hẹn (bà Sáu không biết kết quả) và đã nói với vợ. Sáu ngày nay anh sốt, đau họng, nổi hạch cổ, nổi ban ở ngực, mệt, sụt 2 kg. Sinh hiệu: mạch 96 l/p, HA 116/72 mmHg, nhiệt 38,4 °C, nhịp thở 18 l/p, SpO₂ 98%, cân nặng 66 kg.</p>
+  <blockquote>“Bác sĩ ơi, thằng Tài sốt sáu hôm rồi, đau họng, nổi hạch cổ, nổi ban ở ngực, uống thuốc hạ sốt không cắt. Nó mới đi xét nghiệm gì ở Trung tâm Kiểm soát bệnh tật rồi nói ổn cả mà sao lại sốt? Bác sĩ cho nó thuốc kháng sinh mạnh đi, quán đang đông. Nó mệt nên để tôi nói.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>96</b><small>l/p</small></div><div class="vs"><span>HA</span><b>116/72</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>38,4</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>18</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div><div class="vs warn wide"><span>Cảnh báo</span><b>Sốt 38,4 °C</b></div></div></div>
+ <details class="card" open><summary><h3 id="m-9">Hỏi bệnh <small>8 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám: sốt 6 ngày, đau họng, hạch cổ, ban</b><span class="tag t-g">Tự kể</span></div><p>(Mẹ kể) Thằng Tài sốt sáu hôm rồi, đau họng, nổi hạch ở cổ, nổi ban ở ngực, mệt lả. Uống thuốc hạ sốt không cắt hẳn. Nó mới đi xét nghiệm gì ở Trung tâm Kiểm soát bệnh tật, nói &#x27;ổn cả&#x27;, sao lại sốt? Bác sĩ cho nó thuốc kháng sinh mạnh, quán đang đông, nó cần đứng bếp.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dòng thời gian: hội chứng sốt, họng, hạch, ban, loét miệng, 26 ngày sau phơi nhiễm</b><span class="tag t-b">Khi được hỏi</span></div><p>Sáu ngày trước bắt đầu sốt 38–38,6 °C về chiều và đêm, ớn lạnh nhẹ, đau họng nhẹ, đau mỏi người, đau đầu nặng hơn. Ngày thứ 3 nổi ban nhỏ ở ngực, lưng, không ngứa. Ngày thứ 4 có hai vết loét nhỏ đau trong má trái. Hạch cổ hai bên sưng đau nhẹ. Ăn kém, sụt 2 kg. Sốt khởi phát khoảng 26 ngày sau lần quan hệ.</p><div class="cond">Điều kiện nói ra: Nói khi bác sĩ hỏi bệnh bắt đầu thế nào, diễn tiến từng ngày, ban và loét miệng xuất hiện khi nào; hỏi chung bà Sáu chỉ nói &#x27;sốt sáu hôm&#x27;.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đã làm theo lời dặn; liều paracetamol hiện dưới 3 g/ngày</b><span class="tag t-b">Khi được hỏi</span></div><p>Từ sau lượt trước đã bỏ thuốc cảm và bỏ hẳn bia, chỉ nước ngọt. Paracetamol 500 mg 1 viên mỗi lần khi sốt hoặc đau, 3–4 viên mỗi ngày trong 6 ngày sốt (1,5–2 g/ngày). Không kháng sinh tự mua, không ibuprofen hay aspirin.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Xét nghiệm sớm (ngày 16, test nhanh kháng thể) âm tính: chưa loại trừ nhiễm</b><span class="tag t-r">Giấu</span></div><p>Năm ngày sau lượt trước (khoảng 16 ngày sau phơi nhiễm) anh đến phòng tư vấn xét nghiệm HIV của Trung tâm Kiểm soát bệnh tật tỉnh: test nhanh HIV (kháng thể) âm tính, HBsAg âm tính, anti-HCV âm tính, RPR không phản ứng; dặn xét nghiệm lại sau 1 và 3 tháng. Phiếu anh giữ trong ví, mẹ không biết.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi nói chuyện riêng, hoặc bác sĩ hỏi anh đã đi xét nghiệm chưa, kết quả thế nào, xin xem phiếu.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đã thông báo cho vợ; chưa quan hệ lại</b><span class="tag t-b">Khi được hỏi</span></div><p>Mười bốn ngày trước anh kể với vợ; chị khóc, giận nhưng đồng ý cùng đi khám. Hai vợ chồng ngủ riêng, không quan hệ từ đó. Vợ khám thai tuần 26 bình thường. Mẹ vẫn chưa biết; anh sợ nằm viện mẹ biết chuyện, chấp nhận đi nếu được giữ kín.</p><div class="cond">Điều kiện nói ra: Nói khi hỏi riêng về vợ, đã kể với vợ chưa, vợ khám thai.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Triệu chứng gan, ban, STI kèm theo</b><span class="tag t-b">Khi được hỏi</span></div><p>Nước tiểu sẫm hơn 2 ngày. Không vàng mắt, đau hạ sườn phải, nôn nhiều, tiêu chảy, ho, khó thở. Ban không ở lòng bàn tay bàn chân. Không tiểu buốt, tiết dịch niệu đạo, loét sinh dục.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dịch tễ sốt xuất huyết; dấu hiệu cảnh báo</b><span class="tag t-b">Khi được hỏi</span></div><p>Mấy nhà gần quán tháng trước có người sốt xuất huyết, quanh quán nhiều muỗi. Không chảy máu cam, chân răng, không đau bụng dữ, không nôn nhiều.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Chủ quán ăn đang sốt, vẫn chế biến thức ăn</b><span class="tag t-b">Khi được hỏi</span></div><p>Vẫn đứng bếp nấu nước lèo và xào món mấy hôm nay vì thiếu người; đeo khẩu trang lúc có lúc không.</p></div></details>
+ <details class="card"><summary><h3 id="m-10">Khám <small>8 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Mệt, da ấm, niêm hồng, môi hơi khô, mắt không vàng, không phù. Cân nặng 66 kg (giảm 2 kg).</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Họng, tai, mũi</b></div><p><span class="lbl">Kết quả:</span> Họng đỏ nhẹ, amidan hai bên to độ I–II, không mủ, không giả mạc. Niêm mạc má trái có hai vết loét 3–4 mm nền trắng viền đỏ, đau khi chạm. Không nấm miệng.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Hạch cổ trước và sau hai bên, 4–5 hạch kích thước 1–1,5 cm, mềm, di động, đau nhẹ. Hạch nách không sờ thấy. Cổ mềm.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Ban nhỏ ở thân, không ngứa.</p><p><span class="lbl">Kết quả:</span> Ban dát sẩn đỏ nhạt 2–4 mm rải rác ngực, lưng, bụng, không ngứa, ấn mất màu. Lòng bàn tay và bàn chân bình thường. Không chấm xuất huyết.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm, ấn tức nhẹ hạ sườn phải, gan bờ dưới sát bờ sườn, lách không sờ thấy, không chướng, không cổ trướng.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số khoảng 96 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều, T1, T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Lồng ngực cân đối. Nhịp thở 18 l/p.</p><p><span class="lbl">Kết quả:</span> Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><span class="key">★</span><b>Khám dương vật, miệng sáo, dịch niệu đạo (vắt niệu đạo)</b></div><p><span class="lbl">Kết quả:</span> Không loét, không tiết dịch, hạch bẹn không to.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-11">Cận lâm sàng <small>9 mục</small></h3></summary><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-g">Cần làm</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class="lo"><td>Số lượng bạch cầu (WBC)</td><td class="num">3,4 ↓</td><td>G/L</td><td class="ref">4,0–10,0</td></tr><tr class="lo"><td>Tỷ lệ bạch cầu trung tính (NEU%)</td><td class="num">36 ↓</td><td>%</td><td class="ref">45–75</td></tr><tr class="lo"><td>Số lượng bạch cầu trung tính (NEU#)</td><td class="num">1,22 ↓</td><td>G/L</td><td class="ref">2,0–7,5</td></tr><tr class="hi"><td>Tỷ lệ bạch cầu lympho (LYM%)</td><td class="num">52 ↑</td><td>%</td><td class="ref">20–40</td></tr><tr class=""><td>Số lượng bạch cầu lympho (LYM#)</td><td class="num">1,77</td><td>G/L</td><td class="ref">1,0–4,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu mono (MONO%)</td><td class="num">10</td><td>%</td><td class="ref">2–10</td></tr><tr class=""><td>Số lượng bạch cầu mono (MONO#)</td><td class="num">0,34</td><td>G/L</td><td class="ref">0,2–1,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa acid (EOS%)</td><td class="num">1</td><td>%</td><td class="ref">0–7</td></tr><tr class=""><td>Số lượng bạch cầu ưa acid (EOS#)</td><td class="num">0,03</td><td>G/L</td><td class="ref">0–0,5</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa base (BASO%)</td><td class="num">1</td><td>%</td><td class="ref">0–1</td></tr><tr class=""><td>Số lượng bạch cầu ưa base (BASO#)</td><td class="num">0,03</td><td>G/L</td><td class="ref">0–0,1</td></tr><tr class=""><td>Số lượng hồng cầu (RBC)</td><td class="num">4,9</td><td>T/L</td><td class="ref">4,2–5,4</td></tr><tr class=""><td>Lượng huyết sắc tố (HGB)</td><td class="num">146</td><td>g/L</td><td class="ref">130–170</td></tr><tr class=""><td>Thể tích khối hồng cầu (HCT)</td><td class="num">0,43</td><td>L/L</td><td class="ref">0,4–0,5</td></tr><tr class=""><td>Thể tích trung bình hồng cầu (MCV)</td><td class="num">88,0</td><td>fL</td><td class="ref">80–100</td></tr><tr class=""><td>Lượng HST trung bình hồng cầu (MCH)</td><td class="num">29,8</td><td>pg</td><td class="ref">27–32</td></tr><tr class=""><td>Nồng độ HST trung bình hồng cầu (MCHC)</td><td class="num">340</td><td>g/L</td><td class="ref">320–360</td></tr><tr class=""><td>Dải phân bố kích thước hồng cầu (RDW-CV)</td><td class="num">13,0</td><td>%</td><td class="ref">11,5–14,5</td></tr><tr class="lo"><td>Số lượng tiểu cầu (PLT)</td><td class="num">118 ↓</td><td>G/L</td><td class="ref">150–400</td></tr></tbody></table><p class="why">Giảm BC, TC nhẹ, Hct 0,43: gợi nhiễm virus cấp (CDC STI 2021, HIV cấp); TC trên 100 G/L (QĐ 2760/2023 mục II.1.2).</p></div><div class="row"><div class="rh"><b>AST, ALT</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> AST 64 · ALT 78 U/L</p><p class="why">Tăng gấp đôi so với lượt 1. Trên 50 U/L: nghĩ đến paracetamol, NAC khi có tiền sử kèm tổn thương gan (QĐ 3610/2015 mục 4.3); viêm gan A, B, HIV cấp cũng gây tăng.</p></div><div class="row"><div class="rh"><b>CRP</b><span class="tag t-b">Hữu ích</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class="hi"><td>CRP</td><td class="num">18 ↑</td><td>mg/L</td><td class="ref">≤ 5</td></tr></tbody></table><p class="why">Tăng nhẹ, phù hợp nhiễm virus; không đủ để chọn kháng sinh.</p></div><div class="row"><div class="rh"><b>HBsAg, anti-HCV, HIV</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> HBsAg âm tính · Anti-HCV âm tính · HIV âm tính</p><p class="why">Cơ sở không làm được. Test nhanh kháng thể ngày 16 âm tính không loại trừ HIV; khi nghi cấp làm Ag/Ab kèm HIV RNA (CDC STI 2021 tr. 24–25).</p></div><div class="row"><div class="rh"><b>Huyết thanh giang mai (RPR/TPHA)</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> RPR không phản ứng</p><p class="why">Ban thân, loét miệng, hạch gợi giang mai thứ phát; RPR có thể âm tính giả sớm hoặc do prozone, cần lặp lại (QĐ 5186/2021, xét nghiệm không đặc hiệu).</p></div><div class="row"><div class="rh"><b>Huyết thanh viêm gan cấp: IgM anti-HAV, IgM anti-HEV, IgM anti-HBc</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> IgM anti-HAV âm tính · IgM anti-HEV âm tính · IgM anti-HBc âm tính</p><p class="why">Viêm gan A chẩn đoán bằng IgM anti-HAV (QĐ 5447/2014 mục II.3); anh chế biến thức ăn đang sốt.</p></div><div class="row"><div class="rh"><b>Dengue NS1, IgM/IgG</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> NS1 âm tính · IgM âm tính · IgG âm tính</p><p class="why">Sốt ngày 6, ban, đau cơ, giảm tiểu cầu trong vùng dịch; NS1 từ ngày 1 đến 7, ưu tiên 5 ngày đầu (QĐ 2760/2023, xét nghiệm huyết thanh).</p></div><div class="row"><div class="rh"><b>Định lượng paracetamol (acetaminophen) máu</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Dưới ngưỡng phát hiện</p><p class="why">Định lượng paracetamol máu và ALT khi dùng kéo dài (QĐ 3610/2015 mục 3.3, 4.3.2).</p></div><div class="row"><div class="rh"><b>Bilirubin, ALP, GGT, albumin, PT/INR (bộ chức năng gan mở rộng)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Bilirubin toàn phần 12 · trực tiếp 3 µmol/L · ALP 90 U/L · GGT 40 U/L · Albumin 41 g/L · INR 1,0</p><p class="why">Bilirubin, INR bình thường: chưa suy chức năng gan (QĐ 3610/2015 mục 3.3 và phần theo dõi).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-12">Đáp án lượt 2 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Chuyển tuyến / chuyên khoa</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Kết quả khám sức khỏe định kỳ ở lượt 1 vẫn đúng: lúc đó lâm sàng và cận lâm sàng bình thường; bệnh hiện nay là diễn tiến mới</b></div><p class="why">Lượt 1: AST 31, ALT 38, hạch, họng, da bình thường (nền để so sánh). &#x27;Bình thường&#x27; không sai, chỉ không gồm xét nghiệm bệnh lây qua đường tình dục.</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Hội chứng sốt, đau họng nhẹ, hạch cổ, ban dát sẩn, loét miệng, giảm BC, TC, ALT 78 U/L, 26 ngày sau quan hệ không an toàn: nhiễm virus cấp chưa rõ nguyên nhân; chưa loại trừ HIV cấp</b></div><p class="why">CDC STI 2021 (dấu hiệu HIV cấp); WHO AWaRe 2022 mục 6.</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Xét nghiệm sớm (ngày 16) âm tính không loại trừ nhiễm HIV, HBV, giang mai</b></div><p class="why">Test nhanh kháng thể bỏ sót người mới nhiễm; nghi cấp thì RNA (CDC STI 2021 tr. 24–25); lặp lại 1 và 3 tháng (Bệnh viện Bệnh nhiệt đới).</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Tăng men gan: chưa loại trừ phần do paracetamol (4 g/ngày × 8 ngày kèm bia trước đó), viêm gan virus A, B, C</b></div><p class="why">QĐ 3610/2015 (ALT trên 50 nguy cơ cao); QĐ 5447/2014 mục II; QĐ 1740/2026 mục III.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Sốt xuất huyết Dengue</b></div><p class="why">Sốt ngày 6, vùng có ca bệnh, TC 118, Hct không cô đặc; cần NS1 (QĐ 2760/2023 mục II.1.2).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Giang mai thứ phát</b></div><p class="why">Ban không ở lòng bàn tay chân; RPR ngày 16 chưa loại trừ (QĐ 5186/2021).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm họng liên cầu nhóm A</b></div><p class="why">Không giả mạc amidan; test nhanh không có; không đổi quyết định (WHO AWaRe 2022 mục 6).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Suy gan, xuất huyết, sốc (cần cấp cứu)</b></div><p class="why">Tỉnh, mạch 96, HA 116/72, SpO₂ 98%, không vàng da, bilirubin 12 µmol/L, INR 1,0, không xuất huyết.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Nói chuyện riêng với anh Tài trước (bà Sáu trả lời thay); hỏi anh đã đi xét nghiệm chưa, xem phiếu; ghi nhận kết quả sớm âm tính, không để kết quả đó trấn an quá mức</b></div><p class="why">CDC STI 2021 tr. 24–25.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Nêu HIV cấp vào chẩn đoán phân biệt cùng sốt xuất huyết Dengue, viêm gan A/B, giang mai thứ phát, nhiễm virus Epstein–Barr/CMV, nhiễm độc gan do paracetamol</b></div><p class="why">CDC STI 2021 (HIV cấp); WHO AWaRe 2022 mục 6; QĐ 2760/2023; QĐ 5447/2014. Phân biệt lâm sàng với bạch cầu đơn nhân: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Làm tại chỗ công thức máu, AST/ALT, CRP, creatinin, nước tiểu; nhận ra giảm bạch cầu, giảm tiểu cầu, ALT 78 so với lượt 1</b></div><p class="why">Xét nghiệm cơ bản của cơ sở; so với lượt 1 (AST 31, ALT 38).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chuyển tuyến trong ngày đến bệnh viện có khoa Truyền nhiễm (HIV Ag/Ab và HIV RNA, HBsAg, IgM anti-HBc, anti-HCV, IgM anti-HAV, RPR/TPHA, NS1, huyết thanh EBV/CMV, bilirubin, PT/INR, định lượng paracetamol máu) và để bệnh viện quyết định NAC</b></div><p class="why">Cơ sở không làm được. CDC STI 2021 tr. 24–25; QĐ 3610/2015 mục 4.3 (NAC); QĐ 2760/2023 (NS1). Mốc &#x27;trong ngày&#x27; do người biên soạn chọn; tiêu chuẩn chuyển tuyến: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hạ sốt: paracetamol đơn chất tối đa 3 viên 500 mg/ngày (1,5 g) hoặc không dùng khi men gan tăng; uống nhiều nước/oresol; không ibuprofen, aspirin; không bia</b></div><p class="why">QĐ 361/2014 Phụ lục mục 3.1 chống chỉ định khi tăng men gan; Phụ lục NSAID mục 3.3 dưới 3 g/ngày (sổ TH-1329). QĐ 2760/2023: không ibuprofen, aspirin.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không kê kháng sinh theo kinh nghiệm trước khi có chẩn đoán, nhất là amoxicillin (có thể gây ban ở người nhiễm Epstein–Barr)</b></div><p class="why">WHO AWaRe 2022 mục 6 (ban ở nhiễm Epstein–Barr dùng amoxicillin).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn bao cao su hoặc kiêng quan hệ (kể cả với vợ), không dùng chung dao cạo, bàn chải; nghỉ chế biến thức ăn trong lúc sốt, chờ IgM anti-HAV</b></div><p class="why">CDC STI 2021 tr. 24–25; QĐ 1740/2026 mục 5.4; QĐ 5447/2014 mục II.3 (HAV lây qua thức ăn).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giữ bí mật khi chuyển viện: chỉ ghi mục đích &#x27;đánh giá sốt kéo dài, men gan tăng&#x27;; hỏi anh muốn nói với mẹ thế nào, vợ đi cùng khi cần</b></div><p class="why">CDC STI 2021 tr. 26.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho anh về uống thuốc hạ sốt, hẹn lại sau 3 ngày vì &#x27;xét nghiệm HIV đã âm tính&#x27;</b></div><p class="why">CDC STI 2021 tr. 24–25: nghi cấp phải làm RNA; anh sốt, ALT tăng, giảm BC, TC.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê kháng sinh mạnh (amoxicillin, ceftriaxone) theo yêu cầu của bà Sáu</b></div><p class="why">Không có bằng chứng nhiễm khuẩn; amoxicillin có thể gây ban (WHO AWaRe 2022).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho thuốc kháng retrovirus (PEP hoặc ART) hoặc ibuprofen/aspirin tại phòng khám khi chưa có chẩn đoán</b></div><p class="why">PEP chỉ khi dưới 72 giờ (CDC STI 2021); ibuprofen, aspirin: QĐ 2760/2023.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Cho về, hẹn tái khám</span></div><p>Cho về uống hạ sốt, hẹn lại 3 ngày vì &#x27;xét nghiệm HIV đã âm tính&#x27; là sai: đó là test nhanh kháng thể ngày 16, chưa loại trừ nhiễm cấp (CDC STI 2021 tr. 24–25). Anh tiếp tục sốt, sụt cân, ALT có thể tăng thêm; lỡ cơ hội chẩn đoán sớm, trong khi người nhiễm cấp rất dễ lây (CDC STI 2021). Anh vẫn đứng bếp và chưa an tâm gần vợ.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhập viện ngay là quá tay: tỉnh, ăn uống được, bilirubin và INR bình thường, tiểu cầu 118 G/L, không dấu hiệu cảnh báo (QĐ 2760/2023). Bà Sáu đi theo và biết hết chuyện, anh mất bí mật, trong khi xét nghiệm cần làm là ngoại trú tại khoa Truyền nhiễm.</p></div><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Giữ anh ở phòng khám truyền dịch, theo dõi vài giờ: cơ sở không làm được HIV Ag/Ab, RNA, viêm gan, giang mai, NS1, paracetamol máu. Anh vẫn sốt, vẫn không chẩn đoán, mất nửa ngày; ALT 78 trên 50 U/L chưa được giải thích (QĐ 3610/2015).</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển cấp cứu</span></div><p>Gọi 115 là quá tay: không suy hô hấp, không sốc, không vàng da, không xuất huyết, bilirubin 12 µmol/L, INR 1,0. Quán và mẹ chứng kiến xe cấp cứu, anh mất kín đáo mà cũng không đến khoa Truyền nhiễm nhanh hơn.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Kết quả khám sức khỏe định kỳ ở lượt 1 bình thường vẫn đúng (AST 24 và 31, ALT 29 và 38 U/L, hạch, họng, da bình thường)</li><li>Hội chứng nhiễm virus cấp 26 ngày sau quan hệ không an toàn: sốt 38,4 °C, đau họng, hạch cổ, ban dát sẩn ở thân, loét miệng; BC 3,4, TC 118 G/L, AST 64, ALT 78 U/L; chưa rõ nguyên nhân, chưa loại trừ HIV cấp (CDC STI 2021)</li><li>Xét nghiệm sớm ngày 16 (test nhanh kháng thể) âm tính, không loại trừ; còn chẩn đoán phân biệt sốt xuất huyết Dengue, viêm gan A/B, giang mai thứ phát, Epstein–Barr/CMV; chưa loại trừ phần do paracetamol</li><li>Chưa có dấu hiệu cấp cứu: tỉnh, bilirubin 12 µmol/L, INR 1,0, không xuất huyết</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>HỎI BỆNH: diễn tiến từng ngày (sốt, họng, ban, loét miệng) với mốc 26 ngày sau phơi nhiễm (hội chứng HIV cấp, CDC STI 2021); thuốc hiện nay; xét nghiệm đã làm và LOẠI xét nghiệm (test nhanh kháng thể ngày 16); vợ; dịch tễ sốt xuất huyết; nghề chế biến thức ăn; nước tiểu sẫm, vàng mắt.</li><li>KHÁM: hạch, họng–miệng (loét), da, gan–lách, sinh dục–bẹn; khác hẳn nền bình thường lượt 1.</li><li>CẬN LÂM SÀNG tại chỗ: công thức máu (giảm BC, TC), AST/ALT (31/38 lên 64/78), CRP. Cơ sở không có HIV Ag/Ab và RNA, viêm gan, RPR, NS1, EBV/CMV, bilirubin–INR–paracetamol máu: lý do chuyển tuyến.</li><li>VÌ SAO KHÔNG TRẤN AN: anh đã xét nghiệm &#x27;ổn cả&#x27; nên dễ dừng. Nhưng test nhanh kháng thể ngày 16 bỏ sót người mới nhiễm, còn sốt–hạch–ban–loét miệng–giảm BC, TC–tăng men gan 4 tuần sau phơi nhiễm đúng mô tả HIV cấp (CDC STI 2021). Chẩn đoán chưa chốt; điểm của ca là quyết định đúng khi chưa biết.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Chuyển tuyến trong ngày: gọi trước, ghi rõ xét nghiệm cần làm, giữ bí mật; anh đi xe riêng cùng người do anh chọn. Không kháng sinh, không PEP/ART, không ibuprofen/aspirin.</li><li>Hạ sốt bằng paracetamol tối đa 1,5 g/ngày hoặc không dùng (QĐ 361/2014 Phụ lục mục 3.1, NSAID mục 3.3); dặn bao cao su/kiêng quan hệ, nghỉ nấu ăn khi sốt.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Paracetamol đơn chất</b><div class="sub">500 mg/viên</div></td><td data-l="Liều">1 viên/lần khi sốt từ 38,5 °C hoặc đau nhiều, cách nhau ít nhất 6 giờ; tối đa 3 viên/ngày (1,5 g) khi men gan đang tăng (QĐ 361/2014 Phụ lục NSAID mục 3.3, dưới 3 g/ngày); hoặc không dùng vì QĐ 361/2014 Phụ lục mục 3.1 chống chỉ định khi tăng men gan<div class="sub">Uống · Khi cần, sau ăn</div></td><td data-l="Thời gian">Đến khi bệnh viện đánh giá (1–2 ngày); số ngày tối đa: không có trong tài liệu đã tải</td><td class="gc" data-l="Ghi chú">Không thuốc cảm, không bia. Bệnh viện quyết định NAC (QĐ 3610/2015 mục 4.3).</td></tr><tr><td><b>Oresol (bột pha uống)</b><div class="sub">1 gói theo nhãn</div></td><td data-l="Liều">Pha đúng hướng dẫn trên nhãn, uống nhiều lần trong ngày; có thể thay bằng nước trái cây hoặc nước cháo loãng với muối (QĐ 2760/2023, điều trị triệu chứng)<div class="sub">Uống · Cả ngày</div></td><td data-l="Thời gian">Đến khi ăn uống lại bình thường</td><td class="gc" data-l="Ghi chú">Theo QĐ 2760/2023 (điều trị triệu chứng); không dùng ibuprofen, aspirin, kháng sinh.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Đến ngay hôm nay khoa Truyền nhiễm bệnh viện (đã gọi trước); mang phiếu xét nghiệm ngày 16 và phiếu hôm nay; làm HIV Ag/Ab và RNA, viêm gan, giang mai, NS1.</li><li>Thông tin được giữ kín; anh quyết định nói với mẹ thế nào, bác sĩ có thể giúp. Nếu có kết quả dương tính, vợ cần xét nghiệm và theo dõi thai (CDC STI 2021 tr. 26).</li><li>Trong lúc chờ: bao cao su hoặc kiêng quan hệ, không dùng chung dao cạo; nghỉ nấu ăn cho khách; uống nhiều nước/oresol; không bia, ibuprofen, aspirin, không tự mua kháng sinh hay thuốc cảm chứa paracetamol.</li><li>Đi cấp cứu nếu vàng da, vàng mắt, chảy máu cam hoặc chân răng, đau bụng dữ, nôn nhiều, lừ đừ, khó thở. Khám lại khi có kết quả.</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-13">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Tư vấn kết quả khám sức khỏe bình thường</b></div>
+<p class="note">Phải loại trừ: (đảm bảo không bỏ sót bất thường)</p><p>Khỏi chậm hơn dự kiến. Anh Tài đến khoa Truyền nhiễm bệnh viện tỉnh trong ngày (hư cấu): HIV Ag/Ab âm tính, HIV RNA không phát hiện, HBsAg, anti-HCV, RPR, IgM anti-HAV, NS1 âm tính; IgM kháng VCA Epstein–Barr dương tính (nhiễm Epstein–Barr cấp kèm viêm gan nhẹ). Paracetamol máu dưới ngưỡng phát hiện, bilirubin và INR bình thường nên không dùng NAC. Sốt hết sau 8 ngày, ban và loét miệng hết sau 10 ngày; ALT về dưới 40 U/L sau 5 tuần, nhưng anh mệt và ngủ chập chờn gần 8 tuần nên nghỉ bếp lâu hơn dự tính. HIV, HBsAg, anti-HCV, RPR lặp lại ở 1 và 3 tháng sau phơi nhiễm đều âm tính; vợ xét nghiệm lại âm tính, thai bình thường. Anh tiêm đủ vắc xin viêm gan B vì anti-HBs dưới 10 IU/mL; mẹ chỉ biết con &#x27;bị siêu vi&#x27;. Quỹ đạo bình thường: sốt hết trong 1–2 tuần, men gan giảm dần, mệt kéo dài vài tuần (thời gian hồi phục điển hình của Epstein–Barr: không có trong tài liệu đã tải). Quỹ đạo đáng lo: sốt trên 2 tuần, vàng da, ALT tăng tiếp, xét nghiệm lặp lại dương tính. Quyết định đúng theo thông tin lúc đó: lượt 1 hẹn lại kèm kế hoạch xét nghiệm đúng mốc, lượt 2 chuyển tuyến vì nghi nhiễm cấp; &#x27;âm tính ngày 16&#x27; không được dùng để dừng lại.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-14">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Thân nhân trả lời thay: bà Sáu kể trước, đoán &#x27;khám chưa ra hết bệnh&#x27;, xin kháng sinh mạnh; anh Tài đáp &#x27;dạ không sao&#x27;. Chuyện thật chỉ lộ khi mời mẹ ra ngoài và hỏi nhẹ nhàng, không phán xét.</li><li>Thuốc đang dùng ẩn: &#x27;thuốc đau đầu thôi&#x27; nhưng là paracetamol 6 viên cộng thuốc cảm cũng chứa paracetamol, tổng 4 g/ngày, kèm bia và ăn ít; hỏi từng tên thuốc, xem vỉ.</li><li>Phiếu &#x27;bình thường&#x27; và xét nghiệm sớm &#x27;ổn&#x27; (ngày 16) làm cả nhà và dễ cả bác sĩ yên tâm quá sớm.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Khám định kỳ bình thường chỉ nói về những gì đã khám; hỏi gói khám thiếu gì (HIV, HBV, HCV, giang mai), đừng làm lại cái đã có (CV 7311 mục 1.2, 1.3).</li><li>Lý do thật khác lý do trình bày: tách người nhà để hỏi riêng, tiền sử tình dục bằng 5 chữ P, không phán xét (CDC STI 2021, Box 1).</li><li>PEP trong 72 giờ; quá mốc thì xét nghiệm phải đặt đúng thời điểm và lặp lại; âm tính sớm không loại trừ (CDC STI 2021 tr. 24–25).</li><li>Hỏi tên từng thuốc tự mua: thuốc cảm cũng chứa paracetamol; trần 3 g hoặc 4 g/ngày, bia và nhịn đói tăng nguy cơ gan; AST/ALT dưới 50 U/L tiên lượng tốt (QĐ 3610/2015).</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>PEP HIV khi phơi nhiễm dưới 72 giờ (CDC STI 2021 tr. 24–25). Xét nghiệm HIV lại sau 1 và 3 tháng (Bệnh viện Bệnh nhiệt đới), hoặc Ag/Ab rồi RNA khi nghi cấp và lặp lại sau vài tuần (CDC STI 2021).</li><li>Dấu hiệu HIV cấp: sốt, hạch, ban, đau cơ, đau đầu, loét miệng, giảm BC, TC, tăng men gan (CDC STI 2021, phần Pregnant Women/HIV).</li><li>Paracetamol: tối đa 4 g/24 giờ (QĐ 361/2014 Phụ lục mục 3.1); không nên quá 3 g/ngày, tránh nhiều biệt dược cùng có paracetamol (QĐ 3610/2015 mục 6); AST/ALT dưới 50 U/L tiên lượng tốt, trên 50 nguy cơ cao (QĐ 3610/2015).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-15">Nguồn tài liệu <small>8</small></h3></summary><ul class=""><li>BYT – CV 7311/BYT-KCB (29/9/2026) – TL-0667 – mục 1.2 điểm 1, mục 1.3. BYT – TT 25/2026/TT-BYT – TL-0668 – Mẫu số 03, mục III, IV.</li><li>BYT – QĐ 3610/QĐ-BYT 2015, Ngộ độc – TL-0035 – Ngộ độc paracetamol: mục 2, 3.2–3.3, 4.3, &#x27;Các trường hợp đặc biệt&#x27; 2–3, mục 6 (Phòng tránh).</li><li>BYT – QĐ 361/QĐ-BYT 2014, Cơ xương khớp – TL-0286 – Phụ lục thuốc giảm đau mục 3.1 (tr. 202); Phụ lục NSAID mục 3.3.</li><li>WHO AWaRe antibiotic book 2022 – TL-0018 – mục 6 Pharyngitis (tr. 46–48); phần dị ứng kháng sinh.</li><li>CDC STI Treatment Guidelines 2021 (MMWR 70(4)) – kho cũ mục 08 – Prevention Counseling, Box 1 (tr. 3–4), Condoms, Pre-Exposure Vaccination, HIV (tr. 24–25), Partner Services (tr. 26), Pregnant Women.</li><li>BYT – QĐ 1740/QĐ-BYT 2026, Viêm gan B – TL-0164 – mục I, II (Bảng 1), III, 5.1, 5.4. BYT – QĐ 5186/QĐ-BYT 2021, Giang mai – TL-0398. BYT – QĐ 5447/QĐ-BYT 2014, Viêm gan A – TL-0174 – mục II. BYT – QĐ 2760/QĐ-BYT 2023, Dengue – TL-0029 – mục II.1.2 (giai đoạn sốt), xét nghiệm huyết thanh (NS1), điều trị triệu chứng.</li><li>CDC-ACIP 2020, Hepatitis A (kho cũ mục 02), Food Handlers. USPSTF – HIV 2019 (A), HBV 2020 (B; TL-0685), HCV 2020 (B; TL-0686), giang mai 2022 (A) – danh sách A và B (kho cũ mục 13).</li><li>Nguồn bổ sung tự tìm: Bệnh viện Bệnh nhiệt đới, &#x27;Điều trị dự phòng sau phơi nhiễm với HIV (PEP)&#x27;, https://bvbnd.vn/dieu-tri-du-phong-sau-phoi-nhiem-voi-hiv-pep/ (không nêu số quyết định gốc; PEP tốt nhất trong 24 giờ, không muộn hơn 72 giờ; xét nghiệm HIV lại sau 1 và 3 tháng).</li></ul></details>
+<details class="card"><summary><h3 id="m-16">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Tư vấn kết quả khám tổng quát</dd><dt>chan_doan_dich</dt><dd>Tư vấn kết quả khám sức khỏe bình thường</dd><dt>chan_doan_phai_loai_tru</dt><dd>(đảm bảo không bỏ sót bất thường)</dd><dt>nhom_tuoi</dt><dd>Thanh niên (16–39 tuổi)</dd><dt>do_kho</dt><dd>Điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>dien_tien_tai_kham</dt><dd>Nặng hơn</dd><dt>nhieu_benh_nhan</dt><dd>Thân nhân trả lời thay</dd><dt>rang_buoc_nguon_luc</dt><dd>Chỉ có xét nghiệm cơ bản</dd><dt>loai_ket_cuc</dt><dd>Khỏi chậm hơn dự kiến</dd><dt>gioi</dt><dd>Nam</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>2</dd><dt>nghe_nghiep</dt><dd>Chủ quán ăn</dd><dt>yeu_to_khoi_phat</dt><dd>Sau quan hệ tình dục</dd><dt>thuoc_dang_dung</dt><dd>Paracetamol liều cao kéo dài</dd><dt>ly_do_that_su_den_kham</dt><dd>Sợ lây bệnh cho người thân</dd></dl><ul class=""><li>2026-11-04 – soạn lần đầu. Đã đọc: TL-0667, TL-0668, TL-0035, TL-0286, TL-0018, TL-0164, TL-0398, TL-0174, TL-0029, CDC STI 2021, CDC-ACIP 2020, USPSTF (vị trí trong &#x27;nguon&#x27;). Thiếu tài liệu: hướng dẫn HIV của BYT, tiêu chuẩn đau đầu căng thẳng, Epstein–Barr, lây qua tiếp xúc thường ngày, bảo mật hồ sơ.</li><li>Biến lạ: &#x27;sau quan hệ tình dục&#x27; ở nam đã có vợ viết thành MỘT lần quan hệ không an toàn ngoài hôn nhân; &#x27;sợ lây người thân&#x27; thành nỗi sợ lây vợ đang thai, con, mẹ. Thân nhân trả lời thay là mẹ; vợ ở nhà để giữ bí mật.</li><li>Mâu thuẫn dùng lại từ sổ: trần paracetamol 3 g hoặc 4 g (TM-0250); paracetamol khi tăng men gan (TH-1329); PEP quá 72 giờ và kháng sinh theo kinh nghiệm chấm w (TM-0250). Mới đề xuất: mốc xét nghiệm HIV sau phơi nhiễm (CDC 2021 so với Bệnh viện Bệnh nhiệt đới), xem TQ-0013_mau_thuan.md. Ban ở lượt 2 mô tả bằng chữ (kham.da k:0), chưa có ảnh da.</li></ul></details>
+<p class="chan-trang">Ca TQ-0013 · phiên bản ca 1 – viết 2026-11-04 theo kho tài liệu, mọi ngưỡng/liều ghi kèm vị trí · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

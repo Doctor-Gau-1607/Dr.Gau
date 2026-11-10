@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DL-0296 · Trứng cá</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · DL-0296</div>
+   <h1>Mẹ đưa con trai 15 tuổi đi khám vì nổi mụn ở mặt, ngực, vai khoảng 5 tháng, bùng nặng 6 tuần nay, hơi ngứa; mẹ nghĩ do dị ứng.</h1>
+   <p class="dich-gia">Phạm Gia Huy · Nam · 15 tuổi · 52 kg</p>
+   <div class="chips"><span class="chip">Da liễu</span><span class="chip">Không điển hình</span><span class="chip">3 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Học sinh lớp 9; ôn thi vào lớp 10, học thêm đến 22 giờ, ngủ 5–6 giờ/đêm</dd><dt>Chiều cao, cân nặng</dt><dd>166 cm · 52 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi em là &#x27;em&#x27;. Huy xưng &#x27;em&#x27;, gọi &#x27;bác sĩ&#x27;; với mẹ xưng &#x27;con&#x27;. Mẹ 41 tuổi: bác sĩ gọi &#x27;chị&#x27;, chị xưng &#x27;tôi&#x27; hoặc &#x27;em&#x27;, gọi con là &#x27;cháu&#x27; hoặc &#x27;thằng Huy&#x27;.</dd><dt>Tính cách</dt><dd>Huy sĩ diện, ít nói, hay cúi đầu, sợ mẹ la nên né chuyện bị cho là &#x27;dại dột&#x27;; tự ti vì mụn, tin bạn bè và video mạng. Chị Thảo (mẹ) là kế toán, tin con &#x27;dị ứng&#x27;, hay mua thuốc theo kinh nghiệm, ngại &#x27;thuốc tây mạnh&#x27;.</dd><dt>Người nhà</dt><dd>Mẹ Huy (chị Thảo) – Mẹ, chị Lê Thị Thảo, 41 tuổi, đi cùng cả 3 lượt; trả lời phần lớn câu hỏi chung, không biết chuyện kem và truyền dịch.</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Phòng khám đa khoa không có máy X-quang (kéo theo không có CT, nội soi). Làm được tại chỗ: xét nghiệm máu, sinh hóa (men gan, mỡ máu), CRP, soi tươi KOH. Không có bác sĩ chuyên khoa da liễu.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/3</span> </h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Phạm Gia Huy, 15 tuổi, học sinh lớp 9, được mẹ (chị Thảo) đưa đến vì nổi mụn ở mặt, ngực, vai khoảng 5 tháng, nặng lên rõ 6 tuần nay. Chưa có hồ sơ tại phòng khám. Sinh hiệu: mạch 78 l/p, HA 110/70 mmHg, nhiệt độ 36,7 °C, nhịp thở 18 l/p, SpO₂ 99%. Cân nặng 52 kg, chiều cao 166 cm.</p>
+  <blockquote>“Chào bác sĩ. Cháu nhà tôi nổi mụn đầy mặt với ngực, còn ngứa ngứa nữa. Tôi nghĩ nó bị dị ứng, mua thuốc dị ứng cho uống mấy tuần mà không hết. Bác sĩ coi giùm. Nó học hành căng thẳng lắm, thằng Huy mà, ít chịu nói.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>78</b><small>l/p</small></div><div class="vs"><span>HA</span><b>110/70</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,7</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>18</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>99</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>7 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám, vị trí, thời gian, ngứa nhẹ; mẹ nghĩ do dị ứng</b><span class="tag t-g">Tự kể</span></div><p>Mẹ kể: mụn bắt đầu cách đây khoảng 5 tháng, vài nốt ở trán, cằm. Sáu tuần nay nổi nhiều nốt đỏ nhỏ ở trán, thái dương, hai má, ngực, vai; hơi ngứa, không đau. Chị nghĩ do dị ứng nên mua thuốc dị ứng cho uống.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Diễn tiến mạn tính 5 tháng, bùng 6 tuần, tổn thương đơn dạng, ít nhân mụn; không dấu hiệu tối cấp; tiền sử gia đình</b><span class="tag t-b">Khi được hỏi</span></div><p>Lúc đầu chỉ vài chấm trắng, nốt đỏ ở trán, cằm. Sáu tuần nay nổi hàng loạt nốt đỏ nhỏ cỡ đầu tăm, nhiều nốt có đầu mủ, gần như một kiểu, nhiều ở ngực, vai, trán, thái dương; ít chấm đen. Không cục to, không đau sâu, không sốt, không đau xương khớp. Em hay nặn bằng tay. Bố hồi cấp 3 cũng có mụn nhẹ, không sẹo.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Yếu tố khởi phát: căng thẳng học tập, thiếu ngủ, ăn đường sữa; sàng lọc tâm trạng</b><span class="tag t-b">Khi được hỏi</span></div><p>Huy ôn thi vào lớp 10, đi học thêm đến 22 giờ, ngủ 5–6 giờ/đêm, uống trà sữa 1–2 ly/ngày, ăn đồ chiên. Mụn nặng hơn rõ từ khi vào đợt thi khảo sát giữa kỳ. Em hơi buồn, tránh chụp ảnh lớp, không có ý nghĩ làm hại bản thân.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc đang dùng: thuốc dị ứng tự mua, không hiệu quả; loại trừ thuốc uống gây mụn</b><span class="tag t-b">Khi được hỏi</span></div><p>Mẹ mua loratadin 10 mg ở tiệm thuốc; Huy uống 1 viên/ngày khoảng 3 tuần, ngứa giảm ít, mụn không đổi. Không uống thuốc nào khác, không corticoid uống hay tiêm, không whey, không thuốc nam, không thuốc tăng cơ. Không dị ứng thuốc.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc bôi không rõ thành phần (nghi corticoid) bị giấu; cần hỏi cụ thể, không phán xét, xin xem tuýp</b><span class="tag t-r">Giấu</span></div><p>Hỏi chung &#x27;em có bôi gì không&#x27; thì Huy đáp &#x27;dạ không&#x27;, mẹ cũng nói không. Khi bác sĩ hỏi cụ thể &#x27;kem bạn cho, kem mua mạng, tuýp không nhãn&#x27;: khoảng 6 tuần trước một bạn đưa tuýp kem trắng nhỏ không nhãn &#x27;kem trộn trị mụn, hết trong một tuần&#x27;. Em bôi mặt, cổ, ngực, vai ngày 2 lần khoảng 4 tuần; 1–2 tuần đầu mụn cũ xẹp, sau đó nổi hàng loạt nốt mới, ngứa. Hết tuýp cách đây 2 tuần, nốt vẫn nổi. Tuýp rỗng còn trong cặp, không nhãn thành phần. Mẹ không biết.</p><div class="cond">Điều kiện nói ra: Chỉ khi bác sĩ hỏi cụ thể từng loại kem (bạn cho, mua mạng, tuýp không nhãn) bằng giọng không trách, nói rõ hỏi để chọn thuốc đúng; nếu mẹ trách thì Huy im lặng.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật đến khám: muốn được truyền dịch thải độc</b><span class="tag t-r">Giấu</span></div><p>Khi bác sĩ hỏi riêng &#x27;em mong bác sĩ giúp gì hôm nay&#x27;: Huy nói nhỏ là muốn được truyền nước. Bạn bảo truyền 1–2 chai &#x27;thải độc&#x27; thì mụn xẹp nhanh, em xem video mạng nói truyền vitamin thải độc da. Tuần sau em phải chụp ảnh thẻ và có bài kiểm tra nên muốn hết nhanh.</p><div class="cond">Điều kiện nói ra: Chỉ khi bác sĩ hỏi riêng Huy &#x27;em mong gì ở buổi khám&#x27;, &#x27;bạn bè bảo chữa cách nào&#x27;, hoặc khi Huy tự hỏi sau khi được trấn an.</div></div><div class="fact"><div class="fh"><b>Chăm sóc da sai; tiền sử; lo ngại của mẹ</b><span class="tag t-b">Khi được hỏi</span></div><p>Rửa mặt 4–5 lần/ngày bằng xà phòng, chà mạnh; nặn mụn mủ bằng tay; chưa khám da liễu, chưa dưỡng ẩm hay chống nắng. Dậy thì từ lớp 7, trước giờ khỏe, không sốt, không mệt. Mẹ ngại &#x27;thuốc tây mạnh&#x27; vì nghe thuốc trị mụn hại gan.</p></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>4 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Da, niêm mạc, ban</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Mặt (trán, thái dương, hai má): nhiều sẩn đỏ nhỏ đều nhau, vài mụn mủ nhỏ, vài mụn trắng nhỏ ở trán, cằm. Ngực và vai: sẩn đỏ nhỏ, vài nốt có đầu mủ. Lưng trên: vài sẩn. Không cục, không sẹo.</p><p><span class="lbl">Kết quả:</span> Mặt: trán 6 sẩn đỏ 2–3 mm và 3 mụn mủ nhỏ, thái dương hai bên 4 sẩn, má phải 5 sẩn và 1 mụn mủ, má trái 4 sẩn và 1 mụn mủ, cằm không có; 6 mụn nhân đóng ở trán và cằm (thấy rõ khi căng da); không nhân mở. Ngực và vai: 12 sẩn đỏ và 2 mụn mủ cùng kích thước. Lưng trên: 4 sẩn. Tổng khoảng 42 tổn thương viêm (24 mặt, 14 ngực vai, 4 lưng), 6 tổn thương không viêm, tổng 48. Các nốt gần như đồng dạng, kích thước đều. Không cục, không nang, không sẹo; vài vết thâm nhẹ do nặn. Không ban đỏ dai dẳng, không giãn mạch, không vảy dày, không loét.</p><div class="media"><figure class="img"><a href="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/hinh/HA-DA-0071.jpg" target="_blank" rel="noopener"><a class="o-anh" href="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/hinh/HA-DA-0071.jpg"><img loading="lazy" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/hinh/HA-DA-0071.jpg" alt="Thân mình (ngực, sườn)"></a></a><figcaption><b>Thân mình (ngực, sườn)</b> – Vùng ngực, sườn: nhiều sẩn đỏ nhỏ 2–4 mm rải rác, một số vết thâm nâu đỏ sau viêm; không cục, không loét.</figcaption><div class="src">Ảnh: SCIN (Google Research &amp; Stanford), case 5373485488810311376, dataset/images/-1116085972492150093.png</div></figure></div></div><div class="row"><div class="rh"><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, hợp tác nhưng cúi đầu, ít nói khi có mẹ. BMI ≈ 18,9. Da niêm hồng, không sốt, không vẻ Cushing, không dấu hiệu tối cấp.</p></div><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Hạch cổ, dưới hàm không sờ thấy. Tuyến giáp không to. Ria mép mỏng, phù hợp tuổi dậy thì.</p></div><div class="row"><div class="rh"><b>Khám tâm thần (dáng vẻ, khí sắc, tư duy, nhận thức, ý tưởng tự hại)</b></div><p><span class="lbl">Kết quả:</span> Hơi buồn, tự ti vì da; không có ý nghĩ hay kế hoạch tự hại.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Tim</b><span class="tag t-m">Bình thường</span></div><p>Tim đều 78 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 18 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>2 mục</small></h3></summary><div class="row"><div class="rh"><b>Soi tươi tìm nấm (KOH) bệnh phẩm da, móng, tóc</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Soi tươi KOH tổn thương ở ngực, vai: không thấy sợi nấm hay tế bào nấm men chồi.</p><p class="why">Nên làm: tổn thương sẩn, mụn mủ đơn dạng ở thân gợi viêm nang lông do Malassezia, khi đó có thể cân nhắc xét nghiệm vi sinh (AAD 2024 tr. 1.e5); soi nấm trực tiếp là xét nghiệm xác định nguyên nhân viêm nang lông (QĐ 4416/2023, Viêm nang lông mục 2.2). Kết quả âm tính ủng hộ trứng cá.</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-r">Không cần</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Số lượng bạch cầu (WBC)</td><td class="num">6,9</td><td>G/L</td><td class="ref">4,0–10,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu trung tính (NEU%)</td><td class="num">58</td><td>%</td><td class="ref">45–75</td></tr><tr class=""><td>Tỷ lệ bạch cầu lympho (LYM%)</td><td class="num">34</td><td>%</td><td class="ref">20–40</td></tr><tr class=""><td>Lượng huyết sắc tố (HGB)</td><td class="num">138</td><td>g/L</td><td class="ref">130–170</td></tr><tr class=""><td>Số lượng tiểu cầu (PLT)</td><td class="num">281</td><td>G/L</td><td class="ref">150–400</td></tr></tbody></table><p class="why">Không cần: chỉ khi nghi trứng cá tối cấp, kèm CRP (QĐ 4416/2023, Trứng cá mục 2.2).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Trứng cá thông thường mức độ vừa (McCoy: 42 tổn thương viêm, 6 không viêm, tổng 48; không cục, không sẹo), biểu hiện không điển hình (sẩn mụn mủ đơn dạng, ít nhân mụn, ngứa), nhiều khả năng bị làm nặng thêm do bôi thuốc không rõ thành phần (nghi corticoid)</b></div><p class="why">Chẩn đoán lâm sàng (QĐ 4416/2023, Trứng cá mục 2.3). Mức vừa: 15–50 viêm hoặc tổng 20–125 (QĐ 75/2015, mục 4c); nhiều tổn thương, nhiều vùng (QĐ 4416, mục 2.5). Corticoid gây trứng cá ở mặt, lưng, tổn thương không có nhân (QĐ 75, mục 3c); trứng cá do thuốc (QĐ 4416, mục 2.4).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm nang lông</b></div><p class="why">Loại trừ: sẩn nhỏ ở nang lông có vảy tiết, không đau, khỏi không sẹo (QĐ 4416/2023, Viêm nang lông mục 2.1) và bệnh có thể do dùng corticoid bôi lâu ngày (mục 1.3), nên dễ nhầm với ca này. Huy có mụn nhân đóng, tổn thương tập trung vùng tuyến bã, kéo dài 5 tháng, tuổi dậy thì, KOH âm tính; trứng cá là chẩn đoán phân biệt của viêm nang lông (mục 2.4). Cả hai cùng đòi hỏi ngừng thuốc bôi lạ.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Trứng cá đỏ</b></div><p class="why">Loại trừ: không ban đỏ dai dẳng, cơn đỏ bừng thoáng qua hay giãn mạch (QĐ 4416/2023, Viêm da do Demodex mục 2.1); tổn thương ở ngực, vai, có nhân mụn. Kho tài liệu đã tải không có bài riêng về trứng cá đỏ.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Sẩn ngứa hoặc dị ứng (như mẹ nghĩ)</b></div><p class="why">Loại trừ: nốt có đầu mủ và nhân mụn, tập trung vùng tuyến bã, thuốc dị ứng 3 tuần không đổi. Sẩn ngứa là chẩn đoán phân biệt của viêm nang lông (QĐ 4416/2023, Viêm nang lông mục 2.4).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Trứng cá tối cấp</b></div><p class="why">Loại trừ: gặp ở nam vị thành niên nhưng có nang, cục lớn, loét đóng vảy xuất huyết, sốt, đau xương khớp, tăng bạch cầu, CRP (QĐ 4416/2023, Trứng cá mục 2.1); Huy không có, CRP 1 mg/L.</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Dùng thuốc bôi không rõ thành phần (nghi corticoid) khoảng 4 tuần, giấu mẹ</b></div><p class="why">Yếu tố làm nặng; không tự ý dùng thuốc bôi chứa corticosteroid hoặc không rõ thành phần, nguồn gốc (QĐ 4416/2023, Viêm da do Demodex mục 4). Thành phần tuýp kem: không có trong tài liệu đã tải, không kiểm chứng được.</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Căng thẳng học tập, thiếu ngủ, chăm sóc da sai (chà xát, nặn mụn)</b></div><p class="why">Stress, chà xát, nặn bóp không đúng phương pháp làm bệnh nặng thêm (QĐ 75/2015, Trứng cá mục 2d); tránh stress, thức khuya, nhiều đường sữa (QĐ 4416/2023, mục 4).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Xác nhận trứng cá mức vừa, giải thích đây là bệnh viêm mạn tính của tuyến bã – nang lông, điều trị được, cần điều trị đều và duy trì, không phải dị ứng</b></div><p class="why">QĐ 4416/2023, Trứng cá mục 1.1, 3.1 (điều trị theo mức độ, điều trị sớm, cần duy trì để tránh tái phát).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ngừng hẳn thuốc bôi không rõ nguồn gốc; hỏi riêng Huy không phán xét; không bôi bất kỳ kem nào của bạn</b></div><p class="why">QĐ 4416/2023, Viêm da do Demodex mục 4 (không tự ý dùng thuốc bôi chứa corticosteroid, thuốc bôi không rõ thành phần, nguồn gốc); Viêm nang lông mục 1.3, 3.1 (loại bỏ yếu tố thuận lợi); QĐ 75/2015, Trứng cá mục 2d, 3c.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Thuốc bôi: adapalen 0,1% + benzoyl peroxid 2,5% dạng phối hợp, bôi mỏng buổi tối lên vùng có mụn (mặt, ngực, vai, lưng trên); tuần đầu cách ngày</b></div><p class="why">QĐ 4416/2023, Trứng cá mục 3.2 (mức vừa có sẩn mủ: retinoid bôi và benzoyl peroxid; adapalen từ 12 tuổi, BPO 2,5–10%); AAD 2024 khuyến cáo 1.10 (mạnh); EuroGuiDerm 2026 Bảng 2 (adapalen + BPO dạng phối hợp: khuyến cáo mạnh).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dưỡng ẩm và kem chống nắng mỗi sáng; rửa mặt nhẹ, không chà xát, không nặn</b></div><p class="why">QĐ 4416/2023, Trứng cá mục 3.2 (khô, kích ứng, nhạy sáng thường gặp 2 tuần đầu); AAD 2024 tr. 1.e9 (giảm tần suất, dưỡng ẩm, chống nắng hằng ngày); QĐ 75/2015, mục 2d.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Ngừng loratadin uống hằng ngày; ngứa sẽ giảm theo điều trị trứng cá</b></div><p class="why">Loratadin không phải thuốc điều trị trứng cá; vai trò kháng histamin trong trứng cá: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn khám lại sau 6 tuần, mang theo thuốc và tuýp kem lạ nếu còn; dặn lại các dấu hiệu quay lại sớm</b></div><p class="why">Mốc 6 tuần để kiểm tra dung nạp, tuân thủ: không có trong tài liệu đã tải; đo hiệu quả ở 12 tuần trong thử nghiệm (AAD 2024 tr. 1.e8–1.e9) hoặc đánh giá lại sau 3 tháng khi dùng thuốc uống (QĐ 4416/2023, Trứng cá mục 3.2). Dấu hiệu nặng: sốt, đau xương khớp, loét đóng vảy xuất huyết (QĐ 4416, mục 2.1).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Thêm doxycyclin uống ngay từ lượt đầu</b></div><p class="why">Có thể: mức vừa lan rộng có thể bắt đầu thuốc uống (EuroGuiDerm 2026 Bảng 2, chú thích 7; AAD 2024 khuyến cáo 2.1), luôn kèm BPO, không quá 3–4 tháng (QĐ 4416/2023, mục 3.2; AAD tr. 1.e11) hoặc 3 tháng (EuroGuiDerm Bảng 3); chưa bắt buộc vì mụn chưa có cục, sẹo.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Chỉ bôi kháng sinh (clindamycin) đơn độc</b></div><p class="why">Không khuyến cáo dùng kháng sinh bôi đơn trị (QĐ 4416/2023, mục 3.2; AAD 2024 khuyến cáo 1.4, ghi chú).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Bắt đầu isotretinoin uống ngay</b></div><p class="why">Chưa đủ chỉ định: chưa có cục, nang, sẹo, ảnh hưởng tâm lý đáng kể (QĐ 4416/2023, mục 3.2, sơ đồ); AAD 2024 khuyến cáo 4.1 (nặng hoặc thất bại điều trị chuẩn). Tuổi 15 nằm giữa hai mốc (dưới 16: QĐ 75/2015 mục 5b; dưới 12: QĐ 4416 mục 3.2).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Truyền dịch, truyền vitamin &#x27;thải độc&#x27; theo yêu cầu</b></div><p class="why">Không có trong tài liệu đã tải: không tài liệu nào chỉ định truyền dịch cho trứng cá (như các ca &#x27;đòi truyền dịch&#x27; trước).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Cho về với lời dặn &#x27;thanh lọc, bớt đồ nóng, nặng mới quay lại&#x27;, không hẹn mốc, thì tuýp kem lạ vẫn nằm trong cặp, mụn tăng, Huy tự mua thêm thuốc. Bệnh cần điều trị sớm, theo mức độ, có duy trì để tránh biến chứng (QĐ 4416/2023, Trứng cá mục 3.1); mỗi tháng trôi qua thêm nguy cơ sẹo, thâm.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển Huy lên bệnh viện da liễu tuyến trên là quá tay: mức vừa chưa có cục, nang, sẹo hay ảnh hưởng tâm lý đáng kể nên chưa có chỉ định isotretinoin (QĐ 4416/2023, Trứng cá mục 3.2, sơ đồ; AAD 2024 khuyến cáo 4.1). Em nghỉ học, gia đình tốn chi phí, dễ nhận thuốc uống mạnh khi chưa thử phác đồ bôi chuẩn.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Giữ nhập viện hoặc truyền dịch &#x27;thải độc&#x27; là quá tay: tài liệu đã tải không có chỉ định truyền dịch cho trứng cá; em không sốt, không đau xương khớp, không loét (QĐ 4416/2023, Trứng cá mục 2.1). Em nghỉ học trước kỳ thi, càng tin &#x27;truyền nước thì hết mụn&#x27;.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Trứng cá thông thường mức vừa (McCoy: 42 viêm, 6 không viêm, tổng 48; không cục, không sẹo) ở mặt, ngực, vai, lưng trên; thể không điển hình (đơn dạng, ít nhân mụn, ngứa nhẹ)</li><li>Yếu tố làm nặng: kem không rõ thành phần (nghi corticoid) khoảng 4 tuần; ôn thi, ngủ 5–6 giờ; chà mạnh, nặn mụn; bố từng mụn nhẹ</li><li>Đã loại trừ: viêm nang lông (nhất là Malassezia, KOH âm), trứng cá đỏ, sẩn ngứa hay dị ứng, trứng cá tối cấp. Không có X-quang không ảnh hưởng</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự hợp lý: hỏi mẹ lý do, diễn tiến, thuốc → hỏi riêng Huy từng loại kem → hỏi &#x27;em mong bác sĩ giúp gì&#x27; → khám da từng vùng, toàn thân → KOH → chẩn đoán, mức độ → điều trị, hẹn có mốc.</li><li>Không điển hình mà vẫn là trứng cá: tổn thương ở vùng tuyến bã (mặt, ngực, vai), có mụn nhân đóng, diễn tiến mạn 5 tháng, tuổi dậy thì (QĐ 4416/2023, Trứng cá mục 1.1, 2.1, 2.3). Lệch chuẩn: đơn dạng, ít nhân mụn, ngứa, bùng nhanh sau kem lạ; corticoid gây trứng cá ở mặt, lưng, tổn thương không có nhân (QĐ 75/2015, mục 3c). Mức vừa: 42 viêm, tổng 48, không cục, sẹo (QĐ 75, mục 4c; QĐ 4416, mục 2.5).</li><li>Giấu tiền sử: hỏi chung &#x27;có bôi gì không&#x27; đều đáp không; hỏi cụ thể &#x27;kem bạn cho, kem mua mạng, tuýp không nhãn&#x27;, không phán xét, mới lộ tuýp kem (chỉ nghi corticoid; viêm nang lông cũng có thể do corticoid bôi lâu ngày, QĐ 4416, Viêm nang lông mục 1.3; cách xử trí như nhau: ngừng kem lạ). KOH âm loại Malassezia (AAD 2024 tr. 1.e5).</li><li>Không có X-quang không ảnh hưởng: X-quang chỉ khi có triệu chứng xương khớp nghi trứng cá tối cấp (QĐ 4416, mục 2.2); thay bằng theo dõi có mốc 6 và 12 tuần. Muốn truyền dịch: không có chỉ định trong tài liệu đã tải; giải thích cơ chế bệnh và thuốc đúng.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Adapalen + BPO dạng phối hợp, ngừng kem lạ, hẹn có mốc; doxycyclin a, isotretinoin w, truyền dịch w: lý do và nguồn ở từng mục xử trí (QĐ 4416 mục 3.2; AAD 1.10; EuroGuiDerm Bảng 2, 3).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Adapalen 0,1% + benzoyl peroxid 2,5% gel phối hợp</b><div class="sub">Adapalen 0,1%, benzoyl peroxid 2,5%</div></td><td data-l="Liều">Bôi lớp mỏng lên vùng có mụn ở mặt, ngực, vai, lưng trên; tránh mắt, môi, khóe mũi<div class="sub">Bôi ngoài da · 1 lần/ngày buổi tối sau khi rửa mặt, lau khô; tuần đầu bôi cách ngày</div></td><td data-l="Thời gian">Đến lần khám lại sau 6 tuần, sau đó theo đánh giá</td><td class="gc" data-l="Ghi chú">QĐ 4416/2023, Trứng cá mục 3.2 (retinoid bôi tối, giảm tần suất vài tuần đầu; BPO làm bạc màu áo, tóc); AAD 2024 khuyến cáo 1.10; EuroGuiDerm 2026 Bảng 2.</td></tr><tr><td><b>Kem dưỡng ẩm không dầu và kem chống nắng</b><div class="sub">Mức SPF: không có trong tài liệu đã tải</div></td><td data-l="Liều">Dưỡng ẩm khi da khô, chống nắng mỗi sáng<div class="sub">Bôi ngoài da · Hằng ngày</div></td><td data-l="Thời gian">Suốt đợt điều trị</td><td class="gc" data-l="Ghi chú">QĐ 4416/2023, Trứng cá mục 3.2; AAD 2024 tr. 1.e9.</td></tr><tr><td><b>Loratadin 10 mg (Huy tự uống)</b><div class="sub">Viên 10 mg</div></td><td data-l="Liều">Ngừng dùng hằng ngày<div class="sub">Uống · Không dùng thường xuyên</div></td><td data-l="Thời gian">Ngừng</td><td class="gc" data-l="Ghi chú">Không phải thuốc điều trị trứng cá; vai trò trong trứng cá: không có trong tài liệu đã tải.</td></tr><tr><td><b>Tuýp kem không nhãn của bạn</b><div class="sub">Không rõ thành phần</div></td><td data-l="Liều">NGỪNG hẳn, không bôi lại<div class="sub">Bôi ngoài da · Không dùng</div></td><td data-l="Thời gian">Ngừng</td><td class="gc" data-l="Ghi chú">QĐ 4416/2023, Viêm da do Demodex mục 4; QĐ 75/2015, Trứng cá mục 3c.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Mụn của em là trứng cá, không phải dị ứng, không lây. Thuốc bôi đúng cần vài tuần mới đỡ (AAD 2024 tr. 1.e9).</li><li>Bác sĩ hỏi chuyện kem để chọn thuốc đúng, không trách em. Ngừng hẳn tuýp kem của bạn; không tự mua kem không rõ thành phần (QĐ 4416/2023, Viêm da do Demodex mục 4). Mang tuýp theo lần sau nếu còn.</li><li>Bôi thuốc buổi tối, tuần đầu cách ngày; khô, rát, bong 2 tuần đầu là thường gặp, đừng bỏ (QĐ 4416, mục 3.2). Dưỡng ẩm, chống nắng; rửa mặt nhẹ, không chà, không nặn. Truyền nước, truyền vitamin không làm hết mụn (không có trong tài liệu đã tải).</li><li>Ngủ đủ, giảm trà sữa, đồ chiên (QĐ 4416, mục 4). Mặt sạch vẫn tiếp tục thuốc, không tự ngưng (QĐ 4416, mục 3.1). Quay lại sớm nếu sốt, đau xương khớp, loét, cục đau (QĐ 4416, mục 2.1) hoặc buồn nhiều; hẹn khám lại sau 6 tuần.</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-2">
+ <h2 id="h-luot-2"><span class="ln">Lượt 2/3</span> </h2>
+ <div class="card intro"><h3 id="m-8">Tiếp đón</h3><p>Huy tái khám đúng hẹn sau 6 tuần, mẹ đi cùng và nói &#x27;đỡ chút chút, còn nhiều, da thì rát, bong&#x27;. Sinh hiệu: mạch 76 l/p, HA 108/68 mmHg, nhiệt độ 36,6 °C, nhịp thở 18 l/p, SpO₂ 99%. Cân nặng 52 kg. Từ lượt trước Huy đã ngừng tuýp kem lạ và dùng adapalen + benzoyl peroxid theo dặn.</p>
+  <blockquote>“Bác sĩ ơi, cái thuốc bôi này làm da cháu đỏ rát, bong từng mảng, có hôm nó không chịu bôi luôn. Mụn có bớt nhưng chưa hết. Hay bác sĩ đổi thuốc mạnh hơn cho cháu, hoặc cho uống thuốc đi?”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>76</b><small>l/p</small></div><div class="vs"><span>HA</span><b>108/68</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,6</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>18</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>99</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-9">Hỏi bệnh <small>3 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Diễn tiến sau 6 tuần: đỡ một phần, kích ứng thuốc</b><span class="tag t-g">Tự kể</span></div><p>Ngứa hết sau 2 tuần. Ngực, vai đỡ nhiều, mặt còn nhiều nốt, má khô, bong vảy mịn. Mỗi tuần vẫn mọc thêm 2–3 nốt mới. Không có cục, không sốt, không đau xương khớp. Còn học thêm, ngủ khoảng 6 giờ, không có ý nghĩ làm hại bản thân.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tuân thủ thật: tần suất, vùng bôi, dưỡng ẩm, chống nắng</b><span class="tag t-b">Khi được hỏi</span></div><p>Mẹ nói &#x27;em bôi đều lắm&#x27;. Hỏi từng tuần: Huy bôi cách ngày 2 tuần đầu đúng, sau đó vì rát chỉ bôi 3–4 đêm/tuần, chỉ bôi mặt, gần như không bôi ngực, vai, lưng vì &#x27;khó với, sợ dính áo, lười&#x27;. Kem dưỡng ẩm bôi vài lần. Không bôi kem chống nắng dù đạp xe đi học buổi trưa.</p><div class="cond">Điều kiện nói ra: Chỉ lộ rõ khi bác sĩ hỏi từng tuần, từng vùng, hỏi &#x27;đêm nào quên&#x27;; mẹ không biết.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Nguy cơ dùng lại thuốc bôi không rõ thành phần; cần hỏi thẳng, không phán xét</b><span class="tag t-r">Giấu</span></div><p>Khi bác sĩ hỏi thẳng &#x27;có lúc nào em muốn quay lại kem cũ không&#x27;: Huy nhận tuần 3, lúc rát nhất, em nhờ bạn xin thêm tuýp kem cũ nhưng chưa nhận; em vẫn thấy kem đó &#x27;hết nhanh hơn&#x27;. Em chưa bôi lại.</p><div class="cond">Điều kiện nói ra: Chỉ khi bác sĩ hỏi thẳng, nhẹ nhàng, về việc nhớ kem cũ hoặc nhờ bạn xin lại.</div></div></details>
+ <details class="card"><summary><h3 id="m-10">Khám <small>1 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Da, niêm mạc, ban</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Mặt: còn vài sẩn đỏ nhỏ, vài mụn mủ nhỏ, hai má khô, đỏ nhẹ, bong vảy mịn. Ngực, vai, lưng: còn ít sẩn. Không cục, không sẹo.</p><p><span class="lbl">Kết quả:</span> Mặt: trán 3 sẩn và 2 mụn mủ, thái dương 2 sẩn, má phải 4 sẩn và 1 mụn mủ, má trái 3 sẩn và 1 mụn mủ, cằm 1 sẩn; 8 mụn nhân đóng. Má hai bên khô, ban đỏ nhẹ, bong vảy mịn (kích ứng). Ngực và vai: 4 sẩn, 1 mụn mủ. Lưng trên: 2 sẩn. Tổng khoảng 24 tổn thương viêm (17 mặt, 5 ngực vai, 2 lưng; trước đó 42, giảm khoảng 43%), 8 không viêm. Không cục, không sẹo, vết thâm nhẹ. Không phù nề, không mụn nước, không vảy tiết.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Tổng trạng, da niêm, vòng eo</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, tiếp xúc tốt. Da niêm hồng. Không vàng da.</p></div><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Tim</b><span class="tag t-m">Bình thường</span></div><p>Tim đều 76 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 18 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-11">Cận lâm sàng <small>1 mục</small></h3></summary><div class="row"><div class="rh"><b>CRP</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> 1 mg/L</p><p class="why">Không cần: không dấu hiệu tối cấp (QĐ 4416/2023, Trứng cá mục 2.2).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-12">Đáp án lượt 2 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Trứng cá mức vừa, đáp ứng một phần sau 6 tuần bôi adapalen + BPO (tổn thương viêm 42 → 24, giảm khoảng 43%), còn đang tiến triển tốt; kích ứng nhẹ do thuốc bôi; tuân thủ chưa đủ (bôi 3–4 đêm/tuần, bỏ ngực, vai, lưng)</b></div><p class="why">Mức vừa vẫn đúng: 15–50 tổn thương viêm (QĐ 75/2015, Trứng cá mục 4c). Khô, kích ứng, bong da thường gặp trong 2 tuần đầu nhưng cũng có thể kéo dài (QĐ 4416/2023, Trứng cá mục 3.2; QĐ 75, mục 5b). Chưa thất bại: chưa đủ 12 tuần (AAD 2024 tr. 1.e9) hoặc 3 tháng (QĐ 4416, mục 3.2).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Thất bại điều trị hoặc &#x27;kháng thuốc&#x27;</b></div><p class="why">Loại trừ: chưa đủ thời gian, tuân thủ chưa đủ, đang giảm tiếp.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm da tiếp xúc dị ứng với BPO hoặc adapalen</b></div><p class="why">Loại trừ: chỉ khô, đỏ nhẹ, bong mịn, không phù, không mụn nước, không ngứa dữ dội; dị ứng tiếp xúc với BPO không phổ biến (AAD 2024 tr. 1.e9), kích ứng thường gặp hơn.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Trứng cá nặng thêm do thuốc bôi lạ (tái diễn)</b></div><p class="why">Loại trừ lúc này: Huy đã ngừng 6 tuần, nốt giảm dần; nhưng em từng nhờ bạn xin lại kem nên cần theo dõi (QĐ 4416/2023, Viêm da do Demodex mục 4).</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Tuân thủ chưa đủ (bôi ít đêm, bỏ vùng ngực, vai, lưng; không chống nắng)</b></div><p class="why">Cần điều trị đều, bôi toàn vùng tổn thương (QĐ 4416/2023, mục 3.2); thuốc phối hợp cố định giúp dễ tuân thủ (AAD 2024 tr. 1.e9).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Nhận định: đáp ứng một phần sau 6 tuần là chưa phải thất bại; tiếp tục cùng phác đồ, đánh giá hiệu quả ở mốc 12 tuần</b></div><p class="why">AAD 2024 tr. 1.e9 (thử nghiệm đo hiệu quả ở 12 tuần); QĐ 4416/2023, Trứng cá mục 3.2 (đánh giá lại sau 3 tháng).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Sửa tuân thủ: bôi adapalen + BPO mỗi tối lên cả mặt, ngực, vai, lưng trên; mẹ nhắc, đặt tuýp ở chỗ dễ thấy</b></div><p class="why">QĐ 4416/2023, Trứng cá mục 3.2; AAD 2024 tr. 1.e9 (phối hợp cố định giúp tuân thủ).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Xử trí kích ứng: bôi sau dưỡng ẩm hoặc cách đêm tới khi da dịu rồi tăng lại; dưỡng ẩm hằng ngày; chống nắng sáng</b></div><p class="why">QĐ 4416/2023, Trứng cá mục 3.2 (bôi cách ngày hoặc sau dưỡng ẩm để hạn chế kích ứng); AAD 2024 tr. 1.e9 (giảm tần suất, dưỡng ẩm, chống nắng). Mức SPF: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi thẳng, không phán xét về việc nhớ kem cũ; dặn không nhờ bạn xin lại kem; giải thích vì sao thuốc đúng sẽ lâu hơn nhưng bền</b></div><p class="why">QĐ 4416/2023, Viêm da do Demodex mục 4; mục 3.1 (điều trị bệnh theo mức độ, cần duy trì).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn: khi mụn sạch vẫn tiếp tục thuốc bôi, không tự ngưng; chuyển sang đơn trị retinoid bôi để duy trì theo bác sĩ</b></div><p class="why">QĐ 4416/2023, Trứng cá mục 3.1 (cần điều trị duy trì để tránh tái phát), mục 3.2 (sơ đồ: sau khi ổn định ít nhất 3–6 tháng chuyển đơn trị retinoid duy trì); AAD 2024 tr. 1.e8 (retinoid bôi giúp duy trì sạch mụn).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn khám lại khi đủ 12 tuần điều trị (6 tuần nữa) để đánh giá đáp ứng</b></div><p class="why">Mốc 12 tuần: AAD 2024 tr. 1.e9 (thời điểm đo trong thử nghiệm); QĐ 4416/2023, mục 3.2 (3 tháng). Dấu hiệu quay lại sớm: sốt, đau xương khớp, loét, cục đau (QĐ 4416, mục 2.1).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Thêm doxycyclin uống 100 mg × 2 lần/ngày kèm thuốc bôi</b></div><p class="why">Có thể: EuroGuiDerm 2026 Bảng 2, chú thích 7; AAD 2024 khuyến cáo 2.1, 2.6; không quá 3–4 tháng (QĐ 4416, mục 3.2; AAD tr. 1.e11) hoặc 3 tháng (EuroGuiDerm Bảng 3). Chưa cần vì tuân thủ chưa đủ và vẫn đang giảm.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Bắt đầu isotretinoin hoặc đổi sang thuốc &#x27;mạnh hơn&#x27; vì mụn chưa hết</b></div><p class="why">Chưa có cục, nang, sẹo, ảnh hưởng tâm lý đáng kể và chưa thất bại điều trị chuẩn đủ thời gian, đủ tuân thủ (QĐ 4416/2023, mục 3.2, sơ đồ; AAD 2024 khuyến cáo 4.1).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho dùng lại hoặc chấp nhận kem không rõ thành phần để &#x27;hết nhanh&#x27;</b></div><p class="why">QĐ 4416/2023, Viêm da do Demodex mục 4; Viêm nang lông mục 1.3.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển Huy lên tuyến trên &#x27;vì thuốc không ăn&#x27; là quá tay: sau 6 tuần viêm đã giảm khoảng 43% và còn giảm, chưa đủ mốc 12 tuần (AAD 2024 tr. 1.e9) hay 3 tháng (QĐ 4416/2023, Trứng cá mục 3.2). Huy nghỉ học, tốn chi phí, nguyên nhân thật là bôi chưa đủ vùng, chưa đủ đêm vẫn không được sửa.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Giữ nhập viện vì &#x27;da bong rát&#x27; là quá tay: khô, đỏ, bong là tác dụng phụ thường gặp của retinoid, BPO, xử trí bằng giảm tần suất, dưỡng ẩm (QĐ 4416/2023, Trứng cá mục 3.2; AAD 2024 tr. 1.e9). Em nghỉ học và hiểu lầm thuốc bôi &#x27;nguy hiểm&#x27; nên càng ngại dùng.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Trứng cá mức vừa, đáp ứng một phần sau 6 tuần (viêm 42 → 24, giảm khoảng 43%), chưa thất bại điều trị</li><li>Kích ứng nhẹ do adapalen + BPO (khô, ban đỏ nhẹ, bong mịn); tuân thủ chưa đủ</li><li>Đã loại trừ: thất bại/kháng thuốc, viêm da tiếp xúc dị ứng; theo dõi nguy cơ dùng lại kem lạ</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự hợp lý: hỏi diễn tiến, tác dụng phụ → hỏi từng tuần, từng vùng bôi → hỏi thẳng chuyện kem cũ → khám đếm tổn thương, so lượt 1 (42 → 24) → phân biệt thất bại với đáp ứng chậm.</li><li>Phân biệt hồi phục chậm bình thường với thất bại sớm: các thử nghiệm thuốc bôi đo hiệu quả ở 12 tuần (AAD 2024 tr. 1.e9) và QĐ 4416/2023 (mục 3.2) đánh giá lại sau 3 tháng khi thêm thuốc; ở tuần 6 viêm đã giảm khoảng 43%, tuân thủ chỉ khoảng một nửa nên chưa thể kết luận thất bại. Mốc 6 tuần chọn để kiểm dung nạp, tuân thủ (không có trong tài liệu đã tải). Mẹ nói &#x27;bôi đều&#x27;, thực tế bỏ ngực, vai, lưng và 3–4 đêm/tuần: nhiễu giấu tiền sử.</li><li>Kích ứng: khô, đỏ, bong thường gặp 2 tuần đầu (QĐ 4416, mục 3.2); dị ứng tiếp xúc BPO không phổ biến (AAD tr. 1.e9). Nguy cơ quay lại kem cũ là yếu tố có thể gây tái phát về sau.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Tiếp tục adapalen + BPO, tăng tuân thủ, xử trí kích ứng; doxycyclin a, isotretinoin w; duy trì retinoid bôi khi sạch (QĐ 4416 mục 3.1, 3.2).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Adapalen 0,1% + benzoyl peroxid 2,5% gel phối hợp (tiếp tục)</b><div class="sub">Adapalen 0,1%, benzoyl peroxid 2,5%</div></td><td data-l="Liều">Bôi lớp mỏng cả mặt, ngực, vai, lưng trên; rát nhiều: bôi sau dưỡng ẩm hoặc cách đêm rồi tăng lại<div class="sub">Bôi ngoài da · Buổi tối sau rửa mặt, lau khô</div></td><td data-l="Thời gian">Thêm 6 tuần đến mốc 12 tuần, sau đó theo đánh giá và duy trì</td><td class="gc" data-l="Ghi chú">QĐ 4416/2023, Trứng cá mục 3.2; AAD 2024 khuyến cáo 1.10, tr. 1.e9; EuroGuiDerm 2026 Bảng 2.</td></tr><tr><td><b>Kem dưỡng ẩm không dầu và kem chống nắng</b><div class="sub">Mức SPF: không có trong tài liệu đã tải</div></td><td data-l="Liều">Dưỡng ẩm mỗi ngày, chống nắng mỗi sáng và khi đạp xe buổi trưa<div class="sub">Bôi ngoài da · Hằng ngày</div></td><td data-l="Thời gian">Suốt đợt điều trị</td><td class="gc" data-l="Ghi chú">QĐ 4416/2023, Trứng cá mục 3.2; AAD 2024 tr. 1.e9.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Mụn đã giảm gần một nửa sau 6 tuần là tốt; chưa đủ thời gian để kết luận (mốc 12 tuần: AAD 2024 tr. 1.e9; 3 tháng: QĐ 4416, mục 3.2). Chưa cần đổi thuốc mạnh hơn.</li><li>Bôi mỗi tối cả ngực, vai, lưng trên (nhờ mẹ giúp lưng); chưa bôi đều thì thuốc khó thấy kết quả. Rát: bôi sau dưỡng ẩm hoặc bỏ một đêm rồi bôi lại (QĐ 4416, mục 3.2).</li><li>Nếu em thấy nhớ kem cũ hoặc bạn rủ, nói với bác sĩ; kem không rõ thành phần có thể làm nốt nổi lại (QĐ 4416, Viêm da do Demodex mục 4).</li><li>Khi mặt sạch vẫn bôi tiếp, không tự ngưng (QĐ 4416, mục 3.1). Hẹn khi đủ 12 tuần; quay lại sớm nếu sốt, đau xương khớp, cục đau, loét (QĐ 4416, mục 2.1).</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-3">
+ <h2 id="h-luot-3"><span class="ln">Lượt 3/3</span> </h2>
+ <div class="card intro"><h3 id="m-13">Tiếp đón</h3><p>Huy đến lại sau khoảng 4 tháng kể từ lượt 2, không đến lượt hẹn tuần 12. Mẹ đưa đi vì &#x27;mụn nổi lại nhiều hơn, có mấy cục đau trên lưng&#x27;. Sinh hiệu: mạch 82 l/p, HA 110/70 mmHg, nhiệt độ 36,7 °C, nhịp thở 18 l/p, SpO₂ 99%. Cân nặng 53 kg.</p>
+  <blockquote>“Bác sĩ ơi, hồi trước thuốc bôi cũng khá khá, giờ nó nổi lại, còn mấy cục đau trên lưng. Chắc thuốc này hết tác dụng rồi, bác sĩ cho thuốc khác đi. À, hay là truyền gì đó cho mát người, sắp thi thử rồi.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>82</b><small>l/p</small></div><div class="vs"><span>HA</span><b>110/70</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,7</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>18</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>99</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-14">Hỏi bệnh <small>5 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Diễn tiến: đỡ rồi tái phát sau ngừng thuốc; xuất hiện cục, sẹo</b><span class="tag t-g">Tự kể</span></div><p>Tuần 12 mặt gần sạch (khoảng 80%). Em thấy hết nên không đến hẹn vì bận thi thử. Khoảng tuần 14 hết tuýp, em không mua lại, tự ngưng bôi, cả dưỡng ẩm. Sáu tuần nay nổi lại nhiều ở mặt, ngực, lưng; 4 cục đau sâu ở lưng, to dần; vài vết lõm nhỏ ở má. Không sốt, không đau xương khớp. Vẫn uống loratadin vài lần/tuần, không thuốc nào khác, chưa dùng kháng sinh uống.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Nguyên nhân tái phát: ngừng điều trị đột ngột, không duy trì</b><span class="tag t-b">Khi được hỏi</span></div><p>Mẹ tưởng em vẫn bôi. Hỏi về lúc ngừng: em ngừng vì mặt sạch, hết tuýp, không ai dặn bôi tiếp để duy trì. Từ lúc ngừng em chỉ rửa mặt bằng sữa rửa mặt.</p><div class="cond">Điều kiện nói ra: Chỉ khi bác sĩ hỏi &#x27;em ngừng thuốc từ khi nào, vì sao, có bôi duy trì không&#x27;.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dùng lại thuốc bôi không rõ thành phần (nghi corticoid); tái phát do nguyên nhân nền chưa xử lý</b><span class="tag t-r">Giấu</span></div><p>Hỏi chung &#x27;có bôi gì khác không&#x27; Huy đáp &#x27;dạ không&#x27;. Khi bác sĩ hỏi cụ thể và nhắc em đã từng kể về kem của bạn: hơn 2 tháng nay, vì sắp thi thử và sợ chụp ảnh kỷ yếu, em lại xin tuýp mới của bạn, bôi 1–2 lần/ngày khoảng 6 tuần. Nốt xẹp trong 1–2 tuần rồi nổi hàng loạt, ngứa. Em mang tuýp theo, không có nhãn, mẹ không biết.</p><div class="cond">Điều kiện nói ra: Chỉ khi bác sĩ hỏi cụ thể từng loại kem, không phán xét, nhắc lại chuyện kem của bạn; mẹ trách thì Huy im lặng.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Căng thẳng thi cử, ảnh hưởng tâm lý; sàng lọc ý nghĩ tự hại</b><span class="tag t-b">Khi được hỏi</span></div><p>Thi thử vào lớp 10, học 12–14 giờ/ngày, ngủ khoảng 5 giờ, ít ra ngoài, ngại chụp ảnh. Em thấy &#x27;xấu, mụn là thất bại&#x27;. Hỏi thẳng: không có ý nghĩ làm hại bản thân, không có kế hoạch.</p></div><div class="fact"><div class="fh"><b>Mong muốn truyền dịch (lý do thật) tái hiện</b><span class="tag t-b">Khi được hỏi</span></div><p>Huy tự hỏi có thể truyền vitamin thải độc trước thi thử để mụn xẹp. Hỏi thêm: em xem video, bạn kể &#x27;bạn của bạn&#x27; truyền xong hết mụn. Em chưa từng truyền.</p></div></details>
+ <details class="card"><summary><h3 id="m-15">Khám <small>4 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Da, niêm mạc, ban</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Mặt: nhiều sẩn đỏ, mụn mủ nhỏ, vài mụn nhân, ba hố lõm nhỏ ở hai má, nhiều vết thâm. Ngực, vai: nhiều sẩn, mụn mủ. Lưng trên: nhiều sẩn mụn mủ và 4 cục sâu 8–12 mm ấn đau. Không loét.</p><p><span class="lbl">Kết quả:</span> Mặt: trán 7 sẩn và 3 mụn mủ, thái dương 4, má phải 7 sẩn và 2 mụn mủ, má trái 6 sẩn và 2 mụn mủ, cằm 3; 10 nhân đóng và mở. Ngực và vai: 16 sẩn, 4 mụn mủ. Lưng trên: 12 sẩn, 4 mụn mủ và 4 cục viêm sâu 8–12 mm ấn đau, chưa vỡ. Tổng khoảng 74 tổn thương viêm (34 mặt, 20 ngực vai, 20 lưng trong đó 4 cục), 10 không viêm, tổng 84. Sẹo lõm hình phễu dưới 2 mm: 2 má phải, 1 má trái; nhiều vết thâm nâu. Không loét, không lỗ dò, không giãn mạch dai dẳng.</p></div><div class="row"><div class="rh"><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, mệt mỏi, mắt thâm vì thiếu ngủ. Không sốt, không vẻ Cushing. BMI ≈ 19,2. Hạch cổ không to.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b></div><p><span class="lbl">Kết quả:</span> Không sưng đau khớp, ấn xương ức, xương sườn, cột sống không đau, vận động bình thường.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Khám tâm thần (dáng vẻ, khí sắc, tư duy, nhận thức, ý tưởng tự hại)</b></div><p><span class="lbl">Kết quả:</span> Mệt, tự ti, nói nhỏ, khóc nhẹ khi nói về việc sợ bị bạn chê. Không có ý nghĩ hay kế hoạch tự hại. Chưa đủ cơ sở kết luận trầm cảm.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Tim</b><span class="tag t-m">Bình thường</span></div><p>Tim đều 82 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 18 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-16">Cận lâm sàng <small>3 mục</small></h3></summary><div class="row"><div class="rh"><b>AST, ALT</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> AST 25 · ALT 22 U/L (tham chiếu ≤ 40 U/L)</p><p class="why">Nên làm khi chuẩn bị isotretinoin: men gan, mỡ máu trước điều trị, sau 1 tháng và mỗi 3 tháng (QĐ 4416/2023, Trứng cá mục 2.2, 3.2; AAD 2024 khuyến cáo 4.1, ghi chú). Gửi theo thư chuyển.</p></div><div class="row"><div class="rh"><b>Bộ mỡ máu</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Cholesterol TP 4,0 · LDL-C 2,3 · HDL-C 1,3 · TG 0,9 mmol/L</p><p class="why">Nên làm khi chuẩn bị isotretinoin (QĐ 4416/2023, Trứng cá mục 2.2, 3.2; AAD 2024 khuyến cáo 4.1).</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-y">Chấp nhận</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Số lượng bạch cầu (WBC)</td><td class="num">7,4</td><td>G/L</td><td class="ref">4,0–10,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu trung tính (NEU%)</td><td class="num">60</td><td>%</td><td class="ref">45–75</td></tr><tr class=""><td>Tỷ lệ bạch cầu lympho (LYM%)</td><td class="num">32</td><td>%</td><td class="ref">20–40</td></tr><tr class=""><td>Lượng huyết sắc tố (HGB)</td><td class="num">140</td><td>g/L</td><td class="ref">130–170</td></tr><tr class=""><td>Số lượng tiểu cầu (PLT)</td><td class="num">275</td><td>G/L</td><td class="ref">150–400</td></tr></tbody></table><p class="why">Chấp nhận: không cần theo dõi công thức máu khi dùng isotretinoin ở người khỏe (AAD 2024 khuyến cáo 4.1, ghi chú).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-17">Đáp án lượt 3 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Chuyển tuyến / chuyên khoa</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Trứng cá mức độ nặng TÁI PHÁT (McCoy: 74 tổn thương viêm &gt; 50, 4 cục, tổng 84), có 3 sẹo lõm hình phễu sớm, tăng sắc tố sau viêm, ảnh hưởng tâm lý; chưa có dấu hiệu tối cấp</b></div><p class="why">Nặng: tổng tổn thương viêm trên 50 (QĐ 75/2015, Trứng cá mục 4c); có cục, nhiều vùng, sẹo (QĐ 4416/2023, mục 2.5). Sẹo, ảnh hưởng tâm lý được coi là bệnh nặng, ứng viên isotretinoin (AAD 2024 khuyến cáo 4.1, ghi chú). Sẹo hình phễu &lt; 2 mm (QĐ 4416, mục 2.1).</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Nguyên nhân tái phát: ngừng điều trị đột ngột, không duy trì; dùng lại thuốc bôi không rõ thành phần (nghi corticoid); căng thẳng thi cử, thiếu ngủ</b></div><p class="why">Cần điều trị duy trì để tránh tái phát (QĐ 4416/2023, Trứng cá mục 3.1, 3.2); không tự ý dùng thuốc bôi chứa corticosteroid hoặc không rõ thành phần (QĐ 4416, Viêm da do Demodex mục 4); stress, thức khuya làm bệnh nặng thêm (QĐ 4416, mục 4; QĐ 75, mục 2d).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm nang lông</b></div><p class="why">Loại trừ: viêm nang lông là sẩn nông, khỏi không sẹo, không cục sâu (QĐ 4416/2023, Viêm nang lông mục 2.1); Huy có cục sâu, sẹo, nhân mụn; KOH âm tính từ lượt 1.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Trứng cá đỏ</b></div><p class="why">Loại trừ: không ban đỏ dai dẳng, cơn đỏ bừng, giãn mạch (QĐ 4416/2023, Viêm da do Demodex mục 2.1).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Thất bại điều trị do thuốc &#x27;hết tác dụng&#x27; (như mẹ nghĩ)</b></div><p class="why">Loại trừ: mặt đã sạch khoảng 80% tại tuần 12 khi dùng đều; nổi lại sau ngừng thuốc và dùng lại kem lạ. Bệnh hiện ở mức nặng có cục, sẹo nên vẫn cần chuyên khoa (AAD 2024 khuyến cáo 4.1).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Trứng cá tối cấp</b></div><p class="why">Loại trừ: không sốt, đau xương khớp, loét đóng vảy xuất huyết; CRP 2 mg/L (QĐ 4416/2023, Trứng cá mục 2.1).</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Căng thẳng thi cử, ảnh hưởng tâm lý do mụn; không ý nghĩ tự hại</b></div><p class="why">Ảnh hưởng tâm lý là biến chứng (QĐ 4416/2023, Trứng cá mục 2.1); theo dõi tâm trạng khi dùng isotretinoin (AAD 2024, ghi chú khuyến cáo 4.1).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Xác nhận trứng cá nặng tái phát, giải thích nguyên nhân (ngừng thuốc, kem lạ, stress), không phải &#x27;thuốc hết tác dụng&#x27;; tránh trách Huy</b></div><p class="why">QĐ 4416/2023, Trứng cá mục 3.1, 3.2; Viêm da do Demodex mục 4.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chuyển tuyến đến cơ sở có bác sĩ da liễu để tư vấn và quyết isotretinoin uống; mang kết quả men gan, mỡ máu và thư chuyển</b></div><p class="why">QĐ 4416/2023, Trứng cá mục 3.2 (cục, nang, lan rộng, sẹo, ảnh hưởng tâm lý → tư vấn isotretinoin); AAD 2024 khuyến cáo 4.1; EuroGuiDerm 2026 Bảng 2. Thời hạn chuyển bằng ngày: không có trong tài liệu đã tải. Tuổi 15 giữa hai mốc (dưới 16: QĐ 75/2015 mục 5b; dưới 12: QĐ 4416 mục 3.2): chuyên khoa quyết. Liều: 0,5–1 mg/kg/ngày, 4–6 tháng hoặc tổng liều 120–150 mg/kg (QĐ 4416, mục 3.2) hoặc 0,3–0,5 (nang vừa), ≥ 0,5 mg/kg/ngày (nang nặng), ít nhất 6 tháng (EuroGuiDerm Bảng 5); mục sổ DL-0302, DL-0327.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Làm men gan (AST, ALT) và mỡ máu ngay hôm nay để gửi theo thư chuyển</b></div><p class="why">QĐ 4416/2023, Trứng cá mục 2.2, 3.2 (men gan, mỡ máu trước điều trị, sau 1 tháng, mỗi 3 tháng); AAD 2024 khuyến cáo 4.1.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Thuốc cầu nối đến khi gặp chuyên khoa: bắt đầu lại adapalen 0,1% + BPO 2,5% (tuần đầu cách ngày), dưỡng ẩm, chống nắng</b></div><p class="why">QĐ 4416/2023, Trứng cá mục 3.2; AAD 2024 khuyến cáo 1.10, tr. 1.e9; EuroGuiDerm 2026 Bảng 2.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ngừng hẳn kem không rõ thành phần, đưa tuýp cho bác sĩ chuyên khoa xem; hỏi riêng Huy không phán xét, mời mẹ cùng nghe giải thích sau khi Huy đồng ý</b></div><p class="why">QĐ 4416/2023, Viêm da do Demodex mục 4; Viêm nang lông mục 1.3; QĐ 75/2015, Trứng cá mục 3c.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Sàng lọc tâm trạng, hỏi thẳng ý nghĩ tự hại; hướng dẫn ngủ đủ, chia lịch ôn thi; báo chuyên khoa gánh nặng tâm lý</b></div><p class="why">AAD 2024 khuyến cáo 4.1 (ghi chú: gánh nặng tâm lý); QĐ 4416/2023, Trứng cá mục 2.1, 4. Công cụ sàng lọc vị thành niên: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Viết thư chuyển: bệnh sử, đếm tổn thương (74 viêm, 4 cục, 3 sẹo), đáp ứng lượt 2, ngừng thuốc, kem lạ, men gan, mỡ máu, tâm lý; thông tin riêng của Huy chỉ ghi khi em đồng ý</b></div><p class="why">Thư chuyển tuyến chuẩn; nội dung bảo mật vị thành niên: không có trong tài liệu đã tải.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Thêm doxycyclin uống làm cầu nối</b></div><p class="why">Có thể (AAD 2024 khuyến cáo 2.1; EuroGuiDerm Bảng 2) nhưng sắp isotretinoin nên không cần; không phối hợp isotretinoin với cyclin uống (QĐ 4416/2023, mục 3.2).</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Phối hợp isotretinoin với doxycyclin uống</b></div><p class="why">Không dùng isotretinoin phối hợp cyclin uống (QĐ 4416/2023, Trứng cá mục 3.2); tăng áp lực nội sọ (QĐ 75/2015, mục 5b).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kéo dài doxycyclin uống trên 3–4 tháng để &#x27;duy trì&#x27;</b></div><p class="why">Không dùng kháng sinh uống duy trì; thường không quá 3–4 tháng (QĐ 4416/2023, mục 3.2; AAD 2024 tr. 1.e11); EuroGuiDerm 2026 Bảng 3: 3 tháng, quá thì chỉ ngoại lệ.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Truyền dịch, truyền vitamin &#x27;thải độc&#x27; theo yêu cầu</b></div><p class="why">Không có trong tài liệu đã tải.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Cho về, hẹn tái khám</span></div><p>Kê lại thuốc bôi, hẹn 6 tuần tại phòng khám là bỏ lỡ chỉ định chuyên khoa: có cục, sẹo, viêm trên 50 thì tư vấn isotretinoin (QĐ 4416/2023, Trứng cá mục 3.2, sơ đồ; AAD 2024 khuyến cáo 4.1; EuroGuiDerm 2026 Bảng 2). Cục viêm sâu thêm, sẹo hằn thêm, Huy vẫn dùng kem lạ vì chưa ai gỡ lý do.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Giữ nhập viện vì &#x27;cục đau&#x27; là quá tay: Huy không sốt, không đau xương khớp, không loét, CRP bình thường; trứng cá không ảnh hưởng nghiêm trọng đến tính mạng (QĐ 75/2015, Trứng cá mục 1; QĐ 4416/2023, mục 2.1). Em nghỉ học giữa mùa thi thử, chi phí tăng mà không ai quyết isotretinoin.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Trứng cá mức độ nặng tái phát (McCoy: 74 tổn thương viêm, 4 cục, tổng 84) ở mặt, ngực, vai, lưng; 3 sẹo lõm hình phễu, tăng sắc tố sau viêm; chưa tối cấp</li><li>Nguyên nhân tái phát: ngừng thuốc bôi đột ngột không duy trì; dùng lại kem lạ nghi corticoid; stress thi, thiếu ngủ</li><li>Đã loại trừ: viêm nang lông, trứng cá đỏ, thuốc &#x27;hết tác dụng&#x27;, trứng cá tối cấp</li><li>Ảnh hưởng tâm lý do mụn, căng thẳng thi cử; không ý nghĩ tự hại</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự hợp lý: hỏi diễn tiến, mốc và lý do ngừng thuốc → hỏi cụ thể kem khác, nhắc chuyện kem cũ → hỏi stress, tâm trạng, ý nghĩ tự hại → khám da (đếm tổn thương, cục, sẹo), xương khớp, tâm thần → men gan, mỡ máu → chẩn đoán → chuyển tuyến.</li><li>Tái phát: nguyên nhân nền (ngừng điều trị, kem lạ, stress) chưa xử lý, không phải chẩn đoán sai hay thuốc hết tác dụng: mặt từng sạch khoảng 80% khi bôi đều. Mức nặng: viêm 74 &gt; 50 (QĐ 75/2015, mục 4c); có cục, sẹo (QĐ 4416, mục 2.5); sẹo, ảnh hưởng tâm lý coi là nặng, ứng viên isotretinoin (AAD 2024 khuyến cáo 4.1).</li><li>Chuyển tuyến vì có cục, sẹo, lan nhiều vùng, đã tái phát (QĐ 4416, sơ đồ; AAD 4.1; EuroGuiDerm Bảng 2) và phòng khám không có bác sĩ da liễu; không có X-quang không ảnh hưởng (QĐ 4416, mục 2.2). Giấu tiền sử: Huy đáp &#x27;không&#x27; khi hỏi chung, chỉ kể khi hỏi cụ thể, không phán xét; bỏ sót sẽ dẫn đến kê thuốc mạnh hơn mà không gỡ nguyên nhân.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Chuyển da liễu quyết isotretinoin (liều, mốc tuổi ghi cả hai cách ở mục xử trí); cầu nối adapalen + BPO; doxycyclin a, isotretinoin + cyclin h, truyền dịch w; duy trì retinoid bôi (QĐ 4416 mục 3.1, 3.2).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Adapalen 0,1% + benzoyl peroxid 2,5% gel phối hợp (bắt đầu lại, cầu nối)</b><div class="sub">Adapalen 0,1%, benzoyl peroxid 2,5%</div></td><td data-l="Liều">Bôi lớp mỏng mặt, ngực, vai, lưng trên; tuần đầu cách ngày<div class="sub">Bôi ngoài da · Buổi tối sau rửa mặt, lau khô</div></td><td data-l="Thời gian">Đến khi gặp bác sĩ da liễu, sau đó theo chuyên khoa</td><td class="gc" data-l="Ghi chú">QĐ 4416/2023, Trứng cá mục 3.2; AAD 2024 khuyến cáo 1.10, tr. 1.e9. Khi isotretinoin bắt đầu, dùng tiếp hay tạm dừng thuốc bôi: do chuyên khoa quyết (không có trong tài liệu đã tải).</td></tr><tr><td><b>Kem dưỡng ẩm không dầu và kem chống nắng</b><div class="sub">Mức SPF: không có trong tài liệu đã tải</div></td><td data-l="Liều">Dưỡng ẩm mỗi ngày, chống nắng mỗi sáng<div class="sub">Bôi ngoài da · Hằng ngày</div></td><td data-l="Thời gian">Suốt đợt điều trị</td><td class="gc" data-l="Ghi chú">QĐ 4416/2023, Trứng cá mục 3.2; AAD 2024 tr. 1.e9.</td></tr><tr><td><b>Tuýp kem không nhãn của bạn</b><div class="sub">Không rõ thành phần</div></td><td data-l="Liều">NGỪNG hẳn; đưa tuýp cho bác sĩ da liễu xem<div class="sub">Bôi ngoài da · Không dùng</div></td><td data-l="Thời gian">Ngừng</td><td class="gc" data-l="Ghi chú">QĐ 4416/2023, Viêm da do Demodex mục 4; QĐ 75/2015, Trứng cá mục 3c.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Mụn nổi lại do ngừng thuốc quá sớm, bôi lại kem của bạn và áp lực thi, không phải thuốc hết tác dụng (QĐ 4416, mục 3.1, mục 4). Bác sĩ không trách em.</li><li>Có cục và hố lõm: cần bác sĩ da liễu xem thuốc uống; điều trị sớm để ít sẹo (QĐ 4416, mục 3.1, 3.2). Đi trong tuần này, mang thư chuyển, kết quả xét nghiệm và tuýp kem.</li><li>Chờ gặp bác sĩ da liễu: bôi adapalen + BPO buổi tối, dưỡng ẩm, chống nắng; không nặn cục, không bôi kem lạ, không truyền &#x27;thải độc&#x27;.</li><li>Khi dùng isotretinoin: khô da, môi, chảy máu cam, không dùng cùng doxycyclin, làm men gan, mỡ máu đều, báo ngay nếu buồn nhiều (QĐ 4416, mục 3.2; AAD 4.1).</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-18">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Trứng cá</b></div>
+<p class="note">Phải loại trừ: Viêm nang lông, Trứng cá đỏ</p><p>Huy cùng mẹ đến khoa da liễu sau 3 ngày, mang thư chuyển, men gan, mỡ máu bình thường và tuýp kem. Bác sĩ da liễu xác nhận trứng cá nặng tái phát, giải thích vì sao phải bôi duy trì, quyết định isotretinoin có theo dõi men gan, mỡ máu, tâm trạng. Huy kể chuyện kem của bạn và nỗi sợ xấu; mẹ hiểu hơn. Sau vài tháng các cục xẹp, mặt sạch, không thêm sẹo mới; Huy duy trì bằng retinoid bôi. Tái phát do nguyên nhân nền được xử trí đúng gốc.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-19">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Giấu tiền sử: hỏi chung &#x27;có bôi gì không&#x27; đều đáp không; tuýp kem không nhãn chỉ lộ khi hỏi cụ thể, không phán xét.</li><li>Mẹ nói &#x27;bôi đều&#x27; trong khi Huy bỏ ngực, vai, lưng và 3–4 đêm/tuần; lý do thật muốn truyền dịch chỉ lộ khi hỏi &#x27;em mong gì&#x27;.</li><li>Biểu hiện không điển hình dễ bị gọi là dị ứng hoặc viêm nang lông; đáp ứng một phần ở tuần 6 dễ bị coi là thất bại.</li><li>Mặt sạch thì ngừng thuốc: tái phát; dễ kết luận &#x27;thuốc hết tác dụng&#x27;.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Giấu tiền sử: hỏi cụ thể từng loại (kem bạn cho, mua mạng, tuýp không nhãn), nói rõ hỏi để chọn thuốc đúng, không trách; hỏi &#x27;em mong bác sĩ giúp gì&#x27; để lộ lý do thật.</li><li>Trứng cá không điển hình do thuốc bôi lạ (nghi corticoid): tổn thương đơn dạng, ít nhân mụn (QĐ 75/2015, mục 3c); ngừng kem, thuốc bôi đúng, KOH loại Malassezia (AAD 2024 tr. 1.e5).</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Trứng cá: vùng tuyến bã, chẩn đoán lâm sàng (QĐ 4416/2023, mục 2.1, 2.3). McCoy: vừa 15–50 viêm hoặc tổng 20–125; nặng trên 5 nang, cục hoặc viêm trên 50 hoặc tổng trên 125 (QĐ 75/2015, mục 4c).</li><li>Mức vừa: retinoid bôi + BPO (QĐ 4416, mục 3.2; AAD 1.10; EuroGuiDerm Bảng 2). Doxycyclin không quá 3–4 tháng (QĐ 4416; AAD) hoặc 3 tháng (EuroGuiDerm Bảng 3), không duy trì, không phối hợp isotretinoin. Cục, nang, sẹo, tâm lý: tư vấn isotretinoin (QĐ 4416; AAD 4.1; EuroGuiDerm Bảng 2); liều và tuổi ghi cả hai cách.</li><li>Không tự ý dùng thuốc bôi corticosteroid hoặc không rõ thành phần (QĐ 4416, Viêm da do Demodex mục 4).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-20">Nguồn tài liệu <small>4</small></h3></summary><ul class=""><li>Bộ Y tế – QĐ 4416/QĐ-BYT 2023, bệnh da liễu (TL-0397) – Trứng cá mục 1.1, 1.3, 2.1–2.5 (phân độ), 3.1, 3.2 (sơ đồ liệu pháp bôi, toàn thân; retinoid, BPO, doxycyclin, isotretinoin), 4; Viêm nang lông mục 1.3, 2.1, 2.2, 2.4; Viêm da do Demodex mục 2.1, 4.</li><li>Bộ Y tế – QĐ 75/QĐ-BYT 2015, bệnh da liễu (kho cũ) – Trứng cá mục 1, 2d, 3c (trứng cá do corticoid), 4c (phân độ McCoy), 5b (isotretinoin dưới 16 tuổi; phối hợp tetracyclin).</li><li>AAD 2024 – Guidelines of care for the management of acne vulgaris (TL-0415) – Bảng III khuyến cáo 1.4, 1.10, 2.1, 2.6, 4.1; tr. 1.e5, 1.e8, 1.e9, 1.e11.</li><li>EuroGuiDerm 2026 – Update of the treatment of acne (TL-0406) – Bảng 2 (kèm chú thích 7), Bảng 3, Bảng 5.</li></ul></details>
+<details class="card"><summary><h3 id="m-21">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Da liễu</dd><dt>chan_doan_dich</dt><dd>Trứng cá</dd><dt>chan_doan_phai_loai_tru</dt><dd>Viêm nang lông; Trứng cá đỏ</dd><dt>nhom_tuoi</dt><dd>Học sinh (6–15 tuổi)</dd><dt>do_kho</dt><dd>Không điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>dien_tien_tai_kham</dt><dd>Đỡ một phần</dd><dt>nhieu_benh_nhan</dt><dd>Giấu tiền sử</dd><dt>rang_buoc_nguon_luc</dt><dd>Không có X-quang</dd><dt>loai_ket_cuc</dt><dd>Tái phát</dd><dt>gioi</dt><dd>Nam</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>3</dd><dt>nghe_nghiep</dt><dd>Học sinh (lớp 9)</dd><dt>yeu_to_khoi_phat</dt><dd>Sau căng thẳng học tập (ôn thi, học thêm đến khuya)</dd><dt>thuoc_dang_dung</dt><dd>Thuốc dị ứng tự mua (loratadin)</dd><dt>ly_do_that_su_den_kham</dt><dd>Muốn được truyền dịch</dd></dl><ul class=""><li>Bản 1 (2026-10-25). Đã đọc: QĐ 4416/2023 (Trứng cá, Viêm nang lông, Demodex), QĐ 75/2015 (Trứng cá), AAD 2024 (Bảng III, tr. 1.e5–1.e11), EuroGuiDerm 2026 (Bảng 2, 3, 5).</li><li>Mâu thuẫn: theo mục sổ DL-0327 (liều isotretinoin, thời gian kháng sinh) và DL-0302 (tuổi isotretinoin), ghi cả hai cách; không có mâu thuẫn mới. &#x27;Nghi corticoid&#x27; là suy luận, thành phần tuýp kem không biết.</li><li>Không có trong tài liệu đã tải: thành phần kem lạ; kháng histamin trong trứng cá; mức SPF; mốc tái khám 6 tuần, thời hạn chuyển tuyến bằng ngày; dùng tiếp thuốc bôi khi isotretinoin; bài trứng cá đỏ; sàng lọc tâm trạng vị thành niên; truyền dịch. Mốc 12 tuần là thời điểm đo của thử nghiệm AAD.</li><li>Ảnh da: HA-DA-0071 (SCIN case 5373485488810311376, thân mình, đã lên media-1); xem trước 4 ảnh, loại 3 ảnh lộ mặt một phần. Mặt và lưng mô tả bằng chữ.</li></ul></details>
+<p class="chan-trang">Ca DL-0296 · phiên bản ca 1 – viết 2026-10-25 theo kho tài liệu, mọi ngưỡng/liều ghi kèm vị trí · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NH-1072 · Táo bón chức năng (trẻ em)</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · NH-1072</div>
+   <h1>Bé 5 tháng, 4 ngày chưa đi ngoài, rặn đỏ mặt rồi khóc, bà ngoại bảo bé “khô nước”</h1>
+   <p class="dich-gia">Lương Bảo Châu · Nữ · 0.42 tuổi · 6.8 kg</p>
+   <div class="chips"><span class="chip">Nhi ngoại trú</span><span class="chip">Điển hình</span><span class="chip">2 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Trẻ nhũ nhi</dd><dt>Chiều cao, cân nặng</dt><dd>63 cm · 6.8 kg</dd>
+<dt>Xưng hô</dt><dd>Bé gái 5 tháng, chưa nói được, khóc to khi bị khám, bám mẹ. Mẹ kể bệnh: bác sĩ gọi mẹ là “chị”, mẹ xưng “em”, gọi bé là “bé Châu” hoặc “con”. Ba bé đi làm, bà ngoại ở nhà, không đi cùng.</dd><dt>Tính cách</dt><dd>Chị Hồng, 28 tuổi, công nhân xưởng may, quay lại xưởng khi bé 4 tháng. Chị hiền, hay lo, thương con, dễ nghe theo bà ngoại và hàng xóm; sợ con đau, sợ mất thưởng chuyên cần. Ba bé (anh Duy) đá bóng cuối tuần, hay pha sữa cữ đêm. Bé Châu khỏe, hay cười, khóc to khi mệt.</dd><dt>Người nhà</dt><dd>Mẹ bé (chị Hồng) – Mẹ bé, chị Hồng, 28 tuổi, bế bé đi khám một mình. Mẹ trả lời mọi câu hỏi (nguoi_noi = nguoi_nha); bé chỉ khóc, cười.</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Phòng khám không có xét nghiệm nào (công thức máu, sinh hóa, TSH, phân…).</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/2</span> </h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Bé gái 5 tháng, 6,8 kg, mẹ (chị Hồng) bế đến vì 4 ngày chưa đi ngoài, rặn đỏ mặt rồi khóc, bú hơi kém. Mẹ xin truyền nước cho bé. Sinh hiệu: nhiệt 36,8 °C, mạch 118 l/p, nhịp thở 36 l/p, SpO₂ 99%. Bé tỉnh, bám mẹ, khóc to khi bị chạm.</p>
+  <blockquote>“Bác sĩ ơi, bé nhà em 4 ngày nay chưa đi ngoài, rặn đỏ cả mặt rồi khóc. Bà ngoại nói bé bị khô nước, nóng trong người từ hôm đi nắng coi ba đá bóng. Bác sĩ truyền cho bé chai nước cho mát, cho bé đi được đi bác sĩ. Hàng xóm em có đứa truyền xong đi liền.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>118</b><small>l/p</small></div><div class="vs"><span>HA</span><b>Không đo</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,8</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>36</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>99</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>13 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám, yêu cầu truyền nước, chuyện đi nắng</b><span class="tag t-g">Tự kể</span></div><p>Mẹ nói một hơi: bé 4 ngày chưa đi ngoài, rặn đỏ mặt rồi khóc, bú hơi kém; Chủ nhật vừa rồi cả nhà ra sân coi ba đá bóng cả buổi ngoài trời nóng, từ hôm đó bé không đi; bà ngoại bảo bé khô nước, nóng trong người. Mẹ xin bác sĩ truyền nước cho bé mát, mau đi.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Số lần đi ngoài, tính chất phân, thời gian (Rome III trẻ &lt; 4 tuổi)</b><span class="tag t-b">Khi được hỏi</span></div><p>Hỏi từng mốc thì mẹ trả lời được: từ lúc bé 4 tháng (khoảng 6 tuần nay) bé chỉ đi ngoài 1 lần mỗi 3–5 ngày. Phân thành cục tròn to, cứng; bé rặn vài phút, khóc, đỏ mặt mới ra. Không máu, không nhầy, không phân đen hay bạc màu. Lần đi cuối cách đây 4 ngày (sáng Chủ nhật), phân cứng như cục. Trước 4 tháng bé bú mẹ hoàn toàn, đi vàng mềm 1–2 lần mỗi ngày.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thời điểm đi phân su (dấu hiệu gợi ý Hirschsprung)</b><span class="tag t-b">Khi được hỏi</span></div><p>Bé sinh thường đủ tháng, 3,1 kg. Giấy ra viện ghi phân su ra trong ngày đầu (khoảng 10 giờ sau sinh); không chướng bụng, không nôn mật, ra viện sau 3 ngày.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tuổi khởi phát, đổi chế độ bú (yếu tố thúc đẩy)</b><span class="tag t-b">Khi được hỏi</span></div><p>Mẹ đi làm lại khi bé 4 tháng. Từ đó bé bú mẹ 2 cữ (sáng, tối) và sữa công thức 4–5 cữ khi mẹ đi làm; bà ngoại và ba pha sữa. Táo bón bắt đầu khoảng 1–2 tuần sau khi thêm sữa công thức. Bé chưa ăn dặm, chưa dùng thuốc nhuận tràng, chưa thụt hay thông hậu môn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Cách pha sữa công thức (ESPGHAN Hình 1 hộp 8)</b><span class="tag t-r">Giấu</span></div><p>Hộp sữa ghi 1 muỗng gạt ngang pha với 60 mL nước ấm. Mẹ pha ban ngày hơi đầy muỗng; ba và bà ngoại pha ban đêm thì múc đầy muỗng, nén chặt “cho bé no lâu, ngủ ngon”. Mẹ không nghĩ pha sữa liên quan tới chuyện đi ngoài.</p><div class="cond">Điều kiện nói ra: Mẹ không tự nói. Chỉ lộ khi bác sĩ hỏi cụ thể ai pha sữa, pha mấy muỗng với bao nhiêu mL nước, hoặc nhờ mẹ làm mẫu cách pha.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dấu hiệu báo động, tăng trưởng, phát triển vận động</b><span class="tag t-b">Khi được hỏi</span></div><p>Không nôn, không nôn mật, không sốt, không chướng bụng, không phân máu hay phân dẹt dạng dải. Bé tăng cân đều theo sổ theo dõi ở trạm y tế (6,5 kg lúc 4 tháng rưỡi), lẫy được, cười, theo vật; bú khỏe, khóc to.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Triệu chứng suy giáp, tiền sử gia đình</b><span class="tag t-b">Khi được hỏi</span></div><p>Bé đã thử máu gót chân sàng lọc sơ sinh, giấy báo bình thường (mẹ giữ giấy). Vàng da sau sinh hết trước 2 tuần; bé không ngủ li bì, vẫn đòi bú, da không khô. Nhà không ai bị bệnh tuyến giáp, phình đại tràng hay xơ nang.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc đang dùng (NSAID tự mua)</b><span class="tag t-b">Khi được hỏi</span></div><p>Hai đêm nay bé quấy, mẹ nghĩ bé đau bụng nên cho uống siro ibuprofen mua ở nhà thuốc, mỗi đêm một lần, một nắp nhỏ theo lời cô bán thuốc; bé không sốt lúc nào. Mẹ mang chai theo. Bé không dùng thuốc nào khác, chưa uống men vi sinh hay nước ép.</p></div><div class="fact"><div class="fh"><b>Dị ứng đạm sữa bò</b><span class="tag t-b">Khi được hỏi</span></div><p>Bé không chàm, không nôn trớ nhiều, phân không có đàm máu, không nổi ban sau bú sữa; nhà không ai dị ứng sữa bò.</p></div><div class="fact"><div class="fh"><b>Dấu hiệu mất nước</b><span class="tag t-b">Khi được hỏi</span></div><p>Bé thay tã ướt 6–7 lần mỗi ngày, nước tiểu vàng nhạt. Hôm Chủ nhật ngoài sân bé bú ít 2 cữ, sau đó bú lại như thường. Khóc có nước mắt, không li bì, không bỏ bú.</p></div><div class="fact"><div class="fh"><b>Yếu tố khởi phát: đi nắng, ra mồ hôi, bú ít một ngày</b><span class="tag t-b">Khi được hỏi</span></div><p>Chủ nhật vừa rồi ba đá giải bóng, bé nằm xe đẩy dưới mái che khoảng 4 giờ, trời nóng, ra nhiều mồ hôi. Mẹ nghĩ nắng làm bé khô người. Thật ra bé đi thưa, phân cứng đã 6 tuần trước chuyến đi.</p></div><div class="fact"><div class="fh"><b>Đòi truyền dịch</b><span class="tag t-b">Khi được hỏi</span></div><p>Bà ngoại và hàng xóm nói truyền chai nước là đi liền; mẹ nài nỉ “chỉ một chai thôi”, không có ác ý, chỉ sợ con đau. Khi bác sĩ cho mẹ xem tã ướt, thóp phẳng, nước mắt và giải thích truyền nước không làm phân mềm, mẹ dịu lại, nhất là khi có cách khác làm bé đi được.</p></div><div class="fact"><div class="fh"><b>Lý do thật đến khám (xin giấy nghỉ ốm)</b><span class="tag t-r">Giấu</span></div><p>Xưởng may của chị đang chạy đơn gấp, quản lý chỉ cho nghỉ khi có giấy của cơ sở y tế; chị đã nghỉ 1 ngày không phép và sợ mất thưởng chuyên cần. Chị muốn tờ giấy để nghỉ 2–3 ngày ở nhà chăm bé, ngại nên không nói trước.</p><div class="cond">Điều kiện nói ra: Mẹ không tự nói. Chỉ lộ khi bác sĩ hỏi chị làm nghề gì, ai trông bé ban ngày, hoặc hỏi nhẹ chị còn cần bác sĩ giúp gì thêm.</div></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>9 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Bé tỉnh, linh hoạt, khóc to có nước mắt. Thóp trước phẳng, niêm mạc miệng ẩm, môi hồng. Da hồng, không vàng, không khô, nếp véo da mất nhanh. Tã ướt nhiều. Không li bì, mắt không trũng.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Nhân trắc trẻ em (cân nặng, chiều dài/chiều cao, MUAC, vòng đầu)</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Cân nặng 6,8 kg, chiều dài 63 cm, vòng đầu 41,5 cm.</p><p><span class="lbl">Kết quả:</span> Cân nặng 6,8 kg, chiều dài 63 cm, vòng đầu 41,5 cm. Theo sổ theo dõi ở trạm y tế, cân nặng và chiều dài tăng đều, không chậm lớn.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Mặt cân đối, không phù. Tuyến giáp không to. Lưỡi bình thường, không dày, miệng không há. Tóc bình thường. Không hạch cổ.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 118 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 118 l/p, T1 T2 rõ, không âm thổi. Môi hồng, không tím lúc nghỉ.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – Tim nhanh đều, T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-NHANH-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nhịp thở 36 l/p. Không co lõm lồng ngực.</p><p><span class="lbl">Kết quả:</span> Nhịp thở 36 l/p. Không co lõm lồng ngực, không khò khè. Rì rào phế nang êm dịu hai bên, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><span class="key">★</span><b>Bụng</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Bụng không chướng; hố chậu trái bé nhăn mặt khi ấn sâu.</p><p><span class="lbl">Kết quả:</span> Bụng tròn, mềm, không chướng căng, không quai ruột nổi, không sẹo. Hố chậu trái sờ thấy khối chắc, ấn lõm, bé nhăn mặt khi ấn sâu. Gan lách không to. Nhu động ruột bình thường. Không khối vùng hố chậu phải.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thăm trực tràng</b></div><p><span class="lbl">Kết quả:</span> Hậu môn đúng vị trí, không nứt kẽ, không rò, không sẹo, quanh hậu môn sạch. Thăm trực tràng bằng ngón út có bôi trơn: cơ thắt bình thường, không hẹp; bóng trực tràng giãn, đầy khối phân cứng. Rút ngón tay ra chỉ có ít phân cục cứng dính găng, không có phân hay hơi phụt thành tia, găng không máu.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thần kinh</b></div><p><span class="lbl">Kết quả:</span> Bé đạp hai chân đều, trương lực và phản xạ chi dưới bình thường. Có phản xạ co hậu môn.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b></div><p><span class="lbl">Kết quả:</span> Cột sống thắt lưng – cùng cân đối, không lõm da vùng cùng, không chùm lông. Nếp liên mông thẳng.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>4 mục</small></h3></summary><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Không có xét nghiệm tại phòng khám.</p><p class="why">Cơ sở không có xét nghiệm và không cần: chẩn đoán táo bón chức năng dựa vào hỏi bệnh và khám (ESPGHAN 2014 khuyến cáo 2, tr. 262; QĐ 3312 Táo bón mục 4, tr. 332). Bé không sốt, tỉnh, không mất nước.</p></div><div class="row"><div class="rh"><b>TSH, FT4</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Không có xét nghiệm tại phòng khám.</p><p class="why">Cơ sở không có và không cần: không xét nghiệm thường quy tìm suy giáp, celiac, tăng canxi khi không báo động (ESPGHAN 2014 khuyến cáo 13, tr. 266). Bé sàng lọc sơ sinh bình thường, tăng cân đều, giáp không to (QĐ 3312 Suy giáp trạng bẩm sinh mục 3.1, tr. 641).</p></div><div class="row"><div class="rh"><b>X-quang bụng không chuẩn bị</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Không có máy X-quang (bị khóa theo thiếu xét nghiệm).</p><p class="why">Không cần, dù có máy: không làm thường quy, chỉ khi nghi ứ phân mà khám không tin cậy (ESPGHAN 2014 khuyến cáo 6–7, tr. 265; QĐ 3312 Táo bón mục 3.2.1, tr. 331). Bé đã sờ được khối phân ở bụng và thăm trực tràng.</p></div><div class="row"><div class="rh"><b>Siêu âm bụng (gan, thận, thượng thận)</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Phân ứ trực tràng, đường kính trực tràng tăng.</p><p class="why">Không cần: siêu âm trực tràng không được khuyến cáo để chẩn đoán táo bón chức năng (ESPGHAN 2014 khuyến cáo 10, tr. 265); thăm trực tràng thay thế.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Táo bón chức năng ở nhũ nhi gái 5 tháng nuôi sữa mẹ phối hợp sữa công thức, khởi phát sau đổi chế độ bú, có khối phân trong trực tràng; không do nắng nóng hay mất nước; chưa có dấu hiệu báo động</b></div><p class="why">Rome III trẻ &lt; 4 tuổi cần ≥ 2/6 tiêu chuẩn trong ≥ 1 tháng; bé có 4/6 kéo dài 6 tuần: đi ngoài ≤ 2 lần/tuần, phân cứng và đau, khối phân lớn trong trực tràng, phân to (ESPGHAN 2014 Bảng 2, tr. 261; QĐ 3312 Táo bón mục 4.1, tr. 332). Khởi phát sau vài tuần đến vài tháng, phân su bình thường, đổi chế độ ăn là yếu tố thúc đẩy (ESPGHAN Bảng 4, tr. 264). Chẩn đoán bằng hỏi bệnh và khám (khuyến cáo 2, tr. 262). Rome V (2026) xếp H2a (Bảng 2, tr. 1085); tiêu chuẩn Rome V chi tiết cho trẻ: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Bệnh Hirschsprung (phình đại tràng bẩm sinh)</b></div><p class="why">Loại trừ lâm sàng: phân su ngày đầu, táo bón khởi phát sau 4 tháng (không phải &lt; 1 tháng), không chướng bụng, không nôn mật, tăng cân đều, bóng trực tràng đầy phân, không phân hay hơi phụt thành tia (ESPGHAN Bảng 4–5, tr. 264–265; ERNICA 2020 Bảng 1). Hai nguồn khác nhau: QĐ 3312 Táo bón mục 4.3 (tr. 333) coi “táo bón ở trẻ dưới 1 tuổi” là dấu hiệu gợi ý nguyên nhân thực thể, cần khám tìm; ESPGHAN chỉ coi khởi phát &lt; 1 tháng là báo động (sổ mâu thuẫn). Bé đã được khám đủ, không có dấu hiệu khác nên chưa chuyển; sinh thiết là chuẩn vàng khi cần (khuyến cáo 15, tr. 266).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Suy giáp</b></div><p class="why">Loại trừ lâm sàng: sàng lọc sơ sinh bình thường, không vàng da kéo dài, không ngủ nhiều, lưỡi không dày, giáp không to, tăng cân đều (QĐ 3312 Suy giáp trạng bẩm sinh mục 3.1, tr. 641; ESPGHAN Bảng 4–5). Cơ sở không có xét nghiệm; TSH không làm thường quy khi không báo động (ESPGHAN khuyến cáo 13, tr. 266).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Dị ứng đạm sữa bò</b></div><p class="why">Không có: không chàm, không nôn trớ nhiều, phân không đàm máu (ESPGHAN Bảng 3–4, tr. 263–264). Không làm xét nghiệm dị ứng thường quy (khuyến cáo 11); thử sữa thủy phân 2–4 tuần khi điều trị tối ưu mà không đáp ứng (Hình 1 hộp 22–25, tr. 260). Bú mẹ hoàn toàn đi thưa có thể bình thường (Hình 1 hộp 4–6) nhưng bé không bú mẹ hoàn toàn từ 4 tháng.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Mất nước (do nắng nóng, bú ít một ngày)</b></div><p class="why">Không mất nước: có nước mắt, thóp phẳng, niêm mạc ẩm, nếp véo da mất nhanh, tã ướt 6–7 lần/ngày. QĐ 3312 (Tiêu chảy cấp mục 3.1c, tr. 318–319) xếp “có mất nước” khi có ≥ 2 dấu hiệu như vật vã, mắt trũng, nếp véo da mất chậm; bảng viết cho tiêu chảy, tài liệu đã tải không có bài mất nước do táo bón nên dùng làm mốc.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Rối loạn đi ngoài khó (infant dyschezia)</b></div><p class="why">Không phải: dyschezia là rặn nhiều phút, khóc, đỏ mặt rồi đi phân mềm, thường hằng ngày (ESPGHAN 2014 tr. 262; Rome V Bảng 2: H2c). Bé đi thưa 3–5 ngày, phân cứng cục, có khối phân trực tràng. Tiêu chuẩn Rome V chi tiết của dyschezia: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Bụng ngoại khoa (lồng ruột, tắc ruột), bất thường hậu môn – cột sống</b></div><p class="why">Không có: giữa các lần rặn bé vẫn chơi, bú, không nôn, không phân máu, bụng mềm không khối; hậu môn đúng vị trí, không rò, không hẹp; cột sống cùng và chi dưới bình thường (ESPGHAN Bảng 4–5, tr. 264–265). Lồng ruột: không có bài trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Táo bón do ibuprofen tự mua</b></div><p class="why">Không phải nguyên nhân chính: táo bón có từ 6 tuần, trước khi uống thuốc 2 đêm. WGO 2025 Bảng 4 (tr. 10, người lớn) liệt kê ibuprofen trong thuốc liên quan táo bón; ESPGHAN Bảng 3 (tr. 263) không nêu NSAID. Mức ảnh hưởng và liều ibuprofen ở nhũ nhi không sốt: không có trong tài liệu đã tải.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích với mẹ: táo bón chức năng ở nhũ nhi, không phải do thiếu nước hay “nóng trong”, thường cải thiện khi chỉnh cách pha sữa; nói rõ dấu hiệu bình thường và dấu hiệu cần quay lại</b></div><p class="why">QĐ 3312 (Táo bón mục 5.2a, tr. 333): tư vấn cho cha mẹ; ESPGHAN 2014 Hình 1 hộp 8 (tr. 260): giáo dục, kiểm tra pha sữa, nhật ký.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Trả lời việc mẹ đòi truyền dịch bằng khám của chính bé: không mất nước nên không truyền, truyền nước không làm phân mềm; đưa cách khác làm bé đi được (chỉnh pha sữa, theo dõi, thuốc uống nếu chưa đỡ sau 2 tuần)</b></div><p class="why">QĐ 3312 (Tiêu chảy cấp mục 3.1c, tr. 318–319; mục 4.1a, phác đồ C, tr. 321): truyền tĩnh mạch cho mất nước nặng. ESPGHAN 2014 khuyến cáo 22 (tr. 268): lượng dịch bình thường. Không tài liệu đã tải chỉ định truyền dịch cho táo bón; nguy cơ truyền ở nhũ nhi: không có số liệu trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi cụ thể cách pha sữa công thức (ai pha, mấy muỗng, bao nhiêu mL nước), nhờ mẹ làm mẫu; hướng dẫn pha đúng theo hộp, gạt ngang, không nén chặt; dặn cả ba và bà ngoại làm theo</b></div><p class="why">ESPGHAN 2014 Hình 1 hộp 8 (tr. 260): kiểm tra pha sữa đúng. Tỉ lệ pha chuẩn theo hướng dẫn nhà sản xuất trên hộp, không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ghi nhật ký đi ngoài và ăn uống (ngày giờ, dạng phân, rặn, cữ sữa, ai pha) và tái khám sau 2 tuần để đánh giá hiệu quả; chưa kê thuốc nhuận tràng ở lượt đầu</b></div><p class="why">ESPGHAN 2014 tr. 262: nhật ký 3 ngày; Hình 1 hộp 8–10 (tr. 260): không thuốc trước, thuốc uống khi chưa hiệu quả. Hình 1 không nêu số tuần; mốc 2 tuần tham khảo Hình 2 hộp 10 (tr. 261), là lựa chọn của người soạn.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giữ ăn uống bình thường: tiếp tục bú mẹ và sữa công thức pha đúng; không cho thêm nước ép, men vi sinh hay thuốc tự mua</b></div><p class="why">ESPGHAN 2014 khuyến cáo 22 (tr. 268): lượng dịch bình thường; khuyến cáo 24–25 (tr. 268): không dùng thường quy prebiotics, probiotics.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ngưng siro ibuprofen tự mua; không dùng thuốc giảm đau, hạ sốt khi bé không sốt</b></div><p class="why">WGO 2025 Bảng 4 (tr. 10, người lớn): ibuprofen liên quan táo bón. Quấy, đau bụng đi kèm sẽ hết khi bé đi ngoài (QĐ 3312 Táo bón mục 4.2, tr. 332). Chỉ định, liều ibuprofen cho nhũ nhi không sốt: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không chỉ định xét nghiệm, X-quang, siêu âm trực tràng, sinh thiết hay chụp cản quang; giải thích vì sao cơ sở không có xét nghiệm vẫn quyết định được</b></div><p class="why">ESPGHAN 2014 khuyến cáo 2, 6, 10, 13, 16 (tr. 262, 265–266); QĐ 3312 Táo bón mục 4 (tr. 332): hỏi bệnh và khám là đủ.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn quay lại ngay khi: nôn (nhất là dịch xanh vàng), bụng chướng to, phân có máu, sốt, bỏ bú, li bì, hoặc hơn 6 ngày không đi ngoài; mốc chuyển chuyên khoa: có dấu báo động hoặc không đáp ứng điều trị tối ưu ≥ 3 tháng</b></div><p class="why">Dấu báo động: ESPGHAN 2014 Bảng 5 (tr. 265). Khó chữa = không đáp ứng điều trị tối ưu ≥ 3 tháng (tr. 262); chuyển khi đã điều trị đủ (Hình 1 hộp 18–19, tr. 260). Mốc 6 ngày: lựa chọn của người soạn.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi ra lý do thật của mẹ; cấp giấy xác nhận đã khám ghi đúng tình trạng (táo bón nhũ nhi, điều trị ngoại trú, hẹn tái khám 2 tuần), không ghi nặng hơn thực tế</b></div><p class="why">Giấy nghỉ ốm chăm con: không có trong tài liệu đã tải; nguồn bổ sung tự tìm (TT 56/2017/TT-BYT; Luật BHXH 2024 Điều 42, 44) chưa đối chiếu văn bản gốc (sổ mâu thuẫn, mục giấy nghỉ ốm). Cấp theo tình trạng thật.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Khởi thuốc nhuận tràng uống ngay từ lượt 1 (lactulose hoặc PEG)</b></div><p class="why">QĐ 3312 (Táo bón mục 5.2c, tr. 334) nêu thuốc nhuận tràng không phân nhóm tuổi; ESPGHAN 2014 cho nhũ nhi &lt; 6 tháng đi bước không thuốc trước (Hình 1 hộp 8–10). Khác đối tượng nên không chấm sai (sổ mâu thuẫn, ghi nhận NH-1072). Liều: xem lượt 2.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Truyền dịch theo yêu cầu của mẹ</b></div><p class="why">Bé không mất nước; truyền tĩnh mạch chỉ cho mất nước nặng (QĐ 3312 Tiêu chảy cấp mục 4.1a, tr. 321); không tài liệu đã tải nào chỉ định truyền dịch cho táo bón (sổ mâu thuẫn, mục truyền dịch theo yêu cầu).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Chuyển tuyến ngay để sinh thiết trực tràng hoặc chụp đại tràng cản quang</b></div><p class="why">Chưa có chỉ định: không dấu báo động (ESPGHAN 2014 Bảng 5), chưa điều trị tối ưu; thụt barium không làm đầu tiên (khuyến cáo 16, tr. 266); sinh thiết khi báo động hoặc khó chữa (khuyến cáo 15; ERNICA 2020 Bảng 1).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Thụt phosphate natri hoặc dầu paraffin để làm sạch phân</b></div><p class="why">Chưa đủ tuổi: phosphate chỉ cho trẻ &gt; 2 tuổi, paraffin trẻ &gt; 1 tuổi (QĐ 3312 Táo bón mục 5.2b, tr. 333); ESPGHAN Bảng 6 (tr. 269) ghi phosphate từ 1 tuổi. Tác hại cụ thể ở nhũ nhi: không có trong tài liệu đã tải.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Bé Châu được nhận nằm viện để truyền dịch “cho sạch ruột”. Bé tỉnh, thóp phẳng, có nước mắt, tã ướt 6–7 lần/ngày nên không có chỉ định: truyền tĩnh mạch ở QĐ 3312 (Tiêu chảy cấp mục 4.1a, tr. 321) dành cho mất nước nặng, và không tài liệu đã tải chỉ định truyền dịch cho táo bón. Bé bị chích kim luồn, khóc nhiều, chị Hồng mất thêm ngày công; về nhà bé vẫn đi thưa vì cữ sữa pha đặc ban đêm chưa ai sửa. Nguy cơ cụ thể của truyền ở nhũ nhi: không có số liệu trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Bé Châu bị chuyển lên bệnh viện nhi để sinh thiết trực tràng hoặc chụp cản quang đại tràng. Chưa có chỉ định: khởi phát sau 4 tháng, phân su ngày đầu, không chướng bụng, không nôn mật, tăng cân đều, bóng trực tràng đầy phân; sinh thiết khi có báo động hoặc không đáp ứng điều trị tối ưu (ESPGHAN 2014 Hình 1 hộp 18, tr. 260; ERNICA 2020 Bảng 1), thụt barium không làm đầu tiên (khuyến cáo 16, tr. 266). Mẹ bế con đi xa, tốn tiền và ngày công, bé chịu thủ thuật không cần thiết, còn cách pha sữa vẫn chưa ai kiểm.</p></div><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Chị Hồng bế bé về với lời “bé không sao, chờ vài ngày sẽ đi”, không ai kiểm cách pha sữa, không nhật ký, không hẹn tái khám. Bé vẫn rặn khóc, phân tiếp tục cứng; chị nghe bà ngoại và tìm chỗ khác xin truyền nước. Điều trị chậm làm khó hồi phục: trẻ điều trị đủ sớm có khoảng 80% khỏi không cần thuốc sau 6 tháng, so với 32% khi chậm (ESPGHAN 2014 tr. 271, số liệu từ trẻ khám chuyên khoa).</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Táo bón chức năng ở nhũ nhi gái 5 tháng, nuôi sữa mẹ phối hợp sữa công thức, có khối phân trong trực tràng, chưa có dấu hiệu báo động</li><li>Yếu tố thúc đẩy: đổi chế độ bú từ 4 tháng; cách pha sữa công thức cữ đêm đặc (múc đầy, nén chặt) cần chỉnh</li><li>Yếu tố gây nhiễu, không phải nguyên nhân: nắng nóng và bú ít một ngày Chủ nhật, ibuprofen tự mua 2 đêm</li><li>Không mất nước; không có chỉ định truyền dịch</li><li>Chưa gợi ý Hirschsprung, suy giáp hay dị ứng đạm sữa bò</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Hỏi bệnh theo từng mốc dù mẹ chỉ muốn truyền nước: tuổi khởi phát (4 tháng), số lần đi ngoài (1 lần/3–5 ngày), phân cục cứng to, rặn khóc, máu, nhầy, phân su, đổi bú, thuốc. Đủ 4/6 tiêu chuẩn Rome III trẻ &lt; 4 tuổi, 6 tuần (ESPGHAN 2014 Bảng 2, tr. 261; QĐ 3312 Táo bón mục 4.1, tr. 332). Khởi phát &lt; 1 tháng mới là báo động (ESPGHAN tr. 262, Bảng 5).</li><li>Hỏi cụ thể ai pha sữa, mấy muỗng, bao nhiêu nước (ESPGHAN Hình 1 hộp 8, tr. 260). Mẹ không tự kể; ba và bà ngoại pha đặc cữ đêm. Tỉ lệ pha chuẩn theo hộp sữa: không có trong tài liệu đã tải. Chuyến đi nắng và ibuprofen xảy ra sau 6 tuần táo bón: không đổi chẩn đoán.</li><li>Khám: thóp, nước mắt, tã ướt (không mất nước: QĐ 3312 Tiêu chảy cấp mục 3.1c, tr. 318–319); nhân trắc; giáp, lưỡi (loại suy giáp, QĐ 3312 tr. 641); bụng (khối phân hố chậu trái); hậu môn trực tràng (đúng vị trí, không nứt, bóng trực tràng đầy phân, không phân phụt thành tia); cột sống cùng, chi dưới (ESPGHAN tr. 262–263, Bảng 4; QĐ 3312 Táo bón mục 3.1.2, tr. 331).</li><li>Cận lâm sàng: cơ sở không có xét nghiệm và không cần. Chẩn đoán bằng hỏi bệnh và khám (khuyến cáo 2); X-quang bụng không thường quy (6–7); siêu âm trực tràng không khuyến cáo (10); TSH, celiac, canxi không thường quy (13); không thử dị ứng thường quy (11); không thụt barium đầu tiên (16) (ESPGHAN 2014, tr. 262, 265–266).</li><li>Chẩn đoán táo bón chức năng nhũ nhi. Loại Hirschsprung (phân su ngày đầu, khởi phát sau 4 tháng, không chướng bụng, không nôn mật, bóng trực tràng đầy phân; ESPGHAN Bảng 5; ERNICA 2020 Bảng 1) và suy giáp (sàng lọc sơ sinh bình thường, giáp, tăng trưởng bình thường; QĐ 3312 tr. 641). QĐ 3312 mục 4.3 (tr. 333) còn coi “dưới 1 tuổi” là dấu hiệu gợi ý thực thể, cần khám tìm (đã khám); ESPGHAN chỉ báo động khi &lt; 1 tháng. Rome V (2026): H2a, tiêu chuẩn chi tiết cho trẻ không có trong tài liệu đã tải.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Về nhà, chỉnh pha sữa, nhật ký, tái khám 2 tuần, chưa kê thuốc: đúng ESPGHAN 2014 Hình 1 (tr. 260) cho nhũ nhi &lt; 6 tháng không bú mẹ hoàn toàn (hộp 8 giáo dục, kiểm pha sữa, nhật ký; hộp 10 thuốc uống nếu chưa hiệu quả). Khởi thuốc ngay (QĐ 3312 Táo bón mục 5.2c, tr. 334, không chia tuổi) chấm a vì khác đối tượng.</li><li>Đòi truyền dịch: bé không mất nước nên không có chỉ định; truyền tĩnh mạch ở QĐ 3312 (Tiêu chảy cấp mục 4.1a, tr. 321) chỉ cho mất nước nặng, ESPGHAN khuyến cáo lượng dịch bình thường (khuyến cáo 22, tr. 268). Lợi ích: không có (không làm phân mềm). Rủi ro: kim luồn ở nhũ nhi, nằm viện, tốn tiền và ngày công; số liệu nguy cơ không có trong tài liệu đã tải (lập luận lâm sàng).</li><li>Ibuprofen tự mua: ngưng; bé không sốt nên không có chỉ định (NICE NG143 2021, cập nhật 2025, mục 1.6.4: cân nhắc khi trẻ có sốt và khó chịu); quấy do rặn sẽ hết khi đi được (QĐ 3312 mục 4.2, tr. 332). Liều ở nhũ nhi: không có trong tài liệu đã tải.</li><li>Không xét nghiệm, X-quang, siêu âm, sinh thiết (ESPGHAN 2014 khuyến cáo 2, 6, 10, 13, 16). Ca thuần lâm sàng nên mốc quay lại quan trọng: nôn mật, bụng chướng, phân máu, sốt, bỏ bú, li bì, hoặc không đáp ứng điều trị tối ưu ≥ 3 tháng (Bảng 5, tr. 265; tr. 262).</li><li>Giấy: xác nhận đã khám ghi đúng tình trạng, ngày hẹn; số ngày nghỉ theo quy định hiện hành và tình trạng thật của bé (TT 56/2017/TT-BYT, nguồn bổ sung tự tìm, chưa đối chiếu văn bản gốc); không ghi khống.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Không kê thuốc nhuận tràng ở lượt 1</b><div class="sub">Không áp dụng</div></td><td data-l="Liều">Không áp dụng<div class="sub">Không áp dụng · Đánh giá lại sau 2 tuần</div></td><td data-l="Thời gian">Không áp dụng</td><td class="gc" data-l="Ghi chú">ESPGHAN 2014 Hình 1 hộp 8–10 (tr. 260): nhũ nhi &lt; 6 tháng bắt đầu bằng giáo dục, kiểm pha sữa, nhật ký; thuốc uống nếu chưa hiệu quả. Sữa công thức pha đúng theo hướng dẫn trên hộp (không phải thuốc). Ngưng ibuprofen tự mua.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Câu thay thế khi mẹ đòi truyền nước: “Chị yên tâm, bé không thiếu nước: còn nước mắt, thóp phẳng, tã ướt 6–7 lần mỗi ngày. Truyền nước chỉ cần khi bé mất nước nặng, và truyền cũng không làm phân mềm. Bé khó đi vì phân cứng, nên mình chỉnh cách pha sữa trước; hai tuần nữa chưa đỡ thì có thuốc uống làm mềm phân.” (QĐ 3312 Tiêu chảy cấp tr. 321; ESPGHAN 2014 Hình 1 hộp 8–10).</li><li>Pha sữa đúng hướng dẫn trên hộp: gạt ngang, không nén, không thêm muỗng; cả ba và bà ngoại làm đúng; tiếp tục bú mẹ cữ sáng và tối (ESPGHAN Hình 1 hộp 8). Ghi nhật ký: ngày giờ đi ngoài, dạng phân, thời gian rặn, cữ sữa, ai pha (ESPGHAN tr. 262).</li><li>Ngưng ibuprofen; không tự cho thuốc, nước ép, men vi sinh, không chọc hậu môn bằng vật lạ (ESPGHAN khuyến cáo 25, tr. 268; chọc hậu môn: không có trong tài liệu đã tải).</li><li>Tái khám sau 2 tuần; đưa bé đến ngay nếu nôn dịch xanh vàng, bụng chướng to, phân có máu, sốt, bỏ bú, li bì (ESPGHAN Bảng 5, tr. 265). Giấy nghỉ: ghi đúng khám hôm nay, số ngày theo thực tế chăm bé (TT 56/2017/TT-BYT, nguồn bổ sung tự tìm).</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-2">
+ <h2 id="h-luot-2"><span class="ln">Lượt 2/2</span> · sau 2 tuần</h2>
+ <div class="card intro"><h3 id="m-8">Tiếp đón</h3><p>Chị Hồng bế bé Châu (5 tháng rưỡi) đến tái khám sau 2 tuần. Chị nói bé đỡ một phần chứ chưa hết, bà ngoại vẫn bảo phải truyền nước. Cân nặng 7,0 kg. Sinh hiệu: nhiệt 36,7 °C, mạch 114 l/p, nhịp thở 34 l/p, SpO₂ 99%. Bé tỉnh, chơi, cười.</p>
+  <blockquote>“Bác sĩ ơi, em đưa bé tái khám. Bé đỡ hơn chút chứ chưa hết, vẫn rặn đỏ mặt. Bà ngoại nói hai tuần rồi chưa khỏi là ruột còn khô, phải truyền nước mới sạch. Em cũng sợ cho con uống thuốc lâu ngày bị nhờn thuốc, bác sĩ nói giùm em.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>114</b><small>l/p</small></div><div class="vs"><span>HA</span><b>Không đo</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,7</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>34</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>99</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-9">Hỏi bệnh <small>5 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đáp ứng điều trị, diễn tiến</b><span class="tag t-g">Tự kể</span></div><p>Mẹ ghi nhật ký đủ 14 ngày: bé đi ngoài 7 lần, cách 2 ngày một lần; phân từ sệt đặc đến cục mềm nhỏ, có 2 lần cục cứng. Bé vẫn rặn đỏ mặt 3–5 phút nhưng không còn khóc thét; bú khỏe, ngủ được, bụng không chướng. Mẹ nói “đỡ một nửa”.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tuân thủ, cách pha sữa còn sai một phần</b><span class="tag t-r">Giấu</span></div><p>Từ hôm khám mẹ pha đúng 1 muỗng gạt ngang với 60 mL nước và dặn ba, bà ngoại. Ba vẫn quen pha cữ nửa đêm theo kiểu cũ (múc đầy, nén chặt), khoảng 4–5 đêm mỗi tuần vì sợ bé đói; ba nói “pha đặc cho bé ngủ ngon”.</p><div class="cond">Điều kiện nói ra: Mẹ khai “nhà em pha đúng hết rồi”. Chỉ lộ khi bác sĩ hỏi riêng ai pha cữ nửa đêm và pha thế nào, hoặc hỏi ba bé có làm theo dặn không.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dấu báo động, tăng trưởng</b><span class="tag t-b">Khi được hỏi</span></div><p>Không nôn, không sốt, không chướng bụng, không máu trong phân, bú tốt; tăng 200 g sau 2 tuần. Bé vẫn lẫy, cười, theo vật như trước.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc đang dùng</b><span class="tag t-b">Khi được hỏi</span></div><p>Mẹ đã bỏ siro ibuprofen từ hôm khám. Bé chưa dùng thuốc nhuận tràng, không thụt, không uống nước ép hay men vi sinh; mẹ dặn bà ngoại không tự cho bé uống gì thêm.</p></div><div class="fact"><div class="fh"><b>Đòi truyền dịch (lần nữa), nỗi sợ thuốc</b><span class="tag t-b">Khi được hỏi</span></div><p>Bà ngoại vẫn bảo hai tuần rồi chưa khỏi hẳn là ruột còn khô, phải truyền nước; mẹ hỏi thẳng có cần truyền không và thuốc cho bé nhỏ vậy có độc, có nhờn thuốc không. Mẹ nghe lời giải thích bằng dấu hiệu cụ thể của bé; nếu chỉ bị gạt đi thì mẹ sẽ đi chỗ khác xin truyền.</p></div></details>
+ <details class="card"><summary><h3 id="m-10">Khám <small>4 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Bé tỉnh, chơi, cười, theo vật. Thóp trước phẳng, niêm mạc ẩm, có nước mắt, da hồng, tã ướt.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Nhân trắc trẻ em (cân nặng, chiều dài/chiều cao, MUAC, vòng đầu)</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Cân nặng 7,0 kg, chiều dài 64 cm.</p><p><span class="lbl">Kết quả:</span> Cân nặng 7,0 kg (tăng 200 g sau 2 tuần), chiều dài 64 cm.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Bụng</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Bụng mềm, không chướng.</p><p><span class="lbl">Kết quả:</span> Bụng mềm, không chướng. Hố chậu trái sờ thấy ít phân mềm, không còn khối chắc. Nhu động ruột bình thường.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thăm trực tràng</b></div><p><span class="lbl">Kết quả:</span> Hậu môn bình thường, không nứt kẽ. Ngón út vào dễ: cơ thắt bình thường, bóng trực tràng còn ít phân sệt lẫn cục nhỏ, không còn khối phân cứng đầy trực tràng. Rút ngón tay ra không có phân hay hơi phụt thành tia; găng không máu.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Tim</b><span class="tag t-m">Bình thường</span></div><p>Tim đều 114 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-NHANH-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 34 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-11">Cận lâm sàng <small>0 mục</small></h3></summary><p class=note>Không khai báo.</p></details>
+ <details class="card ans"><summary><h3 id="m-12">Đáp án lượt 2 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Táo bón chức năng ở nhũ nhi 5 tháng rưỡi, đáp ứng một phần sau 2 tuần chỉnh pha sữa và giáo dục, tuân thủ chưa trọn (cữ nửa đêm vẫn pha đặc); cần thêm thuốc uống</b></div><p class="why">Đi ngoài cách 2 ngày, rặn 3–5 phút, thỉnh thoảng phân cứng: chưa hết triệu chứng Rome III (ESPGHAN 2014 Bảng 2, tr. 261). Hình 1 (tr. 260): hộp 9 chưa đủ hiệu quả nên sang hộp 10 thuốc uống; hộp 12 đánh giá lại tuân thủ. Không dấu báo động mới (Bảng 5, tr. 265).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Táo bón khó chữa (intractable)</b></div><p class="why">Chưa: định nghĩa là không đáp ứng điều trị tối ưu ≥ 3 tháng (ESPGHAN 2014 tr. 262); bé mới điều trị 2 tuần, đã đỡ, chưa dùng thuốc và cữ sữa đêm còn pha sai.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Bệnh Hirschsprung</b></div><p class="why">Không có dấu hiệu mới: đáp ứng một phần với điều chỉnh pha sữa, bụng mềm không chướng, không nôn mật, tăng 200 g, bóng trực tràng chứa phân, không phân phụt thành tia (ESPGHAN Bảng 4–5; ERNICA 2020 Bảng 1). Theo dõi dấu báo động; sinh thiết khi không đáp ứng điều trị tối ưu hoặc có báo động (khuyến cáo 15).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Dị ứng đạm sữa bò</b></div><p class="why">Chưa có dấu hiệu (không chàm, không nôn trớ, không phân đàm máu). Thử sữa đạm thủy phân 2–4 tuần chỉ khi điều trị tối ưu vẫn không đáp ứng (ESPGHAN Hình 1 hộp 22–25, tr. 260; khuyến cáo 11–12, tr. 266).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Đánh giá đáp ứng bằng nhật ký và hỏi riêng việc tuân thủ: ai pha cữ nửa đêm và pha thế nào; nhận ra “đỡ một nửa” là chưa đạt, nguyên nhân có thể còn cữ sữa pha đặc</b></div><p class="why">ESPGHAN 2014 Hình 1 (tr. 260): hộp 9 chưa hiệu quả, hộp 12 đánh giá lại, tuân thủ, giáo dục lại; tr. 262: nhật ký ăn uống.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Thêm thuốc uống làm mềm phân: PEG khởi đầu 0,4 g/kg/ngày (bé 7,0 kg: 2,8 g, làm tròn 3 g/ngày), chỉnh trong 0,2–0,8 g/kg/ngày (1,4–5,6 g) hoặc 1 g/kg/ngày (7 g) theo QĐ 3312; HOẶC lactulose 1–2 g/kg mỗi lần, 1–2 lần/ngày (7–14 g/lần) theo ESPGHAN, hoặc 1–3 mL/kg/ngày chia 2 lần (7–21 mL/ngày) theo QĐ 3312; chọn MỘT thuốc, không dùng đồng thời</b></div><p class="why">ESPGHAN 2014 khuyến cáo 33, 35, Bảng 6 (tr. 269–270): PEG đầu tay, khởi 0,4 g/kg/ngày; lactulose khi không có PEG, an toàn mọi lứa tuổi (tr. 269). QĐ 3312 (Táo bón mục 5.2c, tr. 334): PEG 3350 không điện giải 1 g/kg/ngày, lactulose 1–3 mL/kg/ngày chia 2 lần. Ghi cả hai (sổ mâu thuẫn NH-1091 số 1, NH-1074 số 1); 0,4 g/kg thận trọng hơn. Tuổi tối thiểu PEG ở nhũ nhi, quy đổi mL – g của lactulose: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Duy trì thuốc ít nhất 2 tháng; chỉ giảm dần khi hết mọi triệu chứng ≥ 1 tháng; không tự ngưng; giải thích nỗi sợ “nhờn thuốc”, “độc” bằng điều tài liệu nói và điều tài liệu chưa nói</b></div><p class="why">ESPGHAN 2014 khuyến cáo 37 (tr. 270): duy trì ≥ 2 tháng, ngưng dần. Số liệu về “nhờn thuốc” hay độc tính lâu dài ở nhũ nhi: không có trong tài liệu đã tải; nói thật với mẹ điều đó.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chỉnh lại pha sữa với cả ba và bà ngoại: gạt ngang, không nén, cữ đêm cũng đúng; mẹ có thể chia sẵn lượng sữa bột cho cữ đêm để ba chỉ pha với nước</b></div><p class="why">ESPGHAN 2014 Hình 1 hộp 8, 12 (tr. 260): kiểm tra pha sữa, giáo dục lại. Chia sẵn sữa bột cho cữ đêm là lựa chọn của người soạn, không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Trả lời lại nỗi lo “phải truyền nước”: bé vẫn không mất nước; đỡ một nửa sau 2 tuần là thường gặp khi mới bắt đầu; truyền nước không thay được thuốc làm mềm phân; hẹn mốc rõ ràng</b></div><p class="why">QĐ 3312 (Tiêu chảy cấp mục 3.1c, tr. 318–319; mục 4.1a, tr. 321): truyền cho mất nước nặng. ESPGHAN 2014 khuyến cáo 22 (tr. 268). Không tài liệu đã tải nào chỉ định truyền dịch cho táo bón (sổ mâu thuẫn, mục truyền dịch theo yêu cầu).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn tái khám sau 2 tuần; quay lại ngay khi nôn dịch xanh vàng, bụng chướng to, phân có máu, sốt, bỏ bú; nhắc khi bé tròn 6 tháng đánh giá lại theo hướng dẫn cho trẻ ≥ 6 tháng; chuyển chuyên khoa nếu không đáp ứng điều trị tối ưu ≥ 3 tháng hoặc có dấu báo động</b></div><p class="why">ESPGHAN 2014 Hình 1 hộp 13, 18 (tr. 260); Hình 2 hộp 10 (tr. 261); Bảng 5 (tr. 265); định nghĩa khó chữa (tr. 262). Mốc 2 tuần cho bé này là lựa chọn của người soạn.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Tiếp tục biện pháp không thuốc thêm 2 tuần nếu mẹ chưa muốn dùng thuốc, với điều kiện cữ sữa đêm đã sửa</b></div><p class="why">ESPGHAN 2014 Hình 1 hộp 9–10 (tr. 260): chưa hiệu quả thì sang thuốc uống; bé đã đỡ một phần và cữ đêm chưa sửa nên thêm thời gian không thuốc chấp nhận được nếu mẹ chưa sẵn sàng. Lựa chọn thiết kế.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Glycerin đặt hậu môn thỉnh thoảng khi bé rặn lâu, không kèm thuốc uống</b></div><p class="why">ESPGHAN 2014 Hình 1 hộp 10 (tr. 260): “occasional suppository”; QĐ 3312 (mục 5.2c, tr. 334): glycerin đặt hậu môn. Liều và tuổi tối thiểu: không có trong tài liệu đã tải.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Thụt tháo bổ sung khi bé đang dùng thuốc duy trì</b></div><p class="why">ESPGHAN 2014 khuyến cáo 34 (tr. 270): không khuyến cáo thêm thụt tháo vào PEG duy trì; bé không còn ứ phân (bụng mềm, trực tràng ít phân). QĐ 3312 mục 5.2b: phosphate chỉ cho &gt; 2 tuổi.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Nhập viện hoặc truyền dịch “cho sạch ruột” vì hai tuần chưa khỏi hẳn</b></div><p class="why">Không mất nước, bú tốt (QĐ 3312 Tiêu chảy cấp mục 4.1a, tr. 321: truyền cho mất nước nặng); không tài liệu đã tải nào chỉ định truyền dịch cho táo bón.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Chuyển tuyến sinh thiết trực tràng hoặc chụp cản quang đại tràng vì “chưa khỏi hẳn”</b></div><p class="why">Chưa đủ thời gian điều trị tối ưu (khó chữa ≥ 3 tháng, ESPGHAN 2014 tr. 262); thụt barium không làm đầu tiên (khuyến cáo 16); sinh thiết khi báo động hoặc khó chữa (khuyến cáo 15; ERNICA 2020 Bảng 1).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Bé Châu được nhập viện “cho sạch ruột, truyền nước” vì bà ngoại nói hai tuần chưa khỏi hẳn. Bé bú tốt, không nôn, không mất nước, bụng mềm nên không có chỉ định nằm viện hay truyền (QĐ 3312 Tiêu chảy cấp mục 4.1a, tr. 321). Chị mất thêm ngày công vì xưởng không cho nghỉ, bé bị chích kim, còn thuốc làm mềm phân chưa được kê nên về nhà bé lại rặn như cũ.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Bé bị chuyển lên bệnh viện nhi sinh thiết trực tràng vì “chưa khỏi hẳn”. Bé mới điều trị chưa đủ hai tuần, chưa dùng thuốc, nên chưa gọi là không đáp ứng điều trị tối ưu; ngưỡng khó chữa là ≥ 3 tháng (ESPGHAN 2014 tr. 262), sinh thiết khi có báo động hoặc khó chữa (khuyến cáo 15; ERNICA 2020 Bảng 1). Bé phải làm thủ thuật không cần thiết, mẹ tốn kém, cữ sữa đêm vẫn chưa ai sửa.</p></div><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Bác sĩ khen bé đã đỡ, dặn tiếp tục như cũ, không thêm thuốc, không hỏi ai pha sữa cữ đêm. Ba vẫn pha đặc, bé vẫn đi cách 2 ngày, rặn 3–5 phút, thỉnh thoảng phân cứng; vài tuần sau chị Hồng nản, nghe bà ngoại và mang bé đi nơi khác xin truyền nước. Không thêm thuốc khi điều trị không thuốc chưa hiệu quả là chậm một bước (ESPGHAN 2014 Hình 1 hộp 9–10, tr. 260), và điều trị chậm làm khó hồi phục hơn (tr. 271).</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Táo bón chức năng ở nhũ nhi 5 tháng rưỡi, đáp ứng một phần sau 2 tuần điều chỉnh pha sữa</li><li>Tuân thủ chưa trọn: cữ nửa đêm vẫn pha đặc do ba</li><li>Chưa có dấu hiệu báo động; chưa phải táo bón khó chữa</li><li>Không mất nước; không có chỉ định truyền dịch</li><li>Cần thêm thuốc uống làm mềm phân (PEG hoặc lactulose)</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Hỏi diễn tiến theo nhật ký: 14 ngày đi 7 lần, cách 2 ngày, phân sệt đến cục mềm, còn rặn 3–5 phút. Phân biệt hồi phục chậm bình thường với thất bại sớm: bé đã đỡ rõ (tần suất tăng, phân mềm hơn, tăng cân) nhưng chưa đạt mục tiêu phân mềm, không rặn (QĐ 3312 Táo bón mục 5.1, tr. 333), nên theo ESPGHAN 2014 Hình 1 hộp 9–10 (tr. 260) cần thêm thuốc.</li><li>Hỏi riêng tuân thủ: mẹ khai “pha đúng hết”, hỏi ai pha cữ nửa đêm mới lộ ba vẫn pha đặc 4–5 đêm/tuần, lý giải “đỡ một phần” (ESPGHAN Hình 1 hộp 12 đánh giá lại tuân thủ trước khi coi là thất bại).</li><li>Khám: cân tăng 200 g sau 2 tuần, bụng mềm, hết khối chắc, bóng trực tràng còn ít phân sệt lẫn cục nhỏ, không báo động mới (ESPGHAN 2014 Bảng 4–5, tr. 264–265); cơ sở không có xét nghiệm và không cần (khuyến cáo 2, 13).</li><li>Vẫn là táo bón chức năng; chưa khó chữa vì mới 2 tuần, chưa dùng thuốc (ESPGHAN 2014 tr. 262). Hirschsprung và suy giáp không thêm dữ kiện (ESPGHAN Bảng 5; QĐ 3312 tr. 641); đáp ứng một phần đi ngược hướng nghi bệnh thực thể nhưng vẫn giữ mốc báo động.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Thêm thuốc theo ESPGHAN 2014 Hình 1 hộp 10: PEG đầu tay, khởi 0,4 g/kg/ngày (khuyến cáo 33); lactulose khi không có PEG hoặc mẹ không chấp nhận, an toàn mọi lứa tuổi (khuyến cáo 35, tr. 269–270). QĐ 3312 mục 5.2c (tr. 334): PEG 1 g/kg/ngày hoặc lactulose 1–3 mL/kg/ngày chia 2 lần. Ghi cả hai, bắt đầu mức thấp rồi chỉnh theo phân (sổ mâu thuẫn NH-1091, NH-1074). Bé 7,0 kg: PEG 2,8 g/ngày (1,4–5,6 g; QĐ 3312: 7 g); lactulose 7–14 g mỗi lần hoặc 7–21 mL/ngày. Tuổi tối thiểu dùng PEG ở nhũ nhi: không có trong tài liệu đã tải.</li><li>Dùng ít nhất 2 tháng, hết triệu chứng ≥ 1 tháng mới giảm dần, không ngưng đột ngột (ESPGHAN 2014 khuyến cáo 37, tr. 270); khoảng 50% trẻ tái phát ít nhất một lần trong 5 năm (tr. 271).</li><li>Sửa cữ sữa đêm cùng lúc dùng thuốc (ESPGHAN Hình 1 hộp 8, 12). Truyền dịch vẫn không có chỉ định: bé không mất nước (QĐ 3312 Tiêu chảy cấp tr. 318–321).</li><li>Không thụt tháo thêm khi dùng PEG duy trì (khuyến cáo 34); không chuyển tuyến vì chưa đủ ≥ 3 tháng điều trị tối ưu (tr. 262; khuyến cáo 15–16; ERNICA 2020 Bảng 1). Quyết định vẫn thuần lâm sàng, mốc quay lại là dấu hiệu báo động (Bảng 5).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>PEG (3350 hoặc 4000) không điện giải, uống (chọn một trong PEG hoặc lactulose)</b><div class="sub">Gói bột pha uống; hàm lượng mỗi gói: không có trong tài liệu đã tải, tính liều theo gam</div></td><td data-l="Liều">Khởi đầu 0,4 g/kg/ngày = 2,8 g/ngày (làm tròn 3 g), 1 lần; chỉnh trong 0,2–0,8 g/kg/ngày (1,4–5,6 g). Theo QĐ 3312: 1 g/kg/ngày = 7 g/ngày; mức 0,4 g/kg thận trọng hơn<div class="sub">Uống, pha với nước hoặc sữa; cách pha cho nhũ nhi: không có trong tài liệu đã tải · 1 lần mỗi sáng, uống đều mỗi ngày kể cả khi bé đã đi tốt</div></td><td data-l="Thời gian">Ít nhất 2 tháng; chỉ giảm dần khi hết triệu chứng ≥ 1 tháng; tái khám sau 2 tuần để chỉnh liều</td><td class="gc" data-l="Ghi chú">ESPGHAN 2014 khuyến cáo 33, 37, Bảng 6 (tr. 269–270); QĐ 3312 Táo bón mục 5.2c (tr. 334); sổ mâu thuẫn NH-1091 số 1. Tuổi tối thiểu dùng PEG ở nhũ nhi: không có trong tài liệu đã tải; nhờ dược sĩ chia gam.</td></tr><tr><td><b>Lactulose siro, uống (thay PEG khi mẹ không mua được hoặc không chấp nhận PEG)</b><div class="sub">Theo chế phẩm có sẵn (nồng độ g/mL: không có trong tài liệu đã tải)</div></td><td data-l="Liều">ESPGHAN: 1–2 g/kg mỗi lần (7–14 g), 1–2 lần/ngày. QĐ 3312: 1–3 mL/kg/ngày (7–21 mL/ngày) chia 2 lần. Khác đơn vị, không quy đổi được; khởi đầu mức thấp, chỉnh theo phân<div class="sub">Uống, trộn với sữa hoặc nước · Sáng và tối hằng ngày, kể cả khi bé đã đi tốt</div></td><td data-l="Thời gian">Ít nhất 2 tháng; chỉ giảm dần khi hết triệu chứng ≥ 1 tháng</td><td class="gc" data-l="Ghi chú">ESPGHAN 2014 khuyến cáo 35, 37, tr. 269 (an toàn mọi lứa tuổi); QĐ 3312 mục 5.2c (tr. 334); sổ mâu thuẫn NH-1074 số 1. Không dùng cùng lúc với PEG.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Nỗi sợ “nhờn thuốc”: dùng đều ít nhất 2 tháng rồi giảm dần mới giữ được kết quả, ngưng sớm dễ tái (ESPGHAN khuyến cáo 37). Nói thật: số liệu về “nhờn thuốc” ở nhũ nhi không có trong tài liệu đã tải.</li><li>Câu thay thế truyền nước: “Hai tuần đỡ một nửa là bình thường khi mới sửa; bé còn nước mắt, tã ướt, bú tốt nên không thiếu nước, truyền nước không làm phân mềm. Giờ bé cần thuốc uống làm mềm phân và cữ sữa đêm pha đúng.” (QĐ 3312 Tiêu chảy cấp tr. 321; ESPGHAN Hình 1 hộp 10).</li><li>Mời ba tham gia: pha cữ đêm gạt ngang, không nén; mẹ chia sẵn sữa bột cho cữ đêm (lựa chọn của người soạn). Nhật ký ghi cả liều thuốc; tái khám sau 2 tuần; đưa đến ngay nếu nôn dịch xanh vàng, bụng chướng to, phân máu, sốt, bỏ bú, li bì (ESPGHAN 2014 Bảng 5, tr. 265).</li><li>Khi bé tròn 6 tháng và chuẩn bị ăn dặm, báo bác sĩ đánh giá lại (ESPGHAN Hình 2, tr. 261); thời điểm, loại thức ăn dặm: không có trong tài liệu đã tải.</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-13">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Táo bón chức năng (trẻ em)</b></div>
+<p class="note">Phải loại trừ: Phình đại tràng bẩm sinh (Hirschsprung), Suy giáp</p><p>Bé Châu dùng thuốc làm mềm phân đều, ba học pha sữa gạt ngang cả cữ nửa đêm. Sau khoảng 2 tuần bé đi ngoài mềm gần như mỗi ngày, hết rặn đỏ mặt; mẹ bỏ ý truyền nước vì thấy con đi được bằng thuốc uống. Sau khoảng 2 tháng không triệu chứng, thuốc được giảm dần, bé tăng cân đều, không báo động, không cần xét nghiệm hay sinh thiết (ESPGHAN 2014 khuyến cáo 37). Khoảng 50% trẻ táo bón tái phát ít nhất một lần trong 5 năm (tr. 271) nên mẹ biết nhận ra sớm và dùng lại thuốc.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-14">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Đòi truyền dịch: mẹ nghe bà ngoại, hàng xóm nài nỉ “chỉ một chai thôi” ở cả hai lượt; bác sĩ phải lập luận lợi ích – nguy cơ bằng dấu hiệu của chính bé và đưa cách thay thế.</li><li>Chi tiết nhiễu: Chủ nhật đi nắng, ra mồ hôi, bú ít; ibuprofen tự mua 2 đêm; “nóng trong người” — đều có thật nhưng sau khi táo bón đã 6 tuần, không phải nguyên nhân chính.</li><li>Lý do thật: xưởng may chỉ cho nghỉ khi có giấy cơ sở y tế; chỉ lộ khi hỏi nghề và ai trông bé.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Ca thuần lâm sàng, cơ sở không có xét nghiệm: chẩn đoán táo bón chức năng bằng hỏi bệnh và khám, thăm trực tràng; loại suy giáp bằng sàng lọc sơ sinh, giáp, tăng trưởng (ESPGHAN 2014 khuyến cáo 2, 13; QĐ 3312 Suy giáp mục 3.1).</li><li>Hỏi thời gian trước khi gán nguyên nhân: chuyến đi nắng và ibuprofen xảy ra sau 6 tuần táo bón nên không phải nguyên nhân (ESPGHAN Bảng 4, tr. 264).</li><li>Nhũ nhi &lt; 6 tháng không bú mẹ hoàn toàn: bước đầu là giáo dục, kiểm tra pha sữa, nhật ký rồi mới thuốc nếu chưa hiệu quả (ESPGHAN Hình 1 hộp 8–10); hỏi cụ thể ai pha sữa và pha thế nào.</li><li>Đòi truyền dịch: dùng chính dấu hiệu của bé để từ chối, đưa cách thay thế và mốc quay lại (QĐ 3312 Tiêu chảy cấp tr. 318–321).</li><li>“Đỡ một phần” sau 2 tuần: phân biệt hồi phục chậm với thất bại sớm bằng nhật ký, cân nặng và hỏi tuân thủ; thêm thuốc khi chưa đạt, chuyển tuyến chỉ khi báo động hoặc không đáp ứng điều trị tối ưu ≥ 3 tháng (ESPGHAN Hình 1; tr. 262). Giấy nghỉ ốm cấp theo tình trạng thật, không ghi khống.</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Rome III trẻ &lt; 4 tuổi: ≥ 2 trong 6 tiêu chuẩn trong ≥ 1 tháng (ESPGHAN 2014 Bảng 2, tr. 261; QĐ 3312 Táo bón mục 4.1, tr. 332). Rome V (2026) xếp H2a Functional constipation, H2c Infant dyschezia (Bảng 2, tr. 1085); tiêu chuẩn Rome V chi tiết cho trẻ: không có trong tài liệu đã tải.</li><li>Dấu báo động: khởi phát &lt; 1 tháng, phân su &gt; 48 giờ (ERNICA 2020: &gt; 24 giờ), máu trong phân khi không nứt kẽ, chậm lớn, sốt, nôn mật, chướng bụng nặng, tuyến giáp bất thường (ESPGHAN Bảng 5, tr. 265). QĐ 3312 mục 4.3 còn nêu “táo bón ở trẻ dưới 1 tuổi” là dấu hiệu gợi ý nguyên nhân thực thể, cần khám tìm.</li><li>Thuốc duy trì: PEG 0,4 g/kg/ngày chỉnh 0,2–0,8 (ESPGHAN khuyến cáo 33) hoặc 1 g/kg/ngày (QĐ 3312 mục 5.2c); lactulose 1–2 g/kg 1–2 lần/ngày (ESPGHAN khuyến cáo 35) hoặc 1–3 mL/kg/ngày (QĐ 3312). Duy trì ≥ 2 tháng (khuyến cáo 37).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-15">Nguồn tài liệu <small>8</small></h3></summary><ul class=""><li>QĐ 3312/QĐ-BYT 2015, Bộ Y tế, Hướng dẫn chẩn đoán và điều trị một số bệnh thường gặp ở trẻ em – TL-0037 – ĐÃ ĐỌC: Táo bón (mục 1–5, tr. 330–334); Tiêu chảy cấp (mục 3.1c, tr. 318–319; mục 4.1a, tr. 320–321); Suy giáp trạng bẩm sinh (mục 3.1–3.2, tr. 641–642)</li><li>ESPGHAN/NASPGHAN 2014 – Tabbers MM et al, Evaluation and treatment of functional constipation in infants and children, J Pediatr Gastroenterol Nutr 2014;58(2):258–274 – TL-0269 – ĐÃ ĐỌC: Hình 1–2; Bảng 2–6; khuyến cáo 1–16, 21–25, 31–38; tr. 262, 267–271</li><li>ERNICA 2020 – Kyrklund K et al, ERNICA guidelines for the management of rectosigmoid Hirschsprung&#x27;s disease, Orphanet J Rare Dis 2020;15:164 – TL-0264 – ĐÃ ĐỌC: Bảng 1</li><li>Rome V 2026 – Drossman DA et al, Gastroenterology 2026;170(6):1083–1098 – TL-0252 – ĐÃ ĐỌC: Bảng 2 (tr. 1085). Tiêu chuẩn chi tiết cho trẻ: không có trong tài liệu đã tải</li><li>WGO 2025 – Constipation global guideline (kho cũ tltk-10000-ca) – ĐÃ ĐỌC: Bảng 4 (tr. 10), hướng dẫn người lớn</li><li>NICE NG143 2021 (cập nhật 2025) – Fever in under 5s – TL-0262 – ĐÃ ĐỌC: mục 1.6.4–1.6.6</li><li>Giấy nghỉ ốm chăm con: TT 56/2017/TT-BYT (sửa đổi TT 18/2022/TT-BYT), Luật BHXH 2024 Điều 42, 44 – nguồn bổ sung tự tìm theo sổ mâu thuẫn, chưa đối chiếu văn bản gốc, chưa mở lại trong lượt này</li><li>CHƯA CÓ TRONG TÀI LIỆU ĐÃ TẢI: tiêu chuẩn Rome V cho trẻ; tuổi tối thiểu dùng PEG ở nhũ nhi; liều, chỉ định ibuprofen cho nhũ nhi không sốt; liều, tuổi dùng glycerin đặt hậu môn; tỉ lệ pha sữa công thức; hàm lượng gói PEG; nguy cơ của truyền dịch ở nhũ nhi; bài lồng ruột; thời điểm ăn dặm; điều kiện nghỉ chăm con ốm</li></ul></details>
+<details class="card"><summary><h3 id="m-16">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Nhi ngoại trú</dd><dt>chan_doan_dich</dt><dd>Táo bón chức năng (trẻ em)</dd><dt>chan_doan_phai_loai_tru</dt><dd>Phình đại tràng bẩm sinh (Hirschsprung); Suy giáp</dd><dt>nhom_tuoi</dt><dd>Nhũ nhi (1–12 tháng)</dd><dt>do_kho</dt><dd>Điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>dien_tien_tai_kham</dt><dd>Đỡ một phần</dd><dt>nhieu_benh_nhan</dt><dd>Đòi truyền dịch</dd><dt>rang_buoc_nguon_luc</dt><dd>Không có xét nghiệm nào</dd><dt>loai_ket_cuc</dt><dd>Ổn định, khỏi bệnh</dd><dt>gioi</dt><dd>Nữ</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>2</dd><dt>nghe_nghiep</dt><dd>Trẻ nhũ nhi</dd><dt>yeu_to_khoi_phat</dt><dd>Sau chơi thể thao</dd><dt>thuoc_dang_dung</dt><dd>NSAID tự mua</dd><dt>ly_do_that_su_den_kham</dt><dd>Xin giấy nghỉ ốm</dd></dl><ul class=""><li>25/10/2026 – bản 1, viết mới. Tài liệu đã đọc: TL-0037 (Táo bón tr. 330–334; Tiêu chảy cấp tr. 318–321; Suy giáp bẩm sinh tr. 641–642), TL-0269 (Hình 1–2, Bảng 2–6, khuyến cáo 1–16, 21–25, 31–38, tr. 262, 267–271), TL-0264 (Bảng 1), TL-0252 (Bảng 2), TL-0262 (mục 1.6.4–1.6.6), WGO 2025 (Bảng 4).</li><li>Ghi cả hai cách (quy tắc 12/10/2026): liều PEG duy trì và lactulose (sổ mâu thuẫn NH-1091 số 1, NH-1074 số 1); táo bón dưới 1 tuổi (QĐ 3312 mục 4.3 so với ESPGHAN Bảng 5); truyền dịch theo yêu cầu chấm w; giấy nghỉ ốm cấp theo tình trạng thật. Mục mới nhỏ: nhũ nhi &lt; 6 tháng, ESPGHAN Hình 1 (không thuốc trước) so với QĐ 3312 mục 5.2c (thuốc, không chia tuổi): khác đối tượng, c = bước không thuốc, a = thuốc ngay.</li><li>Thiết kế: bé 5 tháng (nhóm Hình 1) khác NH-1076 (8 tháng) và NH-1073 (26 ngày). Ba pha sữa đặc là lựa chọn thiết kế bám Hình 1 hộp 8; cách pha sai và tỉ lệ pha: không có trong tài liệu. Chuyến đi nắng chỉ là nhiễu. Số liệu cân, dài, sinh hiệu là số liệu thiết kế. Mốc tái khám 2 tuần, mốc “hơn 6 ngày không đi” là lựa chọn của người soạn, đã ghi trong n.</li><li>Không dùng ảnh da. Âm thanh tim AT-TIM-NHANH-01 (mạch 118, 114 l/p), phổi AT-PHOI-BT-NL-01. khoa_cls.nhom = [xn]; ctm, tsh, xq_bung, abdus được khai để chấm việc gọi thừa.</li></ul></details>
+<p class="chan-trang">Ca NH-1072 · phiên bản ca 1 – viết mới, đối chiếu kho tài liệu (2026-10-25) · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

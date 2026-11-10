@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TK-0389 · Động kinh (theo dõi)</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · TK-0389</div>
+   <h1>Bé 7 tháng giật mình nhiều lần mấy ngày nay, mẹ xin truyền nước cho khỏe</h1>
+   <p class="dich-gia">Hồ Bảo Nghi · Nữ · 0.58 tuổi · 7.6 kg</p>
+   <div class="chips"><span class="chip">Thần kinh - tiền đình - giấc ngủ</span><span class="chip">Điển hình</span><span class="chip">3 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Trẻ nhũ nhi</dd><dt>Chiều cao, cân nặng</dt><dd>67 cm · 7.6 kg</dd>
+<dt>Xưng hô</dt><dd>Bé gái 7 tháng, chưa nói được, khóc khi bị khám, tìm mẹ. Mẹ kể bệnh: bác sĩ gọi mẹ là &#x27;chị&#x27;, mẹ xưng &#x27;em&#x27;, gọi bé là &#x27;bé Nghi&#x27; hoặc &#x27;con&#x27;. Bố (anh Tín) đi làm ca, không đi cùng.</dd><dt>Tính cách</dt><dd>Mẹ 28 tuổi, công nhân may ở khu công nghiệp, nói nhanh, hay lo, sợ mất việc và bị trừ công; tin &#x27;truyền chai nước&#x27; làm con khỏe nhanh. Hiểu biết y khoa ít, gọi cơn của bé là &#x27;giật mình&#x27;. Bé Nghi vốn hiền, nay ít cười, hay lơ đãng.</dd><dt>Người nhà</dt><dd>Mẹ bé (chị Nhàn) – Mẹ bé, chị Nhàn, 28 tuổi, bế bé đi khám; mẹ trả lời mọi câu hỏi (nguoi_noi = nguoi_nha).</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Phòng khám nhi tư ở khu công nghiệp không làm được xét nghiệm nào (không máu, không sinh hóa), vì vậy cũng không có X-quang, CT, MRI, nội soi. Có nhiệt kế, ống nghe, máy đo huyết áp nhi, máy thử đường huyết mao mạch, que thử nước tiểu và máy điện tim; không có máy điện não. Bệnh viện Nhi tỉnh có khoa thần kinh nhi cách 35 km (khoảng 50 phút xe).</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/3</span> </h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Chị Nhàn bế bé Nghi, 7 tháng, nặng 7,6 kg, đến phòng khám nhi tư ở khu công nghiệp vì khoảng 10 ngày nay bé &#x27;giật mình&#x27; nhiều lần, mẹ muốn &#x27;truyền chai nước cho con khỏe&#x27;. Điều dưỡng Linh đo: nhiệt 36,8 °C, mạch 128 l/p, nhịp thở 34 l/p, SpO₂ 99%. Bé tỉnh, hơi quấy, bú được.</p>
+  <blockquote>“Bác sĩ ơi, cháu nhà em mấy bữa nay cứ giật mình hoài, ngủ dậy là giật, em sợ lắm. Bác sĩ cho cháu truyền chai nước biển cho khỏe được không, em thấy người ta truyền xong con khỏe liền.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>128</b><small>l/p</small></div><div class="vs"><span>HA</span><b>Không đo</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,8</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>34</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>99</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>10 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám (lời khai)</b><span class="tag t-g">Tự kể</span></div><p>Khoảng 10 ngày nay bé &#x27;giật mình&#x27; nhiều lần, hay gặp khi vừa ngủ dậy và sau bú. Mẹ nghĩ do cuối tuần bố đưa bé ra sân bóng đá mini xem, trời nắng, ồn, bé khóc nhiều rồi ngủ muộn. Mẹ xin truyền nước cho bé khỏe.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Mô tả cơn: gập người từng chuỗi, thành loạt, khi vừa tỉnh</b><span class="tag t-b">Khi được hỏi</span></div><p>Bé gập người ra trước, hai tay giơ lên ôm ngực, đầu gục, mỗi cái khoảng 1 giây, lặp 5–10 giây một cái thành chuỗi 10–20 cái, thỉnh thoảng khóc xen giữa. Lúc đầu 1 chuỗi mỗi ngày, 3 ngày nay 4–5 chuỗi, hay vào sáng khi vừa tỉnh. Giữa các chuỗi bé tỉnh, bú được. Không tím, không ngừng thở, không sùi bọt mép.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Video chuỗi co thắt</b><span class="tag t-r">Giấu</span></div><p>Mẹ quay được hai đoạn video: bé nằm ngửa, gập người và giơ hai tay lên từng nhịp, khoảng 12 cái liên tiếp mỗi 5–8 giây, mắt hơi trợn lên, sau cùng khóc.</p><div class="cond">Điều kiện nói ra: Chỉ lộ khi bác sĩ hỏi mẹ có quay phim hoặc chụp lại cơn của bé không, hoặc xin xem cơn.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thoái lui phát triển trong 1 tuần</b><span class="tag t-b">Khi được hỏi</span></div><p>Trước đây bé hiền, cười đáp, nhìn theo mẹ, lật sấp lúc 6 tháng. Khoảng 1 tuần nay bé ít cười, ít nhìn theo mẹ, không với đồ chơi như trước, nằm lơ đãng.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lần khám trước đã gán &#x27;giật mình/trào ngược&#x27;</b><span class="tag t-b">Khi được hỏi</span></div><p>6 ngày trước mẹ đưa bé ra phòng khám nhi tư gần chợ. Bác sĩ nói &#x27;giật mình sinh lý, có thể trào ngược&#x27;, dặn bế đầu cao sau bú và cho một thuốc uống mẹ không nhớ tên; không xem video, không hẹn tái khám.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc tự mua: NSAID (ibuprofen)</b><span class="tag t-r">Giấu</span></div><p>Ba ngày nay, mỗi khi bé quấy khóc, mẹ cho uống ibuprofen siro mua ở nhà thuốc vì sợ bé &#x27;đau bụng, mọc răng&#x27;, mỗi ngày 1–2 lần. Mẹ không đo thân nhiệt vì thấy người không nóng.</p><div class="cond">Điều kiện nói ra: Hỏi chung &#x27;bé đang uống thuốc gì&#x27; mẹ chỉ nói &#x27;thuốc bác sĩ hôm trước cho&#x27;. Chỉ kể ibuprofen khi bác sĩ hỏi cụ thể thuốc tự mua, thuốc hạ sốt, giảm đau hay cho bé uống gì khi quấy.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Yếu tố khởi phát: sân bóng; không có chấn thương đầu</b><span class="tag t-b">Khi được hỏi</span></div><p>Bé ngồi xe đẩy, không té, không ai bế tung hay lắc, không đập đầu.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiền sử sinh, phát triển, gia đình</b><span class="tag t-b">Khi được hỏi</span></div><p>Sinh mổ đủ tháng 38 tuần, nặng 3,1 kg, khóc ngay, không ngạt, không vàng da nặng. Trước nay bú tốt, lên cân đều. Gia đình hai bên không ai bị động kinh hay co giật.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Loại trừ sốt, nhiễm trùng, ngộ độc</b><span class="tag t-b">Khi được hỏi</span></div><p>Bé không sốt, không ho, không nôn, không tiêu chảy, không ai trong nhà ốm, không ngộ độc. Cữ bú gần nhất cách đây khoảng 40 phút.</p></div><div class="fact"><div class="fh"><b>Lý do thật: xin giấy nghỉ ốm; đòi truyền dịch</b><span class="tag t-r">Giấu</span></div><p>Công ty may của chị Nhàn chỉ cho nghỉ có lương khi có giấy của cơ sở y tế ghi con đang bệnh; chị đã nghỉ mấy buổi, sợ bị trừ công, nên muốn &#x27;có giấy&#x27; và &#x27;truyền một chai cho con khỏe nhanh, để mai đi làm lại&#x27;.</p><div class="cond">Điều kiện nói ra: Chỉ lộ khi bác sĩ hỏi mẹ làm nghề gì, mẹ lo điều gì, vì sao mẹ muốn truyền, hoặc mẹ có cần giấy tờ gì.</div></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>7 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Cân 7,6 kg. Tỉnh, quấy nhẹ, ít cười đáp. Môi hồng, mắt không trũng.</p><p><span class="lbl">Kết quả:</span> Cân nặng 7,6 kg, dài 67 cm, vòng đầu 42,5 cm, tăng trưởng đều. Bé tỉnh, hơi quấy nhưng dỗ nín, ít cười đáp khi chọc; môi hồng, niêm mạc ẩm, mắt không trũng, mao mạch hồi sắc 2 giây. Không vàng da, không phù, không bầm tím.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Thóp phẳng, mềm. Đầu mặt cân đối. Cổ mềm.</p><p><span class="lbl">Kết quả:</span> Thóp trước phẳng, mềm, khoảng 2 × 2 cm. Hình dạng đầu cân đối, không dị tật mặt, không bướu máu, không dấu bầm sau tai hay quanh mắt. Cổ mềm, không hạch.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thần kinh</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Quan sát được một chuỗi 9 lần gập người, tay giơ lên, mỗi lần khoảng 1 giây, cách nhau 5–6 giây, rồi bé khóc. Ngoài cơn bé tỉnh, hơi kém theo vật.</p><p><span class="lbl">Kết quả:</span> Trong lúc khám, bé thức dậy sau giấc ngắn và có một chuỗi 9 lần gập người ra trước, hai tay giơ lên, mắt hơi trợn, mỗi lần khoảng 1 giây, cách nhau 5–6 giây, rồi khóc; sau chuỗi vẫn tỉnh. Ngoài cơn: giảm trương lực thân nhẹ, giữ đầu kém hơn tuổi; chi đối xứng, không liệt khu trú, phản xạ gân xương đối xứng; theo vật kém, ít cười đáp. Không rung giật nhãn cầu.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b></div><p><span class="lbl">Kết quả:</span> Da hồng. Không dát giảm sắc tố hình lá, không đốm cà phê sữa, không bớt mạch máu ở mặt.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số khoảng 128 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 128 l/p, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – Tim nhanh đều, T1 T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-NHANH-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nhịp thở 34 l/p. Không rút lõm lồng ngực.</p><p><span class="lbl">Kết quả:</span> Nhịp thở 34 l/p, đều, không rút lõm, không khò khè. Rì rào phế nang rõ hai bên, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm, không chướng, không khối, gan lách không to. Rốn khô.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>4 mục</small></h3></summary><div class="row"><div class="rh"><b>Đường huyết mao mạch (máy thử tại giường)</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> 4,9 mmol/L (khoảng 40 phút sau bú)</p><p class="why">NICE NG217 mục 1.2.3: hạ đường huyết có thể gây co giật; QĐ 2058/2020 bài 35 mục 3.2 (tr. 187): chẩn đoán dựa vào định lượng đường huyết.</p></div><div class="row"><div class="rh"><b>Điện tâm đồ 12 chuyển đạo</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Nhịp xoang 130 l/p, QRS và khoảng QT bình thường, không bất thường dẫn truyền.</p><p class="why">NICE NG217 mục 1.2.2: điện tim sau cơn nghi động kinh đầu để loại nguyên nhân tim.</p></div><div class="row"><div class="rh"><b>Que thử nước tiểu 10 thông số (tại giường)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Glucose âm tính, ceton âm tính, protein âm tính, bạch cầu âm tính, nitrit âm tính.</p><p class="why">Không ceton niệu, không dấu nhiễm trùng tiểu; giá trị nền để so sánh.</p></div><div class="row"><div class="rh"><b>Điện não đồ</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Phòng khám không có máy điện não. Điện não giấc ngủ phải làm ở bệnh viện Nhi tỉnh.</p><p class="why">NICE NG217 mục 6.3.1: điện não giấc ngủ là phần của đánh giá khẩn tại tuyến ba; QĐ 2058/2020 bài 35 mục 3.1.4a (tr. 187).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Chuyển tuyến / chuyên khoa</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Co thắt động kinh ở nhũ nhi, nghi hội chứng co thắt trẻ nhỏ (IESS), chưa xác nhận bằng điện não, kèm thoái lui phát triển</b></div><p class="why">Chuỗi gập người đối xứng 1 giây thành loạt, hay khi vừa thức, quan sát ngay tại phòng khám; tăng dần 10 ngày; giảm cười và theo vật (ILAE 2025 tr. 11–12; QĐ 2058/2020 bài 35 mục 3.1.2, tr. 186). Điện não giấc ngủ để xác nhận (NICE NG217 mục 6.3.1).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ngất</b></div><p class="why">Không mất trương lực, không ngã, điện tim bình thường (QĐ 2058/2020 bài 35 mục 3.2, tr. 187; NICE NG217 mục 1.2.2).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Cơn thiếu máu não thoáng qua (TIA)</b></div><p class="why">TIA là suy giảm chức năng thần kinh khu trú cấp do thiếu máu não (QĐ 5331/2020, mục Đột quỵ thoáng qua, tr. 17–18); bé 7 tháng, cơn đối xứng, lặp thành chuỗi nhiều lần mỗi ngày. Tỷ lệ TIA ở nhũ nhi: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Hạ đường huyết</b></div><p class="why">Đường huyết mao mạch 4,9 mmol/L sau bú 40 phút (NICE NG217 mục 1.2.3; QĐ 2058/2020 bài 35 mục 3.2). Ngưỡng ở nhũ nhi: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Giật mình sinh lý, đau bụng, trào ngược</b></div><p class="why">Không phù hợp: loạt 10–20 cái đều nhịp, tăng dần, không liên quan cữ bú, kèm giảm tương tác; xem video (NICE NG217 mục 1.2.1).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Co giật do sốt, viêm màng não – não</b></div><p class="why">Không sốt, thóp phẳng, cổ mềm, tỉnh giữa các chuỗi (QĐ 2058/2020 bài 35 mục 1, tr. 184: không do sốt cao hay nguyên nhân cấp tính).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Gọi bác sĩ thần kinh nhi bệnh viện Nhi tỉnh và chuyển bé trong ngày (không quá 24 giờ) để làm điện não giấc ngủ, MRI và điều trị cắt co thắt; kèm video và giấy chuyển</b></div><p class="why">NICE NG217 mục 6.3.1 (dưới 2 tuổi nghi co thắt trẻ nhỏ: trong 24 giờ hỏi ý kiến và chuyển khẩn, gồm điện não giấc ngủ); mục 3.1.4 (dưới 3 tuổi gửi dịch vụ động kinh nhi tuyến ba trong 2 tuần, mục 6.3.1 chặt hơn); ILAE 2025 tr. 11.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi theo chuyên đề: mô tả cơn, xin video, sinh – phát triển – gia đình, hỏi thẳng mọi thuốc tự mua, hỏi mẹ về công việc và nỗi lo</b></div><p class="why">NICE NG217 mục 1.2.1: hỏi kỹ người chăm sóc, dùng lời kể và video.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Đo đường huyết mao mạch và điện tim tại phòng khám, không chờ kết quả khác để chuyển</b></div><p class="why">NICE NG217 mục 1.2.2–1.2.3; QĐ 2058/2020 bài 35 mục 3.2 (tr. 187).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn mẹ an toàn: nằm ngửa mặt phẳng, không bế tung hay lắc, quay phim cơn; gọi 115 nếu co giật toàn thân từ 5 phút, tím, ngừng thở</b></div><p class="why">NICE NG217 mục 1.1.8 (nhận biết cơn, an toàn, liên hệ ai khi có cơn); mục 7.1.1 (từ 5 phút là trạng thái động kinh).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Từ chối truyền dịch; giải thích bé còn bú, tỉnh, chưa mất nước, truyền dịch không cắt co thắt; điều có ích là đến nơi có điện não hôm nay</b></div><p class="why">Không tài liệu đã tải nào chỉ định truyền dịch cho động kinh/co thắt trẻ nhỏ: &#x27;không có trong tài liệu đã tải&#x27;. Không lợi ích, mất thời gian chuyển tuyến.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Cấp giấy xác nhận bé đang bệnh, cần khám thần kinh nhi gấp, đúng thực tế, để mẹ xin nghỉ</b></div><p class="why">Thủ tục giấy nghỉ ốm: TT 56/2017/TT-BYT Điều 3 khoản 1, Điều 20 khoản 1 điểm c (nguồn bổ sung tự tìm, chưa đối chiếu bản hiện hành). Không cấp giấy sai sự thật.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho thuốc an thần hoặc thuốc chống động kinh (phenobarbital, diazepam, valproat) uống tại phòng khám trước khi chuyển</b></div><p class="why">QĐ 2058/2020 bài 35 mục 4.1 (tr. 188): chỉ dùng thuốc kháng động kinh khi đã xác định chắc loại cơn và hội chứng; NICE NG217 mục 6.3.4–6.3.5: thuốc đặc hiệu do tuyến ba.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Truyền dịch tĩnh mạch theo yêu cầu của mẹ rồi cho về</b></div><p class="why">Không có chỉ định (không có trong tài liệu đã tải); trì hoãn chuyển tuyến (NICE NG217 mục 6.3.1).</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Cho về, hẹn tái khám sau 1–2 tuần vì bé tỉnh và cơn ngắn</b></div><p class="why">NICE NG217 mục 6.3.1 và phần giải thích: bệnh não động kinh nặng cần xử trí khẩn, điều trị sớm gắn tiên lượng tốt hơn; ILAE 2025 tr. 11: chậm trễ làm xấu kết cục phát triển.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Cho về, hẹn tái khám</span></div><p>Bé Nghi về nhà hẹn tái khám 1–2 tuần trong khi các chuỗi co thắt vẫn xảy ra mỗi ngày và bé tiếp tục mất dần kỹ năng (cười đáp, nhìn theo). Mẹ không biết đó là cơn động kinh nên không coi là khẩn. NICE NG217 mục 6.3.1 yêu cầu chuyển khẩn trong 24 giờ; chậm điều trị liên quan tiên lượng phát triển xấu hơn (phần giải thích mục 6.3; ILAE 2025 tr. 11).</p></div><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Giữ bé vài giờ rồi cho về: phòng khám không có điện não, MRI hay thuốc đặc hiệu nên chờ không làm thêm được gì (NICE NG217 mục 6.3.1); mẹ mất nửa ngày công.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhập bé vào bệnh viện huyện hoặc giữ truyền dịch theo yêu cầu của mẹ: bé không mất nước, không có chỉ định truyền (không có trong tài liệu đã tải), nơi nhập không có điện não giấc ngủ, MRI nên phải chuyển tiếp muộn hơn (NICE NG217 mục 6.3.1).</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển cấp cứu</span></div><p>Gọi 115 vào khoa cấp cứu như bé đang co giật là quá tay: bé tỉnh, không tím, SpO₂ 99%, mỗi co thắt chỉ vài giây. Điều bé cần là đánh giá thần kinh nhi có điện não giấc ngủ (NICE NG217 mục 6.3.1), không phải hồi sức; mẹ càng hoảng.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Co thắt động kinh ở nhũ nhi gái 7 tháng, nghi hội chứng co thắt trẻ nhỏ (IESS), khởi phát khoảng 10 ngày, tăng dần; chưa có điện não</li><li>Thoái lui phát triển (giảm cười đáp, theo vật) khoảng 1 tuần; nguyên nhân chưa rõ, cần MRI ở tuyến trên</li><li>Đã loại tại giường: hạ đường huyết (4,9 mmol/L), bất thường điện tim; ngất và TIA không phù hợp</li><li>Bối cảnh: mẹ đòi truyền dịch, cần giấy nghỉ ốm, ibuprofen tự mua, lần khám trước gán &#x27;giật mình/trào ngược&#x27;</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự nên làm: (1) hỏi bệnh kỹ, xin video, hỏi thuốc tự mua và lý do thật của mẹ; (2) khám sinh hiệu, tăng trưởng, thóp, thần kinh (quan sát một chuỗi), da; (3) đường huyết mao mạch, điện tim, que thử nước tiểu; (4) chẩn đoán; (5) xử trí khẩn.</li><li>Vì sao nghĩ co thắt trẻ nhỏ: chuỗi gập người, tay giơ lên 1 giây, lặp 5–10 giây thành loạt 10–20 cái, hay khi vừa thức, bé 7 tháng, kèm giảm cười đáp và theo vật. ILAE 2025 (tr. 11–12): nhận biết kịp thời và dùng thuốc đặc hiệu không chậm trễ là điều quan trọng nhất ở nhũ nhi; QĐ 2058/2020 bài 35 mục 3.1.2 (tr. 186): hội chứng West (co thắt gấp trẻ em). Không phải &#x27;giật mình&#x27;: giật mình sinh lý không thành loạt đều nhịp, không tăng dần, không kèm thoái lui; video là bằng chứng quyết định (NICE NG217 mục 1.2.1).</li><li>Định nghĩa động kinh (ILAE 2014 Bảng 1): ≥ 2 cơn không do yếu tố khởi phát cách &gt; 24 giờ, hoặc 1 cơn + nguy cơ tái phát ≥ 60%, hoặc hội chứng động kinh; chuỗi cơn trong 24 giờ coi là một cơn. Xác nhận hội chứng cần điện não (QĐ 2058/2020 bài 35 mục 3.1.4a), thuộc tuyến trên; không dùng điện não để loại trừ (NICE NG217 mục 1.2.6).</li><li>Loại trừ: ngất (không mất trương lực, điện tim bình thường); TIA là thiếu máu não khu trú cấp, tỷ lệ ở nhũ nhi không có trong tài liệu đã tải (QĐ 5331/2020); hạ đường huyết (4,9 mmol/L; NICE NG217 mục 1.2.3).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Chuyển khẩn trong 24 giờ, gọi điện trước (NICE NG217 mục 6.3.1). Thuốc đặc hiệu (prednisolon liều cao + vigabatrin) do bác sĩ thần kinh nhi chỉ định (mục 6.3.4–6.3.5), trước khi dùng prednisolon phải nói tác dụng phụ, xét nghiệm kháng thể thủy đậu, phát thẻ steroid (mục 6.3.7). Phòng khám không kê; QĐ 2058/2020 bài 35 mục 4.1 (tr. 188) chưa dùng thuốc khi chưa xác định chắc loại cơn.</li><li>Từ chối truyền dịch bằng lập luận nguy cơ – lợi ích: bé không mất nước, truyền dịch không cắt co thắt, tốn thời gian chuyển tuyến; nguy cơ cụ thể ở nhũ nhi không có trong tài liệu đã tải. Câu thay thế: &#x27;Chai nước không làm hết giật được. Thứ giúp con nhanh nhất là điện não và thuốc ở bệnh viện Nhi hôm nay.&#x27;</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Không kê thuốc chống động kinh, thuốc an thần hay dịch truyền tại phòng khám</b><div class="sub">Không áp dụng</div></td><td data-l="Liều">Không áp dụng<div class="sub">Không áp dụng · Không áp dụng</div></td><td data-l="Thời gian">Không áp dụng</td><td class="gc" data-l="Ghi chú">QĐ 2058/2020 bài 35 mục 4.1 (tr. 188): chỉ dùng thuốc kháng động kinh khi đã xác định chắc loại cơn và hội chứng; NICE NG217 mục 6.3.1, 6.3.4: điều trị đặc hiệu do bác sĩ thần kinh nhi tuyến ba. Ngưng ibuprofen tự mua; liều ibuprofen nhũ nhi: không có trong tài liệu đã tải.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Đi ngay hôm nay đến khoa thần kinh nhi bệnh viện Nhi tỉnh (35 km), mang video và giấy chuyển; phòng khám đã gọi trước (NICE NG217 mục 6.3.1: trong 24 giờ).</li><li>Quay phim mọi chuỗi giật, ghi giờ và số lần; cho bé nằm ngửa trên mặt phẳng, không bế tung, không lắc (NICE NG217 mục 1.1.8).</li><li>Gọi 115 nếu co giật toàn thân kéo dài từ 5 phút, tím, ngừng thở, li bì khó đánh thức (NICE NG217 mục 7.1.1).</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-2">
+ <h2 id="h-luot-2"><span class="ln">Lượt 2/3</span> · sau 10 ngày</h2>
+ <div class="card intro"><h3 id="m-8">Tiếp đón</h3><p>Chị Nhàn bế bé Nghi tái khám sau 10 ngày, mang giấy ra viện của bệnh viện Nhi tỉnh: bé nằm 4 ngày, đã làm điện não giấc ngủ và MRI sọ não, được cho thuốc về nhà (prednisolon liều cao và vigabatrin), thẻ steroid, hẹn điện não giấc ngủ lần hai sau 2 ngày. Chị nói bé vẫn giật, &#x27;thuốc chưa ăn thua&#x27;, bú kém, xin truyền nước. Cân 7,8 kg. Nhiệt 36,9 °C, mạch 132 l/p, nhịp thở 34 l/p, SpO₂ 99%, huyết áp 98/58 mmHg.</p>
+  <blockquote>“Bác sĩ ơi, em cho cháu uống thuốc bệnh viện rồi mà cháu vẫn giật, có khi còn nhiều hơn. Cháu bú kém, quấy hoài. Bác sĩ cho cháu truyền chai nước để có sức đi, em cũng cần giấy để nghỉ thêm mấy bữa.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>132</b><small>l/p</small></div><div class="vs"><span>HA</span><b>98/58</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,9</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>34</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>99</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-9">Hỏi bệnh <small>7 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Diễn tiến sau chuyển tuyến: chẩn đoán, thuốc, lịch hẹn</b><span class="tag t-g">Tự kể</span></div><p>Bé nằm Khoa Thần kinh bệnh viện Nhi 4 ngày. Giấy ra viện: điện não giấc ngủ có loạn nhịp đồng bộ kiểu hypsarrhythmia; MRI sọ não không thấy tổn thương cấu trúc rõ; đã xét nghiệm kháng thể thủy đậu; chẩn đoán hội chứng co thắt trẻ nhỏ. Thuốc về nhà: prednisolon liều cao uống chia 2 lần và vigabatrin uống 2 lần mỗi ngày; có thẻ steroid.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tần suất chuỗi co thắt không giảm</b><span class="tag t-b">Khi được hỏi</span></div><p>Từ khi về nhà, bé vẫn giật mỗi ngày 3–4 chuỗi, mỗi chuỗi 10–15 cái, không giảm so với trước khi nằm viện; có hôm nhiều hơn vì bé quấy. Bé không có cơn dạng khác (không co giật cả người, không lệch mắt một bên).</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Giảm nửa liều prednisolon: không tuân thủ toa</b><span class="tag t-r">Giấu</span></div><p>Prednisolon: từ ngày thứ ba ở nhà chị chỉ cho uống một nửa liều ghi trong toa, vì sợ &#x27;thuốc nội tiết làm con tròn mặt, yếu xương, đổ bệnh&#x27; theo lời bà nội và một người quen. Vigabatrin: cho đủ 2 lần mỗi ngày đúng toa. Chị không nói điều này với ai ở bệnh viện.</p><div class="cond">Điều kiện nói ra: Hỏi chung &#x27;bé uống thuốc đủ chưa&#x27; chị nói &#x27;đủ, đúng hết&#x27;. Chỉ lộ khi bác sĩ hỏi từng thuốc: cho bao nhiêu mỗi lần, mấy lần mỗi ngày, bao nhiêu ngày, hoặc yêu cầu xem toa và chai thuốc, hoặc hỏi nỗi lo về thuốc.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tác dụng phụ và dấu hiệu nhiễm trùng trong khi dùng steroid</b><span class="tag t-b">Khi được hỏi</span></div><p>Bé quấy hơn, bú giảm nhẹ (còn khoảng 4 cữ), mặt hơi tròn. Không sốt, không ho, không nôn, phân vàng, tiểu như thường; không ai trong nhà bị thủy đậu hay zona.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiếp tục ibuprofen tự mua cùng lúc với steroid</b><span class="tag t-r">Giấu</span></div><p>Mỗi khi bé quấy, chị vẫn cho ibuprofen siro, khoảng 1–2 lần mỗi ngày, vì nghĩ bé đau; không nói với bệnh viện.</p><div class="cond">Điều kiện nói ra: Chỉ lộ khi bác sĩ hỏi cụ thể thuốc tự mua, thuốc hạ sốt hoặc giảm đau, hoặc &#x27;bé quấy thì chị làm gì&#x27;.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lịch EEG lần hai và theo dõi hằng tuần</b><span class="tag t-b">Khi được hỏi</span></div><p>Hẹn điện não giấc ngủ lần hai tại bệnh viện Nhi sau 2 ngày; bệnh viện dặn đo huyết áp và thử nước tiểu hằng tuần, mẹ nhờ phòng khám gần nhà làm giúp. Có số điện thoại khoa thần kinh nhi trên giấy ra viện.</p></div><div class="fact"><div class="fh"><b>Lý do thật: giấy nghỉ ốm tiếp; đòi truyền dịch</b><span class="tag t-r">Giấu</span></div><p>Chị đã hết phép; công ty cần giấy của phòng khám mới cho nghỉ tiếp có lương; chị vẫn nghĩ truyền một chai nước thì con &#x27;có sức, thuốc ngấm&#x27; và chị bớt lo.</p><div class="cond">Điều kiện nói ra: Chỉ lộ khi bác sĩ hỏi mẹ có cần giấy tờ gì, công việc thế nào, hoặc vì sao mẹ muốn truyền.</div></div></details>
+ <details class="card"><summary><h3 id="m-10">Khám <small>3 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Cân 7,8 kg. Tỉnh, quấy nhẹ, mặt hơi tròn. Mắt không trũng, niêm mạc ẩm.</p><p><span class="lbl">Kết quả:</span> Cân 7,8 kg (tăng 200 g sau 10 ngày), dài 67,5 cm, vòng đầu 42,7 cm. Bé tỉnh, quấy nhẹ, mặt hơi tròn; niêm mạc ẩm, không tưa, mắt không trũng, mao mạch hồi sắc 2 giây; không phù, không nhiễm trùng da.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thần kinh</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Quan sát được một chuỗi 8 lần gập người, tay giơ lên, mỗi lần khoảng 1 giây. Ngoài cơn bé kém theo vật, ít cười.</p><p><span class="lbl">Kết quả:</span> Trong lúc khám bé có một chuỗi 8 lần gập người ra trước, hai tay giơ lên, mỗi lần khoảng 1 giây, cách nhau 5 giây, rồi bé khóc. Ngoài cơn: giảm trương lực thân nhẹ, theo vật kém, ít cười đáp, chi đối xứng, không dấu thần kinh khu trú.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Da, niêm mạc, ban</b></div><p><span class="lbl">Kết quả:</span> Da hồng, không ban, không phát ban bọng nước (không thủy đậu hay zona), không nhiễm trùng da.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Tim</b><span class="tag t-m">Bình thường</span></div><p>Tim đều 132 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-NHANH-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 34 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-11">Cận lâm sàng <small>3 mục</small></h3></summary><div class="row"><div class="rh"><b>Que thử nước tiểu 10 thông số (tại giường)</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Glucose âm tính, ceton âm tính, protein âm tính, bạch cầu và nitrit âm tính.</p><p class="why">NICE NG217 mục 6.3.8: theo dõi đường niệu hằng tuần khi dùng prednisolon.</p></div><div class="row"><div class="rh"><b>Đường huyết mao mạch (máy thử tại giường)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> 5,2 mmol/L (khoảng 1 giờ sau bú)</p><p class="why">Bổ sung khi dùng steroid và bú kém; ngưỡng ở nhũ nhi: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><b>Điện não đồ</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Phòng khám không có máy điện não. Điện não giấc ngủ lần hai đã hẹn tại bệnh viện Nhi sau 2 ngày.</p><p class="why">NICE NG217 mục 6.3.2: lặp lại điện não giấc ngủ 2 tuần sau bắt đầu điều trị, tuyến ba làm.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-12">Đáp án lượt 2 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Theo dõi tại phòng khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Hội chứng co thắt trẻ nhỏ đã chẩn đoán (điện não hypsarrhythmia), chưa cắt cơn sau khoảng 8 ngày vì không tuân thủ toa: chỉ dùng nửa liều prednisolon</b></div><p class="why">Còn 3–4 chuỗi mỗi ngày, quan sát tại phòng khám; hỏi từng thuốc mới lộ nửa liều. QĐ 2058/2020 bài 35 mục 4.1 (tr. 188): không cắt được cơn thì xét chọn thuốc sai hay bệnh nhân không tuân thủ.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Thất bại điều trị bậc một thật sự (kháng thuốc)</b></div><p class="why">Chưa kết luận được khi chưa dùng đủ liều (NICE NG217 mục 6.3.10 chỉ bàn thuốc bậc hai khi bậc một không thành công).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tác dụng phụ steroid hoặc vigabatrin nặng</b></div><p class="why">Quấy và mặt tròn nhẹ; không sốt, không ói, huyết áp 98/58, đường niệu âm tính. Ngưỡng bình thường ở nhũ nhi: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Nhiễm trùng mới khi dùng steroid; mất nước, hạ đường huyết do bú kém</b></div><p class="why">Không sốt, không bọng nước, không tưa, không tiếp xúc thủy đậu (NICE NG217 mục 6.3.7); bé bú 4 cữ, tiểu như thường, đường huyết 5,2 mmol/L: không có chỉ định truyền dịch (không có trong tài liệu đã tải).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi từng thuốc (liều, số lần, số ngày), xem toa và thẻ steroid để tìm nguyên nhân không đỡ trước khi nói thuốc thất bại</b></div><p class="why">QĐ 2058/2020 bài 35 mục 4.1 (tr. 188); NICE NG217 mục 6.3.10.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích vì sao phải dùng đủ liều prednisolon, trả lời từng nỗi sợ; không tự giảm hay ngưng; báo ngay khoa thần kinh nhi nếu có tác dụng phụ</b></div><p class="why">NICE NG217 mục 6.3.7: trao đổi tác dụng phụ steroid, thẻ steroid, khi nào đi khám. Liều theo BNF trẻ em (mục 6.3.8): không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Gọi khoa thần kinh nhi báo bé dùng nửa liều prednisolon trong 8 ngày, co thắt chưa giảm; giữ lịch điện não giấc ngủ lần hai</b></div><p class="why">NICE NG217 mục 6.3.10 (trao đổi bác sĩ động kinh nhi tuyến ba); mục 6.3.2 (điện não giấc ngủ lặp lại 2 tuần sau bắt đầu thuốc).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Đo huyết áp và thử đường niệu hằng tuần tại phòng khám trong lúc dùng prednisolon; hẹn tái khám sau 3 ngày rồi mỗi tuần</b></div><p class="why">NICE NG217 mục 6.3.8, 6.3.2.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Từ chối truyền dịch; cho bú nhiều cữ nhỏ, theo dõi tã ướt</b></div><p class="why">Không dấu mất nước; truyền dịch không có trong tài liệu đã tải cho bệnh này.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Dặn ngưng ibuprofen tự mua khi dùng prednisolon</b></div><p class="why">Tương tác và liều nhũ nhi: không có trong tài liệu đã tải; thận trọng của người soạn.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Cấp giấy xác nhận bé đang điều trị, cần mẹ chăm và tái khám hằng tuần, đúng thực tế</b></div><p class="why">TT 56/2017/TT-BYT Điều 3 khoản 1, Điều 20 khoản 1 điểm c (nguồn bổ sung tự tìm).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Đổi sang thuốc bậc hai (levetiracetam, valproat, topiramat) tại phòng khám</b></div><p class="why">NICE NG217 mục 6.3.10–6.3.11: thuốc bậc hai do tuyến ba quyết định sau khi bậc một không thành công.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Truyền dịch theo yêu cầu rồi cho về, hẹn tái khám 3 tuần</b></div><p class="why">Không có chỉ định (không có trong tài liệu đã tải); bỏ lỡ theo dõi hằng tuần (NICE NG217 mục 6.3.2, 6.3.8).</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Tự ngưng prednisolon vì mẹ lo tác dụng phụ</b></div><p class="why">Mất cơ hội cắt co thắt; ngưng corticoid theo hướng dẫn tuyến ba (NICE NG217 mục 6.3.8; hướng dẫn suy thượng thận không có trong tài liệu đã tải).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Đưa bé trở lại bệnh viện Nhi ngay hôm nay vì &#x27;thuốc không hiệu quả&#x27; trong khi toa chưa được dùng đủ: tuyến trên có thể coi là thất bại điều trị bậc một và chuyển sang thuốc bậc hai (NICE NG217 mục 6.3.10–6.3.11) dù nguyên nhân là liều thấp. Cần sửa cách dùng thuốc, gọi báo bác sĩ điều trị và giữ lịch điện não ngày kia (mục 6.3.2); mẹ mất thêm một ngày công.</p></div><div class="row"><div class="rh"><span class="tag t-o">Cho về, hẹn tái khám</span></div><p>Cho về hẹn 2–3 tuần: không ai đo huyết áp, đường niệu hằng tuần khi dùng prednisolon (NICE NG217 mục 6.3.8, 6.3.2: xem lại ít nhất mỗi tuần) và không ai sửa cách cho thuốc nên co thắt tiếp tục, bé tiếp tục chậm phát triển.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhập viện chỉ để &#x27;truyền nước, chờ thuốc ngấm&#x27; theo yêu cầu của mẹ: không mất nước, không có chỉ định, tốn kém mà nguyên nhân thật (cách cho thuốc) chưa được sửa (QĐ 2058/2020 bài 35 mục 4.1, tr. 188).</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Hội chứng co thắt trẻ nhỏ đã xác nhận ở tuyến ba, đang điều trị bậc một ngày thứ 8</li><li>Không đỡ vì không tuân thủ: mẹ dùng nửa liều prednisolon từ ngày thứ ba; vigabatrin đủ liều</li><li>Tác dụng phụ steroid nhẹ (quấy, bú giảm, mặt tròn); huyết áp 98/58, đường niệu âm tính; chưa nhiễm trùng</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự nên làm: (1) đọc giấy ra viện, lịch hẹn; (2) hỏi từng thuốc, hỏi bé quấy thì mẹ làm gì, hỏi nỗi sợ về thuốc; (3) khám cân, huyết áp, miệng, da, thần kinh; (4) que thử nước tiểu, đường huyết mao mạch; (5) kết luận &#x27;không đỡ do dùng thiếu liều&#x27; trước khi nói kháng thuốc; (6) xử trí.</li><li>Truy nguyên &#x27;không đỡ&#x27;: sai chẩn đoán? (không: điện não, MRI đã làm); sai thuốc? (đúng hướng NICE NG217 mục 6.3.4); không tuân thủ? (có: nửa liều prednisolon); biến chứng? (chưa); đề kháng? (chưa đánh giá được vì chưa đủ liều). QĐ 2058/2020 bài 35 mục 4.1 (tr. 188) dặn xét chọn thuốc sai hoặc bệnh nhân không tuân thủ.</li><li>Hỏi chung &#x27;uống đủ chưa&#x27; sẽ nhận &#x27;đủ&#x27;; chỉ hỏi từng thuốc và &#x27;chị lo gì về thuốc&#x27; mới ra. Đây là điểm gãy thứ hai (điểm gãy thứ nhất: 10 ngày co thắt chưa được nhận ra trước lượt 1). Kết luận thất bại sớm làm bé nhận thuốc bậc hai không cần thiết (NICE NG217 mục 6.3.10).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Gọi tuyến trên cùng ngày (NICE NG217 mục 6.3.10); giữ lịch điện não giấc ngủ lần hai (mục 6.3.2); tái khám tại chỗ sau 3 ngày rồi mỗi tuần để đo huyết áp, đường niệu (mục 6.3.2, 6.3.8).</li><li>Từ chối truyền dịch: bé còn bú, tiểu bình thường, đường huyết 5,2 mmol/L. Câu thay thế: &#x27;Con có sức là nhờ thuốc được uống đủ, chai nước không giúp thuốc ngấm nhanh hơn; em sẽ giúp chị cho thuốc đúng và theo dõi mỗi tuần.&#x27; Nguy cơ truyền dịch cụ thể: không có trong tài liệu đã tải.</li><li>Giấy nghỉ ốm đáp ứng lý do thật (TT 56/2017 như trên). Thuốc bậc hai do tuyến ba quyết định (NICE NG217 mục 6.3.10–6.3.11).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Prednisolon (thuốc tuyến ba đã kê)</b><div class="sub">Theo toa bệnh viện Nhi; hàm lượng không có trong tài liệu đã tải</div></td><td data-l="Liều">Dùng đủ toa tuyến ba, không giảm nửa liều; liều theo BNF trẻ em (NICE NG217 mục 6.3.8), không có trong tài liệu đã tải<div class="sub">Uống · Chia 2 lần theo toa</div></td><td data-l="Thời gian">Theo bác sĩ thần kinh nhi, không tự ngưng</td><td class="gc" data-l="Ghi chú">NICE NG217 mục 6.3.4, 6.3.7, 6.3.8 (đang dùng, giữ nguyên toa tuyến ba). Giữ thẻ steroid; theo dõi huyết áp và đường niệu hằng tuần.</td></tr><tr><td><b>Vigabatrin (thuốc tuyến ba đã kê)</b><div class="sub">Theo toa bệnh viện Nhi; hàm lượng không có trong tài liệu đã tải</div></td><td data-l="Liều">Giữ nguyên toa; tăng liều do bác sĩ thần kinh nhi quyết định nếu co thắt không ngừng (NICE NG217 mục 6.3.9)<div class="sub">Uống · 2 lần mỗi ngày theo toa</div></td><td data-l="Thời gian">Theo bác sĩ thần kinh nhi</td><td class="gc" data-l="Ghi chú">NICE NG217 mục 6.3.4, 6.3.9 (đang dùng, giữ nguyên). Liều theo BNF trẻ em: không có trong tài liệu đã tải.</td></tr><tr><td><b>Ngưng ibuprofen siro tự mua</b><div class="sub">Không áp dụng</div></td><td data-l="Liều">Không dùng<div class="sub">Không áp dụng · Không áp dụng</div></td><td data-l="Thời gian">Từ hôm nay</td><td class="gc" data-l="Ghi chú">Tương tác với prednisolon và liều nhũ nhi: không có trong tài liệu đã tải (đã ngưng là thận trọng của người soạn, không có trong tài liệu).</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Cho bé uống ĐỦ cả hai thuốc đúng toa, không chia đôi liều, không bỏ buổi; ghi giờ cho thuốc vào sổ (NICE NG217 mục 6.3.7).</li><li>Đi điện não giấc ngủ lần hai ngày kia tại bệnh viện Nhi, mang thẻ steroid và sổ ghi chuỗi co thắt (NICE NG217 mục 6.3.2).</li><li>Tái khám phòng khám sau 3 ngày rồi mỗi tuần: đo huyết áp, thử nước tiểu (NICE NG217 mục 6.3.8).</li><li>Đến ngay nếu sốt, tiếp xúc người bị thủy đậu hoặc zona, nổi bọng nước, nôn nhiều, bỏ bú, li bì, hoặc co giật toàn thân từ 5 phút (NICE NG217 mục 6.3.7, 7.1.1).</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-3">
+ <h2 id="h-luot-3"><span class="ln">Lượt 3/3</span> · sau 6 tuần</h2>
+ <div class="card intro"><h3 id="m-13">Tiếp đón</h3><p>Chị Nhàn bế bé Nghi, nay 9 tháng, nặng 8,6 kg, tái khám sau 6 tuần. Chị nói bé từng hết giật hơn 3 tuần, nay 3 ngày nay giật lại, sáng nay còn có một cơn lạ hơn, chị &#x27;thấy thuốc không ăn thua nữa&#x27;; bé bú kém, chị lại xin truyền nước và xin thêm giấy. Nhiệt 36,9 °C, mạch 124 l/p, nhịp thở 32 l/p, SpO₂ 99%, huyết áp 94/56 mmHg.</p>
+  <blockquote>“Bác sĩ ơi, cháu hết giật mấy tuần rồi mà mấy bữa nay giật lại, sáng nay còn trợn mắt sang một bên, tay trái giật, em hết hồn. Thuốc không ăn thua rồi. Cháu bú ít, bác sĩ cho truyền chai nước, với cho em xin giấy nghỉ thêm.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>124</b><small>l/p</small></div><div class="vs"><span>HA</span><b>94/56</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,9</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>32</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>99</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-14">Hỏi bệnh <small>6 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám: co thắt tái phát và một cơn khác kiểu</b><span class="tag t-g">Tự kể</span></div><p>Bé hết co thắt khoảng 3 tuần sau lần tái khám trước. Ba ngày nay co thắt trở lại, 2 chuỗi mỗi ngày, mỗi chuỗi 6–10 cái, hay vào buổi sáng khi vừa thức. Sáng nay còn một cơn khác: mắt trợn lệch sang trái, tay trái giật nhịp khoảng 1–2 phút, rồi bé mệt, ngủ gà khoảng 20 phút mới tỉnh. Không sốt, không ho, không nôn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tuân thủ tốt; prednisolon đã ngưng theo lịch, vigabatrin còn</b><span class="tag t-b">Khi được hỏi</span></div><p>Sau khi được hướng dẫn, chị cho bé uống đủ cả hai thuốc đúng toa, ghi sổ từng buổi, không bỏ bữa nào. Bệnh viện cho giảm dần rồi ngưng prednisolon theo lịch khoảng 1 tuần trước; vigabatrin vẫn uống đủ 2 lần. Chị không còn cho ibuprofen.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đáp ứng lần đầu; chưa có kế hoạch cấp cứu cá nhân</b><span class="tag t-b">Khi được hỏi</span></div><p>Điện não giấc ngủ lần hai: giấy bệnh viện ghi cải thiện rõ, hết dạng hypsarrhythmia; sau đó bé hết co thắt. Chị chưa được dặn thuốc cắt cơn tại nhà, chưa có kế hoạch cấp cứu viết sẵn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Loại cơn mới: khu trú, lệch mắt – đầu trái, giật tay trái</b><span class="tag t-r">Giấu</span></div><p>Cơn sáng nay chỉ xảy ra một lần: bé đang nằm, mắt và đầu quay sang trái, tay trái giật đều khoảng 1–2 phút, mặt hơi tím nhẹ, không ngừng thở; xong ngủ gà. Chị có quay lại được phần cuối. Trước đây không có cơn kiểu này.</p><div class="cond">Điều kiện nói ra: Hỏi chung &#x27;có gì khác không&#x27; chị chỉ nói &#x27;giật lại&#x27;. Chỉ kể chi tiết khi bác sĩ hỏi cơn sáng nay ra sao, có cơn nào khác kiểu không, hoặc xin xem video.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Phát triển còn chậm, chưa lấy lại kỹ năng cũ</b><span class="tag t-b">Khi được hỏi</span></div><p>Bé chưa lật lại được, ngồi chưa vững, bập bẹ ít, cười ít hơn so với bạn cùng tháng; sau khi hết co thắt bé có tươi hơn nhưng vẫn chậm. Chị lo vì trước 6 tháng bé lật được.</p></div><div class="fact"><div class="fh"><b>Lý do thật: giấy nghỉ ốm; đòi truyền dịch</b><span class="tag t-r">Giấu</span></div><p>Chị đã đi làm lại nhưng bà nội trông con xin nghỉ vì mệt; công ty cần giấy mới cho chị nghỉ thêm; chị vẫn tin truyền một chai nước thì con &#x27;lại sức&#x27; sau cơn.</p><div class="cond">Điều kiện nói ra: Chỉ lộ khi bác sĩ hỏi ai trông con, mẹ có cần giấy tờ gì, hoặc vì sao mẹ muốn truyền.</div></div></details>
+ <details class="card"><summary><h3 id="m-15">Khám <small>3 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Cân 8,6 kg. Tỉnh, hơi mệt. Niêm mạc ẩm, mắt không trũng.</p><p><span class="lbl">Kết quả:</span> Cân 8,6 kg, dài 70 cm, vòng đầu 43,5 cm. Bé tỉnh, hơi mệt, bú hơi kém; mặt hết tròn, niêm mạc ẩm, mắt không trũng, mao mạch hồi sắc 2 giây. Không phù, không sốt.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thần kinh</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Quan sát được một chuỗi 6 lần gập người, tay giơ lên, mỗi lần khoảng 1 giây. Ngoài cơn bé chưa lật, chưa ngồi vững.</p><p><span class="lbl">Kết quả:</span> Trong lúc khám bé có một chuỗi 6 lần gập người ra trước, hai tay giơ lên, mỗi lần khoảng 1 giây, cách nhau 5–6 giây, rồi khóc. Ngoài cơn: giảm trương lực thân nhẹ, chi đối xứng, không liệt khu trú, theo vật tốt hơn lần đầu nhưng chưa lật được, chưa ngồi vững; không dấu thần kinh khu trú sau cơn sáng nay.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số khoảng 124 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 124 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – Tim nhanh đều, T1 T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-NHANH-01.mp3"></audio></figure></div></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 32 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-16">Cận lâm sàng <small>3 mục</small></h3></summary><div class="row"><div class="rh"><b>Đường huyết mao mạch (máy thử tại giường)</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> 5,0 mmol/L (khoảng 1 giờ sau bú, 5 giờ sau cơn)</p><p class="why">NICE NG217 mục 1.2.3, 7.1.4: loại hạ đường huyết ở bé bú kém sau cơn.</p></div><div class="row"><div class="rh"><b>Que thử nước tiểu 10 thông số (tại giường)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Glucose âm tính, ceton âm tính, protein và bạch cầu âm tính.</p><p class="why">Nền sau ngưng prednisolon; không bắt buộc.</p></div><div class="row"><div class="rh"><b>Điện não đồ</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Phòng khám không có máy điện não. Cần điện não giấc ngủ lặp lại ở bệnh viện Nhi.</p><p class="why">NICE NG217 mục 6.3.3: lặp lại điện não giấc ngủ khi co thắt tái phát.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-17">Đáp án lượt 3 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Chuyển tuyến / chuyên khoa</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Động kinh ở nhũ nhi: hội chứng co thắt trẻ nhỏ tái phát sau thuyên giảm kèm cơn khu trú mới (lệch mắt – đầu trái, giật tay trái), theo dõi dài hạn; tuân thủ thuốc; chậm phát triển</b></div><p class="why">Co thắt hết hơn 3 tuần rồi tái phát, quan sát tại phòng khám; cơn mới một bên 1–2 phút. NICE NG217 mục 6.3.3 và phần giải thích; ILAE 2014 (Bảng 1): đủ tiêu chuẩn động kinh; ILAE 2025: cơn khu trú.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Hạ đường huyết</b></div><p class="why">Đường huyết mao mạch 5,0 mmol/L sau bú (NICE NG217 mục 1.2.3; QĐ 2058/2020 bài 35 mục 3.2).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ngất</b></div><p class="why">Cơn mới là lệch mắt – đầu và giật tay một bên, không mất trương lực, tim đều (QĐ 2058/2020 bài 35 mục 3.2, tr. 187).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Cơn thiếu máu não thoáng qua (TIA)</b></div><p class="why">Cơn giật dương tính một bên kèm ngủ gà sau cơn, không yếu liệt khu trú sau cơn; TIA là thiếu máu não cấp (QĐ 5331/2020, mục Đột quỵ thoáng qua, tr. 17–18); tỷ lệ ở nhũ nhi không có trong tài liệu đã tải.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Gọi bác sĩ thần kinh nhi bệnh viện Nhi và chuyển bé trong 24 giờ để lặp lại điện não giấc ngủ, đánh giá thuốc, cân nhắc MRI bổ sung và thuốc bậc hai</b></div><p class="why">NICE NG217 mục 6.3.3 (co thắt tái phát: lặp lại điện não giấc ngủ), 6.3.1, 1.1.2, 1.3.6, 6.3.10–6.3.11, 3.1.4.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi kỹ cơn mới (xem video), kiểm tra tuân thủ từng thuốc, thuốc khác kể cả thuốc nam</b></div><p class="why">NICE NG217 mục 1.2.1, 7.1.5.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Đo đường huyết mao mạch, khám thần kinh sau cơn</b></div><p class="why">NICE NG217 mục 1.2.3, 7.1.4.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hướng dẫn mẹ xử trí cơn và lập kế hoạch cấp cứu cá nhân với bác sĩ thần kinh nhi; gọi 115 nếu cơn từ 5 phút</b></div><p class="why">NICE NG217 mục 7.1.1–7.1.3, 7.3.2–7.3.3. Liều nhũ nhi: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Từ chối truyền dịch; cho bú nhiều cữ nhỏ</b></div><p class="why">Đường huyết 5,0 mmol/L, tiểu như thường; truyền dịch không có trong tài liệu đã tải cho bệnh này.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Cấp giấy xác nhận bé cần theo dõi động kinh, đúng thực tế</b></div><p class="why">TT 56/2017/TT-BYT Điều 3 khoản 1, Điều 20 khoản 1 điểm c (nguồn bổ sung tự tìm).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Tăng liều vigabatrin hoặc thêm thuốc chống động kinh tại phòng khám, qua điện thoại</b></div><p class="why">NICE NG217 mục 6.3.9–6.3.11: do tuyến ba quyết định.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Truyền dịch theo yêu cầu rồi cho về</b></div><p class="why">Không có chỉ định (không có trong tài liệu đã tải); mất thời gian (NICE NG217 mục 6.3.1).</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Cho về, hẹn tái khám 1–2 tuần xem co thắt có tự hết không</b></div><p class="why">NICE NG217 mục 6.3.3, 1.1.2; ILAE 2025 tr. 11.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Cho về, hẹn tái khám</span></div><p>Bé Nghi về nhà hẹn 1–2 tuần dù co thắt đã quay lại và có thêm loại cơn mới. NICE NG217 mục 6.3.3: co thắt tái phát phải lặp lại điện não giấc ngủ; mục 1.1.2: cơn tái phát sau thuyên giảm cần chuyển khẩn. Thêm ngày co thắt, bé vốn chậm vận động, mẹ chưa có kế hoạch xử trí cơn kéo dài.</p></div><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Phòng khám tự tăng liều hoặc thêm thuốc qua điện thoại rồi theo dõi: nâng liều vigabatrin phải bàn với bác sĩ thần kinh nhi (NICE NG217 mục 6.3.9), thuốc bậc hai do tuyến ba chọn (mục 6.3.10–6.3.11); cơn mới chưa được điện não hay MRI lần hai (mục 1.3.6).</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhập bệnh viện huyện hoặc giữ truyền dịch &#x27;cho có sức&#x27;: không có chỉ định (không có trong tài liệu đã tải), nơi nhập không có điện não giấc ngủ nên phải chuyển tiếp muộn hơn.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển cấp cứu</span></div><p>Gọi 115 như bé đang co giật là quá tay: cơn sáng nay chỉ 1–2 phút, đã hết, bé tỉnh dần, SpO₂ 99%, không phải trạng thái động kinh (NICE NG217 mục 7.1.1: từ 5 phút). Cần đánh giá chuyên khoa 24 giờ và kế hoạch cấp cứu cá nhân (mục 7.3.3).</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Động kinh ở nhũ nhi gái 9 tháng: hội chứng co thắt trẻ nhỏ tái phát sau thuyên giảm hơn 3 tuần, kèm cơn khu trú mới (lệch mắt – đầu trái, giật tay trái 1–2 phút)</li><li>Đủ tiêu chuẩn động kinh (ILAE 2014 Bảng 1); tuân thủ thuốc tốt, prednisolon đã ngưng theo lịch, vigabatrin còn dùng</li><li>Chậm phát triển vận động và giao tiếp sau thời gian co thắt chưa được nhận ra</li><li>Đã loại: sốt, nhiễm trùng, hạ đường huyết (5,0 mmol/L); ngất và TIA không phù hợp; chưa có kế hoạch cấp cứu cá nhân</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự nên làm: (1) hỏi cơn mới từng chi tiết, xem video, tuân thủ từng thuốc, ai trông con, mẹ cần gì; (2) khám cân, thóp, thần kinh, quan sát chuỗi co thắt; (3) đường huyết mao mạch; (4) chẩn đoán; (5) gọi tuyến trên và chuyển.</li><li>Khác lượt 2: mẹ dùng thuốc đủ (loại nguyên nhân không tuân thủ), co thắt hết hơn 3 tuần rồi tái phát khi bỏ prednisolon, và có cơn khu trú mới. NICE NG217 phần giải thích mục 6.3: theo dõi cả tái phát co thắt lẫn loại cơn khác.</li><li>Tiêu chuẩn động kinh: ≥ 2 cơn không do yếu tố khởi phát cách &gt; 24 giờ, hoặc hội chứng động kinh (ILAE 2014 Bảng 1; QĐ 2058/2020 bài 35 mục 1, tr. 184). Hậu quả của việc bỏ sót trước lượt 1 vẫn hiện diện: bé chưa lấy lại kỹ năng; chậm điều trị liên quan kết cục xấu hơn (NICE NG217 phần giải thích mục 6.3; ILAE 2025 tr. 11).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Gọi và chuyển trong 24 giờ (NICE NG217 mục 6.3.1, 6.3.3, 1.1.2); tuyến ba làm điện não giấc ngủ lặp lại, MRI bổ sung (mục 1.3.5–1.3.6), thuốc bậc hai nếu cần (mục 6.3.10–6.3.11).</li><li>Kế hoạch cấp cứu cá nhân: cơn từ 5 phút là trạng thái động kinh, midazolam đường má hoặc diazepam trực tràng ngoài bệnh viện nếu chưa có kế hoạch riêng (NICE NG217 mục 7.1.1–7.1.3, 7.3.3); bác sĩ thần kinh nhi kê thuốc và ghi liều.</li><li>Từ chối truyền dịch: &#x27;Con có sức là nhờ ăn bú và thuốc đúng; chai nước không ngăn cơn quay lại. Việc cần nhất là đưa con tới bệnh viện Nhi hôm nay.&#x27; Nguy cơ cụ thể ở nhũ nhi: không có trong tài liệu đã tải.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Vigabatrin (thuốc tuyến ba đã kê)</b><div class="sub">Theo toa bệnh viện Nhi; không có trong tài liệu đã tải</div></td><td data-l="Liều">Giữ nguyên toa; không tự tăng liều, tăng liều do bác sĩ thần kinh nhi quyết định (NICE NG217 mục 6.3.9)<div class="sub">Uống · 2 lần mỗi ngày theo toa</div></td><td data-l="Thời gian">Theo bác sĩ thần kinh nhi</td><td class="gc" data-l="Ghi chú">NICE NG217 mục 6.3.4, 6.3.9 (đang dùng, giữ nguyên). Liều theo BNF trẻ em: không có trong tài liệu đã tải.</td></tr><tr><td><b>Thuốc cắt cơn tại nhà (midazolam đường má hoặc diazepam trực tràng) — do bác sĩ thần kinh nhi kê khi lập kế hoạch cấp cứu cá nhân</b><div class="sub">Không có trong tài liệu đã tải</div></td><td data-l="Liều">Không có trong tài liệu đã tải; không tự mua hoặc tự cho<div class="sub">Đường má hoặc trực tràng · Chỉ khi cơn co giật kéo dài từ 5 phút, rồi gọi 115</div></td><td data-l="Thời gian">Khi có cơn kéo dài, theo kế hoạch</td><td class="gc" data-l="Ghi chú">NICE NG217 mục 7.1.1–7.1.3, 7.3.3 (nguồn). Phòng khám không kê hôm nay; tuyến ba thống nhất kế hoạch trong 24 giờ.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Đi ngay hôm nay, muộn nhất trong 24 giờ, đến khoa thần kinh nhi bệnh viện Nhi; phòng khám gọi trước; mang sổ ghi chuỗi co thắt, video cơn mới, toa thuốc (NICE NG217 mục 6.3.1, 6.3.3).</li><li>Tiếp tục vigabatrin đúng toa, không tự tăng hay ngưng; không cho thuốc nam &#x27;bổ não&#x27; khi chưa hỏi bác sĩ (NICE NG217 mục 6.3.9).</li><li>Gọi 115 nếu co giật từ 5 phút, tím, ngừng thở, li bì khó đánh thức; thuốc cắt cơn chỉ dùng khi bác sĩ tuyến ba đã kê và hướng dẫn (NICE NG217 mục 7.1.1–7.1.3).</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-18">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Động kinh (theo dõi)</b></div>
+<p class="note">Phải loại trừ: Ngất, TIA, Hạ đường huyết</p><p>Bé Nghi được đánh giá lại ở bệnh viện Nhi trong ngày: điện não giấc ngủ có co thắt tái phát kèm sóng khu trú; tuyến ba đổi sang thuốc bậc hai và lập kế hoạch cấp cứu cá nhân. Co thắt kiểm soát lại sau vài tuần, nhưng đến 12 tháng bé còn chậm vận động và ngôn ngữ (chưa ngồi vững, ít bập bẹ), cần thuốc chống động kinh lâu dài và tái khám thần kinh nhi mỗi tháng; chẩn đoán thành động kinh theo dõi dài hạn. Điểm gãy trong chuỗi quyết định: (1) 10 ngày mẹ gọi co thắt là &#x27;giật mình&#x27; sau buổi ra sân bóng; (2) khám nhi tư gán &#x27;giật mình/trào ngược&#x27;, không xem video, không hẹn tái khám; (3) ibuprofen tự cho khi bé quấy, không ai hỏi; (4) mẹ giảm nửa liều prednisolon 8 ngày vì sợ tác dụng phụ và không nói. Cộng lại hơn 3 tuần chậm điều trị đầy đủ; chậm điều trị liên quan tiên lượng phát triển xấu hơn (NICE NG217 phần giải thích mục 6.3; ILAE 2025 tr. 11).</p></details>
+<details class="card" id="bai"><summary><h3 id="m-19">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Đòi truyền dịch: cả ba lượt mẹ nhắc lại. Không tài liệu đã tải nào chỉ định truyền dịch cho động kinh hay co thắt trẻ nhỏ; từ chối bằng lập luận nguy cơ – lợi ích và câu thay thế ở dap_an. Truyền theo yêu cầu chấm &#x27;w&#x27;, ghi &#x27;không có trong tài liệu đã tải&#x27; như sổ mâu thuẫn đã ghi nhận.</li><li>Lý do thật xin giấy nghỉ ốm: công ty may cần giấy cơ sở y tế; chỉ lộ khi hỏi nghề, nỗi lo, giấy tờ cần. Giải quyết bằng giấy xác nhận đúng thực tế (TT 56/2017, nguồn bổ sung tự tìm).</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Co thắt trẻ nhỏ hay bị gọi nhầm &#x27;giật mình/trào ngược&#x27;: chuỗi gập người 1 giây lặp 5–10 giây thành loạt khi vừa thức, kèm giảm cười đáp; xin video (NICE NG217 mục 1.2.1; ILAE 2025 tr. 11–12).</li><li>&#x27;Không đỡ&#x27;: hỏi từng thuốc, từng liều, từng nỗi sợ trước khi kết luận thuốc thất bại (QĐ 2058/2020 bài 35 mục 4.1, tr. 188; NICE NG217 mục 6.3.10).</li><li>Dùng prednisolon: huyết áp, đường niệu hằng tuần, thẻ steroid, xem lại hằng tuần, điện não lại sau 2 tuần (NICE NG217 mục 6.3.2, 6.3.7, 6.3.8); sau thuyên giảm xem lại mỗi tháng, tái phát thì lặp điện não (mục 6.3.3).</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Nghi co thắt trẻ nhỏ &lt; 2 tuổi: 24 giờ hỏi ý kiến và chuyển khẩn, điện não giấc ngủ (NICE NG217 mục 6.3.1).</li><li>Bậc một: prednisolon liều cao + vigabatrin, trừ nguy cơ cao tác dụng phụ steroid (chỉ vigabatrin) hoặc xơ cứng củ (vigabatrin trước) (mục 6.3.4–6.3.6); bậc hai do tuyến ba (6.3.10–6.3.11). Liều: BNF trẻ em, không có trong tài liệu đã tải.</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-20">Nguồn tài liệu <small>6</small></h3></summary><ul class=""><li>NICE NG217 2022 (TL-0466) – ĐÃ ĐỌC mục 1.1.2, 1.1.8, 1.2.1–1.2.6, 1.3.5–1.3.6, 3.1.4, 6.3 (6.3.1–6.3.11 và phần giải thích), 7.1.1–7.1.5, 7.3.</li><li>ILAE 2025 – Updated classification of epileptic seizures (Epilepsia 2025;66:1804; TL-0456) – tr. 11–12.</li><li>ILAE 2014 – A practical clinical definition of epilepsy (Epilepsia 2014;55:475; TL-0490) – Bảng 1.</li><li>Bộ Y tế – QĐ 2058/QĐ-BYT 2020 (TL-0443) bài 35: mục 1 (tr. 184), 3.1.2 (tr. 186), 3.1.4 (tr. 187), 3.2 (tr. 187), 4.1 (tr. 188).</li><li>Bộ Y tế – QĐ 5331/QĐ-BYT 2020 (TL-0030) mục Đột quỵ thoáng qua (tr. 17–18).</li><li>TT 56/2017/TT-BYT Điều 3 khoản 1, Điều 20 khoản 1 điểm c – nguồn bổ sung tự tìm, đã ghi trong sổ mâu thuẫn; chưa đối chiếu bản hiện hành sau Luật BHXH 2024.</li></ul></details>
+<details class="card"><summary><h3 id="m-21">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Thần kinh - tiền đình - giấc ngủ</dd><dt>chan_doan_dich</dt><dd>Động kinh (theo dõi)</dd><dt>chan_doan_phai_loai_tru</dt><dd>Ngất; TIA; Hạ đường huyết</dd><dt>nhom_tuoi</dt><dd>Nhũ nhi (1–12 tháng)</dd><dt>gioi</dt><dd>Nữ</dd><dt>do_kho</dt><dd>Điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>3</dd><dt>dien_tien_tai_kham</dt><dd>Không đỡ</dd><dt>nhieu_benh_nhan</dt><dd>Đòi truyền dịch</dd><dt>rang_buoc_nguon_luc</dt><dd>Không có xét nghiệm nào</dd><dt>nghe_nghiep</dt><dd>Trẻ nhũ nhi</dd><dt>yeu_to_khoi_phat</dt><dd>Sau chơi thể thao</dd><dt>thuoc_dang_dung</dt><dd>NSAID tự mua</dd><dt>ly_do_that_su_den_kham</dt><dd>Xin giấy nghỉ ốm</dd><dt>loai_ket_cuc</dt><dd>Biến chứng do bỏ sót</dd></dl><ul class=""><li>18/10/2026 – viết: Sonnet. Bản 1. Nhũ nhi gái 7 tháng, 3 lượt, hội chứng co thắt trẻ nhỏ (động kinh theo dõi); không có xét nghiệm nào; đòi truyền dịch; lý do thật xin giấy nghỉ ốm; ibuprofen tự mua; khởi phát sau sân bóng. ket_luan: chuyển tuyến – theo dõi – chuyển tuyến. Kết cục: biến chứng do bỏ sót.</li><li>Tài liệu đã đọc: TL-0466 (NICE NG217 mục 1.1, 1.2, 1.3, 3.1, 6.3, 7.1–7.3), TL-0456 (tr. 11–12), TL-0490 (Bảng 1), TL-0443 (bài 35), TL-0030 (TIA).</li><li>Chỗ thiếu tài liệu: liều prednisolon, vigabatrin, midazolam đường má, diazepam trực tràng cho nhũ nhi (BNF trẻ em); liều ibuprofen nhũ nhi và tương tác steroid; ngưỡng huyết áp, đường huyết nhũ nhi; tỷ lệ TIA ở nhũ nhi; nguy cơ truyền dịch không chỉ định; thủ tục giấy nghỉ ốm hiện hành; tư thế nằm nghiêng.</li><li>Diễn tiến tại bệnh viện Nhi (điện não, MRI, thuốc bậc hai, tiên lượng 12 tháng) là hư cấu hợp lý, không trích nguồn.</li></ul></details>
+<p class="chan-trang">Ca TK-0389 · phiên bản ca 1 – soát nguồn với kho 576 tài liệu (2026-10-18) · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

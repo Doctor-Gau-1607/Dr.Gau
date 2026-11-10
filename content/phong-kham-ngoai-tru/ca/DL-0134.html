@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DL-0134 · Viêm da tiếp xúc</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · DL-0134</div>
+   <h1>Nổi mẩn đỏ, rát ngứa ở chân trái khoảng 6 ngày (mẹ đưa đi khám)</h1>
+   <p class="dich-gia">Đặng Ngọc Hân · Nữ · 13 tuổi · 41 kg</p>
+   <div class="chips"><span class="chip">Da liễu</span><span class="chip">Không điển hình</span><span class="chip">2 lượt khám</span><span class="chip">Có cờ đỏ</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Học sinh lớp 8, có tiết thể dục ngoài sân hai buổi mỗi tuần, đang phụ mẹ trông em bé mới sinh</dd><dt>Chiều cao, cân nặng</dt><dd>153 cm · 41 kg</dd>
+<dt>Xưng hô</dt><dd>Bé 13 tuổi, xưng &#x27;con&#x27;, gọi &#x27;bác sĩ&#x27;. Mẹ xưng &#x27;em&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;; bác sĩ gọi mẹ là &#x27;chị&#x27;.</dd><dt>Tính cách</dt><dd>Hân ít nói, trả lời cụt, hay nhìn xuống chân và né ánh mắt; tỏ ra bị mẹ kéo đi khám. Mẹ 34 tuổi, mới sinh em được 5 tuần, mệt, thiếu ngủ, nói nhanh và tính toán từng đồng.</dd><dt>Người nhà</dt><dd>Mẹ bé (chị Hạnh) – Mẹ bé, chị Vũ Thị Hạnh, 34 tuổi, đi cùng. Mẹ trả lời hầu hết câu hỏi chung (nguoi_noi = nguoi_nha); Hân tự trả lời các câu về cảm giác, thuốc đã bôi và chuyện ở trường khi bác sĩ hỏi thẳng bé (nguoi_noi = benh_nhan).</dd></dl></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/2</span> </h2>
+ <div class="card intro"><h3 id="m-2">Tiếp đón</h3><p>Bé Đặng Ngọc Hân, 13 tuổi, học sinh lớp 8, đi cùng mẹ vì nổi mẩn đỏ, rát ngứa ở chân trái khoảng 6 ngày. Sinh hiệu: mạch 84 l/p, HA 104/66 mmHg, nhiệt độ 37,0 °C, nhịp thở 18 l/p, SpO₂ 99%. Cân nặng 41 kg, chiều cao 153 cm.</p>
+  <blockquote>“Bác sĩ ơi, em đưa cháu đi khám cho yên tâm thôi. Cháu nổi mẩn đỏ ở chân mấy hôm nay, ngứa rát lắm, chắc ở trường dính gì. Nhà em mới sinh em bé, tiền bạc eo hẹp lắm, bác sĩ cứ cho thuốc thôi, đừng bắt cháu thử máu, thử gì nhé. Mà bệnh này có lây sang em bé nhà em không bác sĩ?”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>84</b><small>l/p</small></div><div class="vs"><span>HA</span><b>104/66</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>37,0</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>18</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>99</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-3">Hỏi bệnh <small>11 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám, thời gian, triệu chứng chính</b><span class="tag t-g">Tự kể</span></div><p>Mẹ kể: chân trái của bé nổi mẩn đỏ, rát và ngứa khoảng 6 ngày nay, vài hôm nay nổi thêm mụn nước nhỏ; bé gãi nhiều về tối. Bé vẫn đi học, không sốt, ăn ngủ bình thường.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do dùng thuốc bôi: đau khớp cổ chân nhẹ, dễ làm bác sĩ nghĩ sang khớp</b><span class="tag t-b">Khi được hỏi</span></div><p>Khoảng 9 ngày trước, sau tiết thể dục chạy và nhảy ở sân, Hân bị đau nhẹ ở cổ chân trái, không sưng bầm, vẫn đi được. Đến nay chỗ đau đã đỡ nhiều, còn hơi mỏi khi chạy.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc đang dùng: gel giảm đau khớp tự mua (của người nhà) là dị nguyên nghi ngờ</b><span class="tag t-b">Khi được hỏi</span></div><p>Thấy mẹ có tuýp gel giảm đau khớp mua ở quầy thuốc (mẹ hay đau lưng, đau khớp sau sinh), Hân tự lấy bôi lên cẳng chân – cổ chân trái, ngày 2–3 lần, bôi liền 5 ngày (mới ngưng cách đây khoảng 3 ngày), bôi thành vệt rồi xoa. Bé không kể vì &#x27;đó là thuốc bôi, không phải thuốc uống&#x27;. Mẹ nhớ nhãn ghi &#x27;giảm đau, kháng viêm, dùng ngoài da&#x27;, không nhớ tên hoạt chất; tuýp còn ở nhà.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Mốc thời gian: khởi phát sau bôi thuốc và nắng, bôi tiếp làm nặng thêm</b><span class="tag t-b">Khi được hỏi</span></div><p>Ngày bôi thứ hai Hân ra sân chơi và học thể dục dưới nắng, mặc váy đồng phục ngắn. Chiều ngày thứ ba bắt đầu rát bỏng và đỏ; ngày thứ tư nổi cụm mụn nước theo vệt đã bôi. Hân tưởng đau chân chưa hết nên bôi thêm hai ngày, đến khi ngứa rát nhiều mới ngưng.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Phân biệt zona: không có đau thần kinh trước ban</b><span class="tag t-b">Khi được hỏi</span></div><p>Rát bỏng và ngứa chỉ ở vùng chân bôi, không đau dọc theo đường nào, không tê, không lan lên đùi; đêm Hân gãi nên thức giấc một lần. Ban nổi cùng lúc ở cả vùng bôi, không có giai đoạn đau trước rồi mới nổi mụn nước.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiền sử thủy đậu (zona), cơ địa dị ứng (chàm)</b><span class="tag t-b">Khi được hỏi</span></div><p>Hân từng bị thủy đậu lúc 5 tuổi. Không bị hen, viêm mũi dị ứng; da không khô, không nổi mẩn ở nếp khuỷu, khoeo từ nhỏ. Bố mẹ không có bệnh dị ứng. Không dị ứng thuốc hay thức ăn. Tiêm chủng đủ theo lịch.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Triệu chứng toàn thân: loại trừ phản ứng thuốc lan tỏa, nhiễm khuẩn</b><span class="tag t-b">Khi được hỏi</span></div><p>Không sốt, không đau đầu, không đau họng, không loét miệng, không sưng mặt, môi, không khó thở, không đau bụng.</p></div><div class="fact"><div class="fh"><b>Tiếp xúc khác: thực vật, băng thun cao su (nhiễu), bụi cỏ, côn trùng</b><span class="tag t-b">Khi được hỏi</span></div><p>Không đi bụi cỏ, không côn trùng cắn, không đụng chanh, cần tây hay rau thơm. Không đổi xà phòng, sữa tắm; không ai trong nhà nổi mẩn. Hân từng quấn băng thun cổ chân nhiều lần trong đội văn nghệ, chưa bao giờ nổi; đợt này quấn băng thun lên trên gel trong 2 ngày đầu.</p></div><div class="fact"><div class="fh"><b>Hoàn cảnh sau sinh: người mẹ có thuốc, nỗi lo lây cho em bé</b><span class="tag t-b">Khi được hỏi</span></div><p>Mẹ mới sinh em trai 5 tuần, mệt, ít ngủ, không hay Hân bôi gel. Hân phụ giặt tã, pha sữa nên hay thiếu ngủ. Em bé khỏe, chưa nổi mẩn; mẹ sợ bệnh của chị &#x27;lây sang em&#x27;.</p></div><div class="fact"><div class="fh"><b>Nhiễu tài chính và từ chối xét nghiệm của bé và mẹ</b><span class="tag t-b">Khi được hỏi</span></div><p>Nhà vừa tốn tiền sinh em, bố làm thợ xây theo công trình; mẹ đang nghỉ thai sản, chỉ muốn &#x27;khám cho yên tâm&#x27;, xin thuốc, không muốn làm xét nghiệm nào. Khi nghe đề nghị lấy máu hoặc cạo da, Hân lắc đầu, nói &#x27;con sợ đau, con không làm đâu&#x27;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật đến khám: xin giấy nghỉ ốm, liên quan quyết định giấy xác nhận và tham gia thể dục</b><span class="tag t-r">Giấu</span></div><p>Thật ra Hân muốn xin giấy nghỉ ốm: cô giáo thể dục báo tuần sau kiểm tra chạy 800 m, bạn cùng lớp thấy chân bé &#x27;ghê&#x27; và trêu, bé muốn nghỉ cả tuần. Mẹ không biết chuyện này, chỉ nghĩ con &#x27;ngại đi học vì ngứa&#x27;.</p><div class="cond">Điều kiện nói ra: Bé không tự kể. Chỉ nói khi bác sĩ hỏi riêng bé còn lo lắng gì, ở trường có chuyện gì, hoặc bé mong bác sĩ giúp điều gì; mẹ ra ngoài hoặc có điều dưỡng Linh ở cạnh thì bé nói dễ hơn.</div></div></details>
+ <details class="card"><summary><h3 id="m-4">Khám <small>7 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Da, niêm mạc, ban</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Cẳng chân trái đoạn dưới, mặt trước – ngoài, cách nếp cổ chân khoảng 3 cm: một vệt đỏ dài khoảng 12 cm có vảy tiết, bên cạnh cụm mụn nước – sẩn nhỏ trên nền đỏ phù nhẹ, vài chỗ rỉ dịch (ảnh 1); vài sẩn đỏ nhỏ rải rác quanh vệt. Mu bàn chân, bàn chân, bàn tay, mặt, thân mình: không tổn thương.</p><p><span class="lbl">Kết quả:</span> Cẳng chân trái đoạn dưới, mặt trước – ngoài, cách nếp cổ chân khoảng 3 cm: một vệt đỏ dài khoảng 12 cm theo hướng chéo, bề mặt có vảy tiết và vài trầy xước, bên cạnh là cụm mụn nước – sẩn nhỏ tập trung trên nền đỏ phù nhẹ, vài mụn nước đã vỡ rỉ dịch; xung quanh vài sẩn đỏ nhỏ rải rác cách vệt khoảng 2–4 cm (vượt khỏi vùng bôi). Không có luống ghẻ, không có vảy viền ở bờ, không lành giữa. Mu bàn chân, bàn chân, bàn tay, mặt, thân mình, vùng bẹn – sinh dục: da bình thường, không tổn thương. Chân phải bình thường. BSA khoảng 2% (một bàn tay của bé khoảng 1%). Hạch bẹn, khoeo không to.</p><div class="media"><figure class="img"><a href="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/hinh/HA-DA-0028.jpg" target="_blank" rel="noopener"><a class="o-anh" href="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/hinh/HA-DA-0028.jpg"><img loading="lazy" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/hinh/HA-DA-0028.jpg" alt="Cẳng chân trái đoạn dưới"></a></a><figcaption><b>Cẳng chân trái đoạn dưới</b> – Vệt đỏ dài, có vảy tiết, kèm cụm mụn nước – sẩn nhỏ trên nền đỏ ở cẳng chân đoạn dưới; vài sẩn đỏ rải rác xung quanh.</figcaption><div class="src">Ảnh: SCIN (Google Research &amp; Stanford), case -5863256407851897110, https://storage.googleapis.com/dx-scin-public-data/dataset/images/-6760849338709173764.png</div></figure></div></div><div class="row"><div class="rh"><span class="key">★</span><b>Cơ xương khớp, cột sống</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Cổ chân trái không sưng, không bầm; vận động đủ tầm, đau rất nhẹ khi gập mu chân tối đa. Đi lại bình thường.</p><p><span class="lbl">Kết quả:</span> Cổ chân trái: không sưng, không bầm, không nóng, ấn không đau điểm xương; vận động đủ tầm, đau rất nhẹ khi gập mu chân tối đa. Gối, háng hai bên bình thường. Đi lại bình thường, không khập khiễng.</p></div><div class="row"><div class="rh"><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, tiếp xúc cộc lốc, hay nhìn xuống chân. Cân nặng 41 kg, chiều cao 153 cm, BMI ≈ 17,5 kg/m². Da niêm hồng, không phù, không ban toàn thân.</p></div><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Mặt, mi mắt, môi không phù, không ban. Hạch cổ, hạch nách không to.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b></div><p><span class="lbl">Kết quả:</span> Niêm mạc miệng, họng bình thường, không loét.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 84 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều, T1 T2 rõ, không tiếng thổi.</p></div><div class="row"><div class="rh"><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Phổi thông khí đều hai bên, nhịp thở 18 l/p.</p><p><span class="lbl">Kết quả:</span> Phổi trong, không ran. Nhịp thở 18 l/p.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-5">Cận lâm sàng <small>4 mục</small></h3></summary><div class="row"><div class="rh"><b>Soi tươi tìm nấm (KOH) bệnh phẩm da, móng, tóc</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Hân từ chối cạo da vì sợ đau, mẹ từ chối vì tốn tiền. Chưa có kết quả; ghi nhận từ chối vào hồ sơ.</p><p class="why">Nên làm nếu đồng ý: nấm da nằm trong chẩn đoán phân biệt (QĐ 4416, Viêm da tiếp xúc mục 2.1.4; Bệnh da do nấm sợi mục 2.2) và corticoid bôi có thể làm nặng nấm (AAD-NPF 2021, mục Risks/Harms). Từ chối: tôn trọng, giải thích một lần, ghi vào hồ sơ; phương án B là chẩn đoán lâm sàng (vệt, không lành giữa, không vảy viền), bôi corticoid ngắn ngày, tái khám và soi lại nếu không đỡ. Thủ tục ghi nhận từ chối: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Hân và mẹ từ chối lấy máu. Không có kết quả.</p><p class="why">Không cần: viêm da tiếp xúc chẩn đoán bằng lâm sàng và yếu tố tiếp xúc (QĐ 4416, Viêm da tiếp xúc mục 2.1.3); không sốt, không ban lan tỏa nên không có chỉ định tìm bất thường huyết học.</p></div><div class="row"><div class="rh"><b>Test áp (patch test) tìm dị nguyên gây viêm da tiếp xúc dị ứng</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Hân từ chối, mẹ chưa muốn. Cơ sở không làm được; làm ở tuyến trên.</p><p class="why">Chưa làm hôm nay: test áp xác định dị nguyên (QĐ 4416, Viêm da tiếp xúc mục 2.1.2, 2.2.2) nhưng nên hoãn khi viêm cấp và nơi vừa bôi corticoid cần ngưng 7 ngày (nhóm thấp – trung bình) hoặc 14 ngày (nhóm mạnh) (ESCD 2026 mục 2.2.1). Nghi thành phần ánh sáng thì làm test áp ánh sáng (QĐ 4416, Viêm da tiếp xúc do ánh sáng mục 2.1.2; ESCD 2026 mục 5.5). Đề cập lại khi da lành.</p></div><div class="row"><div class="rh"><b>Sinh thiết da, mô bệnh học</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần: mô bệnh học chỉ giúp chẩn đoán phân biệt, không phải xét nghiệm thường quy (QĐ 4416, Viêm da tiếp xúc mục 2.1.2, 2.2.2); không có đặc điểm không điển hình đòi hỏi sinh thiết.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-6">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Viêm da tiếp xúc (nghi thể dị ứng) cẳng chân trái do thuốc bôi giảm đau khớp (gel, hoạt chất chưa rõ), có thể kèm thành phần ánh sáng; giai đoạn cấp, BSA ≈ 2%; không liên quan mặt, bàn tay, bàn chân, sinh dục; chưa xác định dị nguyên bằng test áp</b></div><p class="why">Dát đỏ ranh giới rõ, phù nề, mụn nước, sẩn, rỉ dịch, ngứa rát (QĐ 4416, Viêm da tiếp xúc mục 2.1.1); chẩn đoán dựa lâm sàng và yếu tố tiếp xúc (mục 2.1.3). Khởi phát ngày 2–3 sau bôi gel và đi nắng, nặng thêm khi bôi tiếp; thuốc bôi là dị nguyên chính (mục 1.3); tổn thương có thể vượt vùng tiếp xúc (mục 2.1.1). Thuốc kháng viêm không steroid gây viêm da tiếp xúc do ánh sáng (QĐ 4416, Viêm da tiếp xúc do ánh sáng mục 1.3), thể dị ứng lan ra vùng da cạnh đó (mục 2.1.2); hoạt chất chưa biết nên chỉ nghi. Thuốc bôi do người chăm sóc dùng là nguồn mẫn cảm ở trẻ (ESCD 2026 mục 9.1.1). ICD-10 L23 (DDG 2022 mục 1.1).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm da cơ địa (chàm thể tạng)</b></div><p class="why">Cần ngứa, hình thái và vị trí điển hình, mạn tính hoặc tái phát, tiền sử dị ứng: ≥ 3 tiêu chuẩn chính và ≥ 3 phụ (Hanifin–Rajka, QĐ 4416, Viêm da cơ địa mục 2.3.1) hoặc ngứa kèm ≥ 3/5 (tiêu chuẩn Anh, mục 2.3.2). Hân: đợt đầu, ban khu trú một chân, da không khô, không tiền sử dị ứng, không tổn thương nếp khuỷu, khoeo.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Nấm da (nấm thân)</b></div><p class="why">Nấm sợi: dát, mảng đỏ tròn hay nhiều cung, có vảy, xu hướng lành giữa và lan rộng, ngứa nhiều (QĐ 4416, Bệnh da do nấm sợi mục 2.1); viêm da tiếp xúc nằm trong chẩn đoán phân biệt (mục 2.5). Hân: vệt và cụm mụn nước theo vùng bôi, không lành giữa, không vảy viền; soi tươi từ chối nên chẩn đoán loại trừ dựa lâm sàng, hẹn tái khám đề phòng.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Zona</b></div><p class="why">Ban đỏ, mụn nước chùm như chùm nho sắp xếp dọc đường phân bố thần kinh, thường có cảm giác bỏng rát, dị cảm vài ngày trước khi nổi ban (QĐ 4416, Zona mục 2.1); viêm da tiếp xúc có bọng nước phải phân biệt zona (Viêm da tiếp xúc mục 2.1.4). Hân từng thủy đậu nên không loại trừ bằng tiền sử mà bằng hình thái: ban nổi ngay vùng bôi, không có đau thần kinh trước ban, không theo dải da, có sẩn rải rác ngoài vệt, không sốt, không mệt.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm da tiếp xúc kích ứng (gel, băng thun, nắng, mồ hôi)</b></div><p class="why">Biểu hiện giống thể dị ứng, đôi khi rất khó phân biệt, khu trú vùng tiếp xúc, lành nhanh sau ngừng chất kích ứng (QĐ 4416, Viêm da tiếp xúc mục 2.2.1); không loại trừ hẳn, cách xử trí ban đầu như nhau, phân biệt bằng test áp (mục 2.2.2) mà Hân từ chối. Băng thun cao su là dị nguyên có thể gặp (mục 1.3) nhưng Hân quấn nhiều lần không nổi. Thể do ánh sáng và do thực vật (vệt theo vị trí tiếp xúc, Viêm da tiếp xúc do ánh sáng mục 2.1.1) cùng nhóm tiếp xúc; Hân không tiếp xúc thực vật.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Loại bỏ căn nguyên: ngưng bôi gel giảm đau khớp ngay, không dùng thêm thuốc bôi khác chưa rõ thành phần; mang tuýp gel (hoặc chụp nhãn thành phần) đến lần tái khám</b></div><p class="why">QĐ 4416 (Viêm da tiếp xúc mục 3.1: tìm và loại bỏ căn nguyên; mục 1.1: dai dẳng, hay tái phát nếu không loại trừ); DDG 2022 (mục 3.2: tránh nghiêm ngặt). Hỏi đúng thuốc bôi của người nhà là bước then chốt.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Rà tiêu chí nặng: BSA, mặt, bàn tay, bàn chân, vùng sinh dục; không có → điều trị tại chỗ, không dùng corticoid toàn thân</b></div><p class="why">QĐ 4416 (mục 3.2.1): &gt; 20% diện tích cơ thể hoặc mặt, bàn tay, bàn chân, sinh dục thì corticosteroid toàn thân là lựa chọn thứ nhất. Hân: BSA ≈ 2%, ngoài các vị trí đó. Mục mâu thuẫn một phần giữa QĐ 4416 và DDG 2022 đã có (xem ghi chú biên tập).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Corticoid bôi tại cẳng chân, lớp mỏng 2 lần/ngày, tới khi lành, tối đa 14 ngày: betamethason valerat 0,1% kem (hiệu lực trung bình, hợp thiếu niên theo DDG 2022) hoặc loại mạnh như betamethason dipropionat 0,05% kem (mặt duỗi theo QĐ 4416)</b></div><p class="why">QĐ 4416 (Viêm da tiếp xúc mục 3.2.1): mặt duỗi, bàn tay, bàn chân dùng loại mạnh, 1–2 lần/ngày trong 2–4 tuần hoặc tới khi lành, chú ý teo da, giãn mạch. DDG 2022 (mục 3.3.1.2, 3.3.4.1): ở trẻ em chọn nhóm TIX ≥ 2, giai đoạn cấp đủ mạnh để dập viêm; betamethason-17-valerat 0,1% thuộc nhóm thấp – trung bình (mục 3.3.1.3). AAD-NPF 2021: betamethason valerat 0,1% kem Class 5, betamethason dipropionat 0,05% kem Class 3. Hai nguồn khác mức hiệu lực cho chi ở thiếu niên, cả hai đúng; chọn đoạn ngắn của 2–4 tuần vì là trẻ em.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Cetirizin 10 mg uống 1 viên mỗi tối khi ngứa, tối đa 7 ngày</b></div><p class="why">QĐ 4416 (mục 3.2.1): kháng histamin uống để giảm ngứa. &gt; 12 tuổi liều như người lớn: cetirizin 10 mg/viên, 1 viên/ngày (QĐ 3942/2014 Bảng 3, kho cũ), có thể an thần nhẹ nên uống tối. Thời gian: không có trong tài liệu đã tải; chọn tối đa 7 ngày.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dưỡng ẩm không hương liệu cho vùng da quanh tổn thương; che chắn chân khỏi nắng (quần dài, tránh tập ngoài sân) tới khi lành</b></div><p class="why">QĐ 4416 (Viêm da tiếp xúc mục 3.1, 3.2.1: hồi phục hàng rào da, kem dưỡng ẩm không dị nguyên); DDG 2022 (mục 3.3.1.1). Che nắng: QĐ 4416 (Viêm da tiếp xúc do ánh sáng mục 3.1). Thời gian dưỡng ẩm: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ghi nhận Hân và mẹ từ chối soi nấm, xét nghiệm máu; giải thích lợi ích một lần; phương án B: điều trị theo lâm sàng, tái khám sau 7–10 ngày, soi tươi hoặc chuyển Da liễu nếu không đỡ, nặng thêm hay ban có tính chất nấm</b></div><p class="why">Chẩn đoán dựa lâm sàng và yếu tố tiếp xúc, test áp chỉ xác định dị nguyên (QĐ 4416, Viêm da tiếp xúc mục 2.1.3); không đỡ hoặc xấu đi thì nghĩ dị ứng với corticoid hay thành phần khác (DDG 2022 mục 3.3.1.2). Mốc 7–10 ngày và thủ tục ghi nhận từ chối: không có trong tài liệu đã tải (QĐ 4416 chỉ nêu bôi 2–4 tuần hoặc tới khi lành).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi riêng bé về lý do thật, giải thích tình trạng thật của chân, cấp giấy xác nhận khám bệnh ghi đúng chẩn đoán, khuyên không tập thể dục ngoài nắng tới khi da lành; không ghi sai bệnh để bé nghỉ kéo dài</b></div><p class="why">Khuyên che nắng khi da đang viêm: QĐ 4416 (Viêm da tiếp xúc do ánh sáng mục 3.1). Điều kiện cấp giấy nghỉ ốm, số ngày nghỉ: không có trong tài liệu đã tải; quyết định theo tình trạng thật của da.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Chuyển Da liễu ngay để làm test áp hoặc test áp ánh sáng</b></div><p class="why">Hợp lý khi muốn biết dị nguyên (QĐ 4416 mục 2.1.2; ESCD 2026 mục 5.5, 9.1.1) nhưng nên hoãn khi viêm cấp và vừa bôi corticoid (ESCD 2026 mục 2.2.1); bé và mẹ đang từ chối xét nghiệm; cơ sở không làm được.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Corticoid bôi rất mạnh (clobetasol propionat 0,05%) cho Hân</b></div><p class="why">AAD-NPF 2021 xếp clobetasol 0,05% vào Class 1 (rất mạnh); ở trẻ em DDG 2022 (mục 3.3.4.1) chọn nhóm TIX ≥ 2, loại mạnh dùng kéo dài phải hạn chế (mục 3.3.1.2); vệt nhỏ ở thiếu niên không cần.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Tiếp tục bôi gel giảm đau khớp, hoặc thay bằng thuốc bôi giảm đau khác chưa biết thành phần cho cổ chân</b></div><p class="why">Tiếp tục tiếp xúc làm bệnh dai dẳng, hay tái phát (QĐ 4416, Viêm da tiếp xúc mục 1.1); loại bỏ căn nguyên là nguyên tắc đầu tiên (mục 3.1). Thuốc bôi và thuốc kháng viêm không steroid là nhóm nguyên nhân (mục 1.3; Viêm da tiếp xúc do ánh sáng mục 1.3).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Prednisolon uống hoặc tiêm cho Hân</b></div><p class="why">Chưa đủ tiêu chí: BSA ≈ 2%, không mặt, bàn tay, bàn chân, sinh dục (QĐ 4416, Viêm da tiếp xúc mục 3.2.1); DDG 2022 (mục 3.3.3.1, 3.3.4.3) chỉ dùng cho thể lan rộng hoặc nặng, ở trẻ em tối đa 7 ngày.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển Hân đi Da liễu ngay để làm test áp là chưa đúng lúc: da đang viêm cấp, nên hoãn khi viêm nặng và khi vừa bôi corticoid (ESCD 2026 mục 2.2.1). Với BSA khoảng 2%, không mặt, bàn tay, bàn chân, sinh dục, Hân được điều trị tại chỗ ngay ở phòng khám (QĐ 4416, Viêm da tiếp xúc mục 3.2.1); đi tuyến trên làm bé nghỉ học thêm, gia đình đang eo hẹp tốn tiền đi lại, bé vẫn từ chối xét nghiệm mà ban chưa được bôi thuốc.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhập viện cho Hân vì sợ zona hoặc phản ứng thuốc là quá tay: bé tỉnh, không sốt, sinh hiệu ổn, ban khu trú một vệt ở cẳng chân với BSA khoảng 2%, không có đau thần kinh trước ban (QĐ 4416, Zona mục 2.1; Viêm da tiếp xúc mục 3.2.1). Tài liệu đã tải không nêu chỉ định nhập viện cho thể khu trú này; nằm viện chỉ làm mẹ vừa sinh 5 tuần phải bỏ em ở nhà, tốn tiền, bé nghỉ học dài và tăng áp lực với bài kiểm tra mà vẫn từ chối mọi xét nghiệm.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Viêm da tiếp xúc (nghi thể dị ứng, ICD-10 L23), giai đoạn cấp, cẳng chân trái đoạn dưới; BSA ≈ 2%</li><li>Dị nguyên nghi: gel giảm đau khớp bôi ngoài da của mẹ (hoạt chất chưa biết, chưa xác định bằng test áp), bôi 5 ngày; yếu tố ánh sáng (nắng ngày bôi thứ 2–3) có thể góp phần; bôi tiếp làm nặng thêm</li><li>Không thuộc nhóm cần corticoid toàn thân: BSA &lt; 20%, không mặt, bàn tay, bàn chân, sinh dục</li><li>Đã loại trừ trên lâm sàng: viêm da cơ địa (chàm), nấm da (không soi được vì từ chối), zona, ghẻ, phản ứng thuốc toàn thân; đau cổ chân nhẹ đã đỡ, không phải bệnh khớp</li><li>Nhiễu và lý do thật: gia đình eo hẹp sau sinh, bé và mẹ từ chối xét nghiệm; bé xin giấy nghỉ vì sợ kiểm tra chạy và bị bạn trêu</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự hợp lý: ghi nhận hoàn cảnh nhà (tiền, em bé) → mốc thời gian và diễn tiến ban, có đau trước ban không → hỏi tiếp xúc có hệ thống, nhất là thuốc bôi, kể cả thuốc của người nhà vì bé coi thuốc bôi là &#x27;không phải thuốc&#x27; → tiền sử thủy đậu, cơ địa → toàn thân → hỏi riêng bé còn lo gì (lý do thật) → khám da toàn thân, mu bàn chân, bàn tay, bẹn, cổ chân → chẩn đoán, xếp mức độ → điều trị.</li><li>Vì sao viêm da tiếp xúc: dát đỏ ranh giới rõ, phù nề, mụn nước, sẩn, rỉ dịch, ngứa (QĐ 4416, Viêm da tiếp xúc mục 2.1.1); chẩn đoán dựa lâm sàng và yếu tố tiếp xúc (mục 2.1.3). Khởi phát ngày 2–3 sau gel, ban đúng vùng bôi, nặng thêm khi bôi tiếp. Mẫn cảm 5–21 ngày, tái tiếp xúc 48–72 giờ lên phản ứng (mục 1.3); dị ứng hay kích ứng chỉ phân biệt chắc bằng test áp (mục 2.1.2, 2.2.2).</li><li>Điểm không điển hình: (1) ban dạng vệt và cụm mụn nước rỉ dịch, rát hơn ngứa, vượt vùng bôi, khiến nghĩ zona hoặc nấm; (2) lý do dễ nhầm là &#x27;đau khớp&#x27; nhẹ, còn thuốc nguyên nhân là thuốc bôi bé không kể; (3) có thể có thành phần ánh sáng (QĐ 4416, Viêm da tiếp xúc do ánh sáng mục 1.3, 2.1.2); (4) bé dùng thuốc của mẹ (ESCD 2026 mục 9.1.1). Điều vẫn gợi ý: ban nổi ngay vùng bôi, sau bôi, không đau thần kinh trước ban.</li><li>Phân biệt zona: ban đỏ, mụn nước chùm theo đường thần kinh, bỏng rát hay dị cảm 1–5 ngày trước ban (QĐ 4416, Zona mục 2.1); Hân không đau trước, ban theo vệt bôi, có sẩn ngoài vệt. Nấm: dát tròn hay nhiều cung, có vảy, lành giữa (Bệnh da do nấm sợi mục 2.1). Chàm: Hanifin–Rajka (Viêm da cơ địa mục 2.3.1), Hân đợt đầu, không nền dị ứng.</li><li>Cờ đỏ của ca: (1) ban mụn nước chùm một chân giống zona, loại bằng hỏi đau thần kinh và hình thái; (2) tiêu chí nặng (QĐ 4416, mục 3.2.1): &gt; 20% BSA, mặt, bàn tay, bàn chân, sinh dục thì corticoid toàn thân, phải khám mu bàn chân, bàn tay, bẹn mới biết; (3) không lấy &#x27;xin giấy nghỉ&#x27; làm cớ bỏ khám đầy đủ.</li><li>Từ chối xét nghiệm: tôn trọng quyết định của bé và mẹ, giải thích một lần xét nghiệm nào đổi được quyết định (soi nấm: nên làm vì corticoid có thể làm nặng nấm; công thức máu, IgE: không đổi xử trí), ghi vào hồ sơ; phương án B: chẩn đoán lâm sàng, hẹn tái khám, mốc chuyển hướng khi không đỡ. Thủ tục ghi nhận: không có trong tài liệu đã tải.</li><li>Hạn chế tài liệu: hoạt chất gel, nguy cơ của từng thuốc bôi giảm đau và phản ứng chéo giữa chúng không có trong tài liệu đã tải.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Hướng xử trí: ngoại trú, thuốc bôi tại chỗ, hẹn tái khám (ve_hen). Không chuyển tuyến, không nhập viện vì BSA ≈ 2%, ban khu trú, sinh hiệu ổn, không sốt (QĐ 4416, Viêm da tiếp xúc mục 3.2.1); tài liệu đã tải không có chỉ định nhập viện cho thể khu trú này.</li><li>Gốc điều trị là loại bỏ dị nguyên (QĐ 4416 mục 3.1; DDG 2022 mục 3.2): ngưng gel, giữ tuýp, chụp nhãn; test áp hoặc test áp ánh sáng ở tuyến trên khi da lành nếu muốn xác định (ESCD 2026 mục 5.5, 9.1.1).</li><li>Corticoid bôi là bậc 1 (QĐ 4416 mục 3.2.1; DDG 2022 mục 3.3.1.2). Mặt duỗi dùng loại mạnh theo QĐ 4416 (betamethason dipropionat 0,05% kem, Class 3, AAD-NPF 2021) hoặc trung bình theo DDG 2022 ở trẻ em (betamethason valerat 0,1% kem, Class 5); đơn chọn betamethason valerat 0,1% 2 lần/ngày, tối đa 14 ngày (đoạn ngắn của 2–4 tuần), ngừng khi lành.</li><li>Kháng histamin uống giảm ngứa (QĐ 4416 mục 3.2.1): cetirizin 10 mg mỗi tối, 1 viên/ngày cho &gt; 12 tuổi (QĐ 3942/2014 Bảng 3), có thể buồn ngủ nhẹ; thời gian: không có trong tài liệu đã tải, chọn tối đa 7 ngày. Không bôi kháng histamin tại chỗ vì có thể gây mẫn cảm (DDG 2022 mục 3.3.1.7).</li><li>Dưỡng ẩm (QĐ 4416 mục 3.1, 3.2.1; DDG 2022 mục 3.3.1.1). Che nắng bằng quần dài, tránh tập ngoài sân tới khi lành (QĐ 4416, Viêm da tiếp xúc do ánh sáng mục 3.1); không khuyên kem chống nắng vì thành phần chống nắng là một nguyên nhân của viêm da tiếp xúc do ánh sáng (mục 1.3).</li><li>Không corticoid toàn thân: QĐ 4416 (mục 3.2.1) chỉ định khi &gt; 20% BSA hoặc mặt, bàn tay, bàn chân, sinh dục; DDG 2022 (mục 3.3.3.1, 3.3.4.3) hẹp hơn, ở trẻ tối đa 7 ngày. Ca này không chạm ngưỡng nào.</li><li>Giấy xác nhận ghi đúng chẩn đoán, khuyên không tập ngoài nắng tới khi lành; nỗi sợ kiểm tra chạy và bị trêu trao đổi riêng với bé, không kéo dài ngày nghỉ vượt tình trạng thật (điều kiện giấy nghỉ ốm: không có trong tài liệu đã tải).</li><li>Hẹn tái khám 7–10 ngày (mốc không có trong tài liệu đã tải; QĐ 4416 nêu corticoid 2–4 tuần hoặc tới khi lành).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Betamethason valerat (kem)</b><div class="sub">0,1% (dạng kem)</div></td><td data-l="Liều">Bôi lớp mỏng lên vệt và cụm mụn nước ở cẳng chân trái, không bôi lên da lành rộng<div class="sub">Bôi ngoài da · 2 lần/ngày, sáng và tối sau khi rửa sạch</div></td><td data-l="Thời gian">Tối đa 14 ngày, ngừng khi lành</td><td class="gc" data-l="Ghi chú">QĐ 4416 (Viêm da tiếp xúc mục 3.2.1: 1–2 lần/ngày, 2–4 tuần hoặc tới khi lành; chú ý teo da, giãn mạch); DDG 2022 (mục 3.3.1.3: nhóm thấp – trung bình; mục 3.3.4.1: trẻ em TIX ≥ 2); AAD-NPF 2021 (Class 5). Loại mạnh theo QĐ 4416 (betamethason dipropionat 0,05% kem, Class 3) là cách khác chấp nhận được. Chế phẩm bán tại Việt Nam: không có trong tài liệu đã tải.</td></tr><tr><td><b>Cetirizin (viên)</b><div class="sub">10 mg/viên</div></td><td data-l="Liều">1 viên khi ngứa, không quá 1 viên/ngày<div class="sub">Uống · Buổi tối</div></td><td data-l="Thời gian">Tối đa 7 ngày</td><td class="gc" data-l="Ghi chú">QĐ 4416 (Viêm da tiếp xúc mục 3.2.1: kháng histamin uống để giảm ngứa); liều &gt; 12 tuổi như người lớn, 1 viên/ngày (QĐ 3942/2014, Bảng 3). Có thể buồn ngủ nhẹ. Số ngày: không có trong tài liệu đã tải.</td></tr><tr><td><b>Kem dưỡng ẩm không hương liệu</b><div class="sub">Không có trong tài liệu đã tải</div></td><td data-l="Liều">Bôi vùng da quanh tổn thương và vùng đã khô<div class="sub">Bôi ngoài da · Nhiều lần trong ngày, bôi sau khi corticoid ít nhất vài phút</div></td><td data-l="Thời gian">Đến khi lành; thời gian dùng sau khi lành: không có trong tài liệu đã tải</td><td class="gc" data-l="Ghi chú">QĐ 4416 (mục 3.1, 3.2.1: kem dưỡng ẩm dùng nhiều lần trong ngày, không có dị nguyên); DDG 2022 (mục 3.3.1.1). Khoảng cách vài phút giữa hai thuốc: lời dặn chung, không có trong tài liệu đã tải.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Ngưng hẳn gel và không dùng thuốc bôi giảm đau, kháng viêm khác cho tới khi bác sĩ xem nhãn thành phần (QĐ 4416, Viêm da tiếp xúc mục 3.1; DDG 2022 mục 3.2). Mang tuýp gel hoặc ảnh nhãn đến tái khám.</li><li>Đây là viêm da do tiếp xúc, không phải bệnh nhiễm trùng, mẹ không cần lo lây sang em (phản ứng quá mẫn của da, QĐ 4416 mục 1.1, 1.3). Cất thuốc bôi của mẹ ngoài tầm tay trẻ (lời dặn chung, không có trong tài liệu đã tải).</li><li>Bôi thuốc đúng liều, không quá 14 ngày, không bôi ra da lành rộng; không gãi, cắt móng tay; không đắp lá, dầu nóng, thuốc không rõ thành phần (QĐ 4416, Viêm da tiếp xúc mục 2.2.1: chất kích ứng).</li><li>Mặc quần dài, tránh tập ngoài sân đến khi da lành (QĐ 4416, Viêm da tiếp xúc do ánh sáng mục 3.1); đau cổ chân nhẹ nghỉ ngơi, không bôi thuốc giảm đau (lời dặn chung, không có trong tài liệu đã tải).</li><li>Quay lại ngay nếu sốt, ban lan lên đùi, mặt, tay hoặc nhiều nơi, mụn nước thành dải kèm đau thần kinh, mủ vàng hoặc loét (QĐ 4416, Viêm da tiếp xúc mục 3.2.1; Zona mục 2.1).</li><li>Tái khám sau 7–10 ngày (mốc không có trong tài liệu đã tải). Bé và mẹ có quyền từ chối xét nghiệm; đổi ý thì soi nấm hoặc test áp ở tuyến trên sau khi lành.</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-2">
+ <h2 id="h-luot-2"><span class="ln">Lượt 2/2</span> · sau 10 ngày</h2>
+ <div class="card intro"><h3 id="m-7">Tiếp đón</h3><p>Tái khám sau 10 ngày. Mẹ báo bé hết ngứa rát, da đỡ nhiều, đã ngưng gel, mang tuýp gel theo. Sinh hiệu: mạch 80 l/p, HA 102/64 mmHg, nhiệt độ 36,8 °C, nhịp thở 18 l/p, SpO₂ 99%. Cân nặng 41 kg.</p>
+  <blockquote>“Dạ bác sĩ, cháu hết ngứa rồi, da cũng nhìn đỡ lắm. Em mang cả tuýp gel theo đây. Mà bác sĩ ơi, cho cháu xin giấy nghỉ thể dục thêm tuần nữa được không ạ, chân cháu còn thâm...”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>80</b><small>l/p</small></div><div class="vs"><span>HA</span><b>102/64</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,8</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>18</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>99</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-8">Hỏi bệnh <small>6 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Diễn tiến sau điều trị: đỡ hoàn toàn</b><span class="tag t-g">Tự kể</span></div><p>Hân kể: hết rát ngứa sau 3–4 ngày bôi thuốc, mụn nước khô lại ngày thứ 6, vảy bong dần; khoảng ngày thứ 10 da phẳng, chỉ còn vệt thâm nhạt. Không nổi thêm ở chỗ khác, không sốt.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tuân thủ, thời gian dùng thuốc, tác dụng phụ corticoid bôi</b><span class="tag t-b">Khi được hỏi</span></div><p>Hân bôi betamethason hai lần mỗi ngày, ngưng ở ngày thứ 9 vì thấy da hết đỏ và hết ngứa; cetirizin uống 4 tối đầu rồi ngưng vì hết ngứa; dưỡng ẩm bôi lúc nhớ lúc quên. Hân không bôi lại gel, không quấn băng thun, mặc quần dài khi ra sân, tập thể dục ngoài nắng chỉ vài buổi. Bé không thấy da mỏng, rạn, nổi mạch đỏ hay mụn ở chỗ bôi.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tuýp thuốc nghi ngờ: ghi nhãn vào hồ sơ, hướng dẫn tránh</b><span class="tag t-b">Khi được hỏi</span></div><p>Mẹ mang tuýp gel theo. Nhãn ghi &#x27;gel giảm đau, kháng viêm không steroid, dùng ngoài da&#x27;, thành phần ghi chữ nhỏ; mẹ cũng chụp ảnh nhãn. Mẹ cho biết mẹ vẫn bôi gel này cho lưng của mình, chưa bị nổi mẩn lần nào, và hỏi có phải đổ bỏ không.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật vẫn còn: xin giấy nghỉ, nỗi sợ kiểm tra chạy và bị trêu</b><span class="tag t-b">Khi được hỏi</span></div><p>Hân xin nghỉ thể dục thêm một tuần vì kiểm tra chạy 800 m dời sang tuần sau; bé thấy vệt thâm &#x27;xấu&#x27;, sợ bạn trêu, và do chăm em ban đêm nên chạy mệt. Bé chưa bao giờ nói với cô giáo.</p></div><div class="fact"><div class="fh"><b>Từ chối xét nghiệm lần hai và nhiễu tài chính</b><span class="tag t-b">Khi được hỏi</span></div><p>Khi bác sĩ giải thích có thể thử bằng test áp ở Da liễu sau khi lành để biết hoạt chất nào gây dị ứng, mẹ hỏi giá (khoảng 1,2 triệu đồng) và nói chưa có tiền. Hân vẫn sợ bị dán lưng nhiều ngày, không tắm được, phải nghỉ học, nên từ chối lần nữa; hai mẹ con nhờ ghi vào sổ để đổi ý sau.</p></div><div class="fact"><div class="fh"><b>Tình hình gia đình và cổ chân: đỡ</b><span class="tag t-b">Khi được hỏi</span></div><p>Em bé 6 tuần khỏe, không nổi mẩn, đang bú mẹ. Mẹ đỡ mệt hơn, chồng về nhà được vài ngày mỗi tuần. Đau cổ chân của Hân đã hết hẳn.</p></div></details>
+ <details class="card"><summary><h3 id="m-9">Khám <small>3 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Da, niêm mạc, ban</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Cẳng chân trái đoạn dưới: da phẳng, không đỏ, không sẩn, không mụn nước, không vảy; còn vệt sậm màu khoảng 12 cm và vài chấm thâm nhỏ. Không rạn, không mạch giãn, không mụn. Mu bàn chân, bàn chân, bàn tay, mặt, thân mình: không tổn thương.</p><p><span class="lbl">Kết quả:</span> Cẳng chân trái đoạn dưới, mặt trước – ngoài: da phẳng, không đỏ, không sẩn, không mụn nước, không rỉ dịch, không vảy; còn vệt sậm màu hơn da xung quanh khoảng 12 × 1,5 cm cùng vài chấm thâm nhỏ ở chỗ sẩn cũ (tăng sắc tố sau viêm nhẹ). Không teo da, không rạn, không giãn mạch, không mụn, không lông mọc dày chỗ đã bôi. Mu bàn chân, bàn chân, bàn tay, mặt, thân mình, chân phải: không tổn thương mới. Hạch bẹn, khoeo không to.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Cổ chân trái không sưng, không đau khi vận động.</p><p><span class="lbl">Kết quả:</span> Cổ chân trái bình thường, không sưng, không đau khi ấn hay vận động; đi, chạy nhẹ tại chỗ không đau.</p></div><div class="row"><div class="rh"><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, tự trả lời nhiều hơn lần trước. Cân nặng 41 kg. Da niêm hồng, không ban toàn thân.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Tim</b><span class="tag t-m">Bình thường</span></div><p>Tim đều 80 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 18 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-10">Cận lâm sàng <small>3 mục</small></h3></summary><div class="row"><div class="rh"><b>Test áp (patch test) tìm dị nguyên gây viêm da tiếp xúc dị ứng</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Cơ sở không làm được test áp. Hân và mẹ từ chối chuyển Da liễu lần này; ghi nhận từ chối vào hồ sơ, đề nghị lại khi tái phát.</p><p class="why">Chấp nhận, không bắt buộc: test áp (và test áp ánh sáng nếu nghi thành phần ánh sáng) xác định dị nguyên và phân biệt thể dị ứng với kích ứng (QĐ 4416, Viêm da tiếp xúc mục 2.1.2, 2.2.2; Viêm da tiếp xúc do ánh sáng mục 2.1.2; ESCD 2026 mục 5.5). Làm khi da đã lành; ngưng corticoid bôi ở vị trí test ≥ 7 ngày (nhóm thấp – trung bình) hoặc 14 ngày (nhóm mạnh), tránh nắng vùng test 2–4 tuần (ESCD 2026 mục 2.2.1); sản phẩm của bệnh nhân được thử cùng bộ chuẩn, không thử chất không rõ thành phần (ESCD 2026 mục 6). Hân bị từ chối: tôn trọng, ghi vào hồ sơ; phương án B là tránh gel và ghi lại nhãn.</p></div><div class="row"><div class="rh"><b>Soi tươi tìm nấm (KOH) bệnh phẩm da, móng, tóc</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần: không còn tổn thương để lấy bệnh phẩm, da lành sau điều trị đúng cho viêm da tiếp xúc; đáp ứng với corticoid bôi không phù hợp với nấm da (QĐ 4416, Bệnh da do nấm sợi mục 2.1).</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần: đã khỏi, không sốt, không biểu hiện toàn thân (QĐ 4416, Viêm da tiếp xúc mục 2.1.3).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-11">Đáp án lượt 2 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Viêm da tiếp xúc (nghi thể dị ứng, có thể kèm thành phần ánh sáng) do gel giảm đau khớp, đã lành; còn tăng sắc tố sau viêm nhẹ; dị nguyên chưa xác định bằng test áp (bé và mẹ từ chối)</b></div><p class="why">Hết ngứa rát, tổn thương lành, không tổn thương mới sau ngưng gel và bôi corticoid ngắn ngày (QĐ 4416, Viêm da tiếp xúc mục 2.1.1, 3.2.1). Nhiễm sắc tố là biểu hiện được mô tả ở viêm da tiếp xúc (mục 2.1.1) và viêm da tiếp xúc do ánh sáng có thể để lại thâm kéo dài (Viêm da tiếp xúc do ánh sáng mục 2.1.1); thời gian mờ thâm: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Dị ứng với chính corticoid hoặc thành phần nền của kem</b></div><p class="why">Cân nhắc khi da xấu đi hoặc không đỡ dưới điều trị (DDG 2022 mục 3.3.1.2). Hân đỡ đều, hết ngứa sau 3–4 ngày → không nghĩ.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tác dụng phụ tại chỗ của corticoid bôi (teo da, giãn mạch, rạn)</b></div><p class="why">Teo da, giãn mạch là tác dụng phụ hay gặp (QĐ 4416, Viêm da tiếp xúc mục 3.2.1; DDG 2022 mục 3.3.1.2). Khám sau 9 ngày dùng không có, không có lý do kéo dài thuốc.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Xác nhận khỏi bằng lâm sàng: hết ngứa rát, không còn đỏ, sẩn, mụn nước, rỉ dịch, vảy, không tổn thương mới, không teo da; vệt sậm màu còn lại là thâm sau viêm, không cần thuốc</b></div><p class="why">QĐ 4416 (Viêm da tiếp xúc mục 3.2.1: bôi tới khi lành thương tổn; chú ý teo da, giãn mạch). Thời gian mờ thâm: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ngưng corticoid bôi và cetirizin (đã đủ liệu trình); không bôi &#x27;cho chắc&#x27; hay để mờ thâm</b></div><p class="why">QĐ 4416 (mục 3.2.1): dùng tới khi lành, 2–4 tuần, tối thiểu hóa dùng kéo dài trên 2–4 tuần để tránh teo da; DDG 2022 (mục 3.3.1.2): teo da, giãn mạch là tác dụng phụ hay gặp. Không giảm dần vì chỉ dùng chưa đầy 2 tuần.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Tiếp tục dưỡng ẩm không hương liệu vùng vừa viêm 2–4 tuần</b></div><p class="why">QĐ 4416 (mục 3.1: hồi phục hàng rào da; mục 3.2.1); DDG 2022 (mục 3.3.1.1). Thời gian 2–4 tuần: không có trong tài liệu đã tải, chọn theo khoảng 2–4 tuần của corticoid.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Tránh dị nguyên: không dùng lại gel này; ghi nhãn (hoặc giữ ảnh nhãn) vào hồ sơ; trước khi dùng thuốc bôi giảm đau khác thì đưa nhãn cho bác sĩ hoặc dược sĩ xem</b></div><p class="why">QĐ 4416 (mục 1.1, 3.1); DDG 2022 (mục 3.2, 4.1.3): tránh nghiêm ngặt là cách an toàn duy nhất. Phản ứng chéo với thuốc bôi khác và hoạt chất của gel: không có trong tài liệu đã tải; mẹ dùng gel không nổi mẩn vì dị ứng chỉ xảy ra ở người đã mẫn cảm (QĐ 4416, mục 1.3).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Đề nghị test áp hoặc test áp ánh sáng ở Da liễu một lần để xác định hoạt chất; Hân và mẹ từ chối: tôn trọng, ghi vào hồ sơ, phương án B là tránh gel và quay lại khi tái phát</b></div><p class="why">QĐ 4416 (Viêm da tiếp xúc mục 2.1.2, 2.1.3); ESCD 2026 (mục 9.1.1: test áp ở trẻ an toàn, khuyến cáo khi nghi viêm da tiếp xúc dị ứng; mục 5.5: test áp ánh sáng). Chưa tái phát nên chưa bắt buộc. Thủ tục ghi nhận từ chối: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Cho Hân đi học và tập thể dục bình thường; không cấp thêm ngày nghỉ vì da đã lành; trao đổi riêng về nỗi sợ kiểm tra chạy và bị trêu, gợi ý nói với cô giáo</b></div><p class="why">Da lành, không còn hạn chế do bệnh (QĐ 4416, Viêm da tiếp xúc mục 3.2.1). Điều kiện cấp giấy nghỉ ốm: không có trong tài liệu đã tải. Phần hỗ trợ tâm lý và giao tiếp: kỹ năng khám, không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không hẹn tái khám định kỳ; quay lại khi tái phát hoặc trước khi dùng thuốc bôi mới</b></div><p class="why">Lịch tái khám sau khi khỏi: không có trong tài liệu đã tải; chọn theo bản chất bệnh khu trú, hết khi hết tiếp xúc.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Chuyển Da liễu làm test áp ngay trong tuần này</b></div><p class="why">ESCD 2026 (mục 9.1.1, 5.5): hợp lý nếu muốn biết chắc; vẫn cần ngưng corticoid bôi và tránh nắng vùng test (mục 2.2.1); bé từ chối, chưa tái phát nên chưa bắt buộc; cơ sở không làm được.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kéo dài corticoid bôi thêm 2–4 tuần &#x27;cho chắc&#x27; hoặc để mờ thâm</b></div><p class="why">Tối thiểu hóa dùng corticoid kéo dài 2–4 tuần (QĐ 4416 mục 3.2.1); teo da, giãn mạch (DDG 2022 mục 3.3.1.2). Thâm không phải viêm đang hoạt động.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho Hân bôi lại gel &#x27;thử xem còn dị ứng không&#x27; hoặc cho dùng tiếp thuốc bôi giảm đau khác cho cổ chân</b></div><p class="why">Tái tiếp xúc với dị nguyên nghi ngờ làm bệnh tái phát (QĐ 4416 mục 1.1, 1.3: tái tiếp xúc 48–72 giờ lên phản ứng); tránh nghiêm ngặt (DDG 2022 mục 3.2, 4.1.3).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Gửi Hân đi Da liễu làm test áp ngay trong tuần này vẫn hợp lý nếu muốn biết chắc hoạt chất (ESCD 2026 mục 9.1.1, 5.5), nhưng chưa cần ngay: da đã lành, chưa tái phát sau khi ngưng gel, nên chỉ cần tránh gel và ghi nhãn (QĐ 4416 mục 1.1, 3.1; DDG 2022 mục 3.2). Đi tuyến trên làm mẹ tốn thêm tiền khi nhà đang eo hẹp, bé phải dán lưng nhiều ngày và nghỉ học, vốn đã từ chối; vùng vừa dùng corticoid còn phải ngưng đủ 7–14 ngày trước test (ESCD 2026 mục 2.2.1).</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Viêm da tiếp xúc (nghi thể dị ứng, ICD-10 L23) do gel giảm đau khớp, đã lành; còn tăng sắc tố sau viêm nhẹ ở cẳng chân trái</li><li>Dị nguyên nghi: gel giảm đau khớp (nhãn: kháng viêm không steroid dùng ngoài da); chưa xác định bằng test áp vì bé và mẹ từ chối; yếu tố ánh sáng không loại trừ</li><li>Không có tác dụng phụ của corticoid bôi; không tổn thương mới; đau cổ chân đã hết</li><li>Lý do thật vẫn còn: nỗi sợ kiểm tra chạy và bị trêu; từ chối xét nghiệm lần hai ghi vào hồ sơ</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự: hỏi diễn tiến (hết ngứa khi nào) → cách dùng thuốc, thời gian, tác dụng phụ → có tái tiếp xúc gel hay nắng không → xem tuýp gel, ghi nhãn → hỏi lý do xin nghỉ thể dục → khám chân, mu bàn chân, bàn tay, cổ chân → ngưng thuốc, dặn phòng tái phát.</li><li>Tiêu chí xác nhận khỏi: hết ngứa rát, không còn dát đỏ, sẩn, mụn nước, rỉ dịch, không tổn thương mới (QĐ 4416, Viêm da tiếp xúc mục 2.1.1, 3.2.1: dùng thuốc tới khi lành thương tổn). Vệt thâm là tăng sắc tố sau viêm, không phải bệnh đang hoạt động; thời gian mờ: không có trong tài liệu đã tải.</li><li>Quỹ đạo dự kiến: corticoid bôi 2–4 tuần hoặc tới khi lành (QĐ 4416, mục 3.2.1); mốc bớt ngứa theo ngày: không có trong tài liệu đã tải. Hân hết ngứa ngày 3–4, sạch ngày 10: đúng quỹ đạo. Quỹ đạo cần lo: không đỡ hoặc xấu đi dù tránh gel và bôi đúng → nghĩ dị ứng corticoid hoặc thành phần nền (DDG 2022 mục 3.3.1.2), dị nguyên khác, nấm, chàm.</li><li>Khi nào xét nghiệm dù đã khỏi: không cần xét nghiệm máu. Test áp hoặc test áp ánh sáng ở Da liễu khi muốn biết chắc hoạt chất, khi tái phát hoặc dị nguyên khó tránh (QĐ 4416 mục 2.1.2; ESCD 2026 mục 9.1.1, 5.5), làm lúc da lành, ngưng corticoid bôi tại vị trí test ≥ 7 ngày (nhóm thấp – trung bình) hoặc 14 ngày (nhóm mạnh), tránh nắng vùng test 2–4 tuần (ESCD 2026 mục 2.2.1), mang sản phẩm đến thử (mục 6). Bé từ chối: không ép, ghi hồ sơ.</li><li>Từ chối lần hai: tôn trọng quyền tự quyết, nêu lợi ích (biết chắc hoạt chất), chi phí và thời gian trung thực, ghi vào hồ sơ, giữ cánh cửa mở; phương án B: tránh gel, ghi nhãn, quay lại khi tái phát hoặc trước khi dùng thuốc bôi mới. Thủ tục ghi nhận: không có trong tài liệu đã tải.</li><li>Phòng tái phát: thuốc bôi là nhóm dị nguyên gây viêm da tiếp xúc (QĐ 4416, Viêm da tiếp xúc mục 1.3); thuốc kháng viêm không steroid cũng gây viêm da tiếp xúc do ánh sáng (Viêm da tiếp xúc do ánh sáng mục 1.3). Tiên lượng tốt khi dị nguyên dễ nhận diện và tránh được (DDG 2022 mục 3.2).</li><li>Lý do thật (xin giấy nghỉ): da lành nên không có chỉ định y khoa nghỉ thêm; ghi nhận nỗi sợ, giải thích vệt thâm là bình thường sau viêm, gợi ý nói với cô giáo; không ghi sai bệnh (điều kiện giấy nghỉ ốm: không có trong tài liệu đã tải).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Hướng xử trí: ngưng thuốc, dặn dò, không hẹn định kỳ (ve_hen). Không chuyển tuyến vì đã lành, không tái phát sau khi tránh gel.</li><li>Ngưng corticoid: QĐ 4416 (mục 3.2.1) dùng tới khi lành, 2–4 tuần; DDG 2022 (mục 3.3.1.2): teo da, giãn mạch hay gặp. Không giảm dần vì dùng chưa đầy 2 tuần và da đã lành.</li><li>Dưỡng ẩm duy trì hàng rào da (QĐ 4416 mục 3.1; DDG 2022 mục 3.3.1.1); thời gian: không có trong tài liệu đã tải.</li><li>Không xét nghiệm máu: phản ứng typ IV không phát hiện bằng xét nghiệm máu, test áp xác định dị nguyên (ESCD 2026 mục 2.2).</li><li>Tránh dị nguyên nghiêm ngặt (DDG 2022 mục 3.2, 4.1.3): không dùng lại gel, ghi nhãn vào hồ sơ; mẹ vẫn dùng cho lưng mình được vì chưa mẫn cảm (QĐ 4416 mục 1.3), nhưng tránh để con dùng chung (lời dặn chung, không có trong tài liệu đã tải).</li><li>Không hẹn tái khám định kỳ vì bệnh khu trú, hết khi hết tiếp xúc (lịch tái khám sau khỏi: không có trong tài liệu đã tải).</li><li>Đi học và tập bình thường vì da đã lành; vùng thâm tránh nắng gắt (QĐ 4416, Viêm da tiếp xúc do ánh sáng mục 2.1.1, 3.1).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Kem dưỡng ẩm không hương liệu</b><div class="sub">Không có trong tài liệu đã tải</div></td><td data-l="Liều">Bôi vùng da vừa viêm<div class="sub">Bôi ngoài da · 1–2 lần/ngày, sau khi tắm</div></td><td data-l="Thời gian">2–4 tuần (thời gian dùng sau khi lành: không có trong tài liệu đã tải)</td><td class="gc" data-l="Ghi chú">QĐ 4416 (mục 3.1, 3.2.1); DDG 2022 (mục 3.3.1.1). Ngưng betamethason và cetirizin vì đã đủ liệu trình, không kê thêm.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Da đã lành; vệt sậm màu là thâm sau viêm, sẽ nhạt dần, không cần thuốc (thời gian mờ: không có trong tài liệu đã tải).</li><li>Không dùng lại gel này; lưu ảnh nhãn; trước khi dùng thuốc bôi giảm đau hay kháng viêm khác, đưa nhãn cho bác sĩ hoặc dược sĩ xem (QĐ 4416, Viêm da tiếp xúc mục 3.1; DDG 2022 mục 3.2).</li><li>Nếu ban tái phát (đỏ, rát, ngứa, mụn nước) dù đã tránh gel, hoặc nổi ở chỗ lộ nắng sau khi bôi thuốc khác, quay lại sớm và cân nhắc test áp ở Da liễu (QĐ 4416, mục 2.1.2; ESCD 2026 mục 9.1.1).</li><li>Muốn xác định chắc hoạt chất: test áp lúc da lành, ngưng corticoid bôi ở vị trí test 7–14 ngày, tránh nắng vùng test 2–4 tuần (ESCD 2026 mục 2.2.1); hai mẹ con có quyền đổi ý bất cứ lúc nào.</li><li>Với Hân: vệt thâm sẽ nhạt dần; nỗi lo kiểm tra chạy và bị trêu nên nói với cô giáo hoặc mẹ (lời dặn chung, không có trong tài liệu đã tải).</li><li>Không cần tái khám định kỳ; quay lại khi tái phát hoặc cần thuốc bôi mới.</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-12">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Viêm da tiếp xúc</b></div>
+<p class="note">Phải loại trừ: Chàm, Nấm da, Zona</p><p>Hân hết ngứa rát sau 3–4 ngày, mụn nước khô ngày 6 và da phẳng khoảng ngày 10, còn vệt thâm nhạt (thời gian mờ thâm không có trong tài liệu đã tải). Bé ngưng corticoid, cetirizin, dưỡng ẩm tiếp; gel không dùng lại, nhãn được ghi vào hồ sơ. Dị nguyên chưa xác định bằng test áp vì bé và mẹ hai lần từ chối, đã ghi nhận vào hồ sơ; phương án B là tránh gel và quay lại khi tái phát. Đây là quỹ đạo chấp nhận được; khác với quỹ đạo không đỡ hoặc xấu đi sau điều trị đúng, cần nghĩ dị ứng corticoid, dị nguyên khác, chẩn đoán khác và chuyển test áp. Bé được đi học và tập lại bình thường; lý do thật (sợ kiểm tra chạy, bị trêu) được trao đổi riêng.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-13">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Mẹ sau sinh mệt, nhiều lo toan, đặt điều kiện &#x27;cho thuốc thôi, đừng thử gì&#x27;: kỹ thuật ghi nhận hoàn cảnh, giải thích xét nghiệm nào đổi được cách điều trị, xét nghiệm nào bỏ được.</li><li>Hân từ chối cạo da và lấy máu vì sợ đau: tôn trọng, giải thích một lần, ghi vào hồ sơ, đưa phương án B.</li><li>Hân không kể chuyện bôi gel vì coi đó &#x27;không phải thuốc uống&#x27;: phải hỏi riêng về thuốc bôi, kể cả của người nhà.</li><li>Đau cổ chân nhẹ và &#x27;đau khớp&#x27; làm dễ nghĩ sang khớp; vệt và cụm mụn nước khiến nghĩ zona hoặc nấm.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Thuốc bôi và thuốc của người nhà là dị nguyên dễ bị bỏ sót: bé không coi thuốc bôi là thuốc; phải hỏi riêng &#x27;có bôi gì lên chỗ đau không&#x27;.</li><li>Ban nổi đúng vùng bôi, theo thời gian sau bôi và có thể nặng thêm khi bôi tiếp là chìa khóa; không có đau thần kinh trước ban loại zona; không lành giữa, không vảy viền loại nấm.</li><li>Hoạt chất không rõ thì ghi nhãn, giữ tuýp, hỏi lại khi tái phát; thuốc kháng viêm không steroid nằm trong nhóm gây viêm da tiếp xúc do ánh sáng nên cần hỏi nắng sau bôi.</li><li>Từ chối xét nghiệm: tôn trọng quyền tự quyết, giải thích một lần xét nghiệm nào đổi quyết định, ghi hồ sơ, phương án B là điều trị theo lâm sàng và tái khám có mốc chuyển hướng.</li><li>Test áp chọn đúng thời điểm: khi da lành, sau 7–14 ngày ngưng corticoid bôi tại vị trí test, tránh nắng vùng test 2–4 tuần (ESCD 2026 mục 2.2.1).</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Viêm da tiếp xúc dị ứng: quá mẫn typ IV, mẫn cảm 5–21 ngày, tái tiếp xúc 48–72 giờ lên phản ứng; thuốc bôi, kim loại, cao su, chất dẻo là dị nguyên chính (QĐ 4416, Viêm da tiếp xúc mục 1.3).</li><li>Chẩn đoán dựa lâm sàng và yếu tố tiếp xúc; test áp xác định dị nguyên (QĐ 4416 mục 2.1.2, 2.1.3); test áp trẻ em an toàn (ESCD 2026 mục 9.1.1).</li><li>Điều trị: loại dị nguyên; corticoid bôi 1–2 lần/ngày, 2–4 tuần hoặc tới khi lành; kháng histamin để giảm ngứa; Jarish cho vùng rỉ dịch (QĐ 4416 mục 3.1, 3.2.1).</li><li>Viêm da tiếp xúc do ánh sáng: nguyên nhân gồm thuốc kháng viêm không steroid, thành phần chống nắng, hương liệu; thể dị ứng 24–48 giờ sau ánh sáng, có thể lan ra vùng da cạnh đó (QĐ 4416, Viêm da tiếp xúc do ánh sáng mục 1.3, 2.1.2).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-14">Nguồn tài liệu <small>6</small></h3></summary><ul class=""><li>Bộ Y tế – QĐ 4416/QĐ-BYT 2023, bệnh da liễu (TL-0397) – Viêm da tiếp xúc mục 1.1, 1.3, 2.1.1–2.1.4, 2.2.1, 2.2.2, 3.1, 3.2.1; Viêm da tiếp xúc do ánh sáng mục 1.3, 2.1.1, 2.1.2, 3.1; Viêm da cơ địa mục 2.3.1, 2.3.2; Bệnh da do nấm sợi mục 2.1, 2.2, 2.5; Zona mục 2.1.</li><li>DDG – German S1 guideline: Contact dermatitis 2022 (TL-0422) – mục 1.1, 1.3.1.2, 3.2, 3.3.1.1, 3.3.1.2, 3.3.1.3, 3.3.1.7, 3.3.3.1, 3.3.4.1, 3.3.4.3, 4.1.3.</li><li>ESCD – Guideline for diagnostic patch testing, update 2026 (TL-0401) – mục 2.2, 2.2.1, 5.5, 6, 9.1.1.</li><li>AAD-NPF 2021 (TL-0425) – bảng hiệu lực corticoid bôi (Class 1–7), mục Risks/Harms của corticoid bôi.</li><li>Bộ Y tế – QĐ 3942/QĐ-BYT 2014, bệnh dị ứng – miễn dịch lâm sàng (kho cũ tltk-10000-ca) – Bảng 3: liều thuốc kháng histamin H1 thế hệ 2.</li><li>Không có trong tài liệu đã tải: hoạt chất và nguy cơ viêm da tiếp xúc của từng gel giảm đau khớp; phản ứng chéo giữa thuốc bôi giảm đau; thời gian dùng kháng histamin trong viêm da tiếp xúc; thời gian mờ thâm; mốc tái khám cụ thể; thời gian dưỡng ẩm; điều kiện cấp giấy nghỉ ốm; thủ tục ghi nhận từ chối xét nghiệm; chế phẩm bán tại Việt Nam.</li></ul></details>
+<details class="card"><summary><h3 id="m-15">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Da liễu</dd><dt>chan_doan_dich</dt><dd>Viêm da tiếp xúc</dd><dt>chan_doan_phai_loai_tru</dt><dd>Chàm; Nấm da; Zona</dd><dt>nhom_tuoi</dt><dd>Học sinh (6–15 tuổi)</dd><dt>gioi</dt><dd>Nữ</dd><dt>do_kho</dt><dd>Không điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>co_co_do</dt><dd>Có</dd><dt>so_luot_kham</dt><dd>2</dd><dt>dien_tien_tai_kham</dt><dd>Đỡ hoàn toàn khi tái khám</dd><dt>nhieu_benh_nhan</dt><dd>Không đủ tiền xét nghiệm</dd><dt>rang_buoc_nguon_luc</dt><dd>Bệnh nhân từ chối xét nghiệm</dd><dt>nghe_nghiep</dt><dd>Học sinh</dd><dt>yeu_to_khoi_phat</dt><dd>Sau sinh</dd><dt>thuoc_dang_dung</dt><dd>Thuốc giảm đau khớp tự mua</dd><dt>ly_do_that_su_den_kham</dt><dd>Xin giấy nghỉ ốm</dd><dt>loai_ket_cuc</dt><dd>Ổn định, khỏi bệnh</dd></dl><ul class=""><li>Bản 1 (17/10/2026, viết: Sonnet): &#x27;Sau sinh&#x27; = mẹ mới sinh em 5 tuần, mẹ có gel giảm đau khớp, bé dùng nhầm &#x27;thuốc của mẹ&#x27;; &#x27;Thuốc giảm đau khớp tự mua&#x27; = gel bôi ngoài da (hoạt chất chưa biết) là dị nguyên nghi; &#x27;Xin giấy nghỉ ốm&#x27; = bé sợ kiểm tra chạy 800 m và bị bạn trêu; &#x27;Không điển hình&#x27; = ban dạng vệt và cụm mụn nước, rát hơn ngứa, vượt vùng bôi, có thể kèm thành phần ánh sáng, giống zona và nấm; &#x27;Bệnh nhân từ chối xét nghiệm&#x27; + &#x27;Không đủ tiền&#x27; = bé sợ đau, mẹ sợ tốn kém; &#x27;Đỡ hoàn toàn khi tái khám&#x27; = lượt 2 sau 10 ngày da lành, còn thâm nhạt.</li><li>Nguồn lực: khoa_cls = null; mọi xét nghiệm bị từ chối bằng chữ trong r (soi nấm &#x27;u&#x27; có phương án B). Không cần mục danh mục mới (test_ap, soi_nam đã có).</li><li>Mâu thuẫn: corticoid toàn thân (mục DL-0085 đã có) áp dụng không chạm ngưỡng; mức hiệu lực corticoid bôi cho mặt duỗi chi ở thiếu niên: mục mới &#x27;Mức hiệu lực corticoid bôi cho cẳng chân (mặt duỗi) ở thiếu niên&#x27; (xem DL-0134_mau_thuan.md).</li><li>Đã đọc: QĐ 4416 (TL-0397) các mục ở phần nguồn; DDG 2022 (TL-0422); ESCD 2026 (TL-0401); AAD-NPF 2021 (TL-0425, bảng hiệu lực); QĐ 3942/2014 Bảng 3 (kho cũ). Thiếu tài liệu: hoạt chất gel và phản ứng chéo, lịch tái khám, thời gian mờ thâm.</li><li>Ảnh SCIN: HA-DA-0028 (khai báo DL-0134_media.json); đã xem trước và loại HA-DA-0027 (hai dải sẩn ở đùi, hình như dải quần), HA-DA-0029 (mảng tròn kèm hình sẹo, vùng đen che ảnh), HA-DA-0030 (hai dát nhạt ở đùi, không mụn nước).</li></ul></details>
+<p class="chan-trang">Ca DL-0134 · phiên bản ca 1 · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

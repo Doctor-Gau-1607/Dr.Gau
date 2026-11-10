@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NT-0126 · Nhân giáp lành theo dõi</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · NT-0126</div>
+   <h1>Xin giấy chứng nhận sức khỏe để nhận công trình sơn nhà</h1>
+   <p class="dich-gia">Trần Thị Kim Cúc · Nữ · 52 tuổi · 54 kg</p>
+   <div class="chips"><span class="chip">Nội tiết khác</span><span class="chip">Điển hình</span><span class="chip">3 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Thợ sơn nhà (sơn trần, bả matit, nhận công trình theo đội cùng chồng)</dd><dt>Chiều cao, cân nặng</dt><dd>154 cm · 54 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi chị là &#x27;cô Cúc&#x27;. Cô xưng &#x27;tui&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;. Chồng là ông Lương, xưng &#x27;tui&#x27;, gọi vợ là &#x27;bả&#x27;.</dd><dt>Tính cách</dt><dd>Cô Cúc nhanh tay, nói nhanh, quen việc nặng, coi cái gì không cản làm việc là &#x27;chuyện nhỏ&#x27;. Chỉ muốn lấy tờ giấy cho kịp nhận công trình đầu tháng; ngại nghỉ việc, ngại tốn tiền đi tỉnh.</dd><dt>Người nhà</dt><dd>Chồng (ông Lương, 55 tuổi) – Chồng là ông Lương (55 tuổi, thợ sơn cùng đội) chở cô đi, ngồi ngoài chờ, nhớ tên thuốc cô uống hơn cô; vào phòng nếu được gọi.</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Phòng khám không có máy CT; không chụp được CT cổ hay CT ngực. Chọc hút kim nhỏ và đọc tế bào làm ở bệnh viện tỉnh.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/3</span> </h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Cô Trần Thị Kim Cúc, 52 tuổi, 54 kg, thợ sơn nhà, chồng chở đến. Cô nói cần giấy chứng nhận sức khỏe để nhận công trình sơn đầu tháng sau, &#x27;khám cho xong rồi cho tui tờ giấy&#x27;. Cô có bệnh tim đang uống thuốc ngừa đột quỵ, nói thêm gần đây đau vai gáy.</p>
+  <blockquote>“Chào bác sĩ. Tui đi khám sức khỏe lấy cái giấy để nhận công trình sơn, bác sĩ khám giùm cho nhanh, chồng tui chờ ngoài kia. À, dạo này tui có hơi đau vai gáy, chắc tại ngửa cổ sơn trần nhiều.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>76</b><small>l/p</small></div><div class="vs"><span>HA</span><b>134/82</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,8</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>18</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>6 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật: xin giấy sức khỏe; bệnh giáp chưa phải mối bận tâm của cô</b><span class="tag t-g">Tự kể</span></div><p>Cô đến chỉ để xin giấy chứng nhận sức khỏe đi làm (đội nhận công trình đầu tháng sau, chủ nhà đòi giấy). Cô không nghĩ mình có bệnh mới.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Có cục ở cổ, diễn tiến chậm, không dấu hiệu nghi ác tính (khàn tiếng, to nhanh, nghẹn, sụt cân)</b><span class="tag t-b">Khi được hỏi</span></div><p>Khoảng hai tháng nay cô tự sờ thấy cục nhỏ bên phải cổ khi gội đầu, &#x27;bằng hạt nhãn&#x27;, không đau, không to lên rõ. Khi ngửa cổ sơn trần thấy hơi vướng. Cô không kể vì cho là &#x27;u mỡ&#x27;. Không khàn tiếng, không nuốt nghẹn, không khó thở, không sụt cân, hồi hộp hay ra mồ hôi nhiều không có.</p></div><div class="fact"><div class="fh"><b>Tiền sử xạ đầu cổ, gia đình ung thư giáp</b><span class="tag t-b">Khi được hỏi</span></div><p>Chưa bao giờ xạ trị đầu cổ. Mẹ cô cắt tuyến giáp vì &#x27;bướu cổ&#x27; nhưng không rõ ung thư hay không; không ai trong nhà bị ung thư giáp thể tủy hay đa u nội tiết.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc kháng đông đang dùng, mới đổi thuốc ba tuần, chưa kiểm INR lại</b><span class="tag t-b">Khi được hỏi</span></div><p>Cô bị rung nhĩ từ ba năm nay, uống thuốc chống đông để ngừa đột quỵ. Ba tuần trước nhà thuốc bệnh viện hết loại cũ (acenocoumarol), bác sĩ tim mạch tuyến tỉnh đổi sang warfarin 3 mg mỗi tối và hẹn thử INR sau hai tuần. Cô bận công trình nên chưa đi thử INR.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tự uống ibuprofen 5 ngày khi đang dùng warfarin</b><span class="tag t-r">Giấu</span></div><p>Năm ngày nay cô tự mua ở tiệm thuốc viên &#x27;đau xương&#x27; (ibuprofen 400 mg), uống 1 viên sáng và 1 viên tối vì đau vai gáy. Cô không kể vì không coi là thuốc, &#x27;thuốc tiệm thôi&#x27;. Không đau dạ dày, không đi cầu phân đen, không chảy máu răng, không bầm.</p><div class="cond">Điều kiện nói ra: Bác sĩ hỏi thuốc tự mua, thuốc giảm đau, thuốc xương khớp, hoặc hỏi cô đã làm gì cho đau vai gáy; hỏi chung &#x27;có uống thuốc gì&#x27; chỉ ra thuốc tim.</div></div><div class="fact"><div class="fh"><b>Đau vai gáy cơ học do tư thế nghề</b><span class="tag t-b">Khi được hỏi</span></div><p>Đau căng hai bên gáy và vai, nặng khi ngửa cổ làm trần, đỡ khi nghỉ; không tê tay, không yếu tay, không đau ngực. Bắt đầu cùng tuần với công trình sơn trần chung cư.</p></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>8 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Thùy phải có nhân khoảng 1,7 cm, chắc vừa, mặt nhẵn, bờ đều, di động theo nhịp nuốt, không đau khi ấn, không dính da; thùy trái và eo không sờ thấy nhân. Không hạch cổ sờ được hai bên, khí quản ở giữa.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đập không đều, tần số khoảng 76 l/p.</p><p><span class="lbl">Kết quả:</span> Nhịp tim không đều hoàn toàn, tần số khoảng 76 l/p, T1 thay đổi cường độ, không âm thổi.</p></div><div class="row"><div class="rh"><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nhịp thở 18 l/p.</p><p><span class="lbl">Kết quả:</span> Nhịp thở 18 l/p. Rì rào phế nang rõ hai bên, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Rì rào phế nang êm, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, da niêm hồng, da khô ấm, không vết bầm, không chấm xuất huyết dưới da, lợi không chảy máu, bàn tay không ẩm mồ hôi.</p></div><div class="row"><div class="rh"><b>Khám run (lúc nghỉ, giữ tư thế, khi làm động tác)</b></div><p><span class="lbl">Kết quả:</span> Duỗi hai tay: không run.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b></div><p><span class="lbl">Kết quả:</span> Không lồi mắt, không co hở mi, kết mạc hồng.</p></div><div class="row"><div class="rh"><b>Soi thanh quản (gương hoặc nội soi ống mềm: niêm mạc, dây thanh, khe thanh môn)</b></div><p><span class="lbl">Kết quả:</span> Hai dây thanh di động đối xứng, khép kín khi phát âm.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Cơ xương khớp, cột sống</b></div><p><span class="lbl">Kết quả:</span> Căng cứng cơ thang hai bên, ấn đau lan nhẹ ra vai; xoay và ngửa cổ hạn chế nhẹ do căng cơ, không tê tay, không yếu tay.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>8 mục</small></h3></summary><div class="row"><div class="rh"><b>TSH, FT4</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> TSH 1,6 mUI/L (tham chiếu 0,4–4,0) · FT4 14 pmol/L: bình giáp.</p><p class="why">TSH là xét nghiệm đầu tiên khi có nhân giáp (ATA 2015 khuyến cáo 2A; ETA 2023 Bảng 1, mục Initial evaluation). TSH bình thường nên không làm xạ hình (ATA 2015 khuyến cáo 2C).</p></div><div class="row"><div class="rh"><b>Siêu âm tuyến giáp và hạch cổ</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Thùy phải: nhân đặc, giảm hồi âm nhẹ, 17 × 12 × 13 mm, bờ đều, không vi vôi hóa, không cao hơn rộng, không xâm lấn ngoài tuyến, vị trí 1/3 giữa. Thùy trái và eo không nhân. Không hạch cổ nghi ngờ. EU-TIRADS 4, ACR TI-RADS 4 điểm (TR4).</p><p class="why">Siêu âm cổ cho mọi nhân nghi ngờ (ETA 2023 Bảng 1, mục Thyroid ultrasound). Nhân đặc 2 điểm + giảm hồi âm 2 điểm = 4 điểm = TR4 (ACR TI-RADS 2017, bảng điểm); EU-TIRADS 4: nhẹ giảm hồi âm, không dấu nguy cơ cao, nguy cơ ước tính 6–17% (ETA Bảng 3). Theo ATA 2015 Bảng 6, nhân đặc giảm hồi âm bờ đều là nghi ngờ trung bình.</p></div><div class="row"><div class="rh"><b>PT/INR (đông máu, theo dõi thuốc kháng đông)</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> INR 3,3 (đích 2,0–3,0 cho người rung nhĩ dùng kháng vitamin K).</p><p class="why">INR là điều kiện để chọc hút: ETA 2023 (mục Thyroid biopsy, trước Bảng 3) cho phép chọc ở người dùng kháng đông miễn INR dưới 3. Đích INR 2,0–3,0: ESC AF 2024, Bảng khuyến cáo 7 (I, B). Tương tác NSAID với kháng vitamin K: ESC AF 2024 Hình 9.</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-y">Chấp nhận</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Số lượng bạch cầu (WBC)</td><td class="num">6,8</td><td>G/L</td><td class="ref">4,0–10,0</td></tr><tr class=""><td>Lượng huyết sắc tố (HGB)</td><td class="num">128</td><td>g/L</td><td class="ref">120–150</td></tr><tr class=""><td>Số lượng tiểu cầu (PLT)</td><td class="num">252</td><td>G/L</td><td class="ref">150–400</td></tr></tbody></table><p class="why">Chấp nhận, không bắt buộc: tiểu cầu bình thường củng cố an toàn chọc hút nhưng ETA 2023 chỉ nêu INR và rối loạn đông máu nặng. Ngoài tài liệu đã tải: ngưỡng tiểu cầu cho chọc hút.</p></div><div class="row"><div class="rh"><b>Điện tâm đồ 12 chuyển đạo</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Rung nhĩ đáp ứng thất khoảng 76 l/p, không ST-T bất thường mới.</p><p class="why">Chấp nhận, không bắt buộc: bệnh nhân đã biết rung nhĩ, tần số tốt; không ảnh hưởng quyết định nhân giáp.</p></div><div class="row"><div class="rh"><b>X-quang ngực thẳng</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Tim phổi chưa thấy bất thường. Khí quản ở giữa, không hẹp.</p><p class="why">QĐ 3879/2014, Bướu giáp đơn thuần III.2 tr. 103 viết &#x27;nên&#x27; chụp X-quang cổ và trung thất; ATA 2015 và ETA 2023 Bảng 1 không đưa X-quang vào đánh giá ban đầu. Chấp nhận, không bắt buộc (sổ mâu thuẫn: X-quang cổ trong nhân giáp).</p></div><div class="row"><div class="rh"><b>Chọc hút kim nhỏ nhân giáp dưới siêu âm và tế bào học (FNA)</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Phòng khám không chọc hút và đọc tế bào được. Làm ở bệnh viện tỉnh, dưới siêu âm, khi INR dưới 3.</p><p class="why">Nhân 17 mm đạt ngưỡng chọc của ba hệ: EU-TIRADS 4 &gt; 15 mm (ETA 2023 Bảng 3), ATA 2015 khuyến cáo 8 (nghi ngờ trung bình ≥ 1 cm), ACR TR4 ≥ 1,5 cm (ACR TI-RADS 2017 Hình 1). Chọc dưới siêu âm khi có chỉ định (ATA khuyến cáo 7; ETA Bảng 1). Chưa làm hôm nay vì INR 3,3 (ETA 2023: INR &lt; 3).</p></div><div class="row"><div class="rh"><b>CT vùng cổ có cản quang (họng, khoang cổ sâu)</b><span class="tag t-r">Không cần</span></div><p class="why">Phòng khám không có CT và không cần: CT cổ chỉ để đánh giá lan tại chỗ hoặc bướu thòng (ETA 2023 Bảng 1, mục Non-ultrasound imaging); nhân nhỏ, không chèn ép, không hạch, không có chỉ định.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Chuyển tuyến / chuyên khoa</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Nhân giáp thùy phải 17 mm, EU-TIRADS 4 / ACR TR4, bình giáp, chưa có tế bào học; cần chọc hút kim nhỏ</b></div><p class="why">Nhân sờ thấy, TSH bình thường, siêu âm nghi ngờ trung bình, đạt ngưỡng chọc (ETA 2023 Bảng 3; ATA 2015 khuyến cáo 8). Chưa gọi là lành khi chưa có tế bào học.</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Rung nhĩ đang dùng warfarin, INR 3,3 (cao hơn đích), có tự dùng ibuprofen 5 ngày, chưa biểu hiện chảy máu</b></div><p class="why">Hai yếu tố làm INR và nguy cơ chảy máu tăng: mới đổi thuốc kháng vitamin K chưa thử INR, và NSAID là thuốc nên tránh với kháng vitamin K (ESC AF 2024 Hình 9).</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Đau vai gáy cơ học do tư thế ngửa cổ làm trần</b></div><p class="why">Đau căng cơ thang hai bên, không tê tay, không dấu thần kinh; liên quan nghề. Không do nhân giáp.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ung thư tuyến giáp (loại trừ bắt buộc)</b></div><p class="why">Chưa loại trừ được ở lượt này: không khàn tiếng, không hạch, không dính, không xạ trị đầu cổ; siêu âm không có dấu nguy cơ cao (vi vôi hóa, bờ không đều, cao hơn rộng) nhưng EU-TIRADS 4 có nguy cơ 6–17% (ETA 2023 Bảng 3). Loại trừ khi có tế bào học (Bethesda 2023). USPSTF 2017 (độ D) chỉ nói về người không triệu chứng, không áp dụng cho nhân đã sờ thấy.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Cường giáp / nhân tăng chức năng</b></div><p class="why">TSH bình thường, không run, không lồi mắt, mạch không nhanh; tình trạng rung nhĩ có từ ba năm. Không cần xạ hình khi TSH bình thường (ATA 2015 khuyến cáo 2C).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi thêm thuốc tự mua, nhận ra ibuprofen; ngưng ngay ibuprofen và các NSAID</b></div><p class="why">NSAID thuộc nhóm &#x27;tránh nếu có thể&#x27; với thuốc kháng vitamin K (ESC AF 2024 Hình 9).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không tự đổi liều warfarin tại phòng khám; báo nơi theo dõi kháng đông/tim mạch trong 1–2 ngày để thử lại INR và chỉnh liều theo INR</b></div><p class="why">Đích INR 2,0–3,0 (ESC AF 2024, Bảng khuyến cáo 7). Cách chỉnh liều khi INR 3,3: không có trong tài liệu đã tải, nên chuyển nơi đang theo dõi quyết định.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Siêu âm tuyến giáp và cổ, phân tầng nguy cơ bằng hệ TIRADS</b></div><p class="why">ETA 2023 Bảng 1 (Thyroid ultrasound); ACR TI-RADS 2017; ATA 2015 khuyến cáo 6 (siêu âm cho nhân).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giới thiệu chọc hút kim nhỏ dưới siêu âm tại tuyến trên, chỉ làm khi INR đã dưới 3</b></div><p class="why">Ngưỡng chọc: EU-TIRADS 4 &gt; 15 mm (ETA 2023 Bảng 3); ATA 2015 khuyến cáo 8 (≥ 1 cm, nghi ngờ trung bình); ACR TR4 ≥ 1,5 cm. Kháng đông không phải chống chỉ định nếu INR &lt; 3 (ETA 2023, mục Thyroid biopsy). Việc có ngừng warfarin hay không: không có trong tài liệu đã tải, để bệnh viện quyết định.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giảm đau vai gáy bằng paracetamol, nghỉ làm trần, chườm nóng</b></div><p class="why">QĐ 361/2014, Thoái hóa cột sống thắt lưng mục 4.2.2 (paracetamol 500 mg, 4–6 lần/ngày, không quá 4 g/ngày) và Viêm quanh khớp vai mục 4.2.1 (acetaminophen 0,5 g × 2–4 viên/24 giờ) viết cho bệnh khác, áp dụng suy rộng cho đau cơ vai gáy. Tương tác paracetamol–warfarin: không có trong tài liệu đã tải, nên báo INR khi dùng dài ngày.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không dùng levothyroxine ức chế TSH (ATA, ETA), hoặc thử liều thấp theo chương bướu giáp đơn thuần BYT</b></div><p class="why">ATA 2015 khuyến cáo 25 và ETA 2023 Bảng 1 (Therapeutic options) không dùng ở người bình giáp; QĐ 3879/2014 Bướu giáp đơn thuần mục IV (tr. 103–104) cho thử khi TSH &gt; 1 mU/L. Sổ mâu thuẫn mục NT-0069.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê levothyroxine ức chế TSH ngay hôm nay khi chưa có tế bào học</b></div><p class="why">Chưa có chẩn đoán tế bào học; thuốc không đổi kết cục nhân (ATA 2015 khuyến cáo 25) và loạn nhịp ở người rung nhĩ là nguy cơ ATA nêu cho ức chế TSH. Sổ mâu thuẫn NT-0069 mục 2: kê trước tế bào học chấm w.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê thêm NSAID (diclofenac, meloxicam...) cho đau vai gáy vì ibuprofen &#x27;có đỡ&#x27;</b></div><p class="why">NSAID cần tránh với kháng vitamin K (ESC AF 2024 Hình 9); cô đã INR 3,3.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Nói rõ với cô và chồng: cần xong tế bào học mới kết luận cục ở cổ; thủ tục và tiêu chuẩn sức khỏe cấp giấy cho thợ sơn: không có trong tài liệu đã tải</b></div><p class="why">Chấp nhận: tài liệu đã tải không có tiêu chuẩn phân loại sức khỏe nghề; ghi nhận hoãn giấy là quyết định của cơ sở.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Cho về, hẹn tái khám</span></div><p>Cho cô về chỉ dặn &#x27;uống thuốc đều, hẹn lại sau&#x27;, không giới thiệu chọc hút: nhân 17 mm giảm hồi âm nhẹ đạt ngưỡng chọc của cả ba hệ (EU-TIRADS 4 &gt; 15 mm, ETA 2023 Bảng 3; ATA 2015 Bảng 6/khuyến cáo 8: nghi ngờ trung bình ≥ 1 cm; ACR TR4 ≥ 1,5 cm), nguy cơ ác tính ước tính 6–17% (ETA Bảng 3). Cô không có tế bào học, cầm tờ giấy sức khỏe đi nhận công trình trong khi INR 3,3 chưa ai chỉnh và ibuprofen chưa ai cấm; mấy tuần sau cô lại tự mua thuốc xương.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhập viện ngay để hạ INR và chọc hút là quá tay: INR 3,3 chỉ vượt đích 2,0–3,0 (ESC AF 2024, Bảng khuyến cáo 7) khoảng 0,3, cô không bầm, không chảy máu, huyết động ổn. Cô nằm viện vài ngày, mất công sơn đã nhận, tốn chi phí; ETA 2023 chỉ đòi INR dưới 3 chứ không đòi nằm viện để chọc hút.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Nhân giáp thùy phải 17 mm, nhân đặc giảm hồi âm nhẹ, EU-TIRADS 4 / ACR TR4 / ATA nghi ngờ trung bình, bình giáp, chưa có tế bào học</li><li>Rung nhĩ đang dùng warfarin (mới đổi thuốc), INR 3,3 cao hơn đích 2,0–3,0, có tự dùng ibuprofen 5 ngày</li><li>Đau vai gáy cơ học do tư thế nghề thợ sơn</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Hỏi bệnh: cô đến vì giấy sức khỏe nên phải chủ động hỏi cổ có cục không, khàn tiếng, nuốt nghẹn, to nhanh, xạ trị đầu cổ, gia đình ung thư giáp (ATA 2015 khuyến cáo 2, phần bệnh sử). Bệnh tim &#x27;uống thuốc ngừa đột quỵ&#x27; phải hỏi ra tên thuốc, thời điểm đổi và INR gần nhất; thuốc tự mua phải hỏi riêng (thuốc xương, giảm đau).</li><li>Khám: nhân thùy phải khoảng 1,7 cm chắc vừa, bờ đều, di động theo nuốt, không hạch, dây thanh bình thường, không dấu cường giáp, không bầm. Căng cơ thang hai bên giải thích đau vai gáy.</li><li>CLS: TSH bình thường nên không xạ hình (ATA 2015 khuyến cáo 2C). Siêu âm: EU-TIRADS 4 nguy cơ 6–17% (ETA 2023 Bảng 3), ACR TR4 (4 điểm), ATA nghi ngờ trung bình (Bảng 6). INR 3,3 chặn chọc hút hôm nay (ETA 2023: INR &lt; 3). Không cần CT (ETA 2023 Bảng 1).</li><li>Ung thư giáp chưa loại trừ được ở lượt này; cần tế bào học (Bethesda 2023) nên đáp án là chuyển tuyến có hẹn, không phải theo dõi.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Hướng đúng là chuyển tuyến có hẹn (không phải cấp cứu, không nhập viện): INR chỉ cao nhẹ, không chảy máu. Giấy giới thiệu kèm phiếu siêu âm, TSH, INR; chọc hút khi INR &lt; 3 (ETA 2023, mục Thyroid biopsy).</li><li>Ngưng ibuprofen là can thiệp đổi kết cục: NSAID nên tránh với kháng vitamin K (ESC AF 2024 Hình 9). Thử lại INR trong 1–2 ngày và chỉnh warfarin do nơi theo dõi (cách chỉnh: không có trong tài liệu đã tải). Đích INR 2,0–3,0 (ESC AF 2024, Bảng khuyến cáo 7).</li><li>Không ức chế TSH bằng levothyroxine (ATA 2015 khuyến cáo 25; ETA 2023) hoặc thử theo QĐ 3879/2014 (hai cách, sổ mâu thuẫn NT-0069); trước tế bào học thì không kê.</li><li>Ngưỡng chọc: ETA 2023 Bảng 3 (&gt; 15 mm cho EU-TIRADS 4), ATA 2015 Bảng 6 (≥ 1 cm, nghi ngờ trung bình), ACR 2017 Hình 1 (TR4 ≥ 1,5 cm) đều đạt với 17 mm nên không có mâu thuẫn ở ca này.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Paracetamol</b><div class="sub">500 mg/viên</div></td><td data-l="Liều">1 viên mỗi lần, tối đa 3 lần/ngày khi đau (tối đa 4 g/ngày)<div class="sub">Uống · Sau ăn, khi đau</div></td><td data-l="Thời gian">Tối đa 5–7 ngày, báo lại nếu cần dùng lâu hơn</td><td class="gc" data-l="Ghi chú">QĐ 361/2014, Thoái hóa cột sống thắt lưng mục 4.2.2 và Viêm quanh khớp vai mục 4.2.1 (suy rộng cho đau cơ vai gáy). Tương tác với warfarin: không có trong tài liệu đã tải. Thay cho ibuprofen.</td></tr><tr><td><b>Warfarin (thuốc đang dùng)</b><div class="sub">3 mg/viên</div></td><td data-l="Liều">Giữ như bác sĩ tim mạch kê, không tự đổi liều<div class="sub">Uống · Buổi tối</div></td><td data-l="Thời gian">Liên tục; thử INR lại trong 1–2 ngày</td><td class="gc" data-l="Ghi chú">Đang dùng, giữ nguyên chờ nơi theo dõi chỉnh. Đích INR 2,0–3,0 (ESC AF 2024, Bảng khuyến cáo 7).</td></tr><tr><td><b>Ibuprofen tự mua – NGƯNG</b><div class="sub">400 mg</div></td><td data-l="Liều">Không dùng nữa<div class="sub">Uống · Từ hôm nay</div></td><td data-l="Thời gian">Ngưng hẳn, cả các thuốc NSAID khác</td><td class="gc" data-l="Ghi chú">ESC AF 2024 Hình 9: NSAID tránh nếu có thể với kháng vitamin K.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Cục ở cổ cần chọc một kim nhỏ để biết lành hay không; hầu hết các nhân thuộc loại này vẫn lành, nhưng chưa xét được nếu chưa có kết quả (ETA 2023 Bảng 3: nguy cơ 6–17%). Cô và ông Lương hẹn lên bệnh viện tỉnh sau khi thử INR dưới 3, mang theo phiếu siêu âm và giấy này.</li><li>Bỏ chai thuốc xương, đừng mua thêm thuốc giảm đau chống viêm; đau gáy dùng paracetamol, nghỉ làm trần, chườm nóng. Báo ngay nếu đi ngoài phân đen, chảy máu răng/mũi lâu, bầm tím lan, đau đầu dữ dội (dấu hiệu chảy máu: không có trong tài liệu đã tải, dặn theo thực hành chung).</li><li>Báo bác sĩ sớm nếu cục to nhanh, khàn tiếng, nuốt nghẹn hoặc khó thở (ATA 2015 khuyến cáo 2, phần bệnh sử/khám).</li><li>Tờ giấy sức khỏe: sẽ hoàn tất sau khi có kết quả; việc cô nhận công trình tháng sau không bị ảnh hưởng bởi cục ở cổ nếu kết quả lành (tiêu chuẩn sức khỏe nghề thợ sơn: không có trong tài liệu đã tải).</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-2">
+ <h2 id="h-luot-2"><span class="ln">Lượt 2/3</span> · sau 10 ngày</h2>
+ <div class="card intro"><h3 id="m-8">Tiếp đón</h3><p>Cô Cúc quay lại sau 10 ngày, chồng đi cùng, mang phiếu bệnh viện tỉnh. Theo lời dặn lượt trước, cô đã ngưng ibuprofen, bác sĩ tim mạch chỉnh liều warfarin, INR thử lại 2,5, rồi cô được chọc hút kim nhỏ dưới siêu âm. Đau vai gáy &#x27;đỡ được một nửa&#x27;, cổ vẫn còn vướng khi ngửa lên làm trần. Cô hỏi kết quả có sao không để còn lấy giấy.</p>
+  <blockquote>“Bác sĩ ơi, tui chọc xong rồi, cô điều dưỡng ở trên đó nói chờ kết quả, bữa nay tui mang xuống đây. Có sao không bác sĩ? Cổ tui vẫn vướng vướng, vai gáy đỡ hơn nhưng chưa hết. Với lại tui còn mấy viên thuốc xương dư, nhức quá thì tui uống được không?”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>72</b><small>l/p</small></div><div class="vs"><span>HA</span><b>130/80</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,7</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>16</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-9">Hỏi bệnh <small>4 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Có phiếu tế bào học Bethesda II; chọc khi INR dưới 3</b><span class="tag t-b">Khi được hỏi</span></div><p>Phiếu tế bào học (bệnh viện tỉnh, chọc dưới siêu âm tám ngày trước): nhân thùy phải 17 mm, kết quả Bethesda II (lành tính), đủ mẫu, tế bào nang giáp và chất keo. Phiếu INR trước chọc: 2,5.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đã ngưng ibuprofen, warfarin đã chỉnh, vẫn còn thuốc xương trong nhà</b><span class="tag t-b">Khi được hỏi</span></div><p>Bác sĩ tim mạch giảm liều warfarin xuống 2,5 mg mỗi tối sau INR 3,3, thử lại INR 2,5; cô đã bỏ hẳn ibuprofen. Trong nhà cô vẫn còn 4 viên ibuprofen chưa uống.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đỡ một phần: đau cơ đỡ, vướng cổ còn khi ngửa cổ; không dấu chèn ép</b><span class="tag t-b">Khi được hỏi</span></div><p>Đau gáy giảm khoảng một nửa nhờ paracetamol và nghỉ làm trần mấy hôm; vướng cổ giảm ít, chỉ rõ khi ngửa cổ lâu. Không nuốt nghẹn, không khó thở, không khàn tiếng, giọng không đổi.</p></div><div class="fact"><div class="fh"><b>Nỗi lo mất việc, mong lấy giấy</b><span class="tag t-b">Khi được hỏi</span></div><p>Cô sợ phải mổ vì còn nhận công trình; cô nghe &#x27;ung thư giáp thì mất việc&#x27;. Cô hỏi giấy sức khỏe đã lấy được chưa.</p></div></details>
+ <details class="card"><summary><h3 id="m-10">Khám <small>6 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Nhân thùy phải khoảng 1,7 cm như lượt trước, chắc vừa, bờ đều, di động theo nuốt; vết chọc kim da bình thường, không tụ máu, không đau. Không hạch cổ, khí quản ở giữa.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đập không đều, tần số khoảng 72 l/p.</p><p><span class="lbl">Kết quả:</span> Nhịp tim không đều, tần số khoảng 72 l/p, không âm thổi.</p></div><div class="row"><div class="rh"><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Da niêm hồng, không bầm tím, không tụ máu vùng cổ chọc hút.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b></div><p><span class="lbl">Kết quả:</span> Còn căng cơ thang hai bên nhẹ hơn, xoay ngửa cổ đủ biên độ, không tê tay.</p></div><div class="row"><div class="rh"><b>Quan sát nuốt thử (từng ngụm nước, miếng bánh mì mềm: ho sặc, giọng ướt, vị trí vướng, thời gian trôi)</b></div><p><span class="lbl">Kết quả:</span> Nuốt nước, bánh mì mềm trôi tốt, không sặc, không nghẹn; cô chỉ thấy vướng khi ngửa cổ.</p></div><div class="row"><div class="rh"><b>Soi thanh quản (gương hoặc nội soi ống mềm: niêm mạc, dây thanh, khe thanh môn)</b></div><p><span class="lbl">Kết quả:</span> Hai dây thanh di động đối xứng, giọng bình thường.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 16 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-11">Cận lâm sàng <small>5 mục</small></h3></summary><div class="row"><div class="rh"><b>PT/INR (đông máu, theo dõi thuốc kháng đông)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> INR 2,4.</p><p class="why">Hữu ích, không bắt buộc: đã có phiếu INR 2,5 trước chọc và cô vừa đổi liều. Thử lại nhằm kiểm sau chỉnh liều và sau khi ngưng ibuprofen (đích 2,0–3,0, ESC AF 2024 Bảng khuyến cáo 7).</p></div><div class="row"><div class="rh"><b>Siêu âm tuyến giáp và hạch cổ</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần siêu âm lại ngay: vừa có siêu âm và chọc hút cách 8 ngày; siêu âm lại theo mốc 12–24 tháng (ATA 2015 khuyến cáo 23B) hoặc 3–5 năm (ETA 2023 Bảng 1), mốc kế tiếp chưa tới.</p></div><div class="row"><div class="rh"><b>TSH, FT4</b><span class="tag t-r">Không cần</span></div><p class="why">TSH bình thường 10 ngày trước, không có triệu chứng mới; không cần làm lại.</p></div><div class="row"><div class="rh"><b>Chọc hút kim nhỏ nhân giáp dưới siêu âm và tế bào học (FNA)</b><span class="tag t-r">Không cần</span></div><p class="why">Không chọc lại: Bethesda II với EU-TIRADS 4 và nhân &gt; 15 mm, ETA 2023 Bảng 1 mục Cytopathology-based management: đánh giá lại sau 3–5 năm (EU-TIRADS 5 mới chọc lại). ATA 2015 khuyến cáo 23B: nhân nghi ngờ thấp-trung bình, siêu âm lại 12–24 tháng.</p></div><div class="row"><div class="rh"><b>CT vùng cổ có cản quang (họng, khoang cổ sâu)</b><span class="tag t-r">Không cần</span></div><p class="why">Phòng khám không có CT và không cần: không chèn ép khí quản, không bướu thòng, không hạch (ETA 2023 Bảng 1, mục Non-ultrasound imaging).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-12">Đáp án lượt 2 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Nhân giáp thùy phải lành tính (Bethesda II, EU-TIRADS 4 / ACR TR4), bình giáp, theo dõi siêu âm</b></div><p class="why">Tế bào học lành tính phù hợp siêu âm; nguy cơ ác tính 4% (2–7%) theo Bethesda 2023 Bảng 2, ước tính tốt nhất 1–2%. Quản lý: theo dõi lâm sàng và siêu âm.</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Rung nhĩ dùng warfarin, INR trong đích sau chỉnh liều và ngưng ibuprofen</b></div><p class="why">INR 2,5 trước chọc, 2,4 hôm nay; đích 2,0–3,0 (ESC AF 2024, Bảng khuyến cáo 7).</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Đau cơ vai gáy do tư thế, đỡ một phần; vướng cổ khi ngửa cổ chưa do chèn ép</b></div><p class="why">Không nuốt nghẹn, không khó thở, nuốt thử bình thường, khí quản ở giữa. Mức vướng cổ liên quan nhân ở kích thước này: không có trong tài liệu đã tải; không đủ chèn ép để xét can thiệp (ETA 2023 Bảng 1: đốt cho nhân lành gây triệu chứng tại chỗ).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ung thư tuyến giáp</b></div><p class="why">Nguy cơ thấp sau Bethesda II (4%, ước tính 1–2%: Bethesda 2023 Bảng 2) nhưng không bằng 0; nhân không to, không hạch, không khàn tiếng. Siêu âm lại theo mốc để phát hiện nhân to lên hoặc xuất hiện đặc điểm nghi ngờ (ATA 2015 khuyến cáo 23B).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích kết quả: tế bào học lành tính (Bethesda II), không cần mổ, không cần uống thuốc giáp; theo dõi bằng siêu âm định kỳ</b></div><p class="why">Bethesda 2023 Bảng 2: nguy cơ 4% (2–7%), quản lý theo dõi lâm sàng và siêu âm. ATA 2015 khuyến cáo 25 và ETA 2023 Bảng 1: không dùng hormon giáp ở người bình giáp.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn siêu âm tuyến giáp lại sau 12–24 tháng (ATA) hoặc 3–5 năm (ETA); với cô vừa có phiếu INR cao, bỏ hẹn thuốc, chọn mốc 12 tháng là quyết định lâm sàng</b></div><p class="why">ATA 2015 khuyến cáo 23B: nhân nghi ngờ thấp đến trung bình, siêu âm lại 12–24 tháng; ETA 2023 Bảng 1, Cytopathology-based management: Bethesda II với EU-TIRADS 4 (&gt; 15 mm) đánh giá lại sau 3–5 năm. Mâu thuẫn thật về mốc, xem sổ mâu thuẫn NT-0069 mục 1: ATA ưu tiên phát hiện sớm ung thư bị bỏ sót, ETA dựa vào tốc độ tăng chậm.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hướng dẫn giữ ngưng ibuprofen (bỏ 4 viên còn dư), tiếp tục paracetamol khi đau, nhờ chồng nhắc đi thử INR đúng hẹn</b></div><p class="why">NSAID nên tránh với kháng vitamin K (ESC AF 2024 Hình 9); INR đích 2,0–3,0 (ESC AF 2024, Bảng khuyến cáo 7). Paracetamol: QĐ 361/2014, Thoái hóa cột sống thắt lưng mục 4.2.2 (≤ 4 g/ngày).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Nghỉ làm việc ngửa cổ lâu, chia giờ, kê giàn giáo/ghế để trần ngang tầm mắt; vướng cổ đỡ dần khi cơ hết căng</b></div><p class="why">Chấp nhận: lời dặn tư thế nghề; tài liệu đã tải không có hướng dẫn cho đau vai gáy do ngửa cổ ở thợ sơn, nên không ghi nguồn con số.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Chọc hút lại ngay hoặc chuyển tuyến phẫu thuật vì cô &#x27;còn vướng cổ&#x27;</b></div><p class="why">Bethesda II cùng siêu âm EU-TIRADS 4 không chỉ định chọc lại ngay (ETA 2023 Bảng 1); cô không có chèn ép (ETA 2023 Bảng 4). Làm vậy là xử trí quá mức, tốn chi phí và lo lắng.</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Cho phép uống nốt ibuprofen khi nhức vì &#x27;đã đỡ&#x27;</b></div><p class="why">NSAID tránh với kháng vitamin K (ESC AF 2024 Hình 9); INR vừa mới về đích.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển cô lên phẫu thuật cắt thùy giáp hoặc xét nghiệm gen khi tế bào học là Bethesda II là quá tay: nguy cơ ác tính chỉ 4% (2–7%), ước tính tốt nhất theo dõi dài hạn 1–2% (Bethesda 2023 Bảng 2 và phần bàn luận); cách xử trí thường dùng là theo dõi lâm sàng và siêu âm. Cô mất thêm ngày công và tiền đi lại, lo lắng nặng hơn, có thể bỏ hẹn khám sau đó.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhập viện để theo dõi vướng cổ không có chỉ định: mạch, huyết áp, SpO₂ ổn, không khó thở, không nuốt nghẹn, không chèn ép (ETA 2023 Bảng 4 xếp triệu chứng chèn ép là yếu tố tăng chỉ định chọc hút, cô không có). Cô nằm viện vô ích, và nếu cô dùng thêm thuốc giảm đau tại viện mà không ai kiểm INR thì còn nguy cơ tương tác với warfarin.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Nhân giáp thùy phải lành tính (Bethesda II) 17 mm, EU-TIRADS 4 / ACR TR4, bình giáp, theo dõi siêu âm</li><li>Rung nhĩ dùng warfarin 2,5 mg, INR 2,4–2,5 trong đích sau chỉnh liều và ngưng ibuprofen</li><li>Đau cơ vai gáy do tư thế nghề, đỡ một phần</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Hỏi bệnh theo thứ tự: kết quả tế bào học và phiếu INR trước chọc; diễn tiến vướng cổ và đau gáy so với lượt trước (đỡ một phần có hợp lý không); có nuốt nghẹn, khàn tiếng, khó thở không; thuốc còn dư ở nhà.</li><li>Khám: nhân vẫn 1,7 cm bờ đều, chỗ chọc không tụ máu, không hạch, nuốt thử bình thường, dây thanh bình thường. Đỡ một phần ở đây là hồi phục chậm bình thường của đau cơ sau ngưng ngửa cổ, không phải thất bại của lượt trước: cần phân biệt với triệu chứng chèn ép do nhân (ETA 2023 Bảng 4).</li><li>CLS: phiếu Bethesda II; không chọc lại, không siêu âm lại ngay, không TSH lại. INR hôm nay trong đích. Không cần CT.</li><li>Chẩn đoán: nhân lành khi tế bào học lành và siêu âm không có đặc điểm nguy cơ cao; vẫn dặn theo dõi vì nguy cơ không bằng 0 (Bethesda 2023 Bảng 2).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Hướng đúng là cho về, hẹn khám lại: Bethesda II theo dõi lâm sàng và siêu âm (Bethesda 2023 Bảng 2). Hai mốc siêu âm lại: 12–24 tháng (ATA 2015 khuyến cáo 23B) hoặc 3–5 năm (ETA 2023 Bảng 1); chọn 12 tháng cho cô vì bỏ thử INR trước đây.</li><li>Không dùng hormon giáp (ATA 2015 khuyến cáo 25; ETA 2023 Bảng 1) hoặc thử liều thấp theo QĐ 3879/2014 (sổ mâu thuẫn NT-0069 mục 2); ca không kê.</li><li>Ibuprofen: ngưng hẳn vì tương tác với kháng vitamin K (ESC AF 2024 Hình 9); phần tư vấn nghề (ngửa cổ lâu): không có trong tài liệu đã tải.</li><li>Giấy sức khỏe: tiêu chuẩn phân loại sức khỏe nghề: không có trong tài liệu đã tải; thông tin cô cần: nhân lành, đang theo dõi, không phải lý do nghỉ việc.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Paracetamol</b><div class="sub">500 mg/viên</div></td><td data-l="Liều">1 viên mỗi lần, tối đa 3 lần/ngày khi đau (không quá 4 g/ngày)<div class="sub">Uống · Sau ăn, khi đau</div></td><td data-l="Thời gian">Khi đau, dừng khi hết đau gáy; dùng liên tục quá 1 tuần thì báo để thử INR</td><td class="gc" data-l="Ghi chú">QĐ 361/2014, Thoái hóa cột sống thắt lưng mục 4.2.2. Tương tác với warfarin: không có trong tài liệu đã tải.</td></tr><tr><td><b>Warfarin (thuốc đang dùng, đã chỉnh)</b><div class="sub">Theo bác sĩ tim mạch (2,5 mg mỗi tối)</div></td><td data-l="Liều">Giữ nguyên liều đã chỉnh<div class="sub">Uống · Buổi tối</div></td><td data-l="Thời gian">Liên tục; thử INR theo hẹn nơi theo dõi</td><td class="gc" data-l="Ghi chú">Giữ nguyên. Đích INR 2,0–3,0 (ESC AF 2024, Bảng khuyến cáo 7).</td></tr><tr><td><b>Ibuprofen còn dư ở nhà – KHÔNG DÙNG</b><div class="sub">400 mg</div></td><td data-l="Liều">Bỏ<div class="sub">Uống · Không dùng</div></td><td data-l="Thời gian">Không</td><td class="gc" data-l="Ghi chú">ESC AF 2024 Hình 9: NSAID nên tránh với kháng vitamin K.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Kết quả chọc cho thấy cục lành tính. Cô không cần mổ, không cần uống thuốc giáp (ATA 2015 khuyến cáo 25). Vẫn cần siêu âm lại: hẹn sau 12 tháng (ATA 2015: 12–24 tháng; ETA 2023: 3–5 năm).</li><li>Bỏ nốt mấy viên ibuprofen còn trong nhà; đau gáy dùng paracetamol, nghỉ nghỉ giữa giờ, đừng ngửa cổ liên tục quá lâu. Nhờ ông Lương nhắc đi thử INR đúng hẹn.</li><li>Quay lại sớm nếu cục to lên rõ, khàn tiếng, nuốt nghẹn, khó thở, hoặc đau gáy tăng kèm tê yếu tay (ATA 2015 khuyến cáo 2, bệnh sử/khám).</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-3">
+ <h2 id="h-luot-3"><span class="ln">Lượt 3/3</span> · sau 12 tháng</h2>
+ <div class="card intro"><h3 id="m-13">Tiếp đón</h3><p>Cô Cúc, 53 tuổi, đến đúng hẹn một năm sau, vẫn đi làm sơn nhà, chồng chở đến. Cô nói cổ &#x27;hết vướng từ lâu&#x27;, đến để siêu âm lại theo hẹn và gia hạn giấy sức khỏe năm nay. Cô vẫn uống warfarin 2,5 mg, nói đã thử INR đều ở tỉnh.</p>
+  <blockquote>“Chào bác sĩ, một năm rồi, cổ tui hết vướng, vai gáy cũng ổn nhờ tui đổi cách làm trần. Bữa nay tui tới siêu âm lại như bác sĩ hẹn, kèm cho tui xin gia hạn tờ giấy sức khỏe luôn nghen.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>70</b><small>l/p</small></div><div class="vs"><span>HA</span><b>128/78</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,7</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>16</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-14">Hỏi bệnh <small>2 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Năm qua ổn: không triệu chứng mới, INR đạt đích, không NSAID</b><span class="tag t-b">Khi được hỏi</span></div><p>Một năm qua cô đi thử INR đều, INR luôn 2,0–3,0; không uống thuốc xương nữa, đau gáy thỉnh thoảng uống 1 viên paracetamol. Không khàn tiếng, không nuốt nghẹn, không thấy cục to lên, không sụt cân, không hồi hộp quá mức.</p></div><div class="fact"><div class="fh"><b>Tuân thủ hẹn</b><span class="tag t-g">Tự kể</span></div><p>Cô tái khám đúng hẹn 12 tháng vì chồng nhắc; cô không bỏ hẹn lần nào.</p></div></details>
+ <details class="card"><summary><h3 id="m-15">Khám <small>5 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Nhân thùy phải khoảng 1,7–1,8 cm, chắc vừa, bờ đều, di động theo nuốt; thùy trái và eo không nhân; không hạch cổ, khí quản ở giữa.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đập không đều, tần số khoảng 70 l/p.</p><p><span class="lbl">Kết quả:</span> Nhịp tim không đều, tần số khoảng 70 l/p, không âm thổi.</p></div><div class="row"><div class="rh"><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Da niêm hồng, không bầm, cân 54 kg như một năm trước.</p></div><div class="row"><div class="rh"><b>Soi thanh quản (gương hoặc nội soi ống mềm: niêm mạc, dây thanh, khe thanh môn)</b></div><p><span class="lbl">Kết quả:</span> Hai dây thanh di động đối xứng.</p></div><div class="row"><div class="rh"><b>Khám run (lúc nghỉ, giữ tư thế, khi làm động tác)</b></div><p><span class="lbl">Kết quả:</span> Duỗi hai tay: không run.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 16 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-16">Cận lâm sàng <small>5 mục</small></h3></summary><div class="row"><div class="rh"><b>Siêu âm tuyến giáp và hạch cổ</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Thùy phải: nhân đặc, giảm hồi âm nhẹ, 18 × 12 × 13 mm (trước 17 × 12 × 13 mm), bờ đều, không vi vôi hóa, không cao hơn rộng. Không nhân mới, không hạch cổ nghi ngờ.</p><p class="why">Siêu âm lại theo mốc 12–24 tháng (ATA 2015 khuyến cáo 23B). Tăng 1 mm (&lt; 20% ở hai kích thước) nên chưa đạt tiêu chí tăng kích thước để chọc lại (ATA khuyến cáo 23B).</p></div><div class="row"><div class="rh"><b>TSH, FT4</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> TSH 1,8 mUI/L · FT4 14 pmol/L: bình giáp.</p><p class="why">Chấp nhận, không bắt buộc: không triệu chứng chức năng giáp; ETA 2023 Bảng 1 chỉ nêu đánh giá chức năng giáp ban đầu.</p></div><div class="row"><div class="rh"><b>PT/INR (đông máu, theo dõi thuốc kháng đông)</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> INR 2,3.</p><p class="why">Chấp nhận: thuộc theo dõi kháng đông, do nơi điều trị rung nhĩ quyết định tần suất (ESC AF 2024, Bảng khuyến cáo 7, đích 2,0–3,0). Không cần cho đánh giá nhân giáp.</p></div><div class="row"><div class="rh"><b>Chọc hút kim nhỏ nhân giáp dưới siêu âm và tế bào học (FNA)</b><span class="tag t-r">Không cần</span></div><p class="why">Không chọc lại: nhân không to ≥ 20% ở hai kích thước, không đặc điểm nghi ngờ mới (ATA 2015 khuyến cáo 23B); ETA 2023 Bảng 1: đánh giá lại sau 3–5 năm cho Bethesda II với EU-TIRADS 4 &gt; 15 mm.</p></div><div class="row"><div class="rh"><b>CT vùng cổ có cản quang (họng, khoang cổ sâu)</b><span class="tag t-r">Không cần</span></div><p class="why">Phòng khám không có CT và không cần: nhân ổn định, không chèn ép, không hạch (ETA 2023 Bảng 1, mục Non-ultrasound imaging).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-17">Đáp án lượt 3 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Nhân giáp thùy phải lành tính, ổn định sau 12 tháng (Bethesda II, kích thước 17 → 18 mm), bình giáp</b></div><p class="why">Tăng 1 mm dưới ngưỡng tăng kích thước của ATA 2015 khuyến cáo 23B (20% ở hai kích thước và ≥ 2 mm, hoặc thể tích &gt; 50%); không đặc điểm nguy cơ mới. Nguy cơ ác tính sau Bethesda II 4% (2–7%), ước tính tốt nhất 1–2% (Bethesda 2023 Bảng 2).</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Rung nhĩ dùng warfarin, INR trong đích</b></div><p class="why">INR 2,3 hôm nay, thử đều trong năm; đích 2,0–3,0 (ESC AF 2024, Bảng khuyến cáo 7).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ung thư tuyến giáp</b></div><p class="why">Không có triệu chứng, nhân không đổi, không hạch, không khàn tiếng; không bằng 0 nên vẫn cần theo dõi theo mốc (ATA 2015 khuyến cáo 23B; ETA 2023 Bảng 1).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích nhân ổn định, tiếp tục theo dõi siêu âm: mốc kế tiếp theo ETA là 3–5 năm sau chọc hút hoặc theo ATA là 12–24 tháng; lịch sau lần siêu âm ổn định đầu tiên: ATA 2015 khuyến cáo 23B không nêu mốc kế tiếp rõ</b></div><p class="why">ATA 2015 khuyến cáo 23B (siêu âm lại 12–24 tháng; nếu không tăng, &#x27;observation continued with repeat US&#x27;) và ETA 2023 Bảng 1 (3–5 năm). Mâu thuẫn thật về mốc, sổ mâu thuẫn NT-0069 mục 1. Hai lần chọc lành tính thì ngừng siêu âm theo dõi (ATA khuyến cáo 23D), ca này mới có một lần.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn giữ tránh NSAID, thử INR theo hẹn; gặp bác sĩ sớm nếu nhân to, khàn tiếng, nuốt nghẹn</b></div><p class="why">ESC AF 2024 Hình 9 (NSAID); đích INR 2,0–3,0 (ESC AF 2024, Bảng khuyến cáo 7); dấu hiệu báo động theo ATA 2015 khuyến cáo 2 (phần bệnh sử/khám).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Giấy sức khỏe: xác nhận không có bệnh giáp cần nghỉ việc; tiêu chuẩn phân loại sức khỏe nghề thợ sơn: không có trong tài liệu đã tải</b></div><p class="why">Chấp nhận, vì tài liệu đã tải không có tiêu chuẩn sức khỏe nghề; không ghi con số.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Chọc hút lại hoặc chuyển phẫu thuật vì nhân &#x27;to thêm 1 mm&#x27;</b></div><p class="why">Không đạt tiêu chí tăng kích thước (ATA 2015 khuyến cáo 23B) và Bethesda II không chỉ định mổ (Bethesda 2023 Bảng 2).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Bỏ theo dõi hẳn vì &#x27;đã một năm không sao&#x27;</b></div><p class="why">Cả hai nguồn đều còn mốc siêu âm lại (ATA 2015: 12–24 tháng, ETA 2023: 3–5 năm); hiện mới một lần siêu âm lại sau lần chọc đầu.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển cô đi chọc hút lại hoặc phẫu thuật vì nhân &#x27;nằm đó một năm&#x27; là quá tay: nhân không đổi kích thước, chưa có đặc điểm nghi ngờ mới; ATA 2015 khuyến cáo 23B chỉ chọc lại khi tăng ≥ 20% ở hai kích thước (và ≥ 2 mm) hoặc thể tích &gt; 50% hoặc có dấu hiệu nghi ngờ mới. Cô tốn thêm ngày công và thủ thuật không cần, nguy cơ biến chứng chọc hút ở người dùng kháng đông.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhập viện để làm lại chẩn đoán không có chỉ định: sinh hiệu ổn, không triệu chứng, siêu âm ổn định, INR trong đích. Cô nằm viện vô ích và mất công việc đã nhận.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Nhân giáp thùy phải lành tính (Bethesda II), ổn định sau 12 tháng, 18 mm, EU-TIRADS 4 / ACR TR4, bình giáp</li><li>Rung nhĩ dùng warfarin 2,5 mg, INR đạt đích</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Hỏi bệnh: triệu chứng tại cổ, khàn tiếng, nuốt nghẹn, to nhanh, sụt cân; INR trong năm; còn dùng NSAID hay thuốc tự mua nào không.</li><li>Khám: nhân không đổi, không hạch, dây thanh bình thường, không dấu cường giáp.</li><li>CLS: siêu âm 18 × 12 × 13 mm so với 17 × 12 × 13 mm, không đặc điểm mới; không chọc lại, không CT. TSH, INR là chấp nhận.</li><li>Kết luận: lành tính ổn định; không bằng 0 nguy cơ nên vẫn theo dõi (Bethesda 2023 Bảng 2).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Hướng đúng là cho về, hẹn khám lại: tiêu chí chọc lại là tăng ≥ 20% ở hai kích thước (và ≥ 2 mm) hoặc thể tích &gt; 50% hoặc đặc điểm nghi ngờ mới (ATA 2015 khuyến cáo 23B), ca chưa đạt.</li><li>Mốc siêu âm kế tiếp: 12–24 tháng (ATA 2015 khuyến cáo 23B) hoặc 3–5 năm sau (ETA 2023 Bảng 1); hai nguồn khác nhau vì ATA tính đến ung thư bị bỏ sót, ETA dựa trên nhân tăng chậm. Lịch cụ thể sau lần siêu âm ổn đầu tiên: không có trong tài liệu đã tải đủ rõ, nên bác sĩ quyết định (ghi là quyết định lâm sàng).</li><li>Không dùng hormon giáp (ATA 2015 khuyến cáo 25; ETA 2023 Bảng 1). Giữ tránh NSAID với warfarin (ESC AF 2024 Hình 9).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Warfarin (thuốc đang dùng)</b><div class="sub">Theo bác sĩ tim mạch (2,5 mg mỗi tối)</div></td><td data-l="Liều">Giữ nguyên<div class="sub">Uống · Buổi tối</div></td><td data-l="Thời gian">Liên tục; thử INR theo hẹn nơi theo dõi</td><td class="gc" data-l="Ghi chú">Giữ nguyên. Đích INR 2,0–3,0 (ESC AF 2024, Bảng khuyến cáo 7). Không kê thêm thuốc giáp (ATA 2015 khuyến cáo 25).</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Cục ở cổ vẫn lành, không to lên đáng kể. Cô không cần mổ, không cần thuốc giáp; vẫn cần siêu âm lại (hẹn 12–24 tháng theo ATA 2015 hoặc 3–5 năm theo ETA 2023).</li><li>Tiếp tục thử INR đúng hẹn, không uống thuốc xương/giảm đau chống viêm; đau gáy dùng paracetamol.</li><li>Báo sớm nếu cục to nhanh, khàn tiếng, nuốt nghẹn, khó thở.</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-18">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Nhân giáp lành theo dõi</b></div>
+<p class="note">Phải loại trừ: Ung thư giáp</p><p>Một năm sau cô Cúc vẫn làm thợ sơn, đạt INR đều, bỏ hẳn thuốc xương. Nhân giáp phải 18 mm lành tính (Bethesda II) ổn định; cô hết vướng cổ, nhận giấy sức khỏe và hẹn siêu âm lại theo mốc, không phải mổ.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-19">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Tự uống thuốc: ibuprofen 5 ngày không khai, chỉ lộ khi hỏi thuốc tự mua; thuốc này làm INR/chảy máu nguy hiểm hơn ở người dùng warfarin.</li><li>Lý do thật là xin giấy sức khỏe: cô không thấy cục cổ là chuyện cần khám; bác sĩ phải chủ động hỏi và khám cổ.</li><li>Đổi thuốc kháng đông chưa thử INR: INR 3,3 chặn thủ thuật chọc hút cho đến khi về dưới 3.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Người đến xin giấy sức khỏe vẫn phải được hỏi đủ thuốc, kể cả thuốc tự mua và thuốc mới đổi; INR là điều kiện cho chọc hút nhân giáp (ETA 2023: INR &lt; 3).</li><li>Nhân giáp có chỉ định chọc hút theo ngưỡng kích thước và hệ TIRADS; kháng đông không cản chọc nếu INR đạt, nên không cần ngừng thuốc theo phản xạ.</li><li>Bethesda II: theo dõi lâm sàng và siêu âm; hai nguồn khác mốc (ATA 12–24 tháng, ETA 3–5 năm), ghi cả hai.</li><li>Đỡ một phần ở lượt 2 là đau cơ hồi phục chậm, khác với thất bại điều trị hay nhân gây chèn ép.</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Nhân giáp: TSH đầu tiên; bình thường thì không xạ hình (ATA 2015 khuyến cáo 2). Tg thường quy không dùng (khuyến cáo 3).</li><li>EU-TIRADS 4: nguy cơ 6–17%, chọc khi &gt; 15 mm; ACR TR4 chọc khi ≥ 1,5 cm; ATA nghi ngờ trung bình chọc khi ≥ 1 cm.</li><li>Kháng đông không cản chọc hút nếu INR &lt; 3; kháng kết tập tiểu cầu không phải chống chỉ định tuyệt đối (ETA 2023).</li><li>NSAID nên tránh với kháng vitamin K (ESC AF 2024 Hình 9); đích INR 2,0–3,0.</li><li>Không ức chế TSH bằng levothyroxine cho nhân lành (ATA 2015 khuyến cáo 25; ETA 2023).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-20">Nguồn tài liệu <small>8</small></h3></summary><ul class=""><li>ATA 2015 – 2015 American Thyroid Association Management Guidelines for Adult Patients with Thyroid Nodules and Differentiated Thyroid Cancer – TL-0662 (khuyến cáo 2, 3, 6, 7, 8 và Bảng 6, 23, 25)</li><li>ETA 2023 – 2023 European Thyroid Association Clinical Practice Guidelines for thyroid nodule management – TL-0651 (Bảng 1, 3, 4; mục Thyroid biopsy)</li><li>ACR TI-RADS 2017 – ACR Thyroid Imaging, Reporting and Data System (TI-RADS): White Paper – TL-0661 (bảng điểm; Hình 1)</li><li>Bethesda 2023 – The 2023 Bethesda System for Reporting Thyroid Cytopathology – TL-0656 (Bảng 2)</li><li>ESC AF 2024 – 2024 ESC Guidelines for the management of atrial fibrillation – TL-0303 (Bảng khuyến cáo 7; Hình 9)</li><li>QĐ 3879/2014 – Hướng dẫn chẩn đoán và điều trị bệnh nội tiết - chuyển hóa – TL-0039 (Bướu giáp đơn thuần III.2, IV)</li><li>QĐ 361/2014 – Hướng dẫn chẩn đoán và điều trị các bệnh cơ xương khớp – TL-0286 (Thoái hóa cột sống thắt lưng 4.2.2; Viêm quanh khớp vai 4.2.1)</li><li>USPSTF 2017 – Thyroid Cancer: Screening – TL-0695</li></ul></details>
+<details class="card"><summary><h3 id="m-21">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Nội tiết khác</dd><dt>chan_doan_dich</dt><dd>Nhân giáp lành theo dõi</dd><dt>chan_doan_phai_loai_tru</dt><dd>Ung thư giáp</dd><dt>nhom_tuoi</dt><dd>Trung niên (40–59 tuổi)</dd><dt>do_kho</dt><dd>Điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>dien_tien_tai_kham</dt><dd>Đỡ một phần</dd><dt>nhieu_benh_nhan</dt><dd>Tự uống thuốc trước 5 ngày</dd><dt>rang_buoc_nguon_luc</dt><dd>Không có CT</dd><dt>loai_ket_cuc</dt><dd>Ổn định, khỏi bệnh</dd><dt>gioi</dt><dd>Nữ</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>3</dd><dt>nghe_nghiep</dt><dd>Thợ sơn</dd><dt>yeu_to_khoi_phat</dt><dd>Đổi thuốc điều trị</dd><dt>thuoc_dang_dung</dt><dd>Thuốc kháng đông đang dùng</dd><dt>ly_do_that_su_den_kham</dt><dd>Xin giấy chứng nhận sức khỏe</dd></dl><ul class=""><li>2026-11-08: viết bản 1. Tài liệu đã đọc: TL-0662 (ATA 2015 khuyến cáo 2–4, 7–8 và Bảng 6, 23, 25), TL-0651 (ETA 2023 Bảng 1, 3, 4 và đoạn về kháng đông trước Bảng 4), TL-0661 (ACR TI-RADS bảng điểm, Hình 1), TL-0656 (Bethesda Bảng 2), TL-0303 (ESC AF 2024 Hình 9, Bảng khuyến cáo 7), TL-0286 (QĐ 361 mục paracetamol), TL-0695 (USPSTF 2017).</li><li>Đặc tả sổ cái: trung niên 52, điển hình, không bẫy cấu trúc, đỡ một phần ở lượt 2, tự uống ibuprofen 5 ngày, không CT, ổn định khỏi, thợ sơn, đổi thuốc điều trị (acenocoumarol sang warfarin), kháng đông, lý do thật xin giấy sức khỏe. Mâu thuẫn dùng lại sổ NT-0069 (mốc siêu âm lại sau Bethesda II; levothyroxine ức chế TSH) và mục X-quang cổ.</li><li>Thiếu tài liệu (đã ghi &#x27;không có trong tài liệu đã tải&#x27; trong ca): cách chỉnh liều warfarin khi INR 3,3; ngừng hay không ngừng warfarin trước chọc; tương tác paracetamol–warfarin; ngưỡng tiểu cầu cho chọc hút; dấu hiệu chảy máu cần dặn; tiêu chuẩn sức khỏe nghề thợ sơn; lịch siêu âm sau lần ổn định đầu tiên theo ATA; đau vai gáy do ngửa cổ (dùng suy rộng QĐ 361).</li></ul></details>
+<p class="chan-trang">Ca NT-0126 · phiên bản ca 1 · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

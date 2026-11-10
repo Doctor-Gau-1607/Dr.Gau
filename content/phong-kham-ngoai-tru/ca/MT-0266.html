@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MT-0266 · Đái tháo đường type 2 (theo dõi)</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · MT-0266</div>
+   <h1>Đau hai gối, xin giấy nghỉ ốm và lấy thêm thuốc tiểu đường</h1>
+   <p class="dich-gia">Đỗ Thị Hương · Nữ · 67 tuổi · 58 kg</p>
+   <div class="chips"><span class="chip">Bệnh mạn tính người lớn</span><span class="chip">Điển hình</span><span class="chip">1 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Nội trợ</dd><dt>Chiều cao, cân nặng</dt><dd>150 cm · 58 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi bà là &#x27;bà&#x27;. Bà tự xưng &#x27;tôi&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;.</dd><dt>Tính cách</dt><dd>Tiết kiệm, ngại làm phiền con cái, hay than tốn tiền; thương cháu, nói chuyện nhẹ nhàng nhưng cố chấp chuyện tiền bạc. Hiểu biết y khoa ít, tin lời người trong xóm.</dd></dl></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/1</span> </h2>
+ <div class="card intro"><h3 id="m-2">Tiếp đón</h3><p>Bà Đỗ Thị Hương, 67 tuổi, nội trợ, đái tháo đường típ 2 khoảng 6 năm. Đến vì đau hai gối 3 tuần, xin giấy nghỉ ốm và lấy thêm thuốc tiểu đường. Sinh hiệu: HA 128/78 mmHg, mạch 80 l/p, cân nặng 58 kg, BMI 25,8.</p>
+  <blockquote>“Bác sĩ ơi, hai đầu gối tôi đau mấy tuần nay, bế cháu không nổi. Bác sĩ làm ơn cho tôi tờ giấy nghỉ ốm với lấy thêm thuốc tiểu đường, hết mấy bữa rồi. Mà tôi nói trước là tôi không làm xét nghiệm gì đâu nha, tốn tiền lắm.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>80</b><small>l/p</small></div><div class="vs"><span>HA</span><b>128/78</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,8</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>18</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>97</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-3">Hỏi bệnh <small>14 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám (lời khai)</b><span class="tag t-g">Tự kể</span></div><p>Đau hai đầu gối khoảng 3 tuần, bế cháu không nổi. Xin giấy nghỉ ốm và lấy thêm thuốc tiểu đường vì thuốc đã hết 5 ngày nay.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thời gian bệnh, thuốc, lần xét nghiệm cuối</b><span class="tag t-b">Khi được hỏi</span></div><p>Tiểu đường típ 2 khoảng 6 năm, phát hiện khi khám sức khỏe ở trạm y tế xã. Đang được kê metformin 850 mg, ngày 2 lần sau ăn. Lần thử HbA1c gần nhất cách đây khoảng 14 tháng, ở trạm, bà chỉ nhớ &quot;bác sĩ nói hơi cao&quot;. Chưa từng nằm viện vì tiểu đường.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khởi phát: đái tháo đường thai kỳ sau sinh con út, yếu tố nguy cơ típ 2</b><span class="tag t-b">Khi được hỏi</span></div><p>Năm 1992 sinh đứa con út, lúc 33 tuổi, bác sĩ nói &quot;đường cao lúc mang thai&quot; và dặn sau sinh thử lại. Bà không đi thử lại, quên luôn đến khi phát hiện tiểu đường 6 năm trước. Mẹ bà cũng bị tiểu đường.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Triệu chứng tăng đường huyết (không sụt cân)</b><span class="tag t-b">Khi được hỏi</span></div><p>Khoảng một tháng nay khát nước hơn, tối dậy tiểu 2–3 lần, hay mệt, hơi mờ mắt. Cân nặng vài tháng nay không đổi.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Loại trừ biến chứng cấp (nhiễm toan ceton, tăng áp lực thẩm thấu)</b><span class="tag t-b">Khi được hỏi</span></div><p>Không đau bụng, không buồn nôn hay nôn, không thở nhanh sâu, ăn uống được, tỉnh táo.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Không tuân thủ do chi phí</b><span class="tag t-r">Giấu</span></div><p>Tháng trước bà chỉ mua nửa toa thuốc cho đỡ tốn. Uống 1 viên mỗi ngày thay vì 2, nhiều hôm cách ngày &quot;để thuốc kéo dài&quot;. Thuốc hết hẳn 5 ngày nay. Bà không nói với ai vì ngại con cái lo.</p><div class="cond">Điều kiện nói ra: Hỏi chung &quot;uống thuốc đều không&quot; thì bà nói &quot;đều&quot;. Chỉ kể khi bác sĩ hỏi uống mỗi ngày mấy viên, có bỏ bớt hay uống cách ngày không, hay thuốc có tốn tiền không.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc giảm đau tự mua (NSAID) ở người tiểu đường, cao tuổi</b><span class="tag t-r">Giấu</span></div><p>Ba tuần nay tự mua ở tiệm thuốc đầu ngõ vỉ thuốc giảm đau khớp, ngày uống 2 viên sáng tối. Vỉ ghi diclofenac 50 mg. Uống vào hay xót ruột, bà uống thêm sữa cho đỡ. Không đi tiêu phân đen.</p><div class="cond">Điều kiện nói ra: Hỏi chung &quot;đang uống thuốc gì&quot; thì bà chỉ kể metformin. Chỉ kể khi bác sĩ hỏi thuốc giảm đau, thuốc tự mua, hay bà đã uống gì cho đau gối.</div></div><div class="fact"><div class="fh"><b>dau_goi</b><span class="tag t-b">Khi được hỏi</span></div><p>Đau cả hai gối, nhiều hơn khi lên xuống cầu thang, ngồi xổm, bế cháu. Cứng gối buổi sáng dưới 15 phút. Không sưng nóng đỏ, không sốt, không đau các khớp nhỏ ở tay.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Triệu chứng biến chứng mạn (thần kinh, mắt, bàn chân)</b><span class="tag t-b">Khi được hỏi</span></div><p>Thỉnh thoảng tê râm ran hai bàn chân về tối. Chưa bao giờ được khám mắt. Chân không có vết loét.</p></div><div class="fact"><div class="fh"><b>loi_song</b><span class="tag t-b">Khi được hỏi</span></div><p>Nội trợ, nấu ăn cho cả nhà, ăn cơm nhiều, thích trái cây ngọt. Đi bộ ra chợ mỗi sáng. Không hút thuốc, không uống rượu.</p></div><div class="fact"><div class="fh"><b>tim_mach</b><span class="tag t-b">Khi được hỏi</span></div><p>Không đau ngực, không khó thở khi đi bộ. Không biết mỡ máu, chưa bao giờ thử.</p></div><div class="fact"><div class="fh"><b>ha_duong</b><span class="tag t-b">Khi được hỏi</span></div><p>Chưa từng run, vã mồ hôi, hay lả đói khi chưa ăn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Từ chối xét nghiệm do chi phí: xếp ưu tiên, ghi nhận từ chối, phương án B</b><span class="tag t-b">Khi được hỏi</span></div><p>Bà nói ngay: &quot;Tôi không làm xét nghiệm gì đâu, năm ngoái làm cả chục thứ tốn bạc triệu mà vẫn được bảo như cũ&quot;. Bà chỉ mang theo khoảng 150.000 đồng tiền chợ. Nếu bác sĩ giải thích một lần, cụ thể xét nghiệm nào đổi được cách chữa hôm nay, bà đồng ý đo đường huyết đầu ngón tay, một ống máu thử chức năng thận và thử nước tiểu (tổng cộng không quá số tiền đó). Các xét nghiệm còn lại (HbA1c, mỡ máu, đạm niệu, điện tim, vitamin B12) bà vẫn từ chối, nói &quot;để lần sau có tiền&quot;.</p><div class="cond">Điều kiện nói ra: Nói ngay khi bác sĩ đề nghị bất kỳ xét nghiệm nào. Đồng ý hạn chế chỉ sau khi bác sĩ giải thích cụ thể vì sao xét nghiệm đó cần ngay.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Động cơ thật: xin giấy nghỉ ốm cho con rể</b><span class="tag t-r">Giấu</span></div><p>Lý do thật: con gái Thảo vừa đi làm lại sau nghỉ sinh. Con rể xin nghỉ phép để phụ bế bé vì bà đau gối không bế nổi, công ty anh ấy đòi &quot;giấy nghỉ ốm của người nhà&quot;. Bà xin giấy cho con rể và cũng sợ phải gọi con về nên mới đến khám. Bà không đi làm, không có sổ bảo hiểm xã hội riêng.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi bà cần giấy để làm gì, nộp cho ai, hay bà có đi làm không, hay ở nhà ai phụ bà. Khi bị từ chối thì bà buồn nhưng hiểu nếu bác sĩ nói nhẹ nhàng và đưa cách khác.</div></div></details>
+ <details class="card"><summary><h3 id="m-4">Khám <small>5 mục</small></h3></summary><div class="row"><div class="rh"><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Cao 150 cm, nặng 58 kg, BMI 25,8, vòng eo 88 cm. Da niêm hồng, không phù.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b></div><p><span class="lbl">Kết quả:</span> Bàn chân khô, nứt gót nhẹ, không loét. Monofilament 10 g: không cảm nhận ở đầu ngón cái hai bên. Âm thoa 128 Hz: giảm rung ở ngón cái hai bên. Mạch mu chân, chày sau rõ.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Hai gối không sưng đỏ, gập duỗi được, có tiếng lạo xạo.</p><p><span class="lbl">Kết quả:</span> Hai gối lạo xạo khi gập duỗi, ấn đau khe khớp trong, biên độ 0–120°, không tràn dịch, không nóng đỏ. Các khớp nhỏ bàn tay không sưng.</p></div><div class="row"><div class="rh"><b>Soi đáy mắt</b></div><p><span class="lbl">Kết quả:</span> Vài vi phình mạch rải rác hai mắt, không xuất tiết, không tân mạch: bệnh võng mạc đái tháo đường không tăng sinh nhẹ.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 80 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 80 l/p, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 18 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-5">Cận lâm sàng <small>11 mục</small></h3></summary><div class="row"><div class="rh"><b>Đường huyết mao mạch (máy thử tại giường)</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> 12,4 mmol/L (sau ăn sáng khoảng 2 giờ)</p><p class="why">Rẻ nhất, cho ngay quyết định hôm nay. Mục tiêu trước ăn 90–150 mg/dL (5,0–8,3 mmol/L) ở người nhiều bệnh, sức khỏe trung bình (QĐ 5481 Phần 4 Bảng 5). Không thay HbA1c: chỉ nói về thời điểm đo.</p></div><div class="row"><div class="rh"><b>Ure, creatinin, eGFR</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Ure 6,2 · Creatinin 98 µmol/L · eGFR 54 mL/ph/1,73m²</p><p class="why">Đổi quyết định hôm nay: metformin (chống chỉ định eGFR &lt; 30, giảm liều 30–45: QĐ 5481 PL01 mục 2) và NSAID độc thận (KDIGO 2024 Bảng 31). Bệnh thận mạn cần eGFR &lt; 60 kéo dài &gt; 3 tháng (KDIGO 2024), một lần đo chưa kết luận.</p></div><div class="row"><div class="rh"><b>Tổng phân tích nước tiểu</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Glucose 2+ · Ceton âm tính · Protein âm tính</p><p class="why">Rẻ, ceton âm hỗ trợ loại trừ toan ceton (QĐ 5481 Phần 7 mục 2.1). Que thử không thay UACR: tài liệu đã tải không nêu.</p></div><div class="row"><div class="rh"><b>HbA1c</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> (Bà từ chối: &quot;tốn 120.000, để lần sau&quot;. Đã giải thích một lần, bà tự quyết; ghi nhận từ chối vào hồ sơ.)</p><p class="why">HbA1c nên đo vì không biết mức kiểm soát (ADA 2026 KC 6.1, 6.2; QĐ 5481 Phần 4: 3 tháng/lần nếu chưa đạt mục tiêu). Bà từ chối do chi phí: phương án B là đường huyết tại phòng khám mỗi lần tái khám.</p></div><div class="row"><div class="rh"><b>Bộ mỡ máu</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> (Bà từ chối do chi phí; ghi nhận.)</p><p class="why">Không cần có mỡ máu để cân nhắc statin ở ĐTĐ 40–75 tuổi (ADA 2026 KC 10.18). Hoãn đến khi có điều kiện.</p></div><div class="row"><div class="rh"><b>Tỷ số albumin/creatinin niệu (UACR)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> (Bà từ chối do chi phí; ghi nhận.)</p><p class="why">UACR, eGFR ít nhất hằng năm (ADA 2026 KC 11.1a). Hoãn, hẹn làm trong 3 tháng.</p></div><div class="row"><div class="rh"><b>Vitamin B12 huyết thanh (cobalamin toàn phần)</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> (Bà từ chối do chi phí; ghi nhận.)</p><p class="why">Metformin lâu năm + tê chân: theo dõi B12 định kỳ (ADA 2026 mục 9, phần metformin). Không cấp bách hôm nay.</p></div><div class="row"><div class="rh"><b>Điện tâm đồ 12 chuyển đạo</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> (Bà từ chối do chi phí; ghi nhận.)</p><p class="why">Điện tim ở lần đánh giá đầu (QĐ 5481 Bảng 2) nhưng ADA 2026 Bảng 4.1 không có; chấp nhận không làm hôm nay.</p></div><div class="row"><div class="rh"><b>Kháng thể anti-GAD65 và C-peptid (kèm glucose cùng lúc)</b><span class="tag t-r">Không cần</span></div><p class="why">Không gợi ý típ 1/LADA: 6 năm kiểm soát bằng metformin, thể trạng thừa cân, không sụt cân, ceton niệu âm. Kháng thể GAD chỉ khi nghi ngờ (ADA 2026 Hình 2.1); đắt (800.000 đồng).</p></div><div class="row"><div class="rh"><b>X-quang khớp (tay, cổ tay, gối, chân)</b><span class="tag t-r">Không cần</span></div><p class="why">Thoái hóa gối điển hình lâm sàng, hôm nay không đổi cách xử trí; không có chỉ định khẩn trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><b>CT bụng có cản quang</b><span class="tag t-r">Không cần</span></div><p class="why">Không tài liệu đã tải nào đưa CT vào đánh giá đái tháo đường.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-6">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Đái tháo đường típ 2 nhiều khả năng kiểm soát chưa tốt do dùng thuốc không đủ liều vì chi phí (glucose mao mạch 12,4 mmol/L, triệu chứng nhẹ), có nghi bệnh thần kinh ngoại biên (mất cảm giác monofilament)</b></div><p class="why">Khát, tiểu đêm, hết thuốc 5 ngày, uống nửa liều (QĐ 5481 Phần 3 mục 2.3); tiền sử ĐTĐ thai kỳ là yếu tố nguy cơ (ADA 2026 KC 2.34); không có HbA1c nên chưa biết mức kiểm soát.</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>eGFR giảm nhẹ (54) liên quan tới NSAID tự mua và cao tuổi; chưa đủ chẩn đoán bệnh thận mạn</b></div><p class="why">Diclofenac 3 tuần ở người ĐTĐ 67 tuổi (KDIGO 2024 Bảng 31, PP 4.1.3; AGS Beers 2023 Bảng 2). Cần &gt; 3 tháng và UACR mới kết luận.</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Thoái hóa khớp gối hai bên</b></div><p class="why">Đau cơ học, cứng gối buổi sáng dưới 15 phút, lạo xạo, không sưng nóng đỏ; tuổi, thừa cân, bế cháu. Không viêm khớp dạng thấp, gút hay nhiễm trùng khớp: không sưng nóng đỏ, không sốt, khớp nhỏ không tổn thương.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>ĐTĐ típ 1 / LADA</b></div><p class="why">Khởi phát muộn, kiểm soát bằng metformin 6 năm, thừa cân, không sụt cân, ceton niệu âm: nghiêng típ 2 (QĐ 5481 Bảng 1). Xét kháng thể GAD nếu sau này đáp ứng kém (ADA 2026 Hình 2.1).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>ĐTĐ thứ phát (do thuốc, bệnh tụy)</b></div><p class="why">Không dùng corticoid (vỉ ghi diclofenac), không đau bụng mạn, không bệnh tụy; tiền sử ĐTĐ thai kỳ gợi ý típ 2 (QĐ 5481 Phần 2 mục 2.4).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Nhiễm toan ceton / tăng áp lực thẩm thấu</b></div><p class="why">Tỉnh, ăn uống được, không đau bụng, nôn, thở sâu; ceton niệu âm, glucose 12,4 mmol/L (QĐ 5481 Phần 7 mục 2.1, Bảng 7).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi về chi phí, giải thích một lần xét nghiệm nào cần ngay (đường huyết đầu ngón tay, creatinin vì thuốc giảm đau và metformin, nước tiểu), xếp ưu tiên trong số tiền bà mang theo; ghi nhận bà từ chối HbA1c, mỡ máu, đạm niệu, điện tim, B12; mời làm khi có điều kiện</b></div><p class="why">Chi phí là rào cản cần nhận diện và đưa vào quyết định điều trị (ADA 2026 mục 1, phần chi phí điều trị). Quy trình ghi nhận từ chối xét nghiệm: không có trong tài liệu đã tải. Tôn trọng quyền tự quyết, giải thích một lần.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ngưng diclofenac và mọi NSAID uống; giải thích vì sao có hại cho thận và dạ dày ở bà</b></div><p class="why">AGS Beers 2023 Bảng 2 (NSAID không chọn lọc COX-2: tránh dùng kéo dài ở người cao tuổi); KDIGO 2024 Bảng 31 và PP 4.1.3 (hạn chế thuốc tự mua); QĐ 361/2014 Phụ lục NSAID mục 3.3 (người cao tuổi, bệnh thận: tránh NSAID nếu có thể).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Thay giảm đau bằng paracetamol 500 mg khi đau, tối đa 3 g/ngày (hoặc tới 4 g/ngày theo AHA/ACC 2025), kèm giảm tải gối, tránh bế cháu lâu</b></div><p class="why">QĐ 361/2014 Phụ lục NSAID mục 3.3: người cao tuổi dùng acetaminophen &lt; 3 g/ngày; AHA/ACC 2025 Bảng 11: &lt; 4 g/ngày (mục cũ trong sổ, con số 3 g thận trọng hơn). Bài tập, vật lý trị liệu gối: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Tiếp tục metformin 850 mg × 2 lần/ngày sau ăn, uống đủ liều, không tự bớt; eGFR 54 chưa phải chỉnh liều</b></div><p class="why">QĐ 5481 Bảng 14 (500–2000 mg/ngày), PL01 mục 2 (chống chỉ định eGFR &lt; 30, giảm liều 30–45); ADA 2026 mục 9 (metformin).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chưa thêm thuốc hạ đường huyết thứ hai hôm nay khi chưa có HbA1c; sửa tuân thủ trước, hẹn tái khám 4 tuần đo lại đường huyết và creatinin, HbA1c khi có điều kiện, rồi quyết định tăng cường</b></div><p class="why">Tái khám 0,5–1 tháng/lần khi đang chỉnh thuốc (QĐ 5481 Phần 3 mục 2.3); HbA1c 3 tháng/lần nếu chưa đạt mục tiêu (QĐ 5481 Phần 4; ADA 2026 KC 6.2); xem lại tuân thủ định kỳ (KC 9.14). Hai nguồn: ADA 2026 KC 9.15 không trì hoãn tăng cường khi chưa đạt mục tiêu, nhưng ca chưa biết HbA1c và tuân thủ chỉ mới ở 1 viên/ngày nên sửa tuân thủ trước là hợp lý.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Đặt mục tiêu HbA1c cá thể hóa: &lt; 7,5% hoặc &lt; 8,0% theo QĐ 5481 Phần 4 Bảng 5 (mạnh khỏe hoặc nhiều bệnh), hoặc &lt; 7% theo ADA 2026 KC 6.3a, nới lỏng theo KC 6.5 nếu có hạ đường huyết, suy yếu</b></div><p class="why">Sổ mâu thuẫn: Mục tiêu HbA1c ở ĐTĐ típ 2 cao tuổi (MT-0335): ghi cả hai.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Khám mắt, khám bàn chân mỗi lần, dặn cách chăm sóc bàn chân; nghĩ tới bệnh thần kinh ngoại biên</b></div><p class="why">Khám đáy mắt từ lúc chẩn đoán ĐTĐ2 (QĐ 2558/2022 Bảng 4; ADA 2026 KC 12.4); mất cảm giác thì kiểm tra bàn chân mỗi lần khám (ADA 2026 KC 12.25; QĐ 5481 Phần 8 mục 4e).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích giấy nghỉ ốm hưởng bảo hiểm xã hội chỉ cấp cho chính người tham gia BHXH cần nghỉ làm vì bệnh; bà không đi làm nên không có chỉ định, không cấp giấy sai sự thật cho con rể; đề nghị giấy chứng nhận khám bệnh ghi đúng tình trạng của bà nếu công ty chấp nhận</b></div><p class="why">Quy định giấy nghỉ ốm: không có trong tài liệu đã tải; sổ mâu thuẫn ghi TT 56/2017/TT-BYT Điều 3 khoản 1, Điều 20 khoản 1 điểm c (nguồn bổ sung tự tìm, chưa đối chiếu bản hiện hành). Mẫu giấy chứng nhận khám bệnh: không có trong tài liệu đã tải.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Cân nhắc statin cường độ trung bình (atorvastatin 10–20 mg) ở lần tái khám khi bà đã uống đều metformin</b></div><p class="why">ADA 2026 KC 10.18: ĐTĐ 40–75 tuổi dùng statin cường độ trung bình, không cần mỡ máu. Không bắt buộc hôm nay vì ưu tiên sửa tuân thủ và bỏ NSAID, tránh thêm nhiều thuốc và chi phí.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Thêm empagliflozin hoặc thuốc nhóm SGLT2i</b></div><p class="why">ADA 2026 KC 9.10 dùng khi bệnh thận mạn, suy tim, bệnh tim mạch xơ vữa; ca chưa có UACR, tuổi 67, chi phí cao, chưa biết HbA1c. Chấp nhận nếu bàn kỹ chi phí.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Bắt đầu insulin ngay</b></div><p class="why">Không có triệu chứng nặng, HbA1c chưa biết, glucose 12,4 mmol/L; ngưỡng cân nhắc insulin HbA1c ≥ 9% (QĐ 5481 Phần 4 mục 4.2f) hoặc &gt; 10%, glucose ≥ 16,7 (ADA 2026 KC 9.20) chưa thỏa. Nguy cơ hạ đường huyết và chi phí ở người cao tuổi tự theo dõi kém (ADA 2026 KC 6.6, 9.17). Mục cũ trong sổ: Ngưỡng HbA1c cân nhắc insulin sớm (MT-0333).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Thêm gliclazide hoặc glimepiride cho rẻ</b></div><p class="why">AGS Beers 2023 Bảng 2: tránh sulfonylurea ở người cao tuổi; ADA 2026 KC 6.6, 9.17 hạ đường huyết; QĐ 5904/2019 Phụ lục 2.3 Bước 1 chỉ cho gliclazide khi không dùng được metformin. Mục cũ trong sổ (MT-1087).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Nhập viện hoặc chuyển tuyến để &quot;làm hết các xét nghiệm&quot;</b></div><p class="why">Không có dấu mất bù cấp (ceton niệu âm, tỉnh, ăn uống được: QĐ 5481 Phần 7 mục 2.1) nên không có chỉ định; chi phí nằm viện vượt khả năng của bà, dễ khiến bà bỏ dở theo dõi.</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Cấp giấy nghỉ ốm theo yêu cầu cho con rể</b></div><p class="why">Ghi sai người bệnh và sự thật y khoa; quy định giấy nghỉ ốm: không có trong tài liệu đã tải (TT 56/2017 Điều 3 khoản 1, nguồn bổ sung tự tìm).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Bà Hương bị giữ lại bệnh viện &quot;làm hết các xét nghiệm&quot; dù tỉnh táo, ăn uống được, ceton niệu âm, glucose 12,4 mmol/L, không có tiêu chuẩn mất bù cấp (QĐ 5481 Phần 7 mục 2.1). Chi phí nằm viện vượt xa 150.000 đồng bà mang theo, bà phải nhờ con rể, và bà vẫn chưa hiểu vì sao phải ngưng thuốc giảm đau. Ra viện bà sợ tốn kém hơn nên có nhiều khả năng lại uống thuốc nửa liều và tự mua giảm đau.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Bà được giấy chuyển lên bệnh viện tỉnh để &quot;khám thận và khớp&quot;, trong khi việc cần làm ngay (ngưng diclofenac, creatinin, sửa tuân thủ metformin) làm được tại chỗ (QĐ 5481 Phần 3 mục 2.3; KDIGO 2024 Bảng 31). Đi lại, chờ đợi, chi phí khiến bà không đi, giấy chuyển bỏ xó và bà tiếp tục uống diclofenac, mất theo dõi.</p></div><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Bà chỉ được kê thêm thuốc rồi dặn &quot;đến khi nào hết thì quay lại&quot;, không hẹn rõ và không nói về diclofenac. Bà tiếp tục NSAID, eGFR vốn đã 54 có thể giảm thêm và nguy cơ chảy máu tiêu hóa tăng ở tuổi này (KDIGO 2024 Bảng 31; AGS Beers 2023 Bảng 2). Bà vẫn uống nửa liều metformin vì chi phí nên đường huyết cao kéo dài, biến chứng thần kinh đã có dấu hiệu tiến triển (ADA 2026 KC 9.14).</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Đái tháo đường típ 2 kiểm soát chưa rõ mức, nhiều khả năng chưa tốt do dùng thuốc không đủ liều vì chi phí (glucose mao mạch 12,4 mmol/L, khát, tiểu đêm), có nghi bệnh thần kinh ngoại biên</li><li>eGFR 54 mL/ph/1,73m² sau 3 tuần diclofenac tự mua: chưa kết luận bệnh thận mạn</li><li>Thoái hóa khớp gối hai bên</li><li>Không có toan ceton, không có tăng áp lực thẩm thấu</li><li>Lý do thật: xin giấy nghỉ ốm cho con rể; rào cản chi phí; bà từ chối HbA1c, mỡ máu, đạm niệu, điện tim, B12 (ghi nhận)</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Hỏi bệnh: lý do khám, thời gian và thuốc tiểu đường, lần HbA1c cuối, rồi hỏi cụ thể uống mỗi ngày mấy viên, có bớt liều vì tiền không (bà chỉ kể khi được hỏi thế). Hỏi thuốc tự mua, thuốc giảm đau để tìm diclofenac. Hỏi triệu chứng tăng đường huyết, dấu hiệu cấp (đau bụng, nôn, thở nhanh), tê chân, khám mắt, tiền sử thai kỳ (QĐ 5481 Phần 3 mục 1; ADA 2026 KC 2.34).</li><li>Khám: bàn chân và monofilament cho thấy mất cảm giác (ADA 2026 KC 12.25); tim đều; gối lạo xạo, không viêm. Hỏi tiếp động cơ thật bằng câu &quot;bà cần tờ giấy này để nộp cho ai&quot;.</li><li>Cận lâm sàng theo thứ tự ưu tiên khi bà chỉ có khoảng 150.000 đồng: đường huyết mao mạch 20.000 (12,4 mmol/L, không đủ nặng để cấp cứu), creatinin 50.000 (eGFR 54, quyết định metformin và NSAID), nước tiểu 40.000 (ceton âm). HbA1c 120.000 nên đo nhưng bà từ chối; phương án B là đo đường huyết tại phòng khám mỗi lần tái khám và đo HbA1c ngay khi bà đủ điều kiện (QĐ 5481 Phần 4; ADA 2026 KC 6.2).</li><li>Chẩn đoán: típ 2 chứ không phải típ 1/LADA hay thứ phát vì khởi phát muộn, thừa cân, metformin kiểm soát 6 năm, ceton âm (QĐ 5481 Bảng 1; ADA 2026 Hình 2.1). eGFR 54 một lần đo kèm NSAID chưa đủ chẩn đoán bệnh thận mạn, cần &gt; 3 tháng (KDIGO 2024).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Nguyên nhân tăng đường huyết dễ chữa nhất là uống nửa liều vì tiền, không phải thiếu thuốc mới: sửa tuân thủ và đưa thuốc rẻ (metformin) trước khi nghĩ thêm thuốc (ADA 2026 KC 9.14). Mặt khác KC 9.15 nhắc không trì hoãn khi chưa đạt mục tiêu: vì vậy hẹn tái khám 4 tuần và quyết định tăng cường khi có HbA1c (QĐ 5481 Phần 3 mục 2.3).</li><li>Ngưng diclofenac: NSAID độc thận, nguy cơ chảy máu tiêu hóa ở người cao tuổi (AGS Beers 2023 Bảng 2; KDIGO 2024 Bảng 31, PP 4.1.3). Thay paracetamol, tối đa 3 g/ngày theo QĐ 361/2014 hoặc 4 g/ngày theo AHA/ACC 2025 Bảng 11 (chọn 3 g: thận trọng hơn).</li><li>Mục tiêu HbA1c: &lt; 7,5–8,0% theo QĐ 5481 Bảng 5 hoặc &lt; 7% theo ADA 2026 KC 6.3a (nới lỏng theo KC 6.5); bà thuộc nhóm nhiều bệnh, sức khỏe trung bình nên &lt; 8,0% là hợp lý.</li><li>Giấy nghỉ ốm: bà không đi làm, giấy hưởng BHXH không thuộc về người nhà; cấp giấy cho con rể là ghi sai. Giúp thật sự: giấy chứng nhận khám bệnh ghi đúng tình trạng đau gối của bà. Quy định chi tiết: không có trong tài liệu đã tải (TT 56/2017 là nguồn bổ sung tự tìm).</li><li>Điều không nên làm: nhập viện, chuyển tuyến, insulin, sulfonylurea (Beers 2023 Bảng 2; ADA 2026 KC 6.6, 9.17) khi bà chưa có chỉ định và rất sợ tốn kém; statin và SGLT2i để lần sau, chấp nhận ở mức a.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Metformin</b><div class="sub">850 mg</div></td><td data-l="Liều">1 viên × 2 lần/ngày<div class="sub">Uống · Sau ăn sáng và tối</div></td><td data-l="Thời gian">Kê 30 ngày; dùng lâu dài</td><td class="gc" data-l="Ghi chú">QĐ 5481 Bảng 14 (500–2000 mg/ngày), PL01 mục 2 (CCĐ eGFR &lt; 30; giảm liều 30–45); eGFR 54 giữ nguyên liều. Dặn uống đủ, không tự bớt vì tiền.</td></tr><tr><td><b>Paracetamol</b><div class="sub">500 mg</div></td><td data-l="Liều">1 viên mỗi lần khi đau, tối đa 3 lần/ngày (1,5 g)<div class="sub">Uống · Khi đau gối, mỗi lần cách nhau ít nhất 6 giờ</div></td><td data-l="Thời gian">Khi cần, tối đa 7 ngày rồi tái khám</td><td class="gc" data-l="Ghi chú">Tối đa &lt; 3 g/ngày (QĐ 361/2014 Phụ lục NSAID mục 3.3) hoặc 4 g/ngày (AHA/ACC 2025 Bảng 11), chọn thận trọng. Số ngày dùng: không có trong tài liệu đã tải.</td></tr><tr><td><b>Diclofenac 50 mg (tự mua)</b><div class="sub">50 mg</div></td><td data-l="Liều">NGƯNG<div class="sub">- · -</div></td><td data-l="Thời gian">Không dùng lại</td><td class="gc" data-l="Ghi chú">AGS Beers 2023 Bảng 2; KDIGO 2024 Bảng 31. Giữ vỉ thuốc mang theo lần sau để bác sĩ xem.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Thuốc tiểu đường uống đủ 1 viên sáng và 1 viên tối sau ăn, không bớt hay uống cách ngày; nếu thấy tốn tiền, nói với bác sĩ để cùng tìm cách, đừng tự bớt.</li><li>Ngưng hẳn thuốc giảm đau diclofenac và các thuốc giảm đau, kháng viêm uống tự mua; nếu đau nhiều thì dùng paracetamol theo đơn. Nếu đi tiêu phân đen, đau thượng vị nhiều, phù chân hoặc tiểu ít thì đến khám ngay.</li><li>Khi lên xuống cầu thang bám tay vịn; tránh bế cháu lâu một chỗ, nhờ người nhà phụ; chườm ấm gối. Bài tập cho gối: không có trong tài liệu đã tải.</li><li>Chăm sóc bàn chân: kiểm tra mỗi tối, đi giày dép êm, không đi chân trần, không tự cắt chai (ADA 2026 KC 12.25; QĐ 5481 Phần 8 mục 4e). Khám mắt sớm.</li><li>Khi khát nhiều, tiểu nhiều hơn, lơ mơ, nôn, đau bụng, thở nhanh thì đi cấp cứu ngay (QĐ 5481 Phần 7 mục 2.1). Nếu run, vã mồ hôi, đói lả thì ăn ngay đường (ADA 2026 KC 6.15).</li><li>Tái khám sau 4 tuần (mốc bác sĩ chọn, QĐ 5481 Phần 3 mục 2.3 nêu 0,5–1 tháng/lần khi chỉnh thuốc), đo đường huyết và creatinin; HbA1c, mỡ máu, đạm niệu làm lần lượt khi bà có điều kiện, không phải làm một lúc.</li><li>Giấy nghỉ ốm hưởng bảo hiểm chỉ dành cho người đang đi làm và tham gia bảo hiểm xã hội nên bà không có; bác sĩ cấp giấy chứng nhận khám bệnh ghi đúng tình trạng đau gối của bà để con rể trình công ty nếu công ty chấp nhận.</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-7">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Đái tháo đường type 2 (theo dõi)</b></div>
+<p class="note">Phải loại trừ: ĐTĐ type 1/LADA, ĐTĐ thứ phát</p><p>Bà Hương ngưng diclofenac, uống metformin đủ liều. Sau 4 tuần đường huyết đầu ngón tay trước ăn còn 8–9 mmol/L, creatinin 90 µmol/L (eGFR 60), đau gối đỡ vừa. Sau 3 tháng bà dành tiền làm HbA1c được 8,3%: vượt mục tiêu nên mới thêm thuốc thứ hai, nên hạ chậm hơn dự kiến. Con rể nhận giấy chứng nhận khám bệnh ghi đúng tình trạng của bà.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-8">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Không đủ tiền xét nghiệm: xếp ưu tiên (đường huyết, creatinin, nước tiểu) theo mức đổi được quyết định hôm nay; HbA1c, mỡ máu, UACR hoãn có ghi nhận (ADA 2026 mục 1, chi phí điều trị).</li><li>Xin giấy nghỉ ốm cho con rể: bà không đi làm, không có chỉ định; không cấp giấy sai sự thật (quy định: không có trong tài liệu đã tải).</li><li>Thuốc giảm đau khớp tự mua (diclofenac): cửa ngõ dẫn tới tổn thương thận ở người tiểu đường lớn tuổi (KDIGO 2024 Bảng 31).</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Nguyên nhân kiểm soát kém hay gặp: thuốc uống bớt vì tiền. Hỏi cụ thể mỗi ngày mấy viên, mua đủ toa không (ADA 2026 mục 1, KC 9.14).</li><li>Khi người bệnh từ chối xét nghiệm: giải thích một lần xét nghiệm nào đổi quyết định, xếp ưu tiên, ghi nhận từ chối, có phương án B và hẹn quay lại (quy trình ghi nhận: không có trong tài liệu đã tải).</li><li>Thuốc giảm đau khớp tự mua ở người ĐTĐ cao tuổi: hỏi thẳng tên thuốc, ngưng NSAID, kiểm tra creatinin (AGS Beers 2023 Bảng 2; KDIGO 2024 PP 4.1.3).</li><li>Lý do thật khác lý do khai: hỏi &quot;bà cần giấy để làm gì, nộp cho ai&quot;; từ chối nhẹ nhàng giấy không đúng đối tượng, đưa giải pháp thay thế.</li><li>Tiền sử ĐTĐ thai kỳ là yếu tố nguy cơ típ 2, nên sàng lọc suốt đời mỗi 1–3 năm (ADA 2026 KC 2.34).</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>HbA1c ít nhất 2 lần/năm, mỗi 3 tháng nếu chưa đạt mục tiêu hoặc đổi thuốc (ADA 2026 KC 6.2; QĐ 5481 Phần 4).</li><li>Mục tiêu HbA1c người cao tuổi: &lt; 7,5% mạnh khỏe, &lt; 8,0% nhiều bệnh, &lt; 8,5% nhiều bệnh phức tạp (QĐ 5481 Bảng 5); ADA 2026 KC 6.3a &lt; 7%, KC 6.5 nới lỏng.</li><li>Metformin: CCĐ eGFR &lt; 30, giảm liều 30–45 (QĐ 5481 PL01 mục 2); theo dõi B12 định kỳ (ADA 2026 mục 9).</li><li>Tránh NSAID uống ở người cao tuổi, ĐTĐ, eGFR giảm (AGS Beers 2023 Bảng 2; KDIGO 2024 Bảng 31); paracetamol &lt; 3 g/ngày (QĐ 361/2014) hoặc &lt; 4 g/ngày (AHA/ACC 2025 Bảng 11).</li><li>Tránh sulfonylurea ở người cao tuổi (AGS Beers 2023 Bảng 2; ADA 2026 KC 6.6, 9.17).</li><li>Mất cảm giác monofilament: kiểm tra bàn chân mỗi lần khám (ADA 2026 KC 12.25); khám đáy mắt từ lúc chẩn đoán (ADA 2026 KC 12.4).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-9">Nguồn tài liệu <small>5</small></h3></summary><ul class=""><li>ADA Standards of Care in Diabetes 2026 (TL-0296) – ĐÃ ĐỌC mục 1 (chi phí điều trị), mục 2 (KC 2.34, Hình 2.1), mục 6 (KC 6.1–6.8, Bảng 6.3), mục 9 (KC 9.10, 9.14, 9.15, 9.17, 9.20, metformin và B12), mục 10 (KC 10.18), mục 11 (KC 11.1a), mục 12 (KC 12.4, 12.25). KC = khuyến cáo.</li><li>Bộ Y tế – QĐ 5481/QĐ-BYT 2020 (TL-0031) – Phần 2 (Bảng 1, mục 2.4); Phần 3 (mục 1, 2.3, Bảng 2); Phần 4 (Bảng 4, Bảng 5, mục 4.2f); Phần 7 (mục 2.1, Bảng 7); Phần 8 (mục 4e); PL01 (mục 2); Bảng 14.</li><li>Bộ Y tế – QĐ 361/QĐ-BYT 2014 (TL-0286) Phụ lục NSAID mục 3.3; QĐ 5904/2019 (TL-0284) Phụ lục 2.3; QĐ 2558/2022 võng mạc ĐTĐ (TL-0543) Bảng 4.</li><li>AGS Beers 2023 (TL-0022) Bảng 2: NSAID không chọn lọc COX-2, sulfonylurea; KDIGO 2024 bệnh thận mạn (TL-0308) PP 4.1.3, Bảng 31, định nghĩa &gt; 3 tháng; AHA/ACC 2025 tăng huyết áp (TL-0297) Bảng 11 (paracetamol).</li><li>Giấy nghỉ ốm: TT 56/2017/TT-BYT Điều 3 khoản 1, Điều 20 khoản 1 điểm c – nguồn bổ sung tự tìm, chưa đối chiếu bản hiện hành (ghi theo sổ mâu thuẫn).</li></ul></details>
+<details class="card"><summary><h3 id="m-10">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Bệnh mạn tính người lớn</dd><dt>chan_doan_dich</dt><dd>Đái tháo đường type 2 (theo dõi)</dd><dt>chan_doan_phai_loai_tru</dt><dd>ĐTĐ type 1/LADA; ĐTĐ thứ phát</dd><dt>nhom_tuoi</dt><dd>Cao tuổi (60–74 tuổi)</dd><dt>do_kho</dt><dd>Điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>dien_tien_tai_kham</dt><dd>Không áp dụng (ca 1 lượt khám)</dd><dt>nhieu_benh_nhan</dt><dd>Không đủ tiền xét nghiệm</dd><dt>rang_buoc_nguon_luc</dt><dd>Bệnh nhân từ chối xét nghiệm</dd><dt>loai_ket_cuc</dt><dd>Khỏi chậm hơn dự kiến</dd><dt>gioi</dt><dd>Nữ</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>1</dd><dt>nghe_nghiep</dt><dd>Nội trợ</dd><dt>yeu_to_khoi_phat</dt><dd>Sau sinh (tiền sử đái tháo đường thai kỳ sau sinh con út; gần đây trông cháu mới sinh)</dd><dt>thuoc_dang_dung</dt><dd>Thuốc giảm đau khớp tự mua (diclofenac)</dd><dt>ly_do_that_su_den_kham</dt><dd>Xin giấy nghỉ ốm (cho con rể)</dd></dl><ul class=""><li>Viết 2026-11-08. Đã đọc: ADA 2026 mục 1, 2, 6, 9, 12 (chương 6, 9 và toàn văn); QĐ 5481 Phần 4 Bảng 5, PL01, Bảng 14; AGS Beers 2023 Bảng 2; KDIGO 2024 PP 4.1.3, Bảng 31. Các số trích KC 9.10, 10.18, 11.1a, 12.4, 12.25, QĐ 2558/2022 Bảng 4 lấy lại từ ca mẫu MT-0333 (đã soát nguồn), chưa mở lại bản gốc.</li><li>Thiết kế: yếu tố khởi phát &quot;sau sinh&quot; ở bà 67 tuổi được hiểu là ĐTĐ thai kỳ sau sinh con út (1992) và bối cảnh trông cháu mới sinh; &quot;lý do thật xin giấy nghỉ ốm&quot; thành xin giấy cho con rể vì bà nội trợ. Từ chối xét nghiệm do tiền: khoa_cls null, mô hình theo TT-0399 (cls v:e/u/a ab:0 kèm lời từ chối).</li><li>Còn thiếu trong tài liệu đã tải: quy định cấp giấy nghỉ ốm và mẫu giấy chứng nhận khám bệnh; quy trình ghi nhận từ chối xét nghiệm; bài tập, vật lý trị liệu thoái hóa gối; số ngày paracetamol; mốc tái khám 4 tuần (tự chọn); giá xét nghiệm lấy từ danh mục. Mâu thuẫn: dùng các mục cũ của sổ (HbA1c người cao tuổi MT-0335, paracetamol TH-0295, insulin MT-0333, sulfonylurea MT-1087, giấy nghỉ ốm).</li></ul></details>
+<p class="chan-trang">Ca MT-0266 · phiên bản ca 1 – bản đầu (2026-11-08) · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

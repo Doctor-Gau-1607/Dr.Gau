@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NH-1125 · Đau bụng chức năng tái diễn</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · NH-1125</div>
+   <h1>Bé gái đau bụng dưới bên phải từng cơn, mẹ lo ruột thừa</h1>
+   <p class="dich-gia">Đặng Thảo My · Nữ · 12 tuổi · 38.5 kg</p>
+   <div class="chips"><span class="chip">Nhi ngoại trú</span><span class="chip">Không điển hình</span><span class="chip">2 lượt khám</span><span class="chip">Có cờ đỏ</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Học sinh lớp 7</dd><dt>Chiều cao, cân nặng</dt><dd>150 cm · 38.5 kg</dd>
+<dt>Xưng hô</dt><dd>Bé 12 tuổi, tự xưng &#x27;con&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;, trả lời ngắn, nhỏ giọng. Mẹ là người kể bệnh chính: gọi bác sĩ là &#x27;bác sĩ&#x27;, xưng &#x27;em&#x27;; bác sĩ gọi mẹ là &#x27;chị&#x27;.</dd><dt>Tính cách</dt><dd>Bé học giỏi, ngoan, nhút nhát, sợ làm mẹ buồn, hay cúi mặt, ít nói điều mình lo. Mẹ 38 tuổi, nhân viên ngân hàng, nói nhanh, hay ngắt lời con, kỳ vọng cao vào con (đội tuyển Toán của trường), mất ngủ nhiều đêm vì con than đau.</dd><dt>Người nhà</dt><dd>Mẹ bé (chị Hương) – Mẹ bé, chị Hương, 38 tuổi, đi cùng. Hầu hết câu hỏi do mẹ trả lời (nguoi_noi = nguoi_nha). Chỉ khi bác sĩ hỏi thẳng bé (vd &#x27;My đau chỗ nào?&#x27;) hoặc hỏi riêng bé thì bé trả lời (nguoi_noi = benh_nhan).</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Cơ sở không có máy siêu âm.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/2</span> </h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Bé gái 12 tuổi, 38,5 kg, mẹ đưa đến vì đau bụng bên phải phía dưới từng cơn, mẹ nói từ sau chuyến du lịch 3 tuần trước. Sinh hiệu: nhiệt 36,9 °C, mạch 84 l/p, nhịp thở 18 l/p, SpO₂ 99%. Bé tỉnh, ngồi sát mẹ, nét mặt căng thẳng; mẹ trả lời thay.</p>
+  <blockquote>“Dạ bác sĩ, cháu nhà em đau bụng bên phải phía dưới từ hồi đi du lịch về, mới ba tuần nay thôi. Em sợ ruột thừa với giun lắm. Bác sĩ khám kỹ giùm em. Mấy đêm nay cả nhà không ai ngủ được.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>84</b><small>l/p</small></div><div class="vs"><span>HA</span><b>Không đo</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,9</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>18</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>99</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>11 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám</b><span class="tag t-g">Tự kể</span></div><p>Mẹ kể bé đau bụng bên phải phía dưới từ sau chuyến du lịch 4 ngày cách đây 3 tuần. Mẹ sợ ruột thừa hoặc giun nên đưa đi khám.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thời gian đau thật (≥ 2 tháng)</b><span class="tag t-b">Khi được hỏi</span></div><p>Khi hỏi kỹ, mẹ ngập ngừng: bé kêu đau từ khoảng tháng 5, tức khoảng 5 tháng; trước đây mẹ tưởng bé làm nũng. Sổ liên lạc ghi 3 lần cô cho bé về sớm vì đau bụng. Ba tuần nay cơn dày hơn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Vị trí, tính chất, tần suất (hố chậu phải = dấu báo động vị trí)</b><span class="tag t-b">Khi được hỏi</span></div><p>Bé chỉ vào bụng dưới bên phải, đôi khi quanh rốn. Mỗi cơn 20–40 phút, nhăn mặt, nằm co người thì đỡ, rồi tự hết và chạy chơi. Khoảng 3–5 cơn mỗi tuần, đau mức vừa, không lan, không lăn lộn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Nhịp đau theo học hành</b><span class="tag t-r">Giấu</span></div><p>Cơn hay đến chiều tối lúc ngồi học bài, hoặc sáng đi học, nhất là hôm có bài kiểm tra. Trong 4 ngày đi chơi bé gần như không đau, về đi học lại thì đau dồn. Cuối tuần ít đau.</p><div class="cond">Điều kiện nói ra: Mẹ không tự kể. Chỉ nói khi bác sĩ hỏi cơn đau hay đến lúc nào trong ngày, trong tuần, liên quan học hành, hoặc khi đi chơi bé có đau không.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dấu báo động âm tính (QĐ 3312 Bảng 1)</b><span class="tag t-b">Khi được hỏi</span></div><p>Không sốt, không nôn (đôi khi hơi buồn nôn lúc đau), không chán ăn, không ỉa máu, không phân đen, không phát ban, không đau khớp, không loét miệng. Đau chưa lần nào đánh thức bé khi đã ngủ say. Cân nặng từ 36,5 kg (khám sức khỏe tháng 4) lên 38,5 kg.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đại tiện, tiểu tiện, kinh nguyệt</b><span class="tag t-b">Khi được hỏi</span></div><p>Đi cầu 1 lần/ngày, phân thành khuôn, không rặn, không nhầy máu; đau không đổi theo đi cầu. Tiểu bình thường, không buốt, không rắt. Bé chưa có kinh, ngực nhú từ năm 11 tuổi, đau không theo chu kỳ.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dịch tễ chuyến đi (loại sốt xuất huyết, nhiễm khuẩn ruột)</b><span class="tag t-b">Khi được hỏi</span></div><p>Cả nhà đi 4 ngày ở thị trấn ven biển, ăn hải sản, uống nước đá. Ngày thứ hai bé ỉa lỏng nước 2 lần, không máu, không sốt, tự hết trong 1 ngày. Nơi đó có thông báo dịch sốt xuất huyết, bé bị muỗi đốt vài nốt. Về nhà bé không sốt, không đau đầu, đau cơ, không chảy máu răng hay mũi, không ban.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tẩy giun, triệu chứng giun</b><span class="tag t-b">Khi được hỏi</span></div><p>Bé uống thuốc tẩy giun ở trường hồi tháng 3. Không ngứa hậu môn, không gãi mông ban đêm, không thấy giun trong phân, không xanh xao.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc đang dùng: siro ho long đờm tự mua</b><span class="tag t-b">Khi được hỏi</span></div><p>Từ lúc về bé ho khan nhẹ khoảng 1 tuần, không sốt, không khó thở. Mẹ mua siro ho long đờm ở nhà thuốc (không nhớ hoạt chất, mang theo chai), cho uống 3 lần/ngày được 4 ngày. Thuốc không làm đau bụng tăng hay giảm.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Bối cảnh học đường, giấc ngủ, lo âu (QĐ 3312 mục 3.1, 4.2)</b><span class="tag t-r">Giấu</span></div><p>Bé học lớp 7, trong đội tuyển Toán, học thêm 5 buổi/tuần, thường học đến 12 giờ đêm. Hai tuần nữa thi cuối học kỳ I. Bé sợ không được chọn đi thi, sợ mẹ thất vọng, nhiều đêm trằn trọc đến khuya. Cô chủ nhiệm thấy bé dạo này hay sợ sệt, hay xin ra khỏi lớp.</p><div class="cond">Điều kiện nói ra: Bé chỉ nói khi bác sĩ hỏi thẳng bé, mời mẹ ra ngoài vài phút hoặc hỏi riêng về trường lớp, kỳ thi, giấc ngủ, tâm trạng. Mẹ ở đó thì mẹ ngắt lời và bé im.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Động cơ thật: xin thuốc ngủ</b><span class="tag t-r">Giấu</span></div><p>Đêm nào bé kêu đau mẹ thức theo, nhiều đêm chỉ ngủ 3–4 tiếng, ban ngày làm ở ngân hàng hay sai sót. Mẹ muốn bác sĩ cho bé thuốc ngủ để bé &#x27;ngủ một mạch tới sáng&#x27;, ngủ rồi thì cả nhà được nghỉ.</p><div class="cond">Điều kiện nói ra: Mẹ không tự kể. Chỉ nói khi bác sĩ hỏi đêm qua bé ngủ thế nào và chị ngủ ra sao, hoặc hỏi chị mong gì ở buổi khám, lo nhất điều gì.</div></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>8 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, tiếp xúc tốt nhưng nét mặt căng thẳng, hay nhìn mẹ trước khi trả lời. Da niêm hồng, không vàng da, không phù.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Nhân trắc trẻ em (cân nặng, chiều dài/chiều cao, MUAC, vòng đầu)</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Cân nặng 38,5 kg, cao 150 cm.</p><p><span class="lbl">Kết quả:</span> Cân nặng 38,5 kg, cao 150 cm, phù hợp tuổi; tăng 2 kg so với sổ khám sức khỏe tháng 4.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Bụng</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Bụng không chướng, thành bụng mềm.</p><p><span class="lbl">Kết quả:</span> Bụng cân đối, không chướng, nhu động ruột bình thường. Lần ấn nông đầu, hố chậu phải bé nhăn mặt kêu đau ngay khi tay vừa chạm. Khi bác sĩ vừa trò chuyện với bé về việc học vừa ấn sâu hố chậu phải, rồi lặp lại sau vài phút: bé nói chuyện bình thường, không đau rõ, thành bụng mềm, không co cứng, không đau dội khi thả tay. Dấu Rovsing và nghiệm pháp cơ thắt lưng chậu âm tính. Nhảy tại chỗ và ho mạnh không đau. Không khối, gan lách không to, không đau góc sườn cột sống.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Hố thắt lưng, cầu bàng quang</b></div><p><span class="lbl">Kết quả:</span> Hố thắt lưng hai bên không đau, chạm thận âm tính, không cầu bàng quang.</p></div><div class="row"><div class="rh"><b>Nghiệm pháp dây thắt (băng quấn huyết áp kế giữ 5 phút, đếm chấm xuất huyết/6,25 cm²)</b></div><p><span class="lbl">Kết quả:</span> Nghiệm pháp dây thắt âm tính: dưới 20 chấm xuất huyết/6,25 cm² sau 5 phút.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 84 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 84 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – Tim đều, T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nhịp thở 18 l/p, không co lõm lồng ngực.</p><p><span class="lbl">Kết quả:</span> Nhịp thở 18 l/p, không co lõm. Rì rào phế nang rõ hai bên, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Khám tâm thần (dáng vẻ, khí sắc, tư duy, nhận thức, ý tưởng tự hại)</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, hợp tác, lo lắng khi nhắc đến bài vở và kỳ thi, mắt đỏ hoe khi mẹ không có mặt, không có ý tưởng tự hại.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>7 mục</small></h3></summary><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-b">Hữu ích</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Số lượng bạch cầu (WBC)</td><td class="num">7,4</td><td>G/L</td><td class="ref">4,0–10,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu trung tính (NEU%)</td><td class="num">56,0</td><td>%</td><td class="ref">45–75</td></tr><tr class=""><td>Số lượng bạch cầu trung tính (NEU#)</td><td class="num">4,14</td><td>G/L</td><td class="ref">2,0–7,5</td></tr><tr class=""><td>Tỷ lệ bạch cầu lympho (LYM%)</td><td class="num">34,0</td><td>%</td><td class="ref">20–40</td></tr><tr class=""><td>Số lượng bạch cầu lympho (LYM#)</td><td class="num">2,52</td><td>G/L</td><td class="ref">1,0–4,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu mono (MONO%)</td><td class="num">6,0</td><td>%</td><td class="ref">2–10</td></tr><tr class=""><td>Số lượng bạch cầu mono (MONO#)</td><td class="num">0,44</td><td>G/L</td><td class="ref">0,2–1,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa acid (EOS%)</td><td class="num">3,5</td><td>%</td><td class="ref">0–7</td></tr><tr class=""><td>Số lượng bạch cầu ưa acid (EOS#)</td><td class="num">0,26</td><td>G/L</td><td class="ref">0–0,5</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa base (BASO%)</td><td class="num">0,5</td><td>%</td><td class="ref">0–1</td></tr><tr class=""><td>Số lượng bạch cầu ưa base (BASO#)</td><td class="num">0,04</td><td>G/L</td><td class="ref">0–0,1</td></tr><tr class=""><td>Số lượng hồng cầu (RBC)</td><td class="num">4,55</td><td>T/L</td><td class="ref">3,8–4,8</td></tr><tr class=""><td>Lượng huyết sắc tố (HGB)</td><td class="num">126</td><td>g/L</td><td class="ref">120–150</td></tr><tr class=""><td>Thể tích khối hồng cầu (HCT)</td><td class="num">0,38</td><td>L/L</td><td class="ref">0,36–0,46</td></tr><tr class=""><td>Thể tích trung bình hồng cầu (MCV)</td><td class="num">83,5</td><td>fL</td><td class="ref">80–100</td></tr><tr class=""><td>Lượng HST trung bình hồng cầu (MCH)</td><td class="num">27,7</td><td>pg</td><td class="ref">27–32</td></tr><tr class=""><td>Nồng độ HST trung bình hồng cầu (MCHC)</td><td class="num">331</td><td>g/L</td><td class="ref">320–360</td></tr><tr class=""><td>Dải phân bố kích thước hồng cầu (RDW-CV)</td><td class="num">12,9</td><td>%</td><td class="ref">11,5–14,5</td></tr><tr class=""><td>Số lượng tiểu cầu (PLT)</td><td class="num">284</td><td>G/L</td><td class="ref">150–400</td></tr></tbody></table><p class="why">Nên làm: đau hố chậu phải là dấu báo động vị trí (QĐ 3312 Bảng 1) và không có siêu âm, nên xét nghiệm viêm thay cho hình ảnh. WSES 2020 khuyến cáo 1.6.1: ở trẻ nghi viêm ruột thừa, xét nghiệm thường quy và chỉ điểm viêm. Bạch cầu, tiểu cầu bình thường, không tăng bạch cầu ái toan (QĐ 3312 mục 3.1a).</p></div><div class="row"><div class="rh"><b>CRP</b><span class="tag t-b">Hữu ích</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>CRP</td><td class="num">2</td><td>mg/L</td><td class="ref">≤ 5</td></tr></tbody></table><p class="why">Làm cùng công thức máu (WSES 2020 khuyến cáo 1.6.2: kết hợp chỉ điểm sinh học và thang điểm để dự đoán mức viêm và nhu cầu hình ảnh). Ngưỡng CRP cụ thể ở trẻ: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><b>Soi phân (hồng cầu, bạch cầu, ký sinh trùng)</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Phân thành khuôn, không thấy trứng giun, không thấy ký sinh trùng, không hồng cầu, không bạch cầu.</p><p class="why">Chấp nhận, rẻ: có đi vùng dịch, ỉa lỏng thoáng qua, mẹ lo giun; chẩn đoán giun bằng soi phân tìm trứng (QĐ 3312, Nhiễm ký sinh trùng đường ruột mục 3.1a, tr. 335). Không triệu chứng giun nên không làm cũng không bị trừ điểm.</p></div><div class="row"><div class="rh"><b>Tổng phân tích nước tiểu</b><span class="tag t-y">Chấp nhận</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Tỷ trọng (SG)</td><td class="num">1,018</td><td></td><td class="ref">1,005–1,03</td></tr><tr class=""><td>pH</td><td class="num">6,0</td><td></td><td class="ref">5,0–8,0</td></tr><tr class=""><td>Bạch cầu (LEU)</td><td class="num">0</td><td>Leu/µL</td><td class="ref"></td></tr><tr class=""><td>Nitrit (NIT)</td><td class="num">0</td><td></td><td class="ref"></td></tr><tr class=""><td>Protein (PRO)</td><td class="num">0</td><td>g/L</td><td class="ref"></td></tr><tr class=""><td>Glucose (GLU)</td><td class="num">0</td><td>mmol/L</td><td class="ref"></td></tr><tr class=""><td>Thể ceton (KET)</td><td class="num">0</td><td>mmol/L</td><td class="ref"></td></tr><tr class=""><td>Bilirubin (BIL)</td><td class="num">0</td><td>µmol/L</td><td class="ref"></td></tr><tr class=""><td>Urobilinogen (UBG)</td><td class="num">0</td><td>µmol/L</td><td class="ref"></td></tr><tr class=""><td>Hồng cầu (ERY)</td><td class="num">0</td><td>Ery/µL</td><td class="ref"></td></tr></tbody></table><p class="why">Chấp nhận, không bắt buộc: nhiễm khuẩn tiết niệu, sỏi dễ nhầm đau hố chậu phải (WHO 2013 mục 9.4.2); bé không sốt, tiểu bình thường, hố thắt lưng không đau.</p></div><div class="row"><div class="rh"><b>Dengue NS1, IgM/IgG</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> NS1 âm tính · IgM âm tính · IgG âm tính</p><p class="why">Không cần: không sốt, về đã 3 tuần; NS1 chỉ dùng từ ngày 1 đến ngày 7 của bệnh (QĐ 2760/2023 mục III.1.1).</p></div><div class="row"><div class="rh"><b>Siêu âm bụng (gan, thận, thượng thận)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Ruột thừa không thấy dấu hiệu viêm, không dịch tự do, không hạch mạc treo to, gan mật tụy lách thận bình thường.</p><p class="note">Thay thế khi cơ sở không có: Công thức máu</p><p class="why">Cơ sở không có siêu âm. Siêu âm là hình ảnh đầu tiên ở trẻ nghi viêm ruột thừa (WSES 2025 khuyến cáo 3.2; WSES 2020 khuyến cáo 1.14.1), nhưng khi nguy cơ thấp thì dùng thang điểm cộng xét nghiệm để quyết định cần hình ảnh hay không (WSES 2025 khuyến cáo 2). Thay thế: khám bụng lặp có đánh lạc hướng, công thức máu, CRP.</p></div><div class="row"><div class="rh"><b>CT bụng có cản quang</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần: nguy cơ viêm ruột thừa thấp; WSES 2020 khuyến cáo 1.14.2: không CT thường quy đầu tiên cho trẻ đau hố chậu phải.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Đau bụng chức năng tái diễn ở trẻ gái 12 tuổi (hội chứng đau bụng chức năng ở trẻ em theo Rome III), vị trí hố chậu phải không điển hình; nền căng thẳng học đường, rối loạn giấc ngủ</b></div><p class="why">Đau từng cơn khoảng 5 tháng, ≥ 1 lần/tuần, ≥ 2 tháng, kèm khiếm khuyết sinh hoạt (về sớm, nghỉ học) và khó ngủ nên đủ &#x27;hội chứng đau bụng chức năng ở trẻ em&#x27; (QĐ 3312, Đau bụng chức năng Bảng 2, tr. 345–346). Chỉ chẩn đoán khi khám bình thường, không còn dấu báo động (mục 3.1): đau hố chậu phải là dấu báo động (Bảng 1) nhưng khám lặp có đánh lạc hướng không đau, CRP, bạch cầu bình thường. Rome IV, Rome V cho trẻ: không có trong tài liệu đã tải (Rome V 2026 Bảng 2 chỉ có phân loại H1b).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm ruột thừa</b></div><p class="why">Ít nghĩ: đau 5 tháng, không sốt, không nôn, không chán ăn; dấu quan trọng nhất là đau và đau khi ấn liên tục hố chậu phải (WHO 2013 mục 9.4.2) thì bé không có khi bị đánh lạc hướng; nhảy, ho không đau; bạch cầu, CRP bình thường (WSES 2020 khuyến cáo 1.6.1; Statement 1.5, khuyến cáo 1.2.1: điểm thấp dùng để loại trừ). Số điểm PAS cụ thể: không có trong tài liệu đã tải. Không có siêu âm nên dặn quay lại và hẹn tái khám sớm.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Nhiễm giun</b></div><p class="why">Ít nghĩ: không xanh xao, không ngứa hậu môn, bạch cầu ái toan 3,5%, đã tẩy giun tháng 3; soi phân không có trứng (QĐ 3312, Nhiễm ký sinh trùng đường ruột mục 3.1a–3.1b, tr. 335–336).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Lồng ruột</b></div><p class="why">Không phù hợp: bé 12 tuổi (thường dưới 2 tuổi nhưng có thể gặp ở trẻ lớn), không đau quặn kèm nôn, không ỉa máu, không khối ở hố chậu phải, khỏe giữa các cơn, bệnh 5 tháng (WHO 2013 mục 9.4.4, tr. 284). Guideline lồng ruột riêng: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Sốt xuất huyết Dengue (đau bụng là dấu hiệu cảnh báo)</b></div><p class="why">Không phù hợp: không sốt, không đau cơ, dây thắt âm tính, tiểu cầu 284 G/L, đã 3 tuần từ chuyến đi; bệnh khởi đầu sốt cao đột ngột và đau bụng nhiều ở giai đoạn nguy hiểm ngày 3–7 (QĐ 2760/2023 mục II.1, II.2.1).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Bệnh viêm ruột (Crohn hồi tràng) hoặc bệnh thực thể khác</b></div><p class="why">Không có dấu báo động nào ngoài vị trí đau: cân tăng, không sốt, không ỉa lỏng kéo dài, không ỉa máu, không loét miệng, tiền sử gia đình âm tính, CRP và Hb bình thường (QĐ 3312 Bảng 1). Tiêu chuẩn chẩn đoán bệnh viêm ruột: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Nhiễm khuẩn tiết niệu, sỏi niệu, bệnh lý buồng trứng</b></div><p class="why">Không phù hợp: tiểu bình thường, nước tiểu bình thường, hố thắt lưng không đau, không đau đột ngột dữ dội kèm nôn; các bệnh này dễ nhầm viêm ruột thừa (WHO 2013 mục 9.4.2). Tiêu chuẩn chẩn đoán bệnh buồng trứng: không có trong tài liệu đã tải.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích tích cực: đây là đau bụng chức năng (ruột nhạy cảm, liên quan đường truyền ruột – não), không phải bệnh nặng, không ảnh hưởng sức khỏe sau này; nói rõ kỳ vọng về xét nghiệm và điều trị</b></div><p class="why">QĐ 3312 (Đau bụng chức năng mục 4.1): khẳng định bệnh không ảnh hưởng sức khỏe tương lai, giải thích cơ chế tăng nhạy cảm nội tạng và dẫn truyền não – ruột; ESPGHAN/NASPGHAN 2025 (Best practice statement 1): giáo dục ngay buổi khám đầu.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không có siêu âm: loại viêm ruột thừa bằng khám bụng lặp có đánh lạc hướng, công thức máu, CRP; không CT, không chuyển tuyến chỉ để siêu âm khi nguy cơ thấp</b></div><p class="why">WSES 2020 (Statement 1.5, khuyến cáo 1.2.1, 1.6.1–1.6.2) và WSES 2025 (khuyến cáo 2): thang điểm cộng xét nghiệm viêm xác định nguy cơ thấp; WSES 2020 khuyến cáo 1.14.2: không CT thường quy đầu tiên cho trẻ. WHO 2013 (mục 9.4.1): lặp lại thăm khám khi chẩn đoán còn nghi ngờ.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi riêng bé vài phút (mời mẹ ra ngoài) về trường lớp, kỳ thi, giấc ngủ, tâm trạng; nhận ra nỗi lo của bé và ý định xin thuốc ngủ của mẹ</b></div><p class="why">QĐ 3312 (Đau bụng chức năng mục 3.1, 4.2): căng thẳng, lo lắng và vấn đề ở trường học làm tăng đau, đặc biệt ở tuổi học đường. Cách tách bé khỏi mẹ khi hỏi: không có trong tài liệu đã tải (kỹ năng giao tiếp của ca).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Mục tiêu đầu tiên là bé sinh hoạt bình thường: đi học đều, giảm bớt học thêm tạm thời, đi ngủ đúng giờ; mẹ an ủi vừa đủ khi bé kêu đau, phối hợp với cô chủ nhiệm</b></div><p class="why">QĐ 3312 (Đau bụng chức năng mục 4.1: mục tiêu đầu là đi học đều; mục 4.2: thái độ gia đình vừa đủ; Rối loạn giấc ngủ ở trẻ em mục 8: đi ngủ đúng giờ, nơi ngủ yên tĩnh). Số giờ ngủ cho trẻ 12 tuổi: không có trong tài liệu đã tải (mục 1 chỉ nêu đến 10 tuổi).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không kê thuốc ngủ; giải thích với mẹ, hướng dẫn bé tập thở, thư giãn trước khi ngủ, mẹ ngồi cạnh trấn an ngắn khi bé đau đêm</b></div><p class="why">QĐ 3312 (Rối loạn giấc ngủ ở trẻ em mục 6): ưu tiên tập thư giãn, hít sâu thở đều, tư vấn khi có sang chấn tâm lý; thuốc chỉ khi biện pháp tâm lý thất bại, nêu cho cơn miên hành và hoảng sợ ban đêm. Không tài liệu đã tải nào nêu thuốc ngủ cho đau bụng chức năng.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ngưng siro ho long đờm mẹ tự mua: ho nhẹ tự khỏi, chăm sóc hỗ trợ</b></div><p class="why">WHO 2013 (mục 4.4, tr. 90–91): ho, cảm là bệnh virus tự giới hạn, chăm sóc hỗ trợ, không dùng thuốc chứa atropin, codein, cồn hoặc thuốc tiêu nhầy. Tài liệu viết cho trẻ nhỏ; ngưỡng tuổi 12: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn đưa bé đến ngay cơ sở có siêu âm và ngoại nhi nếu đau liên tục hơn 4 giờ, đau tăng và chỉ ở hố chậu phải, sốt, nôn, bụng cứng, ỉa máu hoặc phân đen, vàng da, hoặc sốt cao đột ngột rồi đau bụng nhiều; hẹn tái khám sau 2 tuần với nhật ký cơn đau</b></div><p class="why">WHO 2013 (mục 9.4.1: đau bụng &gt; 4 giờ là cấp cứu tiềm tàng; mục 9.4.2: đau và đau khi ấn liên tục hố chậu phải kèm sốt, chán ăn, nôn); QĐ 3312 (Bảng 1); QĐ 2760/2023 (mục II.2.1). Khoảng tái khám: không có trong tài liệu đã tải; người viết chọn 2 tuần vì có dấu báo động vị trí và không có siêu âm (diagnostic timeout).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Thuốc: chống co thắt, ức chế H2, men vi sinh Bifidobacterium infantis (QĐ 3312) hoặc không dùng thuốc thường quy (ESPGHAN/NASPGHAN 2025)</b></div><p class="why">Hai nguồn khác nhau, đã ghi trong sổ mâu thuẫn (NH-1114 số 1). QĐ 3312 mục 4.3–4.4: thuốc giảm nhẹ triệu chứng; ESPGHAN/NASPGHAN 2025: mebeverine, drotaverine &#x27;không gợi ý&#x27;, probiotic nhiều chủng chỉ &#x27;có thể gợi ý&#x27;. Không nguồn nào nói có hại; liều trẻ 12 tuổi: không có trong tài liệu đã tải.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Hẹn siêu âm bụng ở nơi có máy cho yên tâm, hoặc không cần</b></div><p class="why">QĐ 3312 (Đau bụng chức năng mục 3.2): siêu âm bất thường dưới 1% nhưng được khuyến cáo rộng rãi vì dễ làm (sổ mâu thuẫn NH-1114 số 2). Có dấu báo động vị trí nên làm hay không đều chấp nhận; WSES 2025 khuyến cáo 3.2: siêu âm là hình ảnh đầu tiên ở trẻ khi nghi viêm ruột thừa.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê thuốc ngủ, an thần hoặc kháng histamin &#x27;cho bé ngủ&#x27; theo yêu cầu của mẹ</b></div><p class="why">Không có chỉ định trong tài liệu đã tải: QĐ 3312 (Rối loạn giấc ngủ mục 6) chỉ nêu thuốc sau khi biện pháp tâm lý thất bại, cho cơn miên hành, hoảng sợ ban đêm. An thần có thể che dấu hiệu theo dõi ở bé còn dấu báo động vị trí và chưa có siêu âm (suy luận của người biên soạn, cùng cách xếp với sổ mâu thuẫn NH-0666).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê kháng sinh &#x27;phòng nhiễm trùng ruột&#x27; hoặc &#x27;ruột thừa&#x27;</b></div><p class="why">Không có nhiễm khuẩn (không sốt, CRP 2 mg/L, soi phân sạch); ESPGHAN/NASPGHAN 2025 xếp kháng sinh vào nhóm &#x27;không gợi ý&#x27; cho đau bụng chức năng.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Chụp CT bụng có cản quang để loại ruột thừa</b></div><p class="why">WSES 2020 (khuyến cáo 1.14.2): không CT thường quy đầu tiên cho trẻ đau hố chậu phải; WSES 2025 (khuyến cáo 3.2): siêu âm trước, CT liều thấp chỉ khi siêu âm không kết luận hoặc nghi ngờ vẫn cao.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho bé nghỉ học cho đến khi hết đau</b></div><p class="why">Ngược mục tiêu điều trị: QĐ 3312 (Đau bụng chức năng mục 4.1–4.2) cần cho bé đi học đều; nghỉ học khi đau làm tăng hành vi đau.</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Mổ thăm dò hoặc cắt ruột thừa &#x27;cho dứt điểm&#x27; vì đau tái diễn</b></div><p class="why">ESPGHAN/NASPGHAN 2025 (Best practice statement, khuyến cáo mạnh): không dùng phẫu thuật để đánh giá và điều trị rối loạn đau bụng liên quan tương tác ruột – não. Không có dấu hiệu viêm ruột thừa (WSES 2025 khuyến cáo 2).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Giữ bé My nằm viện &#x27;theo dõi ruột thừa&#x27; khi bé không sốt, ấn hố chậu phải không đau rõ lúc bị đánh lạc hướng, nhảy và ho không đau, bạch cầu và CRP bình thường là không có chỉ định (WSES 2025 khuyến cáo 2: thang điểm kèm xét nghiệm xác định nguy cơ thấp). Bé nghỉ học thêm ngay trước kỳ thi, chị Hương nghỉ làm, bé càng tin mình bệnh nặng, trái mục tiêu đi học đều (QĐ 3312, Đau bụng chức năng mục 4.1–4.2).</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển bé My lên tuyến trên chỉ để siêu âm hoặc CT khi nguy cơ thấp là quá tay: WSES 2025 khuyến cáo 2 dùng thang điểm kèm xét nghiệm để quyết định cần hình ảnh hay không; WSES 2020 khuyến cáo 1.14.2 không CT thường quy đầu tiên cho trẻ. QĐ 3312 (Đau bụng chức năng mục 3.2) nêu siêu âm bất thường dưới 1%. Gia đình tốn công, tốn tiền, còn nỗi lo thật của bé về kỳ thi vẫn chưa ai hỏi tới.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Đau bụng chức năng tái diễn (hội chứng đau bụng chức năng ở trẻ em theo Rome III) ở bé gái 12 tuổi, đau hố chậu phải từng cơn khoảng 5 tháng</li><li>Dấu báo động vị trí (đau hố chậu phải) đã loại bằng khám lặp có đánh lạc hướng, bạch cầu và CRP bình thường; cân tăng, không sốt, không nôn, không ỉa máu</li><li>Yếu tố tâm lý: đội tuyển Toán, học thêm 5 buổi/tuần, thi sau 2 tuần, ngủ muộn; mẹ mất ngủ nên xin thuốc ngủ</li><li>Đã loại: viêm ruột thừa (nguy cơ thấp), nhiễm giun, lồng ruột; không có sốt xuất huyết sau chuyến đi vùng dịch</li><li>Nhiễu: siro ho long đờm tự mua (không liên quan), ỉa lỏng thoáng qua trong chuyến đi</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự làm đúng: hỏi bệnh (mốc thời gian thật, vị trí, nhịp cơn, dấu báo động, đại tiện, kinh nguyệt, chuyến đi, giun, thuốc) → hỏi riêng bé về học hành, giấc ngủ → khám (cân đo, bụng kỹ có đánh lạc hướng, dây thắt) → công thức máu, CRP, soi phân → chẩn đoán → xử trí.</li><li>Vì sao là đau bụng chức năng: đau từng cơn khoảng 5 tháng, ≥ 1 lần/tuần, kèm khiếm khuyết sinh hoạt và khó ngủ; khám bình thường (QĐ 3312, Đau bụng chức năng mục 3.1, Bảng 2). Đau chỉ trong học hành, đi chơi gần như không đau: gợi ý yếu tố tâm lý (mục 3.1, 4.2). Phần lớn đau bụng mạn ở trẻ là chức năng, chỉ khoảng 8% thực thể (mục 1). Rome IV, Rome V cho trẻ: không có trong tài liệu đã tải.</li><li>Không điển hình ở đâu: đau hố chậu phải thay vì quanh rốn, bé nhăn mặt ngay khi chạm da. Dấu báo động vị trí (QĐ 3312 Bảng 1) buộc phải loại viêm ruột thừa chứ không đóng bệnh vội; điểm phân biệt là không đau khi bị đánh lạc hướng, nhảy và ho không đau, không sốt, bạch cầu và CRP bình thường (WHO 2013 mục 9.4.2; WSES 2020 khuyến cáo 1.6.1, Statement 1.5).</li><li>Không phải sốt xuất huyết dù vừa đi vùng dịch: không sốt, dây thắt âm, tiểu cầu bình thường, đã 3 tuần (QĐ 2760/2023 mục II.1–II.2). Không phải giun hay lồng ruột: xem chẩn đoán phân biệt (QĐ 3312 mục 3.1; WHO 2013 mục 9.4.4).</li><li>Thân nhân trả lời thay: mẹ kể sai mốc thời gian, ngắt lời bé; chỉ khi hỏi riêng mới biết nỗi lo kỳ thi và việc mẹ xin thuốc ngủ (QĐ 3312 mục 3.1, 4.2).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Can thiệp hành vi và học đường: đi học đều, bớt học thêm, ngủ đúng giờ, mẹ phản ứng vừa đủ (QĐ 3312 mục 4.1–4.2; Rối loạn giấc ngủ mục 8). Liệu pháp tâm lý là bước sau nếu vẫn đau (QĐ 3312 mục 4.5; ESPGHAN 2025: thôi miên, liệu pháp nhận thức hành vi được khuyến cáo mạnh).</li><li>Không thuốc ngủ: tài liệu đã tải chỉ nêu thuốc sau khi biện pháp tâm lý thất bại, cho cơn miên hành và hoảng sợ ban đêm (QĐ 3312, Rối loạn giấc ngủ mục 6). Nhu cầu thật của mẹ là được ngủ và yên tâm: trả lời bằng giải thích, hướng dẫn đêm đau, hẹn tái khám.</li><li>Không thuốc điều trị thường quy: QĐ 3312 mục 4.4 cho phép thuốc giảm triệu chứng, ESPGHAN 2025 không gợi ý mebeverine, drotaverine; hai cách đều chấp nhận. Liều trẻ 12 tuổi: không có trong tài liệu đã tải. Ngưng siro ho long đờm (WHO 2013 mục 4.4). Không kháng sinh (ESPGHAN 2025), không CT (WSES 2020 khuyến cáo 1.14.2), không phẫu thuật (ESPGHAN 2025).</li><li>An toàn khi không có siêu âm: dặn dấu hiệu quay lại ngay và hẹn 2 tuần để có mốc mở lại chẩn đoán (WHO 2013 mục 9.4.1–9.4.2; khoảng tái khám do người viết chọn, không có trong tài liệu).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Không kê thuốc điều trị đau bụng chức năng, không kê thuốc ngủ</b><div class="sub">Không áp dụng</div></td><td data-l="Liều">Không có<div class="sub">Không áp dụng · Không áp dụng</div></td><td data-l="Thời gian">Không áp dụng</td><td class="gc" data-l="Ghi chú">Điều trị đầu tay là giáo dục, can thiệp hành vi, điều chỉnh giấc ngủ và học tập (QĐ 3312 mục 4.1–4.2; Rối loạn giấc ngủ mục 6, 8; ESPGHAN/NASPGHAN 2025 Best practice statement 1). Thuốc chỉ giảm nhẹ triệu chứng (QĐ 3312 mục 4.4); liều trẻ 12 tuổi không có trong tài liệu đã tải.</td></tr><tr><td><b>Siro ho long đờm (mẹ tự mua ở nhà thuốc): NGƯNG</b><div class="sub">Theo chai mẹ mang theo</div></td><td data-l="Liều">Ngừng dùng<div class="sub">Uống · Từ hôm nay</div></td><td data-l="Thời gian">Không dùng tiếp</td><td class="gc" data-l="Ghi chú">Ho nhẹ virus tự giới hạn, không dùng thuốc tiêu nhầy (WHO 2013 mục 4.4, tr. 90–91; tài liệu viết cho trẻ nhỏ). Không liên quan cơn đau bụng.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>My bị đau bụng chức năng: ruột nhạy cảm hơn bình thường và liên quan căng thẳng, không phải bệnh nặng, không để lại hậu quả sau này (QĐ 3312 mục 4.1). Khám bụng, máu, phân hôm nay không thấy ruột thừa viêm, giun hay nhiễm trùng.</li><li>Cho My đi học đều; khi kêu đau thì an ủi ngắn, cho nghỉ vài phút ở lớp. Báo cô chủ nhiệm, giảm bớt học thêm lúc này, đi ngủ đúng giờ, tập hít sâu thở đều trước khi ngủ (QĐ 3312 mục 4.1–4.2; Rối loạn giấc ngủ mục 6, 8).</li><li>Chưa dùng thuốc ngủ: thuốc không giải quyết nguyên nhân và có thể che dấu hiệu cần theo dõi. Đêm My đau, chị ngồi cạnh trấn an vài phút rồi cho My ngủ lại; chị cũng cần nghỉ, nhờ người nhà thay phiên.</li><li>Ngưng siro ho long đờm (WHO 2013 mục 4.4); không tự cho kháng sinh hay thuốc đau bụng. Ghi nhật ký cơn đau (ngày, giờ, bao lâu, My đang làm gì) mang theo khi tái khám sau 2 tuần.</li><li>Đưa My đến ngay bệnh viện có siêu âm và ngoại nhi nếu đau liên tục hơn 4 giờ (WHO 2013 mục 9.4.1), đau tăng và chỉ ở hố chậu phải, sốt, nôn nhiều, bụng cứng, ỉa máu hoặc phân đen, vàng da, hoặc sốt cao đột ngột rồi đau bụng nhiều (WHO 2013 mục 9.4.2; QĐ 3312 Bảng 1; QĐ 2760/2023 mục II.2.1).</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-2">
+ <h2 id="h-luot-2"><span class="ln">Lượt 2/2</span> · sau 2 tuần</h2>
+ <div class="card intro"><h3 id="m-8">Tiếp đón</h3><p>Tái khám sau 2 tuần theo hẹn. Mẹ mang theo giấy xuất viện bệnh viện tỉnh, vẻ bực. Mẹ nói bé hết đau 9 ngày nay. Sinh hiệu: nhiệt 36,7 °C, mạch 80 l/p, nhịp thở 18 l/p, SpO₂ 99%. Bé tỉnh, nét mặt nhẹ hơn lần trước.</p>
+  <blockquote>“Chào bác sĩ. Cháu hết đau chín ngày rồi, nhưng hôm trước đau dữ quá em phải đưa đi cấp cứu ở tỉnh, tốn gần ba triệu. Bác sĩ ở đó nói lần trước không siêu âm là sơ suất. Em đưa cháu lại cho bác sĩ coi, với hỏi có nên cắt ruột thừa cho dứt điểm không.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>80</b><small>l/p</small></div><div class="vs"><span>HA</span><b>Không đo</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,7</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>18</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>99</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-9">Hỏi bệnh <small>6 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Diễn tiến sau lượt 1, đợt đau cấp</b><span class="tag t-g">Tự kể</span></div><p>Mẹ nói bé hết đau hoàn toàn 9 ngày nay. Nhưng đêm thứ 5 sau lần khám trước bé đau liên tục khoảng 5 tiếng ở hố chậu phải, khóc, mẹ hoảng đưa vào cấp cứu bệnh viện tỉnh cách 40 km lúc 2 giờ sáng. Sau đó bé hết đau.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Kết quả cấp cứu (siêu âm, máu) bình thường</b><span class="tag t-b">Khi được hỏi</span></div><p>Giấy xuất viện: siêu âm bụng không thấy ruột thừa viêm, không dịch tự do, không hạch mạc treo to; bạch cầu 8,4 G/L, CRP 3 mg/L, nước tiểu bình thường. Bé được truyền dịch, tiêm giảm đau, giữ 1 đêm; viện phí 2,6 triệu; chẩn đoán xuất viện &#x27;đau bụng chưa rõ nguyên nhân&#x27;. Bác sĩ trực dặn khám tiêu hóa nhi, và nói nếu còn đau tái diễn có thể cân nhắc cắt ruột thừa nội soi.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Cảm xúc của mẹ, câu hỏi cắt ruột thừa</b><span class="tag t-b">Khi được hỏi</span></div><p>Mẹ bực: bác sĩ trực nói &#x27;đau hố chậu phải mà không cho siêu âm là sơ suất&#x27;, nên mẹ trách phòng khám, tiếc 2,6 triệu và đêm mất ngủ. Mẹ hỏi có nên cắt ruột thừa &#x27;dứt điểm&#x27; như bác sĩ tỉnh gợi ý không.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dấu báo động vẫn âm tính, tăng cân</b><span class="tag t-b">Khi được hỏi</span></div><p>Từ sau đêm cấp cứu bé không sốt, không nôn, không ỉa lỏng, không ỉa máu. Ăn ngon, cân nặng ở nhà 39 kg. Trước đó, ngày thứ 3 có một lần đau nhẹ ở lớp, ngồi nghỉ 5 phút rồi học tiếp.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tuân thủ dặn dò</b><span class="tag t-b">Khi được hỏi</span></div><p>Mẹ đã ngưng siro ho, ho đã hết. Mẹ gặp cô chủ nhiệm, cho bé bỏ 2 trong 5 buổi học thêm, đi ngủ lúc 22 giờ 30; bé đi học đều trừ 3 ngày nghỉ vì cấp cứu.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tâm trạng, nỗi sợ của bé</b><span class="tag t-r">Giấu</span></div><p>Khi hỏi riêng, bé nói tuần này con ngủ sớm hơn nên đỡ hơn. Con sợ nhất là không được chọn đi thi và sợ bị mổ trong đêm cấp cứu. Con thấy nhẹ vì mẹ không ép học như trước. Bé hơi buồn vì bạn bè hỏi han chuyện nhập viện.</p><div class="cond">Điều kiện nói ra: Bé chỉ nói khi bác sĩ hỏi thẳng bé hoặc mời mẹ ra ngoài hỏi riêng về tâm trạng, học hành, giấc ngủ, nỗi sợ trong đêm cấp cứu.</div></div></details>
+ <details class="card"><summary><h3 id="m-10">Khám <small>5 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, hồng hào, nét mặt nhẹ nhõm hơn lần trước, tự trả lời vài câu. Cân nặng 39 kg (tăng 0,5 kg so với lần trước).</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Bụng</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Bụng mềm, ấn không đau.</p><p><span class="lbl">Kết quả:</span> Bụng mềm, không chướng. Ấn nông và sâu hố chậu phải, kể cả khi bé không chú ý: không đau, không co cứng, không đau dội. Nhảy tại chỗ và ho: không đau. Không khối, gan lách không to.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 80 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 80 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – Tim đều, T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nhịp thở 18 l/p, không co lõm lồng ngực.</p><p><span class="lbl">Kết quả:</span> Nhịp thở 18 l/p. Rì rào phế nang rõ hai bên, không ran, đã hết ho.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Khám tâm thần (dáng vẻ, khí sắc, tư duy, nhận thức, ý tưởng tự hại)</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, hợp tác, khí sắc khá hơn, còn lo về kỳ thi, không có ý tưởng tự hại.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-11">Cận lâm sàng <small>4 mục</small></h3></summary><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần làm lại: công thức máu lượt 1 và ở bệnh viện tỉnh (bạch cầu 8,4 G/L) bình thường; hết đau, không dấu báo động (QĐ 3312, Đau bụng chức năng mục 3.2).</p></div><div class="row"><div class="rh"><b>CRP</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần: CRP 2 mg/L lượt 1 và 3 mg/L ở bệnh viện tỉnh; bé đã hết đau.</p></div><div class="row"><div class="rh"><b>Soi phân (hồng cầu, bạch cầu, ký sinh trùng)</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần: soi phân lượt 1 âm tính, không triệu chứng giun (QĐ 3312 mục 3.1).</p></div><div class="row"><div class="rh"><b>Siêu âm bụng (gan, thận, thượng thận)</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần làm lại, cơ sở cũng không có: siêu âm ở bệnh viện tỉnh trong lúc đau cấp không thấy ruột thừa viêm; siêu âm bất thường dưới 1% (QĐ 3312 mục 3.2).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-12">Đáp án lượt 2 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Đau bụng chức năng tái diễn, đã hết đau (đỡ hoàn toàn) sau can thiệp không dùng thuốc; đợt đau cấp phải cấp cứu không tìm thấy bệnh thực thể</b></div><p class="why">Hết đau 9 ngày, đi học đều, tăng 0,5 kg, khám bụng bình thường, siêu âm và máu lúc đau cấp bình thường. QĐ 3312 (Đau bụng chức năng mục 4.1): mục tiêu đầu là sinh hoạt bình thường; mục 5: thuyên giảm tự nhiên 30–70%, nhưng 25–66% trẻ còn đau hoặc có lo âu, rối loạn giấc ngủ về sau. Số ngày hết đau để coi là khỏi: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm ruột thừa (kể cả &#x27;viêm ruột thừa mạn&#x27;)</b></div><p class="why">Không: đau 5 tháng rồi tự hết không điều trị, siêu âm ở bệnh viện tỉnh lúc đau cấp bình thường, CRP và bạch cầu bình thường hai lần (WSES 2025 khuyến cáo 2, 3.2). Khái niệm &#x27;viêm ruột thừa mạn&#x27; và chỉ định cắt ruột thừa cho đau tái diễn: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Lo âu học đường, rối loạn giấc ngủ kèm theo</b></div><p class="why">Cần theo dõi: bé lo kỳ thi, sợ mẹ thất vọng; QĐ 3312 (mục 5) nêu 25–66% trẻ về sau còn lo âu, rối loạn giấc ngủ; mục 4.5 điều trị tâm thần khi điều trị ban đầu không đủ. Bé đã đáp ứng nên chưa cần chuyển chuyên khoa.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Quyết định không siêu âm ở lượt 1 là sai vì bé phải cấp cứu</b></div><p class="why">Không: kết quả bình thường cho thấy nhận định nguy cơ thấp đúng, và chất lượng quyết định không đo bằng kết cục (chống outcome bias). Lượt 1 dùng thang điểm cộng xét nghiệm (WSES 2025 khuyến cáo 2) và dặn đúng dấu hiệu quay lại; chính lời dặn (đau &gt; 4 giờ: WHO 2013 mục 9.4.1) giúp mẹ đưa bé đi cấp cứu kịp.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Xác nhận bé đã đỡ hoàn toàn: hết đau, đi học đều, tăng cân, khám bụng bình thường, không dấu báo động; kết thúc điều trị tích cực, không thuốc, không xét nghiệm kiểm tra lại</b></div><p class="why">QĐ 3312 (Đau bụng chức năng mục 4.1: mục tiêu đầu là sinh hoạt bình thường; mục 3.2: chỉ xét nghiệm khi có dấu báo động; mục 5: thuyên giảm tự nhiên 30–70%). Số ngày hết đau để coi là khỏi: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Đọc kết quả cấp cứu cùng mẹ và giải thích: siêu âm, máu bình thường xác nhận không có ruột thừa viêm; lượt 1 không sai vì kết quả này, mẹ đưa bé đi cấp cứu khi đau hơn 4 giờ là đúng lời dặn; xin lỗi về sự bất tiện và chi phí</b></div><p class="why">WHO 2013 (mục 9.4.1: đau bụng &gt; 4 giờ là cấp cứu tiềm tàng); WSES 2025 (khuyến cáo 2, 3.2). Chống outcome bias là mục tiêu giảng dạy của ca; cách xin lỗi và giữ lòng tin: kỹ năng giao tiếp, không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không cắt ruột thừa hay mổ thăm dò &#x27;dứt điểm&#x27;; giải thích vì sao phẫu thuật không điều trị được đau bụng chức năng</b></div><p class="why">ESPGHAN/NASPGHAN 2025 (Best practice statement): khuyến cáo mạnh không dùng phẫu thuật để đánh giá và điều trị rối loạn đau bụng liên quan tương tác ruột – não.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giữ nếp đã giúp bé hết đau: đi học đều, bớt học thêm, ngủ đúng giờ, mẹ phản ứng vừa đủ; hỏi riêng bé và giữ liên hệ với cô chủ nhiệm trước kỳ thi</b></div><p class="why">QĐ 3312 (Đau bụng chức năng mục 4.1–4.2; Rối loạn giấc ngủ ở trẻ em mục 8). ESPGHAN/NASPGHAN 2025 (Best practice statement 1): giáo dục về yếu tố khơi cơn và lối sống.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn khi nào quay lại: đau tái diễn thành cơn lặp lại hoặc có dấu báo động (đau khu trú hố chậu phải kéo dài, đau &gt; 4 giờ, sốt, nôn, ỉa lỏng, ỉa máu, sụt cân); nếu còn tái diễn thì bàn liệu pháp tâm lý, không xét nghiệm hàng loạt</b></div><p class="why">QĐ 3312 (Bảng 1, mục 3.2, mục 4.5); ESPGHAN/NASPGHAN 2025: thôi miên (mạnh, chứng cứ trung bình) và liệu pháp nhận thức hành vi (mạnh, chứng cứ thấp). Thời điểm cần xét nghiệm thêm dù đã khỏi: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không kê thuốc ngủ; mẹ tự chăm sóc giấc ngủ và nhờ người thay phiên khi bé đau đêm</b></div><p class="why">QĐ 3312 (Rối loạn giấc ngủ ở trẻ em mục 6): ưu tiên biện pháp tâm lý, thuốc chỉ khi biện pháp tâm lý thất bại và trong cơn miên hành, hoảng sợ ban đêm. Bé đã ngủ được không thuốc (cùng cách xếp lượt 1).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Cho uống men vi sinh hoặc tẩy giun albendazole 400 mg một liều, hoặc không</b></div><p class="why">Bé đã hết đau nên không có chỉ định; probiotic nhiều chủng chỉ &#x27;có thể gợi ý&#x27; (ESPGHAN/NASPGHAN 2025, điều kiện, chứng cứ thấp), QĐ 3312 mục 4.3 nêu Bifidobacterium infantis; WHO 2017 khuyến cáo tẩy giun định kỳ ở nơi nhiễm ≥ 20%. Không nguồn nào nói có hại.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Nội soi tiêu hóa, CT hoặc xét nghiệm &#x27;tìm nguyên nhân&#x27; cho bé đã hết bệnh</b></div><p class="why">Không dấu báo động, đã khỏi; xét nghiệm xâm nhập cần cân nhắc kỹ (QĐ 3312 mục 3.2); WSES 2020 khuyến cáo 1.14.2. Tốn kém, không đổi xử trí.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê thuốc duy trì (amitriptyline, cyproheptadine, thuốc chống co thắt) để &#x27;phòng tái phát&#x27;</b></div><p class="why">Bé không còn triệu chứng. ESPGHAN/NASPGHAN 2025 chỉ &#x27;có thể gợi ý&#x27; các thuốc này để điều trị khi đang đau (điều kiện, chứng cứ thấp); QĐ 3312 mục 4.4: thuốc giảm nhẹ triệu chứng. Liều trẻ 12 tuổi: không có trong tài liệu đã tải.</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Cắt ruột thừa nội soi hoặc mổ thăm dò vì đau tái diễn</b></div><p class="why">ESPGHAN/NASPGHAN 2025 (Best practice statement, khuyến cáo mạnh): không dùng phẫu thuật cho rối loạn đau bụng liên quan tương tác ruột – não. Siêu âm và máu lúc đau cấp bình thường.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Cho bé My nhập viện &#x27;làm hết&#x27; các xét nghiệm tiêu hóa khi bé đã hết đau 9 ngày, tăng cân, bụng mềm, không dấu báo động là không có chỉ định (QĐ 3312, Đau bụng chức năng mục 3.2: xét nghiệm chỉ khi có dấu báo động; mục 5: thuyên giảm tự nhiên 30–70%). Bé lại nghỉ học ngay trước kỳ thi, chị Hương thêm một khoản viện phí sau 2,6 triệu đã mất, và nỗi sợ bệnh nặng của cả hai càng lớn.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển bé My đi khám tiêu hóa nhi để nội soi hoặc cắt ruột thừa nội soi &#x27;cho dứt điểm&#x27; khi bé đã hết đau, siêu âm và máu lúc đau cấp đều bình thường là quá tay: ESPGHAN/NASPGHAN 2025 khuyến cáo mạnh không dùng phẫu thuật cho rối loạn đau bụng liên quan tương tác ruột – não; nội soi ở trẻ chỉ cân nhắc khi có chỉ định (QĐ 3312 mục 3.2). Bé chịu gây mê, thủ thuật không cần, và mẹ càng tin bé có bệnh ruột thừa.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Đau bụng chức năng tái diễn ở bé gái 12 tuổi, đỡ hoàn toàn (hết đau 9 ngày) sau can thiệp không dùng thuốc</li><li>Đợt đau cấp đêm thứ 5 phải cấp cứu: siêu âm bụng, công thức máu, CRP, nước tiểu bình thường; không có bệnh thực thể</li><li>Không dấu báo động, tăng cân 0,5 kg, khám bụng bình thường</li><li>Hậu quả của đợt cấp cứu: tốn 2,6 triệu, nghỉ học 3 ngày, mẹ bực và mất niềm tin; đề xuất cắt ruột thừa không có chỉ định</li><li>Nền lo âu học đường nhẹ, giấc ngủ đã cải thiện; mẹ không còn nhu cầu xin thuốc ngủ</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Kết quả bình thường ở bệnh viện tỉnh xác nhận chẩn đoán chức năng (WSES 2025 khuyến cáo 3.2). Nhưng không kết luận &#x27;lần trước phải siêu âm&#x27;: lượt 1 dùng thang điểm cộng xét nghiệm xác định nguy cơ thấp (WSES 2025 khuyến cáo 2) và dặn dấu hiệu quay lại, chính lời dặn đó giúp mẹ đưa bé đi cấp cứu đúng lúc (WHO 2013 mục 9.4.1). Quyết định tốt vẫn có thể gặp kết cục xấu: bé đau, tốn tiền, mẹ giận.</li><li>Kết quả bình thường ở bệnh viện tỉnh xác nhận chẩn đoán chức năng (WSES 2025 khuyến cáo 3.2: siêu âm là hình ảnh đầu tiên ở trẻ). Nhưng không kết luận &#x27;lần trước phải siêu âm&#x27;: lượt 1 dùng thang điểm cộng xét nghiệm xác định nguy cơ thấp (WSES 2025 khuyến cáo 2) và dặn dấu hiệu quay lại, chính lời dặn đó giúp mẹ đưa bé đi cấp cứu đúng lúc (WHO 2013 mục 9.4.1). Quyết định tốt vẫn có thể gặp kết cục xấu: bé đau, tốn tiền, mẹ giận.</li><li>Đề xuất cắt ruột thừa &#x27;cho dứt điểm&#x27; không có chỉ định: khám và hình ảnh không có viêm ruột thừa; ESPGHAN/NASPGHAN 2025 khuyến cáo mạnh không phẫu thuật cho rối loạn này. Khái niệm &#x27;viêm ruột thừa mạn&#x27;: không có trong tài liệu đã tải.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Giải thích kết quả cấp cứu và nhận trách nhiệm đúng mức: xin lỗi vì bất tiện, nhắc vì sao lượt 1 làm như vậy, không đổ lỗi cho đồng nghiệp ở bệnh viện tỉnh; kết quả ở đó xác nhận chứ không phủ nhận chẩn đoán.</li><li>Giữ nếp đã hiệu quả: đi học đều, bớt học thêm, ngủ đúng giờ (QĐ 3312 mục 4.1–4.2; Rối loạn giấc ngủ mục 8). Không thuốc duy trì, không thuốc ngủ (QĐ 3312 Rối loạn giấc ngủ mục 6; ESPGHAN 2025).</li><li>Nếu đau tái diễn: liệu pháp tâm lý là bước tiếp theo (QĐ 3312 mục 4.5; ESPGHAN/NASPGHAN 2025: thôi miên, liệu pháp nhận thức hành vi). Không phẫu thuật (ESPGHAN 2025).</li><li>Dặn quay lại ngay khi có dấu báo động hoặc đau &gt; 4 giờ (WHO 2013 mục 9.4.1; QĐ 3312 Bảng 1); không hẹn tái khám định kỳ nếu không đau (số tuần theo dõi: không có trong tài liệu đã tải).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Không kê thuốc</b><div class="sub">Không áp dụng</div></td><td data-l="Liều">Không có<div class="sub">Không áp dụng · Không áp dụng</div></td><td data-l="Thời gian">Không áp dụng</td><td class="gc" data-l="Ghi chú">Bé đã hết đau không dùng thuốc; không thuốc duy trì (QĐ 3312 mục 4.4: thuốc chỉ giảm nhẹ triệu chứng; ESPGHAN/NASPGHAN 2025). Không thuốc ngủ (QĐ 3312, Rối loạn giấc ngủ mục 6).</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>My đã khỏi đau bụng chức năng, nghĩa là ruột nhạy cảm đã dịu lại. Siêu âm và máu ở bệnh viện tỉnh bình thường, đúng với chẩn đoán này. Không cần mổ ruột thừa và không cần xét nghiệm thêm (QĐ 3312 mục 3.2; ESPGHAN/NASPGHAN 2025).</li><li>Chị đưa My đi cấp cứu đêm đó là đúng, vì đau hơn 4 giờ cần đi khám ngay (WHO 2013 mục 9.4.1). Phòng khám xin lỗi vì mất 2,6 triệu và một đêm vất vả; lần trước chúng tôi dựa vào khám và máu để nhận định nguy cơ thấp (WSES 2025 khuyến cáo 2), kết quả bình thường không có nghĩa lúc đó quyết định sai.</li><li>Giữ những gì đã giúp My: đi học đều, bớt học thêm, ngủ trước 22 giờ 30, chị phản ứng vừa phải khi My kêu đau, khen My khi vui và không nhắc đến đau (QĐ 3312 mục 4.1–4.2). Hỏi chuyện My riêng mỗi tuần, xem My lo gì về kỳ thi.</li><li>Không cần thuốc để phòng tái phát và không cần thuốc ngủ. Nếu chị mệt, nhờ người nhà thay phiên.</li><li>Đưa My đến khám ngay nếu đau bụng liên tục hơn 4 giờ (WHO 2013 mục 9.4.1), đau chỉ ở hố chậu phải, sốt, nôn nhiều, ỉa máu, sụt cân (QĐ 3312 Bảng 1). Nếu đau lại thành cơn lặp lại nhiều tuần, đến phòng khám để bàn liệu pháp tâm lý, không tự mua thuốc.</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-13">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Đau bụng chức năng tái diễn</b></div>
+<p class="note">Phải loại trừ: Viêm ruột thừa, Nhiễm giun, Lồng ruột</p><p>Sau lượt 1, mẹ ngưng siro ho, gặp cô chủ nhiệm, cho My bỏ bớt 2 buổi học thêm và ngủ lúc 22 giờ 30; My đi học đều. Đêm thứ 5 My đau liên tục khoảng 5 tiếng ở hố chậu phải, mẹ làm đúng lời dặn, đưa vào cấp cứu bệnh viện tỉnh: siêu âm, công thức máu, CRP, nước tiểu đều bình thường; My được truyền dịch, giữ 1 đêm, viện phí 2,6 triệu, nghỉ học 3 ngày; bác sĩ trực chê lần khám đầu không siêu âm và gợi ý cắt ruột thừa nếu còn đau. Từ đó My hết đau. Lượt 2 sau 2 tuần: hết đau 9 ngày, tăng cân, khám bình thường, không cần thuốc, xét nghiệm hay mổ. Kết cục: xử trí đúng nhưng diễn tiến xấu (cấp cứu, tốn kém, mẹ mất lòng tin), chẩn đoán không đổi.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-14">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Thân nhân trả lời thay: mẹ kể đau &#x27;3 tuần&#x27; (thật ra khoảng 5 tháng), ngắt lời bé. Phải hỏi lại mốc thời gian và hỏi riêng bé (mời mẹ ra ngoài) để biết nhịp đau theo học hành, nỗi sợ kỳ thi, giấc ngủ.</li><li>Lý do thật: mẹ mất ngủ, muốn xin thuốc ngủ cho bé; chỉ lộ khi hỏi đêm qua bé và chị ngủ ra sao, hoặc chị mong gì ở buổi khám. Không kê thuốc ngủ; trả lời nhu cầu thật của mẹ bằng giải thích và hướng dẫn.</li><li>Siro ho long đờm tự mua không liên quan cơn đau; ngưng vì ho nhẹ tự khỏi (WHO 2013 mục 4.4). Không có siêu âm: dựa vào khám bụng lặp có đánh lạc hướng, công thức máu, CRP, thang điểm; an toàn bằng dặn dấu hiệu quay lại và hẹn 2 tuần.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Đau hố chậu phải ở trẻ là dấu báo động vị trí (QĐ 3312 Bảng 1): phải chủ động loại viêm ruột thừa, nhưng không có siêu âm vẫn loại được bằng khám lặp, công thức máu, CRP, thang điểm (WSES 2020 khuyến cáo 1.6.1; WSES 2025 khuyến cáo 2).</li><li>Hỏi lại mốc thời gian khi thân nhân kể: &#x27;3 tuần&#x27; hóa ra là 5 tháng. Tách bé khỏi mẹ để hỏi riêng khi bé 12 tuổi biết tự khai nhưng im lặng trước mẹ.</li><li>Chống outcome bias: bé phải cấp cứu, kết quả bình thường không có nghĩa quyết định lượt 1 sai; đánh giá quyết định theo thông tin lúc đó và lời dặn an toàn đã đưa ra.</li><li>Lượt tái khám đã hết đau: xác nhận khỏi bằng tiêu chí, từ chối cắt ruột thừa &#x27;dứt điểm&#x27; (ESPGHAN/NASPGHAN 2025), không xét nghiệm kiểm tra khi không dấu báo động.</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Dấu báo động (QĐ 3312 Bảng 1): giảm cân hoặc chậm phát triển, chậm dậy thì, nôn, ỉa lỏng, xuất huyết tiêu hóa, sốt chưa rõ nguyên nhân; khám: đau khu trú ¼ trên hoặc dưới bên phải, đau toàn bụng hoặc khối, gan lách to.</li><li>Rome III (QĐ 3312 Bảng 2): đau bụng chức năng ở trẻ em ≥ 1 lần/tuần và ≥ 2 tháng; hội chứng đau bụng chức năng thêm khiếm khuyết sinh hoạt hoặc đau đầu, đau chi, khó ngủ. Rome IV, Rome V cho trẻ: không có trong tài liệu đã tải.</li><li>Đau bụng kéo dài &gt; 4 giờ coi là cấp cứu tiềm tàng; đau quanh rốn không đặc hiệu (WHO 2013 mục 9.4.1). Ở trẻ nghi viêm ruột thừa: xét nghiệm thường quy (WSES 2020 khuyến cáo 1.6.1), siêu âm trước, không CT thường quy đầu tiên (WSES 2025 khuyến cáo 3.2; WSES 2020 khuyến cáo 1.14.2).</li><li>ESPGHAN/NASPGHAN 2025: đau bụng liên quan tương tác ruột – não ở trẻ 4–18 tuổi 13,5%; thôi miên, liệu pháp nhận thức hành vi được khuyến cáo mạnh; khuyến cáo mạnh chống phẫu thuật.</li><li>Sốt xuất huyết: đau bụng nhiều và liên tục ở giai đoạn nguy hiểm, ngày 3–7 của bệnh (QĐ 2760/2023 mục II.2.1); NS1 chỉ dùng ngày 1–7. Cặp tương phản P-0264: ca đối dự kiến NH-1156 (nhiễm trùng tiểu ở trẻ, chưa viết), phân biệt bằng sốt, triệu chứng tiểu, nước tiểu.</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-15">Nguồn tài liệu <small>9</small></h3></summary><ul class=""><li>QĐ 3312 – Bộ Y tế, QĐ 3312/QĐ-BYT 2015, Hướng dẫn chẩn đoán và điều trị một số bệnh thường gặp ở trẻ em – TL-0037 – ĐÃ ĐỌC: Đau bụng chức năng (mục 1–5, Bảng 1, Bảng 2, tr. 344–347); Nhiễm ký sinh trùng đường ruột (mục 1–3.1, tr. 335–338); Rối loạn giấc ngủ ở trẻ em (mục 1–8, tr. 756–759)</li><li>WHO 2013 – Pocket book of hospital care for children, 2nd edition – TL-0250 – ĐÃ ĐỌC: mục 9.4.1–9.4.4 (tr. 281–284); mục 4.4 Cough or cold (tr. 90–91)</li><li>ESPGHAN/NASPGHAN 2025 – Guidelines for treatment of IBS and functional abdominal pain-NOS in children aged 4–18 years. J Pediatr Gastroenterol Nutr. 2025, doi:10.1002/jpn3.70070 (kho tltk-10000-ca, 03 Nhi ngoại trú/Quốc tế) – ĐÃ ĐỌC: Executive summary, Best practice statements (giáo dục, chế độ ăn, chống phẫu thuật)</li><li>Rome V 2026 – Drossman DA, Chang L, Tack J. Gastroenterology 2026;170(6):1083-1098 – TL-0252 – ĐÃ ĐỌC: Bảng 2 (H1b Abdominal pain syndrome – NOS); không có tiêu chuẩn chẩn đoán nhi chi tiết</li><li>WSES 2020 – Di Saverio S, et al. Diagnosis and treatment of acute appendicitis: 2020 update of the WSES Jerusalem guidelines. World J Emerg Surg 2020;15:27 – TL-0263 – ĐÃ ĐỌC: Statement 1.5, khuyến cáo 1.2.1, 1.6.1, 1.6.2, 1.14.1, 1.14.2</li><li>WSES 2025 – Diagnosis and Treatment of Acute Appendicitis: 2025 Edition of the WSES Jerusalem Guidelines. JAMA Surg 2026;161(3):283-295 – TL-0053 – ĐÃ ĐỌC: khuyến cáo 2 (thang điểm AIR, AAS, PAS), khuyến cáo 3.2</li><li>QĐ 2760 – Bộ Y tế, QĐ 2760/QĐ-BYT 2023, Hướng dẫn chẩn đoán, điều trị sốt xuất huyết Dengue – TL-0029 – ĐÃ ĐỌC: mục II.1, II.2.1, III.1.1, III.2</li><li>WHO 2017 – Guideline: preventive chemotherapy to control soil-transmitted helminth infections in at-risk population groups – TL-0248 – ĐÃ ĐỌC: khuyến cáo albendazole 400 mg cho trẻ học đường và trẻ gái 10–19 tuổi</li><li>KHÔNG CÓ TRONG TÀI LIỆU ĐÃ TẢI: tiêu chuẩn Rome IV, Rome V cho trẻ; điểm PAS cụ thể, ngưỡng CRP ở trẻ; liều thuốc chống co thắt, H2, probiotic cho trẻ 12 tuổi; khoảng tái khám, số ngày hết đau để coi là khỏi; thuốc ngủ ở trẻ ngoài cơn miên hành; số giờ ngủ cho trẻ 12 tuổi; ngưỡng tuổi WHO 2013 mục 4.4; khái niệm &#x27;viêm ruột thừa mạn&#x27;</li></ul></details>
+<details class="card"><summary><h3 id="m-16">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Nhi ngoại trú</dd><dt>chan_doan_dich</dt><dd>Đau bụng chức năng tái diễn</dd><dt>chan_doan_phai_loai_tru</dt><dd>Viêm ruột thừa; Nhiễm giun; Lồng ruột</dd><dt>nhom_tuoi</dt><dd>Học sinh (6–15 tuổi)</dd><dt>do_kho</dt><dd>Không điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>dien_tien_tai_kham</dt><dd>Đỡ hoàn toàn khi tái khám</dd><dt>nhieu_benh_nhan</dt><dd>Thân nhân trả lời thay</dd><dt>rang_buoc_nguon_luc</dt><dd>Không có siêu âm</dd><dt>loai_ket_cuc</dt><dd>Xử trí đúng nhưng diễn tiến xấu</dd><dt>gioi</dt><dd>Nữ</dd><dt>co_co_do</dt><dd>Có</dd><dt>so_luot_kham</dt><dd>2</dd><dt>nghe_nghiep</dt><dd>Học sinh (lớp 7)</dd><dt>yeu_to_khoi_phat</dt><dd>Sau đi du lịch vùng dịch (4 ngày ở thị trấn ven biển đang có thông báo dịch sốt xuất huyết)</dd><dt>thuoc_dang_dung</dt><dd>Thuốc ho long đờm (siro mẹ tự mua ở nhà thuốc)</dd><dt>ly_do_that_su_den_kham</dt><dd>Muốn được cho thuốc ngủ (mẹ xin thuốc ngủ cho bé để cả nhà ngủ được)</dd></dl><ul class=""><li>Bản 1 (24/10/2026): viết theo đặc tả sổ cái NH-1125 (2 lượt, đỡ hoàn toàn khi tái khám, thân nhân trả lời thay, không có siêu âm, có cờ đỏ, xử trí đúng nhưng diễn tiến xấu, khởi phát sau du lịch vùng dịch, xin thuốc ngủ).</li><li>Cờ đỏ: đau hố chậu phải (QĐ 3312 Bảng 1) trên nền đau bụng chức năng; loại viêm ruột thừa bằng khám lặp, công thức máu, CRP (WSES). &#x27;Diễn tiến xấu&#x27; (đợt đau cấp đêm thứ 5, cấp cứu nơi khác, kết quả bình thường) là tình huống do người viết dựng, không phải số liệu trong tài liệu.</li><li>Tài liệu đã đọc: TL-0037 (QĐ 3312 tr. 344–347, 335–338, 756–759), TL-0250 (WHO 2013 mục 9.4.1–9.4.4, 4.4), ESPGHAN/NASPGHAN 2025 (kho cũ), TL-0252, TL-0263, TL-0053, TL-0029, TL-0248.</li><li>Tim, phổi: tệp bình thường (mạch 84, 80 l/p). Không có ảnh da. Không đề xuất mục danh mục mới. Siêu âm bụng (abdus) bị khóa theo ràng buộc nguồn lực, khai thay_the = ctm.</li></ul></details>
+<p class="chan-trang">Ca NH-1125 · phiên bản ca 1 · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

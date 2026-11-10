@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TH-0889 · Táo bón chức năng</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · TH-0889</div>
+   <h1>Đầy bụng, ăn không ngon, đi cầu ít</h1>
+   <p class="dich-gia">Lê Thị Tư · Nữ · 66 tuổi · 52 kg</p>
+   <div class="chips"><span class="chip">Tiêu hóa - gan mật</span><span class="chip">Không điển hình</span><span class="chip">3 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Nông dân (trồng lúa, nuôi hai con bò)</dd><dt>Chiều cao, cân nặng</dt><dd>150 cm · 52 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi bà là &#x27;dì&#x27;. Bà tự xưng &#x27;tui&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;.</dd><dt>Tính cách</dt><dd>Chịu khó, cam chịu, nói ngắn, hay cười trừ &#x27;không sao đâu, tui quen rồi&#x27;. Ngại nói chuyện đại tiện, xấu hổ. Biết mình bị tiểu đường, uống thuốc đều nhưng không biết tên thuốc khác.</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Cơ sở không có xét nghiệm (máu, phân, nước tiểu) và không có siêu âm; X-quang, CT, nội soi tiêu hóa cũng không làm được. Chỉ còn máy thử đường huyết mao mạch và điện tim. Phải quyết định chủ yếu bằng hỏi và khám.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/3</span> </h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Dì Lê Thị Tư, 66 tuổi, nông dân, đái tháo đường uống metformin. Đến vì đầy bụng, ăn không ngon khoảng 3 tháng, nói &#x27;đi cầu hơi ít&#x27;. Sinh hiệu: HA 134/80 mmHg, mạch 84 l/p, SpO₂ 97%.</p>
+  <blockquote>“Chào bác sĩ. Tui đâu có bịnh gì nặng đâu, chỉ hơi đầy bụng, ăn không ngon thôi. Chắc tại thuốc tiểu đường.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>84</b><small>l/p</small></div><div class="vs"><span>HA</span><b>134/80</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,8</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>18</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>97</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>10 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám (nhẹ hóa)</b><span class="tag t-g">Tự kể</span></div><p>Đầy bụng, ăn không ngon khoảng 3 tháng, &#x27;đi cầu hơi ít&#x27;. Bà nói không sao, chỉ ghé khám cho yên bụng.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tần số, rặn, hình dạng phân, chưa hết (Rome IV)</b><span class="tag t-b">Khi được hỏi</span></div><p>Từ hồi trẻ đã 2–3 ngày mới đi cầu một lần, phân khô cứng như phân dê. Ba tháng nay còn khoảng 1 lần mỗi tuần. Lần nào cũng phải rặn, đi xong vẫn thấy chưa hết.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thủ thuật hỗ trợ, cảm giác tắc nghẽn hậu môn–trực tràng</b><span class="tag t-r">Giấu</span></div><p>Mỗi lần ngồi cầu 20–30 phút. Phải dùng ngón tay móc phân ra, có lúc ấn vào gần hậu môn mới ra. Có cảm giác bị chặn ở hậu môn.</p><div class="cond">Điều kiện nói ra: Hỏi &#x27;có táo bón không&#x27; thì bà nói &#x27;đi được mà&#x27;. Chỉ kể khi bác sĩ hỏi ngồi cầu bao lâu, có phải dùng tay giúp không, có cảm giác bị chặn không.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Rỉ phân lỏng do ứ phân (tiêu chảy tràn); thuốc cầm tiêu chảy</b><span class="tag t-r">Giấu</span></div><p>Bốn năm hôm nay thỉnh thoảng rỉ chất lỏng nhầy vàng nâu làm dơ quần lót, không kìm được. Bà tưởng tiêu chảy do thuốc tiểu đường nên xấu hổ giấu. Trạm y tế xã cho thuốc 3 ngày (viên con nhộng 2 mg, loperamid), bà mua thêm uống tiếp: rỉ ít hơn nhưng bụng càng căng, càng không đi.</p><div class="cond">Điều kiện nói ra: Chỉ kể khi bác sĩ hỏi quần lót có bị dơ không, có rỉ phân hay tiêu chảy không, hoặc đã uống thuốc gì để trị.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dấu báo động; loại trừ ung thư, tắc ruột</b><span class="tag t-b">Khi được hỏi</span></div><p>Không đi cầu ra máu, không phân đen. Không sụt cân (52 kg như ba tháng trước). Chưa mổ bụng lần nào. Vẫn trung tiện được, không nôn, không đau quặn từng cơn; bụng chỉ căng tức âm ỉ, nặng nhất lúc chiều tối.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khởi phát: tiếp xúc động vật (bò đạp), nằm nhiều, nhịn đi cầu</b><span class="tag t-b">Khi được hỏi</span></div><p>Ba tháng trước vào chuồng, con bò đạp bà ngã, bầm đau mông và lưng, nằm gần một tuần. Từ đó ngồi xổm đau nên hay nhịn đi cầu, ít đi lại, và nặng hẳn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Nước, chất xơ, thói quen</b><span class="tag t-b">Khi được hỏi</span></div><p>Uống khoảng 4 ly nước mỗi ngày vì sợ đi tiểu đêm phải ra nhà vệ sinh ngoài vườn gần chuồng bò, tối. Ăn cơm với cá khô, rau ít.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Rà thuốc gây táo bón</b><span class="tag t-b">Khi được hỏi</span></div><p>Chỉ metformin 850 mg ngày 2 lần và loperamid mua gần đây. Không thuốc giảm đau mạnh, thuốc ngủ, viên sắt, canxi, thuốc dạ dày, thuốc huyết áp.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đái tháo đường (nguyên nhân thứ phát có thể)</b><span class="tag t-b">Khi được hỏi</span></div><p>Tiểu đường 8 năm, uống metformin đều. Ít khi đo đường huyết ở nhà.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Động cơ thật: muốn được nghỉ khỏi công việc</b><span class="tag t-r">Giấu</span></div><p>Bà thức 4 giờ sáng cắt cỏ, cho bò ăn, vắt sữa, rồi ra ruộng; con trai nói bà còn khỏe, không cho nghỉ. Bà mệt rã rời nhưng ngại nói, mong bác sĩ nói bà bệnh để con cho nghỉ bớt việc nặng.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi một ngày của dì làm những việc gì, vì sao hôm nay mới đi khám, hoặc dì mong điều gì sau buổi khám.</div></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>6 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, gầy vừa (BMI 23,1), niêm mạc hồng, môi hơi khô, không vàng da.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng chướng nhẹ, mềm, không đau khi ấn, không phản ứng thành bụng. Có khối chắc, ấn lõm được ở hố chậu trái dọc khung đại tràng xuống (khối phân); không sờ thấy khối khác, gan lách không to, nhu động 5 lần/phút. Không sẹo mổ.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thăm trực tràng</b></div><p><span class="lbl">Kết quả:</span> Trương lực cơ thắt bình thường. Bóng trực tràng đầy phân rắn thành khối lớn, không đẩy ra được; quanh khối có chất nhầy lỏng vàng nâu. Không sờ thấy khối u hay chỗ hẹp. Găng không dính máu.</p></div><div class="row"><div class="rh"><b>Soi hậu môn bằng ống soi (nhìn ống hậu môn, búi trĩ, đường lược)</b></div><p><span class="lbl">Kết quả:</span> Trĩ nội độ I nhỏ, không nứt kẽ, không sa niêm mạc.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b></div><p><span class="lbl">Kết quả:</span> Vết bầm cũ mông trái đã mờ, cử động hông lưng bình thường.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 84 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 84 l/p, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi, không T3.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 18 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>5 mục</small></h3></summary><div class="row"><div class="rh"><b>Đường huyết mao mạch (máy thử tại giường)</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> 9,1 mmol/L (mẫu lúc khám, không rõ bữa ăn).</p><p class="why">Đường huyết hợp với đái tháo đường uống metformin; HbA1c không làm được ở cơ sở.</p></div><div class="row"><div class="rh"><b>Thử phân tìm máu ẩn miễn dịch (FIT)</b><span class="tag t-r">Không cần</span></div><p class="why">Cơ sở không làm được. Dì 66 tuổi chưa từng sàng lọc: ghi giấy hẹn FIT hoặc nội soi đại tràng ở tuyến trên khi có điều kiện (APCS 2022 Statement 3; USPSTF 2021 tuổi 50–75 hạng A).</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-r">Không cần</span></div><p class="why">Không có xét nghiệm máu: thiếu máu thiếu sắt (dấu báo động, WGO 2025 Bảng 6) phải thay bằng khám niêm mạc, cân nặng, hỏi máu trong phân.</p></div><div class="row"><div class="rh"><b>TSH, FT4</b><span class="tag t-r">Không cần</span></div><p class="why">Không làm được. Suy giáp, tăng canxi là nguyên nhân thứ phát (WGO 2025 Bảng 3) nhưng lâm sàng không gợi ý; xét nghiệm này để dành khi điều trị ban đầu thất bại (WGO 2025 Hình 3, bước 4).</p></div><div class="row"><div class="rh"><b>X-quang bụng không chuẩn bị</b><span class="tag t-r">Không cần</span></div><p class="why">Không có X-quang. Không cần: không nôn, còn trung tiện, bụng mềm; X-quang bụng không cho biết nguyên nhân tắc (WSES 2018 TL-0093, mục Plain X-rays).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Táo bón chức năng mạn tính (thỏa tiêu chuẩn Rome IV) nặng lên sau chấn thương và ít vận động, kèm ứ phân cứng ở trực tràng gây rỉ phân lỏng (tiêu chảy tràn); có gợi ý rối loạn đại tiện; đái tháo đường uống metformin; chưa có dấu báo động</b></div><p class="why">Đi dưới 3 lần/tuần, rặn, phân cứng, chưa hết, cảm giác chặn, dùng ngón tay, từ nhiều năm (WGO 2025 Bảng 5). Thăm trực tràng có khối phân rắn. Rỉ nhầy ít là phân lỏng chảy quanh khối phân, không phải tiêu chảy thật.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ung thư đại trực tràng</b></div><p class="why">Không máu trong phân, không sụt cân, không khối bụng hay trực tràng, triệu chứng có từ nhiều năm (WGO 2025 Bảng 6). Chưa loại trừ hoàn toàn bằng hình ảnh: 66 tuổi chưa từng sàng lọc nên hẹn FIT hoặc nội soi đại tràng (APCS 2022 Statement 3; USPSTF 2021).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tắc ruột</b></div><p class="why">Tắc ruột có đau quặn từng cơn, chướng, buồn nôn hoặc nôn, bí đại tiện, tiền sử mổ (WSES 2018 TL-0093). Dì không mổ, không nôn, còn trung tiện, bụng mềm, nhu động có. Tắc không hoàn toàn có thể kèm tiêu chảy nước và bị nhầm với viêm ruột (cùng nguồn).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tiêu chảy do metformin hoặc nhiễm trùng</b></div><p class="why">Chất lỏng chỉ rỉ ít, nhầy, không đi nhiều lần, không sốt; thăm trực tràng có khối phân rắn. Tiêu chảy, táo bón có thể do thần kinh tự chủ đái tháo đường, và cần cân nhắc tác dụng phụ của metformin (ADA 2026 TL-0296, mục 12, đoạn Gastrointestinal Neuropathies).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Táo bón thứ phát (thuốc, suy giáp, tăng canxi, thần kinh tự chủ đái tháo đường)</b></div><p class="why">Chỉ có loperamid mới dùng, là thuốc liên quan táo bón (WGO 2025 Bảng 4); không có triệu chứng suy giáp, tăng canxi; chưa hỏi chóng mặt khi đứng. Xét nghiệm không làm được (WGO 2025 Bảng 3, Hình 3 bước 4).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi chức năng cụ thể (ngồi cầu bao lâu, có dùng tay không, quần có dơ không, thuốc đã uống) và hỏi một ngày làm những việc gì, vì sao đến hôm nay</b></div><p class="why">Nhiều người coi khó đi cầu là bình thường, xấu hổ nên giấu (WGO 2025 mục 3.1). Tiền sử phải gồm thuốc đã dùng, kể cả thuốc tự mua, và thuốc thụt, đặt (WGO 2025 mục 3.3).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Thăm trực tràng bằng tay trước khi kê thuốc</b></div><p class="why">Khám hậu môn–trực tràng tìm ứ phân, khối, hẹp, nứt, trĩ, rối loạn đại tiện (WGO 2025 mục 3.3; AGA CPU 2026 BPA 2).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ngưng loperamid, giải thích đó là rỉ quanh khối phân, thuốc cầm tiêu chảy làm nặng thêm</b></div><p class="why">Thuốc chống tiêu chảy loperamid nằm trong danh sách thuốc liên quan táo bón (WGO 2025 Bảng 4). Chi tiết &#x27;rỉ quanh khối phân&#x27; là lập luận lâm sàng của ca.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Làm sạch phân ứ ngay tại phòng khám (thụt hoặc đặt thuốc hậu môn) rồi mới duy trì bằng thuốc uống</b></div><p class="why">Làm sạch ruột có ích khi khối lượng phân lớn; thụt, đặt thuốc có thể có lợi nhưng dữ liệu hạn chế (AGA CPU 2026 BPA 7). Chế phẩm và liều thụt: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>PEG 17 g mỗi ngày kèm uống nước đủ, bisacodyl 5 mg khi 2 ngày liền không đi (tối đa 10 mg/ngày)</b></div><p class="why">PEG là thuốc nền, khởi đầu 17 g/ngày, đáp ứng bền 6 tháng (AGA-ACG 2023 KC 2, Bảng 4; WGO 2025 mục 4.6). Bisacodyl dùng ngắn hạn hoặc cứu, 5 mg khởi đầu, tối đa 10 mg/ngày (KC 5, Bảng 4). Mốc &#x27;khi 2 ngày liền không đi&#x27; là lựa chọn của ca.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chỉnh thói quen: uống nước đều, đi bộ, ngồi cầu theo giờ sau bữa ăn, không nhịn khi buồn đi, ngồi xổm hoặc kê chân</b></div><p class="why">Tăng nước, vận động, đáp ứng sớm khi buồn đi và tư thế ngồi xổm (WGO 2025 mục 4.6). Giờ &#x27;sau bữa ăn&#x27; là chọn lựa của ca; tài liệu đã tải không nêu.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích: đây là táo bón mạn, cần chăm lâu dài, không phải do thuốc tiểu đường; đã khám không thấy dấu ung thư hay tắc ruột</b></div><p class="why">Đặt kỳ vọng thực tế, bệnh mạn cần điều trị duy trì (AGA CPU 2026 BPA 4).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giấy giới thiệu FIT hoặc nội soi đại tràng ở tuyến trên theo hẹn (không khẩn)</b></div><p class="why">FIT hằng năm hoặc nội soi mỗi 10 năm là xét nghiệm sàng lọc ưu tiên ở châu Á (APCS 2022 Statement 3); sàng lọc 50–75 tuổi hạng A (USPSTF 2021). Hai nguồn không mâu thuẫn ở tuổi 66. Thời hạn hẹn: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn tái khám sau 2 tuần kèm nhật ký đi cầu; dặn đến ngay nếu nôn, bụng chướng to, bí trung tiện, đau quặn, đi ra máu hoặc phân đen</b></div><p class="why">Dấu tắc ruột: đau quặn, chướng, nôn, bí đại tiện (WSES 2018 TL-0093). Máu và tắc là dấu báo động (WGO 2025 Bảng 6). Mốc 2 tuần là chọn lựa của ca, không có trong tài liệu đã tải.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Tìm cách giúp dì bớt việc nặng: viết lời dặn bằng chữ cho con trai, nhờ bớt việc chuồng bò trong thời gian điều trị</b></div><p class="why">Giải quyết động cơ thật (muốn được nghỉ). Là câu giao tiếp, không có trong tài liệu đã tải.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Tăng nhiều chất xơ và ăn nhiều rau ngay khi khối phân còn ở trực tràng</b></div><p class="why">Chất xơ là bước đầu (WGO 2025 mục 4.2; AGA-ACG 2023 KC 1, psyllium) nhưng nên tránh khi có tắc và khi có rối loạn đại tiện (WGO 2025 mục 4.2); đợi sau làm sạch phân, tăng dần.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê tiếp loperamid hoặc men tiêu hóa, thuốc bổ, hẹn 1 tháng</b></div><p class="why">Không thăm trực tràng, không giải quyết ứ phân; loperamid liên quan táo bón (WGO 2025 Bảng 4).</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Bisacodyl uống hằng ngày 15–20 mg cho nhanh</b></div><p class="why">Tối đa 10 mg/ngày; dùng ngắn hạn hoặc khi cần (AGA-ACG 2023 KC 5, Bảng 4; WGO 2025 mục 4.6).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Nhập viện hoặc chụp CT bụng vì nghi tắc ruột</b></div><p class="why">Không có dấu tắc (WSES 2018 TL-0093); thụt và thuốc uống làm được ngoại trú.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Cho dì Tư nằm viện vì sợ tắc ruột: dì không nôn, còn trung tiện, bụng mềm không đau, không sẹo mổ, nên không có dấu tắc (WSES 2018 TL-0093, mục History taking and physical examination). Hai con bò không ai chăm, con trai mất ngày công, trong khi việc cần làm là lấy phân ứ và bắt đầu thuốc nhuận tràng, làm được ngay ở phòng khám (AGA CPU 2026 BPA 7).</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển dì Tư lên tuyến trên đo áp lực hậu môn–trực tràng ngay là sớm: thăm dò chuyên sâu dành cho người đã thất bại với điều trị bước đầu và kháng thuốc thông thường (WGO 2025 mục 3.5; AGA CPU 2026 BPA 1), mà dì chưa làm sạch phân, chưa dùng thuốc ngày nào. Nhà ở xã, đi tỉnh mất cả ngày, tốn xe và viện phí, dì sẽ khó chịu đi lần nữa khi thật sự cần.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Táo bón chức năng mạn (Rome IV), nặng lên sau chấn thương, ít vận động, nhịn đi cầu</li><li>Ứ phân cứng trực tràng gây rỉ phân lỏng (tiêu chảy tràn), tăng lên do loperamid</li><li>Có gợi ý rối loạn đại tiện (dùng ngón tay, cảm giác chặn): chưa kết luận</li><li>Chưa có dấu báo động; ung thư đại trực tràng và tắc ruột chưa có dấu hiệu</li><li>Bệnh kèm: đái tháo đường uống metformin; động cơ thật là muốn được nghỉ việc nặng</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự hỏi bệnh: (1) tần số, rặn, hình dạng phân, chưa hết, thủ thuật hỗ trợ; (2) dấu báo động và tiền sử mổ bụng; (3) rà thuốc kể cả thuốc tự mua; (4) nước, xơ, vận động, thói quen nhịn; (5) công việc, lý do đi khám hôm nay. Khám: toàn trạng, bụng, thăm trực tràng bắt buộc; không xét nghiệm nào làm được.</li><li>Vì sao không điển hình: dì kể &#x27;hơi đầy bụng&#x27; và tưởng tiêu chảy do thuốc tiểu đường, không kêu &#x27;bón&#x27;. Chỉ khi hỏi chức năng mới lộ ngồi 20–30 phút, móc tay, rỉ phân. Rome IV chỉ cần ≥ 2 tiêu chuẩn kéo dài 3 tháng, khởi phát ≥ 6 tháng (WGO 2025 Bảng 5). Tiêu chuẩn Rome V người lớn: không có trong tài liệu đã tải.</li><li>Loại ung thư đại trực tràng: dấu báo động gồm đổi thói quen đi cầu, sụt cân, thiếu máu thiếu sắt, tắc, khối bụng, chảy máu trực tràng, khởi phát gần đây hoặc ban đêm (WGO 2025 Bảng 6). Dì không có dấu nào rõ, triệu chứng nền có từ nhiều năm; ba tháng nay nặng lên có nguyên nhân giải thích được. Đây là đánh giá lâm sàng của ca. Dù vậy 66 tuổi chưa sàng lọc, nên ghi hẹn FIT hoặc nội soi đại tràng (APCS 2022 Statement 3; USPSTF 2021).</li><li>Loại tắc ruột: không mổ, không nôn, còn trung tiện, bụng mềm, nhu động có (WSES 2018 TL-0093). Rỉ phân lỏng trong táo bón nặng dễ nhầm với tiêu chảy; thăm trực tràng thấy khối phân là chìa khóa.</li><li>Thứ phát: loperamid (WGO 2025 Bảng 4), đái tháo đường (WGO 2025 Bảng 2, 3; ADA 2026 mục 12). Suy giáp, tăng canxi không xét nghiệm được; để sau nếu thất bại (WGO 2025 Hình 3 bước 4).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Làm sạch phân ứ rồi duy trì: thụt hoặc đặt thuốc hậu môn trước, sau đó PEG hằng ngày; bisacodyl là thuốc cứu (AGA CPU 2026 BPA 7; AGA-ACG 2023 KC 2, 5; WGO 2025 mục 4.6). PEG là thuốc nền; bisacodyl chỉ ngắn hạn hoặc khi cần.</li><li>Magie oxid cũng là lựa chọn bước đầu nhưng tránh khi thận kém (AGA-ACG 2023 KC 3); không đo được thận nên ưu tiên PEG. Psyllium đợi sau khi hết ứ phân.</li><li>Tái khám 2 tuần, nhật ký đi cầu, dặn dấu hiệu tắc ruột và chảy máu; hẹn sàng lọc đại tràng không khẩn.</li><li>Nhà ở xa: ghi số điện thoại phòng khám.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Thuốc thụt hoặc đặt hậu môn làm sạch phân (làm tại phòng khám)</b><div class="sub">Không có trong tài liệu đã tải</div></td><td data-l="Liều">Một lần tại phòng khám, lặp lại khi cần<div class="sub">Thụt/đặt hậu môn · Hôm nay, trước khi về</div></td><td data-l="Thời gian">1 lần, lặp lại thưa</td><td class="gc" data-l="Ghi chú">AGA CPU 2026 BPA 7 (làm sạch ruột có ích khi phân nhiều; thụt, đặt thuốc có lợi nhưng dữ liệu hạn chế; không nên làm thường xuyên). Chế phẩm, liều: không có trong tài liệu đã tải.</td></tr><tr><td><b>Macrogol (polyethylene glycol, PEG)</b><div class="sub">Gói bột pha uống (17 g PEG mỗi liều)</div></td><td data-l="Liều">17 g × 1 lần/ngày, pha đủ nước, chỉnh theo đáp ứng<div class="sub">Uống · Buổi sáng, bắt đầu sau khi làm sạch phân</div></td><td data-l="Thời gian">Dùng đều; đánh giá lại khi tái khám</td><td class="gc" data-l="Ghi chú">AGA-ACG 2023 KC 2, Bảng 4 (17 g/ngày, không có liều tối đa rõ); WGO 2025 mục 4.6. Tác dụng phụ: chướng, phân lỏng, buồn nôn. Quy đổi gói chế phẩm trong nước: không có trong tài liệu đã tải.</td></tr><tr><td><b>Bisacodyl</b><div class="sub">5 mg</div></td><td data-l="Liều">1 viên khi 2 ngày liền không đi cầu; tối đa 2 viên (10 mg)/ngày<div class="sub">Uống · Buổi tối</div></td><td data-l="Thời gian">Khi cần, ngắn hạn</td><td class="gc" data-l="Ghi chú">AGA-ACG 2023 KC 5, Bảng 4; WGO 2025 mục 4.6. Tác dụng phụ: đau quặn, tiêu chảy. Mốc &#x27;khi 2 ngày liền không đi&#x27; là lựa chọn của ca.</td></tr><tr><td><b>Metformin (đang dùng)</b><div class="sub">850 mg</div></td><td data-l="Liều">Giữ như cũ, 1 viên × 2 lần/ngày<div class="sub">Uống · Sau ăn</div></td><td data-l="Thời gian">Dùng tiếp</td><td class="gc" data-l="Ghi chú">Không đổi ở lượt này; đã tách rỉ phân do ứ khỏi tác dụng phụ metformin (ADA 2026 mục 12). Loperamid: ngưng (WGO 2025 Bảng 4).</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Ngưng thuốc cầm tiêu chảy đã mua; mang các vỉ thuốc đang dùng khi tái khám.</li><li>Uống PEG mỗi sáng đều đặn, không bỏ khi đi được vài lần; bisacodyl chỉ khi 2 ngày liền không đi, tối đa 2 viên/ngày.</li><li>Uống nước đều trong ngày (đặt chai nước cạnh giường, dùng bô ban đêm hoặc đèn pin cho nhà vệ sinh ngoài vườn), đi bộ mỗi ngày, ngồi cầu sau bữa ăn, không nhịn khi buồn đi.</li><li>Bớt việc nặng trong thời gian điều trị; bác sĩ viết lời dặn bằng chữ để đưa con trai xem.</li><li>Đến ngay nếu nôn, bụng chướng to, không trung tiện, đau quặn từng cơn, đi ra máu hoặc phân đen (WSES 2018 TL-0093; WGO 2025 Bảng 6).</li><li>Tái khám sau 2 tuần, mang nhật ký đi cầu; hỏi giấy hẹn FIT hoặc nội soi đại tràng khi có điều kiện.</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-2">
+ <h2 id="h-luot-2"><span class="ln">Lượt 2/3</span> · sau 2 tuần</h2>
+ <div class="card intro"><h3 id="m-8">Tiếp đón</h3><p>Dì Tư tái khám sau 2 tuần, đi một mình, nói &#x27;đỡ rồi&#x27;. Sinh hiệu: HA 134/80 mmHg, mạch 82 l/p, SpO₂ 98%. Đường huyết mao mạch 8,4 mmol/L.</p>
+  <blockquote>“Bác sĩ ơi, tui đỡ rồi, hết dơ quần rồi. Bụng còn hơi đầy, chắc không sao đâu.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>82</b><small>l/p</small></div><div class="vs"><span>HA</span><b>134/80</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,7</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>16</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-9">Hỏi bệnh <small>5 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Không đỡ hẳn sau 2 tuần</b><span class="tag t-g">Tự kể</span></div><p>Hết rỉ phân từ sau khi thụt. Nhưng mấy hôm nay lại 3–4 ngày mới đi một lần, vẫn rặn, vẫn phải dùng ngón tay móc, bụng còn đầy.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Không tuân thủ: dùng thiếu liều, tự bỏ thuốc</b><span class="tag t-r">Giấu</span></div><p>Uống PEG mỗi sáng nhưng chỉ nửa gói vì sợ đi lỏng như hồi trước; 4 hôm nay thấy đi được nên bỏ. Chưa dùng viên bisacodyl vì sợ &#x27;nhờn thuốc&#x27;. Uống khoảng 5 ly nước.</p><div class="cond">Điều kiện nói ra: Hỏi &#x27;có uống thuốc đều không&#x27; thì bà nói &#x27;đều&#x27;. Chỉ kể khi bác sĩ hỏi từng thuốc: uống mấy lần, bao nhiêu, có bỏ ngày nào, có dùng viên bisacodyl không.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Gợi ý rối loạn đại tiện: khó đi dù phân mềm</b><span class="tag t-b">Khi được hỏi</span></div><p>Ngồi cầu vẫn 15–20 phút, rặn mạnh, có lúc phân đã mềm vẫn không ra, phải dùng ngón tay. Cảm giác bị chặn ở hậu môn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Triệu chứng gợi ý bệnh thần kinh tự chủ</b><span class="tag t-r">Giấu</span></div><p>Mấy tuần nay hay chóng mặt, tối sầm mắt khi đứng dậy nhanh, nhất là khi từ chỗ cúi ở chuồng bò đứng lên. Chưa ngất, chưa ngã. Tưởng do tuổi.</p><div class="cond">Điều kiện nói ra: Chỉ kể khi bác sĩ hỏi có chóng mặt, choáng, tối mắt khi đứng dậy, có té ngã không.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dấu báo động</b><span class="tag t-b">Khi được hỏi</span></div><p>Không đi cầu ra máu, không phân đen, không sụt cân (52 kg), không nôn, còn trung tiện.</p></div></details>
+ <details class="card"><summary><h3 id="m-10">Khám <small>5 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, niêm mạc hồng, môi ẩm hơn lần trước, không vàng da.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm, chướng nhẹ, hết khối phân ở hố chậu trái, không đau, không khối khác. Nhu động 6 lần/phút.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thăm trực tràng</b></div><p><span class="lbl">Kết quả:</span> Bóng trực tràng còn ít phân mềm, không còn khối cứng. Khi bảo rặn như đi cầu, cơ thắt hậu môn và cơ mu–trực tràng co lại thay vì giãn, ngón tay bị siết. Sức bóp hậu môn khá. Không khối, không hẹp, găng không máu.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đo huyết áp tư thế nằm – đứng</b></div><p><span class="lbl">Kết quả:</span> Nằm 136/82 mmHg, mạch 84 l/p; đứng 1 phút 108/70 mmHg, mạch 88 l/p, chóng mặt; đứng 3 phút 106/68 mmHg. Tụt tâm thu 28, tâm trương 12 mmHg, mạch gần như không tăng.</p></div><div class="row"><div class="rh"><b>Soi hậu môn bằng ống soi (nhìn ống hậu môn, búi trĩ, đường lược)</b></div><p><span class="lbl">Kết quả:</span> Trĩ nội độ I nhỏ, không nứt kẽ, hết nhầy.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Tim</b><span class="tag t-m">Bình thường</span></div><p>Tim đều 82 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 16 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-11">Cận lâm sàng <small>2 mục</small></h3></summary><div class="row"><div class="rh"><b>Đường huyết mao mạch (máy thử tại giường)</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> 8,4 mmol/L (mẫu lúc khám).</p><p class="why">Đường huyết chấp nhận được; không làm HbA1c được.</p></div><div class="row"><div class="rh"><b>Thử phân tìm máu ẩn miễn dịch (FIT)</b><span class="tag t-r">Không cần</span></div><p class="why">Đã dặn hẹn sàng lọc đại tràng ở lượt 1; vẫn không làm được tại cơ sở.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-12">Đáp án lượt 2 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Táo bón chức năng chưa đáp ứng sau 2 tuần vì dùng thuốc thiếu liều (PEG nửa gói, tự bỏ, chưa dùng bisacodyl); còn gợi ý rối loạn đại tiện (cơ thắt co khi rặn, dùng tay dù phân mềm); hạ huyết áp tư thế nghi thần kinh tự chủ đái tháo đường; ứ phân đã hết</b></div><p class="why">Rặn, dùng tay, cảm giác chặn nhiều năm; thăm trực tràng khi rặn cơ thắt co lại (WGO 2025 mục 3.3, Bảng 8). Thuốc chưa đủ liều nên chưa gọi là kháng trị. Tụt tâm thu 28 mmHg, mạch không tăng khi đứng (ADA 2026 TL-0296, mục 12, ngưỡng tụt &gt; 20/&gt; 10 mmHg).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Táo bón kháng trị thật sự</b></div><p class="why">Định nghĩa cần thử đủ lối sống, thuốc, và liệu pháp sàn chậu khi có chỉ định (AGA CPU 2026 BPA 1); dì chưa uống đủ liều.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ung thư đại trực tràng</b></div><p class="why">Không máu, không sụt cân, không khối, không thiếu máu rõ; đã hẹn sàng lọc (APCS 2022 Statement 3; WGO 2025 Bảng 6).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tắc ruột</b></div><p class="why">Hết khối phân, bụng mềm, còn trung tiện, không nôn (WSES 2018 TL-0093).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Hạ huyết áp tư thế do mất nước hoặc thuốc</b></div><p class="why">Uống ít nước có thể góp phần; dì không dùng thuốc hạ áp, lợi tiểu. Kéo dài, mạch không tăng nên nghĩ thần kinh tự chủ (AGA CPU 2026 BPA 3).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi từng thuốc dùng thế nào (mỗi lần mấy gói, có bỏ ngày nào, có dùng bisacodyl không) và lượng nước; gỡ nỗi sợ &#x27;nhờn thuốc&#x27;, &#x27;đi lỏng&#x27;</b></div><p class="why">Rà thuốc và lối sống ở mọi bệnh nhân (WGO 2025 mục 3.3; AGA CPU 2026 BPA 3). Lo ngại dùng thuốc nhuận tràng kích thích lâu dài là không có cơ sở khi kháng trị (AGA CPU 2026 BPA 7); bisacodyl bước đầu chỉ ngắn hạn/cứu (AGA-ACG 2023 KC 5).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Thăm trực tràng và yêu cầu rặn để đánh giá cơ thắt, cơ mu–trực tràng</b></div><p class="why">Khám tìm cơ mu–trực tràng co nghịch, giảm sức bóp và đẩy (WGO 2025 mục 3.3); thăm trực tràng cẩn thận ở mọi người táo bón mạn trước khi thăm dò (AGA CPU 2026 BPA 2).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi chóng mặt khi đứng và đo huyết áp nằm – đứng</b></div><p class="why">Triệu chứng và dấu hiệu bệnh thần kinh tự chủ đái tháo đường cần được tìm (ADA 2026 mục 12 KC 12.19; tụt tâm thu &gt; 20 hoặc tâm trương &gt; 10 mmHg). Có thể đánh giá thần kinh tự chủ ở người táo bón có triệu chứng tư thế (AGA CPU 2026 BPA 3).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>PEG đủ 17 g mỗi ngày, chỉnh theo phân (giảm khi lỏng), phối hợp bisacodyl 5 mg khi 2 ngày liền không đi (tối đa 10 mg/ngày)</b></div><p class="why">PEG 17 g/ngày (AGA-ACG 2023 KC 2, Bảng 4); phối hợp thuốc thẩm thấu với thuốc kích thích khi đơn trị thất bại (AGA CPU 2026 BPA 7); WGO 2025 mục 4.1 bước 3. Bisacodyl: KC 5, Bảng 4.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Uống đủ nước, đi bộ mỗi ngày, ngồi cầu sau bữa ăn; đứng dậy từ từ khi chóng mặt</b></div><p class="why">Nước, vận động, tư thế ngồi (WGO 2025 mục 4.6); hoạt động thể lực nên được khuyến khích ở người hạ huyết áp tư thế (ADA 2026 mục 12, Orthostatic Hypotension Management). &#x27;Đứng dậy từ từ&#x27; là lời dặn của ca, không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn tái khám 4 tuần kèm nhật ký đi cầu; nếu vẫn không đỡ sau điều trị đủ liều thì chuyển tuyến đo áp lực hậu môn–trực tràng, tống bóng, tập biofeedback</b></div><p class="why">Thăm dò chức năng chỉ cho người đã thất bại lối sống và thuốc chuẩn (WGO 2025 mục 3.5; Hình 3 bước 5); rối loạn đại tiện cần được chẩn đoán và điều trị trước khi gọi là kháng trị (AGA CPU 2026 BPA 2). Mốc 4 tuần là lựa chọn của ca, không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn ngất, ngã, chóng mặt nặng, nôn, bụng chướng to, bí trung tiện, máu hoặc phân đen: đến ngay</b></div><p class="why">Dấu tắc và dấu báo động (WSES 2018 TL-0093; WGO 2025 Bảng 6).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Chuyển tuyến ngay hôm nay đo áp lực hậu môn–trực tràng và tống bóng</b></div><p class="why">Đa số bệnh nhân táo bón mạn nên được đo trước khi gọi là kháng trị; khoảng 37% có rối loạn đại tiện (AGA CPU 2026 BPA 2). Nhưng WGO 2025 mục 3.5 chỉ dùng khi đã thất bại điều trị chuẩn; nhà xa, thuốc chưa đủ liều nên chọn &#x27;tối ưu 4 tuần rồi chuyển&#x27;. Hai nguồn khác nhau về thời điểm, cả hai chấp nhận.</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Tăng bisacodyl lên 10 mg × 2 lần/ngày, dùng hằng ngày</b></div><p class="why">Tối đa 10 mg/ngày; ngắn hạn hoặc khi cần (AGA-ACG 2023 KC 5, Bảng 4; WGO 2025 mục 4.6).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho thuốc cầm tiêu chảy khi dì kể &#x27;đi lỏng&#x27; lại hoặc kê tiếp vitamin, men tiêu hóa mà không đổi cách dùng thuốc</b></div><p class="why">Loperamid liên quan táo bón (WGO 2025 Bảng 4); không sửa việc dùng thuốc thiếu liều.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển dì Tư đi đo áp lực hậu môn–trực tràng ngay hôm nay chưa phải hướng tối ưu: hai tuần qua dì uống PEG nửa gói rồi tự bỏ 4 hôm, chưa dùng bisacodyl, tức là chưa có đợt điều trị bước đầu đủ liều (WGO 2025 mục 3.5, Hình 3 bước 4–5; AGA CPU 2026 BPA 1, 7). Nhà ở xã, đi tỉnh mất cả ngày, tốn xe và viện phí, mà dì quay về vẫn uống thuốc sai cách.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhập viện làm sạch ruột cho dì Tư là quá tay: khối phân đã hết, bụng mềm, còn trung tiện, không có dấu tắc (WSES 2018 TL-0093). Làm sạch ruột nhiều lần không nên lạm dụng vì tạo kỳ vọng sai về điều trị lặp lại (AGA CPU 2026 BPA 7). Dì mất ngày công, bò bỏ không ai chăm, và vẫn chưa học được cách dùng thuốc duy trì tại nhà.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Táo bón chức năng chưa đáp ứng vì dùng PEG thiếu liều và tự bỏ; chưa có đợt điều trị đủ liều</li><li>Gợi ý rối loạn đại tiện: cơ thắt co khi rặn, dùng tay dù phân mềm</li><li>Hạ huyết áp tư thế, mạch không tăng: nghi thần kinh tự chủ đái tháo đường</li><li>Ứ phân đã hết; chưa có dấu báo động; ung thư đại trực tràng và tắc ruột chưa có dấu hiệu</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Quy trình thất bại điều trị: sai chẩn đoán? sai thuốc? không tuân thủ? biến chứng? đề kháng? Ở đây: thuốc đúng nhưng dùng nửa liều, tự bỏ, sợ &#x27;nhờn thuốc&#x27;; chưa đủ để gọi kháng trị (AGA CPU 2026 BPA 1). Phải hỏi từng thuốc vì dì nói &#x27;đều&#x27; khi hỏi chung.</li><li>Vì sao nghĩ rối loạn đại tiện: rặn mạnh, chặn hậu môn, dùng tay, khó đi dù phân mềm (WGO 2025 Bảng 8); thăm trực tràng khi rặn cơ thắt co lại (WGO 2025 mục 3.3). Chưa kết luận vì cần đo áp lực và tống bóng; khoảng 37% người táo bón mạn có rối loạn này (AGA CPU 2026 BPA 2).</li><li>Chóng mặt khi đứng, tụt tâm thu 28 mmHg mà mạch gần như không tăng: nghĩ thần kinh tự chủ đái tháo đường (ADA 2026 mục 12 KC 12.19; táo bón là một biểu hiện). Đây cũng là nguyên nhân thứ phát cần tìm (AGA CPU 2026 BPA 3). Mất nước nhẹ có thể góp phần.</li><li>Ung thư và tắc ruột: không dấu báo động mới, khối phân đã hết (APCS 2022 Statement 3; WSES 2018 TL-0093).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Sửa việc dùng thuốc trước khi kết luận thất bại: PEG đủ liều, chỉnh theo phân, kèm bisacodyl cứu; phối hợp khác cơ chế khi đơn trị thất bại (AGA-ACG 2023 KC 2, 5; AGA CPU 2026 BPA 7).</li><li>Hẹn 4 tuần với nhật ký để biết thật có kháng trị không; thất bại sau đó thì chuyển đo áp lực và tống bóng, tập biofeedback (WGO 2025 mục 3.5, 4.9; AGA CPU 2026 BPA 2). Nếu chọn chuyển sớm cũng chấp nhận (AGA CPU 2026 BPA 2).</li><li>Huyết áp tư thế: nguyên tắc điều trị là giảm triệu chứng tư thế, khuyến khích vận động, tránh thuốc làm tụt áp (ADA 2026 mục 12).</li><li>Những việc sai: bisacodyl quá liều; thuốc cầm tiêu chảy; đổi thuốc mà không kiểm tra cách dùng.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Macrogol (PEG)</b><div class="sub">Gói bột pha uống (17 g PEG mỗi liều)</div></td><td data-l="Liều">17 g × 1 lần/ngày, uống đủ liều; giảm nửa liều khi phân lỏng, tăng lại khi cứng<div class="sub">Uống · Buổi sáng</div></td><td data-l="Thời gian">Dùng đều 4 tuần rồi đánh giá</td><td class="gc" data-l="Ghi chú">AGA-ACG 2023 KC 2, Bảng 4; WGO 2025 mục 4.6. Cách giảm nửa liều khi lỏng là lời dặn của ca; chỉnh theo đáp ứng (Bảng 4).</td></tr><tr><td><b>Bisacodyl</b><div class="sub">5 mg</div></td><td data-l="Liều">1 viên khi 2 ngày liền không đi cầu; tối đa 2 viên (10 mg)/ngày<div class="sub">Uống · Buổi tối</div></td><td data-l="Thời gian">Khi cần</td><td class="gc" data-l="Ghi chú">AGA-ACG 2023 KC 5, Bảng 4; phối hợp theo AGA CPU 2026 BPA 7.</td></tr><tr><td><b>Metformin (đang dùng)</b><div class="sub">850 mg</div></td><td data-l="Liều">1 viên × 2 lần/ngày như cũ<div class="sub">Uống · Sau ăn</div></td><td data-l="Thời gian">Dùng tiếp</td><td class="gc" data-l="Ghi chú">Không đổi. Đánh giá lại đái tháo đường và thần kinh tự chủ ở tuyến trên (ADA 2026 mục 12).</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Uống PEG đủ một gói mỗi sáng, không tự bỏ; thấy phân lỏng thì giảm nửa gói chứ không ngưng hẳn.</li><li>Bisacodyl chỉ khi 2 ngày liền không đi; dùng không làm &#x27;nhờn thuốc&#x27; theo cách bác sĩ đã dặn.</li><li>Uống nước đều, đi bộ, đứng dậy từ từ nhất là khi từ chỗ cúi đứng lên.</li><li>Ghi nhật ký: ngày nào đi cầu, phân cứng hay mềm, có phải dùng tay không.</li><li>Ngất, té ngã, nôn, bụng chướng to, không trung tiện, đi ra máu hoặc phân đen: đến ngay trạm y tế hoặc bệnh viện.</li><li>Tái khám sau 4 tuần mang nhật ký; nếu vẫn không đỡ sẽ chuyển lên tỉnh đo chức năng hậu môn–trực tràng.</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-3">
+ <h2 id="h-luot-3"><span class="ln">Lượt 3/3</span> · sau 4 tuần</h2>
+ <div class="card intro"><h3 id="m-13">Tiếp đón</h3><p>Dì Tư tái khám sau 4 tuần, con trai chở đến. Vẫn đầy bụng, đi cầu ít; hôm nay thêm đau rát hậu môn và dính máu khi đi cầu. Sinh hiệu: HA 138/82 mmHg, mạch 86 l/p, SpO₂ 97%. Đường huyết mao mạch 8,8 mmol/L.</p>
+  <blockquote>“Bác sĩ ơi, thuốc uống đều hết rồi mà vẫn vậy. Mấy bữa nay đi cầu rát hậu môn, có chút máu thôi, chắc trĩ.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>86</b><small>l/p</small></div><div class="vs"><span>HA</span><b>138/82</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,8</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>16</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>97</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-14">Hỏi bệnh <small>6 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Không đỡ sau điều trị đủ liều</b><span class="tag t-g">Tự kể</span></div><p>Vẫn đầy bụng, 1–2 lần mỗi tuần mới đi được, ngồi lâu.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đã dùng thuốc đủ liều, đúng cách</b><span class="tag t-b">Khi được hỏi</span></div><p>Uống PEG đủ một gói mỗi sáng gần 4 tuần theo nhật ký (quên 2 hôm). Dùng bisacodyl 5 mg khoảng 2 lần mỗi tuần, đi được nhưng đau quặn bụng. Uống 6–7 ly nước, đi bộ mỗi sáng.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khó đi dù phân mềm: rối loạn đại tiện</b><span class="tag t-r">Giấu</span></div><p>Phân giờ mềm hơn nhưng vẫn phải rặn mạnh, vẫn phải dùng ngón tay móc, ngồi khoảng 20 phút, có cảm giác bị chặn ở hậu môn.</p><div class="cond">Điều kiện nói ra: Chỉ kể khi bác sĩ hỏi phân bây giờ cứng hay mềm, vẫn phải rặn, ngồi bao lâu, có dùng tay không.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Biến chứng: nứt kẽ hậu môn, máu đỏ tươi, nhịn đi cầu</b><span class="tag t-r">Giấu</span></div><p>Một tuần nay mỗi lần đi cầu rát bỏng như dao cắt, đau thêm vài giờ sau đó. Có vệt máu đỏ tươi dính giấy và ngoài phân, không nhỏ giọt, không trộn trong phân. Sợ đau nên hai ba hôm nhịn đi. Bà tưởng trĩ.</p><div class="cond">Điều kiện nói ra: Chỉ kể khi bác sĩ hỏi có đau khi đi cầu, máu thế nào (nhỏ giọt, trộn phân, dính giấy), có nhịn đi cầu vì sợ đau không.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dấu báo động; loại trừ ung thư, tắc ruột</b><span class="tag t-b">Khi được hỏi</span></div><p>Không phân đen, máu không trộn trong phân, không sụt cân (52 kg), không nôn, còn trung tiện.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Triệu chứng thần kinh tự chủ</b><span class="tag t-b">Khi được hỏi</span></div><p>Vẫn chóng mặt khi đứng dậy nhanh, không ngất.</p></div></details>
+ <details class="card"><summary><h3 id="m-15">Khám <small>6 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, niêm mạc hồng, không vàng da; thể trạng như cũ.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm, chướng nhẹ, không đau, không khối phân, không khối khác. Nhu động 6 lần/phút.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Soi hậu môn bằng ống soi (nhìn ống hậu môn, búi trĩ, đường lược)</b></div><p><span class="lbl">Kết quả:</span> Nứt kẽ hậu môn ở vị trí 6 giờ (sau), đáy sạch, mép hơi dày, vệt máu đỏ tươi nhỏ. Trĩ nội độ I. Không sa trực tràng khi rặn.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thăm trực tràng</b></div><p><span class="lbl">Kết quả:</span> Đau nhiều, cơ thắt hậu môn tăng trương lực. Khi bảo rặn cơ thắt và cơ mu–trực tràng co lại thay vì giãn như lần trước. Bóng trực tràng ít phân mềm, không khối, không hẹp. Găng có vệt máu đỏ tươi.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đo huyết áp tư thế nằm – đứng</b></div><p><span class="lbl">Kết quả:</span> Nằm 138/82 mmHg, mạch 86 l/p; đứng 1 phút 110/70 mmHg, mạch 88 l/p, chóng mặt.</p></div><div class="row"><div class="rh"><b>Thần kinh</b></div><p><span class="lbl">Kết quả:</span> Giảm cảm giác châm chích ngón và mu bàn chân hai bên; phản xạ gân gót giảm.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Tim</b><span class="tag t-m">Bình thường</span></div><p>Tim đều 86 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 16 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-16">Cận lâm sàng <small>3 mục</small></h3></summary><div class="row"><div class="rh"><b>Đường huyết mao mạch (máy thử tại giường)</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> 8,8 mmol/L (mẫu lúc khám).</p><p class="why">Đường huyết chấp nhận được.</p></div><div class="row"><div class="rh"><b>Nội soi đại tràng</b><span class="tag t-r">Không cần</span></div><p class="why">Cơ sở không làm được. Có chỉ định: ra máu hậu môn ở 66 tuổi chưa từng sàng lọc (WGO 2025 Bảng 6; APCS 2022 Statement 3). Nứt kẽ giải thích được máu nhưng không đủ để bỏ qua nội soi. Không cấp cứu: hẹn kế hoạch.</p></div><div class="row"><div class="rh"><b>Thử phân tìm máu ẩn miễn dịch (FIT)</b><span class="tag t-r">Không cần</span></div><p class="why">Không làm được; nội soi đại tràng thay thế khi chuyển tuyến.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-17">Đáp án lượt 3 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Chuyển tuyến / chuyên khoa</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Táo bón chức năng không đáp ứng điều trị bước đầu đủ liều gần 4 tuần; nghi rối loạn đại tiện (cơ thắt co khi rặn, dùng tay dù phân mềm) cần đo áp lực hậu môn–trực tràng; biến chứng nứt kẽ hậu môn gây máu đỏ tươi và nhịn đi cầu; hạ huyết áp tư thế nghi thần kinh tự chủ đái tháo đường</b></div><p class="why">Đã thử lối sống và thuốc chuẩn; vẫn dưới 3 lần/tuần, rặn, dùng tay (WGO 2025 Bảng 5, mục 3.5; AGA CPU 2026 BPA 1). Nứt thấy trực tiếp ở 6 giờ. Chưa gọi kháng trị khi chưa làm ARM và tống bóng (AGA CPU 2026 BPA 2).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ung thư đại trực tràng</b></div><p class="why">Máu đỏ tươi dính giấy, giải thích bằng nứt; nhưng ra máu là dấu báo động (WGO 2025 Bảng 6) và dì chưa sàng lọc nên cần nội soi đại tràng (APCS 2022 Statement 3; USPSTF 2021).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tắc ruột</b></div><p class="why">Còn trung tiện, bụng mềm, không nôn, không đau quặn từng cơn; đi được khi dùng thuốc (WSES 2018 TL-0093).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Trĩ chảy máu</b></div><p class="why">Trĩ nội độ I nhỏ; máu đi cùng nứt kẽ thấy trực tiếp và đau rát khi đi cầu.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Táo bón thứ phát do thuốc hoặc bệnh toàn thân</b></div><p class="why">Không dùng thuốc liên quan táo bón (WGO 2025 Bảng 4); đái tháo đường là yếu tố nguy cơ (Bảng 2); thần kinh tự chủ đã nghĩ tới; suy giáp, tăng canxi không xét nghiệm được tại cơ sở.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chuyển bệnh viện tỉnh (tiêu hóa): đo áp lực hậu môn–trực tràng, nghiệm pháp tống bóng, chụp tống phân khi cần, tập biofeedback nếu có rối loạn đại tiện; đi theo hẹn, không cấp cứu</b></div><p class="why">Đa số bệnh nhân táo bón mạn cần ARM kèm tống bóng và liệu trình biofeedback trước khi gọi là kháng trị; biofeedback có thể cần đến 6 tháng (AGA CPU 2026 BPA 2, 6). Chỉ định khi thất bại lối sống và thuốc chuẩn (WGO 2025 mục 3.5, Bảng 7, Hình 3 bước 5, mục 4.9).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Cùng đợt chuyển: nội soi đại tràng vì ra máu và chưa từng sàng lọc ở tuổi 66</b></div><p class="why">Ra máu hậu môn là dấu báo động (WGO 2025 Bảng 6); nội soi đại tràng là xét nghiệm sàng lọc ưu tiên ở châu Á (APCS 2022 Statement 3); sàng lọc 50–75 tuổi hạng A (USPSTF 2021).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giấy chuyển ghi: thuốc đã dùng và thời gian, nhật ký đi cầu, nứt kẽ hậu môn, huyết áp nằm – đứng, giảm cảm giác bàn chân, metformin; đề nghị tuyến trên đánh giá thần kinh tự chủ</b></div><p class="why">Rà nguyên nhân thứ phát gồm thần kinh tự chủ, đánh giá khi có triệu chứng tư thế; pyridostigmine thử cho táo bón do đái tháo đường ở người thất bại thuốc thường (AGA CPU 2026 BPA 3, 8; ADA 2026 mục 12 KC 12.19, Gastrointestinal Neuropathies).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Tiếp tục PEG 17 g/ngày; bisacodyl khi cần; dặn không nhịn đi cầu dù đau</b></div><p class="why">AGA-ACG 2023 KC 2, 5, Bảng 4; WGO 2025 mục 4.6 (đáp ứng sớm khi buồn đi). Điều trị tại chỗ nứt kẽ (thuốc bôi, ngâm nước ấm): không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích: táo bón mạn cần chăm lâu dài, mục tiêu thực tế; biofeedback cần kiên trì nhiều tháng; ra máu lần này do nứt nhưng vẫn phải nội soi</b></div><p class="why">AGA CPU 2026 BPA 2, 4. Giải thích để dì không bỏ giữa chừng.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn: máu nhiều, phân đen, nôn, bụng chướng to, không trung tiện, đau bụng dữ dội, ngất, té ngã: đến ngay; ghi số điện thoại phòng khám</b></div><p class="why">Dấu báo động và dấu tắc (WGO 2025 Bảng 6; WSES 2018 TL-0093). Nhà xa nên dặn bằng văn bản, nhờ con trai ghi.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Thử linaclotide hoặc prucalopride tại cơ sở thay vì chuyển</b></div><p class="why">Chỉ định khi không đáp ứng thuốc không kê đơn (AGA-ACG 2023 KC 8, 10, mạnh) và có thể dùng phối hợp (AGA CPU 2026 BPA 7), nhưng rối loạn đại tiện cần được chẩn đoán và điều trị trước (BPA 2) và vẫn cần nội soi vì ra máu.</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Bisacodyl 10 mg × 2 lần/ngày dài ngày</b></div><p class="why">Tối đa 10 mg/ngày (AGA-ACG 2023 KC 5, Bảng 4; WGO 2025 mục 4.6).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Chỉ chữa trĩ và nứt, không thăm dò thêm ra máu và đi cầu khó</b></div><p class="why">Bỏ sót dấu báo động ra máu ở 66 tuổi (WGO 2025 Bảng 6) và bỏ qua rối loạn đại tiện (AGA CPU 2026 BPA 2).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Giới thiệu phẫu thuật cắt đại tràng</b></div><p class="why">Phẫu thuật chỉ sau thăm dò sinh lý và khi nguyên nhân ở đại – trực tràng, không phải rối loạn đại tiện (WGO 2025 mục 4.4; AGA CPU 2026 BPA 2).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Cho về, hẹn tái khám</span></div><p>Cho dì Tư về, tăng thuốc, hẹn thêm 4 tuần là bỏ lỡ: dì đã dùng PEG và bisacodyl đủ liều gần 4 tuần mà vẫn đi dưới 3 lần/tuần, còn rặn và dùng tay, nên cần thăm dò chức năng, không phải tăng thuốc (WGO 2025 mục 3.5; AGA CPU 2026 BPA 1, 2). Đau hậu môn khiến dì càng nhịn đi cầu, phân càng cứng, nứt càng đau. Người 66 tuổi ra máu, chưa từng nội soi đại tràng mà bị hoãn thêm (WGO 2025 Bảng 6; APCS 2022 Statement 3). Nhà ở xa, hẹn xa dễ mất theo dõi.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển cấp cứu</span></div><p>Gọi cấp cứu cho dì Tư vì ra máu là quá mức: máu chỉ là vệt đỏ tươi dính giấy, huyết động ổn, bụng mềm, không nôn, không đau bụng dữ dội. Đây là chuyển tuyến có kế hoạch để đo áp lực hậu môn–trực tràng và nội soi đại tràng (WGO 2025 Bảng 6, mục 3.5). Cấp cứu làm dì tốn xe, chờ lâu ở khoa cấp cứu, trong khi nhu cầu thật là thăm dò chuyên khoa.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Táo bón chức năng không đáp ứng điều trị bước đầu đủ liều</li><li>Nghi rối loạn đại tiện (dyssynergia): cần đo áp lực hậu môn–trực tràng và tống bóng</li><li>Biến chứng: nứt kẽ hậu môn 6 giờ, máu đỏ tươi, nhịn đi cầu</li><li>Hạ huyết áp tư thế, giảm cảm giác bàn chân: nghi thần kinh tự chủ đái tháo đường</li><li>Ra máu ở 66 tuổi chưa sàng lọc: cần nội soi đại tràng</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Điểm gãy trong chuỗi quyết định: ba tháng trước, nơi khám đầu tiên nghe &#x27;đi lỏng&#x27; rồi cho thuốc cầm tiêu chảy mà không thăm trực tràng; dì giấu và nói &#x27;không sao&#x27;. Khối phân ứ đọng, rặn nhiều, nứt kẽ, nhịn đi cầu, vòng xoắn nặng thêm. Thăm trực tràng ở lượt 1 là mắt xích bị bỏ sót.</li><li>Vì sao lúc này là thất bại thật: PEG đủ gần 4 tuần, bisacodyl cứu, nước, đi bộ mà vẫn dưới 3 lần/tuần, rặn, dùng tay, cơ thắt co khi rặn (WGO 2025 Bảng 5, 8; AGA CPU 2026 BPA 1). Thất bại với thuốc chuẩn là lúc dùng thăm dò chức năng (WGO 2025 mục 3.5).</li><li>Rối loạn đại tiện: khoảng 37% người táo bón mạn; chẩn đoán cần ít nhất 2 trong 3 test bất thường (ARM, tống bóng ≥ 1 phút, chụp tống phân); biofeedback là nền tảng (AGA CPU 2026 BPA 2).</li><li>Ra máu: nứt kẽ giải thích được vệt máu đỏ tươi dính giấy, nhưng ra máu là dấu báo động; 66 tuổi chưa sàng lọc nên nội soi đại tràng (WGO 2025 Bảng 6; APCS 2022 Statement 3; USPSTF 2021).</li><li>Tắc ruột: loại bằng lâm sàng (WSES 2018 TL-0093). Chẩn đoán đích vẫn là táo bón chức năng (kèm rối loạn đại tiện) khi nội soi và ARM xong.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Chuyển tuyến có kế hoạch, không cấp cứu: ARM, tống bóng, biofeedback, nội soi đại tràng, đánh giá thần kinh tự chủ trong cùng một chuyến để dì chỉ đi một lần (nhà xa).</li><li>Những việc sai: hẹn thêm 4 tuần; gọi cấp cứu; chữa trĩ không nội soi; cắt đại tràng.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Macrogol (PEG)</b><div class="sub">Gói bột pha uống (17 g PEG mỗi liều)</div></td><td data-l="Liều">17 g × 1 lần/ngày<div class="sub">Uống · Buổi sáng</div></td><td data-l="Thời gian">Dùng tiếp cho đến khi tuyến trên điều chỉnh</td><td class="gc" data-l="Ghi chú">AGA-ACG 2023 KC 2, Bảng 4; WGO 2025 mục 4.6.</td></tr><tr><td><b>Bisacodyl</b><div class="sub">5 mg</div></td><td data-l="Liều">1 viên khi 2 ngày liền không đi; tối đa 2 viên (10 mg)/ngày<div class="sub">Uống · Buổi tối</div></td><td data-l="Thời gian">Khi cần</td><td class="gc" data-l="Ghi chú">AGA-ACG 2023 KC 5, Bảng 4. Đau quặn là tác dụng phụ thường gặp.</td></tr><tr><td><b>Metformin (đang dùng)</b><div class="sub">850 mg</div></td><td data-l="Liều">1 viên × 2 lần/ngày như cũ<div class="sub">Uống · Sau ăn</div></td><td data-l="Thời gian">Dùng tiếp</td><td class="gc" data-l="Ghi chú">Tuyến trên đánh giá lại đái tháo đường và biến chứng thần kinh (ADA 2026 mục 12).</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Mang nhật ký, các vỉ thuốc và giấy chuyển lên bệnh viện tỉnh; đi một lần cho đủ đo hậu môn–trực tràng, nội soi đại tràng, khám thần kinh.</li><li>Vẫn uống PEG mỗi sáng và bisacodyl khi cần; không nhịn đi cầu dù đau, ngồi cầu sau bữa ăn.</li><li>Đứng dậy từ từ; không tự đi một mình khi đang chóng mặt.</li><li>Máu nhiều, phân đen, nôn, bụng chướng to, không trung tiện, đau bụng dữ dội, ngất: đến ngay cơ sở y tế gần nhất hoặc gọi số phòng khám đã ghi.</li><li>Táo bón là bệnh mạn, tập biofeedback có thể cần nhiều tháng.</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-18">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Táo bón chức năng</b></div>
+<p class="note">Phải loại trừ: Ung thư đại trực tràng, Tắc ruột</p><p>Ba ngày sau con trai chở dì Tư lên bệnh viện tỉnh. Nội soi đại tràng: niêm mạc bình thường, không u, không polyp, trĩ nội độ I và một nứt kẽ ở 6 giờ. Đo áp lực hậu môn–trực tràng: áp lực nghỉ cao, cơ thắt co nghịch thường khi rặn, nghiệm pháp tống bóng kéo dài hơn 1 phút: rối loạn đại tiện. Khám thần kinh tự chủ: tụt huyết áp tư thế, giảm cảm giác bàn chân. Bác sĩ tuyến tỉnh bắt đầu tập biofeedback, cho dì tiếp tục PEG, nhắc dì dùng thuốc đúng và hẹn tái khám đường huyết. Biến chứng (ứ phân, rỉ phân, nứt kẽ, nhịn đi cầu) đã đến vì chuỗi bị gãy ở những nơi trước: nghe &#x27;đi lỏng&#x27; là cho thuốc cầm tiêu chảy, không thăm trực tràng, và dì giấu bằng câu &#x27;không sao&#x27;. Chuỗi được nối lại nhờ thăm trực tràng ở lượt 1 và thay đổi thái độ hỏi chức năng thay vì cảm giác.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-19">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Phủ nhận triệu chứng nặng: &#x27;không sao&#x27;, &#x27;đi được mà&#x27;. Hỏi cảm giác (&#x27;có khó chịu nhiều không?&#x27;) không ra; hỏi chức năng (ngồi bao lâu, có dùng tay không, quần có dơ không, thuốc uống thế nào, chóng mặt không) mới lộ ra.</li><li>Không có xét nghiệm và siêu âm: ra quyết định bằng hỏi, khám bụng và thăm trực tràng; loại ung thư và tắc ruột bằng lâm sàng, hẹn FIT hoặc nội soi đại tràng theo kế hoạch.</li><li>Rỉ phân lỏng (tiêu chảy tràn) bị nhầm với tiêu chảy do thuốc tiểu đường và cầm bằng loperamid; chóng mặt khi đứng bị tưởng do tuổi.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Táo bón ở người cao tuổi thường không được kêu là &#x27;bón&#x27;: lộ ra bằng đầy bụng, ăn kém, rỉ phân. Luôn thăm trực tràng (WGO 2025 mục 3.3; AGA CPU 2026 BPA 2).</li><li>Rỉ phân lỏng trên nền đi cầu ít là gợi ý ứ phân; thuốc cầm tiêu chảy có thể làm nặng (WGO 2025 Bảng 4).</li><li>Không đỡ: kiểm tra tuân thủ từng thuốc trước khi gọi là kháng trị (AGA CPU 2026 BPA 1, 7).</li><li>Thất bại sau điều trị đủ liều: chuyển đo áp lực hậu môn–trực tràng và tống bóng, biofeedback (AGA CPU 2026 BPA 2; WGO 2025 mục 3.5).</li><li>Đái tháo đường: nghĩ thần kinh tự chủ khi táo bón kèm chóng mặt tư thế (ADA 2026 mục 12).</li><li>Ra máu ở 66 tuổi chưa sàng lọc: nứt kẽ không thay thế nội soi đại tràng (WGO 2025 Bảng 6; APCS 2022 Statement 3).</li><li>Muốn được nghỉ việc nặng là lý do thật: hỏi một ngày làm gì, dặn bằng chữ để gia đình bớt việc cho dì.</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Rome IV: ≥ 2 tiêu chuẩn (rặn, phân cứng Bristol 1–2, chưa hết, cảm giác chặn, thủ thuật hỗ trợ, &lt; 3 lần/tuần) 3 tháng, khởi phát ≥ 6 tháng (WGO 2025 Bảng 5). Rome V người lớn: không có trong tài liệu đã tải.</li><li>PEG 17 g/ngày là thuốc nền (AGA-ACG 2023 KC 2); bisacodyl 5 mg, tối đa 10 mg/ngày, ngắn hạn hoặc cứu (KC 5, Bảng 4).</li><li>Thăm trực tràng bắt buộc; ARM + tống bóng; biofeedback là nền tảng khi rối loạn đại tiện, có thể cần đến 6 tháng (AGA CPU 2026 BPA 2).</li><li>Tụt huyết áp tâm thu &gt; 20 hoặc tâm trương &gt; 10 mmHg khi đứng, mạch không tăng: nghĩ thần kinh tự chủ đái tháo đường (ADA 2026 mục 12).</li><li>Dấu báo động: đổi thói quen, sụt cân, thiếu máu, tắc, khối, ra máu, mới khởi phát (WGO 2025 Bảng 6).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-20">Nguồn tài liệu <small>8</small></h3></summary><ul class=""><li>WGO Global Guideline – Chronic Constipation 2025 – kho cũ tltk-10000-ca (02 Tiêu hóa – gan mật/Quốc tế) – mục 3.1, 3.3–3.5, 4.1, 4.2, 4.4, 4.6, 4.9; Bảng 2–9; Hình 3</li><li>AGA-ACG 2023 – Pharmacological management of chronic idiopathic constipation – TL-0208 – Khuyến cáo 1–10 (Bảng 1), Bảng 4</li><li>AGA Clinical Practice Update 2026 – Refractory constipation – TL-0184 – Best Practice Advice 1–4, 6–8</li><li>ADA 2026 Standards of Care – TL-0296 – mục 12 (Autonomic Neuropathy, KC 12.19; Gastrointestinal Neuropathies; Orthostatic Hypotension Management)</li><li>WSES Bologna 2018 – tắc ruột do dính – TL-0093 – mục History taking and physical examination, Plain X-rays</li><li>Asia-Pacific Working Group 2022 – Colorectal cancer screening – TL-0217 – Statement 3; USPSTF 2021 – TL-0221 – tuổi 50–75 (Grade A)</li><li>Rome V 2026 (TL-0187): bản đã tải là khảo sát dịch tễ, không có tiêu chuẩn chẩn đoán; dùng Rome IV qua WGO 2025.</li><li>Không có trong tài liệu đã tải: tiêu chuẩn Rome V người lớn; chế phẩm, liều thụt/đặt thuốc làm sạch phân ở người lớn; điều trị tại chỗ nứt kẽ hậu môn; quy đổi PEG theo gói trong nước; mốc tái khám 2 tuần và 4 tuần; thời hạn hẹn FIT/nội soi đại tràng.</li></ul></details>
+<details class="card"><summary><h3 id="m-21">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Tiêu hóa - gan mật</dd><dt>chan_doan_dich</dt><dd>Táo bón chức năng</dd><dt>chan_doan_phai_loai_tru</dt><dd>Ung thư đại trực tràng; Tắc ruột</dd><dt>nhom_tuoi</dt><dd>Cao tuổi (60–74 tuổi)</dd><dt>gioi</dt><dd>Nữ</dd><dt>do_kho</dt><dd>Không điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>3</dd><dt>dien_tien_tai_kham</dt><dd>Không đỡ</dd><dt>nhieu_benh_nhan</dt><dd>Phủ nhận triệu chứng nặng</dd><dt>rang_buoc_nguon_luc</dt><dd>Không có xét nghiệm nào</dd><dt>nghe_nghiep</dt><dd>Nông dân</dd><dt>yeu_to_khoi_phat</dt><dd>Tiếp xúc động vật</dd><dt>thuoc_dang_dung</dt><dd>Thuốc đái tháo đường đang dùng</dd><dt>ly_do_that_su_den_kham</dt><dd>Muốn được nghỉ khỏi công việc</dd><dt>loai_ket_cuc</dt><dd>Biến chứng do bỏ sót</dd></dl><ul class=""><li>2026-11-08: viết ca TH-0889 (3 lượt). Tài liệu đã đọc: WGO 2025 (mục 2, 3, 4; Bảng 2–9; Hình 3), AGA-ACG 2023 (KC 1–10, Bảng 4), AGA CPU 2026 TL-0184 (BPA 1–8), ADA 2026 TL-0296 mục 12, WSES 2018 TL-0093, APCS 2022 TL-0217, USPSTF 2021 TL-0221.</li><li>Thiếu tài liệu: tiêu chuẩn Rome V người lớn; cách làm sạch phân ở người lớn (chế phẩm, liều); điều trị nứt kẽ hậu môn; mốc tái khám.</li><li>Ràng buộc nguồn lực: khoa_cls ghi xn và siêu âm; dùng đường huyết mao mạch (tham dò tại giường).</li></ul></details>
+<p class="chan-trang">Ca TH-0889 · phiên bản ca 1 – viết theo kho tài liệu (2026-11-08) · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MT-0071 · Tăng huyết áp nguyên phát (theo dõi)</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · MT-0071</div>
+   <h1>Tái khám theo giấy hẹn sau một tháng uống thuốc huyết áp</h1>
+   <p class="dich-gia">Lương Văn Hậu · Nam · 77 tuổi · 63 kg</p>
+   <div class="chips"><span class="chip">Bệnh mạn tính người lớn</span><span class="chip">Điển hình</span><span class="chip">1 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Hưu trí (nguyên kế toán trưởng hợp tác xã, nay giữ sổ sách cho cửa hàng vật liệu xây dựng của con trai)</dd><dt>Chiều cao, cân nặng</dt><dd>164 cm · 63 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi ông là &#x27;bác&#x27;. Ông tự xưng &#x27;tôi&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;, gọi con trai là &#x27;cháu&#x27;.</dd><dt>Tính cách</dt><dd>Điềm đạm, nói gọn, cẩn thận, ghi chép sổ sách rất tỉ mỉ, tự ái nhẹ khi bị coi là người bệnh. Tự hào còn đầu óc minh mẫn, không thích làm phiền con cái. Hiểu biết y khoa vừa phải: biết &quot;áp huyết&quot; nhưng không coi thuốc cảm, thuốc dị ứng là thuốc.</dd><dt>Người nhà</dt><dd>Anh Hùng (con trai) – Con trai, anh Lương Văn Hùng (45 tuổi, chủ cửa hàng vật liệu xây dựng). Biết: bố uống amlodipin mỗi sáng, dạo này thức khuya soát sổ thuế, hay cáu, ngủ ít. KHÔNG biết bố tự mua viên dị ứng ở nhà thuốc đầu ngõ. Anh áy náy vì chính chuyện thanh tra của cửa hàng làm bố mất ngủ nên rất muốn bố khám kỹ, nhưng anh chỉ trả lời khi được hỏi.</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Cơ sở không có máy X-quang.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/1</span> </h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Nam 77 tuổi, hưu trí, đến tái khám theo giấy hẹn sau một tháng uống thuốc huyết áp. Con trai đưa đi. Ông nói thấy khỏe, mang theo vỉ thuốc và cuốn sổ ghi huyết áp. Sinh hiệu lúc tiếp đón: HA 164/86 mmHg, mạch 68 l/p, SpO₂ 97%.</p>
+  <blockquote>“Chào bác sĩ. Tôi đến theo giấy hẹn của phòng khám thôi, thuốc tôi uống đều, khỏe lắm, chẳng có gì đâu. Cháu nó cứ đòi đưa tôi đi cho bằng được.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>68</b><small>l/p</small></div><div class="vs warn"><span>HA</span><b>164/86</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,6</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>18</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>97</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>18 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do đến khám: tái khám theo hẹn</b><span class="tag t-g">Tự kể</span></div><p>Đến vì giấy hẹn tái khám sau một tháng uống thuốc huyết áp. Ông nói thấy khỏe, thuốc uống đều, chẳng có gì. Con trai đưa đi, mang theo vỉ thuốc và cuốn sổ ghi huyết áp.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khởi đầu: THA mới chẩn đoán, đơn trị amlodipin 5 mg</b><span class="tag t-b">Khi được hỏi</span></div><p>Bốn tuần trước, đợt khám sức khỏe người cao tuổi ở phường đo 158/92 mmHg. Ba ngày đo ở nhà trung bình 152/88 mmHg nên được chẩn đoán tăng huyết áp, cho amlodipin 5 mg uống mỗi sáng và hẹn một tháng sau. Trước đó chưa từng uống thuốc huyết áp.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tuân thủ và tác dụng phụ của thuốc đang dùng</b><span class="tag t-b">Khi được hỏi</span></div><p>Uống amlodipin 5 mg mỗi sáng sau ăn, không quên buổi nào. Vỉ thuốc còn đúng số viên. Không phù chân, không đỏ mặt, không hồi hộp do thuốc. Con trai thấy bố uống mỗi sáng.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>HA ngoài phòng khám: vẫn cao dù uống thuốc; Chủ nhật thấp gợi yếu tố công việc</b><span class="tag t-b">Khi được hỏi</span></div><p>Sổ ghi tay bảy ngày gần nhất, đo hai lần sáng và tối bằng máy bắp tay: buổi sáng 152 đến 170/82 đến 90, buổi tối 148 đến 164/80 đến 88, trung bình khoảng 158/85 mmHg. Chủ nhật thấp nhất: sáng 138/78, tối 142/80.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc tự mua chứa chất co mạch (pseudoephedrin)</b><span class="tag t-r">Giấu</span></div><p>Hai tuần nay sáng nào cũng uống một viên &quot;thuốc dị ứng&quot; mua ở nhà thuốc đầu ngõ vì hắt hơi, sổ mũi. Hộp ghi loratadin 5 mg và pseudoephedrin sulfat 120 mg. Ông không coi đó là thuốc nên không kể, cũng không hỏi dược sĩ về huyết áp.</p><div class="cond">Điều kiện nói ra: Hỏi chung &quot;ông có uống thuốc gì khác không&quot; thì nói &quot;chỉ thuốc huyết áp thôi&quot;. Chỉ kể ra viên dị ứng khi bác sĩ hỏi cụ thể thuốc tự mua, thuốc cảm, thuốc dị ứng, thuốc sổ mũi, hoặc bảo ông mang hộp thuốc ra xem.</div></div><div class="fact"><div class="fh"><b>mui</b><span class="tag t-b">Khi được hỏi</span></div><p>Hắt hơi, sổ mũi trong, ngứa mũi mỗi sáng sớm, cứ trở trời là bị từ nhiều năm nay. Không sốt, không ho, không đau họng.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Căng thẳng công việc và thiếu ngủ là yếu tố làm nặng</b><span class="tag t-r">Giấu</span></div><p>Hai tuần nay đoàn thanh tra thuế yêu cầu cửa hàng vật liệu xây dựng của con trai giải trình sổ sách ba năm. Ông là người giữ sổ nên ngồi soát đến gần 12 giờ đêm, ngủ chỉ 4 đến 5 tiếng, hay cáu. Chủ nhật cửa hàng nghỉ nên ông không làm.</p><div class="cond">Điều kiện nói ra: Hỏi chung &quot;ông có lo lắng, căng thẳng gì không&quot; thì nói &quot;không, nghề kế toán quen rồi&quot;. Chỉ kể khi bác sĩ hỏi cụ thể về công việc dạo này, giấc ngủ, hoặc vì sao sổ chủ nhật đo thấp hơn.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Triệu chứng thật khi hỏi theo chức năng (đi bộ, buổi sáng)</b><span class="tag t-r">Giấu</span></div><p>Khoảng ba buổi sáng mỗi tuần dậy lúc 5 đến 6 giờ thấy nặng đầu vùng gáy, hơi hồi hộp, vài chục phút sau đỡ. Đi bộ quanh hồ mỗi sáng trước đây ba vòng một mạch, nay hai vòng là phải ngồi nghỉ vì thấy mệt.</p><div class="cond">Điều kiện nói ra: Hỏi chung &quot;có đau đầu, mệt, hồi hộp không&quot; thì nói &quot;không, tôi khỏe&quot;. Chỉ thừa nhận khi hỏi cụ thể buổi sáng ngủ dậy có nặng gáy không, hoặc hỏi việc đi bộ quanh hồ trước và nay khác gì.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Sàng lọc triệu chứng cơ quan đích và dấu hiệu cấp cứu</b><span class="tag t-b">Khi được hỏi</span></div><p>Không đau ngực, không khó thở khi leo hai tầng cầu thang, không nhìn mờ, không yếu hay tê tay chân, không méo miệng, không nói khó, không phù chân. Chưa từng ngất.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Hạ HA tư thế, té ngã (trước khi tăng thuốc)</b><span class="tag t-b">Khi được hỏi</span></div><p>Không choáng khi đứng dậy nhanh, kể cả lúc dậy đi tiểu đêm. Không té ngã lần nào trong một năm qua.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Mức suy yếu: người cao tuổi khỏe</b><span class="tag t-b">Khi được hỏi</span></div><p>Tự đi chợ, tự tắm, tự làm sổ sách, tự uống thuốc, không dùng gậy. Trí nhớ tốt, tính nhẩm nhanh. Đi bộ chậm hơn hồi 70 tuổi nhưng không phải nhờ ai.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Sàng lọc ngưng thở khi ngủ</b><span class="tag t-b">Khi được hỏi</span></div><p>Không ngáy to, vợ không thấy ngưng thở. Ban ngày không buồn ngủ. Mất ngủ chỉ từ khi soát sổ thanh tra.</p></div><div class="fact"><div class="fh"><b>gioi_han</b><span class="tag t-b">Khi được hỏi</span></div><p>Tiểu đêm hai lần, tia nước hơi yếu, đã như vậy mấy năm nay. Khát nước bình thường, không sụt cân.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>NSAID, thuốc giảm đau, thuốc nam</b><span class="tag t-b">Khi được hỏi</span></div><p>Đau mỏi hai gối khi trở trời, thỉnh thoảng uống paracetamol 500 mg một viên, khoảng hai lần mỗi tuần. Không dùng thuốc giảm đau khác, thuốc nam hay thuốc bắc.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Bệnh đồng mắc và yếu tố nguy cơ tim mạch</b><span class="tag t-b">Khi được hỏi</span></div><p>Chưa ai nói ông bị tiểu đường, bệnh thận, bệnh tim hay đột quỵ. Ba năm trước nghe nói mỡ máu hơi cao, không điều trị. Hút thuốc lá 25 năm, bỏ từ năm 57 tuổi.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Muối, chè (caffeine), rượu, vận động</b><span class="tag t-b">Khi được hỏi</span></div><p>Ăn mặn vừa: ưa cà muối, mắm tép, cá kho mặn. Uống chè xanh đặc ba đến bốn ấm mỗi ngày, kể cả buổi tối. Rượu chỉ một chén nhỏ dịp giỗ tết. Đi bộ buổi sáng, không tập gì khác.</p></div><div class="fact"><div class="fh"><b>gia_dinh</b><span class="tag t-b">Khi được hỏi</span></div><p>Cha mất năm 80 tuổi, không rõ bệnh. Anh trai bị tăng huyết áp. Con trai chưa đo huyết áp bao giờ.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Mong đợi thật: xin ngưng thuốc sau một tháng</b><span class="tag t-r">Giấu</span></div><p>Ông nghĩ uống thuốc một tháng là xong, hôm nay định hỏi bác sĩ khi nào được ngưng vì &quot;thuốc uống cả đời thì sợ hại thận&quot;. Đây là điều ông thật sự muốn hỏi.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi ông mong gì ở buổi khám hôm nay, ông còn băn khoăn gì, hoặc hỏi ông nghĩ phải uống thuốc trong bao lâu.</div></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>15 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Đo lại huyết áp hai tay</b></div><p><span class="lbl">Kết quả:</span> Tay phải 166/86, tay trái 164/84 mmHg. Hai tay chênh dưới 10 mmHg. HA mạch tay phải 80 mmHg.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đo huyết áp tư thế nằm – đứng</b></div><p><span class="lbl">Kết quả:</span> Nằm nghỉ 5 phút: 168/86 mmHg, mạch 66 l/p. Đứng 1 phút: 158/84 mmHg (giảm 10/2), mạch 72 l/p. Đứng 3 phút: 156/82 mmHg (giảm 12/4). Không chóng mặt, không hoa mắt.</p></div><div class="row"><div class="rh"><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, tiếp xúc tốt, nói rõ, gầy vừa. Cân nặng 63 kg, cao 164 cm, BMI 23,4 kg/m². Vòng eo 86 cm. Da niêm hồng.</p></div><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Tuyến giáp không to, không hạch. Tĩnh mạch cổ không nổi. Không âm thổi động mạch cảnh.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Họng, tai, mũi</b></div><p><span class="lbl">Kết quả:</span> Niêm mạc mũi nhạt màu, ẩm, hơi phù nề, nhiều dịch trong hai bên. Họng không đỏ, amidan không to. Màng nhĩ bình thường.</p></div><div class="row"><div class="rh"><b>Soi đáy mắt</b></div><p><span class="lbl">Kết quả:</span> Động mạch võng mạc hẹp nhẹ, dấu bắt chéo động tĩnh mạch nhẹ. Không xuất huyết, không xuất tiết, không phù gai thị.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 68 l/p. Mỏm tim ở khoang liên sườn V đường trung đòn trái.</p><p><span class="lbl">Kết quả:</span> Tim đều 68 l/p. Mỏm tim ở khoang liên sườn V đường trung đòn trái. T1, T2 rõ, không âm thổi, không T3.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi, không T3.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Lồng ngực cân đối, gõ trong hai bên. Nhịp thở 18 lần/phút.</p><p><span class="lbl">Kết quả:</span> Rì rào phế nang êm dịu hai phế trường, không ran. Nhịp thở 18 lần/phút.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><span class="key">★</span><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm. Không âm thổi cạnh rốn, không sờ thấy khối đập hay thận to. Gan lách không to.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Mạch ngoại biên, âm thổi động mạch</b></div><p><span class="lbl">Kết quả:</span> Mạch quay, mạch đùi, mạch mu chân bắt đều hai bên. Không âm thổi động mạch đùi.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b></div><p><span class="lbl">Kết quả:</span> Không phù mắt cá. Bắp chân mềm. Không giãn tĩnh mạch.</p></div><div class="row"><div class="rh"><b>Thần kinh</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, không dấu thần kinh khu trú. Sức cơ bốn chi 5/5. Không rung giật.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Dáng đi, quay người, nghiệm pháp kéo</b></div><p><span class="lbl">Kết quả:</span> Đứng dậy khỏi ghế không cần vịn tay, đi 10 m vững, quay người gọn, không cần gậy. Tự sinh hoạt và làm sổ sách: bậc 3 &quot;khá khỏe&quot; trên thang suy yếu (VSH/VNHA 2024 Hình 15).</p></div><div class="row"><div class="rh"><b>Sàng lọc nhận thức (MoCA)</b></div><p><span class="lbl">Kết quả:</span> Định hướng đủ, nhớ lại ba từ sau vài phút, tính nhẩm trừ liên tiếp nhanh và đúng. Không nghi suy giảm nhận thức.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b></div><p><span class="lbl">Kết quả:</span> Hai gối lạo xạo nhẹ khi gập duỗi, không sưng nóng đỏ, tầm vận động đủ.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>22 mục</small></h3></summary><div class="row"><div class="rh"><b>Ure, creatinin, eGFR</b><span class="tag t-g">Cần làm</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Ure</td><td class="num">6,2</td><td>mmol/L</td><td class="ref">2,5–7,5</td></tr><tr class=""><td>Creatinin</td><td class="num">98</td><td>µmol/L</td><td class="ref">62–120</td></tr><tr class="lo"><td>eGFR (CKD-EPI 2021)</td><td class="num">68 ↓</td><td>mL/ph/1,73m²</td><td class="ref">≥ 90</td></tr></tbody></table><p class="why">Cần trước khi thêm ức chế men chuyển/chẹn thụ thể (QĐ 5904 Phần 3 mục G). eGFR 68 còn trên 60 (ngưỡng tổn thương thận, VSH/VNHA 2024 Bảng 11); eGFR thấp hơn 90 là bình thường theo tuổi. Làm lại sau 2 đến 4 tuần (AHA/ACC 2025 mục 5.2.9).</p></div><div class="row"><div class="rh"><b>Điện giải đồ (Na, K, Cl)</b><span class="tag t-g">Cần làm</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Natri (Na⁺)</td><td class="num">141</td><td>mmol/L</td><td class="ref">135–145</td></tr><tr class=""><td>Kali (K⁺)</td><td class="num">4,3</td><td>mmol/L</td><td class="ref">3,5–5,0</td></tr><tr class=""><td>Clo (Cl⁻)</td><td class="num">104</td><td>mmol/L</td><td class="ref">98–106</td></tr></tbody></table><p class="why">K nền trước khi dùng ức chế RAS (QĐ 5904 Phần 3 mục G; AHA/ACC 2025 mục 5.2.8). K bình thường không loại trừ cường aldosteron (AHA/ACC 2025 mục 3.2.3.1).</p></div><div class="row"><div class="rh"><b>Glucose máu đói</b><span class="tag t-g">Cần làm</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Glucose</td><td class="num">5,4</td><td>mmol/L</td><td class="ref">3,9–6,4</td></tr></tbody></table><p class="why">Glucose đói thuộc xét nghiệm cơ bản (QĐ 5904 Phần 1 Bước 2 mục 5).</p></div><div class="row"><div class="rh"><b>Bộ mỡ máu</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Cholesterol TP 5,4 · LDL-C 3,4 · HDL-C 1,2 · TG 1,8 mmol/L</p><p class="why">QĐ 5904 Phần 1 Bước 2 mục 6. LDL-C 3,4 mmol/L gợi ý bàn statin ở lượt tái khám (xem xu_tri).</p></div><div class="row"><div class="rh"><b>Điện tâm đồ 12 chuyển đạo</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Nhịp xoang 68 l/p, PR 0,17 s, QRS 0,09 s. Sokolow-Lyon 29 mm. Không ST chênh, không sóng Q, không dày thất trái, không rung nhĩ.</p><p class="why">Ngưỡng dày thất trái Sokolow-Lyon &gt; 35 mm (VSH/VNHA 2024 Bảng 11); điện tâm đồ thuộc xét nghiệm cơ bản (QĐ 5904 Phần 1 Bước 2 mục 10).</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-b">Hữu ích</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Số lượng bạch cầu (WBC)</td><td class="num">6,8</td><td>G/L</td><td class="ref">4,0–10,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu trung tính (NEU%)</td><td class="num">58,0</td><td>%</td><td class="ref">45–75</td></tr><tr class=""><td>Số lượng bạch cầu trung tính (NEU#)</td><td class="num">3,94</td><td>G/L</td><td class="ref">2,0–7,5</td></tr><tr class=""><td>Tỷ lệ bạch cầu lympho (LYM%)</td><td class="num">32,0</td><td>%</td><td class="ref">20–40</td></tr><tr class=""><td>Số lượng bạch cầu lympho (LYM#)</td><td class="num">2,18</td><td>G/L</td><td class="ref">1,0–4,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu mono (MONO%)</td><td class="num">7,0</td><td>%</td><td class="ref">2–10</td></tr><tr class=""><td>Số lượng bạch cầu mono (MONO#)</td><td class="num">0,48</td><td>G/L</td><td class="ref">0,2–1,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa acid (EOS%)</td><td class="num">2,5</td><td>%</td><td class="ref">0–7</td></tr><tr class=""><td>Số lượng bạch cầu ưa acid (EOS#)</td><td class="num">0,17</td><td>G/L</td><td class="ref">0–0,5</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa base (BASO%)</td><td class="num">0,5</td><td>%</td><td class="ref">0–1</td></tr><tr class=""><td>Số lượng bạch cầu ưa base (BASO#)</td><td class="num">0,03</td><td>G/L</td><td class="ref">0–0,1</td></tr><tr class=""><td>Số lượng hồng cầu (RBC)</td><td class="num">4,5</td><td>T/L</td><td class="ref">4,2–5,4</td></tr><tr class=""><td>Lượng huyết sắc tố (HGB)</td><td class="num">138</td><td>g/L</td><td class="ref">130–170</td></tr><tr class=""><td>Thể tích khối hồng cầu (HCT)</td><td class="num">0,415</td><td>L/L</td><td class="ref">0,4–0,5</td></tr><tr class=""><td>Thể tích trung bình hồng cầu (MCV)</td><td class="num">92,2</td><td>fL</td><td class="ref">80–100</td></tr><tr class=""><td>Lượng HST trung bình hồng cầu (MCH)</td><td class="num">30,7</td><td>pg</td><td class="ref">27–32</td></tr><tr class=""><td>Nồng độ HST trung bình hồng cầu (MCHC)</td><td class="num">332</td><td>g/L</td><td class="ref">320–360</td></tr><tr class=""><td>Dải phân bố kích thước hồng cầu (RDW-CV)</td><td class="num">13,4</td><td>%</td><td class="ref">11,5–14,5</td></tr><tr class=""><td>Số lượng tiểu cầu (PLT)</td><td class="num">232</td><td>G/L</td><td class="ref">150–400</td></tr></tbody></table><p class="why">QĐ 5904 Phần 1 Bước 2 mục 4 (hemoglobin và/hoặc hematocrit).</p></div><div class="row"><div class="rh"><b>Tổng phân tích nước tiểu</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Không protein · Không glucose · Không hồng cầu · Không bạch cầu</p><p class="why">QĐ 5904 Phần 1 Bước 2 mục 9.</p></div><div class="row"><div class="rh"><b>Tỷ số albumin/creatinin niệu (UACR)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> 14 mg/g</p><p class="why">Dưới 30 mg/g: chưa có albumin niệu (VSH/VNHA 2024 Bảng 11).</p></div><div class="row"><div class="rh"><b>HbA1c</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> 5,6%</p><p class="why">Glucose đói bình thường nên HbA1c không bắt buộc; làm hay không đều không trừ điểm.</p></div><div class="row"><div class="rh"><b>Acid uric máu</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> 372 µmol/L</p><p class="why">QĐ 5904 Phần 1 Bước 2 mục 7 có liệt kê axit uric.</p></div><div class="row"><div class="rh"><b>AST, ALT</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> AST 24 · ALT 21 U/L</p><p class="why">QĐ 5904 Phần 1 Bước 2 mục 8.</p></div><div class="row"><div class="rh"><b>TSH, FT4</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> TSH 2,1 mIU/L</p><p class="why">Thường quy theo ESC 2024 Bảng 8, AHA/ACC 2025 Bảng 6; QĐ 5904 Phần 1 Bước 2 không liệt kê. Làm hay không đều không trừ điểm (sổ mâu thuẫn).</p></div><div class="row"><div class="rh"><b>Aldosteron, renin huyết tương (tỷ ARR)</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Aldosteron 8 ng/dL · Hoạt tính renin 1,8 ng/mL/giờ · ARR 4,4 (dưới ngưỡng sàng lọc)</p><p class="why">ESC 2024 Bảng khuyến cáo 13 (IIa): cân nhắc cho mọi người THA; chưa kháng trị, K bình thường nên không bắt buộc (AHA/ACC 2025 mục 3.2.3.1; ngưỡng ARR 30). Chấm a theo sổ mâu thuẫn.</p></div><div class="row"><div class="rh"><b>Siêu âm tim</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Thất trái không dày (IVSd 10 mm, LVM/BSA 98 g/m²), EF 63%, E/e&#x27; 9, LAV/BSA 30 mL/m².</p><p class="why">Tùy chọn (VSH/VNHA 2024 Bảng 10; ESC 2024 Bảng 9); ngưỡng dày thất trái LVM/BSA &gt; 115 g/m² ở nam (VSH/VNHA 2024 Bảng 11). Điện tâm đồ đã đủ cho quyết định hôm nay.</p></div><div class="row"><div class="rh"><b>Đo HA lưu động 24 giờ</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> HA trung bình 24 giờ 148/80 mmHg; ban ngày 152/82, ban đêm 136/70 (giảm khoảng 10%).</p><p class="why">Không bắt buộc: HA nhà trung bình 158/85 mmHg đã xác nhận (ESC 2024 Bảng 5: nhà ≥ 135/85, 24 giờ ≥ 130/80; VSH/VNHA 2024 Đ1.2.2).</p></div><div class="row"><div class="rh"><b>Troponin T hs</b><span class="tag t-r">Không cần</span></div><p class="why">Không đau ngực, điện tâm đồ không thiếu máu cơ tim.</p></div><div class="row"><div class="rh"><b>NT-proBNP</b><span class="tag t-r">Không cần</span></div><p class="why">Không khó thở, không phù, tim không to, không T3: chưa có gợi ý suy tim.</p></div><div class="row"><div class="rh"><b>Siêu âm Doppler động mạch thận</b><span class="tag t-r">Không cần</span></div><p class="why">Chưa có gợi ý hẹp động mạch thận: không âm thổi cạnh rốn, creatinin bình thường. Nghĩ lại nếu creatinin tăng rõ sau khi thêm ức chế RAS (VSH/VNHA 2024 Bảng 9).</p></div><div class="row"><div class="rh"><b>Siêu âm bụng (gan, thận, thượng thận)</b><span class="tag t-r">Không cần</span></div><p class="why">Không có chỉ định thường quy khi creatinin, nước tiểu bình thường và khám bụng không gì.</p></div><div class="row"><div class="rh"><b>X-quang ngực thẳng</b><span class="tag t-r">Không cần</span></div><p class="why">Không triệu chứng hô hấp hay suy tim; cơ sở cũng không có X-quang.</p></div><div class="row"><div class="rh"><b>CT sọ não không cản quang</b><span class="tag t-r">Không cần</span></div><p class="why">Không đau đầu dữ dội đột ngột, không dấu thần kinh khu trú.</p></div><div class="row"><div class="rh"><b>Đa ký giấc ngủ (polysomnography) hoặc máy đo ngưng thở khi ngủ tại nhà</b><span class="tag t-r">Không cần</span></div><p class="why">Không ngáy to, không ngưng thở khi ngủ, ban ngày không buồn ngủ (VSH/VNHA 2024 Bảng 9).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Tăng huyết áp nguyên phát độ 2, thể tâm thu đơn độc, chưa kiểm soát sau 4 tuần đơn trị amlodipin; có yếu tố làm nặng (viên thông mũi pseudoephedrin, căng thẳng công việc, thiếu ngủ)</b></div><p class="why">Tâm thu 164 mmHg: độ 2 (QĐ 5904 Phần 1 Bước 3A); tâm thu ≥ 140 với tâm trương &lt; 90 là thể tâm thu đơn độc, kiểu thường gặp nhất ở người già (ESC 2024 mục 9.4.1). HA nhà trung bình 158/85 mmHg (≥ 135/85, ESC 2024 Bảng 5). THA có trước khi dùng viên pseudoephedrin (HA nhà 152/88 lúc chẩn đoán) nên không phải THA do thuốc.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tăng huyết áp thứ phát (do mạch thận, cường aldosteron, ngưng thở khi ngủ)</b></div><p class="why">Không có chỉ điểm ở VSH/VNHA 2024 Bảng 9: K 4,3, không yếu cơ, không ngáy, không âm thổi cạnh rốn, creatinin bình thường; chưa phải kháng trị (mới 1 thuốc). Nghĩ lại nếu creatinin tăng rõ sau thuốc RAS hoặc kháng trị (QĐ 5904 Phần 1 Bước 4 mục A).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tăng huyết áp do thuốc (viên loratadin + pseudoephedrin)</b></div><p class="why">Chất này góp phần làm nặng (AHA/ACC 2025 Bảng 11; ESH 2023 Bảng 20) nhưng ông đã tăng huyết áp trước khi dùng nó; cần ngưng nhưng không giải thích hết HA 164/86.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Cơn tăng huyết áp cấp cứu</b></div><p class="why">HA dưới 180/110 mmHg, không đau ngực, không đau đầu dữ dội, không nhìn mờ, không dấu thần kinh, không suy tim (QĐ 5904 Phần 3 mục D.1; ESC 2024 mục 10.1.1).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tăng huyết áp áo choàng trắng</b></div><p class="why">HA nhà trung bình 158/85 mmHg và HA 24 giờ 148/80 mmHg đều cao: không phải áo choàng trắng (ESC 2024 Bảng 5).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Hạ huyết áp tư thế</b></div><p class="why">Đứng 1 và 3 phút giảm 10/2 và 12/4 mmHg, dưới ngưỡng 20/10, không triệu chứng (ESC 2024 mục 5.5.3; VSH/VNHA 2024 Đ1.2.1): được phép tăng bậc điều trị.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ngưng viên dị ứng chứa pseudoephedrin; trị viêm mũi dị ứng bằng cách khác (nước muối, corticoid xịt mũi, kháng histamin đơn thuần)</b></div><p class="why">Thuốc thông mũi (pseudoephedrin, phenylephrin): dùng ngắn nhất có thể, tránh khi THA không kiểm soát; thay bằng nước muối, corticoid xịt mũi, kháng histamin (AHA/ACC 2025 Bảng 11); làm tăng HA kéo dài theo liều (ESH 2023 Bảng 20). Ở THA kháng trị, rà soát thuốc và loại thuốc gây nhiễu được khuyến cáo (AHA/ACC 2025 mục 5.6 khuyến cáo 1); ông chưa kháng trị nhưng cùng nguyên tắc, và VSH/VNHA 2024 Đ4.1 dặn xem xét các yếu tố ảnh hưởng khi HA chưa đạt. Liều thuốc thay thế không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Thêm một thuốc ức chế men chuyển hoặc chẹn thụ thể liều thấp (ví dụ losartan 25 mg hoặc perindopril 5 mg) vào amlodipin 5 mg, hẹn lại 2 đến 4 tuần HOẶC ngưng pseudoephedrin trước, giữ amlodipin, đo HA nhà 1 đến 2 tuần rồi mới quyết định thêm thuốc</b></div><p class="why">Cách A (thêm ngay): QĐ 5904 Phần 1 mục C (sơ đồ tr. 5) Bước 2, tái khám sau 4 tuần HA còn vượt mục tiêu 5–10 mmHg thì kết hợp C + A; ESC 2024 Bảng khuyến cáo 16 (I, B): ức chế RAS + chẹn kênh canxi nhóm dihydropyridin; ông 77 tuổi khỏe nên điều trị như người trẻ (ESC 2024 Bảng khuyến cáo 23, I, A). Cách B (chờ): HA nhà đang bị nhiễu bởi pseudoephedrin và thiếu ngủ; VSH/VNHA 2024 Đ4.1 khi HA chưa đạt thì xem xét các yếu tố ảnh hưởng rồi điều chỉnh. Khác nhau về tốc độ, không nguồn nào nói cách kia có hại (sổ mâu thuẫn, ca MT-0181).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Đo HA tư thế đứng trước khi tăng thuốc và dặn đo lại mỗi lần thay đổi liều</b></div><p class="why">ESC 2024 Bảng khuyến cáo 24 (I, B): đo HA 1 và/hoặc 3 phút sau đứng, trước khi bắt đầu hoặc tăng thuốc; VSH/VNHA 2024 Đ1.2.1: giảm ≥ 20/10 mmHg là hạ HA tư thế.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Đặt mục tiêu HA: tâm thu 130 đến dưới 140 mmHg (QĐ 5904) HOẶC dưới 130/80 mmHg nếu dung nạp (VSH/VNHA 2024) HOẶC tâm thu 120 đến 129 mmHg nếu dung nạp (ESC 2024)</b></div><p class="why">QĐ 5904 Phần 1 Bước 5 mục A.2: 130 đến &lt; 140 ở người ≥ 65 tuổi; VSH/VNHA 2024 Bảng 4 (I, A) và Hình 15 (&lt; 85 tuổi, khỏe: như người trẻ); ESC 2024 Bảng khuyến cáo 18 (I, A). Khác nhau do năm ban hành và bối cảnh (QĐ 5904 viết cho trạm y tế xã, 2019; hai nguồn sau mới hơn, dựa trên thử nghiệm điều trị tích cực). Ông 77 tuổi, chưa suy yếu, chưa hạ HA tư thế, nên chưa cần nới mục tiêu.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hướng dẫn đo HA tại nhà đúng cách (sáng trước ăn và trước thuốc, tối; hai lần mỗi buổi; 3 đến 7 ngày trước tái khám), ghi sổ</b></div><p class="why">ESC 2024 mục 5.2.3, Hình 4 và Bảng khuyến cáo 35 (I, B); VSH/VNHA 2024 Đ4.1.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn tái khám sau 2 đến 4 tuần, xét nghiệm lại K và creatinin sau khi thêm ức chế RAS</b></div><p class="why">VSH/VNHA 2024 Đ4.1: tái khám mỗi 2–4 tuần trong 2–3 tháng đầu; ESC 2024 mục 8.5.1: tái khám sau 1–3 tháng, ưu tiên 1 tháng; QĐ 5904 Phần 1 mục C: tái khám sau 4 tuần; AHA/ACC 2025 mục 5.2.8, 5.2.9: điện giải, creatinin 2–4 tuần sau khi bắt đầu ức chế RAS, eGFR giảm đến 30% là dự kiến.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích tăng huyết áp phải điều trị lâu dài, không ngưng sau một tháng; trả lời nỗi lo &quot;hại thận&quot;</b></div><p class="why">VSH/VNHA 2024 Bảng 4 (I, A) và ESC 2024 Bảng khuyến cáo 17 (I, A): duy trì thuốc suốt đời nếu dung nạp, kể cả sau 85 tuổi. Creatinin 98 µmol/L, eGFR 68; thuốc RAS sẽ được kiểm tra thận sau 2–4 tuần (AHA/ACC 2025 mục 5.2.9).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giảm muối còn khoảng 5 g muối (2 g natri) mỗi ngày; giảm chè đặc, không uống chè buổi chiều tối; giảm căng thẳng, ngủ đủ</b></div><p class="why">ESC 2024 Bảng khuyến cáo 15 (I, A); QĐ 5904 Phụ lục 3.2: muối dưới 5 g/ngày; AHA/ACC 2025 Bảng 11: caffeine dưới 300 mg/ngày; QĐ 5904 Phần 1 mục D.1f: tránh lo âu, căng thẳng, nghỉ ngơi hợp lý.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn dấu hiệu cần đi cấp cứu ngay</b></div><p class="why">QĐ 5904 Phần 3 mục D.1: HA ≥ 200/120 mmHg, hoặc ≥ 180/110 kèm đau thắt ngực, đau đầu dữ dội, nhìn mờ, dấu thần kinh khu trú, khó thở.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Bắt đầu statin cường độ trung bình</b></div><p class="why">ACC/AHA 2026 mục 4.2.8.3 khuyến cáo 2 (2b, B-NR): người &gt; 75 tuổi, kỳ vọng sống ≥ 2,5 năm, hợp lý sau thảo luận lợi và hại; LDL-C 3,4 mmol/L; làm ngay hay bàn ở lượt sau đều chấp nhận (sổ mâu thuẫn về statin ở THA). Thang PREVENT/SCORE2-OP không có trong tài liệu đã tải.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Tăng amlodipin lên 10 mg thay vì thêm thuốc thứ hai</b></div><p class="why">QĐ 5904 Phần 1 mục C.4: chỉ có một loại thuốc thì tăng dần liều; Phần 3 mục G: amlodipin duy trì 5–10 mg. ESC 2024 Bảng khuyến cáo 16 (I, B) ưu tiên phối hợp, nên chấm a.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Khởi đầu losartan 50 mg thay vì 25 mg</b></div><p class="why">QĐ 5904 Phần 1 mục C (sơ đồ) ghi losartan 50 mg; Phần 3 mục G ghi khởi đầu 25 mg (sổ mâu thuẫn: ghi 25 mg, thận trọng ở người 77 tuổi, kê 50 mg chấm a).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Thêm chẹn beta (atenolol) làm thuốc thứ hai</b></div><p class="why">ESC 2024 Bảng khuyến cáo 16 (I, A): chẹn beta chỉ khi có chỉ định bắt buộc; ESC 2024 mục 9.4.2: nên tránh chẹn beta ở tăng huyết áp tâm thu đơn độc hoặc cứng mạch; QĐ 5904 Phần 3 mục G: tránh atenolol làm thuốc hàng đầu ở người &gt; 60 tuổi.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Phối hợp ba thuốc ngay hôm nay (thêm ức chế RAS và lợi tiểu)</b></div><p class="why">Ba thuốc chỉ khi hai thuốc không kiểm soát được (ESC 2024 Bảng khuyến cáo 16, I, B; QĐ 5904 Phần 1 mục C Bước 3 sau tái khám 4 tuần); ông mới dùng một thuốc, HA nhà còn bị nhiễu bởi pseudoephedrin.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Giữ nguyên amlodipin 5 mg, không đổi gì, hẹn ba tháng</b></div><p class="why">HA nhà 158/85 mmHg xa mục tiêu; QĐ 5904 Phần 1 mục C Bước 2 và VSH/VNHA 2024 Đ4.1 đòi tái khám sau 2–4 tuần để chỉnh; ESC 2024 mục 9.4.2: tránh trì hoãn điều trị ở người cao tuổi tăng huyết áp tâm thu đơn độc.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho ngưng thuốc huyết áp vì đã uống đủ một tháng</b></div><p class="why">VSH/VNHA 2024 Bảng 4 (I, A) và ESC 2024 Bảng khuyến cáo 17 (I, A): điều trị lâu dài.</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Hạ nhanh huyết áp bằng nifedipin tác dụng nhanh uống hoặc ngậm dưới lưỡi</b></div><p class="why">QĐ 5904 Phần 3 mục D.1: tránh nifedipin tác dụng nhanh (uống hoặc ngậm dưới lưỡi) vì hạ HA mạnh, khó kiểm soát.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Chuyển cấp cứu hoặc nhập viện để hạ huyết áp</b></div><p class="why">Không đủ tiêu chuẩn (QĐ 5904 Phần 3 mục D.1; ESC 2024 mục 10.1.1; AHA/ACC 2025 mục 6.2).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Ông Hậu được dặn cứ uống amlodipin 5 mg như cũ và hẹn ba tháng sau, không hỏi thuốc tự mua, không đổi gì. Ông tiếp tục uống viên pseudoephedrin mỗi sáng, ngủ 4 đến 5 tiếng, HA nhà vẫn quanh 158/85 mmHg, xa mục tiêu 130 đến dưới 140 mmHg (QĐ 5904 Phần 1 Bước 5 mục A.2). Ở người cao tuổi, chậm tăng bậc điều trị làm mất thời gian được bảo vệ khỏi đột quỵ; ESC 2024 mục 9.4.2 nhắc cần tránh trì hoãn điều trị ở người cao tuổi bị tăng huyết áp tâm thu đơn độc.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Ông Hậu bị giữ lại viện để theo dõi và hạ huyết áp, dù HA 164/86 mmHg không đau ngực, không dấu thần kinh, không suy tim và chưa tới ngưỡng THA nặng; cấp cứu THA cần ≥ 180/110 mmHg kèm tổn thương cơ quan đích cấp (ESC 2024 mục 10.1.1; QĐ 5904 Phần 3 mục D.1), và THA nặng không tổn thương cấp cũng không cần hạ nhanh (AHA/ACC 2025 mục 6.2). Ông tốn viện phí, ngủ chập chờn trong phòng bệnh ở tuổi 77, trong khi viên pseudoephedrin, thiếu ngủ và việc chưa tăng bậc thuốc nền vẫn không ai hỏi tới.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Ông Hậu bị gửi lên bệnh viện tuyến trên khám tim mạch vì &quot;huyết áp không xuống dù đã uống thuốc&quot;. Chưa đủ tiêu chuẩn chuyển: ông mới dùng một thuốc bốn tuần, trong khi chuyển tuyến khi không đạt mục tiêu dù đủ ≥ 3 thuốc có ít nhất 1 lợi tiểu, nghi THA thứ phát hoặc có biến chứng nặng (QĐ 5904 Phần 1 Bước 4 mục A). Chuyến đi làm ông và con trai mất cả ngày và tốn kém, còn những việc làm được ngay tại phòng khám (hỏi thuốc tự mua, đo HA đứng, thêm một thuốc nhóm ức chế RAS) bị bỏ qua.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Tăng huyết áp nguyên phát độ 2, thể tâm thu đơn độc (HA phòng khám 164/86 mmHg; HA nhà trung bình 158/85 mmHg)</li><li>Chưa kiểm soát sau 4 tuần đơn trị amlodipin 5 mg, tuân thủ tốt</li><li>Yếu tố làm nặng sửa được: viên loratadin + pseudoephedrin tự mua 2 tuần nay, căng thẳng công việc, ngủ 4–5 tiếng</li><li>Tổn thương cơ quan đích chưa rõ (điện tâm đồ, UACR, eGFR); HA mạch 78–80 mmHg gợi ý tăng độ cứng mạch</li><li>Người 77 tuổi khỏe (bậc 3 thang suy yếu), không hạ HA tư thế; mục tiêu điều trị như người trẻ nếu dung nạp</li><li>Không phải cơn THA cấp cứu; chưa có chỉ điểm THA thứ phát; kèm viêm mũi dị ứng và LDL-C 3,4 mmol/L</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự hỏi bệnh: thuốc đang dùng và tuân thủ, sổ HA nhà, thuốc tự mua, stress và giấc ngủ, triệu chứng theo chức năng, ngã và choáng khi đứng, mong đợi hôm nay. Ông nói &quot;khỏe lắm&quot; nên phải hỏi cụ thể buổi sáng và việc đi bộ quanh hồ mới ra nặng đầu gáy, hồi hộp, đi bộ giảm.</li><li>Vì sao THA nguyên phát độ 2: tâm thu 164 mmHg thuộc 160–179 (QĐ 5904 Phần 1 Bước 3A); HA nhà trung bình 158/85, ngưỡng nhà ≥ 135/85 (ESC 2024 Bảng 5). Tâm thu ≥ 140 với tâm trương &lt; 90 là thể tâm thu đơn độc, thường gặp nhất ở người già (ESC 2024 mục 9.4.1).</li><li>Vì sao viên dị ứng là yếu tố làm nặng chứ không phải nguyên nhân: pseudoephedrin làm tăng HA kéo dài theo liều (ESH 2023 Bảng 20; AHA/ACC 2025 Bảng 11) nhưng ông tăng huyết áp trước khi dùng (HA nhà 152/88 bốn tuần trước). Chủ nhật nghỉ việc HA nhà thấp nhất (138/78) nên căng thẳng và thiếu ngủ cũng góp phần.</li><li>Vì sao chưa nghĩ THA thứ phát: khởi phát lúc 77 tuổi, chưa kháng trị (mới dùng 1 thuốc), K 4,3 mmol/L, không yếu cơ, không ngáy, không âm thổi cạnh rốn, creatinin bình thường, ARR 4,4 (ngưỡng 30, AHA/ACC 2025 mục 3.2.3.1). Sau khi thêm ức chế RAS mà creatinin tăng rõ thì nghĩ hẹp động mạch thận (VSH/VNHA 2024 Bảng 9).</li><li>Vì sao không phải cấp cứu: HA dưới 180/110 mmHg, không đau ngực, đau đầu dữ dội, nhìn mờ, dấu thần kinh khu trú hay suy tim (QĐ 5904 Phần 3 mục D.1; ESC 2024 mục 10.1.1).</li><li>Đánh giá để được phép tăng thuốc: HA đứng 1 phút giảm 10/2, 3 phút giảm 12/4 mmHg (ngưỡng 20/10, ESC 2024 Bảng khuyến cáo 24; VSH/VNHA 2024 Đ1.2.1). Mức suy yếu bậc 3 &quot;khá khỏe&quot; (VSH/VNHA 2024 Hình 15): tự sinh hoạt, đi không gậy, không ngã.</li><li>Tổn thương cơ quan đích: Sokolow-Lyon 29 mm (&lt; 35), UACR 14 mg/g (&lt; 30), eGFR 68 (≥ 60), LVM/BSA 98 g/m² nếu làm siêu âm tim (&lt; 115), HA mạch 78–80 mmHg (≥ 60 ở người &gt; 60 tuổi gợi ý cứng mạch) (VSH/VNHA 2024 Bảng 11). Không tính được nguy cơ tim mạch 10 năm vì thang SCORE2-OP không có trong tài liệu đã tải.</li><li>Nhiễu: tiểu đêm, đau gối dùng paracetamol, viêm mũi dị ứng không quyết định mức HA; chỉ viêm mũi dị ứng giải thích vì sao ông mua thuốc co mạch.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Việc đầu tiên là ngưng pseudoephedrin và hỏi mọi thuốc tự mua trước khi nâng bậc điều trị (AHA/ACC 2025 Bảng 11; VSH/VNHA 2024 Bảng 9 mục tiền sử dùng thuốc). Thay bằng nước muối, corticoid xịt mũi hoặc kháng histamin đơn thuần; liều các thuốc này không có trong tài liệu đã tải.</li><li>Thêm thuốc thứ hai hay chờ 1 đến 2 tuần: cách thêm ngay theo QĐ 5904 Phần 1 mục C Bước 2 (tái khám 4 tuần, HA còn vượt thì kết hợp) và ESC 2024 Bảng khuyến cáo 16 (I, B); cách chờ vì số đo đang bị nhiễu theo VSH/VNHA 2024 Đ4.1. Cả hai đều đúng, khác nhau về tốc độ; đơn thuốc ghi theo cách thêm ngay.</li><li>Vì sao không nới tay vì tuổi: dưới 85 tuổi, không suy yếu vừa đến nặng thì điều trị như người trẻ nếu dung nạp (ESC 2024 Bảng khuyến cáo 23, I, A; VSH/VNHA 2024 Hình 15). Nhưng bắt đầu bằng liều thấp, đo HA đứng, và theo dõi triệu chứng choáng sau mỗi lần tăng liều.</li><li>Chọn ức chế men chuyển hoặc chẹn thụ thể cộng chẹn kênh canxi: ESC 2024 Bảng khuyến cáo 16 (I, B), ưu tiên viên phối hợp một lần mỗi ngày; chẹn beta chỉ khi có chỉ định bắt buộc (ESC 2024 Bảng khuyến cáo 16; QĐ 5904 Phần 3 mục G). Hàm lượng viên phối hợp amlodipin/losartan tại Việt Nam không có trong tài liệu đã tải.</li><li>Mục tiêu: ba nguồn khác nhau, ghi cả ba. QĐ 5904 (2019, cho trạm y tế xã) 130 đến dưới 140 mmHg ở người ≥ 65 tuổi, có thể thấp hơn nếu dung nạp (Phần 1 Bước 5 mục A.2). VSH/VNHA 2024 Bảng 4: dưới 130/80 mmHg nếu dung nạp. ESC 2024 Bảng khuyến cáo 18: tâm thu 120–129 mmHg nếu dung nạp. Đạt mục tiêu trong 1 đến 3 tháng (QĐ 5904 Phần 1 Bước 5 mục A.3).</li><li>Theo dõi sau thuốc RAS: tái khám 2–4 tuần (VSH/VNHA 2024 Đ4.1); điện giải, creatinin 2–4 tuần sau, eGFR giảm đến 30% là dự kiến, chỉ ngưng nếu giảm kéo dài trên 30% (AHA/ACC 2025 mục 5.2.8, 5.2.9). Không dùng đồng thời ức chế men chuyển và chẹn thụ thể (AHA/ACC 2025 mục 5.2.8).</li><li>Trả lời mong đợi thật: ông muốn ngưng thuốc. Giải thích điều trị lâu dài, không ngưng sau 1 tháng (VSH/VNHA 2024 Bảng 4, I, A; ESC 2024 Bảng khuyến cáo 17, I, A), và thận được kiểm tra sau 2–4 tuần. Không giải thích thì ông dễ tự ngưng.</li><li>Lối sống hợp với ông: muối dưới 5 g/ngày (QĐ 5904 Phụ lục 3.2; ESC 2024 Bảng khuyến cáo 15), vận động mức vừa ≥ 150 phút/tuần nếu sức khỏe cho phép (QĐ 5904 Phần 1 mục D.1e; ESC 2024 Bảng khuyến cáo 15), chè đặc ít lại (caffeine dưới 300 mg/ngày, AHA/ACC 2025 Bảng 11), trao bớt việc soát sổ để ngủ đủ (QĐ 5904 Phần 1 mục D.1f).</li><li>Statin: chỉ ở mức có thể cân nhắc (ACC/AHA 2026 mục 4.2.8.3 khuyến cáo 2, 2b) sau khi thảo luận với ông; chấm a. Paracetamol dưới 3 g/ngày ở người cao tuổi, tăng huyết áp, tránh NSAID (QĐ 361/2014 Phụ lục NSAID mục 3.3; AHA/ACC 2025 Bảng 11).</li><li>Ghi chú áp dụng (≥ 75 tuổi): người suy yếu vừa đến nặng thường bị loại khỏi thử nghiệm, bằng chứng &gt; 85 tuổi chưa kết luận (ESC 2024 mục 8.5.2; VSH/VNHA 2024 Hình 15). Ca chỉ áp dụng cho người ≥ 75 tuổi còn khỏe như ông Hậu.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Amlodipin (đang dùng, giữ nguyên)</b><div class="sub">5 mg</div></td><td data-l="Liều">5 mg × 1 lần/ngày<div class="sub">Uống · Buổi sáng, một giờ cố định</div></td><td data-l="Thời gian">Dùng lâu dài</td><td class="gc" data-l="Ghi chú">Khởi đầu 5 mg, duy trì 5–10 mg; tác dụng phụ phù mắt cá, đỏ mặt, đánh trống ngực (QĐ 5904 Phần 3 mục G). Ông dung nạp tốt, không phù chân. Nếu chọn cách chờ thì đơn chỉ giữ amlodipin và ngưng viên pseudoephedrin.</td></tr><tr><td><b>Losartan (thêm)</b><div class="sub">25 mg</div></td><td data-l="Liều">25 mg × 1 lần/ngày<div class="sub">Uống · Buổi sáng cùng amlodipin</div></td><td data-l="Thời gian">Dùng lâu dài; tái khám sau 2–4 tuần</td><td class="gc" data-l="Ghi chú">Khởi đầu 25 mg, tối ưu 100 mg (QĐ 5904 Phần 3 mục G); sơ đồ Phần 1 mục C ghi 50 mg (kê 50 mg chấm a). Chống chỉ định: có thai. Kiểm tra K và creatinin sau 2–4 tuần (AHA/ACC 2025 mục 5.2.8). Perindopril 5 mg cũng được (QĐ 5904 Phần 3 mục G).</td></tr><tr><td><b>NGƯNG viên loratadin + pseudoephedrin sulfat tự mua</b><div class="sub">Loratadin 5 mg + pseudoephedrin 120 mg</div></td><td data-l="Liều">Không dùng nữa<div class="sub">Uống · Từ hôm nay</div></td><td data-l="Thời gian">Ngưng hẳn</td><td class="gc" data-l="Ghi chú">Thuốc thông mũi làm tăng HA; tránh khi THA chưa kiểm soát (AHA/ACC 2025 Bảng 11; ESH 2023 Bảng 20). Cách ngưng dần hay ngưng ngay không có trong tài liệu đã tải; ông chỉ dùng 2 tuần.</td></tr><tr><td><b>Paracetamol (khi đau gối, nếu cần)</b><div class="sub">500 mg</div></td><td data-l="Liều">500 mg mỗi lần khi đau, tối đa dưới 3 g/ngày<div class="sub">Uống · Khi đau</div></td><td data-l="Thời gian">Khi cần</td><td class="gc" data-l="Ghi chú">Người cao tuổi hoặc tăng huyết áp: dưới 3 g/ngày, tránh NSAID (QĐ 361/2014 Phụ lục NSAID mục 3.3); AHA/ACC 2025 Bảng 11 ghi dưới 4 g/ngày; ông dùng thấp hơn cả hai.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Uống amlodipin và losartan một lần mỗi sáng, cùng giờ; không ngưng khi thấy khỏe, thuốc huyết áp dùng lâu dài (VSH/VNHA 2024 Bảng 4; ESC 2024 Bảng khuyến cáo 16, I, B: chọn giờ dễ nhớ).</li><li>Ngưng hẳn viên dị ứng đang uống. Từ nay mua thuốc cảm, thuốc sổ mũi, thuốc dị ứng, thuốc giảm đau phải mang hộp hỏi bác sĩ hoặc dược sĩ; tránh thuốc thông mũi và thuốc giảm đau nhóm NSAID (AHA/ACC 2025 Bảng 11).</li><li>Đo HA nhà bằng máy bắp tay: ngồi nghỉ, mỗi buổi đo 2 lần cách 1–2 phút, sáng trước ăn và trước khi uống thuốc, tối cùng giờ, 3–7 ngày trước tái khám; mang sổ và máy đến để kiểm tra (ESC 2024 mục 5.2.3, Hình 4).</li><li>Sáng ngủ dậy hoặc dậy đi tiểu đêm, ngồi ở mép giường một lát rồi mới đứng; nếu choáng, hoa mắt hoặc suýt ngã thì báo ngay, không tự bỏ thuốc.</li><li>Giảm muối dưới 5 g mỗi ngày: bớt cà muối, mắm tép, cá kho mặn (QĐ 5904 Phụ lục 3.2). Chè xanh pha loãng, không uống buổi chiều tối (AHA/ACC 2025 Bảng 11: caffeine dưới 300 mg/ngày).</li><li>Ngủ đủ giấc, nhờ người khác soát sổ thanh tra hoặc chia việc cho nhiều ngày; không ngồi làm sổ khuya (QĐ 5904 Phần 1 mục D.1f). Đi bộ mỗi sáng, tăng dần, ít nhất 30 phút mỗi ngày, 5 ngày mỗi tuần nếu sức khỏe cho phép (ESC 2024 Bảng khuyến cáo 15).</li><li>Đi cấp cứu ngay nếu đau ngực, đau đầu dữ dội, nhìn mờ, yếu hoặc tê nửa người, méo miệng, nói khó, khó thở, ngất, hoặc đo HA ≥ 180/110 kèm các triệu chứng đó, hoặc ≥ 200/120 (QĐ 5904 Phần 3 mục D.1).</li><li>Tái khám sau 2 đến 4 tuần, mang sổ HA, vỉ thuốc; xét nghiệm lại K và creatinin trước buổi khám (VSH/VNHA 2024 Đ4.1; AHA/ACC 2025 mục 5.2.8). Bàn lại statin ở lần sau.</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-8">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Tăng huyết áp nguyên phát (theo dõi)</b></div>
+<p class="note">Phải loại trừ: THA thứ phát, Cơn THA cấp cứu</p><p>Kịch bản thường gặp ở phòng khám đông: nâng amlodipin lên 10 mg và thêm losartan 50 mg cùng lúc, không hỏi thuốc tự mua, không đo HA đứng, không hẹn xét nghiệm. Hai tuần sau HA nhà ông Hậu về 136/78 mmHg vì thanh tra xong, ông ngủ lại được; ông chỉ hơi choáng khi dậy tiểu đêm, không ngã, creatinin chưa ai kiểm. Ông không sao, nhưng là may: viên pseudoephedrin vẫn còn trong tủ, nguy cơ choáng, ngã và tăng creatinin không ai kiểm. Kết cục tốt không biến một quy trình thiếu bước thành đúng.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-9">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Tiểu đêm hai lần, tia nước hơi yếu nhiều năm: do tuổi, không liên quan mức HA hôm nay; chỉ cần nhớ thuốc thông mũi có thể làm tiểu khó hơn (không có trong tài liệu đã tải, không ghi vào xử trí).</li><li>Đau gối dùng paracetamol hai lần mỗi tuần: thấp hơn mọi ngưỡng tối đa (QĐ 361/2014 Phụ lục NSAID mục 3.3; AHA/ACC 2025 Bảng 11), điều đáng hỏi là có dùng NSAID hay thuốc nam không.</li><li>Hắt hơi, sổ mũi mỗi sáng nhiều năm: là lý do ông mua viên dị ứng; điều cần chú ý là thành phần pseudoephedrin chứ không phải bản thân viêm mũi.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Phủ nhận triệu chứng nặng: &quot;tôi khỏe lắm&quot; khi hỏi cảm giác. Hỏi cụ thể buổi sáng và việc đi bộ quanh hồ nay khác gì trước mới ra nặng đầu gáy, hồi hộp, giảm sức đi bộ.</li><li>Hỏi thuốc theo loại, không hỏi chung: người bệnh không coi viên dị ứng là thuốc. Mang hộp thuốc ra đọc thành phần.</li><li>Điển hình nhưng phải chặt: trước khi tăng thuốc, hỏi vì sao HA chưa xuống (thuốc co mạch, căng thẳng, thiếu ngủ, tuân thủ, cách đo), rồi đo HA đứng và chọn bước thuốc.</li><li>Tái khám theo hẹn cũng có mong đợi thật: ông định xin ngưng thuốc sau một tháng. Không hỏi mong đợi thì ông ra về và tự ngưng.</li><li>Xử trí ẩu nhưng may mắn không sao: kết cục tốt không hợp thức hóa quy trình thiếu bước; đánh giá theo dữ kiện lúc ra quyết định.</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>THA vẫn chẩn đoán khi HA phòng khám ≥ 140/90 mmHg, xác nhận bằng HA nhà ≥ 135/85 hoặc 24 giờ ≥ 130/80 (ESC 2024 Bảng 5; VSH/VNHA 2024 Đ1.1). Ở người già thể tâm thu đơn độc (≥ 140 và &lt; 90) là thường gặp nhất (ESC 2024 mục 9.4.1).</li><li>Trước khi bắt đầu hoặc tăng thuốc ở người già phải đo HA đứng 1 và/hoặc 3 phút (ESC 2024 Bảng khuyến cáo 24, I, B) và đánh giá suy yếu (VSH/VNHA 2024 Hình 15). Dưới 85 tuổi, không suy yếu vừa đến nặng: điều trị như người trẻ nếu dung nạp (ESC 2024 Bảng khuyến cáo 23, I, A).</li><li>Thuốc tự mua làm tăng HA: thuốc thông mũi (pseudoephedrin, phenylephrin), NSAID, cam thảo (AHA/ACC 2025 Bảng 11; ESH 2023 Bảng 20).</li><li>Sau khi thêm ức chế men chuyển hoặc chẹn thụ thể: kiểm K và creatinin sau 2–4 tuần; eGFR giảm đến 30% là dự kiến (AHA/ACC 2025 mục 5.2.8, 5.2.9).</li><li>Ghi chú áp dụng (≥ 75 tuổi): bằng chứng chủ yếu từ người cao tuổi khỏe; người suy yếu vừa đến nặng thường bị loại khỏi thử nghiệm, bằng chứng &gt; 85 tuổi chưa kết luận (ESC 2024 mục 8.5.2; VSH/VNHA 2024 Hình 15).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-10">Nguồn tài liệu <small>7</small></h3></summary><ul class=""><li>BYT – QĐ 5904/QĐ-BYT 2019, Quản lý bệnh không lây nhiễm tại trạm y tế xã – TL-0284 – Phần 1 (Bước 1, 2, 3A, 4A, Bước 5 mục A.2, A.3, B.2, C sơ đồ tr. 5 xem trên PDF, D.1e, D.1f; Phụ lục 1.1); Phần 3 mục D.1, G; Phụ lục 3.2.</li><li>VSH/VNHA 2024 – Chiến lược thực hành lâm sàng quản lý THA tại Việt Nam – TL-0288 – Bảng 4, Bảng 9, Bảng 11; Đ1.2.1, Đ1.2.2, Đ2.2, Đ2.4, Đ3.9 (Hình 15), Đ4.1.</li><li>ESC 2024 Guidelines for elevated BP and hypertension – TL-0305 – mục 5.2.3 (Hình 4, Bảng 5), 5.5.3, 8.5.1, 8.5.2, 9.4.1, 9.4.2, 10.1.1; Bảng 8, 9; Bảng khuyến cáo 13, 15, 16, 17, 18, 23, 24, 35.</li><li>ESH 2023 Guidelines for arterial hypertension – TL-0312 – Bảng 20 (thuốc và chất làm tăng HA, thuốc thông mũi).</li><li>2025 AHA/ACC Guideline for High BP in Adults – TL-0297 – Bảng 6; mục 3.2.3.1; Bảng 11; 5.2.8; 5.2.9; 5.6 (khuyến cáo 1); 6.2.</li><li>2026 ACC/AHA Guideline on Dyslipidemia – TL-0292 – mục 4.2.8.3 (khuyến cáo 2).</li><li>BYT – QĐ 361/QĐ-BYT 2014, Bệnh cơ xương khớp – TL-0286 – Phụ lục NSAID mục 3.3.</li></ul></details>
+<details class="card"><summary><h3 id="m-11">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Bệnh mạn tính người lớn</dd><dt>chan_doan_dich</dt><dd>Tăng huyết áp nguyên phát (theo dõi)</dd><dt>chan_doan_phai_loai_tru</dt><dd>THA thứ phát; Cơn THA cấp cứu</dd><dt>nhom_tuoi</dt><dd>Rất cao tuổi (≥75 tuổi)</dd><dt>do_kho</dt><dd>Điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>dien_tien_tai_kham</dt><dd>Không áp dụng (ca 1 lượt khám)</dd><dt>nhieu_benh_nhan</dt><dd>Phủ nhận triệu chứng nặng</dd><dt>rang_buoc_nguon_luc</dt><dd>Không có X-quang</dd><dt>loai_ket_cuc</dt><dd>Xử trí ẩu nhưng may mắn không sao</dd><dt>gioi</dt><dd>Nam</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>1</dd><dt>nghe_nghiep</dt><dd>Hưu trí</dd><dt>yeu_to_khoi_phat</dt><dd>Sau căng thẳng công việc</dd><dt>thuoc_dang_dung</dt><dd>Thuốc dị ứng tự mua</dd><dt>ly_do_that_su_den_kham</dt><dd>Tái khám theo hẹn</dd></dl><ul class=""><li>Bản 1 (2026-10-25): viết 1 lượt theo đặc tả sổ cái MT-0071 (rất cao tuổi, THA nguyên phát theo dõi, phủ nhận triệu chứng nặng, không có X-quang, thuốc dị ứng tự mua, tái khám theo hẹn, xử trí ẩu nhưng may mắn không sao). Tài liệu đã đọc: TL-0284 (Phần 1; Phần 3 mục D.1, G; Phụ lục 1.1; sơ đồ phác đồ Phần 1 mục C xem trên PDF trang 14), TL-0288 (Bảng 4, 9, 11; Đ1.2.1, Đ2.4, Đ3.9, Đ4.1), TL-0305 (mục 5.2.3, 8.5.1, 8.5.2, 9.4.1, 9.4.2; Bảng khuyến cáo 15–18, 23, 24, 35), TL-0312 (Bảng 20), TL-0297 (Bảng 11; mục 5.2.8, 5.2.9, 5.6), TL-0292 (mục 4.2.8.3), TL-0286 (Phụ lục NSAID 3.3).</li><li>Thiếu tài liệu đã tải: liều thuốc thay thế viêm mũi dị ứng (nước muối, corticoid xịt mũi, kháng histamin); cách ngưng pseudoephedrin; hàm lượng viên phối hợp amlodipin/losartan tại Việt Nam; thang SCORE2-OP/PREVENT để tính nguy cơ 10 năm; ảnh hưởng thuốc thông mũi lên tiểu khó (không đưa vào xử trí).</li><li>Mâu thuẫn đã có trong sổ và đã áp dụng: mục tiêu HA ở người ≥ 65 tuổi không ĐTĐ (MT-0042), khởi thuốc ngay hay chờ khi số đo bị nhiễu (MT-0181, MT-0756; gộp một mục c), losartan 25 hay 50 mg (MT-0058), statin ở THA (a), paracetamol dưới 3 g/ngày. Không có mâu thuẫn mới.</li></ul></details>
+<p class="chan-trang">Ca MT-0071 · phiên bản ca 1 · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HH-1347 · Ho kéo dài sau nhiễm virus</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · HH-1347</div>
+   <h1>Con ho khoảng 3 tuần chưa hết</h1>
+   <p class="dich-gia">Lê Gia Hân · Nữ · 0.67 tuổi · 8.3 kg</p>
+   <div class="chips"><span class="chip">Hô hấp cấp tính</span><span class="chip">Điển hình</span><span class="chip">2 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Trẻ nhũ nhi</dd><dt>Chiều cao, cân nặng</dt><dd>70 cm · 8.3 kg</dd>
+<dt>Xưng hô</dt><dd>Bé gái 8 tháng tuổi. Mẹ (chị Hồng, 28 tuổi, công nhân may) bế bé, xưng &#x27;em&#x27;, gọi bé là &#x27;bé Hân&#x27; hoặc &#x27;cháu&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;. Bà ngoại (bà Hai, 58 tuổi) đi cùng, xưng &#x27;bà&#x27;, gọi bé là &#x27;con bé&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27; hoặc &#x27;cô/chú&#x27;.</dd><dt>Tính cách</dt><dd>Chị Hồng: hiền, ít nói, hay cúi nhìn con, ngại nhờ vả, sợ bị nghĩ là &#x27;xin khống&#x27; nên không nói thẳng điều mình cần. Bà Hai: nhanh nhảu, thương cháu, tin &#x27;truyền chai nước biển cho có sức&#x27;, hay kể chuyện người khác truyền thì khỏi, nói to, ngắt lời. Bé Hân: tỉnh, hay cười, lạ người thì mếu.</dd><dt>Người nhà</dt><dd>Mẹ (chị Hồng); bà ngoại (bà Hai) đi cùng – Mẹ và bà ngoại. Mẹ biết rõ diễn tiến ho, thuốc, sổ tiêm chủng; bà hay nói thay. Cả hai KHÔNG nói ra chuyện mẹ cần giấy nghỉ ốm trừ khi được hỏi về công việc, ai giữ bé ban ngày hoặc &#x27;chị còn lo gì khác&#x27;.</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Phòng khám nhi nhỏ không làm được xét nghiệm nào (máu, nước tiểu, test nhanh, nuôi cấy, PCR), kéo theo không có X-quang, CT, nội soi; cũng không có máy siêu âm, nhĩ lượng, điện tim. Còn dùng được: nhiệt kế, ống nghe, máy đo SpO₂, cân, thước đo, đèn soi tai có bóng cao su thổi hơi. Cơ sở có X-quang và Xpert gần nhất là bệnh viện huyện cách 12 km (khoảng 30 phút xe máy). Quyết định phải dựa vào hỏi bệnh, khám và theo dõi có mốc.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/2</span> </h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Chị Hồng bế bé Hân, 8 tháng, 8,3 kg, cùng bà ngoại đến phòng khám nhi nhỏ (không xét nghiệm, không X-quang, không siêu âm) vì bé ho khoảng 3 tuần chưa hết. Sinh hiệu: nhiệt độ nách 36,9 °C, mạch 128 l/p, nhịp thở 38 l/p, SpO₂ 98% khí trời, cân nặng 8,3 kg.</p>
+  <blockquote>“Bác sĩ ơi, con bé ho ba tuần nay không dứt, tội quá. Bác sĩ truyền cho cháu chai nước biển với thuốc bổ cho mau hết ho đi. Thằng cháu họ tôi truyền có một chai là hết ho liền đó.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>128</b><small>l/p</small></div><div class="vs"><span>HA</span><b>Không đo</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,9 (nách)</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>38</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>14 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám</b><span class="tag t-g">Tự kể</span></div><p>Bé ho khoảng 3 tuần chưa hết. Mẹ lo, bà ngoại muốn bé được truyền nước cho mau hết ho.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khởi phát: nhiễm virus hô hấp trên trước khi ho</b><span class="tag t-b">Khi được hỏi</span></div><p>Tối thứ bảy cách đây 3 tuần, cả nhà ra sân cỏ nhân tạo cổ vũ bố đá bóng. Bé ngồi xe đẩy sát sân gần 2 tiếng, trời trở gió; bé con của một cầu thủ đang ho, sổ mũi được chuyền tay bế. Sáng hôm sau bé hắt hơi, sổ mũi trong, sốt nhẹ khoảng 38 °C hai ngày rồi hết sốt. Từ ngày thứ 3 bé ho. Mẹ nghĩ do gió lạnh và bụi sân.</p><div class="cond">Điều kiện nói ra: Nói khi bác sĩ hỏi ho bắt đầu thế nào, trước đó có sổ mũi, sốt, tiếp xúc ai ho không. Hỏi chung thì chỉ nói &#x27;ho ba tuần&#x27;.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Ho đang giảm dần theo thời gian</b><span class="tag t-b">Khi được hỏi</span></div><p>Tuần đầu ho nhiều cả ngày lẫn đêm. Tuần hai bớt rõ. Tuần ba chỉ còn ho húng hắng vài tràng ngắn lúc ngủ dậy và vài lần ban ngày, bé nuốt đờm chứ không khạc.</p><div class="cond">Điều kiện nói ra: Nói khi bác sĩ hỏi ho tăng hay giảm, ho lúc nào trong ngày.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dấu chỉ điểm ho gà (loại trừ)</b><span class="tag t-b">Khi được hỏi</span></div><p>Ho không thành cơn dài, không rũ rượi, không có tiếng rít khi hít vào, không tím môi, không ngưng thở, không nôn sau cơn ho. Mắt bé không đỏ.</p><div class="cond">Điều kiện nói ra: Nói khi bác sĩ hỏi ho có thành cơn, tiếng rít khi hít vào, nôn sau ho, tím tái, ngưng thở.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dị vật đường thở (loại trừ)</b><span class="tag t-b">Khi được hỏi</span></div><p>Không có lần nào đang ăn dặm hoặc chơi bỗng sặc, ho sặc sụa, tím tái đột ngột. Ho bắt đầu sau những ngày sổ mũi.</p><div class="cond">Điều kiện nói ra: Nói khi bác sĩ hỏi có sặc, nghẹn, ngậm đồ nhỏ.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khò khè tái diễn (hen), thở nhanh</b><span class="tag t-b">Khi được hỏi</span></div><p>Từ sinh đến giờ bé chưa lần nào khò khè, thở rít hay phải xông khí dung, không nhập viện. Khi ngủ bé thở êm, không thở nhanh.</p><div class="cond">Điều kiện nói ra: Nói khi bác sĩ hỏi khò khè, thở rít, khó thở, từng xông thuốc, nhập viện.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Bú, hoạt động, tăng cân, sốt kéo dài, mồ hôi đêm</b><span class="tag t-b">Khi được hỏi</span></div><p>Bé bú mẹ, ăn bột 2 bữa mỗi ngày, ăn bú như thường, ngủ được cả đêm trừ 1–2 lần ho, chơi cười bình thường. Từ ngày thứ 3 không sốt lại, không ra mồ hôi đêm. Sổ tiêm chủng ghi 7,3 kg lúc 6 tháng, nay 8,3 kg.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiếp xúc nguồn lây lao (loại trừ)</b><span class="tag t-b">Khi được hỏi</span></div><p>Không ai trong nhà (bố, mẹ, bà ngoại, ông bà nội ở quê) ho kéo dài trên 2 tuần, sụt cân, ho ra máu hoặc đang điều trị lao. Bé có sẹo BCG cánh tay trái. Mẹ xét nghiệm HIV âm tính khi mang thai.</p><div class="cond">Điều kiện nói ra: Nói khi bác sĩ hỏi trong nhà có ai ho lâu, ho ra máu, từng bị lao, HIV.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiêm chủng ho gà</b><span class="tag t-b">Khi được hỏi</span></div><p>Mẹ mang sổ: bé đã tiêm đủ 3 mũi vắc xin phối hợp có thành phần ho gà (lúc 2, 3, 4 tháng). Chưa tiêm mũi nhắc.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiền sử, kháng sinh gần đây</b><span class="tag t-b">Khi được hỏi</span></div><p>Sinh đủ tháng 3,2 kg, bú mẹ. Không viêm phổi, không chàm, không dị ứng thức ăn. Chưa dùng kháng sinh lần nào, chưa biết dị ứng thuốc.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc đang dùng: NSAID tự mua, cho khi không sốt</b><span class="tag t-b">Khi được hỏi</span></div><p>Mẹ mua siro ibuprofen 100 mg/5 ml ở nhà thuốc, cho bé khi &#x27;thấy người ấm ấm&#x27; hoặc quấy đêm: khoảng 6 lần trong 3 tuần, mỗi lần 4 ml (80 mg), lần cuối cách đây 2 ngày. Mẹ chỉ sờ trán, không đo nhiệt. Không cho thuốc ho, kháng sinh, thuốc nam.</p><div class="cond">Điều kiện nói ra: Nói khi bác sĩ hỏi đã cho bé uống thuốc gì, kể cả thuốc hạ sốt tự mua. Hỏi chung thì mẹ nói &#x27;chưa có thuốc ho&#x27;.</div></div><div class="fact"><div class="fh"><b>Phơi nhiễm khói thuốc; cơ địa dị ứng gia đình</b><span class="tag t-b">Khi được hỏi</span></div><p>Bố hút nửa gói thuốc mỗi ngày ở ban công, hay bế bé ngay sau khi hút. Bố bị viêm mũi dị ứng mùa lạnh. Bếp gas, nhà không ẩm mốc, không nuôi thú.</p><div class="cond">Điều kiện nói ra: Nói khi bác sĩ hỏi ai hút thuốc, khói bếp, thú nuôi, bệnh dị ứng trong nhà.</div></div><div class="fact"><div class="fh"><b>ba_truyen</b><span class="tag t-g">Tự kể</span></div><p>Bà Hai tin truyền nước biển giúp &#x27;có sức, mau hết ho&#x27;. Bà ở xóm bên, ban ngày hay ghé giữ bé nhưng đau khớp gối nên không bế lâu.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Động cơ thật: xin giấy nghỉ ốm để nghỉ chăm con</b><span class="tag t-r">Giấu</span></div><p>Chị Hồng làm công nhân may, đã hết phép năm. Cô giữ trẻ nhắn &#x27;bé ho cả tuần, cho nghỉ đến khi hết ho&#x27;. Tổ trưởng chỉ cho nghỉ khi có giấy của cơ sở y tế, không thì bị tính nghỉ không phép và mất thưởng chuyên cần. Chị đã nghỉ 4 ngày, muốn xin giấy nghỉ ốm vài ngày nhưng ngại nói vì sợ bị nghĩ là xin khống.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi chị có đi làm không, ai giữ bé ban ngày, hoặc &#x27;chị còn lo điều gì khác&#x27;, &#x27;cần bác sĩ giúp thêm gì&#x27;. Hỏi lý do khám thì chỉ nói ho.</div></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>8 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tỉnh, cười, mếu khi lạ. Môi hồng, niêm mạc ẩm, nếp véo mất nhanh. Bú mẹ không sặc.</p><p><span class="lbl">Kết quả:</span> Tỉnh, linh hoạt, nhìn theo mẹ, cười, mếu khi người lạ lại gần. Môi hồng, niêm mạc ẩm, nếp véo mất nhanh, mao mạch hồi sắc dưới 2 giây. Không tím, không vàng, không phù. Bú mẹ 8 phút trong lúc khám, không sặc.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Nhân trắc trẻ em (cân nặng, chiều dài/chiều cao, MUAC, vòng đầu)</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Cân 8,3 kg, dài 70 cm, vòng đầu 44 cm.</p><p><span class="lbl">Kết quả:</span> Cân 8,3 kg (sổ: 7,3 kg lúc 6 tháng), dài 70 cm, vòng đầu 44 cm. Không gầy, không phù. Bảng tăng trưởng theo tuổi: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Họng, tai, mũi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Mũi ít dịch trong. Họng hơi đỏ. Màng nhĩ hai bên xám hồng, không phồng, di động tốt.</p><p><span class="lbl">Kết quả:</span> Mũi ít dịch trong. Họng hơi đỏ nhẹ, không loét, không mủ. Màng nhĩ hai bên xám hồng, thấy rõ nón sáng, di động tốt khi thổi hơi, không phồng, không đỏ.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nhịp thở 38 l/p, đều. Không rút lõm lồng ngực, không phập phồng cánh mũi.</p><p><span class="lbl">Kết quả:</span> Nhịp thở 38 l/p, đều, không rút lõm lồng ngực, không phập phồng cánh mũi. Gõ trong. Rì rào phế nang rõ đều hai bên, không ran nổ, không ran ẩm, không rít, không khò khè.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 128 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 128 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – Nhịp đều nhanh, T1 T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-NHANH-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm, không chướng. Gan không to dưới bờ sườn, lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Thóp trước phẳng. Không hạch cổ, nách, bẹn. Kết mạc không xuất huyết, mi không phù.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b></div><p><span class="lbl">Kết quả:</span> Không ban, không chàm, không chấm xuất huyết. Sẹo BCG cánh tay trái. Không ngón tay dùi trống.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>2 mục</small></h3></summary><div class="row"><div class="rh"><b>X-quang ngực thẳng</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Phổi hai bên sáng đều, không đông đặc, không hạch rốn phổi to.</p><p class="why">Cơ sở không có X-quang. Hai cách đều đúng. Cách A: chưa chụp khi bé khỏe, ho giảm dần, không dấu chỉ điểm (WHO Pocket book 2013, mục 4.1 tr. 77); chụp nếu ho còn sau 4 tuần (ERS 2019). Cách B: trẻ &lt; 2 tuổi ho &gt; 2 tuần chụp X-quang đồng thời xét nghiệm SHPT (QĐ 162/2024, Phần II mục 1.1a Bảng 1, mục 3.4.1 Sơ đồ 3).</p></div><div class="row"><div class="rh"><b>PCR hoặc cấy Bordetella pertussis (dịch tỵ hầu)</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Âm tính.</p><p class="why">Cơ sở không làm được. Không cơn ho rũ, tiếng rít, nôn sau ho; đã tiêm đủ: chẩn đoán lâm sàng (ACCP 2006, khuyến cáo 5).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Ho kéo dài sau nhiễm virus (ho bán cấp khoảng 3 tuần) ở nhũ nhi 8 tháng, đang giảm dần, không dấu chỉ điểm bệnh đặc hiệu</b></div><p class="why">Ho 3 tuần sau đợt sổ mũi, sốt nhẹ do virus, phổi bình thường: ho &gt; 3 tuần là ho kéo dài, 3–8 tuần là bán cấp (QĐ 4235/2012, Ho kéo dài mục 2.1); ACCP 2006 khuyến cáo 1. Ở trẻ ho 3–8 tuần là ho cấp kéo dài, &gt; 4 tuần mới là ho mạn (ERS 2019, Definition). Chẩn đoán lâm sàng và loại trừ (ACCP 2006, Diagnosis).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ho gà</b></div><p class="why">Tiêm đủ 3 mũi (TT 10/2024/TT-BYT, Phụ lục lịch tiêm), ho giảm dần, không cơn rũ, không rít, không nôn sau ho, mắt không xuất huyết (WHO Pocket book 2013, mục 4.7.1 tr. 111; ACCP 2006, khuyến cáo 5). Nhũ nhi thường nôn hoặc ngưng thở hơn là rít (ACCP 2006, Clinical Presentation); bé không có. Nghĩ lại nếu xuất hiện cơn ho rũ.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Hen phế quản / khò khè tái diễn</b></div><p class="why">Chưa lần nào khò khè, phổi không rít. Hen ở trẻ ≤ 5 tuổi cần đủ 3 tiêu chuẩn, bé có 0/3 (GINA 2026, mục 10 Box 10-2 tr. 195). Bố viêm mũi dị ứng chưa đủ nghĩ hen.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Lao phổi trẻ em</b></div><p class="why">Không tiếp xúc nguồn lây, không sốt kéo dài, không mồ hôi đêm, tăng 1 kg trong 2 tháng, gan lách không to (WHO Pocket book 2013, Bảng 10 tr. 110). Ho &gt; 2 tuần là triệu chứng nghi lao ở trẻ (QĐ 162/2024, Phần II mục 1.1a Bảng 1) nên phải hỏi, khám, hẹn lại; không loại hẳn khi chưa có X-quang.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm phế quản vi khuẩn kéo dài (PBB) / viêm phổi</b></div><p class="why">Ho khan thưa, thở 38 l/p (&lt; 50), không rút lõm, SpO₂ 98% (WHO Pocket book 2013, mục 4.1 tr. 76). PBB cần ho ướt liên tục &gt; 4 tuần (ERS 2019, Chronic cough in children).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Hít phải dị vật đường thở</b></div><p class="why">Khởi phát từ từ sau sổ mũi, không sặc, phổi hai bên đều (WHO Pocket book 2013, Bảng 10 tr. 110; ERS 2019: ho đột ngột ở trẻ khỏe nghĩ dị vật).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích ho sau nhiễm virus thường kéo dài 3–8 tuần rồi tự hết, bé đang giảm dần, không cần thuốc; hẹn tái khám sau 1 tuần (bé ho khoảng 4 tuần) hoặc sớm hơn nếu có dấu hiệu nguy hiểm</b></div><p class="why">Ho sau nhiễm tự giới hạn (ACCP 2006, Treatment); ho bán cấp 3–8 tuần (QĐ 4235/2012, Ho kéo dài mục 2.1); ho ≥ 14 ngày mới nghĩ lao, hen, ho gà (WHO Pocket book 2013, mục 4.4 tr. 90). Mốc 1 tuần: không có trong tài liệu đã tải; chọn để đủ mốc 4 tuần (ERS 2019).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Loại trừ lao khi không có X-quang: theo dõi có hẹn, chỉ chụp X-quang ngực nếu ho còn sau mốc 4 tuần hoặc có dấu chỉ điểm HOẶC cho chụp X-quang ngực sớm kèm xét nghiệm SHPT ở bệnh viện huyện vì bé &lt; 2 tuổi, ho &gt; 2 tuần</b></div><p class="why">Cách A: WHO Pocket book 2013 (mục 4.1 tr. 77; Bảng 10 tr. 110: dấu hướng lao là sụt cân, chán ăn, mồ hôi đêm, sốt, tiếp xúc, gan lách to) và ERS 2019 (chưa có dấu chỉ điểm thì quan sát thêm tối đa 4 tuần). Cách B: QĐ 162/2024 (Phần II mục 1.1a Bảng 1; mục 3.4.1 Sơ đồ 3: trẻ &lt; 2 tuổi chụp X-quang đồng thời SHPT). Khác nhau do WHO 2013 dựa vào dấu chỉ điểm ở tuyến đầu, BYT 2024 coi tuổi &lt; 2 là yếu tố nguy cơ; cả hai đều đúng (sổ mâu thuẫn).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không kê kháng sinh, thuốc ho, long đờm, thuốc chứa codein/atropin/cồn, kháng histamin, thuốc nhỏ mũi có thuốc</b></div><p class="why">WHO Pocket book 2013, mục 4.4 tr. 91 (không kháng sinh; không thuốc chứa atropin, codein, cồn, thuốc long đờm, thuốc nhỏ mũi có thuốc); ACCP 2006, Treatment; ERS 2019 khuyến cáo 6a (ghi chú: không codein ở trẻ em). ERS 2019 khuyến cáo 8 chỉ cho ho ƯỚT &gt; 4 tuần. Liều thuốc ho nhũ nhi: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Nhỏ nước muối sinh lý và hút mũi nhẹ trước cữ bú; cho bú mẹ đủ, chia cữ nhỏ</b></div><p class="why">WHO Pocket book 2013, mục 4.4 tr. 91; QĐ 5643/2015 (Viêm mũi xoang ở trẻ em mục 4.2.1: nước muối sinh lý, rửa và hút mũi). Số giọt, số lần: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ngưng ibuprofen tự mua khi bé không sốt; chỉ dùng paracetamol 15 mg/kg/lần mỗi 6 giờ khi sốt ≥ 39 °C (đo hậu môn; nách thấp hơn khoảng 0,8 °C) và bé khó chịu</b></div><p class="why">WHO Pocket book 2013, mục 10.3 tr. 305 (paracetamol chỉ khi ≥ 39 °C và khó chịu, 15 mg/kg mỗi 6 giờ; ibuprofen 10 mg/kg mỗi 6–8 giờ, như mọi NSAID có thể gây viêm dạ dày). NICE NG143 2021 khuyến cáo 1.6.5: không dùng thuốc hạ sốt chỉ để hạ con số. Liều 80 mg ≈ 9,6 mg/kg của mẹ đúng khoảng liều nhưng sai chỉ định.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không truyền dịch; giải thích với bà ngoại bằng tình trạng của bé (bú tốt, không mất nước, không sốt) và giao việc cụ thể: cho bú, hút mũi, bế bé, theo dõi dấu hiệu</b></div><p class="why">Không tài liệu đã tải nào chỉ định truyền dịch cho ho/cảm lạnh (không có trong tài liệu đã tải; theo mục ghi nhận trong sổ mâu thuẫn). Chăm sóc hỗ trợ, thêm sữa mẹ (WHO Pocket book 2013, mục 4.4 tr. 90–91).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi chị Hồng về công việc và ai giữ bé; cấp giấy xác nhận đã khám ghi đúng tình trạng (ho sau nhiễm virus, không sốt, ăn bú tốt), không ghi bệnh nặng hơn thực tế</b></div><p class="why">Xử lý lý do thật. Giấy cấp theo đúng tình trạng sức khỏe, không cấp khống (TT 56/2017/TT-BYT, Điều 3 khoản 1, Điều 20 khoản 1 điểm c; nguồn bổ sung tự tìm). Số ngày nghỉ chăm con ốm, quy định nhà giữ trẻ về trẻ ho: không có trong tài liệu đã tải. Bé không sốt (NICE NG143 2021 khuyến cáo 1.7.2 chỉ nói giữ trẻ ở nhà khi còn sốt).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn quay lại ngay khi: thở nhanh ≥ 50 l/p lúc bé yên, thở khó hoặc rút lõm ngực, bỏ bú, tím môi, ngưng thở, ho thành cơn rũ có tiếng rít, sốt cao, li bì</b></div><p class="why">WHO Pocket book 2013, mục 4.4 tr. 91 (thở nhanh hoặc khó thở, nặng lên, không bú được); mục 4.1 tr. 76 (2–11 tháng thở nhanh ≥ 50 l/p); mục 4.7.1 tr. 111 (cơn ho rũ, rít, nôn, tím, ngưng thở).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Khuyên bố hút thuốc xa bé, không bế bé ngay sau khi hút</b></div><p class="why">Khói thuốc kích thích làm ho kéo dài (ERS 2019, Chronic cough in children). Biện pháp cụ thể: không có trong tài liệu đã tải.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Truyền dịch, tiêm thuốc bổ theo ý bà ngoại</b></div><p class="why">Không có chỉ định, bé không mất nước (không có trong tài liệu đã tải); thêm chích kim, nhiễm trùng, quá tải dịch.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê kháng sinh (amoxicillin, azithromycin, cefixim...) cho ho 3 tuần</b></div><p class="why">Ho do virus, không dấu nhiễm khuẩn (WHO Pocket book 2013, mục 4.4 tr. 91; ACCP 2006, Treatment).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê siro ho, long đờm, kháng histamin, thuốc nhỏ mũi co mạch hoặc thuốc ho nam</b></div><p class="why">WHO Pocket book 2013, mục 4.4 tr. 91; ERS 2019 khuyến cáo 6a (ghi chú).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho corticoid (uống, hít, khí dung) hoặc salbutamol để &#x27;thử hen&#x27;</b></div><p class="why">Chưa khò khè, chưa đủ tiêu chuẩn hen (GINA 2026, mục 10 Box 10-2 tr. 195). ERS 2019 khuyến cáo 3b chỉ cho trẻ 1–10 tuổi ho khan. Liều corticoid nhũ nhi: không có trong tài liệu đã tải.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Ghi giấy nghỉ ốm &#x27;viêm phổi&#x27; hoặc cho mẹ nghỉ 7–10 ngày</b></div><p class="why">Giấy phải phù hợp tình trạng sức khỏe thật (TT 56/2017/TT-BYT, Điều 20 khoản 1 điểm c; nguồn bổ sung tự tìm); ghi sai chẩn đoán là làm sai lệch giấy tờ.</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Kết luận &#x27;không sao&#x27; và để bà cháu về, không hẹn, không dặn dấu hiệu nguy hiểm, không trả lời nỗi lo của mẹ</b></div><p class="why">Bỏ sót an toàn: ho ≥ 14 ngày phải theo dõi để không bỏ sót lao, hen, ho gà (WHO Pocket book 2013, mục 4.4 tr. 90) và dặn quay lại khi thở nhanh, bỏ bú (tr. 91).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Bé Hân bị giữ nhập viện nhi vài ngày vì &#x27;ho 3 tuần&#x27;, được truyền dịch và có thể tiêm kháng sinh theo ý bà ngoại. Bé bú tốt, không sốt, không thở nhanh, không rút lõm (thở nhanh ở bé 2–11 tháng là ≥ 50 l/p) nên không có chỉ định, và ho do virus không cần kháng sinh (WHO Pocket book 2013, mục 4.1 tr. 76 và mục 4.4 tr. 90–91; ACCP 2006, mục Treatment). Bé bị chích kim, mất ngủ, dễ lây thêm bệnh mới từ khoa nhi; chị Hồng mất thêm nhiều ngày công trong lúc đã hết phép năm, càng thêm áp lực ở chỗ làm.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chị Hồng bị chuyển bé lên bệnh viện tuyến trên &#x27;cho chắc&#x27; vì ho 3 tuần. Bé khỏe, tăng cân, ho thưa dần, không có dấu chỉ điểm bệnh đặc hiệu nên chưa cần chuyển để nhập khoa (WHO Pocket book 2013, mục 4.7 Bảng 10 tr. 110; ERS 2019, Chronic cough in children). Cả nhà mất cả ngày đi lại và chờ, bé nhịn bú, tốn kém; việc cần làm lúc này là hẹn tái khám có mốc, dặn dấu hiệu nguy hiểm và giải quyết nỗi lo thật của người mẹ.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Ho kéo dài sau nhiễm virus (ho bán cấp khoảng 3 tuần), đang giảm dần, ở nhũ nhi gái 8 tháng, 8,3 kg</li><li>Khởi phát sau tiếp xúc người ho ở sân bóng; sổ mũi, sốt nhẹ 2 ngày rồi ho; thở 38 l/p, SpO₂ 98%, phổi không ran, tăng cân tốt</li><li>Đã loại trừ lâm sàng: ho gà (tiêm đủ 3 mũi, không cơn rũ), hen (chưa khò khè), lao (không tiếp xúc, tăng cân, không sốt kéo dài), dị vật (không sặc)</li><li>Cần xử lý: ibuprofen tự mua cho bé không sốt, khói thuốc từ bố, giấy nghỉ ốm của mẹ, bà đòi truyền dịch</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự: hỏi diễn tiến ho (tăng hay giảm), khởi phát, dấu chỉ điểm ho gà, dị vật, khò khè, tiêm chủng, tiếp xúc lao, thuốc đã cho, ăn bú tăng cân; khám toàn thân, nhân trắc, tai mũi họng, phổi; không có cận lâm sàng; cuối cùng hỏi mẹ còn lo gì để lộ lý do thật.</li><li>Ho &gt; 3 tuần là ho kéo dài, bán cấp 3–8 tuần (QĐ 4235/2012, mục 2.1); nghĩ ho sau nhiễm khi ho 3–8 tuần sau nhiễm trùng hô hấp (ACCP 2006, khuyến cáo 1) và đây là chẩn đoán lâm sàng, loại trừ. Các mốc khác nhau chỉ do định nghĩa: 14 ngày (WHO 2013, mục 4.4 tr. 90), 3 tuần (QĐ 4235), &gt; 4 tuần là ho mạn ở trẻ (ERS 2019).</li><li>Vì sao ho sau nhiễm: sổ mũi, sốt nhẹ rồi mới ho; ho giảm tuần này sau tuần khác; không cơn rũ, không rít, không nôn; thở 38 l/p (&lt; 50, WHO Pocket book 2013, mục 4.1 tr. 76), phổi sạch.</li><li>Loại trừ lao: ho &gt; 2 tuần ở trẻ là triệu chứng nghi lao (QĐ 162/2024, Phần II mục 1.1a Bảng 1), nên hỏi tiếp xúc, cân nặng, sốt, mồ hôi đêm, khám gan lách (WHO Pocket book 2013, Bảng 10 tr. 110); bé không có. Không có X-quang nên có hai cách đúng: theo dõi có hẹn, chụp khi ho còn sau 4 tuần hoặc có dấu chỉ điểm (WHO 2013; ERS 2019), hoặc chụp X-quang và SHPT sớm vì bé &lt; 2 tuổi (QĐ 162/2024, Sơ đồ 3).</li><li>Hen: chưa khò khè lần nào; hen ở trẻ ≤ 5 tuổi cần đủ 3 tiêu chuẩn (GINA 2026, Box 10-2). Nhiễu: ibuprofen khi không sốt, khói thuốc, bà đòi truyền; lý do thật là giấy nghỉ ốm.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Hướng xử trí đúng là cho về, theo dõi có hẹn: bé khỏe, ho giảm dần, không dấu nguy hiểm (WHO Pocket book 2013, mục 4.4 tr. 90–91).</li><li>Không kháng sinh, thuốc ho, corticoid, thuốc hen thử (WHO Pocket book 2013, mục 4.4; ACCP 2006, Treatment; ERS 2019 khuyến cáo 6a, 8). Hỗ trợ: nước muối sinh lý, hút mũi, bú mẹ đủ.</li><li>Hạ sốt chỉ khi ≥ 39 °C (đo hậu môn) và bé khó chịu (WHO Pocket book 2013, mục 10.3 tr. 305); ngưng ibuprofen.</li><li>Lao: ghi cả hai cách và cho mẹ biết vì sao khác; ca tiếp diễn theo cách theo dõi.</li><li>Lý do thật: hỏi nhẹ nhàng về công việc, cấp giấy xác nhận khám đúng tình trạng, không ghi khống (TT 56/2017/TT-BYT, Điều 20 khoản 1 điểm c); nếu bé nặng lên thật thì quay lại để cấp giấy nghỉ.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Natri clorid 0,9% (nước muối sinh lý)</b><div class="sub">Dạng nhỏ mũi trẻ em</div></td><td data-l="Liều">Nhỏ mỗi bên mũi rồi hút nhẹ; số giọt: không có trong tài liệu đã tải<div class="sub">Nhỏ mũi · Trước cữ bú và trước khi ngủ khi nghẹt mũi</div></td><td data-l="Thời gian">Đến khi hết sụt sịt</td><td class="gc" data-l="Ghi chú">WHO Pocket book 2013, mục 4.4 tr. 91; QĐ 5643/2015 (Viêm mũi xoang ở trẻ em mục 4.2.1).</td></tr><tr><td><b>Paracetamol (chỉ khi cần)</b><div class="sub">Siro hoặc gói trẻ em; hàm lượng theo sản phẩm (không có trong tài liệu đã tải)</div></td><td data-l="Liều">15 mg/kg/lần ≈ 125 mg, cách nhau ít nhất 6 giờ<div class="sub">Uống · Khi sốt ≥ 39 °C (đo hậu môn) và bé khó chịu</div></td><td data-l="Thời gian">Khi cần</td><td class="gc" data-l="Ghi chú">Theo WHO 2013 (Pocket book mục 10.3 tr. 305). Lúc khám 36,9 °C nên chưa dùng.</td></tr><tr><td><b>Ibuprofen siro (mẹ tự mua)</b><div class="sub">100 mg/5 ml</div></td><td data-l="Liều">NGƯNG; không cho khi bé không sốt<div class="sub">Uống · Không dùng thêm</div></td><td data-l="Thời gian">Ngưng</td><td class="gc" data-l="Ghi chú">Theo WHO 2013 (Pocket book mục 10.3 tr. 305: NSAID có thể gây viêm dạ dày); NICE NG143 2021 khuyến cáo 1.6.5.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Bé ho sau cảm do virus, đang giảm dần, thường tự hết sau vài tuần (ACCP 2006, Treatment). Không cần truyền nước hay thuốc; bé bú tốt, không mất nước.</li><li>Nhỏ nước muối sinh lý, hút mũi nhẹ trước cữ bú, cho bú mẹ đủ (WHO Pocket book 2013, mục 4.4 tr. 91). Không tự mua thuốc ho, kháng sinh, ibuprofen khi bé không sốt.</li><li>Quay lại NGAY nếu bé thở nhanh từ 50 lần/phút khi nằm yên, thở khó, lõm ngực, bỏ bú, tím môi, ngưng thở, ho thành cơn dài có tiếng rít hoặc nôn sau ho, sốt cao, li bì (WHO Pocket book 2013, mục 4.4 tr. 91; mục 4.1 tr. 76; mục 4.7.1 tr. 111).</li><li>Tái khám sau 1 tuần (mốc 1 tuần: không có trong tài liệu đã tải). Nếu ho còn hoặc có dấu mới thì chụp X-quang ngực ở bệnh viện huyện cách 12 km; mẹ muốn yên tâm hơn thì có thể chụp X-quang và làm xét nghiệm lao ngay (QĐ 162/2024, mục 3.4.1 Sơ đồ 3; WHO Pocket book 2013; ERS 2019).</li><li>Bố hút thuốc xa bé, không bế bé ngay sau khi hút (ERS 2019). Giấy xác nhận khám đúng tình trạng của bé; bé sốt hoặc nặng lên thật thì quay lại để cấp giấy nghỉ (TT 56/2017/TT-BYT, Điều 20 khoản 1 điểm c); số ngày nghỉ chăm con được hưởng: không có trong tài liệu đã tải.</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-2">
+ <h2 id="h-luot-2"><span class="ln">Lượt 2/2</span> · sau 7 ngày</h2>
+ <div class="card intro"><h3 id="m-8">Tiếp đón</h3><p>Chị Hồng và bà Hai đưa bé Hân quay lại đúng hẹn sau 7 ngày (ho khi này khoảng 4 tuần), nhưng bé sốt và quấy từ chiều qua. Sinh hiệu: nhiệt độ nách 38,8 °C, mạch 152 l/p, nhịp thở 40 l/p, SpO₂ 98% khí trời, cân nặng 8,3 kg.</p>
+  <blockquote>“Bác sĩ thấy chưa, hôm trước không chịu truyền, giờ con bé sốt thêm nè. Truyền nước hạ sốt cho cháu đi bác sĩ, uống thuốc hoài có hết đâu! (Chị Hồng nhỏ giọng:) Dạ bé sốt từ chiều qua, ho thì đỡ nhiều rồi.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>152</b><small>l/p</small></div><div class="vs"><span>HA</span><b>Không đo</b><small>mmHg</small></div><div class="vs warn"><span>Nhiệt</span><b>38,8 (nách)</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>40</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-9">Hỏi bệnh <small>10 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám</b><span class="tag t-g">Tự kể</span></div><p>Bé sốt và quấy từ chiều qua, bú kém. Ho đã đỡ nhiều, tổng cộng khoảng 4 tuần.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Triệu chứng mới: sốt từ chiều qua, thuốc đã cho</b><span class="tag t-b">Khi được hỏi</span></div><p>Chiều qua bé bắt đầu sốt, tối đo nách 38,6 °C, sáng nay 38,9 °C. Đêm qua mẹ cho 1 lần paracetamol 125 mg theo lời dặn, hai tiếng sau bớt quấy. Mẹ không cho ibuprofen nữa.</p><div class="cond">Điều kiện nói ra: Nói khi bác sĩ hỏi sốt từ bao giờ, cao nhất bao nhiêu, đã cho thuốc gì.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dấu hiệu đau tai ở nhũ nhi</b><span class="tag t-b">Khi được hỏi</span></div><p>Từ tối qua bé hay đưa tay gãi, kéo vành tai hai bên, nằm xuống khóc dữ hơn, bú kém, ngủ chập chờn. Tai không chảy nước hay mủ.</p><div class="cond">Điều kiện nói ra: Nói khi bác sĩ hỏi bé quấy khóc bất thường, kéo tai, gãi tai, khóc khi nằm, chảy dịch tai.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tái nhiễm virus mới trước khi sốt</b><span class="tag t-b">Khi được hỏi</span></div><p>Hai hôm nay sổ mũi đục trở lại, ngạt khi bú. Cuối tuần cháu họ 3 tuổi đến chơi đang sổ mũi, sốt, được bế bé.</p><div class="cond">Điều kiện nói ra: Nói khi bác sĩ hỏi sổ mũi, ngạt mũi, tiếp xúc ai bệnh.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Ho cũ tiếp tục thoái lui</b><span class="tag t-b">Khi được hỏi</span></div><p>Từ lần khám trước ho thưa dần; hôm nay chỉ còn vài tiếng lúc ngủ dậy. Không cơn dài, không rít, không tím, không ngưng thở, không nôn sau ho.</p><div class="cond">Điều kiện nói ra: Nói khi bác sĩ hỏi ho giờ ra sao so với tuần trước.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dấu hiệu nguy hiểm, mất nước (loại trừ)</b><span class="tag t-b">Khi được hỏi</span></div><p>Không co giật, không nôn, không tiêu chảy, không ban. Thở êm. Tã vẫn ướt nhiều lần, nước tiểu vàng nhạt. Bé còn cười khi bà chọc, tỉnh khi thức.</p><div class="cond">Điều kiện nói ra: Nói khi bác sĩ hỏi co giật, nôn, tiêu chảy, ban, thở, tiểu, tỉnh táo.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dị ứng thuốc; kháng sinh 30 ngày qua (trước khi kê amoxicillin)</b><span class="tag t-b">Khi được hỏi</span></div><p>Bé chưa dùng kháng sinh lần nào (không amoxicillin trong 30 ngày qua), không dị ứng thuốc hay thức ăn.</p></div><div class="fact"><div class="fh"><b>xquang_chua</b><span class="tag t-b">Khi được hỏi</span></div><p>Mẹ chưa đưa bé đi chụp X-quang ngực ở bệnh viện huyện vì ho đỡ nhiều và bé khỏe, ngại tốn công. Nhỏ nước muối, ngưng ibuprofen, bố hút thuốc xa bé hơn theo lời dặn.</p><div class="cond">Điều kiện nói ra: Nói khi bác sĩ hỏi đã chụp X-quang hay làm gì theo dặn chưa.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Giấy nghỉ ốm (lý do thật đã lộ ở lượt trước)</b><span class="tag t-b">Khi được hỏi</span></div><p>Lần trước chị nộp giấy xác nhận khám, tổ trưởng chấp nhận một buổi. Hôm nay bé sốt nên cô giữ trẻ không nhận. Chị cần giấy nghỉ ở nhà chăm con vài ngày; lần này chị nói thẳng vì lần trước bác sĩ đã hỏi han.</p><div class="cond">Điều kiện nói ra: Nói khi bác sĩ hỏi chuyện đi làm, cô giữ trẻ, giấy tờ.</div></div><div class="fact"><div class="fh"><b>ba_truyen</b><span class="tag t-g">Tự kể</span></div><p>Bà Hai nhắc lại: &#x27;Sốt vậy phải truyền nước hạ sốt, đừng uống thuốc hoài&#x27;. Bà dịu xuống khi được giải thích bằng tình trạng bé và được giao việc cụ thể.</p></div></details>
+ <details class="card"><summary><h3 id="m-10">Khám <small>7 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nách 38,8 °C. Tỉnh, quấy nhưng dỗ nín, cười được. Môi hồng, niêm mạc ẩm, mắt không trũng, nếp véo mất nhanh.</p><p><span class="lbl">Kết quả:</span> Nhiệt độ nách 38,8 °C. Bé tỉnh, quấy nhưng dỗ nín, cười khi bà chọc, nhìn theo mẹ. Môi hồng, niêm mạc ẩm, mắt không trũng, nếp véo mất nhanh, mao mạch hồi sắc dưới 2 giây, tay chân ấm. Cân 8,3 kg.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Họng, tai, mũi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Mũi dịch đục ít. Họng đỏ nhẹ. Tai phải: màng nhĩ đỏ, phồng, mất nón sáng, không di động khi thổi hơi. Tai trái: màng nhĩ đỏ, phồng vừa, di động kém. Không chảy mủ.</p><p><span class="lbl">Kết quả:</span> Mũi: dịch đục ít. Họng đỏ nhẹ, không mủ. Tai phải: màng nhĩ đỏ, phồng rõ, mất nón sáng, không di động khi thổi hơi. Tai trái: màng nhĩ đỏ, phồng vừa, mờ đục, di động kém. Ống tai không sưng, không chảy mủ.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nhịp thở 40 l/p, đều. Không rút lõm lồng ngực, không phập phồng cánh mũi.</p><p><span class="lbl">Kết quả:</span> Nhịp thở 40 l/p, đều, không rút lõm lồng ngực, không phập phồng cánh mũi. Rì rào phế nang rõ đều hai bên, không ran, không rít.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, nhanh, tần số 152 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều nhanh 152 l/p (sốt, quấy), T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – Nhịp đều nhanh, T1 T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-NHANH-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><span class="key">★</span><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Thóp phẳng. Cổ mềm. Sau tai hai bên không sưng đỏ, vành tai không đẩy ra trước.</p><p><span class="lbl">Kết quả:</span> Thóp trước phẳng, mềm. Cổ mềm. Vùng sau tai hai bên không sưng, không đỏ, vành tai không bị đẩy ra trước, ấn xương chũm bé không khóc thêm.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Da, niêm mạc, ban</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Không ban, không chấm xuất huyết.</p><p><span class="lbl">Kết quả:</span> Không ban, không chấm xuất huyết, không vết bầm; ấn kính trượt không thấy ban.</p></div><div class="row"><div class="rh"><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm, không chướng, gan lách không to.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-11">Cận lâm sàng <small>2 mục</small></h3></summary><div class="row"><div class="rh"><b>X-quang ngực thẳng</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Phổi hai bên sáng đều, không đông đặc, không hạch rốn phổi to.</p><p class="why">Cơ sở không có X-quang. Ho đã giảm rõ, bé thở bình thường: chưa cần chụp ngay (WHO Pocket book 2013, mục 4.1 tr. 77); theo QĐ 162/2024 Sơ đồ 3 thì bé &lt; 2 tuổi ho &gt; 2 tuần vẫn nên chụp (cách B của lượt 1).</p></div><div class="row"><div class="rh"><b>Nhĩ lượng đồ, phản xạ cơ bàn đạp</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Không có kết quả.</p><p class="why">Cơ sở không có máy đo nhĩ lượng. Chẩn đoán bằng soi tai có thổi hơi (AAP 2013, KAS 1C: soi tai có thổi hơi và/hoặc đo nhĩ lượng); đã làm ở phần khám.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-12">Đáp án lượt 2 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Viêm tai giữa cấp hai bên (bệnh mới, mức không nặng) ở nhũ nhi 8 tháng, sau tái nhiễm virus hô hấp trên</b></div><p class="why">Sốt 38,8 °C nách, kéo tai hai bên, quấy, bú kém &lt; 48 giờ; màng nhĩ hai bên đỏ, phồng, mất nón sáng, kém di động: đủ tiêu chuẩn AOM (AAP 2013, KAS 1A, 1C; WHO Pocket book 2013, mục 6.7.2 tr. 183). Chưa nặng vì đau &lt; 48 giờ và &lt; 39 °C (AAP 2013, KAS 3A) nhưng hai bên ở trẻ 6–23 tháng nên dùng kháng sinh (KAS 3B; Italian Consensus 2025, khuyến cáo 1.2).</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Ho kéo dài sau nhiễm virus (bệnh cũ) đang thoái lui, ho khoảng 4 tuần</b></div><p class="why">Ho thưa dần, còn vài tiếng buổi sáng, không dấu chỉ điểm bệnh đặc hiệu; cơn sốt mới do tai, không do ho (ACCP 2006, khuyến cáo 1; QĐ 4235/2012, Ho kéo dài mục 2.1).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm phổi</b></div><p class="why">Nhịp thở 40 l/p (ngưỡng thở nhanh 2–11 tháng là ≥ 50), không rút lõm, SpO₂ 98%, phổi không ran (WHO Pocket book 2013, mục 4.1 tr. 76–77). Sốt đã có ổ nhiễm trùng rõ ở tai.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ho gà</b></div><p class="why">Ho giảm dần, không cơn rũ, đã tiêm đủ 3 mũi, ho gà thường không sốt (WHO Pocket book 2013, Bảng 10 tr. 110).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm xương chũm / nhiễm trùng nặng, viêm màng não</b></div><p class="why">Sau tai không sưng đỏ, thóp phẳng, cổ mềm, không ban, tỉnh, cười, tưới máu tốt: nhóm &#x27;xanh&#x27; (NICE NG143 2021, Bảng 2, khuyến cáo 1.4.5); biến chứng AOM hiếm (NICE NG91 2018, khuyến cáo 1.1.1, 1.1.14).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Sốt do virus đơn thuần, không viêm tai</b></div><p class="why">Màng nhĩ hai bên đỏ phồng, kém di động nên là AOM chứ không chỉ sốt virus (AAP 2013, KAS 1A).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Kê amoxicillin uống ngay: 80–90 mg/kg/ngày chia 2–3 lần trong 10 ngày (AAP 2013; Italian Consensus 2025) HOẶC 125 mg × 3 lần/ngày trong 5–7 ngày (NICE NG91 2018, Bảng 1)</b></div><p class="why">Hai bên ở trẻ 6–23 tháng: kháng sinh ngay (AAP 2013, KAS 3B; Italian 2025, khuyến cáo 1.2); amoxicillin đầu tay, bé chưa dùng amoxicillin 30 ngày qua (AAP 2013, KAS 4A; Italian 2025, khuyến cáo 3.1). Liều 80–90 mg/kg/ngày: AAP 2013 Bảng 5, Italian 2025 khuyến cáo 3.2–3.3; WHO Pocket book 2013, mục 6.7.2 tr. 183: 40 mg/kg × 2 lần/ngày, ít nhất 5 ngày. NICE NG91 2018 Bảng 1: 1–11 tháng 125 mg × 3 lần/ngày (≈ 45 mg/kg/ngày), 5–7 ngày. Thời gian &lt; 2 tuổi 10 ngày (AAP 2013 tr. e985; Italian 2025, khuyến cáo 4.1: 7 hoặc 10 ngày). Khác nhau do năm, mức bằng chứng và cách cân nhắc nguy cơ tác dụng phụ; ghi cả hai (sổ mâu thuẫn).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giảm đau, hạ sốt: paracetamol 15 mg/kg/lần mỗi 6 giờ HOẶC ibuprofen 10 mg/kg/lần mỗi 6–8 giờ khi bé đau, quấy; không dùng cùng lúc hai thuốc</b></div><p class="why">Đau tai phải được điều trị (AAP 2013, KAS 2, Bảng 3; NICE NG91 2018, khuyến cáo 1.1.4). Liều: WHO Pocket book 2013, mục 10.3 tr. 305. Không dùng đồng thời (NICE NG143 2021, khuyến cáo 1.6.6). Mẹ đã ngưng ibuprofen tự mua; dùng lại theo cân khi có chỉ định đau thì được.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn tái khám sau 48–72 giờ và dặn quay lại ngay nếu: sốt ≥ 5 ngày, bỏ bú, li bì, nôn nhiều, co giật, ban không biến mất khi ấn, sưng đỏ sau tai, chảy mủ tai, thở nhanh</b></div><p class="why">Đánh giá lại nếu không đỡ sau 48–72 giờ (AAP 2013, KAS 3C–3D, 4C); NICE NG91 2018 khuyến cáo 1.1.12; NICE NG143 2021 khuyến cáo 1.7.3 (co giật, ban không biến mất khi ấn, sốt ≥ 5 ngày, mẹ thấy bé yếu hơn).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Cho bú mẹ nhiều, theo dõi mất nước (thóp trũng, miệng khô, mắt trũng, không nước mắt); không truyền dịch</b></div><p class="why">NICE NG143 2021, khuyến cáo 1.7.2. Không tài liệu đã tải nào chỉ định truyền dịch cho AOM không mất nước (không có trong tài liệu đã tải; theo mục ghi nhận trong sổ mâu thuẫn).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giữ bé ở nhà khi còn sốt và cấp giấy nghỉ ngắn ngày cho mẹ theo đúng bệnh (viêm tai giữa cấp có sốt, cần người chăm), không ghi khống</b></div><p class="why">Giữ trẻ khỏi nhà trẻ khi còn sốt (NICE NG143 2021, khuyến cáo 1.7.2); AOM thường đỡ sau khoảng 3 ngày, có thể tới 1 tuần (NICE NG91 2018, khuyến cáo 1.1.1, 1.1.3). Giấy theo tình trạng thật (TT 56/2017/TT-BYT, Điều 3 khoản 1, Điều 20 khoản 1 điểm c; nguồn bổ sung tự tìm). Số ngày nghỉ và điều kiện hưởng chế độ nghỉ chăm con: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Với ho: không thuốc ho; chỉ cho chụp X-quang ngực nếu ho còn sau khi hết sốt hoặc có dấu chỉ điểm (WHO 2013; ERS 2019) HOẶC cho chụp X-quang ngực và SHPT sớm ở bệnh viện huyện như Sơ đồ 3 QĐ 162/2024 nếu chưa làm</b></div><p class="why">Cách A: WHO Pocket book 2013 (mục 4.1 tr. 77, mục 4.4 tr. 91), ERS 2019 (Chronic cough in children). Cách B: QĐ 162/2024 (Phần II mục 3.4.1, Sơ đồ 3). Cả hai đúng (xem lượt 1). Amoxicillin cho tai không phải thử kháng sinh cho ho (ERS 2019 khuyến cáo 8).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Lập đơn kháng sinh dự phòng (chỉ dùng nếu sau 48–72 giờ bé chưa đỡ) thay vì cho thuốc ngay</b></div><p class="why">NICE NG91 2018, khuyến cáo 1.1.11 cho phép không kê, kê dự phòng hoặc kê ngay ở trẻ &lt; 2 tuổi hai tai; AAP 2013 (KAS 3B) và Italian 2025 (khuyến cáo 1.2) khuyên kê ngay. Chỉ khi chắc mẹ quay lại sau 48–72 giờ (AAP 2013, Bảng 4).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Truyền dịch hạ sốt theo yêu cầu của bà ngoại</b></div><p class="why">Bé không mất nước, bú được; không tài liệu đã tải nào chỉ định (không có trong tài liệu đã tải); sốt không là chỉ định truyền dịch (WHO Pocket book 2013, mục 10.3 tr. 305).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Không kê kháng sinh cũng không hẹn lại, chỉ hạ sốt rồi cho về</b></div><p class="why">Hai bên ở bé 8 tháng nên dùng kháng sinh ngay (AAP 2013, KAS 3B; Italian 2025, khuyến cáo 1.2); không dùng thì phải có hẹn theo dõi sát (NICE NG91 2018, khuyến cáo 1.1.9–1.1.11).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Dùng thuốc nhỏ mũi co mạch, kháng histamin, siro ho, hoặc cho paracetamol và ibuprofen cùng lúc</b></div><p class="why">Thuốc chống sung huyết và kháng histamin không giúp triệu chứng (NICE NG91 2018, khuyến cáo 1.1.6); WHO Pocket book 2013, mục 4.4 tr. 91. Không dùng đồng thời hai thuốc hạ sốt (NICE NG143 2021, khuyến cáo 1.6.6).</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Cho về với kháng sinh nhưng không dặn dấu hiệu nặng, không hẹn tái khám</b></div><p class="why">Bỏ sót biến chứng (viêm xương chũm, nhiễm trùng nặng) và thất bại điều trị (NICE NG91 2018, khuyến cáo 1.1.12; AAP 2013, KAS 4C).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Bé Hân bị giữ nhập viện nhi để truyền dịch và tiêm kháng sinh vì &#x27;sốt cộng ho hơn 4 tuần&#x27;. Bé còn cười, bú được, không mất nước, thở 40 l/p (&lt; 50), không rút lõm, thuộc nhóm &#x27;xanh&#x27; có thể chăm sóc tại nhà (NICE NG143 2021, Bảng 2, khuyến cáo 1.4.5); viêm tai giữa chỉ cần chuyển bệnh viện khi nhiễm trùng toàn thân nặng hoặc có biến chứng (NICE NG91 2018, khuyến cáo 1.1.14). Bé phải chích kim, nằm giữa khoa nhi dễ lây thêm bệnh; chị Hồng nghỉ thêm nhiều ngày công, bà Hai càng tin &#x27;phải truyền mới khỏi&#x27;.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Bé Hân bị chuyển lên bệnh viện nhi tuyến trên vì sốt kèm ho kéo dài. Ổ nhiễm trùng đã rõ ở hai tai, bé không có dấu hiệu nặng nên nơi đó cũng chỉ cho amoxicillin uống rồi về (NICE NG91 2018, khuyến cáo 1.1.13–1.1.14; AAP 2013, KAS 3B, 4A). Cả nhà mất nửa ngày đường, bé nhịn bú và đau tai thêm trong lúc chờ, chị Hồng mất thêm ngày công.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Viêm tai giữa cấp hai bên, không nặng (nách 38,8 °C, đau tai &lt; 48 giờ), nhũ nhi gái 8 tháng 8,3 kg, sau tái nhiễm virus từ cháu họ (bệnh mới)</li><li>Ho kéo dài sau nhiễm virus (bệnh cũ) đang thoái lui, ho khoảng 4 tuần</li><li>Không viêm phổi (thở 40 l/p, không rút lõm, SpO₂ 98%), không dấu nguy hiểm (nhóm xanh NICE NG143), không viêm xương chũm; chưa dùng kháng sinh, không dị ứng, không mất nước</li><li>Cần xử lý: bà đòi truyền dịch hạ sốt; mẹ cần giấy nghỉ chăm con (lần này có cơ sở thật)</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự: nhận ra triệu chứng mới (sốt, quấy, kéo tai) khác ho cũ; hỏi thuốc đã dùng, dấu hiệu nguy hiểm (NICE NG143 2021, Bảng 2), mất nước, dị ứng, kháng sinh 30 ngày (AAP 2013, KAS 4A); khám toàn thân, soi tai có thổi hơi, phổi, sau tai, thóp, da; không có cận lâm sàng.</li><li>AOM: màng nhĩ phồng vừa đến rõ, đỏ, kém di động hai bên, khởi phát cấp, kéo tai &lt; 48 giờ (AAP 2013, KAS 1A–1C; WHO Pocket book 2013, mục 6.7.2 tr. 183). Cơ sở không có nhĩ lượng nên dựa vào soi tai có thổi hơi.</li><li>Phân độ: nặng khi đau vừa-nặng, đau ≥ 48 giờ hoặc ≥ 39 °C (AAP 2013, KAS 3A); bé không nặng nhưng hai bên ở trẻ 6–23 tháng vẫn nên dùng kháng sinh (KAS 3B; Italian 2025, khuyến cáo 1.2). NICE NG91 2018 (khuyến cáo 1.1.11) cho phép cân nhắc không kê, kê dự phòng hoặc kê ngay.</li><li>Vì sao cho về: bé nhóm &#x27;xanh&#x27;, cười, bú được, tưới máu tốt, không mất nước (NICE NG143 2021, Bảng 2, khuyến cáo 1.4.5; NICE NG91 2018, khuyến cáo 1.1.14).</li><li>Ho cũ đang thoái lui, vẫn là ho sau nhiễm (ACCP 2006, khuyến cáo 1; mốc 8 tuần chưa tới, khuyến cáo 3); cơn sốt mới là bệnh mới, không báo hiệu thất bại lượt 1. Nhiễu: bà dùng cơn sốt để đòi lại truyền dịch; mẹ nay nói thẳng chuyện giấy nghỉ.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Hướng xử trí đúng là cho về, kháng sinh uống tại nhà, tái khám 48–72 giờ (AAP 2013, KAS 3B, 4A, 4C; NICE NG91 2018, khuyến cáo 1.1.12).</li><li>Liều và thời gian amoxicillin ghi cả hai: 80–90 mg/kg/ngày chia 2 lần, 10 ngày (AAP 2013 Bảng 5, tr. e985) hoặc chia 3 lần, 7–10 ngày (Italian 2025, khuyến cáo 3.2–3.3, 4.1); hoặc 125 mg × 3 lần, 5–7 ngày (NICE NG91 2018 Bảng 1); WHO 2013: 40 mg/kg × 2 lần, ≥ 5 ngày. Liều NICE thấp hơn nên thận trọng hơn về tác dụng phụ; AAP/Italian cao hơn để đủ nồng độ ở tai giữa.</li><li>Giảm đau là bắt buộc (AAP 2013, KAS 2): paracetamol hoặc ibuprofen theo cân, không dùng cùng lúc (NICE NG143 2021, khuyến cáo 1.6.6). Không truyền dịch (NICE NG143 2021, khuyến cáo 1.7.2); giao bà việc cho bú, bế, nhỏ mũi.</li><li>Ho: giữ nguyên hướng lượt 1, ghi cả hai cách (theo dõi và X-quang khi ho còn, hoặc X-quang và SHPT sớm). Giấy nghỉ ngắn ngày theo bệnh thật (TT 56/2017/TT-BYT, Điều 20 khoản 1 điểm c); số ngày: không có trong tài liệu đã tải, chọn theo diễn tiến AOM khoảng 3 ngày và hẹn 48–72 giờ.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Amoxicillin</b><div class="sub">Bột pha siro hoặc gói trẻ em; hàm lượng theo sản phẩm (không có trong tài liệu đã tải)</div></td><td data-l="Liều">80–90 mg/kg/ngày ≈ 665–745 mg/ngày: chia 2 lần ≈ 330–375 mg mỗi 12 giờ (AAP 2013, Bảng 5) hoặc chia 3 lần ≈ 220–250 mg mỗi 8 giờ (Italian 2025, khuyến cáo 3.3); hoặc 125 mg × 3 lần/ngày (NICE NG91 2018, Bảng 1, 1–11 tháng)<div class="sub">Uống · Liều đầu ngay hôm nay; các liều sau đều đặn</div></td><td data-l="Thời gian">10 ngày (AAP 2013 tr. e985; Italian 2025, khuyến cáo 4.1: 7 hoặc 10 ngày) hoặc 5–7 ngày (NICE NG91 2018, Bảng 1)</td><td class="gc" data-l="Ghi chú">Liều NICE thấp hơn, thận trọng hơn về tác dụng phụ; liều AAP/Italian bảo đảm nồng độ ở tai giữa. WHO Pocket book 2013 (mục 6.7.2): 40 mg/kg × 2 lần/ngày, ít nhất 5 ngày. Liều tối đa/ngày: không có trong tài liệu đã tải.</td></tr><tr><td><b>Paracetamol</b><div class="sub">Siro hoặc gói trẻ em; hàm lượng theo sản phẩm (không có trong tài liệu đã tải)</div></td><td data-l="Liều">15 mg/kg/lần ≈ 125 mg, cách nhau ít nhất 6 giờ<div class="sub">Uống · Khi bé đau tai, quấy hoặc sốt cao khó chịu</div></td><td data-l="Thời gian">Khi cần, thường 2–3 ngày đầu</td><td class="gc" data-l="Ghi chú">WHO Pocket book 2013, mục 10.3 tr. 305; AAP 2013, KAS 2; NICE NG91 2018, khuyến cáo 1.1.4.</td></tr><tr><td><b>Ibuprofen (thay paracetamol, không dùng cùng lúc)</b><div class="sub">Siro 100 mg/5 ml</div></td><td data-l="Liều">10 mg/kg/lần ≈ 80 mg (4 ml), mỗi 6–8 giờ<div class="sub">Uống · Khi bé đau, quấy; khi bé uống nước tốt</div></td><td data-l="Thời gian">Khi cần, thường 2–3 ngày đầu</td><td class="gc" data-l="Ghi chú">Theo WHO 2013 (Pocket book mục 10.3 tr. 305: NSAID có thể gây viêm dạ dày); NICE NG143 2021, khuyến cáo 1.6.4–1.6.6.</td></tr><tr><td><b>Natri clorid 0,9% (nước muối sinh lý)</b><div class="sub">Dạng nhỏ mũi trẻ em</div></td><td data-l="Liều">Nhỏ mỗi bên mũi rồi hút nhẹ; số giọt: không có trong tài liệu đã tải<div class="sub">Nhỏ mũi · Trước cữ bú và trước khi ngủ</div></td><td data-l="Thời gian">Đến khi hết sổ mũi</td><td class="gc" data-l="Ghi chú">WHO Pocket book 2013, mục 4.4 tr. 91; QĐ 5643/2015 (Viêm mũi xoang ở trẻ em mục 4.2.1).</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Bé bị viêm tai giữa hai bên do tái nhiễm virus từ cháu họ, là bệnh mới, không phải thuốc lần trước hỏng. Thường đỡ sau khoảng 3 ngày, có thể tới 1 tuần (NICE NG91 2018, khuyến cáo 1.1.1, 1.1.3).</li><li>Cho uống amoxicillin đủ liều, đủ ngày kể cả khi bé hết sốt (AAP 2013 tr. e985). Báo nếu tiêu chảy nhiều hoặc nổi ban.</li><li>Paracetamol hoặc ibuprofen khi bé đau, quấy; mỗi lần chỉ MỘT loại, không cho cả hai cùng lúc (NICE NG143 2021, khuyến cáo 1.6.6). Không cần truyền nước: bé còn bú, tiểu nhiều; theo dõi thóp trũng, miệng khô, mắt trũng (NICE NG143 2021, khuyến cáo 1.7.2).</li><li>Tái khám sau 48–72 giờ (AAP 2013). Quay lại NGAY nếu co giật, ban không biến mất khi ấn, bỏ bú hoặc li bì, nôn nhiều, thở nhanh hoặc khó thở, sưng đỏ sau tai, chảy mủ tai, sốt từ 5 ngày, hoặc mẹ thấy bé yếu hơn (NICE NG143 2021, khuyến cáo 1.7.3; NICE NG91 2018, khuyến cáo 1.1.12, 1.1.14).</li><li>Giữ bé ở nhà khi còn sốt (NICE NG143 2021, khuyến cáo 1.7.2). Giấy nghỉ ngắn ngày theo bệnh thật được cấp hôm nay (TT 56/2017/TT-BYT, Điều 3 khoản 1, Điều 20 khoản 1 điểm c); số ngày nghỉ chăm con được hưởng: không có trong tài liệu đã tải.</li><li>Ho sẽ thưa dần. Nếu ho còn sau khi tai khỏi hoặc có cơn ho rũ, tiếng rít, ngưng thở thì quay lại; có thể chụp X-quang ngực ở bệnh viện huyện (QĐ 162/2024, Phần II mục 3.4.1; WHO Pocket book 2013; ERS 2019). Tiêm nhắc vắc xin phối hợp có ho gà khi bé đủ 18 tháng (TT 10/2024/TT-BYT, Phụ lục lịch tiêm).</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-13">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Ho kéo dài sau nhiễm virus</b></div>
+<p class="note">Phải loại trừ: Ho gà, Hen phế quản, Lao phổi</p><p>Chị Hồng cho bé uống amoxicillin đều. Sau 2 ngày bé hết sốt, bú lại bình thường; khám lại ngày thứ 3, màng nhĩ hai bên chỉ còn hồng nhẹ, không phồng. Hết thuốc đúng ngày thứ 10, tai bình thường. Ho thưa dần rồi hết hẳn khoảng tuần thứ 6 kể từ lúc bắt đầu, bé tăng cân đều, không cần X-quang. Chị Hồng nộp giấy nghỉ ngắn ngày, tổ trưởng chấp nhận; cô giữ trẻ nhận lại bé khi hết sốt. Bà Hai nói &#x27;không truyền mà cũng khỏi&#x27;. Mọi quyết định đều đúng; cơn sốt ở lượt 2 là bệnh mới do tái nhiễm virus, không phải thất bại của lượt 1.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-14">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Bố đá bóng, gió lạnh, bụi sân: mẹ quy là &#x27;trúng gió&#x27; nhưng nguồn lây thật là bé con của cầu thủ đang ho, sổ mũi được chuyền tay bế; ho sau nhiễm virus không do gió lạnh gây ra.</li><li>Ibuprofen siro (NSAID tự mua) cho bé &#x27;ấm người&#x27; khi không sốt: không có chỉ định, có thể gây viêm dạ dày (WHO Pocket book 2013, mục 10.3 tr. 305; NICE NG143 2021, khuyến cáo 1.6.5).</li><li>Bố hút thuốc và viêm mũi dị ứng: khói thuốc làm ho kéo dài (ERS 2019); tiền sử dị ứng gia đình chưa đủ nghĩ hen ở nhũ nhi chưa từng khò khè (GINA 2026, Box 10-2).</li><li>Bà ngoại đòi truyền dịch cả hai lượt, lượt 2 lấy cơn sốt mới làm bằng chứng &#x27;không truyền nên sốt thêm&#x27;. Không tài liệu đã tải nào chỉ định truyền dịch ở bé không mất nước.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Ho sau nhiễm virus ở nhũ nhi là chẩn đoán lâm sàng và loại trừ: hỏi diễn tiến ho, dấu chỉ điểm ho gà, dị vật, khò khè, tiêm chủng, tiếp xúc lao, tăng cân (ACCP 2006; WHO Pocket book 2013, Bảng 10 tr. 110).</li><li>Không có xét nghiệm, X-quang: dựa vào hỏi bệnh, khám và hẹn mốc. Khi hai nguồn khác nhau về việc chụp X-quang (WHO 2013 theo dấu chỉ điểm; QĐ 162/2024 coi trẻ &lt; 2 tuổi là yếu tố nguy cơ), nói cả hai cho mẹ.</li><li>Triệu chứng mới ở lượt 2 là bệnh khác (viêm tai giữa cấp) trên nền ho sắp khỏi: bé sốt thì phải soi tai.</li><li>Người nhà đòi truyền dịch: dùng chính tình trạng của bé để từ chối và giao việc cho họ. Lý do thật của mẹ (giấy nghỉ ốm) chỉ lộ khi hỏi chuyện công việc; trả lời trung thực là giấy theo đúng tình trạng bệnh.</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Ho bán cấp 3–8 tuần sau nhiễm trùng hô hấp, phổi bình thường: nghĩ ho sau nhiễm; ho &gt; 8 tuần phải tìm nguyên nhân khác (ACCP 2006, khuyến cáo 1, 3).</li><li>Nhũ nhi 2–11 tháng thở nhanh khi ≥ 50 l/p; trẻ ho ≥ 14 ngày: hỏi ho gà, tiếp xúc lao, khò khè, dị vật (WHO Pocket book 2013, mục 4.1 tr. 76, mục 4.4 tr. 90, Bảng 10 tr. 110).</li><li>Không kháng sinh, thuốc ho, long đờm, codein, corticoid thử cho ho do virus ở nhũ nhi (WHO Pocket book 2013, mục 4.4 tr. 91; ERS 2019, khuyến cáo 6a, 8).</li><li>Paracetamol chỉ khi sốt ≥ 39 °C (đo hậu môn) và khó chịu; không hạ sốt chỉ vì con số; không dùng hai thuốc cùng lúc (WHO Pocket book 2013, mục 10.3 tr. 305; NICE NG143 2021, khuyến cáo 1.6.5–1.6.6).</li><li>AOM: chẩn đoán bằng soi tai, giảm đau mọi ca, hai bên 6–23 tháng dùng kháng sinh, amoxicillin 80–90 mg/kg/ngày, &lt; 2 tuổi 10 ngày (AAP 2013, KAS 1–4; Italian 2025, khuyến cáo 1.2, 3.1–3.3, 4.1); NICE NG91 2018 thấp hơn (125 mg × 3, 5–7 ngày).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-15">Nguồn tài liệu <small>14</small></h3></summary><ul class=""><li>TL-0131 · QĐ 4235/QĐ-BYT 2012 – bệnh hô hấp – bài Ho kéo dài mục 2.1 (bài viết cho người lớn)</li><li>TL-0160 · ACCP 2006 – Postinfectious cough (Chest 2006;129:138S–146S) – khuyến cáo 1, 3, 5; Treatment; Clinical Presentation</li><li>TL-0154 · ERS 2019 – Chronic cough in adults and children – Definition, Chronic cough in children, khuyến cáo 3b, 6a (ghi chú), 8</li><li>TL-0250 · WHO Pocket book of hospital care for children 2013 – mục 4.1 (tr. 75–77), 4.4 (tr. 90–91), 4.7 và Bảng 10 (tr. 109–111), 6.7.2 (tr. 183), 10.3 (tr. 305)</li><li>TL-0123 · QĐ 162/QĐ-BYT 2024 – bệnh lao – Phần II mục 1.1a (Bảng 1), mục 3.4.1 (Sơ đồ 3)</li><li>TL-0137 · GINA 2026 – mục 10, Box 10-2 tr. 195</li><li>TL-0005 · TT 10/2024/TT-BYT – Phụ lục lịch tiêm chủng, bệnh ho gà (bản chữ OCR)</li><li>TL-0130 · QĐ 5643/QĐ-BYT 2015 – tai mũi họng – Viêm mũi xoang ở trẻ em mục 4.2.1</li><li>TL-0262 · NICE NG143 2021 – Fever in under 5s – Bảng 2, khuyến cáo 1.4.5, 1.6.4–1.6.6, 1.7.2–1.7.3</li><li>TL-0271 · AAP 2013 – Acute otitis media (Pediatrics 2013;131:e964) – KAS 1A–1C, 2, 3A–3D, 4A–4C; Bảng 3, 4, 5; tr. e985</li><li>NICE NG91 2018 – Otitis media (acute): antimicrobial prescribing (kho cũ, 03 Nhi ngoại trú/Quốc tế) – khuyến cáo 1.1.1–1.1.14, Bảng 1</li><li>Italian Consensus 2025 – Antibiotic treatment of acute and recurrent otitis media in children (kho cũ, 03 Nhi ngoại trú/Quốc tế) – khuyến cáo 1.2, 3.1–3.3, 4.1, 5</li><li>TT 56/2017/TT-BYT (sửa đổi TT 18/2022/TT-BYT) – Điều 3 khoản 1, Điều 20 khoản 1 điểm c – nguồn bổ sung tự tìm, chưa đối chiếu bản hiện hành sau Luật BHXH 2024 (theo sổ mâu thuẫn)</li><li>Không có trong tài liệu đã tải: số giọt nước muối ở nhũ nhi; hàm lượng thuốc lưu hành tại Việt Nam; liều tối đa amoxicillin/ngày; số ngày nghỉ chăm con ốm hưởng BHXH; quy định nhà giữ trẻ; mốc tái khám 1 tuần; bảng tăng trưởng nhũ nhi; liều thuốc ho, corticoid nhũ nhi; thuốc nhỏ tai; biện pháp giảm khói thuốc cụ thể</li></ul></details>
+<details class="card"><summary><h3 id="m-16">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Hô hấp cấp tính</dd><dt>chan_doan_dich</dt><dd>Ho kéo dài sau nhiễm virus</dd><dt>chan_doan_phai_loai_tru</dt><dd>Ho gà; Hen phế quản; Lao phổi</dd><dt>nhom_tuoi</dt><dd>Nhũ nhi (1–12 tháng)</dd><dt>do_kho</dt><dd>Điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>2</dd><dt>dien_tien_tai_kham</dt><dd>Xuất hiện triệu chứng mới</dd><dt>nhieu_benh_nhan</dt><dd>Đòi truyền dịch</dd><dt>rang_buoc_nguon_luc</dt><dd>Không có xét nghiệm nào</dd><dt>nghe_nghiep</dt><dd>Trẻ nhũ nhi</dd><dt>yeu_to_khoi_phat</dt><dd>Sau chơi thể thao</dd><dt>thuoc_dang_dung</dt><dd>NSAID tự mua</dd><dt>ly_do_that_su_den_kham</dt><dd>Xin giấy nghỉ ốm</dd><dt>loai_ket_cuc</dt><dd>Ổn định, khỏi bệnh</dd><dt>gioi</dt><dd>Nữ</dd></dl><ul class=""><li>Bản 1 (2026-11-08): ca HH-1347, 2 lượt, nhũ nhi gái 8 tháng; lượt 2 triệu chứng mới là viêm tai giữa cấp hai bên; không xét nghiệm (kéo theo không X-quang, CT, nội soi; thêm siêu âm và thăm dò cũng khóa); kết cục ổn, khỏi.</li><li>Tài liệu đã đọc: TL-0131 (2.1), TL-0160, TL-0154 (phần trẻ em), TL-0250 (4.1, 4.4, 4.7, 6.7.2, 10.3), TL-0123 (Phần II 1.1a, 3.4.1), TL-0137 (Box 10-2), TL-0005, TL-0130, TL-0262, TL-0271, NG91 2018 và Italian Consensus 2025 (kho cũ).</li><li>Hai cách đúng ghi thẳng: kế hoạch X-quang/SHPT cho trẻ &lt; 2 tuổi ho &gt; 2 tuần (WHO 2013, ERS 2019 so với QĐ 162/2024); liều và thời gian amoxicillin cho AOM (AAP 2013, Italian 2025 so với NICE NG91 2018). Chi tiết: HH-1347_mau_thuan.md.</li><li>Âm thanh: phổi AT-PHOI-BT-NL-01; tim AT-TIM-NHANH-01 vì mạch 128 và 152 l/p. Không có ảnh da. Các số đo của bé là số liệu giả định.</li></ul></details>
+<p class="chan-trang">Ca HH-1347 · phiên bản ca 1 – viết theo sổ cái và kho tài liệu (2026-11-08) · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

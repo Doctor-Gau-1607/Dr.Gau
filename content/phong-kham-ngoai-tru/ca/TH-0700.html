@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TH-0700 · Ngộ độc thực phẩm</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · TH-0700</div>
+   <h1>Đau bụng, nôn, đi ngoài lỏng, mệt, rất hoảng sợ</h1>
+   <p class="dich-gia">Trần Văn Lộc · Nam · 66 tuổi · 58 kg</p>
+   <div class="chips"><span class="chip">Tiêu hóa - gan mật</span><span class="chip">Không điển hình</span><span class="chip">1 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Nông dân trồng ổi; nhà cách phòng khám 6 km</dd><dt>Chiều cao, cân nặng</dt><dd>162 cm · 58 kg</dd>
+<dt>Xưng hô</dt><dd>Ông xưng &#x27;tôi&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;; thỉnh thoảng van &#x27;bác sĩ cứu tôi&#x27;.</dd><dt>Tính cách</dt><dd>Hiền, thật thà, học ít, hay lo xa và dễ hoảng khi người trong xóm bệnh nặng. Có hen từ năm 45 tuổi, luôn mang bình xịt trong túi. Nói nhanh khi sợ, hỏi đi hỏi lại, nghe giải thích xong lại quay về &#x27;nhưng lỡ mà…&#x27;.</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Tối thứ Sáu, 20 giờ 40, ngoài giờ: kỹ thuật viên xét nghiệm và chẩn đoán hình ảnh đã về nên phòng khám không làm được xét nghiệm máu, phân, X-quang, siêu âm (kéo theo không có CT và nội soi); mẫu gửi đi chỉ có kết quả sáng hôm sau, cấy phân sau 2–3 ngày. Còn dùng được: ống nghe, nhiệt kế, huyết áp kế, SpO₂, máy điện tim, máy đo đường huyết mao mạch và que thử nước tiểu do điều dưỡng Linh làm. Bệnh viện huyện cách 14 km. Quyết định tối nay phải đưa ra trước khi có kết quả.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/1</span> tối thứ Sáu</h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Ông Trần Văn Lộc, 66 tuổi, nông dân trồng ổi, hen phế quản đang xịt thuốc dự phòng, ông tự đến cùng cháu nội. Đến lúc 20 giờ 40 tối thứ Sáu vì đau bụng, nôn, đi ngoài lỏng và rất hoảng sợ. Điều dưỡng Linh ghi nhận: HA 126/78 mmHg, mạch 104 l/p, nhiệt độ 37,6 °C, nhịp thở 22 l/p, SpO₂ 96%. Cân nặng 58 kg. Kỹ thuật viên đã về.</p>
+  <blockquote>“Bác sĩ ơi cứu tôi với! Tôi đau bụng, nôn, đi ngoài, tim đập thình thịch, run hết người. Chắc tôi bị tả rồi, hay ruột thừa vỡ… Bác sĩ nói thật cho tôi biết đi, tôi có chết không?”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>104</b><small>l/p</small></div><div class="vs"><span>HA</span><b>126/78</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>37,6</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>22</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>96</b><small>%</small></div><div class="vs warn wide"><span>Cảnh báo</span><b>Mạch nhanh 104 l/p; Nhiệt 37,6 °C; Nhịp thở 22 l/p</b></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>14 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám</b><span class="tag t-g">Tự kể</span></div><p>Từ chiều nay đau bụng dưới, nôn, đi ngoài lỏng, mệt, tim đập mạnh, run tay. Ông tin mình &#x27;đứt ruột&#x27; hoặc &#x27;xệ ruột&#x27; vì chiều nay khiêng đồ nặng, và sợ bị tả hoặc ruột thừa vỡ.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Bữa ăn nghi ngờ</b><span class="tag t-b">Khi được hỏi</span></div><p>Trưa thứ Sáu (khoảng 12 giờ 30) ăn cỗ giỗ nhà em trai, khoảng 40 người: heo quay mua sẵn để ngoài từ sáng, bánh hỏi, rau sống, canh bóng nấu từ sớm hâm lại, nước mắm pha. Ông ăn nhiều heo quay và canh.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Mốc thời gian: khiêng nặng chỉ là điểm gặp, không phải nguyên nhân</b><span class="tag t-b">Khi được hỏi</span></div><p>Khoảng 14 giờ 30 ông cùng mấy người khiêng bàn ghế và nồi canh lớn đi trả. Lúc nhấc nồi thấy nhói ở bụng dưới bên phải gần bẹn, nghỉ vài phút rồi âm ỉ. Ông nghĩ ngay là &#x27;xệ ruột&#x27;. Cơn nhói đầu tiên đến sau bữa cỗ khoảng 2 giờ, trước khi nôn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đặc điểm đau (loại viêm ruột thừa)</b><span class="tag t-b">Khi được hỏi</span></div><p>Đau âm ỉ rồi từng cơn quặn quanh rốn và hạ vị, hơi nghiêng về bên phải nhưng không cố định một điểm; dịu bớt sau khi đi ngoài. Đi lại, ho, ngồi sau xe máy không đau thêm. Không lan ra lưng hay xuống bìu. Không đau dời chỗ từ rốn xuống hố chậu phải.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tính chất nôn, phân (nôn trội, ít tiêu chảy)</b><span class="tag t-b">Khi được hỏi</span></div><p>Nôn khoảng 4 lần từ 17 giờ 30, đầu tiên ra thức ăn, sau ra dịch vàng, không máu. Đi ngoài 3 lần từ 19 giờ: phân sệt rồi lỏng, ít, vàng nâu, mùi chua, không máu, không nhầy, không giống nước vo gạo, không mót rặn. Không rét run, chỉ thấy nóng người.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Người cùng ăn (ổ dịch)</b><span class="tag t-b">Khi được hỏi</span></div><p>Em dâu, hai đứa cháu và ba khách cùng nôn, đi ngoài từ chiều; em trai báo trạm y tế xã. Vợ ông ăn ít, không sao. Trong nhà không ai bị thương hàn hay tả, không ai đi vùng dịch.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lượng nước uống, nước tiểu</b><span class="tag t-b">Khi được hỏi</span></div><p>Từ chiều chỉ uống vài ngụm vì uống vào buồn nôn. Khát, khô miệng. Đi tiểu lần cuối khoảng 17 giờ, ít, vàng sậm.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Hen và thuốc xịt đang dùng</b><span class="tag t-b">Khi được hỏi</span></div><p>Hen từ năm 45 tuổi. Xịt dự phòng Seretide 25/125, 2 nhát sáng và tối; có bình Ventolin xịt khi khò khè. Mấy tháng nay ít lên cơn. Chiều nay không ho, không khò khè, không khó thở.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dùng thuốc cắt cơn quá nhiều (góp phần vào mạch nhanh, run)</b><span class="tag t-r">Giấu</span></div><p>Từ 19 giờ ông thấy tim đập mạnh, run tay, tức ngực nên tưởng hen, xịt Ventolin khoảng 6 nhát trong hai giờ; càng xịt càng hồi hộp. Thật ra không khò khè.</p><div class="cond">Điều kiện nói ra: Hỏi chung &#x27;đang dùng thuốc gì&#x27; thì ông chỉ nói &#x27;xịt hen như thường&#x27;. Chỉ kể số nhát khi bác sĩ hỏi hôm nay đã xịt bình cắt cơn mấy lần, hoặc vì sao tim đập mạnh, run tay.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc giảm đau tự uống (NSAID)</b><span class="tag t-r">Giấu</span></div><p>Lúc 16 giờ ông uống 1 viên diclofenac 50 mg còn dư ở nhà (thuốc &#x27;đau lưng&#x27; mua ở tiệm) vì đau thắt lưng sau khi khiêng; 19 giờ 30 uống thêm 1 viên &#x27;cho hết đau bụng&#x27;.</p><div class="cond">Điều kiện nói ra: Hỏi chung về thuốc thì ông không nhắc vì nghĩ &#x27;thuốc đau lưng không tính&#x27;. Chỉ kể khi bác sĩ hỏi thuốc giảm đau, thuốc xương khớp hoặc thuốc đã uống để bớt đau từ chiều.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật: muốn được kê kháng sinh, sợ nhiễm trùng máu</b><span class="tag t-r">Giấu</span></div><p>Ông tin ngộ độc là do &#x27;vi trùng&#x27; nên phải có kháng sinh mới diệt hết; năm ngoái đi ngoài, uống kháng sinh mua tiệm 3 ngày thì hết. Tháng trước ông Tư hàng xóm đi ngoài rồi &#x27;nhiễm trùng máu&#x27; mất; ông sợ y như vậy nên đòi &#x27;mũi tiêm kháng sinh mạnh&#x27;, &#x27;chụp hết cho yên tâm&#x27;.</p><div class="cond">Điều kiện nói ra: Ban đầu ông chỉ hỏi dồn &#x27;tôi có chết không&#x27;. Chỉ nói rõ khi bác sĩ hỏi ông lo nhất điều gì, hoặc ông mong buổi khám này giúp được gì, hoặc vì sao ông nghĩ mình cần kháng sinh.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Loại trừ ngộ độc thuốc bảo vệ thực vật</b><span class="tag t-b">Khi được hỏi</span></div><p>Phun thuốc sâu vườn ổi cách đây 9 ngày, có đeo khẩu trang, đã rửa tay; hôm nay không phun, không tiếp xúc hóa chất. Không chảy nước mắt, nước dãi, không co giật; mồ hôi lạnh và run tay chỉ từ lúc hoảng.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dịch tễ loại trừ tả</b><span class="tag t-b">Khi được hỏi</span></div><p>Không ăn hải sản sống, mắm tôm sống, không đi vùng có dịch; uống nước giếng khoan đun sôi.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Điều kiện về nhà đêm nay</b><span class="tag t-b">Khi được hỏi</span></div><p>Đêm nay ở nhà chỉ có vợ già; cháu nội 17 tuổi chở ông đến, ngồi ngoài hiên. Nhà cách 6 km, bệnh viện huyện cách 14 km, tối ít xe.</p></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>8 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, hốt hoảng, nói nhanh, hỏi dồn; tay run nhẹ khi đưa ra. Môi khô, lưỡi hơi khô, mắt không trũng; véo da mu tay trở lại hơi chậm (ở người già chỉ là dấu phụ). Tay chân ấm. Cân nặng 58 kg (nền khoảng 60 kg). Không vàng da, không phù, không ban.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đo huyết áp tư thế nằm – đứng</b></div><p><span class="lbl">Kết quả:</span> Nằm 5 phút: 128/78 mmHg, mạch 98 l/p. Đứng 3 phút: 116/74 mmHg, mạch 114 l/p, hơi choáng, vịn giường, không ngã. Huyết áp tâm thu tụt 12 mmHg.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số khoảng 104 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều, nhanh 104 l/p, T1 T2 rõ, không âm thổi, không T3.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – Nhịp nhanh đều, T1 T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-NHANH-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><span class="key">★</span><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Lồng ngực cân đối, thở hơi nhanh, đều.</p><p><span class="lbl">Kết quả:</span> Nhịp thở 22 l/p, nông, đều (lo âu). Rì rào phế nang êm dịu hai bên, không ran rít, không khò khè. SpO₂ 96%.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><span class="key">★</span><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng cân đối, mềm, không chướng. Nhu động ruột tăng, sôi bụng. Ấn đau nhẹ lan tỏa hạ vị và quanh rốn, hơi rõ hơn ở hố chậu phải nhưng không có điểm đau cố định, không đề kháng, không phản ứng dội. McBurney đau mơ hồ; Rovsing, nghiệm pháp cơ thắt lưng chậu và nghiệm pháp cơ bịt âm tính; ho và gõ nhẹ không đau thêm. Gan lách không to, không khối.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Khám bìu, tinh hoàn, mào tinh, thừng tinh (phản xạ da bìu, nghiệm pháp nâng bìu), vùng bẹn</b></div><p><span class="lbl">Kết quả:</span> Hai vùng bẹn: không phồng khi ho hay rặn, không khối, ấn không đau. Bìu và tinh hoàn hai bên bình thường.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Mắt (kết mạc, đồng tử, thị lực)</b></div><p><span class="lbl">Kết quả:</span> Đồng tử 3 mm hai bên, đều, phản xạ ánh sáng tốt. Kết mạc hơi khô, không chảy nước mắt.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b></div><p><span class="lbl">Kết quả:</span> Ấn đau nhẹ cơ cạnh sống thắt lưng phải, xoay người hơi đau; không dấu thần kinh, không đau cột sống.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>11 mục</small></h3></summary><div class="row"><div class="rh"><b>Điện tâm đồ 12 chuyển đạo</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Nhịp xoang nhanh 104 l/p, đều. Không ST chênh, không sóng Q, ST–T bình thường. QTc 420 ms. Không rung nhĩ, không ngoại tâm thu.</p><p class="why">Làm vì mạch nhanh, hồi hộp, người 66 tuổi dùng nhiều thuốc cắt cơn: SABA liều cao có thể kèm loạn nhịp (GINA 2026, chương 9, đoạn SABA toxicity). Chỉ định ECG cho nôn–tiêu chảy: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><b>Đường huyết mao mạch (máy thử tại giường)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Đường huyết mao mạch 6,2 mmol/L.</p><p class="why">Loại trừ hạ đường huyết tại giường ở người cao tuổi run tay, nôn; ngưỡng: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><b>Que thử nước tiểu 10 thông số (tại giường)</b><span class="tag t-b">Hữu ích</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Tỷ trọng (SG)</td><td class="num">1,025</td><td></td><td class="ref">1,005–1,03</td></tr><tr class=""><td>pH</td><td class="num">5,5</td><td></td><td class="ref">5,0–8,0</td></tr><tr class=""><td>Bạch cầu (LEU)</td><td class="num">Âm tính</td><td>Leu/µL</td><td class="ref"></td></tr><tr class=""><td>Nitrit (NIT)</td><td class="num">Âm tính</td><td></td><td class="ref"></td></tr><tr class=""><td>Protein (PRO)</td><td class="num">Âm tính</td><td>g/L</td><td class="ref"></td></tr><tr class=""><td>Glucose (GLU)</td><td class="num">Âm tính</td><td>mmol/L</td><td class="ref"></td></tr><tr class=""><td>Thể ceton (KET)</td><td class="num">+</td><td>mmol/L</td><td class="ref"></td></tr><tr class=""><td>Bilirubin (BIL)</td><td class="num">Âm tính</td><td>µmol/L</td><td class="ref"></td></tr><tr class=""><td>Urobilinogen (UBG)</td><td class="num">Bình thường</td><td>µmol/L</td><td class="ref"></td></tr><tr class=""><td>Hồng cầu (ERY)</td><td class="num">Âm tính</td><td>Ery/µL</td><td class="ref"></td></tr></tbody></table><p class="why">Nước tiểu cô đặc, ceton do nhịn ăn, phù hợp mất nước. Nếu có ceton máu, đợt truyền tĩnh mạch ban đầu có thể cần để dung nạp ORS (IDSA 2017 khuyến cáo 41). Cách đọc que thử để chia độ mất nước: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-b">Hữu ích</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class="hi"><td>Số lượng bạch cầu (WBC)</td><td class="num">13,2 ↑</td><td>G/L</td><td class="ref">4,0–10,0</td></tr><tr class="hi"><td>Tỷ lệ bạch cầu trung tính (NEU%)</td><td class="num">80,0 ↑</td><td>%</td><td class="ref">45–75</td></tr><tr class="hi"><td>Số lượng bạch cầu trung tính (NEU#)</td><td class="num">10,56 ↑</td><td>G/L</td><td class="ref">2,0–7,5</td></tr><tr class="lo"><td>Tỷ lệ bạch cầu lympho (LYM%)</td><td class="num">12,0 ↓</td><td>%</td><td class="ref">20–40</td></tr><tr class=""><td>Số lượng bạch cầu lympho (LYM#)</td><td class="num">1,58</td><td>G/L</td><td class="ref">1,0–4,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu mono (MONO%)</td><td class="num">6,0</td><td>%</td><td class="ref">2–10</td></tr><tr class=""><td>Số lượng bạch cầu mono (MONO#)</td><td class="num">0,79</td><td>G/L</td><td class="ref">0,2–1,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa acid (EOS%)</td><td class="num">1,0</td><td>%</td><td class="ref">0–7</td></tr><tr class=""><td>Số lượng bạch cầu ưa acid (EOS#)</td><td class="num">0,13</td><td>G/L</td><td class="ref">0–0,5</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa base (BASO%)</td><td class="num">1,0</td><td>%</td><td class="ref">0–1</td></tr><tr class="hi"><td>Số lượng bạch cầu ưa base (BASO#)</td><td class="num">0,13 ↑</td><td>G/L</td><td class="ref">0–0,1</td></tr><tr class=""><td>Số lượng hồng cầu (RBC)</td><td class="num">5,3</td><td>T/L</td><td class="ref">4,2–5,4</td></tr><tr class=""><td>Lượng huyết sắc tố (HGB)</td><td class="num">156</td><td>g/L</td><td class="ref">130–170</td></tr><tr class=""><td>Thể tích khối hồng cầu (HCT)</td><td class="num">0,47</td><td>L/L</td><td class="ref">0,4–0,5</td></tr><tr class=""><td>Thể tích trung bình hồng cầu (MCV)</td><td class="num">88,7</td><td>fL</td><td class="ref">80–100</td></tr><tr class=""><td>Lượng HST trung bình hồng cầu (MCH)</td><td class="num">29,4</td><td>pg</td><td class="ref">27–32</td></tr><tr class=""><td>Nồng độ HST trung bình hồng cầu (MCHC)</td><td class="num">332</td><td>g/L</td><td class="ref">320–360</td></tr><tr class=""><td>Dải phân bố kích thước hồng cầu (RDW-CV)</td><td class="num">13,5</td><td>%</td><td class="ref">11,5–14,5</td></tr><tr class=""><td>Số lượng tiểu cầu (PLT)</td><td class="num">262</td><td>G/L</td><td class="ref">150–400</td></tr></tbody></table><p class="why">Ngoài giờ không có kết quả tối nay, không chờ. Bạch cầu tăng là một tiêu chí cân nhắc kháng sinh theo QĐ 5642/2015 mục 4.2.1 nhưng IDSA 2017 khuyến cáo 22 không dùng bạch cầu để xác định căn nguyên; Hb và Hct hơi cao do cô đặc máu.</p></div><div class="row"><div class="rh"><b>Ure, creatinin, eGFR</b><span class="tag t-b">Hữu ích</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class="hi"><td>Ure</td><td class="num">9,4 ↑</td><td>mmol/L</td><td class="ref">2,5–7,5</td></tr><tr class=""><td>Creatinin</td><td class="num">112</td><td>µmol/L</td><td class="ref">62–120</td></tr><tr class="lo"><td>eGFR (CKD-EPI 2021)</td><td class="num">61 ↓</td><td>mL/ph/1,73m²</td><td class="ref">≥ 90</td></tr></tbody></table><p class="why">Gợi ý tổn thương thận trước thận do mất dịch, có thể thêm diclofenac (QĐ 361/2014 Phụ lục NSAID mục 2: theo dõi tai biến thận). Suy thận cấp là biến chứng của tiêu chảy do vi khuẩn (QĐ 5642/2015 mục 5). Chưa có mốc nền.</p></div><div class="row"><div class="rh"><b>Điện giải đồ (Na, K, Cl)</b><span class="tag t-b">Hữu ích</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Natri (Na⁺)</td><td class="num">136</td><td>mmol/L</td><td class="ref">135–145</td></tr><tr class="lo"><td>Kali (K⁺)</td><td class="num">3,3 ↓</td><td>mmol/L</td><td class="ref">3,5–5,0</td></tr><tr class=""><td>Clo (Cl⁻)</td><td class="num">98</td><td>mmol/L</td><td class="ref">98–106</td></tr></tbody></table><p class="why">Hạ kali nhẹ do mất qua nôn, phân (QĐ 5642/2015 mục 5), có thể thêm tác dụng của SABA liều cao (GINA 2026, chương 9, đoạn SABA toxicity).</p></div><div class="row"><div class="rh"><b>Soi phân (hồng cầu, bạch cầu, ký sinh trùng)</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Phân nhão vàng nâu. Bạch cầu 0–2/vi trường, không hồng cầu, không thấy đơn bào, trứng ký sinh.</p><p class="why">Chấp nhận, không bắt buộc: QĐ 5642/2015 mục 3.3, 4.2.1 dùng soi phân; IDSA 2017 khuyến cáo 20 không dùng bạch cầu phân để xác định căn nguyên (sổ mâu thuẫn). Ngoài giờ không có người soi.</p></div><div class="row"><div class="rh"><b>Cấy phân</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Đã lấy mẫu phân lần đi ngoài tối nay vào lọ vô khuẩn, giữ mát gửi sáng mai; kết quả sau 48–72 giờ.</p><p class="why">Chấp nhận, không bắt buộc, không dùng quyết định tối nay. Có ổ dịch: IDSA 2017 khuyến cáo 11; ACG 2016 khuyến cáo 1, 2. Ông không sốt rõ, không máu (khuyến cáo 8) nên không bắt buộc.</p></div><div class="row"><div class="rh"><b>Nhuộm Gram, cấy đờm và cấy máu</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Cấy máu: không làm tại phòng khám.</p><p class="why">Không cần: cấy máu khi có dấu nhiễm khuẩn huyết (IDSA 2017 khuyến cáo 9); ông tỉnh, không sốt cao, HA 126/78.</p></div><div class="row"><div class="rh"><b>Siêu âm bụng (gan, thận, thượng thận)</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Quai ruột dãn nhẹ chứa dịch, tăng nhu động. Ruột thừa không thấy rõ do hơi ruột. Không dịch tự do ổ bụng.</p><p class="why">Chấp nhận, không bắt buộc; ngoài giờ không có người làm. Ở người cao tuổi WSES 2025 khuyến cáo 3.4 ưu tiên CT liều thấp (cơ sở không có CT); WSES 2020 khuyến cáo 1.10: POCUS là hình ảnh đầu tay khi có chỉ định.</p></div><div class="row"><div class="rh"><b>CT bụng có cản quang</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> CT bụng: cơ sở không có.</p><p class="why">Chưa có chỉ định khi bụng không phản ứng, không khu trú; cần nếu khám lặp xấu đi (WSES 2020 khuyến cáo 1.8; WSES 2025 khuyến cáo 1, 3.4).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Theo dõi tại phòng khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Ngộ độc thực phẩm (viêm dạ dày–ruột cấp sau bữa cỗ) thể nôn trội, ít tiêu chảy, mất nước nhẹ–vừa ở người 66 tuổi, hen ổn; dùng thuốc cắt cơn quá nhiều gây mạch nhanh, run; chưa có dấu nhiễm khuẩn huyết, chưa có dấu bụng ngoại khoa</b></div><p class="why">Nhiều người cùng bữa ăn mắc, nôn, đau quặn, tiêu chảy ít, không máu, ủ bệnh khoảng 5 giờ (QĐ 5642/2015 mục 3.1, 3.4; độc tố tụ cầu ủ 1–6 giờ, nôn, không sốt: QĐ 5642/2015 mục 3.2, QĐ 4178/2007 mục II.2d; IDSA 2017 Bảng 3). Nhiễm khuẩn tiêu hóa có thể nôn trội, ít tiêu chảy (ACG 2016, phần mở đầu). Tác nhân chưa xác định.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tả</b></div><p class="why">Phân không phải nước vo gạo, chỉ 3 lần, có đau bụng, không hải sản sống, không ở vùng dịch (QĐ 5642/2015 mục 3.2: tả khởi phát dữ dội 20–50 lần/ngày, không đau quặn; QĐ 4178/2007 mục II.1a, II.1c).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm ruột thừa cấp</b></div><p class="why">Đau quặn quanh rốn, không dời chỗ, dịu sau đi ngoài, bụng mềm không phản ứng, Rovsing, psoas âm tính. Người cao tuổi biểu hiện không điển hình, Alvarado kém tin cậy (WSES 2020 Statement 1.3) nên chưa loại hẳn: khám lặp (WSES 2025 khuyến cáo 1) và giữ ngưỡng chuyển tuyến chụp CT.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Nhiễm khuẩn huyết</b></div><p class="why">Tỉnh táo, HA 126/78, nhịp thở 22 (qSOFA 1/3), nhiệt 37,6 °C, không rét run, tay chân ấm, chưa có ổ nhiễm khuẩn nặng (QĐ 5642/2015, bài Nhiễm khuẩn huyết mục 2.1; Sepsis-3 2016 Box 4). qSOFA không nên dùng đơn độc để sàng lọc ở bệnh viện (SSC 2026 khuyến cáo 4); NICE NG253 Bảng 1 (cộng đồng): chỉ mạch 91–130 và nhịp thở 21–24 ở mức trung bình, HA, ý thức, nước tiểu, da ngoài ngưỡng; mạch nhanh do mất nước, thuốc xịt, hoảng sợ.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Thoát vị bẹn nghẹt, đau cơ thành bụng do khiêng nặng</b></div><p class="why">Khám bẹn và bìu bình thường, không khối; cơn nhói bên phải đến sau bữa ăn 2 giờ chứ không phải ngay lúc khiêng (khám bụng trong ca).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ngộ độc thuốc bảo vệ thực vật phospho hữu cơ</b></div><p class="why">Nông dân phun thuốc, có nôn, đau bụng, tiêu chảy, nhưng đồng tử 3 mm, không tăng tiết, không nhịp chậm &lt; 60, không co cứng cơ (QĐ 3610/2015 bài 6 mục 2.1: hội chứng muscarin).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Nhồi máu cơ tim thành dưới, loạn nhịp do thuốc cắt cơn</b></div><p class="why">ECG xoang nhanh, không ST chênh, QTc 420 ms; không đau ngực kiểu gắng sức.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Cơn hen cấp</b></div><p class="why">Không khò khè, phổi sạch, SpO₂ 96%; &#x27;tức ngực, hồi hộp&#x27; là do SABA liều cao và hoảng sợ, không phải hen nặng lên (GINA 2026, chương 9, đoạn SABA toxicity).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Đánh giá mất nước nhẹ–vừa, bù ORS uống ngay tại phòng khám, từng ngụm nhỏ, mục tiêu 2–4 L trong đợt bù đầu, rồi bù tiếp theo mỗi lần nôn hoặc đi ngoài (khoảng 2 L/ngày); ORS hoặc dịch/súp muối</b></div><p class="why">Mạch 104 thuộc ô độ 2 nhưng HA bình thường, tay chân ấm, uống được: mất nước độ I–II (QĐ 5642/2015 mục 3.1; mạch nhanh còn do SABA và hoảng sợ, nhận định của ca). Uống được thì bù đường uống (QĐ 5642/2015 mục 4.2.3a); ORS đầu tay (IDSA 2017 khuyến cáo 39, 42, 43, Bảng 7: người lớn 2–4 L, duy trì tự do khoảng 2 L/ngày); nôn thì uống từng ngụm nhỏ, pha 1 lít (QĐ 4178/2007 mục III.2a). ORS hoặc dịch/súp muối đều được (ACG 2016 khuyến cáo 5, sổ mâu thuẫn). Thời gian bù 2–4 L: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giữ ông ở lại phòng khám theo dõi 3–4 giờ: uống ORS, đo lại sinh hiệu, HA nằm–đứng, đếm lần tiểu, nôn; khám bụng lặp lại sau 1–2 giờ và trước khi cho về</b></div><p class="why">Không xét nghiệm, không hình ảnh, 66 tuổi, bụng hơi nghiêng hố chậu phải: tiếp cận cá thể hóa, khám lặp (WSES 2020 Statement 1.1, 1.9; WSES 2025 khuyến cáo 1: theo dõi tích cực). ORS cho tới khi hết mất nước lâm sàng (IDSA 2017 khuyến cáo 42). Mốc 3–4 giờ và khám lặp sau 1–2 giờ là nhận định của ca. QĐ 4178/2007 Bảng 2 (phân loại bệnh nhân TẢ) xếp tiêu chảy nhiều + nôn dễ dàng + mất nước trung bình, HA hơi hạ, mạch nhanh yếu, mệt lả vào loại III (trung tâm y tế huyện/tỉnh, truyền dịch là chính); bảng này dành cho bệnh tả và ông không đủ tiêu chí (phân chỉ 3 lần, HA 126/78, mất nước nhẹ–vừa, mạch nhanh có phần do xịt salbutamol) nên theo dõi tại phòng khám với ngưỡng nâng bậc rõ là hợp lý; nôn không giữ được ORS hoặc HA tụt thì chuyển như loại III (nhận định duyệt 04/11).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chỉ truyền Ringer lactat khi không uống được, nôn không giữ ORS, hoặc HA/tri giác xấu đi; không truyền thường quy</b></div><p class="why">Mất nước từ độ II trở lên không uống được thì truyền Ringer lactat (QĐ 5642/2015 mục 4.2.3a); truyền tĩnh mạch khi mất nước nặng, sốc, rối loạn tri giác kèm thất bại ORS (IDSA 2017 khuyến cáo 41). Thể tích và tốc độ cho người lớn: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không kê kháng sinh theo kinh nghiệm, giải thích và theo dõi, cấy phân nếu muốn rõ căn nguyên; HOẶC cân nhắc kháng sinh vì người già: azithromycin 500 mg/ngày × 3 ngày hoặc ciprofloxacin 0,5 g × 2 lần/ngày × 5 ngày</b></div><p class="why">Cách A: tiêu chảy nước cấp, không đi nước ngoài, không suy giảm miễn dịch thì không dùng kháng sinh kinh nghiệm (IDSA 2017 khuyến cáo 36); không ủng hộ kháng sinh cho tiêu chảy cộng đồng (ACG 2016 khuyến cáo 9, 10). Cách B: QĐ 5642/2015 mục 4.2.1 cho cân nhắc ở người già, mục 4.2.2a: ciprofloxacin 0,5 g × 2 lần/ngày × 5 ngày (thay thế azithromycin 0,5 g/ngày × 5 ngày); ACG 2016 Bảng 4: azithromycin 500 mg × 3 ngày. Khác nhau: QĐ 5642 là văn bản chung 2015 xếp tuổi già là nguy cơ; IDSA và ACG dựa trên người lớn miễn dịch bình thường (sổ mâu thuẫn, TH-0728). Số ngày thận trọng hơn: 3. Fluoroquinolon có nguy cơ viêm gân (ACG 2016, phần Antibiotic therapy), thận trọng ở ông vừa khiêng nặng.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Trấn an có cấu trúc: nói rõ ông không bị tả, chưa có dấu nhiễm khuẩn huyết, bụng hiện chưa cần mổ; vì sao chưa cần kháng sinh tiêm, CT hay xét nghiệm đêm nay; những dấu hiệu nào sẽ làm đổi hướng</b></div><p class="why">Tả: phân nước vo gạo 20–50 lần/ngày (QĐ 5642/2015 mục 3.2). Kháng sinh đường truyền chỉ dùng khi nặng có nhiễm khuẩn toàn thân (QĐ 5642/2015 mục 4.2.2); cấy máu khi có dấu nhiễm khuẩn huyết (IDSA 2017 khuyến cáo 9). Kỹ thuật trấn an: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi riêng thuốc tự uống và thuốc xịt; dặn ngưng diclofenac; đau thắt lưng dùng paracetamol, không quá 3 g/ngày (hoặc tối đa 4 g/ngày theo phụ lục thuốc giảm đau)</b></div><p class="why">Người cao tuổi, hen, mất nước, nhiễm trùng đang diễn ra: tránh NSAID, dùng acetaminophen &lt; 3 g/ngày (QĐ 361/2014 Phụ lục NSAID mục 3.3, bảng nguy cơ cao; mục 3.2: hen phế quản và nhiễm trùng đang tiến triển là chống chỉ định tương đối). Paracetamol 500–1.000 mg/lần, cách 6–8 giờ, không quá 4 g/24 giờ, thận trọng gan (Phụ lục thuốc giảm đau mục 3.1). Con số thận trọng hơn: &lt; 3 g/ngày (cùng ghi nhận trong sổ, ca TH-0295).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giữ nguyên Seretide dự phòng sáng–tối; chỉ xịt Ventolin khi khò khè hoặc khó thở thật; không xịt vì hồi hộp hay lo; cần khám lại nếu phải xịt &gt; 4–6 lần/24 giờ</b></div><p class="why">Thuốc kiểm soát có ICS là nền, luôn mang thuốc cắt cơn (QĐ 1851/2020 mục 3.2.1). SABA chỉ dùng khi cần ở liều và tần số thấp nhất; &gt; 4–6 lần/24 giờ hoặc giảm triệu chứng không kéo dài 4–6 giờ thì cần khám (GINA 2026, Appendix B, phần SABA). SABA liều cao gây mạch nhanh, hồi hộp, lo âu và có thể kèm hạ kali, loạn nhịp; dễ bị nhầm là hen nặng lên (GINA 2026, chương 9, đoạn SABA toxicity).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn dấu hiệu phải quay lại hoặc gọi ngay: đau khu trú hố chậu phải hoặc bụng cứng, sốt ≥ 38,5 °C, lú lẫn, ngất, HA tâm thu ≤ 90, nhịp thở ≥ 25, không đi tiểu 18 giờ, nôn không giữ nước, phân máu; kèm số điện thoại phòng khám và xe chở ông lên bệnh viện huyện</b></div><p class="why">NICE NG253 Bảng 1 (người ≥ 16 tuổi ở cộng đồng), tiêu chí nguy cơ cao: thay đổi tri giác mới, nhịp thở ≥ 25, huyết áp tâm thu ≤ 90 hoặc tụt &gt; 40 so với nền, không tiểu 18 giờ. Mốc sốt 38,5 °C là của IDSA 2017 khuyến cáo 30c (du lịch quốc tế); đau khu trú hố chậu phải và bụng cứng là nhận định của ca. Dặn bằng văn bản vì ông ở nhà chỉ có vợ già.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Cho ăn lại thức ăn thường ngay khi bù xong dịch; tiếp tục ORS đến khi hết nôn, hết tiêu chảy; nói trước ông có thể còn phân sệt vài ngày, tái khám sau 48 giờ (hoặc sáng mai nếu còn nôn), và ngay khi quá 7 ngày chưa hết</b></div><p class="why">Ăn lại chế độ bình thường trong hoặc ngay sau bù dịch (IDSA 2017 khuyến cáo 45). Tiêu chảy 7–13 ngày là &#x27;kéo dài&#x27;, 14–29 ngày là &#x27;dai dẳng&#x27; (IDSA 2017, phần định nghĩa); triệu chứng &gt; 7 ngày cần xét nghiệm phân (ACG 2016 khuyến cáo 2); đánh giá lại dịch, dinh dưỡng, loại trừ nguyên nhân không nhiễm trùng khi không đáp ứng hoặc ≥ 14 ngày (IDSA 2017 khuyến cáo 27–29); không kháng sinh kinh nghiệm khi dai dẳng ≥ 14 ngày (khuyến cáo 36). Mốc tái khám 48 giờ là nhận định của ca.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Báo trạm y tế xã hoặc y tế dự phòng về nhóm người cùng bữa cỗ, hướng dẫn người nhà mang mẫu thức ăn còn lại; rửa tay, nấu chín</b></div><p class="why">Ổ dịch cần phối hợp cơ quan y tế công cộng (IDSA 2017 khuyến cáo 11, 60; phòng bệnh: QĐ 5642/2015 mục 6, IDSA khuyến cáo 52, 54). Quy định báo cáo ngộ độc thực phẩm của Việt Nam: không có trong tài liệu đã tải.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Loperamid ngắn ngày (4 mg lần đầu rồi 2 mg sau mỗi lần phân lỏng, tối đa 8 mg/ngày, ≤ 48 giờ) hoặc không dùng</b></div><p class="why">Sổ mâu thuẫn mục loperamid (TH-0624): không sốt, không máu và đã bù dịch thì có thể dùng (ACG 2016 phần Non-antibiotic therapies; IDSA 2017 khuyến cáo 46, 47); QĐ 5642/2015 mục 4.2.3b không lạm dụng. Ông còn đau bụng chưa xếp rõ nên chỉ nên cân nhắc sau khi bù dịch và khám bụng lặp xong. Con số thận trọng hơn: 8 mg/ngày.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Men vi sinh, hoặc không dùng</b></div><p class="why">IDSA 2017 khuyến cáo 49: có thể cho người lớn miễn dịch bình thường; ACG 2016 khuyến cáo 6: không khuyến cáo (sổ mâu thuẫn mục probiotic, TH-0624). Hai cách đều đúng.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Tiêm ceftriaxon hoặc truyền kháng sinh tĩnh mạch theo yêu cầu của ông</b></div><p class="why">Kháng sinh đường truyền chỉ dùng khi nặng có nhiễm khuẩn toàn thân (QĐ 5642/2015 mục 4.2.2); ông tỉnh, HA 126/78, không sốt cao. Theo yêu cầu người bệnh không phải chỉ định.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho ông uống diclofenac hoặc ibuprofen giảm đau bụng, đau lưng</b></div><p class="why">Người cao tuổi, hen, mất nước, nhiễm trùng đang diễn ra, đã tự uống 2 viên diclofenac: tránh NSAID (QĐ 361/2014 Phụ lục NSAID mục 2, 3.2, 3.3); creatinin tăng nhẹ, nguy cơ tổn thương thận trên nền mất nước (QĐ 5642/2015 mục 5).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Chuyển ngay đêm nay lên bệnh viện chụp CT bụng, nhập viện truyền dịch cho &#x27;yên tâm&#x27; khi bụng mềm, uống được</b></div><p class="why">Chưa có chỉ định: bụng mềm không phản ứng, không khu trú, uống được. Hình ảnh khi nguy cơ trung gian hoặc cao (WSES 2020 khuyến cáo 1.8; WSES 2025 khuyến cáo 1, 3.4); ORS là bước đầu (IDSA 2017 khuyến cáo 39). Chuyển đi chụp là đúng khi lặp khám xấu đi, không phải để chiều lòng người sợ.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Cho về, hẹn tái khám</span></div><p>Cho ông Lộc về ngay với gói Oresol và hẹn lại khi nặng hơn, lúc 21 giờ đêm thứ Sáu, ông đã nôn 4 lần, mạch 104, tiểu ít và bụng hơi đau nghiêng hố chậu phải, là bỏ qua việc theo dõi và khám lặp khi không có xét nghiệm, hình ảnh (WSES 2020 Statement 1.1, 1.9; WSES 2025 khuyến cáo 1: theo dõi tích cực). Đêm đó ông ở nhà chỉ có vợ già, tiếp tục nôn, xịt thêm Ventolin vì hồi hộp (mạch nhanh, hồi hộp: GINA 2026 chương 9, SABA toxicity), mất nước tăng thêm và nếu đau chuyển sang hố chậu phải cố định thì không ai khám lại.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhập viện huyện ngay đêm nay cho ông Lộc khi ông tỉnh, uống được, HA 126/78, bụng mềm không phản ứng là quá tay: ORS là đầu tay cho mất nước nhẹ–vừa kể cả có nôn (IDSA 2017 khuyến cáo 39); truyền tĩnh mạch dành cho mất nước nặng, sốc, rối loạn tri giác hoặc thất bại ORS (khuyến cáo 41). Ông nằm viện tốn chi phí, vợ già ở nhà một mình, và nỗi sợ &#x27;bệnh nặng lắm mới phải nằm viện&#x27; càng tăng, dễ đòi kháng sinh tiêm hơn.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển ông Lộc đi bệnh viện chụp CT bụng ngay trong đêm là quá tay khi bụng mềm, không phản ứng, không khu trú, nguyên nhân tiêu hóa rõ (ổ dịch cùng bữa cỗ). Hình ảnh dành cho nhóm nguy cơ trung gian hoặc cao và khi khám lặp xấu đi (WSES 2020 khuyến cáo 1.8; WSES 2025 khuyến cáo 1, 3.4). Chuyến 14 km đêm bằng xe máy khi đang nôn tốn kém, ông tưởng &#x27;phải mổ&#x27; nên càng sợ, và người sợ hãi được chụp hết sẽ cho rằng nỗi sợ đó là đúng.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Ngộ độc thực phẩm: viêm dạ dày–ruột cấp sau bữa cỗ giỗ, thể nôn trội, ít tiêu chảy; ổ dịch (7/40 người cùng bữa); tác nhân chưa xác định</li><li>Mất nước nhẹ–vừa: mạch 104, môi lưỡi khô, tiểu ít, HA tâm thu tụt 12 mmHg khi đứng; chưa sốc, uống được</li><li>Hen phế quản, hiện kiểm soát tốt, phổi sạch; dùng thuốc cắt cơn quá nhiều (6 nhát/2 giờ) góp phần mạch nhanh, run tay, hồi hộp</li><li>Tự dùng 2 viên diclofenac: nguy cơ thận trên nền mất nước ở người 66 tuổi, hen</li><li>Đã loại trừ lâm sàng: tả, nhiễm khuẩn huyết, ngộ độc phospho hữu cơ, thoát vị bẹn nghẹt; viêm ruột thừa chưa loại hẳn nên cần khám lặp</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự nên làm: sinh hiệu; hỏi theo mốc giờ (bữa ăn, cơn nhói, nôn, đi ngoài), người cùng ăn, nước uống, nước tiểu, số nhát thuốc xịt hôm nay, thuốc giảm đau tự uống, điều ông thật sự mong và sợ; khám mất nước, HA nằm–đứng, tim, phổi, bụng, bẹn, đồng tử; ECG, đường huyết, que thử nước tiểu; chẩn đoán; xử trí.</li><li>Vì sao là ngộ độc thực phẩm: cùng bữa cỗ nhiều người mắc, ủ bệnh vài giờ, nôn, đau quặn, tiêu chảy ít, không sốt cao, không máu (QĐ 5642/2015 mục 3.1–3.4; QĐ 4178/2007 mục II.2d; IDSA 2017 Bảng 2, 3). Không điển hình: nôn trội, phân chỉ 3 lần, đau hơi nghiêng hố chậu phải; ông gán cho việc khiêng nặng. Phải dựng lại mốc giờ: cơn nhói đầu tiên đến sau bữa ăn khoảng 2 giờ. Một số nhiễm khuẩn tiêu hóa gây bệnh dạng nôn trội, ít hoặc không tiêu chảy (ACG 2016, phần mở đầu).</li><li>Loại trừ tả: phân không nước vo gạo, ít lần, không dịch tễ (QĐ 5642/2015 mục 3.2; QĐ 4178/2007 mục II.1a, II.1c). Loại trừ nhiễm khuẩn huyết: tỉnh, HA 126/78, không rét run; qSOFA 1/3 do nhịp thở 22 vì hoảng sợ, qSOFA không dùng đơn độc (Sepsis-3 2016 Box 4; SSC 2026 khuyến cáo 4); NICE NG253 Bảng 1 nguy cơ cao: không có tiêu chí nào. Mất nước, thuốc xịt và lo âu giải thích mạch nhanh.</li><li>Viêm ruột thừa ở người cao tuổi: biểu hiện không điển hình, điểm Alvarado không đủ tin cậy ở người già (WSES 2020 Statement 1.3); khi không có hình ảnh và xét nghiệm, khám lặp có mốc và ngưỡng chuyển tuyến chụp CT (WSES 2025 khuyến cáo 1, 3.4). Dấu có lợi cho loại trừ: đau quặn quanh rốn, không dời chỗ, dịu sau đi ngoài, Rovsing/psoas âm tính; Yersinia kèm sốt kéo dài có thể bắt chước viêm ruột thừa (IDSA 2017 Bảng 3).</li><li>Ngộ độc thuốc bảo vệ thực vật ở nông dân: đồng tử 3 mm, không tăng tiết, mạch nhanh chứ không chậm (QĐ 3610/2015 bài 6 mục 2.1). Thuốc xịt: SABA liều cao gây mạch nhanh, hồi hộp, lo âu, có thể kèm hạ kali; dễ bị nhầm là hen nặng lên (GINA 2026, chương 9, đoạn SABA toxicity).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Bù dịch trước: mất nước nhẹ–vừa, uống được thì ORS (IDSA 2017 khuyến cáo 39, 42, 43, Bảng 7; QĐ 5642/2015 mục 4.2.3a); truyền Ringer lactat khi không uống được hoặc xấu đi (khuyến cáo 41). Thể tích và tốc độ truyền: không có trong tài liệu đã tải.</li><li>Kháng sinh, ghi cả hai cách: (A) không kê theo kinh nghiệm (IDSA 2017 khuyến cáo 36; ACG 2016 khuyến cáo 9, 10); (B) cân nhắc vì người già (QĐ 5642/2015 mục 4.2.1): ciprofloxacin 0,5 g × 2 lần/ngày × 5 ngày hoặc azithromycin 0,5 g/ngày × 5 ngày (mục 4.2.2a), hoặc azithromycin 500 mg × 3 ngày (ACG 2016 Bảng 4). Số ngày thận trọng hơn: 3. Không kê chỉ để làm yên lòng.</li><li>Theo dõi tại phòng khám 3–4 giờ và khám bụng lặp (WSES 2020 Statement 1.1, 1.9; WSES 2025 khuyến cáo 1). Mốc thời gian là nhận định của ca. Chuyển tuyến khi bụng khu trú hoặc có phản ứng thành bụng, sốt, HA tụt, tri giác đổi, không tiểu, không giữ được dịch (NICE NG253 Bảng 1 cho tiêu chí nguy cơ cao).</li><li>Thuốc: ngưng diclofenac; paracetamol cho đau thắt lưng, &lt; 3 g/ngày (QĐ 361/2014 Phụ lục NSAID mục 3.3) hoặc tối đa 4 g/ngày (Phụ lục thuốc giảm đau mục 3.1), nói rõ &lt; 3 g thận trọng hơn. Loperamid, men vi sinh: tùy chọn (hai nguồn khác nhau); kháng sinh tiêm, CT chưa có chỉ định.</li><li>Cho về sau 3–4 giờ nếu: tiểu được, mạch &lt; 100, HA nằm–đứng ổn, bụng không đổi dấu, giữ được ORS (tiêu chuẩn là nhận định của ca; ORS đến khi hết mất nước lâm sàng: IDSA 2017 khuyến cáo 42). Không đạt hoặc bụng đổi thì chuyển bệnh viện huyện (14 km) chụp CT, truyền dịch.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Oresol (ORS), ưu tiên loại giảm thẩm thấu</b><div class="sub">Gói pha 1 lít nước đun sôi để nguội (công thức cổ điển QĐ 4178: NaCl 3,5 g, NaHCO₃ 2,5 g, KCl 1,5 g, glucose 20 g)</div></td><td data-l="Liều">Uống từng ngụm nhỏ; đợt bù đầu 2–4 L; sau đó bù theo mỗi lần nôn, đi ngoài, tự do khoảng 2 L/ngày<div class="sub">Uống · Bắt đầu ngay tại phòng khám, tiếp tục ở nhà</div></td><td data-l="Thời gian">Đến khi hết nôn, hết tiêu chảy</td><td class="gc" data-l="Ghi chú">IDSA 2017 khuyến cáo 39, 42, 43, Bảng 7; QĐ 4178/2007 mục III.2a (pha 1 lít; thay thế: nước cháo muối). Thời gian bù 2–4 L: không có trong tài liệu đã tải.</td></tr><tr><td><b>Ringer lactat</b><div class="sub">Chai 500 mL</div></td><td data-l="Liều">Chỉ khi không uống được hoặc nôn không giữ ORS; thể tích và tốc độ: không có trong tài liệu đã tải, chỉnh theo mạch, HA, nước tiểu<div class="sub">Truyền tĩnh mạch · Tại phòng khám nếu cần</div></td><td data-l="Thời gian">Vài giờ</td><td class="gc" data-l="Ghi chú">QĐ 5642/2015 mục 4.2.3a; IDSA 2017 khuyến cáo 41.</td></tr><tr><td><b>Paracetamol</b><div class="sub">Viên 500 mg</div></td><td data-l="Liều">500 mg/lần, tối đa 3 lần/ngày khi đau thắt lưng (tổng ≤ 1,5 g/ngày), cách nhau 6–8 giờ<div class="sub">Uống · Sau ăn, khi đau</div></td><td data-l="Thời gian">2–3 ngày</td><td class="gc" data-l="Ghi chú">Người cao tuổi: &lt; 3 g/ngày (QĐ 361/2014 Phụ lục NSAID mục 3.3); tối đa 4 g/24 giờ (Phụ lục thuốc giảm đau mục 3.1). Ca chọn thấp hơn.</td></tr><tr><td><b>Seretide Evohaler 25/125 mcg (đang dùng)</b><div class="sub">Bình xịt định liều</div></td><td data-l="Liều">2 nhát × 2 lần/ngày như cũ<div class="sub">Xịt, súc miệng sau xịt · Sáng, tối</div></td><td data-l="Thời gian">Duy trì</td><td class="gc" data-l="Ghi chú">Giữ thuốc kiểm soát có ICS (QĐ 1851/2020 mục 3.2.1). Không đổi.</td></tr><tr><td><b>Ventolin (salbutamol) xịt (đang dùng)</b><div class="sub">100 mcg/nhát</div></td><td data-l="Liều">Chỉ khi khò khè hoặc khó thở; không xịt vì hồi hộp; quay lại nếu cần &gt; 4–6 lần/24 giờ<div class="sub">Xịt · Khi cần</div></td><td data-l="Thời gian">Khi cần</td><td class="gc" data-l="Ghi chú">GINA 2026 Appendix B (SABA); chương 9 (SABA toxicity). Số nhát mỗi lần: không có trong tài liệu đã tải.</td></tr><tr><td><b>Kháng sinh (không bắt buộc, chỉ khi chọn cách B)</b><div class="sub">Azithromycin 500 mg</div></td><td data-l="Liều">500 mg/ngày × 3 ngày (ACG 2016 Bảng 4) hoặc 0,5 g/ngày × 5 ngày (QĐ 5642/2015 mục 4.2.2a); ciprofloxacin 0,5 g × 2 lần/ngày × 5 ngày là thuốc ưu tiên của QĐ 5642<div class="sub">Uống · Sau ăn</div></td><td data-l="Thời gian">3 hoặc 5 ngày</td><td class="gc" data-l="Ghi chú">Cách A (không kê) cũng đúng: IDSA 2017 khuyến cáo 36; ACG 2016 khuyến cáo 9, 10. Quinolon: nguy cơ viêm gân (ACG 2016). Chỉnh theo eGFR 61: không có trong tài liệu đã tải.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Uống ORS từng ngụm nhỏ, nôn thì nghỉ vài phút rồi uống chậm lại; pha đủ thể tích ghi trên gói (QĐ 4178/2007 mục III.2a). Ăn lại thức ăn thường, dễ tiêu ngay khi bù xong dịch (IDSA 2017 khuyến cáo 45).</li><li>Giải thích rõ: ông không bị tả, chưa có dấu nhiễm trùng máu; không kháng sinh tiêm hay chụp CT đêm nay vì chưa có chỉ định; đa số tự khỏi (IDSA 2017 khuyến cáo 36; ACG 2016 khuyến cáo 10). Đau sau khiêng nặng là điểm trùng hợp, bẹn bình thường.</li><li>Ngưng diclofenac; đau lưng uống paracetamol đúng liều. Mang cả hai bình xịt khi tái khám. Chỉ xịt Ventolin khi khò khè thật; hồi hộp, run tay có thể do xịt quá nhiều (GINA 2026).</li><li>Quay lại hoặc gọi ngay nếu: đau cố định hố chậu phải hoặc bụng cứng, sốt ≥ 38,5 °C, lú lẫn, ngất, không tiểu 18 giờ, nôn không giữ nước, phân máu (NICE NG253 Bảng 1 và nhận định của ca). Tái khám sau 48 giờ; sau 7 ngày chưa hết thì đi xét nghiệm phân (ACG 2016 khuyến cáo 2).</li><li>Rửa tay xà phòng, không ăn lại thức ăn thừa của bữa cỗ, nấu chín (QĐ 5642/2015 mục 6; IDSA 2017 khuyến cáo 52, 54). Nhắc người cùng bữa cỗ uống đủ nước.</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-8">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Ngộ độc thực phẩm</b></div>
+<p class="note">Phải loại trừ: Tả, Viêm ruột thừa, Nhiễm khuẩn huyết</p><p>Ông Lộc ở lại phòng khám 4 giờ, uống khoảng 2 lít Oresol từng ngụm nhỏ, nôn thêm 1 lần trong giờ đầu rồi hết. Lúc 23 giờ 10 ông tiểu lần đầu; mạch xuống 86 l/p, đứng 3 phút HA 124/76. Bụng khám lại lúc 22 giờ 30 và 0 giờ vẫn mềm, đau nhẹ lan tỏa, không khu trú; ông không còn run tay vì không xịt thêm Ventolin. Ông về nhà 0 giờ 30 cùng cháu nội, không dùng kháng sinh, mẫu phân gửi cấy sáng hôm sau; sau 3 ngày kết quả không mọc vi khuẩn gây bệnh, tác nhân không xác định, trạm y tế xã ghi nhận 7 người cùng bữa cỗ. Hai ngày đầu ông hết nôn, bụng đỡ đau, nhưng từ ngày 3 phân vẫn sệt 2–3 lần/ngày, chán ăn, mệt, đầy bụng, sụt thêm 1,5 kg. Ông hoảng, tin rằng không dùng kháng sinh nên không khỏi, quay lại ngày 4 và ngày 7. Hai lần bác sĩ khám: không sốt, không máu, bụng mềm, tiểu bình thường; giải thích tiêu chảy 7–13 ngày là kéo dài chứ chưa dai dẳng (IDSA 2017, phần định nghĩa), tiếp tục ORS, ăn đủ, hẹn xét nghiệm phân nếu qua ngày 14 hoặc có sốt, phân máu, sụt cân, tiểu ít (IDSA 2017 khuyến cáo 27–29). Ông khỏi hẳn ngày 9, phân thành khuôn, ăn bình thường, cân nặng về 59 kg. Quỹ đạo khỏi chậm hơn dự kiến nhưng chưa bất thường; điều làm đổi hướng là sốt, máu, sụt cân, mất nước hoặc quá 14 ngày.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-9">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Sợ hãi quá mức: ông hỏi dồn &#x27;có chết không&#x27;, đòi kháng sinh tiêm và chụp hết; đáp án là trấn an có cấu trúc (nói rõ kết quả khám, vì sao chưa cần kháng sinh, CT, và khi nào quay lại), không chọn xét nghiệm để chiều lòng. Dấu hiệu qSOFA nhịp thở 22 là do hoảng sợ, không phải nhiễm khuẩn huyết.</li><li>Khiêng nặng gây nhiễu: cơn nhói bên phải xuất hiện sau bữa ăn 2 giờ, đúng lúc khiêng nồi; ông tin &#x27;xệ ruột&#x27;. Khám bẹn bình thường và mốc giờ giúp bác bỏ.</li><li>Ventolin 6 nhát/2 giờ làm mạch nhanh, run tay, dễ nhầm với nhiễm khuẩn huyết hoặc hen nặng; phổi sạch, SpO₂ 96%.</li><li>Ngoài giờ không có xét nghiệm, siêu âm, X-quang: bù ORS, theo dõi, khám bụng lặp; xét nghiệm gửi sáng mai không dùng để quyết định đêm nay.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Người cao tuổi nôn trội, ít tiêu chảy, đau lệch hố chậu phải: vẫn nghĩ ngộ độc thực phẩm nếu có ổ dịch cùng bữa ăn, nhưng không loại hẳn viêm ruột thừa; khám lặp và giữ ngưỡng chuyển tuyến.</li><li>Dựng mốc giờ trước khi tin lời tự chẩn đoán: bữa ăn 12 giờ 30, cơn nhói 14 giờ 30, nôn 17 giờ 30.</li><li>Hỏi cụ thể số nhát thuốc xịt hôm nay và thuốc giảm đau tự uống: mạch nhanh, run có thể do SABA; diclofenac nguy hiểm khi mất nước, hen, tuổi cao.</li><li>Người sợ hãi đòi kháng sinh: tìm điều ông thực sự sợ (nhiễm trùng máu như hàng xóm), nói kết quả khám từng bước (IDSA 2017 khuyến cáo 36; ACG 2016 khuyến cáo 10).</li><li>Khỏi chậm hơn dự kiến: 7–13 ngày là kéo dài; lo khi sốt, phân máu, sụt cân, mất nước hoặc quá 14 ngày (IDSA 2017 khuyến cáo 27–29; ACG 2016 khuyến cáo 2).</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Mất nước nhẹ–vừa uống được: ORS 2–4 L đợt đầu, duy trì khoảng 2 L/ngày (IDSA 2017 khuyến cáo 39, Bảng 7); Ringer lactat khi không uống được (QĐ 5642/2015 mục 4.2.3a).</li><li>Kháng sinh kinh nghiệm ở tiêu chảy nước người lớn: không (IDSA 2017 khuyến cáo 36; ACG 2016 khuyến cáo 9, 10) hoặc cân nhắc vì người già (QĐ 5642/2015 mục 4.2.1); azithromycin 500 mg × 3 ngày (ACG 2016 Bảng 4).</li><li>NICE NG253 Bảng 1 (cộng đồng): nguy cơ cao khi nhịp thở ≥ 25, HA tâm thu ≤ 90, tri giác đổi, không tiểu 18 giờ; qSOFA không dùng đơn độc để sàng lọc (SSC 2026 khuyến cáo 4).</li><li>SABA liều cao: mạch nhanh, hồi hộp, có thể kèm hạ kali, loạn nhịp, dễ nhầm hen nặng (GINA 2026 chương 9); cần khám nếu xịt &gt; 4–6 lần/24 giờ (Appendix B).</li><li>NSAID: tránh ở người cao tuổi, hen, mất nước; paracetamol &lt; 3 g/ngày (QĐ 361/2014 Phụ lục NSAID mục 3.2, 3.3).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-10">Nguồn tài liệu <small>10</small></h3></summary><ul class=""><li>BYT QĐ 5642/2015 – TL-0038 – Bệnh tiêu chảy do vi khuẩn, mục 1, 3.1–3.4, 4.1, 4.2.1–4.2.3, 5, 6; Nhiễm khuẩn huyết, mục 2.1</li><li>BYT QĐ 4178/2007 hướng dẫn bệnh tả – TL-0176 – mục II.1a, II.1c, II.2d, III.2a, Bảng 2</li><li>BYT QĐ 3610/2015 – TL-0035 – bài 6 Ngộ độc cấp hóa chất trừ sâu phospho hữu cơ, mục 2.1</li><li>IDSA 2017 tiêu chảy nhiễm trùng – TL-0230 – khuyến cáo 5, 8, 9, 11, 20, 22, 27–29, 36, 39–47, 49, 52, 54, 60; Bảng 2, 3, 7; phần định nghĩa tiêu chảy kéo dài, dai dẳng</li><li>ACG 2016 tiêu chảy nhiễm khuẩn cấp – TL-0233 – khuyến cáo 1, 2, 5, 6, 9, 10; Bảng 4; phần Non-antibiotic therapies, Antibiotic therapy</li><li>WSES 2020 viêm ruột thừa – TL-0263 – Statement 1.1, 1.3, 1.9, khuyến cáo 1.2.1, 1.8, 1.10; WSES 2025 – TL-0053 – khuyến cáo 1, 3.4</li><li>NICE NG253 nghi nhiễm khuẩn huyết ≥ 16 tuổi – TL-0057 – mục 1.5.2, Bảng 1; Sepsis-3 2016 – TL-0101 – Box 4; SSC 2026 – TL-0049 – khuyến cáo 4</li><li>GINA 2026 – TL-0137 – Appendix B (SABA), chương 9 (SABA toxicity); BYT QĐ 1851/2020 hen – TL-0127 – mục 3.2.1</li><li>BYT QĐ 361/2014 bệnh cơ xương khớp – TL-0286 – Phụ lục NSAID mục 2, 3.2, 3.3 (bảng nguy cơ cao); Phụ lục thuốc giảm đau mục 3.1</li><li>Không có trong tài liệu đã tải: thể tích/tốc độ truyền cho người lớn; thời gian bù 2–4 L ORS; mốc 3–4 giờ theo dõi và 48 giờ tái khám; kỹ thuật trấn an; tiêu chuẩn chia độ mất nước bằng que nước tiểu; quy định báo cáo ngộ độc thực phẩm tại Việt Nam; chỉ định ECG cho nôn–tiêu chảy; số nhát Ventolin mỗi lần.</li></ul></details>
+<details class="card"><summary><h3 id="m-11">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Tiêu hóa - gan mật</dd><dt>chan_doan_dich</dt><dd>Ngộ độc thực phẩm</dd><dt>chan_doan_phai_loai_tru</dt><dd>Tả; Viêm ruột thừa; Nhiễm khuẩn huyết</dd><dt>nhom_tuoi</dt><dd>Cao tuổi (60–74 tuổi)</dd><dt>gioi</dt><dd>Nam</dd><dt>do_kho</dt><dd>Không điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>1</dd><dt>dien_tien_tai_kham</dt><dd>Không áp dụng (ca 1 lượt khám)</dd><dt>nhieu_benh_nhan</dt><dd>Sợ hãi quá mức</dd><dt>rang_buoc_nguon_luc</dt><dd>Ngoài giờ, không có kỹ thuật viên</dd><dt>nghe_nghiep</dt><dd>Nông dân</dd><dt>yeu_to_khoi_phat</dt><dd>Khiêng vật nặng</dd><dt>thuoc_dang_dung</dt><dd>Thuốc xịt hen đang dùng</dd><dt>ly_do_that_su_den_kham</dt><dd>Muốn được kê kháng sinh</dd><dt>loai_ket_cuc</dt><dd>Khỏi chậm hơn dự kiến</dd></dl><ul class=""><li>Viết 04/11/2026. Tài liệu đã đọc: TL-0038 (tiêu chảy do vi khuẩn, nhiễm khuẩn huyết), TL-0176, TL-0035 (bài 6), TL-0230, TL-0233, TL-0263, TL-0053, TL-0057, TL-0101, TL-0049, TL-0137, TL-0127, TL-0286; vị trí trong mục nguon.</li><li>Biến sổ cái đều có chỗ đứng: cao tuổi, không điển hình (nôn trội, ít tiêu chảy, đau lệch hố chậu phải), sợ hãi quá mức, ngoài giờ không kỹ thuật viên (xn, X-quang, siêu âm), nông dân (bảo vệ thực vật), khiêng vật nặng (mốc giờ, bẹn), thuốc xịt hen (SABA liều cao), lý do thật muốn kháng sinh (giấu), kết cục khỏi chậm (ngày 9).</li><li>ket_luan theo_doi: ở lại phòng khám bù ORS 3–4 giờ và khám bụng lặp, ngưỡng nâng bậc rõ. Chỗ còn nghi ngờ: QĐ 4178/2007 Bảng 2 xếp nôn dễ dàng, mạch nhanh vào loại III (tuyến huyện); mốc 3–4 giờ, 48 giờ là nhận định của ca. Nếu trưởng nhóm muốn đáp án nhập_viện/chuyển_tuyến cần sửa neu_sai.</li><li>Mâu thuẫn: dùng mục có sẵn trong sổ (kháng sinh kinh nghiệm tiêu chảy nước người già, loperamid, probiotic, dạng dịch bù, lượng ORS, bạch cầu phân, NSAID ở người hen). Không có mục mới; xem TH-0700_mau_thuan.md.</li></ul></details>
+<p class="chan-trang">Ca TH-0700 · phiên bản ca 1 – viết 04/11/2026 · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

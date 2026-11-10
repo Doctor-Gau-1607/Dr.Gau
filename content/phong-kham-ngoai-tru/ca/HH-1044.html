@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HH-1044 · Viêm thanh quản cấp</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · HH-1044</div>
+   <h1>Bé 4 tuổi ho ông ổng, khàn tiếng mấy ngày, đã khám 3 nơi chưa khỏi</h1>
+   <p class="dich-gia">Lê Minh Khôi · Nam · 4 tuổi · 17 kg</p>
+   <div class="chips"><span class="chip">Hô hấp cấp tính</span><span class="chip">Ca bẫy</span><span class="chip">Mở lại chẩn đoán</span><span class="chip">2 lượt khám</span><span class="chip">Có cờ đỏ</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Trẻ mẫu giáo</dd><dt>Chiều cao, cân nặng</dt><dd>104 cm · 17 kg</dd>
+<dt>Xưng hô</dt><dd>Bé 4 tuổi, tự xưng &quot;con&quot;, gọi bác sĩ là &quot;bác sĩ&quot;, giọng khàn, chỉ nói vài chữ khi được hỏi trực tiếp (vd &quot;Con khó thở&quot;). Mẹ (chị Hạnh, 33 tuổi) kể bệnh chính: bác sĩ gọi mẹ là &quot;chị&quot;, mẹ xưng &quot;em&quot;. Bà nội (bà Tư, 63 tuổi) đón bé ở trường hằng ngày, xưng &quot;tôi&quot;.</dd><dt>Tính cách</dt><dd>Chị Hạnh là kế toán, mệt vì ba đêm liền không ngủ, nói cộc, hay nhắc &quot;lần thứ ba rồi&quot;, không còn tin ai nói &quot;virus, về nhà theo dõi&quot;. Mang theo ba toa thuốc và phim X-quang phổi cũ trong túi nilon. Bà Tư hiền, áy náy vì chính bà mua đồ ăn cho cháu, nói nhỏ, chỉ kể thêm khi được hỏi riêng. Bé Khôi mệt, bám mẹ, sợ bị ép lưỡi.</dd><dt>Người nhà</dt><dd>Mẹ bé (chị Hạnh) và bà nội (bà Tư) – Mẹ (chị Hạnh) và bà nội (bà Tư) đi cùng cả hai lượt; mẹ trả lời hầu hết câu hỏi (nguoi_noi = nguoi_nha); bà nội trả lời khi hỏi về bữa ăn hôm khởi phát. Chỉ khi bác sĩ hỏi thẳng bé (&quot;Khôi khó thở không?&quot;) thì bé trả lời ngắn (nguoi_noi = benh_nhan).</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Đã 19 giờ 30: kỹ thuật viên đã về, phòng xét nghiệm và X-quang đóng cửa đến 7 giờ sáng mai (kết quả xét nghiệm chỉ có sau nhiều giờ, không kịp cho quyết định tối nay). Có: bác sĩ, điều dưỡng Linh, máy đo SpO₂, máy khí dung, bình oxy, dexamethason, adrenaline 1/1000, paracetamol. Không hồi sức, không đặt được nội khí quản. Bệnh viện Nhi tỉnh (hồi sức, soi thanh khí quản) cách 18 km, xe cấp cứu đến trong khoảng 25 phút.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/2</span> · ngày thứ 4 của bệnh, 19 giờ 30</h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Bé trai 4 tuổi, 17 kg, mẹ và bà nội đưa đến lúc 19 giờ 30, ngoài giờ làm việc, vì ho ông ổng và khàn tiếng mấy ngày nay; bé đã khám ba nơi chưa khỏi. Sinh hiệu: nhiệt 38,2 °C, mạch 118 l/p, nhịp thở 28 l/p, SpO₂ 97% khí trời. Bé tỉnh, mệt, bám mẹ.</p>
+  <blockquote>“Bác sĩ ơi, em đưa cháu đi ba chỗ rồi mà vẫn ho ông ổng, khàn tiếng hoài. Em hết cách rồi, bác sĩ xem giúp em.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>118</b><small>l/p</small></div><div class="vs"><span>HA</span><b>Không đo</b><small>mmHg</small></div><div class="vs warn"><span>Nhiệt</span><b>38,2</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>28</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>97</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>13 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám, diễn tiến</b><span class="tag t-g">Tự kể</span></div><p>Bé ho ông ổng, khàn tiếng từ ngày thứ hai của bệnh, giờ là ngày thứ tư. Mẹ đã đưa bé đi ba nơi, uống thuốc mà không đỡ, đêm nào bé cũng ho từng cơn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khởi phát sổ mũi, sốt rồi khàn tiếng, ho ông ổng</b><span class="tag t-b">Khi được hỏi</span></div><p>Đầu tiên bé sổ mũi, sốt nhẹ khoảng 38 °C. Một đến hai ngày sau mới khàn tiếng và ho tiếng &quot;ông ổng như chó sủa&quot;, nặng nhất về đêm; ban ngày bé chơi tương đối bình thường.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiếng rít khi khóc, hết khi yên</b><span class="tag t-b">Khi được hỏi</span></div><p>Khi bé khóc hoặc giận dỗi mẹ nghe tiếng &quot;khò khè hít vào&quot; ở cổ. Khi bé ngồi chơi hoặc nằm yên thì thở êm, không thấy lõm ngực, không tím.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Ăn đường phố, ho sặc thoáng qua (hội chứng xâm nhập?)</b><span class="tag t-b">Khi được hỏi</span></div><p>Thứ Hai, bà nội đón bé ở cổng trường, mua xiên thịt nướng và bắp xào ở xe đẩy cho bé ăn. Bà thấy bé ho sặc một cái vài giây, uống ngụm nước là hết, rồi ăn tiếp bình thường; không tím tái, không ho sặc sụa kéo dài, không vã mồ hôi. Sáng hôm sau bé mới sổ mũi, sốt. Cả nhà nghĩ &quot;ăn đồ ngoài đường nên bị&quot;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Nuốt, chảy dãi, tư thế (loại viêm thanh thiệt)</b><span class="tag t-b">Khi được hỏi</span></div><p>Bé nuốt nước và cháo được, không chảy nước dãi, không ngồi cúi người ra trước, vẫn ho nhiều. Không sốt vọt cao đột ngột.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiêm chủng (bạch hầu), tiền sử khò khè</b><span class="tag t-b">Khi được hỏi</span></div><p>Sổ tiêm chủng đủ: 3 mũi &quot;5 trong 1&quot; và mũi nhắc ở 18 tháng. Bé chưa từng khò khè, không nghe ai ở lớp bị bạch hầu.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Ba nơi đã khám, thuốc đã dùng, kết quả cũ (không lặp xét nghiệm vô ích)</b><span class="tag t-b">Khi được hỏi</span></div><p>Ngày thứ hai: phòng khám tư gần nhà kết luận &quot;viêm họng cấp&quot;, cho amoxicillin–clavulanic và siro ho. Ngày thứ ba: khoa khám bệnh bệnh viện huyện kết luận &quot;viêm phế quản&quot;, chụp X-quang phổi và lấy máu (phổi bình thường, bạch cầu 9,8 G/L, CRP 6 mg/L), đổi sang azithromycin và siro long đờm. Chiều nay: phòng khám nhi khác kết luận &quot;viêm phế quản co thắt&quot;, cho khí dung salbutamol, siro ho có kháng histamin. Cả ba nơi không ai nghe riêng tiếng thở khi bé khóc. Mẹ còn giữ ba toa và phim.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Corticoid tự mua (liều, số lần, đáp ứng)</b><span class="tag t-b">Khi được hỏi</span></div><p>Tối ngày thứ hai nhà thuốc đầu ngõ bán mẹ viên prednisolon 5 mg. Mẹ cho bé uống nửa viên (2,5 mg) tổng cộng 3 lần: tối ngày thứ hai, sáng và tối ngày thứ ba, rồi ngưng vì sợ. Sau mỗi liều bé bớt ho, bớt khàn vài giờ rồi lại như cũ.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật: xin thuốc ngủ</b><span class="tag t-r">Giấu</span></div><p>Ba đêm nay bé ho từng cơn, cả nhà gần như không ngủ; sáng mai mẹ phải đi làm, mẹ muốn xin &quot;một liều thuốc ngủ cho bé ngủ yên, cả nhà ngủ được&quot;. Mẹ nghĩ &quot;bé ngủ được là bé hết bệnh&quot;.</p><div class="cond">Điều kiện nói ra: Mẹ không tự nói. Chỉ kể khi bác sĩ hỏi đêm qua nhà ngủ thế nào, hỏi mẹ mong điều gì tối nay, hoặc hỏi mẹ mệt nhất ở chỗ nào.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dấu hiệu nguy hiểm toàn thân</b><span class="tag t-b">Khi được hỏi</span></div><p>Bé uống nước được, ăn cháo ít, không nôn, không li bì, không co giật, tiểu bình thường.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khoảng cách, khả năng quay lại</b><span class="tag t-b">Khi được hỏi</span></div><p>Nhà cách phòng khám 3 km, 10 phút xe máy; mẹ có xe và điện thoại, bà nội ở cùng.</p></div><div class="fact"><div class="fh"><b>tien_su</b><span class="tag t-b">Khi được hỏi</span></div><p>Sinh đủ tháng, phát triển bình thường, chưa nằm viện, không dị ứng thuốc, chưa từng bị rít thanh quản.</p></div><div class="fact"><div class="fh"><b>Mất niềm tin sau ba nơi</b><span class="tag t-g">Tự kể</span></div><p>Mẹ nói: &quot;Em đã đưa đi ba chỗ rồi, chỗ nào cũng nói chắc chắn, mà thuốc nào cũng uống hết. Lần này bác sĩ lại nói gì nữa?&quot; Mẹ đã quen việc bị lấy máu, chụp phổi nên phản đối nếu bác sĩ muốn làm lại.</p></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>6 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Bé tỉnh, nhìn theo, mệt, mắt thâm do thiếu ngủ, bám mẹ. Môi hồng, niêm mạc ẩm. Giọng nói khàn. Không chảy dãi, không ngồi cúi ra trước.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Họng, tai, mũi</b></div><p><span class="lbl">Kết quả:</span> Chỉ nhìn bằng đèn khi bé há miệng, không ép lưỡi: họng đỏ nhẹ, amidan không to, không giả mạc, thành sau họng không phồng. Mũi dịch trong. Màng nhĩ hồng nhạt.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Hạch dưới hàm vài mm, di động, không đau. Cổ không bạnh, không sưng đau, không chảy máu mũi.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nhịp thở 28 l/p. Bé yên thì không rút lõm lồng ngực.</p><p><span class="lbl">Kết quả:</span> Nhịp thở 28 l/p. Khi bé yên: không rít, không rút lõm lồng ngực. Khi bé khóc: ho tiếng ông ổng, rít nhẹ thì hít vào ở vùng cổ, hết sau khi bé nín. Hai phổi: rì rào phế nang êm, đều hai bên, không ran rít, không giảm một bên.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi hai bên (phía sau)</b> – Rì rào phế nang êm dịu, không ran, hai bên đều.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 118 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 118 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – Tim nhanh đều, T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-NHANH-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Soi thanh quản (gương hoặc nội soi ống mềm: niêm mạc, dây thanh, khe thanh môn)</b></div><p><span class="lbl">Kết quả:</span> Bé giãy khóc dữ dội khi đưa đè lưỡi và gương vào, rít tăng rõ, môi hơi xám vài giây, SpO₂ tụt từ 97% xuống 92%. Dừng ngay, bế dỗ khoảng 5 phút mới hồi. Không nhìn thấy thanh môn.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>3 mục</small></h3></summary><div class="row"><div class="rh"><b>X-quang ngực thẳng</b><span class="tag t-r">Không cần</span></div><p class="why">Không có kỹ thuật viên ngoài giờ. Bệnh viện huyện đã chụp phổi ngày thứ ba: bình thường (mẹ mang phim). Croup chẩn đoán chủ yếu bằng lâm sàng (QĐ 3312/2015, Khó thở thanh quản ở trẻ em mục 1.1); phim cổ thẳng nếu có chỉ để tìm dấu &quot;nóc nhà thờ&quot; (QĐ 5643/2015, hạ thanh môn mục 3.1.2), không đổi xử trí. Đưa đi chụp làm bé khóc.</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-r">Không cần</span></div><p class="why">Không làm được ngoài giờ và không cần: công thức máu ngày thứ ba bình thường (bạch cầu 9,8 G/L). Làm lại là xét nghiệm vô ích khi mẹ đã mất niềm tin; không đổi xử trí độ I (QĐ 5643/2015, hạ thanh môn mục 4.2.1).</p></div><div class="row"><div class="rh"><b>Phết họng soi, cấy tìm vi khuẩn bạch hầu</b><span class="tag t-r">Không cần</span></div><p class="why">Không làm được ngoài giờ (cấy mất vài ngày); không giả mạc nên chưa nghi bạch hầu (QĐ 2957/2020 mục 5.1). Ép lưỡi lấy bệnh phẩm làm bé khóc, rít tăng (QĐ 5643/2015, hạ thanh môn mục 3.1.2).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Viêm thanh quản cấp hạ thanh môn (croup) nghĩ do virus, ngày thứ 4, khó thở thanh quản độ I (khàn tiếng, rít khi khóc, hết khi yên)</b></div><p class="why">Khởi phát sốt nhẹ, ho, chảy mũi, sau 1–3 ngày khàn tiếng, ho ông ổng (QĐ 5643/2015, hạ thanh môn mục 3.1.1, 3.1.2 tr. 198); độ I: khàn tiếng, thở rít khi khóc (mục 3.1.2); croup thường gặp 6 tháng – 5 tuổi (mục 1); WHO 2013 mục 4.6.1: croup nhẹ gồm sốt, giọng khàn, ho như chó sủa, rít chỉ khi kích thích. Bé bớt ho vài giờ sau mỗi liều prednisolon là chi tiết phù hợp phù nề thanh quản đáp ứng corticoid (suy luận của ca).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm họng cấp, viêm phế quản, viêm phế quản co thắt (chẩn đoán của ba nơi trước)</b></div><p class="why">Không giải thích được khàn tiếng, ho ông ổng và tiếng rít thì hít vào ở cổ; phổi không ran rít, không khò khè, X-quang phổi và công thức máu bình thường (QĐ 5643/2015, hạ thanh môn mục 3.1.2; WHO 2013 Bảng 9). Ba nơi chưa nghe bé khóc nên không bắt được tiếng rít: chẩn đoán trước đó hợp lý với điều họ thấy, nhưng thiếu dữ kiện.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Dị vật đường thở (xiên nướng, bắp)</b></div><p class="why">Chỉ ho sặc vài giây rồi hết, không tím, không ho sặc sụa 3–5 phút nên không phải hội chứng xâm nhập (QĐ 5643/2015, Dị vật đường thở mục 3.1.1 tr. 215); sổ mũi và sốt đến sau hôm ăn, phổi đều hai bên. Chưa loại hẳn: hội chứng xâm nhập chỉ khai thác được ở 93% (cùng mục), nên nội soi thanh khí quản nếu rít tái diễn hoặc nội khoa thất bại (hạ thanh môn mục 3.1.2).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Bạch hầu</b></div><p class="why">Không giả mạc, hạch nhỏ di động không đau, cổ không bạnh, mũi không chảy máu, đã tiêm 5 trong 1 và nhắc (QĐ 2957/2020 mục 3.1.2, 3.1.3, 3.3; WHO 2013 Bảng 9). Bạch hầu thanh quản thường kèm bạch hầu họng (QĐ 2957 mục 3.3): nghĩ lại nếu có giả mạc, cổ bạnh.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm thanh thiệt, viêm khí quản, áp xe sau họng</b></div><p class="why">Nuốt được, không chảy dãi, không ngồi cúi ra trước, còn ho nhiều, không sốt cao đột ngột, không vẻ nhiễm trùng (QĐ 5643/2015, hạ thanh môn mục 3.1.3.2, 3.1.3.3; WHO 2013 Bảng 9).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Điều trị ngoại trú (độ I), cho về cùng mẹ và bà; dặn dấu hiệu nặng bằng giấy; không nhập viện, không chuyển tuyến</b></div><p class="why">Độ I ngoại trú, hướng dẫn dấu hiệu nặng cần tái khám ngay (QĐ 5643/2015, hạ thanh môn mục 4.2.1); croup nhẹ chăm sóc tại nhà (WHO 2013 mục 4.6.1 tr. 102). Nhà cách 3 km, có xe, có điện thoại.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Corticoid: dexamethason 0,15 mg/kg uống một liều (≈ 2,5 mg) HOẶC prednison 2 mg/kg × 2–3 ngày, HOẶC không dùng, chỉ chăm sóc hỗ trợ; ngưng prednisolon tự mua</b></div><p class="why">Hai nguồn khác nhau, cả hai chấp nhận (xem sổ mâu thuẫn, mục HH-1077). QĐ 3312/2015, Khó thở thanh quản ở trẻ em mục 2 (tr. 271): độ 1 dùng hai thuốc trên, tái khám mỗi ngày; QĐ 5643 hạ thanh môn mục 4.2.1 (độ I) không nêu corticoid; WHO 2013 mục 4.6.1: croup nhẹ chăm sóc hỗ trợ, steroid nêu cho croup nặng. Liều tự mua 2,5 mg prednisolon/lần thấp hơn nhiều so với 2 mg/kg (phép tính của ca).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không cho thuốc ngủ, an thần, kháng histamin gây ngủ, thuốc ho; ngưng siro ho đang dùng</b></div><p class="why">WHO 2013 mục 4.6.1 (tr. 104): không cho thuốc an thần hoặc giảm ho. Thuốc ngủ làm mất tiếng ho và làm bé li bì, che dấu hiệu nặng (suy luận của ca; tài liệu đã tải không nêu cơ chế).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không tiếp tục kháng sinh (amoxicillin–clavulanic, azithromycin) vì không có dấu nhiễm khuẩn, trừ khi tuyến trên chỉ định</b></div><p class="why">Hai nguồn khác nhau (xem sổ mâu thuẫn). WHO 2013 mục 4.6.1 (tr. 104): kháng sinh không hiệu quả, không nên dùng trong croup virus; QĐ 5643/2015 hạ thanh môn mục 4.2.1: độ I chỉ điều trị triệu chứng, kháng sinh uống nêu từ độ IIA khi có triệu chứng nhiễm trùng (mục 4.2.2).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giữ bé yên, bế đứng khi khóc, nghỉ ngơi, hạn chế nói, uống nhiều nước; không ép lưỡi, không xông hơi nước nóng, không để bé khóc kéo dài</b></div><p class="why">Nghỉ ngơi, hạn chế nói, uống nhiều nước (QĐ 5643/2015, hạ thanh môn mục 4.2.1); tránh để trẻ khóc vì làm tăng phù nề thanh quản (mục 4.2.3); WHO 2013 mục 4.6.1 (tr. 104): lều hơi nước không hiệu quả, làm khó theo dõi, giữ bé yên.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Paracetamol 200 mg/lần chỉ khi sốt ≥ 39 °C làm bé khó chịu, cách ít nhất 6 giờ</b></div><p class="why">WHO 2013 mục 10.3 (tr. 305): chỉ khi sốt ≥ 39 °C và bé khó chịu, 15 mg/kg mỗi 6 giờ; bảng liều (tr. 366): 15–&lt;20 kg uống 2 viên 100 mg. QĐ 5643 hạ thanh môn mục 4.2.1: 10–20 mg/kg. 200 mg ≈ 11,8 mg/kg nằm trong cả hai khoảng.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn bằng giấy dấu phải đến ngay: rít cả khi nằm yên, thở nhanh, rút lõm ngực, vật vã hoặc li bì, tím, không uống được; số điện thoại phòng khám; tái khám sáng mai</b></div><p class="why">Độ IIA rít khi nằm yên, IIB thêm thở nhanh, rút lõm ngực, III thêm vật vã, tím (QĐ 5643/2015, hạ thanh môn mục 3.1.2); WHO 2013 mục 4.6.1 (tr. 102) croup nặng; thở nhanh ≥ 40 l/p ở trẻ 1–5 tuổi (QĐ 708/2015 mục 3.1 tr. 101). Độ 1 cần tái khám mỗi ngày (QĐ 3312/2015 mục 2); độ IIA ngoại trú &quot;nếu ở gần&quot;, tái khám mỗi ngày (QĐ 5643 mục 4.2.2).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi mẹ ngủ thế nào, nói thẳng vì sao không cho thuốc ngủ và cách cả nhà canh đêm (bé nằm đầu cao trong lòng mẹ, thay phiên người trực); công nhận ba nơi trước đã làm đúng phần họ thấy; không làm lại phim, xét nghiệm đã có</b></div><p class="why">Kỹ năng giao tiếp, lý do thật của mẹ chưa được giải quyết thì mẹ sẽ tự mua thuốc ngủ. Không lặp lại xét nghiệm vô ích: phổi và máu đã bình thường (kết quả ngày thứ ba).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Tiếp tục kháng sinh đang dùng</b></div><p class="why">Không dấu nhiễm khuẩn; không nguồn nào nói gây hại nhưng WHO 2013 mục 4.6.1 coi là không hiệu quả; dùng lâu làm mẹ tưởng bé bị bệnh khác. Xem sổ mâu thuẫn.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Dexamethason 0,6 mg/kg (≈ 10 mg) uống một liều cho độ I</b></div><p class="why">WHO 2013 mục 4.6.1 (tr. 103) nêu 0,6 mg/kg một liều cho croup nặng; QĐ 3312 mục 2 dùng 0,15 mg/kg cho độ 1. Liều cao hơn cho độ I không có trong tài liệu đã tải nhưng không nguồn nào nói gây hại.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho thuốc ngủ, thuốc an thần hoặc siro ho theo ý mẹ để bé ngủ</b></div><p class="why">WHO 2013 mục 4.6.1 (tr. 104): không cho thuốc an thần hoặc giảm ho.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Truyền dịch, đặt kim tĩnh mạch</b></div><p class="why">WHO 2013 mục 4.6.1 (tr. 104): tránh truyền dịch vì đặt kim làm bé khó chịu, có thể gây tắc đường thở hoàn toàn.</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Ép lưỡi mạnh hoặc soi thanh quản để nhìn thanh môn</b></div><p class="why">Ở trẻ em soi thanh quản gây co thắt, khó thở nặng thêm (QĐ 5643/2015, hạ thanh môn mục 3.1.2); khám họng có thể làm tắc hoàn toàn đường thở (WHO 2013 mục 4.6.2, tr. 105).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Cho bé Khôi nhập viện tối nay vì mẹ đã kiệt sức sau ba đêm là quá tay: bé tỉnh, uống được, rít chỉ khi khóc, SpO₂ 97% nên chỉ là độ I, điều trị ngoại trú (QĐ 5643/2015, hạ thanh môn mục 4.2.1). Đặt kim truyền làm bé khóc, mà khóc làm tăng phù nề thanh quản (mục 4.2.3) và có thể gây tắc đường thở (WHO 2013 mục 4.6.1). Mẹ thêm một đêm mất ngủ ở nơi lạ và tin rằng bé bệnh nặng hơn thực tế.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển bé Khôi lên bệnh viện Nhi tỉnh 18 km ngay tối nay là quá tay: chuyển tuyến dành cho độ IIB, III hoặc thất bại nội khoa (QĐ 5643/2015, hạ thanh môn mục 4.2.3), trong khi bé độ I và dexamethason có ngay tại phòng khám. Một chặng xe xóc làm bé khóc, rít tăng, còn mẹ phải đưa con tới chỗ thứ tư, càng mất niềm tin mà điều trị không khác.</p></div><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Giữ bé Khôi qua đêm ở phòng khám là không phù hợp: ngoài giờ không có kỹ thuật viên, không hồi sức, không đặt được nội khí quản, trong khi độ I theo QĐ 5643/2015 (hạ thanh môn mục 4.2.1) về nhà được kèm dặn dấu nặng. Mẹ ngủ trên ghế, vẫn không được hướng dẫn cách canh đêm ở nhà.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Viêm thanh quản cấp hạ thanh môn (croup) nghĩ do virus, ngày thứ 4</li><li>Khó thở thanh quản độ I (khàn tiếng, rít khi khóc, hết khi yên), SpO₂ 97%, chưa dấu nguy hiểm</li><li>Chưa có hội chứng xâm nhập; không giả mạc, không nghĩ bạch hầu (đã tiêm đủ)</li><li>Đã dùng thuốc không phù hợp: kháng sinh, siro ho kháng histamin, prednisolon tự mua liều rất thấp</li><li>Mẹ kiệt sức sau ba đêm mất ngủ, mất niềm tin sau ba nơi khám, muốn xin thuốc ngủ</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự hỏi: khởi phát sổ mũi, sốt rồi khàn tiếng và ho ông ổng, nặng về đêm; hỏi riêng tiếng rít khi khóc; hỏi bữa ăn hôm khởi phát và có sặc không; tiêm chủng; ba toa thuốc và kết quả cũ; thuốc tự mua; đêm qua nhà ngủ thế nào. Khám: không ép lưỡi, nghe cổ khi bé khóc, nghe phổi hai bên.</li><li>Vì sao croup độ I: sốt nhẹ, ho, chảy mũi rồi khàn tiếng, ho ông ổng, rít khi khóc (QĐ 5643/2015, hạ thanh môn mục 3.1.1–3.1.2; WHO 2013 mục 4.6.1). Bé yên thì không rít, không rút lõm, SpO₂ 97% nên chưa tới độ IIA (rít khi nằm yên, mục 3.1.2).</li><li>Vì sao ba nơi trước không gọi tên: mỗi nơi nhìn một mảnh (họng đỏ, ho, phổi sạch) và không nghe bé khi khóc; tiếng rít chỉ hiện lúc kích thích (WHO 2013 mục 4.6.1). Họ không sai hoàn toàn: phổi và máu bình thường đúng như họ thấy. Thiếu: khàn tiếng + ho ông ổng + rít thì hít vào là một nhóm dấu thanh quản, khác viêm họng hay viêm phế quản.</li><li>Vì sao dị vật chưa nghĩ nhiều: khởi phát từ từ sau sổ mũi, sốt; ho sặc chỉ vài giây, không tím, không sặc sụa 3–5 phút (QĐ 5643/2015, Dị vật đường thở mục 3.1.1); phổi đều hai bên (mục 3.1.3). Nhưng 7% dị vật không có hội chứng xâm nhập (mục 3.1.1), nên chi tiết ho sặc phải được ghi lại để mở lại hồ sơ nếu diễn tiến không khớp.</li><li>Vì sao bạch hầu chưa nghĩ: không giả mạc, hạch nhỏ, cổ không bạnh, đã tiêm đủ (QĐ 2957/2020 mục 3.1, 3.3; WHO 2013 Bảng 9). Viêm thanh thiệt, viêm khí quản: không chảy dãi, không vẻ nhiễm trùng (QĐ 5643 hạ thanh môn mục 3.1.3.2, 3.1.3.3).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Ngoại trú: độ I (QĐ 5643/2015, hạ thanh môn mục 4.2.1) và nhà gần; không nhập viện vì đặt kim làm bé khóc, khóc làm tăng phù nề (mục 4.2.3).</li><li>Corticoid: QĐ 3312/2015 (Khó thở thanh quản ở trẻ em mục 2, độ 1) dexamethason 0,15 mg/kg một liều (17 kg ≈ 2,5 mg) hoặc prednison 2 mg/kg 2–3 ngày; QĐ 5643 độ I không nêu corticoid, WHO 2013 mục 4.6.1 chăm sóc hỗ trợ cho croup nhẹ. Ca chọn dexamethason một liều vì bé đã bị nặng dần ba ngày; chọn không dùng cũng đúng (xem sổ mâu thuẫn). Prednisolon tự mua nửa viên 5 mg quá thấp để coi là điều trị.</li><li>Không kháng sinh: WHO 2013 mục 4.6.1 coi không hiệu quả; QĐ 5643 chỉ nêu kháng sinh uống từ độ IIA khi nhiễm trùng (mục 4.2.2). Ngưng thuốc ho, kháng histamin, thuốc ngủ: WHO 2013 mục 4.6.1.</li><li>Hạ sốt: paracetamol chỉ khi sốt ≥ 39 °C và khó chịu (WHO 2013 mục 10.3); tan đờm acetylcysteine 100–200 mg × 2 lần/ngày có trong QĐ 5643 mục 4.2.1 nhưng không bắt buộc, WHO 2013 không nêu.</li><li>Không soi thanh quản, không ép lưỡi (QĐ 5643 mục 3.1.2; WHO 2013 mục 4.6.2). Không chụp X-quang: ngoài giờ, không đổi xử trí (QĐ 3312 mục 1.1: chẩn đoán chủ yếu bằng lâm sàng).</li><li>Tái khám mỗi ngày với trẻ (QĐ 3312 mục 2; QĐ 5643 mục 4.2.2), đến ngay khi rít cả khi yên hoặc rút lõm (QĐ 5643 mục 3.1.2). Thuốc ngủ: từ chối kèm giải quyết lý do thật bằng kế hoạch canh đêm.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Dexamethason (viên 0,5 mg hoặc dạng uống có sẵn)</b><div class="sub">Theo dạng sẵn có tại cơ sở</div></td><td data-l="Liều">0,15 mg/kg ≈ 2,5 mg một liều duy nhất (HOẶC không dùng corticoid, chỉ chăm sóc hỗ trợ)<div class="sub">Uống, cho uống ngay tại phòng khám · Một lần, ngay tối nay</div></td><td data-l="Thời gian">Một liều</td><td class="gc" data-l="Ghi chú">QĐ 3312/2015, Khó thở thanh quản ở trẻ em mục 2 (độ 1; hoặc prednison 2 mg/kg × 2–3 ngày). QĐ 5643 hạ thanh môn mục 4.2.1 và WHO 2013 mục 4.6.1 không bắt buộc ở độ I. Nôn trong vòng ngắn sau uống thì lặp lại liều (WHO 2013 mục 4.6.1 tr. 103). Không dùng thêm prednisolon tự mua.</td></tr><tr><td><b>Paracetamol (viên 100 mg hoặc gói bột trẻ em)</b><div class="sub">Theo dạng sẵn có</div></td><td data-l="Liều">200 mg/lần (≈ 11,8 mg/kg; cho phép 10–20 mg/kg theo QĐ 5643 hoặc 15 mg/kg theo WHO)<div class="sub">Uống · Chỉ khi sốt ≥ 39 °C làm bé khó chịu; cách nhau ít nhất 6 giờ</div></td><td data-l="Thời gian">Những ngày còn sốt cao gây khó chịu</td><td class="gc" data-l="Ghi chú">WHO 2013 mục 10.3 (tr. 305), bảng liều (tr. 366); QĐ 5643/2015 hạ thanh môn mục 4.2.1. Số lần tối đa mỗi ngày: không có trong tài liệu đã tải cho nhóm 15–&lt;20 kg (WHO ghi tối đa 6 lần/ngày ở bảng liều).</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Bé bị viêm thanh quản cấp (croup): phù nề dưới dây thanh nên khàn tiếng, ho ông ổng, rít khi khóc; thường giảm sau 3–5 ngày với thể nhẹ (QĐ 5643/2015, hạ thanh môn mục 5.1). Ba nơi trước đều thấy đúng phần của mình; tối nay có thêm tiếng rít khi khóc nên nghĩ khác.</li><li>Ngưng kháng sinh, siro ho, thuốc kháng histamin và prednisolon tự mua. Không cho thuốc ngủ: thuốc ngủ làm bé li bì và che dấu hiệu nặng (WHO 2013 mục 4.6.1 không cho thuốc an thần).</li><li>Bé uống một liều dexamethason ngay tối nay; nếu bé nôn trong ít phút sau uống, báo để uống lại.</li><li>Giữ bé yên, bế đứng đầu cao khi bé khóc hoặc ho, cho uống nước, ăn lỏng; không xông hơi nước nóng (WHO 2013 mục 4.6.1), không ép lưỡi, không cho bé khóc kéo dài. Cả nhà thay phiên nhau canh đêm, một người ngủ, một người canh tiếng thở.</li><li>Paracetamol 200 mg chỉ khi sốt từ 39 °C làm bé khó chịu, cách ít nhất 6 giờ (WHO 2013 mục 10.3).</li><li>Đưa bé đến ngay (hoặc gọi phòng khám) nếu bé rít cả khi nằm yên, thở nhanh, rút lõm ngực, vật vã hoặc li bì, môi tím, không uống được (QĐ 5643 mục 3.1.2; WHO 2013 mục 4.6.1).</li><li>Tái khám sáng mai (mỗi ngày với trẻ, QĐ 3312/2015 mục 2). Nếu rít không đỡ hoặc tái diễn, cần soi thanh khí quản để chắc không có dị vật (QĐ 5643 hạ thanh môn mục 3.1.2).</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-2">
+ <h2 id="h-luot-2"><span class="ln">Lượt 2/2</span> · rạng sáng hôm sau, 4 giờ 30</h2>
+ <div class="card intro"><h3 id="m-8">Tiếp đón</h3><p>Bé Khôi, 4 tuổi, 17 kg, tối qua đã khám, uống dexamethason và được cho về. Khoảng 4 giờ 30 sáng mẹ và bà nội đưa bé quay lại, gõ cửa nhà bác sĩ vì bé thở rít cả khi nằm yên, ngực lõm. Sinh hiệu: nhiệt 38,8 °C, mạch 148 l/p, nhịp thở 46 l/p, SpO₂ 92% khí trời. Bé tỉnh, bám chặt mẹ.</p>
+  <blockquote>“Bác sĩ ơi, em làm đúng hết như bác sĩ dặn mà cháu càng nặng. Cháu thở nghe tiếng rít, ngực lõm vào. Em sợ quá, bác sĩ cứu cháu.”</blockquote>
+  <div class="vitals"><div class="vs warn"><span>Mạch</span><b>148</b><small>l/p</small></div><div class="vs"><span>HA</span><b>Không đo</b><small>mmHg</small></div><div class="vs warn"><span>Nhiệt</span><b>38,8</b><small>°C</small></div><div class="vs warn"><span>Nhịp thở</span><b>46</b><small>l/p</small></div><div class="vs warn"><span>SpO₂</span><b>92</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-9">Hỏi bệnh <small>8 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Diễn tiến sau xử trí đúng: nặng hơn, rít cả khi nằm yên</b><span class="tag t-g">Tự kể</span></div><p>Về nhà bé ngủ được khoảng hai tiếng sau khi uống thuốc. Khoảng 3 giờ sáng bé tỉnh, thở rít cả khi nằm yên trong lòng mẹ, ngực lõm theo từng nhịp, bé nhăn mặt sợ hãi. Mẹ làm đúng từng điều dặn: không cho thuốc ngủ, không xông hơi, bế đứng, nhưng bé không đỡ mà nặng hơn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc đã dùng từ lượt 1 (không tuân thủ, nôn thuốc?)</b><span class="tag t-b">Khi được hỏi</span></div><p>Dexamethason uống ngay tối qua tại phòng khám, bé không nôn. Từ đó không cho thêm thuốc nào, cả prednisolon. Mẹ cho paracetamol 200 mg lúc 3 giờ khi sốt.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Sốt, tri giác</b><span class="tag t-b">Khi được hỏi</span></div><p>Sốt 38,8 °C lúc 3 giờ, uống paracetamol vẫn còn 38,5 °C. Bé mệt hơn nhưng vẫn nhận ra mẹ.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Loại viêm thanh thiệt, áp xe sau họng</b><span class="tag t-b">Khi được hỏi</span></div><p>Bé vẫn nuốt nước bọt được, không chảy dãi, không ngồi cúi ra trước, không đau họng dữ dội. Còn ho ông ổng, giọng khàn như hôm qua.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dị vật vẫn chưa loại hẳn (không ai nhìn bé trọn bữa)</b><span class="tag t-r">Giấu</span></div><p>Hỏi riêng bà nội: hôm ăn xiên ở xe đẩy bà bảo bé đứng cạnh xe đẩy, bà quay đi trả tiền chừng một phút, không nhìn bé; khi quay lại bé cầm xiên đã ăn một ít, ho sặc một cái ngắn rồi ăn tiếp. Bà chỉ thấy lúc ho sặc ngắn đó, không thấy bé có thể đã ngậm hạt, miếng nhỏ nào khác. Không có cơn tím, không sặc sụa. Bà chưa dám kể vì sợ bị trách.</p><div class="cond">Điều kiện nói ra: Chỉ kể khi bác sĩ hỏi riêng bà nội hoặc hỏi &quot;có lúc nào không ai nhìn bé lúc ăn không&quot;.</div></div><div class="fact"><div class="fh"><b>Mẹ xin thuốc ngủ lần nữa, niềm tin dễ vỡ</b><span class="tag t-g">Tự kể</span></div><p>Mẹ vừa khóc vừa nói: &quot;Hôm qua bác sĩ nói ở nhà được, em về làm đúng hết. Giờ cho em xin thuốc ngủ cho bé ngủ rồi sáng mình đi bệnh viện, chứ em sợ quá.&quot;</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Phương tiện, khoảng cách chuyển tuyến</b><span class="tag t-b">Khi được hỏi</span></div><p>Bệnh viện Nhi tỉnh cách 18 km, xe cấp cứu của bệnh viện đến phòng khám trong khoảng 25 phút. Mẹ không dám tự chở con bằng xe máy.</p></div><div class="fact"><div class="fh"><b>tien_su2</b><span class="tag t-b">Khi được hỏi</span></div><p>Không có tiền sử rít khi ngủ, hen, bệnh tim, dị ứng thuốc; chưa từng đặt nội khí quản.</p></div></details>
+ <details class="card"><summary><h3 id="m-10">Khám <small>5 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Bé tỉnh, nhăn mặt, bám chặt mẹ, mệt nhưng không vật vã, không li bì. Môi hồng nhạt, đầu chi hơi lạnh, nở cánh mũi. Không chảy dãi, không ngồi cúi ra trước.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nhịp thở 46 l/p. Rút lõm hõm ức và lồng ngực dưới rõ, nở cánh mũi.</p><p><span class="lbl">Kết quả:</span> Nhịp thở 46 l/p. Rít thì hít vào nghe được cả khi bé nằm yên trong lòng mẹ, rõ nhất ở vùng cổ. Rút lõm hõm ức và lõm lồng ngực dưới rõ, đầu gật gù theo nhịp thở. Hai phổi: thông khí giảm nhẹ đều hai bên, không ran, không giảm một bên.</p><div class="media"><figure class="aud"><figcaption><b>Vùng cổ trước thanh quản</b> – Tiếng rít thanh quản thì hít vào, nghe được cả khi bé nằm yên.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-HH-STRIDOR-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><span class="key">★</span><b>Họng, tai, mũi</b></div><p><span class="lbl">Kết quả:</span> Chỉ nhìn nhanh bằng đèn khi bé há miệng khóc, không ép lưỡi: họng đỏ nhẹ, không giả mạc, thành sau họng không phồng. Mũi dịch trong, không chảy máu mũi.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Hạch dưới hàm nhỏ, di động, không đau. Cổ không bạnh, không sưng.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 148 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 148 l/p, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – Tim nhanh đều, T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-NHANH-01.mp3"></audio></figure></div></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-11">Cận lâm sàng <small>3 mục</small></h3></summary><div class="row"><div class="rh"><b>X-quang ngực thẳng</b><span class="tag t-r">Không cần</span></div><p class="why">Không có kỹ thuật viên ngoài giờ; đưa đi chụp, đặt nằm làm bé khóc có thể gây tắc đường thở và không đổi xử trí (QĐ 3312/2015, Khó thở thanh quản ở trẻ em mục 1.1: chẩn đoán dựa vào lâm sàng). Dị vật ít khi hiện trên phim trừ kim loại (QĐ 5643/2015, Dị vật đường thở mục 3.2): X-quang bình thường không loại được; chỉ nội soi mới xác định (mục 3.3).</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-r">Không cần</span></div><p class="why">Không làm được ngoài giờ, không đổi xử trí; công thức máu ngày thứ ba bình thường. Chờ kết quả không phải việc của phòng khám trước chuyển.</p></div><div class="row"><div class="rh"><b>Phết họng soi, cấy tìm vi khuẩn bạch hầu</b><span class="tag t-r">Không cần</span></div><p class="why">Không làm được ngoài giờ; không giả mạc, đã tiêm đủ, tuyến trên phết họng nếu có giả mạc (QĐ 2957/2020 mục 4.1, 5.1). Ép lưỡi lấy bệnh phẩm có thể làm tắc hoàn toàn (WHO 2013 mục 4.6.2).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-12">Đáp án lượt 2 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Chuyển tuyến / chuyên khoa</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Viêm thanh quản cấp hạ thanh môn (croup) nặng lên: khó thở thanh quản độ IIB (rít khi nằm yên, thở nhanh, rút lõm), SpO₂ 92%, chưa kiệt sức; chưa loại hẳn dị vật</b></div><p class="why">Độ IIA rít khi nằm yên; IIB thêm thở nhanh, rút lõm ngực; III thêm vật vã hoặc tím (QĐ 5643/2015, hạ thanh môn mục 3.1.2 tr. 199). WHO 2013 mục 4.6.1 (tr. 102): croup nặng khi rít lúc nghỉ, thở nhanh, rút lõm lồng ngực dưới, SpO₂ ≤ 90%; thở 46 l/p ≥ 40 l/p là thở nhanh ở trẻ 1–5 tuổi (QĐ 708/2015 mục 3.1). Thể nặng tiên lượng dè dặt, cần theo dõi sát (QĐ 5643 mục 5.1). Mốc mở lại hồ sơ: nặng lên sau corticoid đã uống, mẹ tuân thủ đủ, tiếng rít từ chỗ chỉ khi khóc thành cả khi nằm yên.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Dị vật đường thở (thanh quản, khí quản)</b></div><p class="why">Chưa loại hẳn: một phút bé không ai nhìn lúc ăn, hội chứng xâm nhập chỉ khai thác được ở 93% (QĐ 5643/2015, Dị vật đường thở mục 3.1.1); thất bại nội khoa và chẩn đoán phân biệt dị vật là chỉ định nội soi thanh khí quản (hạ thanh môn mục 3.1.2). Không ép lưỡi, không tự soi ở phòng khám. Hướng ngược dị vật: khởi phát từ từ sau sổ mũi, sốt, phổi đều hai bên, rít thì hít vào không đổi theo tư thế.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Bạch hầu thanh quản</b></div><p class="why">Không giả mạc, cổ không bạnh, mũi không chảy máu, đã tiêm đủ (QĐ 2957/2020 mục 3.1.3, 3.2, 3.3; WHO 2013 Bảng 9). Chưa loại hẳn khi chưa phết họng: tuyến trên làm (QĐ 5643 hạ thanh môn mục 3.1.2: phết họng khi nghi ngờ).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm thanh thiệt cấp, viêm khí quản vi khuẩn, áp xe sau họng</b></div><p class="why">Nuốt được, không chảy dãi, không ngồi cúi ra trước, còn ho ông ổng, sốt 38,8 °C không vẻ nhiễm độc (QĐ 5643/2015, hạ thanh môn mục 3.1.3.2, 3.1.3.3: viêm khí quản sốt cao, vẻ nhiễm trùng, đau ngực; WHO 2013 Bảng 9). Nghĩ lại nếu bé vẻ nhiễm độc nặng hơn: tuyến trên đánh giá.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Gọi xe cấp cứu, chuyển ngay lên bệnh viện Nhi tỉnh (18 km, có nhi, hồi sức, soi thanh khí quản); nhân viên y tế đi cùng, mẹ bế bé; gọi báo trước cho nơi nhận</b></div><p class="why">Độ IIB, III nhập viện (QĐ 5643/2015, hạ thanh môn mục 4.2.3); QĐ 3312/2015 mục 2: độ 2 nhập viện. WHO 2013 mục 4.6.1 (tr. 104): không đặt được nội khí quản tại chỗ thì chuyển khẩn cấp. Mục 4.2.2 (độ IIA ngoại trú nếu ở gần) không áp dụng: bé IIB. Phòng khám không đặt được nội khí quản (xem sổ mâu thuẫn mục 4 của HH-1077 về mở khí quản).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giữ bé yên trong lòng mẹ, không làm bé khóc; không ép lưỡi, không đặt kim truyền, không chụp phim lúc này</b></div><p class="why">Giữ yên trẻ hoặc cho cha mẹ bế, tránh để trẻ khóc làm tăng phù nề (QĐ 5643/2015, hạ thanh môn mục 4.2.3); WHO 2013 mục 4.6.1 (tr. 103–104): tránh thủ thuật xâm lấn, tránh truyền dịch.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dexamethason 0,6 mg/kg (≈ 10 mg) một liều, uống hoặc tiêm bắp (2 mL loại 5 mg/mL), ngay tại phòng khám, dù bé đã uống liều thấp tối qua</b></div><p class="why">QĐ 3312/2015 mục 2 (độ 2, 3): 0,6 mg/kg tiêm bắp hoặc tĩnh mạch một lần, có thể lặp lại sau 6–12 giờ, hoặc uống liều như trên. WHO 2013 mục 4.6.1 (tr. 103): uống một liều 0,6 mg/kg càng sớm càng tốt; bảng liều (tr. 361): tiêm bắp 5 mg/mL, 2 mL cho 15–&lt;20 kg. QĐ 5643 hạ thanh môn mục 4.2.3: corticoid dạng chích, lặp lại mỗi 6–12 giờ nếu cần. Tương tác với liều prednisolon tự mua trước đó: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Khí dung adrenaline 1/1000 5 mL, theo dõi liên tục; lặp lại sau 30 phút – 1 giờ nếu còn khó thở; vẫn phải chuyển dù bé đỡ</b></div><p class="why">QĐ 5643/2015, hạ thanh môn mục 4.2.3: 2–5 mL, lặp lại 30 phút – 1 giờ. QĐ 3312/2015 mục 2 (độ 3): 2–5 mL hoặc 0,4–0,5 mL/kg (tối đa 5 mL), tối đa 3 liều. WHO 2013 bảng liều (tr. 355): 0,5 mL/kg tối đa 5 mL, nhóm 15–&lt;20 kg: 5 mL; mục 4.6.1: thường chỉ tạm thời, khoảng 2 giờ.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Oxy duy trì SaO₂ 92–96% bằng cách ít kích thích bé nhất, HOẶC chỉ cho oxy khi có dấu sắp tắc hoàn toàn đường thở</b></div><p class="why">Hai nguồn khác nhau, cả hai chấp nhận (xem sổ mâu thuẫn, mục HH-1077). QĐ 5643/2015 hạ thanh môn mục 4.2.3: oxy duy trì SaO₂ 92–96%; QĐ 3312/2015 mục 2 (độ 3): SpO₂ &gt; 95%. WHO 2013 mục 4.6.1 (tr. 104): tránh oxy trừ khi sắp tắc hoàn toàn vì gọng mũi làm bé kích thích. Bé SpO₂ 92%, ở ngưỡng dưới của khoảng QĐ 5643.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không kháng sinh tại phòng khám trước chuyển, HOẶC kháng sinh chích (cephalosporin thế hệ III) tại bệnh viện nếu có dấu nhiễm trùng</b></div><p class="why">Hai nguồn khác nhau, cả hai chấp nhận (xem sổ mâu thuẫn). WHO 2013 mục 4.6.1 (tr. 104): kháng sinh không hiệu quả, không nên dùng. QĐ 5643 hạ thanh môn mục 4.2.2–4.2.3: kháng sinh uống nếu nhiễm trùng (IIA), chích cefotaxim 100–200 mg/kg/ngày hoặc ceftriaxon 75–100 mg/kg/ngày (IIB, III); QĐ 3312 mục 2: độ 3 cefotaxim hoặc ceftriaxon 3–5 ngày.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ghi giấy chuyển và nói miệng cho tuyến trên: rít nặng lên sau dexamethason, ho sặc thoáng qua và một phút không ai nhìn bé lúc ăn nên chưa loại dị vật, đề nghị cân nhắc soi thanh khí quản; đã tiêm đủ nhưng chưa phết họng; kèm thuốc đã dùng, giờ dùng, ba toa và phim cũ</b></div><p class="why">Nội soi thanh khí quản khi chẩn đoán phân biệt dị vật đường thở hoặc thất bại điều trị nội khoa (QĐ 5643/2015, hạ thanh môn mục 3.1.2); phết họng khi nghi ngờ bạch hầu (cùng mục); xác định dị vật bằng nội soi (Dị vật đường thở mục 3.3). Không lặp lại xét nghiệm đã có (kết quả ngày thứ ba).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích vì sao phải đi ngay, nhận trách nhiệm không giấu: hôm qua độ I đúng cho về, nay bệnh đã đổi nên đổi hướng; không cho thuốc ngủ; mẹ đi cùng xe, bà ở nhà có người chở sau; thừa nhận việc mẹ đã làm đúng</b></div><p class="why">Kỹ năng giao tiếp: mẹ mất niềm tin, xin thuốc ngủ lần nữa; thuốc ngủ không an toàn (WHO 2013 mục 4.6.1 không cho thuốc an thần). Lý do thật của mẹ là được ngủ và yên tâm: yên tâm đến từ việc bé được xử trí ngay.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho về nhà hoặc giữ ở phòng khám theo dõi đến sáng sau khi bé đỡ nhờ dexamethason và adrenaline</b></div><p class="why">Adrenaline chỉ cải thiện tạm thời, tắc đường thở có thể đột ngột (WHO 2013 mục 4.6.1 tr. 104); độ IIB, III phải nhập viện (QĐ 5643/2015, hạ thanh môn mục 4.2.3). Phòng khám không có hồi sức, không đặt nội khí quản.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho thuốc ngủ, an thần cho bé ngủ rồi chờ sáng</b></div><p class="why">WHO 2013 mục 4.6.1 (tr. 104): không cho thuốc an thần hoặc giảm ho; bé rút lõm, an thần làm mất phản ứng bảo vệ đường thở (suy luận của ca).</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Ép lưỡi, soi thanh quản hoặc làm bé khóc để nhìn thanh môn, tìm dị vật tại chỗ</b></div><p class="why">Gây co thắt, khó thở nặng thêm (QĐ 5643/2015, hạ thanh môn mục 3.1.2); khám họng có thể làm tắc hoàn toàn đường thở (WHO 2013 mục 4.6.2 tr. 105).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Cho về, hẹn tái khám</span></div><p>Cho Khôi về sau khi khí dung adrenaline làm bé bớt rít là nguy hiểm: adrenaline thường chỉ tạm thời, khoảng 2 giờ, tắc đường thở có thể đột ngột (WHO 2013 mục 4.6.1 tr. 104), mà độ IIB phải nhập viện (QĐ 5643/2015, hạ thanh môn mục 4.2.3). Bé đã nặng lên dù có corticoid, mẹ kiệt sức sau bốn đêm; tiếng rít quay lại giữa đêm khi phòng khám không có người trực, bé tụt SpO₂ trên đường đến viện.</p></div><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Giữ Khôi ở phòng khám đến sáng chờ kỹ thuật viên chụp phim và xét nghiệm là chậm: ngoài giờ, phòng khám không hồi sức, không đặt được nội khí quản, trong khi bé độ IIB (QĐ 5643/2015, hạ thanh môn mục 4.2.3: lơ mơ, kiệt sức thì đặt nội khí quản). Phim, máu không đổi xử trí (QĐ 3312/2015 mục 1.1), còn xe cấp cứu phải gọi lúc bé tệ hơn.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhận Khôi nằm nội trú tại phòng khám là không đúng chỗ: độ IIB, III phải nhập viện nơi đặt được nội khí quản và soi thanh khí quản (QĐ 5643/2015, hạ thanh môn mục 4.2.3, 3.1.2; WHO 2013 mục 4.6.1 tr. 104: phương tiện đặt nội khí quản phải sẵn sàng ngay). Bé nằm lại ngoài giờ, không bác sĩ trực, mà chưa ai loại dị vật.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Viêm thanh quản cấp hạ thanh môn (croup) nặng lên, khó thở thanh quản độ IIB, SpO₂ 92%, chưa kiệt sức</li><li>Dị vật đường thở chưa loại hẳn (ho sặc thoáng qua, một phút không ai nhìn bé), cần nội soi ở tuyến trên</li><li>Chưa có dấu bạch hầu; chưa loại bằng phết họng</li><li>Điểm gãy trong chuỗi: ba nơi trước không nghe tiếng rít khi khóc, bé tiến triển từ độ I đến IIB sau ba ngày dùng thuốc không đúng</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Mốc mở lại hồ sơ: hôm qua nghĩ croup độ I tự giới hạn, đã uống dexamethason, mẹ làm đúng mọi điều dặn; nay rít cả khi nằm yên, thở nhanh 46 l/p, rút lõm, SpO₂ 92%, sốt 38,8 °C. Diễn tiến không khớp bệnh nhẹ tự lui sau 3–5 ngày (QĐ 5643/2015, hạ thanh môn mục 5.1). Phải hỏi lại: sai chẩn đoán? sai thuốc? không tuân thủ? biến chứng?</li><li>Sai thuốc/không tuân thủ: không, bé uống đủ dexamethason, không nôn, không xông hơi. Sai chẩn đoán: dị vật chưa loại (bà nội kể thêm một phút không nhìn bé; hội chứng xâm nhập chỉ khai thác được 93%, QĐ 5643 Dị vật đường thở mục 3.1.1); bạch hầu chưa có giả mạc (QĐ 2957/2020 mục 3.1.3); viêm khí quản vi khuẩn, viêm thanh thiệt không hợp (QĐ 5643 hạ thanh môn mục 3.1.3). Biến chứng: croup nặng lên là diễn tiến của chính bệnh; thể nặng tiên lượng dè dặt (mục 5.1).</li><li>Độ IIB (QĐ 5643 mục 3.1.2): rít khi nằm yên, thở nhanh, rút lõm. WHO 2013 mục 4.6.1: croup nặng khi rít lúc nghỉ, thở nhanh, rút lõm lồng ngực dưới, SpO₂ ≤ 90%. Bé chưa vật vã, chưa tím nên chưa độ III, nhưng ở nơi không đặt được nội khí quản thì không chờ.</li><li>Điểm gãy truy nguyên: (1) ba nơi trước đều khám bé khi yên, không ai nghe bé khóc; (2) họng đỏ, ho, phổi sạch dẫn tới nhãn viêm họng, viêm phế quản (anchoring); (3) kháng sinh, siro ho, prednisolon liều thấp che đi nhưng không điều trị phù nề thanh quản; (4) hôm qua độ I đúng cho về, bệnh vẫn nặng lên nên phải tái đánh giá, không an ủi &quot;đã dặn rồi&quot;.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Nhập viện, chuyển cấp cứu bằng xe có nhân viên y tế: QĐ 5643/2015 hạ thanh môn mục 4.2.3 (IIB, III nhập viện); WHO 2013 mục 4.6.1 (chuyển khẩn khi không đặt được nội khí quản). Mở khí quản hay nội khí quản là việc tuyến trên; QĐ 5643 mục 4.2.3 ưu tiên nội khí quản, QĐ 3312 mục 2 không khuyến cáo mở khí quản; không đưa vào chấm điểm.</li><li>Dexamethason 0,6 mg/kg ngay tại phòng khám (QĐ 3312 mục 2; WHO 2013 mục 4.6.1); khí dung adrenaline 5 mL, theo dõi và lặp lại (QĐ 5643 mục 4.2.3). Oxy: hai cách (QĐ 5643 duy trì SaO₂ 92–96%; WHO 2013 chỉ khi sắp tắc hoàn toàn).</li><li>Kháng sinh: hai cách (WHO 2013 không dùng cho croup virus; QĐ 5643 mục 4.2.3 chích cephalosporin III ở IIB, III). Không lặp lại xét nghiệm đã có; không soi thanh quản tại chỗ; không chụp phim lúc này.</li><li>Thông tin cho tuyến trên: nghi dị vật chưa loại, đề nghị soi thanh khí quản (QĐ 5643 hạ thanh môn mục 3.1.2); chưa phết họng bạch hầu.</li><li>Giao tiếp: mẹ xin thuốc ngủ lần nữa, từ chối kèm thừa nhận mẹ đã làm đúng và giải thích bệnh đã đổi nên hướng xử trí đổi.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Dexamethason (ống tiêm 5 mg/mL hoặc dạng uống)</b><div class="sub">5 mg/mL (tiêm bắp)</div></td><td data-l="Liều">0,6 mg/kg ≈ 10 mg: tiêm bắp 2 mL, hoặc uống liều như trên<div class="sub">Tiêm bắp (hoặc uống nếu bé nuốt được mà không làm bé khóc) · Ngay tại phòng khám, trước khi lên xe cấp cứu</div></td><td data-l="Thời gian">Một liều; tuyến trên có thể lặp lại sau 6–12 giờ</td><td class="gc" data-l="Ghi chú">QĐ 3312/2015 mục 2 (độ 2, 3); WHO 2013 mục 4.6.1 (tr. 103) và bảng liều (tr. 361: 15–&lt;20 kg tiêm bắp 2 mL); QĐ 5643 hạ thanh môn mục 4.2.3. Ghi giờ và liều đã dùng tối qua (2,5 mg) vào giấy chuyển.</td></tr><tr><td><b>Adrenaline 1/1000 (1 mg/mL) khí dung</b><div class="sub">1 mg/mL</div></td><td data-l="Liều">5 mL pha khí dung (0,5 mL/kg, tối đa 5 mL)<div class="sub">Khí dung qua mặt nạ, mẹ bế bé · Ngay khi chẩn đoán độ IIB; lặp lại sau 30 phút – 1 giờ nếu còn khó thở, tối đa 3 liều theo QĐ 3312</div></td><td data-l="Thời gian">Trước và trong khi chuyển</td><td class="gc" data-l="Ghi chú">QĐ 5643/2015 hạ thanh môn mục 4.2.3 (2–5 mL); QĐ 3312 mục 2 (0,4–0,5 mL/kg, tối đa 5 mL); WHO 2013 bảng liều (tr. 355: 5 mL cho 15–&lt;20 kg). Hiệu quả thường chỉ tạm thời khoảng 2 giờ (WHO mục 4.6.1): vẫn phải chuyển.</td></tr><tr><td><b>Oxy</b><div class="sub">Không áp dụng</div></td><td data-l="Liều">Duy trì SaO₂ 92–96% bằng cách ít kích thích nhất, HOẶC chỉ khi có dấu sắp tắc hoàn toàn đường thở<div class="sub">Qua ống thông hoặc mặt nạ để gần mặt bé, mẹ bế · Trong khi chờ và trên đường chuyển</div></td><td data-l="Thời gian">Đến khi tuyến trên tiếp nhận</td><td class="gc" data-l="Ghi chú">QĐ 5643/2015 hạ thanh môn mục 4.2.3 (SaO₂ 92–96%); QĐ 3312 mục 2 (độ 3, &gt; 95%); WHO 2013 mục 4.6.1 (tr. 104: tránh trừ khi sắp tắc hoàn toàn). Lưu lượng cho trẻ 17 kg: không có trong tài liệu đã tải.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Với mẹ: bệnh của Khôi đã nặng lên so với hôm qua nên hôm qua cho về là đúng, hôm nay phải đi viện là đúng; mẹ làm đúng hết, bệnh tự nặng chứ không phải lỗi của mẹ.</li><li>Không cho Khôi uống thuốc ngủ; thuốc ngủ làm bé mất phản xạ bảo vệ đường thở, bé cần tỉnh để bác sĩ theo dõi (WHO 2013 mục 4.6.1: không cho thuốc an thần).</li><li>Mẹ bế bé trên xe cấp cứu, giữ bé yên, bé khóc sẽ rít nặng thêm (QĐ 5643/2015 mục 4.2.3). Mang theo ba toa thuốc, phim X-quang phổi, kết quả máu cũ, sổ tiêm chủng.</li><li>Kể với bác sĩ tuyến trên: ho sặc lúc ăn xiên nướng và một phút không ai nhìn bé; bé đã uống dexamethason tối qua. Bà nội ở nhà có người chở lên sau.</li><li>Sau khi ra viện: tái khám theo hẹn của bệnh viện; đến ngay khi rít trở lại. Phòng khám sẽ gọi hỏi thăm.</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-13">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Viêm thanh quản cấp</b></div>
+<p class="note">Phải loại trừ: Bạch hầu, Dị vật đường thở</p><p>Bé Khôi được xe cấp cứu đưa đến Bệnh viện Nhi tỉnh trong 40 phút, SpO₂ lên 95% sau adrenaline khí dung lần hai và dexamethason tiêm. Bác sĩ tuyến trên nội soi thanh khí quản ống mềm: phù nề hạ thanh môn, không thấy dị vật; phết họng không giả mạc. Không phải đặt nội khí quản; bé nằm 3 ngày rồi ra viện, hết rít. Điểm gãy truy nguyên: ba nơi trước không nghe bé khi khóc nên gọi nhầm là viêm họng, viêm phế quản; kháng sinh, siro ho và prednisolon liều thấp không điều trị phù nề thanh quản, bé tiến triển đến độ IIB. Mẹ nói sau đó: &quot;Lần đầu tiên có người nghe con em thở.&quot; Chi tiết nằm viện là thiết kế của ca, không có trong tài liệu đã tải.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-14">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Ăn xiên nướng, bắp xào ở xe đẩy và một cái ho sặc ngắn: kéo về dị vật hoặc ngộ độc thức ăn; thật ra khởi phát sổ mũi, sốt rồi khàn tiếng là croup (chưa loại hẳn dị vật cho tới khi nội soi).</li><li>Ba toa thuốc, ba chẩn đoán (viêm họng, viêm phế quản, viêm phế quản co thắt): neo chẩn đoán; không toa nào giải thích được tiếng rít thì hít vào.</li><li>Mẹ mất niềm tin, trả lời cộc, phản đối làm lại xét nghiệm: người học phải xem lại toa và kết quả cũ thay vì chỉ định lại.</li><li>Không có kỹ thuật viên ngoài giờ: không cần cho chẩn đoán croup (chẩn đoán lâm sàng), nhưng làm kết quả về muộn hơn quyết định chuyển tuyến.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Mở lại chẩn đoán: croup độ I hôm qua đúng; điều buộc mở lại hồ sơ là nặng lên sau corticoid, mẹ đã tuân thủ, rít từ &quot;chỉ khi khóc&quot; thành &quot;cả khi nằm yên&quot;. Câu cần tự hỏi: sai chẩn đoán, sai thuốc, không tuân thủ, hay biến chứng?</li><li>Khám bé khi khóc và nghe cổ: ba nơi nhìn bé yên nên chỉ thấy họng đỏ và phổi sạch, nhãn viêm họng, viêm phế quản kéo dài ba ngày (anchoring).</li><li>Từng khám 3 nơi không khỏi: xem toa và kết quả cũ, công nhận phần đúng của đồng nghiệp, không lặp lại xét nghiệm vô ích.</li><li>Lý do thật (thuốc ngủ): hỏi đêm qua nhà ngủ thế nào; từ chối thuốc ngủ (WHO 2013 mục 4.6.1) kèm kế hoạch canh đêm thì mẹ mới nghe.</li><li>Thuốc đang dùng: corticoid tự mua liều rất thấp không phải điều trị; hỏi đúng liều, số lần, đáp ứng.</li><li>Dị vật không loại bằng một câu hỏi: 7% không có hội chứng xâm nhập (QĐ 5643 Dị vật đường thở mục 3.1.1). Khai thác riêng người chứng kiến, nhẹ nhàng, không trách.</li><li>Ngoài giờ không kỹ thuật viên: quyết định bằng lâm sàng và độ nặng (QĐ 5643 mục 3.1.2), không chờ phim, máu.</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Phân độ khó thở thanh quản (QĐ 5643/2015, hạ thanh môn mục 3.1.2): I khàn tiếng, rít khi khóc; IIA rít khi nằm yên; IIB thêm thở nhanh, rút lõm ngực; III thêm vật vã, tím tái.</li><li>Croup nhẹ chăm sóc tại nhà; nặng khi rít lúc nghỉ, thở nhanh, rút lõm lồng ngực dưới, SpO₂ ≤ 90% (WHO 2013 mục 4.6.1 tr. 102). Không cho thuốc an thần, thuốc ho (tr. 104).</li><li>Độ I ngoại trú; IIA ngoại trú nếu ở gần, tái khám mỗi ngày; IIB, III nhập viện (QĐ 5643/2015 mục 4.2.1–4.2.3; QĐ 3312/2015 mục 2).</li><li>Dexamethason 0,15 mg/kg một liều (độ 1) hoặc 0,6 mg/kg (độ 2, 3; WHO 0,6 mg/kg); adrenaline 1/1000 2–5 mL, 0,5 mL/kg tối đa 5 mL (QĐ 5643 mục 4.2.3; QĐ 3312 mục 2; WHO 2013 bảng liều tr. 355, 361).</li><li>Không ép lưỡi, không soi thanh quản, không đặt kim trừ khi bắt buộc; khóc làm tăng phù nề (QĐ 5643 mục 3.1.2, 4.2.3; WHO 2013 mục 4.6.1–4.6.2).</li><li>Dị vật: hội chứng xâm nhập (ho sặc sụa, tím tái 3–5 phút) khai thác được 93%; xác định bằng nội soi (QĐ 5643 Dị vật đường thở mục 3.1.1, 3.3). Bạch hầu: giả mạc dính chặt, cổ bạnh, chưa tiêm đủ (QĐ 2957/2020 mục 3).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-15">Nguồn tài liệu <small>6</small></h3></summary><ul class=""><li>TL-0130 · QĐ 5643/QĐ-BYT 2015 (Hướng dẫn chẩn đoán và điều trị một số bệnh về Tai Mũi Họng) · ĐÃ ĐỌC: Viêm thanh quản cấp tính hạ thanh môn mục 1–6 (tr. 198–202); Dị vật đường thở mục 1–3.3 (tr. 215–217)</li><li>TL-0037 · QĐ 3312/QĐ-BYT 2015 (bệnh thường gặp ở trẻ em) · ĐÃ ĐỌC: Khó thở thanh quản ở trẻ em mục 1.1, 1.2, 2 (tr. 269–271)</li><li>TL-0250 · WHO 2013, Pocket book of hospital care for children, ấn bản 2 · ĐÃ ĐỌC: mục 4.6, 4.6.1 (tr. 101–104), Bảng 9 (tr. 103), 4.6.2 (tr. 105), 10.3 (tr. 305), bảng liều adrenaline (tr. 355), dexamethason (tr. 361), paracetamol (tr. 366)</li><li>TL-0129 · QĐ 2957/QĐ-BYT 2020 (Hướng dẫn chẩn đoán, điều trị bệnh bạch hầu; bản chữ để trống số hiệu) · ĐÃ ĐỌC: mục 1, 3.1–3.3, 4.1, 5.1–5.3</li><li>TL-0015 · QĐ 708/QĐ-BYT 2015 (Hướng dẫn sử dụng kháng sinh) · ĐÃ ĐỌC: Viêm phổi cộng đồng ở trẻ em mục 3.1 (ngưỡng thở nhanh, tr. 101)</li><li>Không có trong tài liệu đã tải: liều dexamethason 0,6 mg/kg cho croup độ I; số lần paracetamol tối đa mỗi ngày cho trẻ 17 kg; tương tác prednisolon tự mua với dexamethason; lưu lượng oxy cho trẻ 17 kg; chi tiết nằm viện tuyến tỉnh (thiết kế của ca).</li></ul></details>
+<details class="card"><summary><h3 id="m-16">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Hô hấp cấp tính</dd><dt>chan_doan_dich</dt><dd>Viêm thanh quản cấp</dd><dt>chan_doan_phai_loai_tru</dt><dd>Bạch hầu; Dị vật đường thở</dd><dt>nhom_tuoi</dt><dd>Mẫu giáo (1–5 tuổi)</dd><dt>do_kho</dt><dd>Ca bẫy</dd><dt>loai_bay</dt><dd>Mở lại chẩn đoán</dd><dt>dien_tien_tai_kham</dt><dd>Không đỡ</dd><dt>nhieu_benh_nhan</dt><dd>Từng khám 3 nơi không khỏi</dd><dt>rang_buoc_nguon_luc</dt><dd>Ngoài giờ, không có kỹ thuật viên</dd><dt>loai_ket_cuc</dt><dd>Biến chứng do bỏ sót</dd><dt>gioi</dt><dd>Nam</dd><dt>co_co_do</dt><dd>Có</dd><dt>so_luot_kham</dt><dd>2</dd><dt>nghe_nghiep</dt><dd>Trẻ mẫu giáo</dd><dt>yeu_to_khoi_phat</dt><dd>Sau khi ăn thức ăn đường phố</dd><dt>thuoc_dang_dung</dt><dd>Corticoid tự mua</dd><dt>ly_do_that_su_den_kham</dt><dd>Muốn được cho thuốc ngủ</dd></dl><ul class=""><li>2026-10-26 · viết bản 1 theo đặc tả sổ cái HH-1044 (mẫu giáo nam, ca bẫy mở lại chẩn đoán, không đỡ, từng khám 3 nơi, ngoài giờ không kỹ thuật viên, biến chứng do bỏ sót, 2 lượt). Tài liệu đã đọc: TL-0130 (hạ thanh môn, Dị vật đường thở), TL-0037 (Khó thở thanh quản), TL-0250 (4.6, 10.3, bảng liều), TL-0129 (mục 3–5), TL-0015 (mục 3.1). Mẫu: HH-1077 (croup nhũ nhi), NH-0199.</li><li>Tên, cân nặng, sinh hiệu, ba toa thuốc, kết quả cũ, 3 km/18 km, ho sặc, một phút không ai nhìn bé, giờ khám 19 giờ 30 và 4 giờ 30 là thiết kế của ca. Âm thanh: stridor AT-HH-STRIDOR-01 lượt 2, tim nhanh AT-TIM-NHANH-01; không dùng ảnh da.</li><li>Mâu thuẫn: dùng lại các mục HH-1077 (corticoid croup nhẹ, kháng sinh, oxy, nơi điều trị độ IIB) trong sổ mâu thuẫn; không có mục mới (HH-1044_mau_thuan.md).</li></ul></details>
+<p class="chan-trang">Ca HH-1044 · phiên bản ca 1 – soạn mới theo CLAUDE.md mục 3 (2026-10-26) · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

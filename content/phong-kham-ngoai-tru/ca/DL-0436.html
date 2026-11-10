@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DL-0436 · Chốc / nhiễm khuẩn da (viêm mô tế bào nhẹ)</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · DL-0436</div>
+   <h1>Vết lở, vảy vàng ở chân khoảng 1 tuần; mẹ xin thuốc bôi, nói cháu không sốt, không đau</h1>
+   <p class="dich-gia">Phạm Gia Bảo · Nam · 4 tuổi · 16 kg</p>
+   <div class="chips"><span class="chip">Da liễu</span><span class="chip">Điển hình</span><span class="chip">3 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Trẻ mẫu giáo, học lớp Chồi ở trường mầm non; lớp đang có 2 bạn bị lở da</dd><dt>Chiều cao, cân nặng</dt><dd>103 cm · 16 kg</dd>
+<dt>Xưng hô</dt><dd>Bé gọi bác sĩ là &quot;bác sĩ&quot;, xưng &quot;con&quot;. Mẹ gọi bác sĩ là &quot;bác sĩ&quot;, xưng &quot;em&quot;; bác sĩ gọi chị là &quot;chị Mai&quot;.</dd><dt>Tính cách</dt><dd>Bé hay nhõng nhẽo, sợ đau, hay gãi, nhổ thuốc đắng. Mẹ lo xa, tự cho thuốc hạ sốt theo giờ để con đi học, hay nói &quot;không sao đâu bác sĩ&quot;, ngại kể chuyện riêng của vợ chồng.</dd><dt>Người nhà</dt><dd>Mẹ bé (chị Mai) – Mẹ bé (chị Mai), 32 tuổi, đi cùng. Hầu hết câu hỏi do mẹ trả lời (nguoi_noi = nguoi_nha); khi bác sĩ hỏi thẳng bé thì bé trả lời ngắn (nguoi_noi = benh_nhan).</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Phòng khám tư nhân chỉ làm được xét nghiệm cơ bản (công thức máu, CRP, đường huyết, AST/ALT, creatinin, tổng phân tích nước tiểu); không nuôi cấy vi sinh tại chỗ (mẫu gửi ngoài, 48 – 72 giờ), không định lượng paracetamol máu, không X-quang, siêu âm, CT, nội soi. Bệnh viện nhi tỉnh cách khoảng 25 km.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/3</span> </h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Chị Lê Thị Thanh Mai đưa bé Phạm Gia Bảo, 4 tuổi, học lớp Chồi, đến khám vì vết lở ở chân khoảng 1 tuần. Hồ sơ cũ: không có. Sinh hiệu: mạch 112 l/p, HA 92/58 mmHg, nhiệt độ 37,6 °C, nhịp thở 24 l/p, SpO₂ 98%. Cân nặng 16 kg, chiều cao 103 cm.</p>
+  <blockquote>“Chào bác sĩ. Cháu bị lở ở cái chân, chắc muỗi đốt rồi gãi thôi, không sao đâu. Cháu không sốt, không đau, vẫn đi học bình thường. Bác sĩ kê giùm em tuýp thuốc bôi là được.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>112</b><small>l/p</small></div><div class="vs"><span>HA</span><b>92/58</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>37,6</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>24</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>8 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám; người nhà giảm nhẹ triệu chứng</b><span class="tag t-g">Tự kể</span></div><p>Chị Mai nói: cháu Bảo bị lở ở chân khoảng 1 tuần, chắc muỗi đốt rồi gãi, chị xin tuýp thuốc bôi. Chị nhấn mạnh cháu không sốt, không đau, vẫn đi học.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khởi phát từ vết côn trùng cắn, gãi; mụn nước, vảy tiết vàng mật ong; quầng đỏ lan; tổn thương mới do tự lây</b><span class="tag t-b">Khi được hỏi</span></div><p>Khoảng 6 ngày trước bé bị muỗi đốt ở mặt trước gối trái, gãi nhiều. 4 ngày trước nổi mụn nước nhỏ, vỡ chảy nước vàng rồi đóng vảy vàng như mật ong. 2 ngày nay quanh đó đỏ lan, sờ nóng; thêm 2 chỗ nhỏ ở cổ chân trái và 1 chỗ ở cẳng tay phải do bé gãi.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Câu hỏi chức năng lộ mức nặng thật (người nhà phủ nhận); không dấu hiệu toàn thân nặng, không phù, nước tiểu bình thường</b><span class="tag t-b">Khi được hỏi</span></div><p>Hỏi theo sinh hoạt: 2 hôm nay bé không chạy nhảy, đi khập khiễng, ngồi lì ở góc lớp, ăn nửa chén cơm, đêm quấy khóc 2 – 3 lần vì đau chân; hôm qua cô giáo gọi mẹ đón sớm. Không nôn, không tiêu chảy, không thở nhanh, nước tiểu vàng trong, không phù mặt.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc đang dùng: paracetamol liều cao kéo dài (250 mg × 5 lần = 1.250 mg/ngày, khoảng 78 mg/kg/ngày × 6 ngày); thuốc có thể làm nhiệt độ lúc khám không phản ánh thật</b><span class="tag t-b">Khi được hỏi</span></div><p>Chỉ khi hỏi thẳng đã cho thuốc gì: 6 ngày nay chị cho gói bột paracetamol 250 mg, mỗi lần 1 gói, ngày 5 lần (mỗi 4 – 5 giờ, kể cả nửa đêm) &quot;cho đỡ đau để đi học, ngủ được&quot;, sợ bé sốt; lần cuối cách đây 3 giờ. Chị không đo nhiệt độ lúc chưa uống thuốc. Bé nặng 16 kg. Không thuốc nào khác, không kháng sinh tự mua, không bôi corticoid.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Loại trừ zona, nấm da</b><span class="tag t-b">Khi được hỏi</span></div><p>Không có đợt kêu đau, rát, châm chích chạy dọc một dải da trước khi nổi mụn; mụn nước không mọc thành chùm theo một đường. Không có mảng tròn đỏ có vảy, lành ở giữa, ngứa. Cháu chưa từng bị thủy đậu theo chị biết.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dịch tễ nhà trẻ, ổ lây; tự lây truyền do gãi</b><span class="tag t-b">Khi được hỏi</span></div><p>Ở lớp cháu có 2 bạn cũng bị lở ở tay, chân đang nghỉ học. Cháu hay gãi, móng tay dài, hay ôm gối chân. Cháu ngủ chung giường với bố mẹ, dùng chung khăn tắm với bố.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dị ứng thuốc trước khi kê kháng sinh</b><span class="tag t-b">Khi được hỏi</span></div><p>Cháu chưa từng dị ứng thuốc nào, chưa dùng penicillin hay cephalosporin; không bệnh mạn tính, không ăn uống thất thường; tiêm chủng theo lịch.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật: lo lắng về khả năng sinh sản; yếu tố khởi phát sổ cái đặt ở cha mẹ (mụn của cha sau gần gũi vợ chồng)</b><span class="tag t-r">Giấu</span></div><p>Thật ra chị đến sớm vì sợ. Vợ chồng chị cố có em bé thứ hai hơn 14 tháng chưa được, định đi khám hiếm muộn. Khoảng 3 ngày trước, vài ngày sau lần gần gũi vợ chồng, chồng chị nổi vài mụn mủ ở đùi và bẹn. Chị sợ là bệnh lây qua đường tình dục, lây cả sang con, và sợ bệnh da của con &quot;dính&quot; vào chuyện sinh con của hai vợ chồng. Chị ngại nói nên chỉ xin thuốc bôi cho con.</p><div class="cond">Điều kiện nói ra: Chị không tự kể. Chỉ nói khi bác sĩ hỏi người nhà có ai bị lở hay mụn không, hoặc hỏi riêng chị còn điều gì lo lắng, vì sao hôm nay đến sớm.</div></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>3 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Da, niêm mạc, ban</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Mặt trước gối trái: vùng đỏ khoảng 6 × 7 cm quanh một trợt nhỏ phủ vảy vàng ở giữa (ảnh); cổ chân trái 2 và cẳng tay phải 1 trợt nhỏ phủ vảy vàng. Mặt, thân mình, bẹn: không có tổn thương.</p><p><span class="lbl">Kết quả:</span> Mặt trước gối trái: quầng đỏ không đều, ranh giới mờ, khoảng 6 × 7 cm, hơi nề, nóng, ấn đau; ở giữa một trợt nhỏ phủ vảy tiết vàng mật ong khoảng 4 mm, nền đỏ ướt. Cổ chân trái: 2 trợt 3 – 4 mm phủ vảy vàng. Cẳng tay phải: 1 trợt 3 mm phủ vảy vàng. Không bọng nước lớn, xuất huyết, bầm tím, hoại tử, bóc tách da, ấn lép bép, không đường đỏ lan lên đùi; không mụn nước chùm theo dải, không mảng tròn lành giữa. Mặt, thân mình, bẹn, lòng bàn tay chân, miệng: không tổn thương.</p><div class="media"><figure class="img"><a href="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/hinh/HA-DA-0293.jpg" target="_blank" rel="noopener"><a class="o-anh" href="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/hinh/HA-DA-0293.jpg"><img loading="lazy" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/hinh/HA-DA-0293.jpg" alt="Mặt trước gối trái (cận cảnh)"></a></a><figcaption><b>Mặt trước gối trái (cận cảnh)</b> – Vùng đỏ lan rộng quanh một trợt nhỏ phủ vảy tiết vàng ở trung tâm, da xung quanh không có bọng nước lớn.</figcaption><div class="src">Ảnh: SCIN (Google Research &amp; Stanford), case -5048121674534375075, dataset/images/-5283377864158606515.png</div></figure></div></div><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, quấy, mệt, khóc khi bị chạm vào chân, dỗ được; không li bì, không vẻ mặt nhiễm độc, không thở nhanh co kéo; môi hồng; niêm hồng; không phù mặt, mi mắt.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b></div><p><span class="lbl">Kết quả:</span> Chân trái: đi khập khiễng nhẹ, không dám đặt mạnh gót. Không phù cẳng chân, bắp chân mềm, ấn không đau căng, không đau không tương xứng với vẻ ngoài da. Mạch mu chân bắt rõ. Kẽ ngón chân hai bên bình thường. Hạch bẹn trái 1 cm, mềm, hơi đau; hạch bẹn phải không sờ thấy.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Tim</b><span class="tag t-m">Bình thường</span></div><p>Tim đều 112 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-NHANH-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 24 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>5 mục</small></h3></summary><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-y">Chấp nhận</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class="hi"><td>Số lượng bạch cầu (WBC)</td><td class="num">12,6 ↑</td><td>G/L</td><td class="ref">4,0–10,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu trung tính (NEU%)</td><td class="num">64</td><td>%</td><td class="ref">45–75</td></tr><tr class=""><td>Tỷ lệ bạch cầu lympho (LYM%)</td><td class="num">28</td><td>%</td><td class="ref">20–40</td></tr><tr class=""><td>Tỷ lệ bạch cầu mono (MONO%)</td><td class="num">6</td><td>%</td><td class="ref">2–10</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa acid (EOS%)</td><td class="num">2</td><td>%</td><td class="ref">0–7</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa base (BASO%)</td><td class="num">0</td><td>%</td><td class="ref">0–1</td></tr><tr class="lo"><td>Lượng huyết sắc tố (HGB)</td><td class="num">124 ↓</td><td>g/L</td><td class="ref">130–170</td></tr><tr class=""><td>Số lượng tiểu cầu (PLT)</td><td class="num">310</td><td>G/L</td><td class="ref">150–400</td></tr></tbody></table><p class="why">Chấp nhận, không bắt buộc: QĐ 4416 (Chốc mục 2.2) ghi bạch cầu có thể tăng; bất thường là một tiêu chí SIRS (IDSA 2014, chú thích Hình 1). Ngưỡng theo tuổi trẻ em: không có trong tài liệu đã tải (cột ↑↓ của app theo người lớn).</p></div><div class="row"><div class="rh"><b>CRP</b><span class="tag t-y">Chấp nhận</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class="hi"><td>CRP</td><td class="num">24 ↑</td><td>mg/L</td><td class="ref">≤ 5</td></tr></tbody></table><p class="why">Chấp nhận: QĐ 4416 (Chốc mục 2.2) ghi CRP có thể tăng; không quyết định xử trí vì chẩn đoán chủ yếu bằng lâm sàng (mục 2.3).</p></div><div class="row"><div class="rh"><b>AST, ALT</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> AST 52 · ALT 48 U/L (tăng nhẹ so với mức mặc định của kho: AST 24 · ALT 20 U/L)</p><p class="why">Hữu ích khi biết bé dùng paracetamol khoảng 78 mg/kg/ngày × 6 ngày: ngộ độc paracetamol gây tăng ALT, AST (QĐ 3610/2015, Ngộ độc paracetamol mục 3.4); liều ngộ độc cấp &gt; 150 mg/kg (mục 3) chưa đạt; ngưỡng cho liều lặp kéo dài ở trẻ và ngưỡng men gan theo tuổi: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><b>Tổng phân tích nước tiểu</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Không protein · Không glucose · Không hồng cầu · Bạch cầu âm tính</p><p class="why">Chấp nhận: QĐ 4416 (Chốc mục 2.1) nêu viêm cầu thận ở trẻ em là biến chứng, tiên lượng lành tính; tần suất và thời điểm làm nước tiểu theo dõi: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><b>Nhuộm Gram và cấy dịch, mủ tổn thương da (kháng sinh đồ)</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Phòng khám không nuôi cấy được. Mẫu dịch vảy tổn thương gửi phòng xét nghiệm ngoài, trả lời sau 48 – 72 giờ (xem lượt 2).</p><p class="why">Chấp nhận, không bắt buộc: chốc điển hình điều trị không cần Gram, cấy (IDSA 2014, chốc KC 1); viêm mô tế bào điển hình không cấy thường quy (KC 12). QĐ 4416 (Chốc mục 2.2): cấy, kháng sinh đồ giúp điều trị ca khó.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Chốc không bọng nước ở gối trái, cổ chân trái, cẳng tay phải (ít tổn thương, do gãi), kèm viêm mô tế bào nhẹ quanh tổn thương gối; không dấu hiệu toàn thân; ổ lây ở nhà trẻ và trong gia đình</b></div><p class="why">Sau muỗi đốt, gãi: vảy tiết vàng mật ong trên nền đỏ ướt (QĐ 4416, Chốc mục 2.1, 1.2); chẩn đoán chủ yếu bằng lâm sàng (mục 2.3). Quầng đỏ nóng đau, không lơ mơ, không đau không tương xứng là viêm mô tế bào điển hình mức nhẹ (IDSA 2014, KC 14, 18, chú thích Hình 1).</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Dùng paracetamol vượt liều tối đa khuyến cáo kéo dài (khoảng 78 mg/kg/ngày × 6 ngày), men gan tăng nhẹ</b></div><p class="why">Liều tối đa 60 mg/kg/ngày, mỗi lần 10 – 15 mg/kg (QĐ 292/2024, mục 3.1, 3.2.1); NICE NG143 2021 (mục 1.6.4 – 1.6.6): chỉ dùng khi trẻ khó chịu, không dùng chỉ để hạ nhiệt độ. Tăng AST, ALT: QĐ 3610/2015 (Ngộ độc paracetamol mục 3.4). Che sốt khi uống theo giờ: suy luận, không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm mô tế bào nặng, viêm cân cơ hoại tử</b></div><p class="why">Loại trừ: không lơ mơ, thở nhanh, đau không tương xứng, bọng nước xuất huyết, hoại tử, khí dưới da (IDSA 2014, phần viêm cân cơ hoại tử; KC 27; chú thích Hình 1).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Zona</b></div><p class="why">Loại trừ: zona có đau, bỏng rát 1 – 5 ngày trước, rồi mụn nước chùm dọc dây thần kinh, thường một bên (QĐ 4416, Zona mục 2.1). Bé không có; vảy vàng mật ong ở nhiều chỗ không theo dải.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Nấm da</b></div><p class="why">Loại trừ: nấm thân là mảng đỏ tròn hay nhiều cung, có vảy, lành giữa, ngứa nhiều (QĐ 4416, Nấm sợi mục 2.1); bé có vảy tiết vàng, không lành giữa.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Kháng sinh uống phủ tụ cầu và liên cầu cho trẻ: cephalexin 25 mg/kg/ngày chia 4 lần, hoặc 25 – 50 mg/kg/ngày chia 4 lần, hoặc flucloxacillin 125 – 250 mg × 4 lần/ngày</b></div><p class="why">Cách A: 25 mg/kg/ngày chia 4 lần (QĐ 4416, Chốc mục 3.2.2, cột trẻ em). Cách B: 25 – 50 mg/kg/ngày chia 4 lần (IDSA 2014, Bảng 2). Cách C: flucloxacillin 125 – 250 mg × 4 lần/ngày, 2 – 9 tuổi (NICE NG153 2020, Bảng 2). Bé 16 kg: A = 100 mg × 4; B = 100 – 200 mg × 4. Uống vì có quầng, nhiều ổ, ổ dịch (NICE mục 1.1.5; IDSA chốc KC 2). Thêm cách thứ ba: cefalexin 25 mg/kg/liều mỗi 12 giờ (16 kg: 500 mg × 2 lần/ngày) × 5 ngày (WHO AWaRe 2022, nhóm 15–&lt;20 kg) – cả ba cách đều đúng.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Thời gian kháng sinh uống: 5 ngày rồi đánh giá, có thể 7 ngày; hoặc 7 ngày</b></div><p class="why">5 ngày, có thể 7 theo số tổn thương, mức nặng (NICE NG153 2020, Bảng 2); viêm mô tế bào 5 ngày, kéo dài nếu chưa cải thiện (IDSA 2014, KC 15); chốc uống 7 ngày (KC 2b). QĐ 4416 không ghi số ngày. Hai bên khác phạm vi, đều đúng.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chỉ dùng kháng sinh uống, không bôi thêm; hoặc uống kết hợp mupirocin, acid fusidic bôi</b></div><p class="why">Cách A: không kết hợp bôi và uống (NICE NG153 2020, mục 1.1.6; bôi lặp lại dễ kháng thuốc, mục 1.1.4). Cách B: kết hợp tại chỗ và toàn thân (QĐ 4416, Chốc mục 3.1), bôi 2 lần/ngày thường 7 ngày (mục 3.2.1).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chăm sóc tại chỗ: đắp gạc nước muối sinh lý 9‰ cho mềm vảy, hoặc ngâm tắm nước thuốc tím loãng 1/10.000 ngày một lần</b></div><p class="why">QĐ 4416 (Chốc mục 3.2.1): ngâm tắm một lần/ngày thuốc tím 1/10.000; nhiều vảy thì đắp nước muối 9‰ đến khi bong vảy. Hydrogen peroxide 1% (NICE mục 1.1.2) không đủ khi có quầng viêm (mục 1.1.5).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ngưng cho paracetamol theo giờ; chỉ khi bé khó chịu, 10 – 15 mg/kg/lần (khoảng 160 – 240 mg), cách nhau ≥ 4 – 6 giờ, tối đa 60 mg/kg/ngày (khoảng 960 mg)</b></div><p class="why">QĐ 292/2024 (mục 3.1: 10 – 15 mg/kg/lần mỗi 4 – 6 giờ; mục 3.2.1: tối đa 60 mg/kg/ngày). NICE NG143 2021 (mục 1.6.4 – 1.6.6): dùng khi trẻ khó chịu, không dùng chỉ để hạ nhiệt độ. Mẹ đang cho 78 mg/kg/ngày.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn tái khám sau 5 ngày (hết đợt); quay lại ngay nếu xấu nhanh</b></div><p class="why">Đánh giá ở ngày 5, kéo dài nếu chưa cải thiện (IDSA 2014, KC 15). NICE NG153 2020 (mục 1.1.7, 1.1.8): quay lại khi xấu nhanh hoặc chưa cải thiện sau đợt điều trị. Mốc 48 – 72 giờ: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Điều trị ngoại trú ngay hôm nay; hoặc gửi bệnh viện, tuyến trên đánh giá</b></div><p class="why">Cách A: ngoại trú khi không có SIRS, rối loạn ý thức, huyết động không ổn (IDSA 2014, KC 18, mức nhẹ). Cách B: chuyển bệnh viện chốc kèm dấu hiệu bệnh nặng hơn như viêm mô tế bào (NICE NG153 2020, mục 1.1.15). Ngưỡng SIRS theo tuổi trẻ em: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Vệ sinh tránh lây: cắt móng tay, không gãi, khăn riêng, giặt ga gối; báo nhà trẻ (có 2 bạn bị); người nhà có tổn thương tương tự nên đi khám da liễu</b></div><p class="why">QĐ 4416 (Chốc mục 4: cắt móng tay, tránh gãi; mục 2.1: tự lây truyền). NICE NG153 2020 (mục 1.1.1). IDSA 2014 (chốc KC 2): uống khi nhiều tổn thương hoặc ổ dịch để giảm lây. Số ngày nghỉ học; xử trí người tiếp xúc: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ghi nhận nỗi lo của mẹ, không hứa hẹn về sinh sản; khuyên vợ chồng khám hiếm muộn riêng, cha bé khám da liễu</b></div><p class="why">Liên quan giữa nhiễm khuẩn da và sinh sản: không có trong tài liệu đã tải, không khẳng định hay trấn an sai. Vô sinh: trên một năm sống chung không tránh thai mà không có thai (QĐ 315/2015, Vô sinh nữ mục 1, 2.2). Bệnh của người lớn không thuộc ca này.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Nhập viện truyền kháng sinh tĩnh mạch</b></div><p class="why">Không cần: viêm mô tế bào nhẹ không SIRS điều trị ngoại trú (IDSA 2014, KC 18). Kháng sinh tiêm trong bảng QĐ 4416 (Chốc mục 3.2.2) dành cho tổn thương nhiều, lan tỏa.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Chỉ bôi mupirocin hoặc hydrogen peroxide 1%, không uống kháng sinh</b></div><p class="why">Không đủ: có quầng viêm mô tế bào, nhiều ổ, ổ dịch; NICE NG153 2020 (mục 1.1.5): uống cho chốc kèm dấu hiệu nặng hơn; viêm mô tế bào cần kháng sinh toàn thân (IDSA 2014, KC 14).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Bé Bảo 4 tuổi, mạch 112, nhịp thở 24, tỉnh, không đau không tương xứng, quầng 6 × 7 cm: viêm mô tế bào nhẹ, IDSA 2014 (KC 18) cho ngoại trú khi không SIRS. Nằm viện truyền kháng sinh là quá tay: bé xa nhà, mẹ nghỉ làm, tốn tiền giường, trong khi cephalexin uống (QĐ 4416, Chốc mục 3.2.2) đủ. Trong viện nếu không ai hỏi giờ giấc thuốc hạ sốt, mẹ vẫn cho thêm paracetamol, và khi về bố vẫn lây tiếp.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển bé lên bệnh viện nhi theo NICE NG153 2020 (mục 1.1.15) là cách làm có nguồn, nhưng IDSA 2014 (KC 18) cho ngoại trú khi không SIRS: hai nguồn khác bối cảnh. Với nhà chị Mai, chuyển tuyến mất nửa ngày, chờ khám, chi phí; tuyến trên cũng chỉ kê kháng sinh uống rồi cho về, còn việc ngưng paracetamol theo giờ và dặn vệ sinh trong nhà vẫn chưa được làm.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Chốc không bọng nước (gối trái, cổ chân trái, cẳng tay phải) kèm viêm mô tế bào nhẹ quanh tổn thương gối, bé 4 tuổi 16 kg, không dấu hiệu toàn thân; ổ lây ở nhà trẻ và gia đình</li><li>Dùng paracetamol quá liều tối đa kéo dài (khoảng 78 mg/kg/ngày × 6 ngày) kèm men gan tăng nhẹ</li><li>Đã loại trừ trên lâm sàng: viêm mô tế bào nặng hoặc hoại tử, zona, nấm da, thủy đậu, herpes simplex</li><li>Lý do thật của mẹ: lo bệnh lây qua đường tình dục và ảnh hưởng khả năng sinh sản (cha bé có mụn mủ); không có nguồn nối nhiễm khuẩn da với sinh sản, cần khám riêng</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự hợp lý: hỏi khởi phát (muỗi đốt, gãi) → hỏi chức năng (đi, ăn, ngủ, đón sớm) vì mẹ phủ nhận → hỏi mọi thuốc đã cho, giờ, mg → hỏi người nhà, lớp có ai bị → hỏi vì sao hôm nay đến → khám da, hạch, toàn thân → xét nghiệm cơ bản.</li><li>Chốc: vảy tiết vàng mật ong, nền đỏ ướt, hay gặp ở trẻ em (QĐ 4416, Chốc mục 1.2, 2.1); chẩn đoán chủ yếu bằng lâm sàng (mục 2.3). Viêm mô tế bào nhẹ khi không SIRS (IDSA 2014, chú thích Hình 1). Nhiệt 37,6 °C đo sau 3 giờ kể từ liều paracetamol nên dựa thêm mạch, nhịp thở, ý thức, bạch cầu (suy luận; ngưỡng theo tuổi: không có trong tài liệu đã tải). Xét nghiệm cơ bản không bắt buộc (IDSA 2014, KC 1, 12); men gan hữu ích nhờ tiền sử paracetamol.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Ngoại trú, hẹn tái khám sau 5 ngày (ve_hen) vì không SIRS (IDSA 2014, KC 18); NICE NG153 2020 (mục 1.1.15) chuyển bệnh viện khi chốc kèm viêm mô tế bào: khác bối cảnh, ghi cả hai. Kháng sinh uống vì có quầng, nhiều ổ, ổ dịch (NICE mục 1.1.5; IDSA chốc KC 2). Dị ứng penicillin: clarithromycin 12 – 19 kg 125 mg × 2 lần/ngày × 5 ngày (NICE Bảng 2).</li><li>Giảm paracetamol về đúng liều, chỉ khi khó chịu. Không kết luận gì về sinh sản; mẹ đi khám hiếm muộn, cha đi khám da liễu.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Cephalexin (dạng bột pha uống)</b><div class="sub">Theo chế phẩm sẵn có (hàm lượng: không có trong tài liệu đã tải)</div></td><td data-l="Liều">100 mg/lần × 4 lần/ngày, tức 25 mg/kg/ngày (QĐ 4416, Chốc mục 3.2.2) hoặc 100 – 200 mg/lần × 4 lần/ngày, tức 25 – 50 mg/kg/ngày (IDSA 2014, Bảng 2) hoặc 500 mg mỗi 12 giờ × 5 ngày (WHO AWaRe 2022, chương nhiễm khuẩn da – mô mềm, nhóm cân nặng 15–&lt;20 kg; liều cao nhất trong ba cách, theo sổ mâu thuẫn mục DL-0416 mục 2 bổ sung NH-1179)<div class="sub">Uống · Chia đều 4 lần, cách nhau khoảng 6 giờ. Tương quan với bữa ăn: không có trong tài liệu đã tải.</div></td><td data-l="Thời gian">5 ngày rồi đánh giá, có thể 7 ngày (NICE NG153 2020, Bảng 2; IDSA 2014, KC 15) hoặc 7 ngày (IDSA 2014, chốc KC 2b)</td><td class="gc" data-l="Ghi chú">Thay thế: flucloxacillin 125 – 250 mg × 4 lần/ngày × 5 ngày (NICE Bảng 2, 2 – 9 tuổi); cloxacillin 50 – 100 mg/kg/ngày chia 3 – 4 lần (QĐ 4416, bảng chốc). Trẻ không uống được dạng đắng: NICE Bảng 2 gợi ý đổi dạng bào chế.</td></tr><tr><td><b>Nước muối sinh lý 9‰ (hoặc thuốc tím 1/10.000 để ngâm)</b><div class="sub">NaCl 0,9%; KMnO₄ pha loãng 1/10.000</div></td><td data-l="Liều">Đắp gạc ẩm lên tổn thương cho mềm vảy; hoặc ngâm tắm<div class="sub">Dùng ngoài da · Ngâm tắm ngày một lần; đắp đến khi bong hết vảy (QĐ 4416, Chốc mục 3.2.1)</div></td><td data-l="Thời gian">Đến khi bong hết vảy, thường tới hết đợt kháng sinh</td><td class="gc" data-l="Ghi chú">Số phút đắp nước muối: không có trong tài liệu đã tải. Thuốc tím chỉ ngâm, không uống, để xa tầm tay trẻ (suy luận).</td></tr><tr><td><b>Paracetamol (dạng bột hoặc siro), chỉ khi bé khó chịu</b><div class="sub">Tính theo mg, không theo gói: 160 – 240 mg/lần</div></td><td data-l="Liều">10 – 15 mg/kg/lần (khoảng 160 – 240 mg), tối đa 60 mg/kg/ngày (khoảng 960 mg) (QĐ 292/2024, mục 3.1, 3.2.1)<div class="sub">Uống · Cách nhau 4 – 6 giờ, chỉ khi bé đau hoặc quấy (QĐ 292/2024, mục 3.1; NICE NG143 2021, mục 1.6.5)</div></td><td data-l="Thời gian">Khi cần, ngắn ngày</td><td class="gc" data-l="Ghi chú">Gói 250 mg ≈ 15,6 mg/kg cho bé 16 kg, hơi vượt 15 mg/kg: dùng 4/5 gói hoặc siro theo mg (QĐ 292/2024, mục 3.1). Không dùng paracetamol và ibuprofen cùng lúc (NICE NG143 2021, mục 1.6.6).</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Đây là nhiễm khuẩn ngoài da do vi khuẩn từ vết muỗi đốt bị gãi, lan thành quầng đỏ nhẹ. Cho uống kháng sinh đủ 4 lần/ngày, đủ ngày dù bé thấy đỡ (IDSA 2014, KC 15). Bé nhổ thuốc thì báo lại để đổi cách cho, không tự giảm liều.</li><li>Paracetamol chỉ khi bé khó chịu, đúng mg theo cân, tối đa 60 mg/kg/ngày (QĐ 292/2024, mục 3.2.1; NICE NG143 2021, mục 1.6.5). Đã cho 5 gói/ngày × 6 ngày là quá nhiều, men gan tăng nhẹ.</li><li>Đắp nước muối cho mềm vảy, không cạy; cắt móng, khăn riêng, giặt ga gối (QĐ 4416, Chốc mục 4; NICE NG153 2020, mục 1.1.1). Báo cô giáo. Nghỉ học đến khi vảy khô, không chảy dịch (số ngày: không có trong tài liệu đã tải).</li><li>Quay lại ngay nếu bé sốt, li bì, thở nhanh, đỏ lan nhanh, đau dữ dội, bọng nước đỏ tím, da đen (IDSA 2014, KC 27; NICE NG153 2020, mục 1.1.7). Tái khám sau 5 ngày, mang theo thuốc đã dùng.</li><li>Chồng chị nên khám da liễu. Chuyện sinh con: không có tài liệu nói nhiễm khuẩn da này ảnh hưởng; sống chung trên một năm không có thai thì khám hiếm muộn cả hai (QĐ 315/2015, Vô sinh nữ mục 1).</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-2">
+ <h2 id="h-luot-2"><span class="ln">Lượt 2/3</span> · sau 5 ngày</h2>
+ <div class="card intro"><h3 id="m-8">Tiếp đón</h3><p>Chị Mai đưa bé Bảo tái khám đúng hẹn sau 5 ngày. Chị nói bé &quot;gần hết rồi&quot;, xin thêm thuốc bôi cho chỗ mới mọc ở cổ chân. Sinh hiệu: mạch 104 l/p, HA 90/56 mmHg, nhiệt độ 37,2 °C, nhịp thở 22 l/p, SpO₂ 99%. Cân nặng 16 kg.</p>
+  <blockquote>“Chào bác sĩ. Cháu gần hết rồi, vảy khô bớt, mà có mọc thêm một chỗ nhỏ ở cổ chân. Bác sĩ kê giùm em thuốc bôi chỗ đó là xong, thuốc uống đắng quá cháu không chịu uống.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>104</b><small>l/p</small></div><div class="vs"><span>HA</span><b>90/56</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>37,2</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>22</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>99</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-9">Hỏi bệnh <small>5 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Diễn tiến sau 5 ngày: đỡ một phần, một tổn thương mới nhỏ</b><span class="tag t-g">Tự kể</span></div><p>So với 5 ngày trước, chị thấy bé đỡ nhiều: quầng ở gối nhỏ lại, hết nóng, vảy khô. Nhưng 3 ngày trước mọc thêm một chỗ nhỏ có vảy vàng ở cổ chân phải do bé gãi. Bé không sốt, ăn được cả chén, chạy chơi lại, vẫn còn hơi nhăn mặt khi bị chạm vào gối.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dùng thuốc thiếu liều, vẫn đi học: giải thích đỡ một phần (không phải thất bại điều trị); paracetamol giảm nhưng vẫn theo giờ</b><span class="tag t-b">Khi được hỏi</span></div><p>Hỏi cách cho thuốc: bé nhổ siro vì đắng, chị sợ bé nôn nên chỉ cho 2 – 3 lần/ngày, tính ra khoảng 12 trên 20 liều. Chị cho paracetamol giảm còn 3 gói 250 mg/ngày (khoảng 47 mg/kg/ngày) &quot;trước khi đi học cho chắc&quot;, vì thấy bác sĩ dặn &quot;đừng cho nhiều&quot;. Bé vẫn đi học từ ngày thứ 3.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Nguồn tái nhiễm trong gia đình, nhà trẻ</b><span class="tag t-b">Khi được hỏi</span></div><p>Lớp bé còn 1 bạn nghỉ vì lở. Bố bé chưa đi khám, tự bôi thuốc mỡ mua ở tiệm, mụn ở đùi chưa khô; ba người vẫn ngủ chung giường, dùng chung khăn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Không có dấu hiệu thất bại điều trị</b><span class="tag t-b">Khi được hỏi</span></div><p>Không sốt, không li bì, không thở nhanh, không nôn. Quầng nhỏ lại chứ không lan; không đường đỏ chạy lên, không bọng nước, không tím đen. Nước tiểu vàng trong, mi mắt không phù.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật vẫn còn: lo lây và ảnh hưởng sinh sản; dùng câu hỏi mở, không phán xét</b><span class="tag t-r">Giấu</span></div><p>Chị hỏi nhỏ: &quot;Em cũng thấy ngứa ở cánh tay, bác sĩ coi giúp em có bị lây không, vì tháng này em đang theo dõi rụng trứng để có em bé.&quot; Chị vẫn chưa đưa chồng đi khám vì ngại nói chuyện &quot;bệnh nam khoa&quot;.</p><div class="cond">Điều kiện nói ra: Chị chỉ nói khi bác sĩ hỏi chị và chồng có ai bị lây không, hoặc hỏi lại chuyện đã lo ở lần trước.</div></div></details>
+ <details class="card"><summary><h3 id="m-10">Khám <small>3 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Da, niêm mạc, ban</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Gối trái: vảy khô dày đang bong, quầng đỏ còn khoảng 2 cm. Cổ chân phải: một trợt nhỏ khoảng 4 mm phủ vảy vàng mỏng (mới). Cổ chân trái, cẳng tay phải: vảy khô cũ.</p><p><span class="lbl">Kết quả:</span> Gối trái: trợt trung tâm đã khô, vảy tiết dày đang bong, nền dưới hồng, không ướt. Quầng đỏ còn khoảng 2 cm, ranh giới mờ, không nóng, ấn đau rất nhẹ. Cổ chân trái: 2 vảy cũ khô. Cẳng tay phải: vảy khô sắp bong. Có tổn thương mới ở cổ chân phải 4 mm, trợt nông phủ vảy vàng mỏng, chưa có quầng. Không bọng nước, không bầm tím, không hoại tử, không đường đỏ lan lên.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, nhanh nhẹn, không sốt, không nhiễm độc, niêm hồng, không phù mi mắt.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b></div><p><span class="lbl">Kết quả:</span> Đi lại bình thường, bắp chân mềm, không đau căng, không phù. Hạch bẹn trái còn 5 mm, mềm, không đau.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Tim</b><span class="tag t-m">Bình thường</span></div><p>Tim đều 104 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-NHANH-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 22 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-11">Cận lâm sàng <small>2 mục</small></h3></summary><div class="row"><div class="rh"><b>Nhuộm Gram và cấy dịch, mủ tổn thương da (kháng sinh đồ)</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Kết quả cấy dịch tổn thương làm lượt 1: Staphylococcus aureus nhạy methicillin (MSSA); nhạy cephalexin, oxacillin, clindamycin; kháng penicillin G.</p><p class="why">Có sau 48 – 72 giờ nên không đổi quyết định lượt 1. MSSA nên không cần phủ MRSA (IDSA 2014, chốc KC 2b: dicloxacillin hoặc cephalexin); đổi theo kết quả nếu chưa cải thiện, ưu tiên thuốc phổ hẹp (NICE NG153 2020, mục 1.1.14).</p></div><div class="row"><div class="rh"><b>AST, ALT</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> AST 30 · ALT 26 U/L</p><p class="why">Hữu ích: theo dõi sau giảm paracetamol; về mức gần mặc định của kho (AST 24 · ALT 20 U/L). Lịch xét nghiệm lại: không có trong tài liệu đã tải.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-12">Đáp án lượt 2 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Chốc kèm viêm mô tế bào nhẹ do tụ cầu vàng nhạy methicillin, đáp ứng một phần sau 5 ngày do bé uống thiếu liều (khoảng 12/20 liều), vẫn đi học và ngủ chung; một tổn thương mới ở cổ chân do gãi; không thất bại điều trị</b></div><p class="why">Quầng nhỏ lại, hết nóng, vảy khô bong, không sốt: đang đáp ứng; chậm vì thiếu liều, tự lây do gãi, nguồn lây trong nhà và lớp (QĐ 4416, Chốc mục 2.1: dai dẳng do tự lây truyền, vệ sinh kém; IDSA 2014, KC 15, 16). Cấy MSSA phù hợp với thuốc đã kê.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Thất bại kháng sinh, viêm mô tế bào tiến triển hoặc nhiễm khuẩn sâu</b></div><p class="why">Loại trừ: quầng nhỏ lại, không sốt, không đau không tương xứng, không bọng nước, hoại tử (IDSA 2014, chú thích Hình 1; KC 27). Đỡ một phần khi thiếu liều chưa phải thất bại.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Men gan tăng do paracetamol còn tồn tại</b></div><p class="why">Loại trừ: AST 30, ALT 26 U/L sau khi giảm liều (QĐ 3610/2015, Ngộ độc paracetamol mục 3.4 nêu tăng ALT, AST). Dùng 47 mg/kg/ngày dưới mức 60 mg/kg/ngày (QĐ 292/2024, mục 3.2.1).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Kháng sinh uống đủ liều từ nay, thuốc phổ hẹp: giữ cephalexin 4 lần/ngày hoặc đổi sang amoxicillin–acid clavulanic chia 2 lần/ngày cho dễ uống; không phủ MRSA, không tiêm</b></div><p class="why">Cách A: giữ cephalexin 25 mg/kg/ngày chia 4 (QĐ 4416, Chốc mục 3.2.2) hoặc 25 – 50 mg/kg/ngày (IDSA 2014, Bảng 2). Cách B: amoxicillin–clavulanic 40 – 80 mg/kg/ngày chia 2 – 3 lần (QĐ 4416, bảng chốc) hoặc 25 mg/kg/ngày thành phần amoxicillin chia 2 lần (IDSA 2014, Bảng 2, dòng chốc). Hai nguồn khác liều: ghi cả hai, liều 25 mg/kg/ngày thận trọng hơn. Đổi chỉ vì tuân thủ; MSSA nhạy cephalexin. MSSA, đang cải thiện: không phủ MRSA, không tiêm tĩnh mạch (IDSA 2014, KC 14; NICE mục 1.1.14). Thêm cách thứ ba: cefalexin 25 mg/kg/liều mỗi 12 giờ (16 kg: 500 mg × 2 lần/ngày) × 5 ngày (WHO AWaRe 2022, nhóm 15–&lt;20 kg) – cả ba cách đều đúng.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Kéo dài thêm để đủ liệu trình vì thiếu liều: uống đủ liều thêm 5 ngày</b></div><p class="why">Kéo dài nếu chưa cải thiện hết trong 5 ngày (IDSA 2014, KC 15); chốc uống 7 ngày (KC 2b); NICE NG153 2020 (Bảng 2): 5 ngày, có thể 7. Số ngày thêm chính xác khi thiếu liều: không có trong tài liệu đã tải (lấy tổng ≥ 7 ngày uống đủ liều, suy luận).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Tổn thương mới ở cổ chân phải: đắp nước muối, chỉ kháng sinh uống hoặc thêm kháng sinh bôi</b></div><p class="why">Cách A: không kết hợp bôi và uống (NICE NG153 2020, mục 1.1.6). Cách B: mupirocin, acid fusidic, retapamulin bôi 2 lần/ngày, thường 7 ngày, kết hợp toàn thân (QĐ 4416, Chốc mục 3.1, 3.2.1).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Sửa nguyên nhân chậm lành: cách cho thuốc, cắt móng, khăn riêng, ga gối, nghỉ học đến khi vảy khô, cha bé đi khám da liễu</b></div><p class="why">QĐ 4416 (Chốc mục 2.1, 4); IDSA 2014 (KC 16: sửa yếu tố thuận lợi); NICE NG153 2020 (mục 1.1.1). Số ngày nghỉ học, xử trí người tiếp xúc: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Paracetamol chỉ khi bé khó chịu, không cho trước đi học theo thói quen; tối đa 60 mg/kg/ngày</b></div><p class="why">QĐ 292/2024 (mục 3.1, 3.2.1); NICE NG143 2021 (mục 1.6.5, 1.6.6). Bé đã hết đau chạy chơi lại nên không cần thuốc đều đặn.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi mẹ có bị lây không, khuyên mẹ và cha đi khám riêng; không hứa hẹn về sinh sản</b></div><p class="why">Nguy cơ lây trong gia đình: NICE NG153 2020 (mục 1.1.1). Liên quan nhiễm khuẩn da với sinh sản: không có trong tài liệu đã tải. Vô sinh trên một năm: QĐ 315/2015 (Vô sinh nữ mục 1).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn tái khám sau 7 ngày hoặc khi hết thuốc; quay lại ngay nếu xấu đi</b></div><p class="why">IDSA 2014 (KC 15): đánh giá khi hết đợt; NICE NG153 2020 (mục 1.1.7, 1.1.8). Mốc 7 ngày cụ thể: không có trong tài liệu đã tải.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Gửi bệnh viện tuyến trên đánh giá</b></div><p class="why">Chấp nhận nhưng không cần: bé đang cải thiện, sai sót là cách dùng thuốc (NICE NG153 2020, mục 1.1.15 dành cho dấu hiệu nặng hơn; IDSA 2014, KC 18).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Nhập viện truyền kháng sinh tĩnh mạch vì &quot;thuốc uống không hiệu quả&quot;</b></div><p class="why">Không cần: đang đáp ứng, MSSA nhạy thuốc uống (IDSA 2014, KC 14, 18); thất bại là do thiếu liều, không phải do thuốc.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Bé Bảo đỡ một phần vì chỉ uống khoảng 12/20 liều (nhổ siro), quầng nhỏ lại 2 cm, hết nóng, không sốt, cấy MSSA nhạy cephalexin: không phải thất bại điều trị (IDSA 2014, KC 14, 15). IDSA (KC 18) nêu tuân thủ kém là lý do nhập viện cho thể vừa và nặng; ở thể nhẹ đang đáp ứng, vấn đề sửa được tại nhà nên nhập viện là quá tay (suy luận). Bé nằm viện, mẹ nghỉ làm; về nhà cha vẫn còn mụn, ga gối, khăn chung nên tái nhiễm.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Gửi bé lên tuyến trên vì &quot;đỡ chậm&quot; là coi đáp ứng một phần như thất bại, trong khi quầng nhỏ lại và cấy phù hợp thuốc đang dùng (IDSA 2014, KC 15). Nguy cơ bị đổi sang kháng sinh phổ rộng hoặc phủ MRSA không cần (IDSA 2014, KC 14). Cách cho thuốc và nguồn lây tại nhà vẫn không được sửa nên tổn thương mới tiếp tục xuất hiện.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Chốc kèm viêm mô tế bào nhẹ do MSSA, đáp ứng một phần sau 5 ngày do thiếu liều, một tổn thương mới nhỏ ở cổ chân phải; không thất bại điều trị</li><li>Nguồn tái nhiễm: bé vẫn đi học, ngủ chung và dùng chung khăn với cha có mụn chưa khô</li><li>Paracetamol giảm còn 47 mg/kg/ngày, men gan về gần bình thường</li><li>Nỗi lo sinh sản của mẹ còn; mẹ có thể bị lây (chưa khám, không thuộc ca này)</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự hợp lý: hỏi diễn tiến → hỏi cách cho thuốc (mỗi ngày mấy lần, bé nhổ bao nhiêu) → hỏi bé còn đi học, ai trong nhà còn mụn → hỏi thuốc hạ sốt hiện nay → khám da → xem cấy. Đỡ một phần ở ngày 5 khi tuân thủ kém, nguồn lây còn: nghĩ thất bại điều trị chỉ khi đã uống đủ liều mà quầng lan, sốt, đau không tương xứng (IDSA 2014, chú thích Hình 1; KC 15).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Giữ kháng sinh phổ hẹp theo cấy MSSA, sửa cách cho thuốc (có thể đổi dạng uống 2 lần/ngày), kéo dài để đủ liệu trình (IDSA 2014, KC 15; NICE Bảng 2); ghi cả liều QĐ 4416 và IDSA. Gốc rễ là nguồn lây: nghỉ học đến khi vảy khô, cha đi khám, khăn riêng. Paracetamol chỉ khi khó chịu.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Cephalexin (dạng bột pha uống)</b><div class="sub">Theo chế phẩm sẵn có (không có trong tài liệu đã tải)</div></td><td data-l="Liều">100 – 200 mg/lần × 4 lần/ngày (25 – 50 mg/kg/ngày, IDSA 2014, Bảng 2) hoặc 100 mg/lần × 4 lần/ngày (25 mg/kg/ngày, QĐ 4416, Chốc mục 3.2.2) hoặc 500 mg mỗi 12 giờ × 5 ngày (WHO AWaRe 2022, chương nhiễm khuẩn da – mô mềm, nhóm cân nặng 15–&lt;20 kg; liều cao nhất trong ba cách, theo sổ mâu thuẫn mục DL-0416 mục 2 bổ sung NH-1179)<div class="sub">Uống · Chia đều 4 lần; trộn với ít sữa, nước trái cây cho bớt đắng (suy luận); cho đủ liều, không bỏ</div></td><td data-l="Thời gian">Thêm 5 ngày uống đủ liều (tổng ≥ 7 ngày; IDSA 2014, KC 2b, 15; NICE Bảng 2: 5 – 7 ngày)</td><td class="gc" data-l="Ghi chú">Hoặc amoxicillin–acid clavulanic 40 – 80 mg/kg/ngày chia 2 – 3 lần (QĐ 4416) hoặc 25 mg/kg/ngày chia 2 lần (IDSA Bảng 2) khi bé không chịu uống 4 lần. Paracetamol chỉ khi khó chịu (xem lượt 1).</td></tr><tr><td><b>Nước muối sinh lý 9‰ (đắp gạc ẩm)</b><div class="sub">NaCl 0,9%</div></td><td data-l="Liều">Đắp lên tổn thương mới ở cổ chân cho mềm vảy<div class="sub">Dùng ngoài da · Đắp đến khi bong vảy (QĐ 4416, Chốc mục 3.2.1)</div></td><td data-l="Thời gian">Đến khi bong hết vảy</td><td class="gc" data-l="Ghi chú">Số phút đắp: không có trong tài liệu đã tải.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Bé đỡ nhưng chỉ uống khoảng 12/20 liều nên chưa đủ. Cho uống đủ 4 lần/ngày (hoặc đổi thuốc 2 lần/ngày nếu bé không uống được), trộn cho bớt đắng, không giảm liều vì sợ bé nôn (IDSA 2014, KC 15).</li><li>Nghỉ học đến khi vảy khô, không chảy dịch (số ngày: không có trong tài liệu đã tải). Cắt móng, khăn và ga gối riêng; cha bé đi khám da liễu, không tự mua thuốc mỡ (QĐ 4416, Chốc mục 4; NICE NG153 2020, mục 1.1.1).</li><li>Paracetamol chỉ khi bé khó chịu, đúng mg theo cân, tối đa 60 mg/kg/ngày (QĐ 292/2024, mục 3.2.1; NICE NG143 2021, mục 1.6.5).</li><li>Chị ngứa tay thì khám da; có em bé: không có tài liệu nói bệnh da của con ảnh hưởng, khám hiếm muộn cả hai vợ chồng (QĐ 315/2015, Vô sinh nữ mục 1). Quay lại ngay nếu bé sốt, li bì, đỏ lan nhanh (IDSA 2014, KC 27); tái khám sau 7 ngày.</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-3">
+ <h2 id="h-luot-3"><span class="ln">Lượt 3/3</span> · sau 12 ngày</h2>
+ <div class="card intro"><h3 id="m-13">Tiếp đón</h3><p>Chị Mai đưa bé Bảo tái khám sau 12 ngày (khoảng 5 ngày sau khi hết thuốc). Chị nói bé &quot;khỏi rồi&quot;, muốn cho bé đi học và hỏi có để sẹo không. Sinh hiệu: mạch 98 l/p, HA 90/55 mmHg, nhiệt độ 36,8 °C, nhịp thở 20 l/p, SpO₂ 99%. Cân nặng 16,2 kg.</p>
+  <blockquote>“Chào bác sĩ. Cháu khỏi rồi, em cho cháu đi học lại nhé. Chỉ còn cái vảy nhỏ ở cổ chân thôi. Bác sĩ coi giùm có để sẹo không.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>98</b><small>l/p</small></div><div class="vs"><span>HA</span><b>90/55</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,8</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>20</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>99</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-14">Hỏi bệnh <small>4 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Diễn tiến sau 12 ngày: gần khỏi, một tổn thương nhỏ lâu lành (khỏi chậm); người nhà giảm nhẹ</b><span class="tag t-g">Tự kể</span></div><p>Chị nói bé &quot;khỏi rồi&quot;. Hỏi theo sinh hoạt: bé chạy chơi, ăn ngủ tốt, đi học lại từ 3 ngày nay. Nhưng bé vẫn hay gãi chỗ cổ chân phải, chị thấy vẫn còn một vảy nhỏ chưa bong. Gối đã lành, còn vết thâm. Không sốt, không tổn thương mới.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tuân thủ tốt hơn; paracetamol ngưng; nguồn lây đã xử lý</b><span class="tag t-b">Khi được hỏi</span></div><p>Từ sau lần khám trước chị cho uống đủ 4 lần/ngày hết 5 ngày, trộn với nước cam nên bé uống được. Paracetamol chỉ cho 1 lần ở ngày thứ 2 vì bé quấy; từ đó không cho nữa. Cha bé đã đi khám da liễu, được kê thuốc, mụn đã khô; khăn và ga gối đã tách riêng.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Không dấu hiệu biến chứng cầu thận, không tổn thương mới</b><span class="tag t-b">Khi được hỏi</span></div><p>Không phù mặt, nước tiểu vàng trong, không tiểu sẫm màu hay đỏ, không đau đầu, không nôn. Không tổn thương nào ở nơi khác. Chị tự thấy tay hết ngứa.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật (lo lắng sinh sản): thu hoạch lại, trả lời trung thực không có nguồn</b><span class="tag t-r">Giấu</span></div><p>Chị hỏi nhỏ: &quot;Bác sĩ nói giúp, bệnh da của con và chồng em lần này có làm ảnh hưởng chuyện vợ chồng em muốn có em bé không? Em đã hẹn khám hiếm muộn rồi.&quot; Chị cảm thấy nhẹ nhõm nhưng vẫn lo.</p><div class="cond">Điều kiện nói ra: Chị chỉ nói khi bác sĩ hỏi chị còn lo gì không, hoặc hỏi về chuyện đã kể ở hai lần khám trước.</div></div></details>
+ <details class="card"><summary><h3 id="m-15">Khám <small>3 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Da, niêm mạc, ban</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Gối trái: dát thâm nâu nhạt, da phẳng, không vảy. Cổ chân phải: một vảy nâu khô khoảng 5 mm, không quầng, không chảy dịch. Nơi khác: không có tổn thương.</p><p><span class="lbl">Kết quả:</span> Gối trái: tổn thương đã lành, còn dát thâm nâu nhạt 3 cm, không vảy, không nóng, không đau. Cổ chân phải: một vảy tiết nâu khô khoảng 5 mm, nền hồng nhạt, không ướt, không quầng, không mủ. Cổ chân trái, cẳng tay phải: dát thâm phẳng. Không tổn thương mới ở nơi khác.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, nhanh nhẹn, không sốt, không phù mi mắt, không phù chân.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b></div><p><span class="lbl">Kết quả:</span> Đi lại bình thường, không phù, hạch bẹn không sờ thấy.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Tim</b><span class="tag t-m">Bình thường</span></div><p>Tim đều 98 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 20 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-16">Cận lâm sàng <small>1 mục</small></h3></summary><div class="row"><div class="rh"><b>Tổng phân tích nước tiểu</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Không protein · Không glucose · Không hồng cầu</p><p class="why">Hữu ích, không bắt buộc: QĐ 4416 (Chốc mục 2.1) nêu viêm cầu thận ở trẻ em là biến chứng tiên lượng lành tính; thời điểm làm nước tiểu theo dõi: không có trong tài liệu đã tải. Không có dấu hiệu lâm sàng nên bình thường.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-17">Đáp án lượt 3 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Chốc kèm viêm mô tế bào nhẹ do MSSA đã khỏi gần hết sau 17 ngày; một tổn thương nhỏ ở cổ chân phải lâu lành do gãi, không quầng, không toàn thân; còn dát thâm sau viêm; không tái phát</b></div><p class="why">Các bọng nước lành sau 1 – 2 tuần nhưng có thể dai dẳng do tự lây truyền (QĐ 4416, Chốc mục 2.1). Đáp ứng đủ liều sau khi sửa cách cho thuốc, nguồn lây (IDSA 2014, KC 15, 16). Thời gian mờ dát thâm: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Thất bại điều trị, nhiễm khuẩn tái phát thường xuyên</b></div><p class="why">Loại trừ: tổn thương mới chỉ do gãi, đang lành; tái phát thường xuyên mới cần cấy, tìm mang tụ cầu mũi (NICE NG153 2020, mục 1.1.13). Chưa đạt.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Biến chứng viêm cầu thận sau nhiễm khuẩn da</b></div><p class="why">Loại trừ: không phù, nước tiểu vàng trong, TPTNT bình thường (QĐ 4416, Chốc mục 2.1 nêu viêm cầu thận, tiên lượng lành tính).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Tổn thương nhỏ còn lại ở cổ chân, không quầng, không toàn thân: không thêm kháng sinh uống; chăm sóc tại chỗ có thể kèm hydrogen peroxide 1% 5 ngày hoặc kháng sinh bôi</b></div><p class="why">Cách A: hydrogen peroxide 1% bôi 2 – 3 lần/ngày × 5 ngày cho chốc khu trú (NICE NG153 2020, mục 1.1.2, Bảng 2). Cách B: mupirocin 2 lần/ngày × 5 ngày (IDSA 2014, KC 2a) hoặc mupirocin, acid fusidic, retapamulin bôi 2 lần/ngày, thường 7 ngày (QĐ 4416, Chốc mục 3.2.1); NICE Bảng 2 ghi acid fusidic 2% hoặc mupirocin 2% 3 lần/ngày × 5 ngày. Bôi lặp lại dễ kháng thuốc (NICE mục 1.1.4). Không cần cấy lại vì đã có MSSA nhạy và đang cải thiện (NICE mục 1.1.12, 1.1.14).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Cắt móng, không gãi, khăn riêng, tắm rửa sạch; bé đi học được khi vảy khô, không chảy dịch</b></div><p class="why">QĐ 4416 (Chốc mục 4); NICE NG153 2020 (mục 1.1.1). Số ngày nghỉ học: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Trả lời nỗi lo sinh sản trung thực: không có tài liệu nối nhiễm khuẩn da với sinh sản, khám hiếm muộn cả hai vợ chồng theo hẹn</b></div><p class="why">Liên quan: không có trong tài liệu đã tải. Vô sinh: trên một năm sống chung không tránh thai (QĐ 315/2015, Vô sinh nữ mục 1, 2.2); vô sinh nam: tinh dịch đồ là thăm dò chính (Vô sinh nam mục 1).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn tái khám nếu sau 7 ngày chăm sóc tại chỗ vảy vẫn chưa bong, hoặc có tổn thương mới nhiều lần</b></div><p class="why">NICE NG153 2020 (mục 1.1.8, 1.1.13): đánh giá lại khi chưa cải thiện; tái phát thường xuyên thì cấy, cân nhắc xét mũi. Số ngày: không có trong tài liệu đã tải. Dấu hiệu phù, tiểu sẫm màu để quay lại: không có trong tài liệu đã tải (suy luận); viêm cầu thận tiên lượng lành tính (QĐ 4416, Chốc mục 2.1). Thời gian mờ dát thâm: không có trong tài liệu đã tải.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê thêm một đợt kháng sinh uống &quot;cho chắc&quot;</b></div><p class="why">Không cần: chỉ một tổn thương nhỏ khu trú, không toàn thân; kháng sinh dùng kéo dài hoặc lặp lại làm kháng thuốc phát triển nhanh (NICE NG153 2020, mục 1.1.4).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Chuyển bệnh viện vì lâu lành</b></div><p class="why">Không cần: không có dấu hiệu bệnh nặng, không tái phát thường xuyên (NICE NG153 2020, mục 1.1.15, 1.1.16).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Bé Bảo đã hết quầng, không sốt, chạy chơi; chỉ còn một vảy 5 mm không mủ, không có dấu hiệu bệnh nặng (NICE NG153 2020, mục 1.1.15, 1.1.16). Nhập viện hoặc truyền kháng sinh vì &quot;lâu lành&quot; là điều trị quá mức, tốn kém, và mẹ vẫn chưa được dặn phòng tái nhiễm (cắt móng, khăn riêng), nên tổn thương nhỏ có thể tái phát khi bé về học.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Gửi bé lên tuyến trên vì một tổn thương nhỏ lâu lành, trong khi đã có cấy MSSA nhạy và không tái phát thường xuyên (NICE NG153 2020, mục 1.1.12, 1.1.13). Mẹ mất thêm một buổi, bé nghỉ học thêm, tuyến trên cũng chỉ kê thuốc bôi và dặn vệ sinh; nỗi lo sinh sản của mẹ vẫn không được trả lời trung thực.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Chốc kèm viêm mô tế bào nhẹ do MSSA, gần khỏi sau khoảng 17 ngày (chậm hơn dự kiến), còn một tổn thương nhỏ ở cổ chân phải do gãi và dát thâm sau viêm</li><li>Nguồn lây trong nhà đã xử lý (cha đã khám da liễu), paracetamol đã ngưng, men gan bình thường</li><li>Nỗi lo sinh sản của mẹ: cần trả lời trung thực, không có nguồn, khám hiếm muộn riêng</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự hợp lý: hỏi bằng sinh hoạt (chạy chơi, đi học, còn gãi không) vì mẹ nói &quot;khỏi rồi&quot; → hỏi thuốc, paracetamol, cha → hỏi nỗi lo của mẹ → khám da từng chỗ. Khỏi chậm do tự lây truyền (QĐ 4416, Chốc mục 2.1); báo động chỉ khi chưa cải thiện sau đợt uống (NICE mục 1.1.8, 1.1.12) hoặc tái phát thường xuyên (mục 1.1.13), không phải ca này.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Không thêm kháng sinh uống; chăm sóc tại chỗ tổn thương nhỏ (NICE mục 1.1.2, 1.1.3; IDSA KC 2a), ghi cả hai cách. Phòng tái nhiễm; trả lời nỗi lo sinh sản không có nguồn.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Hydrogen peroxide 1% (kem)</b><div class="sub">1%</div></td><td data-l="Liều">Bôi lên tổn thương cổ chân phải 2 – 3 lần/ngày (NICE NG153 2020, Bảng 2)<div class="sub">Dùng ngoài da · Sau khi đắp nước muối cho mềm vảy</div></td><td data-l="Thời gian">5 ngày (NICE Bảng 2)</td><td class="gc" data-l="Ghi chú">Hoặc mupirocin 2% bôi 2 lần/ngày × 5 ngày (IDSA 2014, KC 2a) hoặc 7 ngày (QĐ 4416, mục 3.2.1); NICE Bảng 2: mupirocin 2%, acid fusidic 2%, 3 lần/ngày × 5 ngày. Chế phẩm hydrogen peroxide 1% sẵn có ở Việt Nam: không có trong tài liệu đã tải.</td></tr><tr><td><b>Nước muối sinh lý 9‰ (đắp gạc ẩm)</b><div class="sub">NaCl 0,9%</div></td><td data-l="Liều">Đắp lên vảy ở cổ chân cho mềm<div class="sub">Dùng ngoài da · Trước khi bôi thuốc</div></td><td data-l="Thời gian">Đến khi bong vảy</td><td class="gc" data-l="Ghi chú">QĐ 4416 (Chốc mục 3.2.1).</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Bé gần khỏi; còn một vảy nhỏ ở cổ chân do gãi. Chăm sóc tại chỗ 5 ngày, cắt móng, không cho gãi, khăn riêng (QĐ 4416, Chốc mục 4; NICE NG153 2020, mục 1.1.1). Dát thâm nhạt dần (thời gian: không có trong tài liệu đã tải). Bé đi học khi vảy khô, không chảy dịch (số ngày: không có trong tài liệu đã tải).</li><li>Quay lại nếu có tổn thương mới nhiều lần, vảy không bong sau 7 ngày, hoặc bé sốt, đỏ lan, phù mặt, tiểu sẫm màu (NICE NG153 2020, mục 1.1.7).</li><li>Chị hỏi về sinh sản: không có tài liệu nối nhiễm khuẩn da này với khả năng sinh sản; vợ chồng đi khám hiếm muộn theo hẹn (QĐ 315/2015, Vô sinh nữ mục 1, Vô sinh nam mục 2.1).</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-18">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Chốc / nhiễm khuẩn da (viêm mô tế bào nhẹ)</b></div>
+<p class="note">Phải loại trừ: Viêm mô tế bào nặng, Zona, Nấm da</p><p>Lượt 2 đỡ một phần vì bé nhổ siro, chỉ uống khoảng 12/20 liều, vẫn đi học, ngủ chung với cha có mụn chưa khô; cấy MSSA nhạy cephalexin, kháng sinh được dặn lại cách dùng, kéo dài đủ liệu trình, cha đi khám da liễu. Lượt 3 sau 12 ngày: gần khỏi (chậm hơn dự kiến), còn một vảy nhỏ ở cổ chân và dát thâm, men gan và nước tiểu bình thường, không dùng thêm kháng sinh uống. Mẹ được trả lời trung thực về nỗi lo sinh sản và hẹn khám hiếm muộn riêng.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-19">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Phủ nhận triệu chứng nặng: mẹ nói &quot;không sốt, không đau&quot;. Câu hỏi chức năng (bé còn chạy không, ăn mấy muỗng, cô giáo gọi đón sớm) và hỏi từng gói thuốc đã cho mới lộ mức nặng thật.</li><li>Paracetamol 250 mg × 5 lần/ngày × 6 ngày (khoảng 78 mg/kg/ngày): chỉ lộ khi hỏi thuốc đã cho kèm giờ và hàm lượng; che nhiệt độ, men gan tăng nhẹ.</li><li>Lý do thật (lo khả năng sinh sản, sợ bệnh lây): mẹ giấu vì ngại; chỉ kể khi bác sĩ hỏi người nhà có ai bị không và ghi nhận nỗi lo.</li><li>Quầng viêm mô tế bào nhẹ trên nền chốc: cám dỗ chỉ bôi thuốc mỡ, hoặc truyền kháng sinh, nhập viện, chuyển tuyến vì sợ.</li><li>Lượt 2 &quot;đỡ một phần&quot;: dễ nghĩ thất bại rồi đổi sang kháng sinh phổ rộng; thật ra là thiếu liều, vẫn đi học, nguồn lây ở nhà. Có xét nghiệm cơ bản: cám dỗ cấy, ASLO, định lượng paracetamol (IDSA 2014, KC 1, 12).</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Chốc kèm viêm mô tế bào nhẹ ở trẻ mẫu giáo: vảy vàng mật ong sau muỗi đốt, gãi; quầng lan nhẹ, không toàn thân thì điều trị ngoại trú, kháng sinh uống theo cân nặng (QĐ 4416, Chốc mục 2.1, 3.2.2; IDSA 2014, KC 18; NICE NG153 2020, Bảng 2).</li><li>Người nhà phủ nhận: hỏi bằng sinh hoạt và hỏi từng loại thuốc, giờ, mg thay vì hỏi cảm giác; paracetamol theo giờ quá 60 mg/kg/ngày là quá liều tối đa (QĐ 292/2024, mục 3.2.1).</li><li>Đỡ một phần ở lượt 2: hỏi cách cho thuốc, ai trong nhà còn mụn, bé còn đi học; thường là thiếu liều và tái nhiễm, không phải thất bại (IDSA 2014, KC 15).</li><li>Hai nguồn lệch ở kết hợp bôi và uống, 5 hay 7 ngày, liều trẻ em, ngoại trú hay chuyển bệnh viện: ghi cả hai, không chọn một bên.</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Chốc không bọng nước: vảy tiết vàng mật ong trên nền đỏ ướt, chẩn đoán chủ yếu bằng lâm sàng (QĐ 4416, Chốc mục 2.1, 2.3). Nhiều tổn thương hoặc ổ dịch dùng kháng sinh uống (mục 3.2.2; IDSA 2014, chốc KC 2).</li><li>Liều trẻ em: cephalexin 25 mg/kg/ngày chia 4 (QĐ 4416) hoặc 25 – 50 mg/kg/ngày (IDSA Bảng 2); flucloxacillin 125 – 250 mg × 4 lần/ngày cho 2 – 9 tuổi (NICE Bảng 2); 5 ngày, có thể 7.</li><li>Paracetamol cho trẻ: 10 – 15 mg/kg/lần mỗi 4 – 6 giờ, tối đa 60 mg/kg/ngày (QĐ 292/2024); chỉ khi trẻ khó chịu, không để hạ nhiệt độ đơn thuần (NICE NG143 2021, mục 1.6.4 – 1.6.6).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-20">Nguồn tài liệu <small>7</small></h3></summary><ul class=""><li>Bộ Y tế – QĐ 4416/QĐ-BYT 2023 (TL-0397) – Chốc mục 1.2, 2.1 – 2.4, 3.1, 3.2.1, 3.2.2 (cột trẻ em), 4; Zona mục 2.1; Nấm sợi mục 2.1, 2.2.</li><li>IDSA 2014 (TL-0270; Clin Infect Dis 2014;59:e10–52) – chốc KC 1, 2; viêm mô tế bào KC 12, 14 – 18; KC 27; Bảng 2 (cột trẻ em); chú thích Hình 1.</li><li>NICE NG153 2020 – Impetigo: antimicrobial prescribing (TL-0428) – mục 1.1.1 – 1.1.16; Bảng 2 (trẻ em và thanh thiếu niên dưới 18 tuổi).</li><li>QĐ 292/2024 (TL-0239) – mục 3.1, 3.2.1; NICE NG143 2021 (TL-0262) – mục 1.6.2 – 1.6.6.</li><li>Bộ Y tế – QĐ 3610/QĐ-BYT 2015, Hướng dẫn chẩn đoán và xử trí ngộ độc (TL-0035) – Ngộ độc paracetamol mục 2, 3, 3.4.</li><li>Bộ Y tế – QĐ 315/QĐ-BYT 2015, bệnh sản phụ khoa (TL-0036) – Vô sinh nữ mục 1, 2.2, 3.2; Vô sinh nam mục 1, 2.1.1.</li><li>Không có trong tài liệu đã tải: ngưỡng SIRS, mạch, nhịp thở, bạch cầu, men gan theo tuổi trẻ em; ngưỡng liều paracetamol lặp kéo dài gây độc ở trẻ; mốc tái khám 48 – 72 giờ; số ngày nghỉ học; xử trí người tiếp xúc; thời gian mờ dát thâm; hàm lượng chế phẩm; liên quan nhiễm khuẩn da với sinh sản.</li></ul></details>
+<details class="card"><summary><h3 id="m-21">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Da liễu</dd><dt>chan_doan_dich</dt><dd>Chốc / nhiễm khuẩn da (viêm mô tế bào nhẹ)</dd><dt>chan_doan_phai_loai_tru</dt><dd>Viêm mô tế bào nặng; Zona; Nấm da</dd><dt>nhom_tuoi</dt><dd>Mẫu giáo (1–5 tuổi)</dd><dt>do_kho</dt><dd>Điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>dien_tien_tai_kham</dt><dd>Đỡ một phần</dd><dt>nhieu_benh_nhan</dt><dd>Phủ nhận triệu chứng nặng</dd><dt>rang_buoc_nguon_luc</dt><dd>Chỉ có xét nghiệm cơ bản</dd><dt>loai_ket_cuc</dt><dd>Khỏi chậm hơn dự kiến</dd><dt>gioi</dt><dd>Nam</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>3</dd><dt>nghe_nghiep</dt><dd>Trẻ mẫu giáo (học lớp Chồi ở trường mầm non)</dd><dt>yeu_to_khoi_phat</dt><dd>Sau quan hệ tình dục (không áp dụng cho trẻ 4 tuổi; đặt ở cha mẹ: cha bé nổi mụn mủ vài ngày sau lần gần gũi vợ chồng gần nhất, xem lý do thật)</dd><dt>thuoc_dang_dung</dt><dd>Paracetamol liều cao kéo dài</dd><dt>ly_do_that_su_den_kham</dt><dd>Lo lắng về khả năng sinh sản</dd></dl><ul class=""><li>Bản 1 (2026-11-08, viết: Sonnet). Tài liệu đã đọc: TL-0397 (QĐ 4416: Chốc 1–4; Zona 2.1; Nấm sợi 2.1–2.2); TL-0270 (IDSA 2014: chốc KC 1–2, KC 12–18, 27, Bảng 2); TL-0428 (NICE NG153 1.1.1–1.1.16, Bảng 2); TL-0239 (QĐ 292/2024 3.1, 3.2.1); TL-0262 (NICE NG143 1.6.2–1.6.6); TL-0035 (QĐ 3610/2015, Ngộ độc paracetamol); TL-0036 (QĐ 315/2015: Vô sinh nữ, Vô sinh nam); mau_thuan.md (mục DL-0416, NH-0666 đã áp dụng).</li><li>Thiết kế: biến &quot;sau quan hệ tình dục&quot; không áp dụng cho trẻ 4 tuổi nên đặt ở cha mẹ (cha nổi mụn mủ sau lần gần gũi vợ chồng, mẹ lo bệnh lây và ảnh hưởng sinh sản); khởi phát của bé là muỗi đốt, gãi. Không khẳng định nguồn lây hay bệnh lây qua đường tình dục ở người lớn (không có trong tài liệu đã tải). Men gan tăng nhẹ là dữ kiện thiết kế (độ lớn chưa có nguồn). Lượt 2 đỡ một phần do thiếu liều, vẫn đi học, nguồn lây ở nhà; lượt 3 khỏi chậm do một tổn thương nhỏ vì gãi.</li><li>Ảnh: SCIN case -5048121674534375075 (nhãn Insect Bite, vùng chân), HA-DA-0293 (mặt trước gối: vùng đỏ quanh trợt nhỏ vảy vàng); các tổn thương khác mô tả bằng chữ; các ảnh khác trong lượt chọn đã loại. Khai báo: DL-0436_media.json.</li><li>Mâu thuẫn mới: DL-0436_mau_thuan.md (liều kháng sinh uống cho trẻ em). Danh mục đề xuất: không có.</li><li>08/11/2026 trưởng nhóm duyệt: mâu thuẫn liều cephalexin trẻ em đã có trong sổ (DL-0416 mục 2, bổ sung NH-1179) nên không thêm mục mới; bổ sung cách AWaRe 2022 (500 mg × 2 lần/ngày × 5 ngày cho 15–&lt;20 kg) vào đơn thuốc và xu_tri lượt 1–2.</li></ul></details>
+<p class="chan-trang">Ca DL-0436 · phiên bản ca 1 · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

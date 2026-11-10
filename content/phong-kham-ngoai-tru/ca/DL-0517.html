@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DL-0517 · Vảy nến</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · DL-0517</div>
+   <h1>Mảng đỏ bong vảy ở khuỷu tay, cẳng chân, đầu gối; thấy nhiều hơn sau bữa giỗ ăn hải sản, tưởng dị ứng</h1>
+   <p class="dich-gia">Lương Văn Thành · Nam · 31 tuổi · 62 kg</p>
+   <div class="chips"><span class="chip">Da liễu</span><span class="chip">Điển hình</span><span class="chip">3 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Nông dân trồng lúa và rau màu, lội ruộng, quỳ nhổ cỏ, phun thuốc trừ sâu, làm ngoài nắng cả ngày</dd><dt>Chiều cao, cân nặng</dt><dd>166 cm · 62 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi anh là &#x27;anh&#x27;. Anh xưng &#x27;tôi&#x27;, gọi &#x27;bác sĩ&#x27;, hay &#x27;dạ&#x27; đầu câu.</dd><dt>Tính cách</dt><dd>Thật thà, ít nói nhưng lễ phép, làm nông quen chịu đựng nên thấy ngứa nhẹ vẫn chịu. Có chú ruột bị ung thư da phải cắt chân nên nặng lòng, nhưng ngại nói ra vì sợ bị cho là nhát.</dd></dl></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/3</span> </h2>
+ <div class="card intro"><h3 id="m-2">Tiếp đón</h3><p>Anh Lương Văn Thành, 31 tuổi, nông dân trồng lúa và rau màu, đến khám vì các mảng đỏ bong vảy ở hai khuỷu tay, hai cẳng chân và hai đầu gối, nhiều lên khoảng 1 tuần nay. Sinh hiệu: mạch 76 l/p, HA 118/74 mmHg, nhiệt độ 36,7 °C, nhịp thở 16 l/p, SpO₂ 98%. Cân nặng 62 kg, chiều cao 166 cm.</p>
+  <blockquote>“Dạ chào bác sĩ. Tôi bị mấy mảng bong vảy ở khuỷu tay với cẳng chân, hồi giỗ ăn hải sản xong thì nó nổi nhiều hơn, chắc tôi bị dị ứng. Bác sĩ coi giúp tôi với.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>76</b><small>l/p</small></div><div class="vs"><span>HA</span><b>118/74</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,7</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>16</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-3">Hỏi bệnh <small>12 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám, tổn thương chính</b><span class="tag t-g">Tự kể</span></div><p>Hai khuỷu tay, hai cẳng chân và hai đầu gối có những mảng đỏ bong vảy trắng, ngứa nhẹ về tối. Một tuần nay nổi thêm 4–5 mảng ở cẳng chân.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Diễn tiến, tính chất vảy, không có dấu loét – sùi</b><span class="tag t-b">Khi được hỏi</span></div><p>Mảng ở khuỷu tay có từ khoảng 3 tháng, lúc đầu nhỏ bằng đồng xu, anh tưởng hắc lào hoặc chai do tì khuỷu xuống bờ ruộng. Mảng ở gối và cẳng chân mọc dần sau đó. Vảy trắng, khô, gãi ra bong từng lớp như vụn sáp. Không chảy dịch, không mụn nước, không đau, không loét, không tự chảy máu; không mảng nào lành ở giữa.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Yếu tố khởi phát theo sổ cái: hải sản; chi tiết loại trừ dị ứng/mày đay</b><span class="tag t-g">Tự kể</span></div><p>Năm ngày trước, giỗ ông nội, anh ăn nhiều ghẹ, tôm, mực. Sau đó thấy mảng ở cẳng chân nhiều thêm và ngứa hơn nên tin là dị ứng hải sản. Thật ra các mảng đã có từ trước bữa giỗ. Trước nay ăn hải sản thoải mái, chưa từng nổi sẩn phù, phù môi mắt, khó thở hay đau bụng; không mảng nào biến mất trong ngày rồi nổi chỗ khác.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật: sợ mắc ung thư</b><span class="tag t-r">Giấu</span></div><p>Chú ruột của anh bị ung thư da ở mu bàn chân, phải cắt bỏ chân cách đây 2 năm. Ở bữa giỗ chú nói &#x27;chỗ da bong vảy hoài không lành là mầm ung thư, đi khám cho sớm&#x27;. Từ đó anh mất ngủ mấy đêm, sợ mình bị giống chú nên mới đi khám.</p><div class="cond">Điều kiện nói ra: Anh không tự kể. Chỉ nói khi bác sĩ hỏi vì sao hôm nay đi khám, vì sao khám lúc này, anh đang lo điều gì nhất, hoặc trong nhà có ai bị bệnh da hay ung thư không.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Nghề: tì đè, cọ xát (khuỷu, gối, cẳng chân); nắng và thuốc trừ sâu (yếu tố nguy cơ ung thư da)</b><span class="tag t-b">Khi được hỏi</span></div><p>Làm ruộng lúa và vườn rau: lội ruộng đi ủng cao su cao tới gối, quỳ nhổ cỏ, tì khuỷu xuống bờ ruộng, làm ngoài nắng gần cả ngày. Có phun thuốc trừ sâu, đeo khẩu trang vải, găng tay đã thủng. Uống rượu đế vài chén vào ngày giỗ, lễ; không hút thuốc lá.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tầm soát viêm khớp vảy nến</b><span class="tag t-b">Khi được hỏi</span></div><p>Không đau, sưng khớp tay chân, gối, cổ chân; không ngón nào sưng cả ngón; không đau gót; lưng không cứng buổi sáng.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Triệu chứng toàn thân, nhạy cảm ánh sáng (loại trừ lupus)</b><span class="tag t-b">Khi được hỏi</span></div><p>Không sốt, không sụt cân, không mệt kéo dài. Đi nắng cả ngày mảng không nặng thêm, không nổi ban đỏ ở mặt hay má. Không loét miệng, không rụng tóc, không đau ngực, không phù, nước tiểu bình thường.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc đang dùng: không; chưa dùng thuốc bôi nào có thể làm thay đổi tổn thương</b><span class="tag t-b">Khi được hỏi</span></div><p>Không uống thuốc nào, kể cả thuốc nam, thuốc bắc, thuốc tự mua. Chỉ bôi dầu dừa nhà làm lên mảng cẳng chân vài hôm, không đổi. Chưa bôi kem trị nấm, kem corticoid hay kem trộn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Loại trừ nấm da</b><span class="tag t-b">Khi được hỏi</span></div><p>Không ngứa kẽ chân, kẽ ngón, bẹn; không mụn nước, tróc da kẽ chân; không nuôi chó mèo. Mảng không lành ở giữa, không lan rộng ra theo vòng.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Da đầu, mặt (loại trừ viêm da tiết bã)</b><span class="tag t-b">Khi được hỏi</span></div><p>Gội đầu có ít gàu mỏng ở đỉnh đầu, từ nhiều năm, không đổi trong mấy tháng nay. Mặt, lông mày, cánh mũi không bong vảy hay nhờn đỏ.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dấu hiệu gợi ý ung thư da, tiền sử gia đình</b><span class="tag t-b">Khi được hỏi</span></div><p>Ăn uống bình thường, không sụt cân, không sờ thấy hạch. Không có nốt lồi, chỗ loét lâu lành hay chảy máu tự nhiên. Chưa bị bỏng nặng hay sẹo bỏng; chưa từng bị cháy nắng nặng. Bố mẹ, anh chị em không ai bị ung thư.</p></div><div class="fact"><div class="fh"><b>Ảnh hưởng chất lượng cuộc sống (DLQI)</b><span class="tag t-b">Khi được hỏi</span></div><p>Ngứa nhẹ buổi tối, không gãi đến trầy. Khi làm đồng mặc quần áo dài nên không ngại. Có mấy đêm khó ngủ nhưng do lo, không do ngứa. Nếu dùng bộ câu hỏi DLQI thì tổng khoảng 4 điểm.</p></div></details>
+ <details class="card"><summary><h3 id="m-4">Khám <small>6 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Da, niêm mạc, ban</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Da rám nắng. Mặt duỗi hai khuỷu tay: mỗi bên một mảng đỏ khoảng 3 × 4 cm, ranh giới rõ, phủ vảy trắng khô (ảnh 1). Mặt trước – ngoài hai cẳng chân: mỗi bên 3–4 mảng tròn đường kính 1–3 cm, nền đỏ, vảy trắng dày, thêm vài tổn thương nhỏ vài mm (ảnh 2). Hai đầu gối: mỗi bên một mảng khoảng 3 cm, nền đỏ hồng, vảy trắng mịn. Thân mình, mặt, nách, bẹn, bàn tay, bàn chân, lòng bàn tay chân, sinh dục: không tổn thương.</p><p><span class="lbl">Kết quả:</span> Mặt duỗi hai khuỷu: mỗi bên một mảng đỏ hồng ranh giới rõ khoảng 3 × 4 cm, phủ vảy trắng mịn khô. Mặt trước – ngoài hai cẳng chân: mỗi bên 3–4 mảng tròn 1–3 cm, nền đỏ, vảy trắng đục dày nhiều lớp, viền đỏ ngoại vi, thêm vài sẩn nhỏ cùng tính chất. Hai đầu gối: mỗi bên một mảng khoảng 3 cm đỏ hồng, vảy trắng mịn. Không loét, không sùi, không chảy máu tự nhiên, không mụn nước, mụn mủ, không lành giữa. BSA ước khoảng 3% (một bàn tay ≈ 1%).</p><div class="media"><figure class="img"><a href="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/hinh/HA-DA-0003.jpg" target="_blank" rel="noopener"><a class="o-anh" href="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/hinh/HA-DA-0003.jpg"><img loading="lazy" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/hinh/HA-DA-0003.jpg" alt="Khuỷu tay (mặt duỗi)"></a></a><figcaption><b>Khuỷu tay (mặt duỗi)</b> – Mảng đỏ hồng ranh giới rõ, khoảng 3 × 4 cm, phủ vảy trắng mịn khô ở mặt duỗi khuỷu tay.</figcaption><div class="src">Ảnh: SCIN (Google Research &amp; Stanford), case 5752777419426160078, https://storage.googleapis.com/dx-scin-public-data/dataset/images/3567983899605382882.png</div></figure><figure class="img"><a href="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/hinh/HA-DA-0004.jpg" target="_blank" rel="noopener"><a class="o-anh" href="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/hinh/HA-DA-0004.jpg"><img loading="lazy" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/hinh/HA-DA-0004.jpg" alt="Cẳng chân (mặt trước – ngoài)"></a></a><figcaption><b>Cẳng chân (mặt trước – ngoài)</b> – Mảng tròn 1–3 cm, nền đỏ, phủ vảy trắng đục dày nhiều lớp, viền đỏ ngoại vi; vài sẩn nhỏ cùng tính chất.</figcaption><div class="src">Ảnh: SCIN (Google Research &amp; Stanford), case -8257739059543715530, https://storage.googleapis.com/dx-scin-public-data/dataset/images/-8604333316388588792.png</div></figure></div></div><div class="row"><div class="rh"><span class="key">★</span><b>Cạo vảy theo phương pháp Brocq</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Cạo nhẹ bằng thìa cùn trên một mảng ở cẳng chân: vảy bong thành lớp trắng đục, cạo tiếp thấy một màng mỏng bong ra, dưới màng là bề mặt đỏ bóng có điểm rớm máu.</p><p><span class="lbl">Kết quả:</span> Cạo mảng ở cẳng chân: vảy bong thành lớp trắng như sáp nến; cạo tiếp thấy màng bong mỏng, dưới màng bề mặt đỏ nhẵn bóng, rớm máu thành điểm (dấu Auspitz) – dương tính.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Da đầu, móng tay chân</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Da đầu: ít vảy phấn mịn ở đỉnh, da không đỏ, tóc không rụng. Móng tay: vài chấm lõm nhỏ trên móng ngón II, III tay phải; không tách móng.</p><p><span class="lbl">Kết quả:</span> Da đầu: vài vảy phấn trắng mỏng ở đỉnh, nền không đỏ, không mảng; tóc không rụng. Móng tay: 4–5 chấm lõm trên móng ngón II, III tay phải (rỗ móng), không tách móng; móng chân bình thường.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Mặt sạch: lông mày, rãnh mũi má, sau tai không đỏ, không vảy nhờn; không ban cánh bướm. Không sờ thấy hạch cổ, nách, bẹn.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Cơ xương khớp, cột sống</b></div><p><span class="lbl">Kết quả:</span> Các khớp bàn ngón, cổ tay, khuỷu, gối, cổ chân không sưng, không đau. Không ngón sưng cả ngón. Gân gót không đau. Cột sống thắt lưng cúi ngửa bình thường.</p></div><div class="row"><div class="rh"><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, tiếp xúc tốt. BMI ≈ 22,5 kg/m². Da niêm hồng, không phù.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Tim</b><span class="tag t-m">Bình thường</span></div><p>Tim đều 76 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 16 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-5">Cận lâm sàng <small>8 mục</small></h3></summary><div class="row"><div class="rh"><b>Glucose máu đói</b><span class="tag t-b">Hữu ích</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Glucose</td><td class="num">4,9</td><td>mmol/L</td><td class="ref">3,9–6,4</td></tr></tbody></table><p class="why">Nên làm: QĐ 4416 (Vảy nến mục 2.2) đưa glucose vào xét nghiệm tầm soát rối loạn chuyển hóa; mục 3.1: tầm soát bệnh lý chuyển hóa.</p></div><div class="row"><div class="rh"><b>Bộ mỡ máu</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Cholesterol TP 4,6 · LDL-C 2,7 · HDL-C 1,3 · TG 1,3 mmol/L</p><p class="why">Nên làm: mỡ máu nằm trong nhóm tầm soát rối loạn chuyển hóa (QĐ 4416, Vảy nến mục 2.2, 3.1).</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-y">Chấp nhận</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Số lượng bạch cầu (WBC)</td><td class="num">7,2</td><td>G/L</td><td class="ref">4,0–10,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu trung tính (NEU%)</td><td class="num">58</td><td>%</td><td class="ref">45–75</td></tr><tr class=""><td>Tỷ lệ bạch cầu lympho (LYM%)</td><td class="num">32</td><td>%</td><td class="ref">20–40</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa acid (EOS%)</td><td class="num">3</td><td>%</td><td class="ref">0–7</td></tr><tr class=""><td>Lượng huyết sắc tố (HGB)</td><td class="num">148</td><td>g/L</td><td class="ref">130–170</td></tr><tr class=""><td>Số lượng tiểu cầu (PLT)</td><td class="num">250</td><td>G/L</td><td class="ref">150–400</td></tr></tbody></table><p class="why">Chấp nhận: công thức máu có trong nhóm xét nghiệm tầm soát và theo dõi (QĐ 4416, Vảy nến mục 2.2); bạch cầu ái toan không tăng không ủng hộ dị ứng hải sản. Không bắt buộc ở ca chỉ dùng thuốc bôi.</p></div><div class="row"><div class="rh"><b>Soi tươi tìm nấm (KOH) bệnh phẩm da, móng, tóc</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Cạo vảy mảng cẳng chân: không thấy sợi nấm, không thấy bào tử.</p><p class="why">Chấp nhận: anh lội ruộng đi ủng nên nghĩ tới nấm (QĐ 4416, Bệnh da do nấm sợi mục 2.2); âm tính cho phép không dùng kháng nấm.</p></div><div class="row"><div class="rh"><b>Soi da (dermoscopy)</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Mạch máu dạng chấm sắp xếp đều trên nền đỏ, vảy trắng; không thấy mạch cành cây, không cấu trúc bất thường.</p><p class="why">Chấp nhận: mạch chấm đều trên nền đỏ, vảy trắng là vảy nến, khác viêm da dầu (mạch cành cây) (QĐ 4416, Vảy nến mục 2.2; Viêm da dầu mục 2.2). Không bắt buộc.</p></div><div class="row"><div class="rh"><b>Sinh thiết da, mô bệnh học</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần: nhiều mảng đối xứng ở chỗ tì đè, Brocq dương tính; mô bệnh học chỉ khi lâm sàng không điển hình (QĐ 4416, Vảy nến mục 2.3). Bowen &#x27;cần xét nghiệm mô bệnh học&#x27; (QĐ 4416, Ung thư biểu mô tế bào vảy mục 2.1.2) nhưng là mảng ở vùng nắng, không như ca này. Lo lắng không phải chỉ định sinh thiết.</p></div><div class="row"><div class="rh"><b>Kháng thể kháng nhân (ANA), kháng dsDNA</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần: không có biểu hiện lâm sàng nào của lupus (EULAR/ACR 2019, Bảng 1: ANA ≥ 1:80 là tiêu chuẩn đầu vào khi đã nghi lupus).</p></div><div class="row"><div class="rh"><b>Test lẩy da (prick test) với dị nguyên</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần: không có sẩn phù, phù mạch hay triệu chứng toàn thân sau ăn; tổn thương tồn tại hàng tuần, không biến mất trong 24 giờ (QĐ 4416, Mày đay mục 2.1).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-6">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Vảy nến thể thông thường – thể mảng, mức độ nhẹ (BSA ≈ 3%, PASI ước &lt; 10, DLQI ≈ 4), rỗ móng, chưa có biểu hiện viêm khớp; đang đợt nhiều thêm</b></div><p class="why">Mảng đỏ ranh giới rõ, vảy trắng dày dễ bong ở chỗ tì đè, mặt duỗi (khuỷu, gối), khuynh hướng đối xứng, kèm rỗ móng (QĐ 4416, Vảy nến mục 2.1); Brocq dương tính (QĐ 75/2015, mục 3a, 3c); chẩn đoán chủ yếu lâm sàng (QĐ 4416 mục 2.3). Nhẹ khi PASI &lt; 10, DLQI &lt; 10, BSA &lt; 10 (QĐ 4416 mục 2.5, sơ đồ điều trị; S3 2026 khuyến cáo II-1).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm da tiết bã</b></div><p class="why">Vảy trắng mỏng hoặc vảy mỡ vàng trên nền da viêm đỏ ở trán, thái dương, đỉnh, má, lông mày, rãnh mũi má, sau tai, ngực, lưng (QĐ 4416, Viêm da dầu mục 2.1.2). Anh chỉ có ít vảy phấn ở đỉnh, mặt sạch, mảng ở mặt duỗi, vảy dày, rỗ móng; vảy nến là chẩn đoán phân biệt của viêm da dầu người lớn (mục 2.3.2).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Nấm da (hắc lào)</b></div><p class="why">Nấm sợi: dát, mảng đỏ hình tròn hay nhiều cung, vảy da, lành giữa và lan rộng ra xung quanh, ngứa nhiều, có thể mụn nước (QĐ 4416, Bệnh da do nấm sợi mục 2.1). Mảng của anh phủ vảy khắp mặt, không lành giữa, đối xứng ở chỗ tì đè, ngứa nhẹ, rỗ móng.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Lupus ban đỏ</b></div><p class="why">Tổn thương bán cấp có thể dạng vảy nến ở ngực, lưng, cánh tay và nhạy cảm ánh nắng; dạng đĩa là dát đỏ, teo da, vảy dính khó bong (QĐ 4416, Lupus ban đỏ hệ thống mục 2.1.2; QĐ 75/2015 mục 3d). Anh không nhạy nắng, không ban má, loét miệng, rụng tóc, đau khớp; vảy dễ bong, không teo, không sẹo; không làm ANA (EULAR/ACR 2019 Bảng 1).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ung thư da (bệnh Bowen, ung thư biểu mô tế bào vảy)</b></div><p class="why">Bowen là mảng hồng hoặc đỏ có vảy, giới hạn rõ, ở vùng tiếp xúc ánh nắng, cần mô bệnh học để xác định; SCC xâm nhập có thể loét, sùi, trợt, đóng vảy tiết (QĐ 4416, Ung thư biểu mô tế bào vảy mục 2.1.2, 2.1.3). Nông dân có nguy cơ nắng, thuốc trừ sâu (mục 1.3) nên lo lắng có căn cứ, nhưng anh có nhiều mảng đối xứng ở chỗ tì đè, Brocq dương tính, không loét sùi chảy máu, không hạch.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Dị ứng hải sản, mày đay</b></div><p class="why">Mày đay là sẩn phù, biến mất trong 24 giờ không để lại dát thâm (QĐ 4416, Mày đay mục 2.1). Anh ăn hải sản đều từ trước, không sẩn phù, phù mạch hay khó thở; mảng tồn tại hàng tuần, có trước bữa giỗ. Hải sản không được tài liệu đã tải nêu là yếu tố khởi phát vảy nến.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Calcipotriol + betamethason dipropionat dạng thuốc mỡ, bôi 1 lần/ngày vào các mảng ở khuỷu, cẳng chân, gối, 4 tuần</b></div><p class="why">Thể nhẹ dùng thuốc bôi đơn thuần hoặc phối hợp (QĐ 4416, sơ đồ điều trị); calcipotriol kết hợp corticosteroid bôi ngày 1 lần để tấn công, dạng mỡ cho thân mình (mục 3.2.1); AAD-NPF 2021 khuyến cáo 3.4, 3.5. Liệu trình 4 tuần, tối đa 15 g/ngày, ≤ 30% diện tích da (tờ thông tin Dovobet thuốc mỡ – nguồn bổ sung tự tìm).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dưỡng ẩm nhiều lần trong ngày, tránh gãi, cọ xát lên mảng</b></div><p class="why">QĐ 4416 (Vảy nến mục 3.2.1): giảm ngứa, ngăn hiện tượng Koebner, bôi nhiều lần/ngày; QĐ 75/2015 mục 3a: tổn thương mọc ở chỗ sang chấn; AAD-NPF 2021 khuyến cáo 5.1.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích rõ: không phải ung thư, không lây, là bệnh viêm mạn tính tiến triển từng đợt; trấn an có căn cứ</b></div><p class="why">QĐ 4416 (Vảy nến mục 1.1); ung thư da hiếm gặp (QĐ 75/2015, mục 5b). Nói thẳng điều anh sợ, nêu các dấu hiệu cần khám lại: loét, sùi, chảy máu (QĐ 4416, Ung thư biểu mô tế bào vảy mục 2.1.3).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích hải sản: không có bằng chứng trong tài liệu là nguyên nhân; hỏi lại nếu có sẩn phù ngứa sau ăn</b></div><p class="why">Hải sản là yếu tố khởi phát vảy nến: không có trong tài liệu đã tải (QĐ 4416, mục 1.3 chỉ ghi stress, chấn thương, nhiễm khuẩn, thuốc). Mày đay khác: QĐ 4416, Mày đay mục 2.1. Có cần kiêng hải sản hay không: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Tầm soát rối loạn chuyển hóa: glucose, mỡ máu</b></div><p class="why">QĐ 4416 (Vảy nến mục 2.1, 2.2, 3.1).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi, khám khớp; dặn báo ngay khi đau sưng khớp, ngón sưng cả ngón, đau gót</b></div><p class="why">QĐ 4416 (Vảy nến mục 2.1: tổn thương khớp); QĐ 75/2015 mục 3a (10–20% có tổn thương khớp).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn tái khám sau 4 tuần; dặn không tự ngưng thuốc đột ngột khi vừa sạch</b></div><p class="why">QĐ 4416 (Vảy nến mục 4: thăm khám định kì theo hẹn); mốc 4 tuần theo một đợt bôi (AAD-NPF 2021 khuyến cáo 1.1; tờ thông tin Dovobet). Mốc tái khám cụ thể: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích vì sao chưa làm ANA, sinh thiết da, bộ tầm soát lao – viêm gan</b></div><p class="why">Không có tiêu chí lâm sàng lupus (EULAR/ACR 2019 Bảng 1); mô bệnh học khi không điển hình (QĐ 4416, Vảy nến mục 2.3); tầm soát lao, viêm gan chỉ trước thuốc sinh học (mục 2.2).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Corticoid bôi mạnh đơn thuần (vd. betamethason dipropionat 0,05%), 1–2 lần/ngày, không quá 4 tuần</b></div><p class="why">QĐ 4416 (Vảy nến mục 3.2.1: corticosteroid bôi ngày 1–2 lần); AAD-NPF 2021 khuyến cáo 1.1 (tới 4 tuần cho mảng không ở nếp gấp).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Soi tươi tìm nấm (KOH) hoặc soi da trước khi bôi corticoid</b></div><p class="why">QĐ 4416 (Bệnh da do nấm sợi mục 2.2; Vảy nến mục 2.2). Không bắt buộc khi lâm sàng điển hình.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê kháng histamin hoặc kiêng hải sản như điều trị dị ứng</b></div><p class="why">Không có sẩn phù, không dị ứng (QĐ 4416, Mày đay mục 2.1); làm chậm điều trị đúng và củng cố niềm tin sai.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Thuốc kháng nấm bôi hoặc uống &#x27;cho chắc&#x27;</b></div><p class="why">Không có bằng chứng nấm (QĐ 4416, Bệnh da do nấm sợi mục 2.1); nếu nghi thì soi tươi trước (mục 2.2).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Thuốc toàn thân, quang trị liệu hoặc sinh học ngay</b></div><p class="why">Dành cho thể vừa – nặng hoặc đáp ứng kém thuốc bôi (QĐ 4416, Vảy nến sơ đồ điều trị, mục 3.2.2, 3.2.3; S3 2026 khuyến cáo II-1, IX-2); ca này nhẹ, chưa thử thuốc bôi.</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Corticoid toàn thân (uống hoặc tiêm) để &#x27;sạch nhanh&#x27; hoặc &#x27;giải dị ứng&#x27;</b></div><p class="why">Gây đỏ da toàn thân, vảy nến thể mủ (QĐ 4416, Vảy nến mục 2.4; QĐ 75/2015, mục 4c).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển anh Thành lên tuyến trên để sinh thiết hoặc dùng thuốc toàn thân là quá tay: anh chỉ có vảy nến thể mảng nhẹ (BSA khoảng 3%, PASI ước dưới 10, DLQI khoảng 4), chưa thử thuốc bôi (QĐ 4416, Vảy nến sơ đồ điều trị; S3 2026 khuyến cáo II-1). Lâm sàng điển hình, mô bệnh học chỉ khi không điển hình (mục 2.3). Anh mất 2–3 ngày công đúng vụ làm đồng, tốn tiền đi lại, nhận bộ xét nghiệm tầm soát không cần (mục 2.2), trong lúc mảng ở cẳng chân vẫn nổi thêm vì chưa có thuốc bôi.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhập viện theo dõi vì &#x27;sợ ung thư&#x27; là không cần: anh 31 tuổi, sinh hiệu bình thường, không sốt, không đỏ da toàn thân, không đau khớp, BSA chỉ khoảng 3% (QĐ 4416, Vảy nến mục 2.1, sơ đồ điều trị). Thuốc bôi và hẹn tái khám ngoại trú là đủ; nằm viện làm anh mất công, tốn kém và tưởng bệnh nặng như chú của anh.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Vảy nến thể thông thường – thể mảng (ICD-10 L40.0)</li><li>Vị trí: mặt duỗi hai khuỷu tay, hai cẳng chân, hai đầu gối; móng (rỗ móng 2 móng); da đầu không tổn thương</li><li>Mức độ nhẹ: BSA ≈ 3%, PASI ước &lt; 10, DLQI ≈ 4; không đạt tiêu chí nâng mức (S3 2026 II-1)</li><li>Chưa có biểu hiện viêm khớp vảy nến</li><li>Yếu tố thuận lợi: tì đè, cọ xát khi làm đồng (Koebner); bữa ăn hải sản chỉ trùng thời điểm – mối liên quan không có trong tài liệu đã tải</li><li>Đã loại trừ trên lâm sàng: viêm da tiết bã, nấm da, lupus, ung thư da (Bowen, SCC), mày đay do hải sản</li><li>Lý do thật đến khám: sợ mắc ung thư (chú ruột bị ung thư da)</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự hợp lý: hỏi vì sao hôm nay đi khám, anh lo điều gì → diễn tiến tổn thương → hải sản và mốc thời gian → nghề → thuốc đã dùng, kể cả thuốc nam → toàn thân, ánh nắng, khớp → gia đình → khám da, da đầu, móng, mặt, hạch, khớp, cạo Brocq → glucose, mỡ máu → chẩn đoán, xếp mức độ → điều trị, trấn an.</li><li>Vì sao là vảy nến: mảng đỏ ranh giới rõ, vảy trắng dày dễ bong ở khuỷu, gối, mặt duỗi, đối xứng, kèm rỗ móng (QĐ 4416, Vảy nến mục 2.1); Brocq có màng bong và hạt sương máu (QĐ 75/2015, mục 3a, 3c). Chẩn đoán chủ yếu lâm sàng (QĐ 4416 mục 2.3).</li><li>Mức độ: thể giọt dưới 1 cm, còn lại là thể mảng (QĐ 4416 mục 2.4). Một bàn tay ≈ 1% BSA (AAD-NPF 2021, mục BSA) nên BSA ≈ 3%; nhẹ khi PASI, DLQI, BSA đều &lt; 10 (QĐ 4416 mục 2.5, sơ đồ; S3 2026 II-1). Không đạt tiêu chí nâng mức: không vùng lộ, da đầu, sinh dục, lòng bàn tay chân; móng chỉ rỗ; ngứa không gãi trầy.</li><li>Nỗi lo ung thư: phải hỏi mới ra. Nông dân có yếu tố nguy cơ nắng và thuốc trừ sâu cho SCC (QĐ 4416, Ung thư biểu mô tế bào vảy mục 1.3); Bowen là mảng đỏ có vảy giới hạn rõ ở vùng nắng và cần mô bệnh học (mục 2.1.2). Phân biệt: nhiều mảng đối xứng ở chỗ tì đè, rỗ móng, Brocq dương tính, không loét sùi chảy máu, không hạch (mục 2.1.3). Ung thư da là biến chứng hiếm gặp của vảy nến (QĐ 75/2015, mục 5b).</li><li>Viêm da tiết bã, nấm da, lupus: xem phần loại trừ. Không làm ANA, sinh thiết vì không có tiêu chí lâm sàng, Brocq dương tính (EULAR/ACR 2019 Bảng 1). Nguồn lực đầy đủ không có nghĩa là làm hết.</li><li>Hải sản: tài liệu đã tải chỉ ghi yếu tố thuận lợi là stress, chấn thương, nhiễm khuẩn, thuốc (QĐ 4416, Vảy nến mục 1.3; QĐ 75/2015 mục 2); hải sản làm bùng vảy nến: không có trong tài liệu đã tải. Mảng khuỷu có từ 3 tháng, bữa giỗ chỉ trùng thời điểm; không sẩn phù nên không phải mày đay (QĐ 4416, Mày đay mục 2.1). Nói: &#x27;anh nhận ra mốc thời gian là đúng, nhưng chưa có bằng chứng ăn hải sản gây bệnh này&#x27;.</li><li>Viêm khớp vảy nến: hỏi đau sưng khớp, ngón khúc dồi, viêm gân bám (QĐ 4416, Vảy nến mục 2.1); anh không có.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Hướng xử trí: ngoại trú, thuốc bôi, hẹn tái khám 4 tuần (ve_hen); không chuyển tuyến vì thể nhẹ, lâm sàng rõ (QĐ 4416, mục 2.3, sơ đồ điều trị).</li><li>Thể nhẹ dùng thuốc bôi: calcipotriol + corticosteroid 1 lần/ngày để tấn công, dạng mỡ cho thân mình (QĐ 4416 mục 3.2.1); phối hợp vitamin D – corticoid được khuyến cáo mạnh (AAD-NPF 2021 khuyến cáo 3.4, 3.5). Giới hạn: calcipotriol tránh quá 100 g/tuần vì nguy cơ tăng calci máu (AAD-NPF 2021, mục vitamin D), QĐ 4416 mục 3.2.1 ghi &#x27;100mg/tuần&#x27; (nghi lỗi đơn vị – sổ mâu thuẫn, ghi cả hai, con số 100 g thận trọng hơn khi hiểu theo chế phẩm); tờ thông tin Dovobet: tối đa 15 g/ngày, ≤ 30% diện tích da (nguồn bổ sung tự tìm). BSA 3% thì lượng dùng thấp hơn nhiều.</li><li>Dưỡng ẩm là điều trị thật: giảm ngứa, ngăn Koebner (QĐ 4416 mục 3.2.1), giúp tránh tái phát nhanh (AAD-NPF 2021 khuyến cáo 5.1).</li><li>Không thuốc toàn thân, quang trị liệu, sinh học: dành cho thể vừa – nặng hoặc đáp ứng kém (QĐ 4416 sơ đồ; S3 2026 II-1, IX-2). Không corticoid toàn thân: gây đỏ da toàn thân, vảy nến thể mủ (QĐ 4416 mục 2.4; QĐ 75/2015 mục 4c).</li><li>Xét nghiệm: glucose, mỡ máu để tầm soát chuyển hóa (QĐ 4416 mục 2.2, 3.1). Không ANA, sinh thiết, test lẩy da: không có chỉ định.</li><li>Trấn an có căn cứ là một phần điều trị. Tái khám 4 tuần: mốc cụ thể không có trong tài liệu đã tải; chọn theo một đợt bôi (AAD-NPF 2021 khuyến cáo 1.1).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Calcipotriol + betamethason dipropionat (thuốc mỡ)</b><div class="sub">Calcipotriol 50 µg/g + betamethason 0,5 mg/g (dạng dipropionat)</div></td><td data-l="Liều">Bôi lớp mỏng phủ vừa đủ các mảng ở khuỷu tay, cẳng chân, đầu gối<div class="sub">Bôi ngoài da · 1 lần/ngày, buổi tối sau tắm</div></td><td data-l="Thời gian">4 tuần, rồi tái khám</td><td class="gc" data-l="Ghi chú">QĐ 4416 (Vảy nến mục 3.2.1: phối hợp bôi 1 lần/ngày, dạng mỡ cho thân mình); AAD-NPF 2021 khuyến cáo 3.4, 3.5. Hàm lượng, 4 tuần, tối đa 15 g/ngày, ≤ 30% diện tích da, không bôi mặt, sinh dục: tờ thông tin sản phẩm Dovobet thuốc mỡ (nguồn bổ sung tự tìm, https://www.medicines.org.uk/emc/product/1609/smpc). Calcipotriol: tránh quá 100 g/tuần (AAD-NPF 2021, mục vitamin D).</td></tr><tr><td><b>Kem hoặc thuốc mỡ dưỡng ẩm không mùi</b><div class="sub">Loại sẵn có (vd. vaselin, kem dưỡng ẩm không hương liệu)</div></td><td data-l="Liều">Bôi lớp mỏng lên vùng tổn thương và da khô xung quanh<div class="sub">Bôi ngoài da · Nhiều lần/ngày, nhất là sau khi làm đồng về</div></td><td data-l="Thời gian">Dùng lâu dài</td><td class="gc" data-l="Ghi chú">QĐ 4416 (Vảy nến mục 3.2.1: dưỡng ẩm giảm ngứa, ngăn Koebner); AAD-NPF 2021 khuyến cáo 5.1. Tên sản phẩm, cách xếp giờ với thuốc: không có trong tài liệu đã tải. Dầu dừa tự làm không thay được thuốc.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Đây là vảy nến thể mảng nhẹ: không phải ung thư, không lây, tiến triển từng đợt; điều trị để kiểm soát, chưa có thuốc chữa khỏi hẳn (QĐ 4416, Vảy nến mục 1.1, 3.1; QĐ 75/2015 mục 4a, 6). Ung thư da hiếm gặp trong bệnh này (QĐ 75/2015 mục 5b); quay lại sớm nếu mảng loét, sùi, chảy máu (QĐ 4416, Ung thư biểu mô tế bào vảy mục 2.1.3).</li><li>Thuốc mỡ bôi mỗi tối lên mảng khuỷu, cẳng chân, gối, không bôi lên mặt hay chỗ da lành; rửa tay sau khi bôi; không tự ngưng đột ngột khi vừa sạch (AAD-NPF 2021).</li><li>Dưỡng ẩm nhiều lần; tránh gãi, cạy vảy và cọ xát: tổn thương mọc ở chỗ trầy, chấn thương (QĐ 75/2015 mục 3a; QĐ 4416 mục 4).</li><li>Ăn hải sản: tài liệu chưa xác nhận là nguyên nhân; nếu mỗi lần ăn nổi sẩn phù, ngứa, sưng môi thì báo bác sĩ. Kiêng cụ thể: không có trong tài liệu đã tải.</li><li>Không tự mua thuốc nam, thuốc bắc, thuốc &#x27;gia truyền&#x27; trị bệnh da (QĐ 4416 mục 4; QĐ 75/2015 mục 2, 4c). Báo ngay nếu đau sưng khớp, da đỏ lan toàn thân hoặc nổi mụn mủ (QĐ 4416 mục 2.1, 2.4).</li><li>Tái khám sau 4 tuần, mang ảnh tổn thương đã chụp (QĐ 4416 mục 4).</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-2">
+ <h2 id="h-luot-2"><span class="ln">Lượt 2/3</span> </h2>
+ <div class="card intro"><h3 id="m-7">Tiếp đón</h3><p>Anh Thành tái khám đúng hẹn sau 4 tuần dùng thuốc mỡ và dưỡng ẩm. Anh nói da đỡ nhiều nhưng hai đầu gối còn đỏ. Kết quả lượt trước: glucose 4,9 mmol/L, mỡ máu bình thường. Sinh hiệu: mạch 74 l/p, HA 116/72 mmHg, nhiệt độ 36,6 °C, nhịp thở 16 l/p, SpO₂ 98%. Cân nặng 62 kg.</p>
+  <blockquote>“Dạ bác sĩ, thuốc bôi tốt lắm, khuỷu với cẳng chân gần hết rồi. Mà hai đầu gối vẫn còn đỏ, bôi hoài không hết, hay thuốc không hợp chỗ đó vậy bác sĩ?”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>74</b><small>l/p</small></div><div class="vs"><span>HA</span><b>116/72</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,6</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>16</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-8">Hỏi bệnh <small>5 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đáp ứng một phần: mảng khuỷu, cẳng chân lui, mảng gối còn</b><span class="tag t-g">Tự kể</span></div><p>Bôi thuốc đều mỗi tối sau tắm. Ngứa hết từ tuần thứ 2. Khuỷu tay và cẳng chân hết vảy sau khoảng 3 tuần, còn vệt hồng nhạt. Hai đầu gối vẫn đỏ, còn vảy mịn khô, nhỏ lại khoảng một nửa so với trước. Không nổi mảng mới, không loét, không chảy máu.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tuân thủ và kỹ thuật bôi; cọ xát vùng gối (Koebner) giải thích đỡ một phần</b><span class="tag t-b">Khi được hỏi</span></div><p>Dùng gần hết một tuýp 30 g. Ở gối anh bôi mỏng hơn vì sáng ra ruộng thuốc dính vào quần, rồi quỳ nhổ cỏ cọ xát cả buổi nên thuốc trôi mất; có hôm quên bôi. Khuỷu, cẳng chân thì bôi đủ. Vẫn dưỡng ẩm ngày 2–3 lần.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tác dụng phụ corticoid bôi, tăng calci máu</b><span class="tag t-b">Khi được hỏi</span></div><p>Không rát, không mỏng da, không rạn da, không nổi mụn ở lông chân. Không khát nhiều, không buồn nôn, không đau bụng, không táo bón.</p></div><div class="fact"><div class="fh"><b>khop</b><span class="tag t-b">Khi được hỏi</span></div><p>Không đau sưng khớp, không cứng khớp buổi sáng.</p></div><div class="fact"><div class="fh"><b>mua_vu</b><span class="tag t-b">Khi được hỏi</span></div><p>Tuần sau xuống giống đợt lúa mới, sẽ lội ruộng đi ủng, quỳ nhổ cỏ nhiều hơn.</p></div></details>
+ <details class="card"><summary><h3 id="m-9">Khám <small>2 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Da, niêm mạc, ban</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Khuỷu: hai dát hồng nhạt khoảng 2 × 2 cm, không vảy. Cẳng chân: vài vệt hồng nhạt, 2 tổn thương nhỏ còn vảy mỏng. Hai đầu gối: mỗi bên một mảng đỏ khoảng 3 × 4 cm, vảy trắng mịn khô (ảnh). Không tổn thương mới ở thân mình, mặt, da đầu. Không loét, không sùi, không chảy máu.</p><p><span class="lbl">Kết quả:</span> Khuỷu: hai dát hồng nhạt khoảng 2 × 2 cm, không vảy. Cẳng chân: vài dát hồng nhạt – thâm nhẹ ở vị trí cũ, 2 tổn thương nhỏ còn vảy mỏng. Hai đầu gối: mỗi bên một mảng đỏ khoảng 3 × 4 cm (nhỏ hơn trước), nền hồng, vảy trắng mịn khô, ranh giới khá rõ, da quanh khô. Không loét, sùi, chảy máu, không mảng mới. BSA khoảng 1%.</p><div class="media"><figure class="img"><a href="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/hinh/HA-DA-0021.jpg" target="_blank" rel="noopener"><a class="o-anh" href="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/hinh/HA-DA-0021.jpg"><img loading="lazy" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/hinh/HA-DA-0021.jpg" alt="Đầu gối"></a></a><figcaption><b>Đầu gối</b> – Mảng đỏ hồng, bờ khá rõ, phủ vảy trắng mịn khô ở đầu gối, da quanh khô.</figcaption><div class="src">Ảnh: SCIN (Google Research &amp; Stanford), case -568386322973258434, dataset/images/1289677945134827265.png</div></figure></div></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b></div><p><span class="lbl">Kết quả:</span> Khớp không sưng, không đau; gân gót và cột sống bình thường.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Tổng trạng, da niêm, vòng eo</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, tiếp xúc tốt. Da niêm hồng. Không vàng da.</p></div><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Tim</b><span class="tag t-m">Bình thường</span></div><p>Tim đều 74 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 16 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-10">Cận lâm sàng <small>3 mục</small></h3></summary><div class="row"><div class="rh"><b>Canxi máu toàn phần</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần: calcipotriol chỉ gây tăng calci máu khi bôi &gt; 30% BSA, quá liều hoặc có bệnh thận, rối loạn chuyển hóa calci (AAD-NPF 2021, mục vitamin D); anh BSA 1–3%, không triệu chứng.</p></div><div class="row"><div class="rh"><b>Sinh thiết da, mô bệnh học</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần: các mảng đã đỏ nhạt, vảy giảm rõ sau 4 tuần thuốc bôi, mảng gối nhỏ lại; không loét, sùi, chảy máu; mô bệnh học khi lâm sàng không điển hình (QĐ 4416, Vảy nến mục 2.3; Ung thư biểu mô tế bào vảy mục 2.1.3). Sinh thiết đặt ra khi một mảng đổi hình thái hoặc không đáp ứng với điều trị đúng.</p></div><div class="row"><div class="rh"><b>Kháng thể kháng nhân (ANA), kháng dsDNA</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần: không có biểu hiện lupus; kết quả đáp ứng với thuốc bôi phù hợp vảy nến (EULAR/ACR 2019, Bảng 1).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-11">Đáp án lượt 2 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Vảy nến thể mảng nhẹ, đáp ứng một phần sau 4 tuần thuốc bôi (còn mảng ở hai đầu gối; BSA khoảng 1%)</b></div><p class="why">Khuỷu, cẳng chân gần sạch, gối thu nhỏ khoảng một nửa nhưng còn vảy; chưa mảng mới (QĐ 4416, Vảy nến mục 2.1, 3.2.1). Vị trí gối bị cọ xát khi quỳ làm tổn thương dai dẳng (hiện tượng Koebner, QĐ 4416 mục 3.2.1; QĐ 75/2015 mục 3a).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Thất bại điều trị thuốc bôi</b></div><p class="why">Không: sau 4 tuần phần lớn tổn thương đã lui, chỉ vùng bôi thiếu và bị cọ xát còn lại. Tài liệu đã tải không có mốc thời gian hay mức đáp ứng để gọi thất bại thuốc bôi; S3 2026 (III-1: PASI 75 là mức tối thiểu cuối đợt tấn công, kiểm 10–12 tuần với thuốc tác dụng nhanh) viết cho điều trị toàn thân. QĐ 4416 (sơ đồ) chỉ ghi &#x27;đáp ứng kém&#x27; thì nâng bậc.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ung thư da ở mảng gối còn lại</b></div><p class="why">Mảng thu nhỏ khi điều trị đúng, nền hồng, vảy mịn khô, không loét, sùi, chảy máu (QĐ 4416, Ung thư biểu mô tế bào vảy mục 2.1.3). Mảng đơn độc không đáp ứng hoặc đổi hình thái mới cần mô bệnh học (mục 2.3).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Tiếp tục calcipotriol + betamethason thuốc mỡ 1 lần/ngày, tập trung đủ lượng ở hai đầu gối, thêm 4 tuần; hoặc luân phiên calcipotriol ngày thường + corticoid mạnh cuối tuần</b></div><p class="why">Hai cách đều đúng. (A) Phối hợp vitamin D – corticoid dùng tới 52 tuần dưới theo dõi (AAD-NPF 2021 khuyến cáo 3.4, 3.5) hoặc mỗi đợt 4 tuần theo tờ thông tin Dovobet (nguồn bổ sung tự tìm). (B) Vitamin D 2 lần/ngày ngày thường + corticoid mạnh 2 lần/ngày cuối tuần (AAD-NPF 2021 khuyến cáo 3.6, mức B). Khác nhau do bằng chứng và mục đích: A là đợt tấn công, B thiên về duy trì, giảm tổng lượng corticoid.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Nhận ra đáp ứng một phần chưa phải thất bại: kiểm tra tuân thủ, lượng thuốc, cọ xát ở gối</b></div><p class="why">QĐ 4416 (sơ đồ: chỉ nâng bậc khi đáp ứng kém); tuân thủ và tác dụng thuốc bôi: AAD-NPF 2021 (mục corticoid bôi: tuân thủ). Số liệu về lượng thuốc đầu ngón tay: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dưỡng ẩm tiếp, giảm cọ xát vùng gối khi quỳ, ủng</b></div><p class="why">QĐ 4416 (Vảy nến mục 3.2.1, 4: tránh chấn thương); AAD-NPF 2021 khuyến cáo 5.1.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không cần xét nghiệm thêm (canxi, sinh thiết, ANA); dặn dấu hiệu quay lại: mảng loét, sùi, chảy máu hoặc không đỡ sau 4 tuần nữa</b></div><p class="why">AAD-NPF 2021 (mục vitamin D: tăng calci máu hiếm khi dưới 30% BSA); QĐ 4416 (Ung thư biểu mô tế bào vảy mục 2.1.3, 2.3; Vảy nến mục 2.3).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn tái khám sau 4 tuần</b></div><p class="why">QĐ 4416 (Vảy nến mục 4); mốc 4 tuần theo một đợt bôi (AAD-NPF 2021 khuyến cáo 1.1). Mốc cụ thể: không có trong tài liệu đã tải.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Nâng bậc ngay: chiếu tia, thuốc toàn thân hoặc sinh học vì &#x27;chưa hết hẳn&#x27;</b></div><p class="why">Dành cho thể vừa – nặng hoặc đáp ứng kém (QĐ 4416, sơ đồ điều trị, mục 3.2.2, 3.2.3; S3 2026 II-1, IX-2); anh BSA khoảng 1%, đang đáp ứng.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Ngưng thuốc vì &#x27;đỡ nhiều rồi&#x27;</b></div><p class="why">Vảy nến thường tái phát sau ngưng corticoid bôi; mảng gối còn tổn thương (AAD-NPF 2021, mục corticoid bôi; QĐ 75/2015 mục 5a: sạch tổn thương cũng không coi là khỏi).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển anh Thành lên Da liễu tuyến trên để chiếu tia hay dùng thuốc toàn thân khi thuốc bôi đang có tác dụng là quá tay: BSA chỉ còn khoảng 1%, mảng khuỷu và cẳng chân gần sạch, chỉ gối còn vì bôi thiếu và bị cọ xát (QĐ 4416, sơ đồ điều trị; S3 2026 II-1). Chiếu tia thường xuyên hay thuốc toàn thân chỉ cho thể vừa – nặng hoặc đáp ứng kém (QĐ 4416 mục 3.2.2, 3.2.3). Anh phải đi lại nhiều ngày giữa vụ xuống giống, và nhận thêm xét nghiệm tầm soát, thuốc có tác dụng phụ không cần.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhập viện vì mảng gối chưa hết là không cần: sinh hiệu bình thường, BSA khoảng 1%, bệnh đang lui rõ (QĐ 4416, Vảy nến sơ đồ điều trị). Anh nằm viện đúng vụ xuống giống, mất công và tốn kém, trong khi chỉ cần bôi đủ thuốc và giảm cọ xát ở gối.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Vảy nến thể mảng nhẹ (ICD-10 L40.0), đáp ứng một phần sau 4 tuần calcipotriol + betamethason</li><li>Mảng còn lại: hai đầu gối (bôi mỏng hơn, cọ xát khi quỳ – Koebner); khuỷu và cẳng chân gần sạch</li><li>BSA ≈ 1%, không viêm khớp, không tác dụng phụ</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự hợp lý: hỏi đáp ứng từng vùng → cách bôi, lượng, vùng bôi thiếu → tác dụng phụ → khớp → khám lại từng vùng, BSA → xếp mức đáp ứng → bước tiếp.</li><li>Đáp ứng một phần bình thường khác thất bại điều trị sớm: phần lớn tổn thương đã lui trong 4 tuần, chỉ vùng bôi thiếu và bị cọ xát còn lại. Tài liệu đã tải không có mốc đáp ứng cho thuốc bôi; S3 2026 III-1, III-3 nêu mục tiêu cho điều trị toàn thân (PASI 75 là mức tối thiểu) và nói nếu không đạt phải điều chỉnh (tăng liều, phối hợp, đổi thuốc). QĐ 4416 (sơ đồ): chỉ khi &#x27;đáp ứng kém&#x27; mới nâng bậc.</li><li>Mảng đang nhỏ lại, nền hồng, vảy mịn, không loét sùi chảy máu nên không nghĩ ung thư da; mảng đổi hình thái hoặc không đáp ứng với điều trị đúng mới cần sinh thiết (QĐ 4416, Ung thư biểu mô tế bào vảy mục 2.1.3, 2.3).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Hướng xử trí: ngoại trú, tiếp tục thuốc bôi, hẹn tái khám (ve_hen).</li><li>Hai cách đều đúng, nguồn khác nhau do mục đích: (A) tiếp calcipotriol + betamethason hằng ngày, đợt 4 tuần theo tờ thông tin Dovobet hoặc tới 52 tuần dưới theo dõi (AAD-NPF 2021 khuyến cáo 3.4, 3.5); (B) vitamin D ngày thường + corticoid mạnh cuối tuần cho duy trì (khuyến cáo 3.6). Chọn A cho mảng gối còn rõ, B khi mảng đã mỏng.</li><li>Sửa cách bôi: đủ lượng ở gối buổi tối; giảm cọ xát (QĐ 4416 mục 3.2.1: ngăn Koebner; mục 4: tránh chấn thương). Calci máu, sinh thiết, ANA không cần (AAD-NPF 2021, mục vitamin D).</li><li>Không nâng bậc: đáp ứng chưa kém (QĐ 4416, sơ đồ). Không ngưng thuốc: tái phát sau ngưng corticoid bôi (AAD-NPF 2021).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Calcipotriol + betamethason dipropionat (thuốc mỡ)</b><div class="sub">Calcipotriol 50 µg/g + betamethason 0,5 mg/g</div></td><td data-l="Liều">Bôi đủ lớp mỏng lên hai mảng đầu gối và vệt còn vảy ở cẳng chân<div class="sub">Bôi ngoài da · 1 lần/ngày, buổi tối sau tắm</div></td><td data-l="Thời gian">4 tuần, rồi tái khám</td><td class="gc" data-l="Ghi chú">Cách A: QĐ 4416 (Vảy nến mục 3.2.1); AAD-NPF 2021 khuyến cáo 3.4, 3.5; 4 tuần, tối đa 15 g/ngày (tờ thông tin Dovobet thuốc mỡ – nguồn bổ sung tự tìm). Hoặc cách B: calcipotriol 2 lần/ngày ngày thường + corticoid mạnh 2 lần/ngày cuối tuần (AAD-NPF 2021 khuyến cáo 3.6). Calcipotriol tránh quá 100 g/tuần (AAD-NPF 2021).</td></tr><tr><td><b>Kem hoặc thuốc mỡ dưỡng ẩm không mùi</b><div class="sub">Loại sẵn có</div></td><td data-l="Liều">Bôi lớp mỏng lên vùng da khô<div class="sub">Bôi ngoài da · Nhiều lần/ngày, sau khi làm đồng về</div></td><td data-l="Thời gian">Dùng lâu dài</td><td class="gc" data-l="Ghi chú">QĐ 4416 (Vảy nến mục 3.2.1); AAD-NPF 2021 khuyến cáo 5.1.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Thuốc đang có tác dụng: khuỷu và cẳng chân gần hết; gối còn vì bôi mỏng và bị cọ xát. Bôi đủ lượng ở gối, buổi tối sau tắm.</li><li>Khi làm đồng: ủng sạch, đệm vải mềm khi quỳ nếu được; tránh cọ xát liên tục lên một chỗ (QĐ 4416 mục 3.2.1, 4). Cách đệm cụ thể: không có trong tài liệu đã tải.</li><li>Quay lại sớm nếu mảng loét, sùi, chảy máu, đổi hình dạng, hoặc không đỡ sau 4 tuần nữa (QĐ 4416, Ung thư biểu mô tế bào vảy mục 2.1.3); đau sưng khớp (QĐ 4416 mục 2.1).</li><li>Không tự ngưng thuốc; tái khám sau 4 tuần để giảm dần (AAD-NPF 2021).</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-3">
+ <h2 id="h-luot-3"><span class="ln">Lượt 3/3</span> </h2>
+ <div class="card intro"><h3 id="m-12">Tiếp đón</h3><p>Anh Thành tái khám sau 4 tuần nữa (tổng cộng 8 tuần từ lần đầu), da đã sạch vảy. Anh muốn ngưng thuốc vì sắp vào vụ gặt. Sinh hiệu: mạch 72 l/p, HA 118/72 mmHg, nhiệt độ 36,6 °C, nhịp thở 16 l/p, SpO₂ 99%. Cân nặng 62 kg.</p>
+  <blockquote>“Dạ bác sĩ, da tôi sạch hết rồi. Cho tôi ngưng thuốc nghen, sắp tới vụ gặt tôi bận lắm, không có thời gian bôi.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>72</b><small>l/p</small></div><div class="vs"><span>HA</span><b>118/72</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,6</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>16</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>99</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-13">Hỏi bệnh <small>4 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lui bệnh: sạch vảy, còn dát hồng</b><span class="tag t-g">Tự kể</span></div><p>Bôi đều theo hướng dẫn, gối bôi đủ hơn, ủng sạch, có lót vải khi quỳ. Sau khoảng 3 tuần mảng gối hết vảy, giờ chỉ còn vệt hồng nhạt. Không ngứa, không nổi mảng mới, không đau khớp. Đã dùng hết thêm một tuýp 30 g.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dự định ngưng thuốc vì tưởng khỏi hẳn</b><span class="tag t-b">Khi được hỏi</span></div><p>Thấy da sạch nên anh định ngưng hết thuốc, kể cả dưỡng ẩm, vì tốn tiền và sắp vào vụ gặt bận không có giờ bôi. Anh nghĩ &#x27;sạch là khỏi&#x27;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Yếu tố tái phát: cọ xát vụ gặt</b><span class="tag t-b">Khi được hỏi</span></div><p>Vụ gặt 3 tuần tới, đi gặt tay và máy, quỳ và cọ gối nhiều. Thường nổi lại mảng ở gối, khuỷu khi làm nặng.</p></div><div class="fact"><div class="fh"><b>khop</b><span class="tag t-b">Khi được hỏi</span></div><p>Không đau, sưng khớp.</p></div></details>
+ <details class="card"><summary><h3 id="m-14">Khám <small>2 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Da, niêm mạc, ban</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Khuỷu: dát hồng nhạt, không vảy. Cẳng chân: vài chấm sẫm nhạt vị trí cũ. Hai đầu gối: dát hồng nhạt khoảng 3 cm, bề mặt mịn, không vảy. Không tổn thương mới ở thân mình, mặt, da đầu; không loét, sùi, chảy máu.</p><p><span class="lbl">Kết quả:</span> Khuỷu: dát hồng nhạt hơi sẫm, không vảy, không dày. Cẳng chân: vài chấm thâm nhạt ở vị trí cũ. Hai đầu gối: dát hồng nhạt khoảng 3 cm, bề mặt mịn, không vảy, không dày da. Không mảng mới ở thân mình, mặt, da đầu. BSA &lt; 1%.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b></div><p><span class="lbl">Kết quả:</span> Khớp không sưng, không đau; gân gót, cột sống bình thường.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Tổng trạng, da niêm, vòng eo</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, tiếp xúc tốt. Da niêm hồng. Không vàng da.</p></div><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Tim</b><span class="tag t-m">Bình thường</span></div><p>Tim đều 72 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 16 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-15">Cận lâm sàng <small>2 mục</small></h3></summary><div class="row"><div class="rh"><b>Sinh thiết da, mô bệnh học</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần: tổn thương lui hoàn toàn vảy với thuốc bôi đúng, không loét, sùi, chảy máu (QĐ 4416, Vảy nến mục 2.3; Ung thư biểu mô tế bào vảy mục 2.1.3).</p></div><div class="row"><div class="rh"><b>Kháng thể kháng nhân (ANA), kháng dsDNA</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần: không biểu hiện lupus; đáp ứng đúng vảy nến (EULAR/ACR 2019, Bảng 1).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-16">Đáp án lượt 3 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Vảy nến thể mảng nhẹ đang lui (sạch vảy, còn dát hồng nhạt; BSA &lt; 1%), chưa có viêm khớp vảy nến</b></div><p class="why">Sạch tổn thương cũng không thể coi là khỏi hoàn toàn: bệnh tiến triển từng đợt (QĐ 75/2015, Bệnh vảy nến mục 5a; QĐ 4416, Vảy nến mục 1.1).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Đã khỏi hẳn, ngưng thuốc</b></div><p class="why">Không: vảy nến mạn tính, tiến triển từng đợt, chưa có thuốc chữa khỏi hoàn toàn (QĐ 75/2015 mục 4a, 6); thường tái phát sau ngưng corticoid bôi (AAD-NPF 2021, mục corticoid bôi). Vụ gặt (cọ xát, Koebner) là nguy cơ tái phát.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm khớp vảy nến</b></div><p class="why">Không: không đau sưng khớp, ngón khúc dồi, đau gót; khám khớp bình thường (QĐ 4416, Vảy nến mục 2.1).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chuyển sang duy trì: giảm dần corticoid; calcipotriol ngày thường + corticoid cuối tuần, hoặc bôi chủ động 2 lần/tuần ở vùng hay tái (gối, khuỷu)</b></div><p class="why">Hai cách đều đúng. (A) Vitamin D 2 lần/ngày ngày thường + corticoid mạnh cuối tuần (AAD-NPF 2021 khuyến cáo 3.6, mức B). (B) &#x27;Proactive treatment&#x27;: bôi 2 lần/tuần lên vùng đã yên nhưng hay tái, có thể dùng với mọi thuốc bôi (AAD-NPF 2021, mục corticoid bôi). Ngưng corticoid đột ngột dễ bùng lại; mục tiêu duy trì: kiểm soát ở mức thấp nhất (QĐ 4416 mục 3.1).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích sạch tổn thương không phải khỏi hẳn; không ngưng hết thuốc kể cả dưỡng ẩm</b></div><p class="why">QĐ 75/2015 (Bệnh vảy nến mục 5a, 6); AAD-NPF 2021 (mục corticoid bôi: tái phát sau ngưng); QĐ 4416 (Vảy nến mục 3.1: quản lý thường xuyên).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dưỡng ẩm đều; giảm cọ xát, chấn thương khi gặt (ủng sạch, lót khi quỳ)</b></div><p class="why">QĐ 4416 (Vảy nến mục 3.2.1, 4); AAD-NPF 2021 khuyến cáo 5.1.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn thăm khám định kì và khám ngay khi bùng; hỏi khớp mỗi lần khám</b></div><p class="why">QĐ 4416 (Vảy nến mục 4); QĐ 75/2015 mục 3a (tổn thương khớp 10–20%). Mốc khám định kì: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chốt nỗi lo ung thư: dấu hiệu cần khám lại (loét, sùi, chảy máu, mảng đổi hình hoặc không đáp ứng)</b></div><p class="why">QĐ 4416 (Ung thư biểu mô tế bào vảy mục 2.1.3, 2.3); ung thư da hiếm gặp trong vảy nến (QĐ 75/2015 mục 5b).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Ngưng hết thuốc, kể cả dưỡng ẩm, vì đã sạch</b></div><p class="why">Vảy nến thường tái phát sau ngưng corticoid bôi (AAD-NPF 2021); sạch tổn thương không phải khỏi (QĐ 75/2015 mục 5a); vụ gặt là nguy cơ cọ xát. Trưởng nhóm hạ từ w xuống a: nguồn chỉ nói dễ tái phát, không nói gây hại; bôi duy trì là cách tốt hơn.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Chuyển tuyến hoặc dùng quang trị liệu, thuốc toàn thân, sinh học để &#x27;ngừa tái phát&#x27;</b></div><p class="why">Dành cho thể vừa – nặng hoặc đáp ứng kém (QĐ 4416, sơ đồ điều trị; S3 2026 II-1, IX-2); anh nhẹ, đã sạch vảy với thuốc bôi.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển anh Thành đi tuyến trên để &#x27;ngừa tái phát&#x27; bằng chiếu tia hay thuốc toàn thân là quá tay: anh BSA dưới 1%, đã sạch vảy chỉ với thuốc bôi (QĐ 4416, sơ đồ điều trị; S3 2026 II-1). Các thuốc này dành cho thể vừa – nặng hoặc đáp ứng kém (mục 3.2.2, 3.2.3). Anh mất công đi lại đúng lúc sắp gặt, tốn kém, và có thể nhận thuốc nhiều tác dụng phụ không cần.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhập viện theo dõi khi đã sạch vảy là không cần: sinh hiệu bình thường, BSA dưới 1%, không đau khớp (QĐ 4416, Vảy nến sơ đồ điều trị). Anh nằm viện đúng vụ gặt, mất mùa công, và nghĩ bệnh còn nặng.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Vảy nến thể mảng nhẹ (ICD-10 L40.0), đang lui sau 8 tuần thuốc bôi: sạch vảy, còn dát hồng nhạt ở khuỷu, gối; BSA &lt; 1%</li><li>Chưa có viêm khớp vảy nến; đã loại trừ ung thư da trên lâm sàng và theo đáp ứng điều trị</li><li>Nguy cơ tái phát: cọ xát vụ gặt (Koebner); bệnh mạn tính, sạch không phải khỏi hẳn</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Sạch vảy, còn dát hồng nhạt: lui bệnh, không phải khỏi hoàn toàn; vảy nến tiến triển từng đợt, &#x27;vảy nến yên lặng&#x27; khi tổn thương biến mất hoàn toàn nhưng vẫn không coi là khỏi (QĐ 75/2015, Bệnh vảy nến mục 5a; QĐ 4416, Vảy nến mục 1.1).</li><li>Ung thư da: không loét, sùi, chảy máu, tổn thương lui theo thuốc bôi (QĐ 4416, Ung thư biểu mô tế bào vảy mục 2.1.3); không sinh thiết.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Hướng xử trí: ngoại trú, chuyển sang duy trì, hẹn khám định kì (ve_hen).</li><li>Hai cách duy trì đều đúng: (A) vitamin D ngày thường + corticoid mạnh cuối tuần (AAD-NPF 2021 khuyến cáo 3.6); (B) bôi chủ động 2 lần/tuần ở vùng yên nhưng hay tái (AAD-NPF 2021, &#x27;proactive treatment&#x27;). Khác nhau ở chỗ A bôi liên tục cả vùng, B chỉ vùng hay tái nên gọn hơn cho người ít thời gian như nông dân vụ gặt.</li><li>Không ngưng hẳn: tái phát sau ngưng corticoid bôi (AAD-NPF 2021); giải thích bằng QĐ 75/2015 mục 5a. Không nâng bậc: đã sạch với thuốc bôi (QĐ 4416, sơ đồ). Mốc tái khám định kì: không có trong tài liệu đã tải.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Calcipotriol + betamethason dipropionat (thuốc mỡ) – duy trì</b><div class="sub">Calcipotriol 50 µg/g + betamethason 0,5 mg/g</div></td><td data-l="Liều">Bôi lớp mỏng lên vùng gối và khuỷu hay tái<div class="sub">Bôi ngoài da · Cách A: calcipotriol ngày thường, corticoid mạnh cuối tuần. Cách B: 2 lần/tuần ở vùng hay tái</div></td><td data-l="Thời gian">Duy trì, tái khám định kì để chỉnh</td><td class="gc" data-l="Ghi chú">AAD-NPF 2021 khuyến cáo 3.6 và mục &#x27;proactive treatment&#x27; (corticoid bôi). Thuốc phối hợp dùng lâu: AAD-NPF 2021 khuyến cáo 3.4 (tới 52 tuần dưới theo dõi). Tên sản phẩm cho duy trì cuối tuần: không có trong tài liệu đã tải.</td></tr><tr><td><b>Kem hoặc thuốc mỡ dưỡng ẩm không mùi</b><div class="sub">Loại sẵn có</div></td><td data-l="Liều">Bôi lớp mỏng lên khuỷu, gối, cẳng chân<div class="sub">Bôi ngoài da · Hằng ngày, sau khi làm đồng về</div></td><td data-l="Thời gian">Dùng lâu dài</td><td class="gc" data-l="Ghi chú">QĐ 4416 (Vảy nến mục 3.2.1); AAD-NPF 2021 khuyến cáo 5.1.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Da sạch là bệnh đang lui, chưa phải khỏi hẳn; đừng ngưng hết thuốc, nhất là dưỡng ẩm (QĐ 75/2015 mục 5a, 6).</li><li>Vụ gặt: ủng sạch, lót vải mềm khi quỳ, bôi dưỡng ẩm sau khi về; bôi thuốc duy trì theo lịch ở gối, khuỷu (AAD-NPF 2021).</li><li>Nổi lại mảng thì đến khám sớm, đừng tự mua thuốc &#x27;gia truyền&#x27; (QĐ 4416 mục 4; QĐ 75/2015 mục 2, 4c).</li><li>Quay lại ngay nếu mảng loét, sùi, chảy máu, đổi hình dạng, hoặc đau sưng khớp, ngón sưng cả ngón, đau gót (QĐ 4416 mục 2.1; Ung thư biểu mô tế bào vảy mục 2.1.3).</li><li>Tái khám định kì theo hẹn (QĐ 4416 mục 4).</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-17">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Vảy nến</b></div>
+<p class="note">Phải loại trừ: Viêm da tiết bã, Nấm da, Lupus</p><p>Sau 8 tuần thuốc bôi, các mảng sạch vảy, còn dát hồng nhạt; BSA dưới 1%. Anh Thành được giải thích sạch không phải khỏi hẳn, chuyển sang duy trì: calcipotriol ngày thường, corticoid cuối tuần ở gối, khuỷu cùng dưỡng ẩm. Anh nghe theo, lót vải khi quỳ gặt lúa, bôi đều. Ba tháng sau mảng nhỏ ở gối nổi lại sau vụ gặt nặng, anh tự đến sớm, bôi lại đợt ngắn 2 tuần là hết, tiếp tục duy trì, khám định kì. Anh nói với chú rằng bệnh của mình không phải ung thư.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-18">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Bữa giỗ hải sản trước khi nổi nhiều: dễ kết luận &#x27;dị ứng hải sản&#x27; hoặc kiêng khem vô căn cứ; mảng khuỷu đã có 3 tháng, không sẩn phù, bạch cầu ái toan bình thường.</li><li>Nông dân phơi nắng, thuốc trừ sâu, lội ruộng đi ủng: dễ nghĩ ung thư da hoặc hắc lào; anh có nhiều mảng đối xứng ở chỗ tì đè, Brocq dương tính, không loét sùi chảy máu.</li><li>Lý do thật (sợ ung thư vì chú ruột) giấu: chỉ lộ khi hỏi vì sao hôm nay đi khám; không hỏi thì khám đúng nhưng người bệnh về vẫn mang nỗi sợ.</li><li>Nguồn lực đầy đủ: cám dỗ làm ANA, sinh thiết, tầm soát lao khi chưa có chỉ định.</li><li>Lượt 2: mảng gối còn do bôi thiếu và cọ xát khi quỳ, dễ nhầm với thất bại điều trị và nâng bậc sớm. Lượt 3: da sạch, bệnh nhân muốn ngưng thuốc vì tưởng đã khỏi.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Nghề nông cho ba manh mối: tì đè và cọ xát (khuỷu, gối, cẳng chân – Koebner), nắng và thuốc trừ sâu (yếu tố nguy cơ SCC, QĐ 4416), ngày công mùa vụ (tuân thủ, ngưng thuốc).</li><li>Lý do thật sợ ung thư: hỏi &#x27;anh lo điều gì nhất&#x27;; trấn an có căn cứ (nhiều mảng đối xứng, Brocq, soi da, không loét sùi) và nêu dấu hiệu cần quay lại; không sinh thiết chỉ vì lo.</li><li>Hải sản: mốc thời gian đúng nhưng tài liệu đã tải không xác nhận là nguyên nhân; không kê kháng histamin.</li><li>Đỡ một phần khác thất bại: hỏi vùng nào còn, bôi đủ lượng chưa, cọ xát; tài liệu đã tải không có mốc đáp ứng cho thuốc bôi, nên không nâng bậc khi phần lớn tổn thương đã lui.</li><li>Ổn định không có nghĩa khỏi hẳn: duy trì chủ động ở vùng hay tái, dưỡng ẩm (QĐ 75/2015 mục 5a).</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Vảy nến thể thông thường: mảng đỏ ranh giới rõ, vảy trắng dày dễ bong, ở chỗ tì đè, cọ xát (khuỷu, đầu gối, mặt duỗi), đối xứng; rỗ móng; chẩn đoán chủ yếu lâm sàng (QĐ 4416, Vảy nến mục 2.1–2.3). Brocq: màng bong, hạt sương máu (QĐ 75/2015 mục 3a, 3c).</li><li>Mức độ nhẹ: PASI &lt; 10, DLQI &lt; 10, BSA &lt; 10 (QĐ 4416 mục 2.5, sơ đồ; S3 2026 II-1); một bàn tay ≈ 1% BSA (AAD-NPF 2021).</li><li>Thể nhẹ: calcipotriol + corticoid 1 lần/ngày, dạng mỡ cho thân mình (QĐ 4416 mục 3.2.1); phối hợp tới 52 tuần dưới theo dõi (AAD-NPF 2021 khuyến cáo 3.4); duy trì vitamin D ngày thường + corticoid cuối tuần (khuyến cáo 3.6) hoặc bôi chủ động 2 lần/tuần; calcipotriol tránh quá 100 g/tuần.</li><li>Bowen: mảng đỏ có vảy, giới hạn rõ ở vùng nắng, cần mô bệnh học; SCC: loét, sùi, trợt, đóng vảy tiết; nguy cơ: nắng, thuốc trừ sâu (QĐ 4416, SCC mục 1.3, 2.1.2, 2.1.3). Ung thư da hiếm gặp trong vảy nến (QĐ 75/2015 mục 5b).</li><li>Sạch tổn thương không phải khỏi hẳn (QĐ 75/2015 mục 5a); thường tái phát sau ngưng corticoid bôi (AAD-NPF 2021).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-19">Nguồn tài liệu <small>7</small></h3></summary><ul class=""><li>Bộ Y tế – QĐ 4416/QĐ-BYT 2023, bệnh da liễu (TL-0397) – Vảy nến thể thông thường mục 1.1, 1.3, 2.1–2.6, 3.1, 3.2.1–3.2.3, sơ đồ điều trị, mục 4; Viêm da dầu mục 2.1.2, 2.2, 2.3.2; Bệnh da do nấm sợi mục 2.1, 2.2; Lupus ban đỏ hệ thống mục 2.1.2; Mày đay mục 2.1; Ung thư biểu mô tế bào vảy mục 1.3, 2.1.2, 2.1.3, 2.3.</li><li>Bộ Y tế – QĐ 75/QĐ-BYT 2015, Bệnh vảy nến (kho cũ tltk-10000-ca) – mục 2, 3a, 3c, 3d, 4a, 4c, 5a, 5b, 6.</li><li>AAD-NPF 2021 thuốc bôi và đo mức độ vảy nến (TL-0425) – khuyến cáo 1.1, 1.3, 3.1–3.7, 5.1; mục corticoid bôi (tái phát sau ngưng, proactive), vitamin D (calci, 100 g/tuần, salicylic bất hoạt calcipotriol), BSA.</li><li>S3 2026 vảy nến thông thường, thích ứng EuroGuiDerm, phần 1 (TL-0404) – khuyến cáo II-1, III-1, III-3, IX-2.</li><li>EULAR/ACR 2019 phân loại lupus (TL-0375) – tiêu chuẩn đầu vào ANA ≥ 1:80, Bảng 1.</li><li>Nguồn bổ sung tự tìm: tờ thông tin sản phẩm Dovobet thuốc mỡ https://www.medicines.org.uk/emc/product/1609/smpc – mục 2, 4.2, 4.4 (dùng lại nguồn đã dẫn ở ca DL-0541, không kiểm lại trực tiếp).</li><li>Không có trong tài liệu đã tải: hải sản khởi phát hay làm nặng vảy nến, cần kiêng hải sản; mốc đáp ứng của thuốc bôi và mốc tái khám vảy nến nhẹ; số lượng thuốc theo đầu ngón tay; cách lót đệm gối khi quỳ.</li></ul></details>
+<details class="card"><summary><h3 id="m-20">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Da liễu</dd><dt>chan_doan_dich</dt><dd>Vảy nến</dd><dt>chan_doan_phai_loai_tru</dt><dd>Viêm da tiết bã; Nấm da; Lupus</dd><dt>nhom_tuoi</dt><dd>Thanh niên (16–39 tuổi)</dd><dt>do_kho</dt><dd>Điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>dien_tien_tai_kham</dt><dd>Đỡ một phần</dd><dt>nhieu_benh_nhan</dt><dd>Bệnh nhân hợp tác tốt</dd><dt>rang_buoc_nguon_luc</dt><dd>Nguồn lực đầy đủ</dd><dt>loai_ket_cuc</dt><dd>Ổn định, khỏi bệnh</dd><dt>gioi</dt><dd>Nam</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>3</dd><dt>nghe_nghiep</dt><dd>Nông dân</dd><dt>yeu_to_khoi_phat</dt><dd>Sau ăn hải sản</dd><dt>thuoc_dang_dung</dt><dd>Không</dd><dt>ly_do_that_su_den_kham</dt><dd>Sợ mắc ung thư</dd></dl><ul class=""><li>Bản 1 (2026-11-07): ca 3 lượt, lượt nào cũng ve_hen (nhẹ, ngoại trú); trục diễn tiến &#x27;đỡ một phần&#x27; đặt ở lượt 2 (gối còn do bôi thiếu và cọ xát), lượt 3 ổn định, người bệnh muốn ngưng thuốc. Mức nhẹ tự quyết (BSA ≈ 3%, DLQI ≈ 4) để dạy không làm xét nghiệm thừa dù nguồn lực đầy đủ.</li><li>Biến sổ cái: khởi phát &#x27;sau ăn hải sản&#x27; dựng thành bữa giỗ; lý do thật &#x27;sợ mắc ung thư&#x27; dựng thành chú ruột bị ung thư da, thêm chẩn đoán loại trừ ung thư da (Bowen, SCC) và dị ứng hải sản ngoài ba chẩn đoán của sổ cái; thuốc đang dùng &#x27;không&#x27; (chỉ dầu dừa).</li><li>Ảnh dùng lại, đã xem bằng Read: HA-DA-0003 (khuỷu), HA-DA-0004 (cẳng chân) ở lượt 1, HA-DA-0021 (đầu gối) ở lượt 2; không ảnh mới. Lượt 3 mô tả bằng chữ.</li><li>Mâu thuẫn đã có trong sổ: liều tối đa calcipotriol (100 mg theo QĐ 4416 so với 100 g theo AAD-NPF 2021) và định nghĩa mức độ (ca nhẹ theo cả hai nguồn); ghi cả hai như mục sổ. Không tài liệu nào nêu hải sản là yếu tố khởi phát vảy nến (đã rà bằng rg).</li><li>TL-0435 (lupus da EDF/EADV 2017) chưa có toàn văn, không dùng. Danh mục khám/CLS đủ id, không đề xuất mục mới.</li></ul></details>
+<p class="chan-trang">Ca DL-0517 · phiên bản ca 1 · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

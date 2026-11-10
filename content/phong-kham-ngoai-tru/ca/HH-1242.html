@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HH-1242 · COVID-19</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · HH-1242</div>
+   <h1>Bé ho, không ngủ được mấy đêm; mẹ xin ít thuốc cho bé ngủ</h1>
+   <p class="dich-gia">Trần Minh Khang · Nam · 4 tuổi · 16.5 kg</p>
+   <div class="chips"><span class="chip">Hô hấp cấp tính</span><span class="chip">Ca bẫy</span><span class="chip">Cơ đỏ ngụy trang</span><span class="chip">1 lượt khám</span><span class="chip">Có cờ đỏ</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Trẻ mẫu giáo</dd><dt>Chiều cao, cân nặng</dt><dd>102 cm · 16.5 kg</dd>
+<dt>Xưng hô</dt><dd>Bé 4 tuổi (ở nhà gọi là Bo), tự xưng &#x27;con&#x27;, gọi &#x27;bác sĩ&#x27;; nói 2–3 từ là phải ngắt để thở, ví dụ &#x27;con... tên... Bo&#x27;. Mẹ xưng &#x27;em&#x27; hoặc &#x27;con&#x27; với bác sĩ, gọi bé là &#x27;Bo&#x27; hoặc &#x27;cháu&#x27;.</dd><dt>Tính cách</dt><dd>Bé lừ đừ, giảm quan tâm đồ chơi, chỉ chịu bế đứng tựa vai mẹ, đặt nằm là ngồi dậy khóc ư ử.</dd><dt>Người nhà</dt><dd>Mẹ bé (chị Mai) – Mẹ bé, chị Mai, 27 tuổi, công nhân may, hiền, kiệt sức sau 5 đêm không ngủ, nói nhỏ, dễ khóc. Chị bế bé và trả lời hầu hết câu hỏi (nguoi_noi = nguoi_nha). Bà nội (63 tuổi, người quyết định thuốc men ở nhà) ở nhà. Chị biết bé ho, không ngủ, bà cho uống &#x27;thuốc cam&#x27;; không biết gói bột có thể chứa corticoid, không biết thở nhanh, rút lõm là dấu hiệu nặng.</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Ngoài giờ (21 giờ 35): kỹ thuật viên đã về, phòng xét nghiệm, X-quang và siêu âm khóa đến 7 giờ sáng. Còn dùng được: máy đo SpO₂ đầu dò nhi, que thử đường huyết mao mạch, nhiệt kế, huyết áp kế trẻ em, oxy, máy điện tim.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/1</span> </h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Bé trai 4 tuổi, 16,5 kg, mẹ bế vào lúc 21 giờ 35 (ngoài giờ, kỹ thuật viên đã về). Mẹ nói bé ho, không ngủ được, xin thuốc. Bé không tự đi, nói 2–3 từ lại ngắt. Sinh hiệu: nhiệt 37,2 °C, mạch 158 l/p, nhịp thở 52 l/p, HA 80/44 mmHg, SpO₂ 90% khí trời.</p>
+  <blockquote>“Bác sĩ ơi, cho cháu xin ít thuốc. Cháu ho, cháu không ngủ được, mấy đêm nay cả nhà không ai ngủ được. Bác sĩ cho cháu uống cái gì cho ngủ một đêm cũng được.”</blockquote>
+  <div class="vitals"><div class="vs warn"><span>Mạch</span><b>158</b><small>l/p</small></div><div class="vs"><span>HA</span><b>80/44</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>37,2</b><small>°C</small></div><div class="vs warn"><span>Nhịp thở</span><b>52</b><small>l/p</small></div><div class="vs warn"><span>SpO₂</span><b>90</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>15 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám</b><span class="tag t-g">Tự kể</span></div><p>Bé ho, không ngủ được mấy đêm nay. Mẹ xin thuốc cho bé ngủ. Bé đã khám 3 nơi trong 5 ngày mà không đỡ.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Không dung nạp tư thế nằm (khó thở khi nằm) bị gọi là &#x27;quấy, mất ngủ&#x27;</b><span class="tag t-b">Khi được hỏi</span></div><p>Từ ngày bệnh thứ 3 bé thức giấc nhiều lần, từ ngày thứ 5 gần như không ngủ. Đặt nằm một hai phút là ngồi dậy, ư ử khóc, đòi bế đứng; bế đứng tựa vai mẹ thì thiếp được 10–15 phút. Mấy lần mẹ thấy bé thở gấp lắm rồi thôi, môi có tím không thì mẹ không để ý. Bé không than khó thở, chỉ khóc và quấy.</p><div class="cond">Điều kiện nói ra: Hỏi ban đêm bé ra sao, nằm xuống có sao không, bế thế nào thì bé chịu. Hỏi chung &#x27;bé có khó thở không&#x27; thì mẹ nói &#x27;nó không kêu khó thở, chỉ quấy thôi&#x27;.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Mốc khởi phát thật (sốt trước bữa ăn) gỡ neo &#x27;ngộ độc thực phẩm&#x27;</b><span class="tag t-r">Giấu</span></div><p>Cô giáo nhắn mẹ lúc 10 giờ 20 sáng thứ Năm (ngày bệnh thứ 1): &#x27;Bo hôm nay uể oải, sờ trán hơi ấm, trưa không chịu ăn&#x27;. Khoảng 5 giờ chiều cùng ngày bà nội mới cho bé ăn hai xiên cá viên chiên và một ly trà sữa ở xe đẩy trước cổng trường: bé đã mệt, ấm trán khoảng 7 giờ trước bữa ăn đường phố.</p><div class="cond">Điều kiện nói ra: Mẹ và bà nội khẳng định bệnh bắt đầu sau khi ăn đồ ngoài đường. Mẹ chỉ nhớ lại khi bác sĩ hỏi hôm đó sáng ở lớp bé thế nào, cô giáo có nói gì không, hoặc đề nghị xem tin nhắn của cô; mẹ mở điện thoại đọc giờ nhắn.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Quỹ đạo: tiêu hóa giảm, hô hấp tăng, hết sốt giữa lúc đang xấu đi</b><span class="tag t-b">Khi được hỏi</span></div><p>Ngày 2: nôn 3 lần, tiêu lỏng 4 lần không nhầy không máu, sốt 38,5 °C. Ngày 3: hết nôn, tiêu lỏng 2 lần, sốt 38,8 °C (cao nhất), ho tăng, quấy ban đêm. Ngày 4: hết sốt hẳn, cả nhà mừng; ho nhiều hơn, thở nhanh (bà nội nghĩ do khóc). Ngày 5–6: không sốt, ăn uống rất ít, lừ đừ, không chơi.</p><div class="cond">Điều kiện nói ra: Hỏi từng ngày: sốt, tiêu hóa, ho, ăn uống, chơi. Kể liền mạch thì mẹ dồn về &#x27;ngộ độc đồ ăn&#x27;.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đặc điểm ho; loại trừ dị vật đường thở, croup</b><span class="tag t-b">Khi được hỏi</span></div><p>Ho khan từng cơn 3–5 tiếng, nhiều về đêm và khi nằm, không đờm. Không ho ông ổng, không hít vào rít, không sặc đột ngột khi đang ăn hay chơi. Không ho ra máu.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Mất nước, giảm tưới máu</b><span class="tag t-b">Khi được hỏi</span></div><p>Hôm nay bé uống khoảng 120 mL sữa lúc 8 giờ, vài thìa cháo loãng buổi trưa, sau đó chỉ uống từng ngụm nước. Tiểu lần cuối lúc 15 giờ 30, ít, sẫm màu; hơn 6 giờ chưa tiểu.</p></div><div class="fact"><div class="fh"><b>Triệu chứng âm tính loại trừ tay chân miệng, sốt xuất huyết, Kawasaki</b><span class="tag t-b">Khi được hỏi</span></div><p>Bé không co giật, không giật mình chới với. Miệng không loét, lòng bàn tay, bàn chân, mông không nổi bóng nước. Không chảy máu mũi hay chân răng, không chấm bầm. Mắt không đỏ, môi không nứt. Không đau bụng dữ dội, không nôn liên tục từ ngày 3.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc đang dùng: chế phẩm bột không nhãn dùng 5 tuần, ngưng đột ngột</b><span class="tag t-r">Giấu</span></div><p>Bà nội cho bé uống &#x27;thuốc cam&#x27; mua ở chợ: bột trắng ngà gói giấy nhỏ, không nhãn, không hạn dùng, 15.000 đồng một gói; một gói hai lần mỗi ngày sau ăn, liên tục khoảng 5 tuần từ giữa tháng trước (sau một đợt viêm họng, biếng ăn). Sau 10 ngày bé ăn ngon, tăng cân, mặt đầy, &#x27;không ốm vặt&#x27;. Ngưng đột ngột từ tối qua (ngày 5) vì bác sĩ nơi thứ ba bảo ngưng. Mẹ còn hai gói trong túi.</p><div class="cond">Điều kiện nói ra: Hỏi &#x27;cháu đang uống thuốc gì&#x27; thì mẹ chỉ kể cefixime, men vi sinh, oresol. Chỉ khai khi bác sĩ hỏi ngoài thuốc bác sĩ kê có cho uống thuốc bà mua, thuốc nam, thuốc bột, thuốc cam, thuốc bổ không, và tỏ ý không trách; mẹ ngập ngừng rồi lấy gói bột ra.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tăng cân nhanh, chiều cao chững: dấu hiệu thừa glucocorticoid ở trẻ</b><span class="tag t-b">Khi được hỏi</span></div><p>Sổ khám sức khỏe của trường ngày 12/6: 14,4 kg, cao 101 cm. Hôm nay 16,5 kg, cao 102 cm: tăng 2,1 kg trong 46 ngày, chiều cao gần như không đổi. Mẹ nói &#x27;dạo này cháu bụ bẫm, hồng hào, mọc lông măng ở má&#x27;; ba nơi khám đều khen bé &#x27;có da có thịt&#x27;.</p><div class="cond">Điều kiện nói ra: Hỏi bé dạo này có tăng cân không, lần cân gần nhất bao giờ, có sổ khám sức khỏe của trường không; mẹ lấy sổ ra.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dị ứng thuốc (amoxicillin) trước khi chọn kháng sinh</b><span class="tag t-b">Khi được hỏi</span></div><p>14 tháng trước, uống amoxicillin trị viêm tai giữa, sau liều thứ ba (khoảng 30 giờ) bé nổi mề đay toàn thân, ngứa nhiều, sưng nhẹ hai mi mắt. Không khó thở, khàn tiếng, nôn, lơ mơ; không đi cấp cứu; tiêm một mũi &#x27;thuốc chống dị ứng&#x27; ở phòng khám, hết trong một ngày. Không dị ứng thuốc hay thức ăn khác.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Hồ sơ ba nơi: chẩn đoán đã neo, không có nhịp thở, SpO₂</b><span class="tag t-b">Khi được hỏi</span></div><p>Nơi 1 (chiều ngày 2): &#x27;rối loạn tiêu hóa do thức ăn&#x27;, men vi sinh, oresol, racecadotril. Nơi 2 (tối ngày 3): &#x27;viêm họng cấp&#x27;, test nhanh cúm A/B âm tính, kê amoxicillin 250 mg × 3 lần/ngày và paracetamol; mẹ nhớ bé dị ứng amoxicillin nên không cho uống viên nào. Nơi 3 (sáng ngày 5): &#x27;viêm phế quản bội nhiễm&#x27;; BC 14,2 G/L, đa nhân trung tính 78%, lympho 12%, Hb 112 g/L, TC 198 G/L, CRP 42 mg/L; đổi sang cefixime 100 mg × 2 lần/ngày, bé uống 3 liều, không nổi mẩn. Cả ba nơi không ghi nhịp thở, không đo SpO₂. Mẹ nói: &#x27;chỗ nào cũng bảo cháu khỏe, uống thuốc rồi mà nó không ngủ&#x27;.</p><div class="cond">Điều kiện nói ra: Hỏi đã khám ở đâu, chẩn đoán gì, thuốc gì, có xét nghiệm không; hoặc xin xem toa, sổ. Mẹ đưa tờ kết quả nơi thứ ba.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Yếu tố dịch tễ COVID-19; người lớn ho kéo dài trong nhà (lao)</b><span class="tag t-b">Khi được hỏi</span></div><p>Lớp 28 cháu, phòng máy lạnh đóng kín; tuần này 3 bạn nghỉ sốt, ho, cô giáo báo nhóm lớp có 1 bạn test nhanh COVID-19 dương tính. Anh trai 8 tuổi ho sốt 3 ngày hai tuần trước, tự khỏi. Bà nội 63 tuổi ho khạc kéo dài &#x27;cả năm nay&#x27; chưa đi khám. Bố đi làm xa.</p></div><div class="fact"><div class="fh"><b>Tiền sử, tiêm chủng</b><span class="tag t-b">Khi được hỏi</span></div><p>Sinh đủ tháng, phát triển bình thường, không hen, không tim bẩm sinh, không nhập viện. Tiêm chủng mở rộng đủ; chưa tiêm vaccine COVID-19 và cúm. Viêm tai giữa một lần, viêm họng vài lần mỗi năm.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Động cơ thật: kiệt sức, xin thuốc ngủ (đồng thời mô tả khó thở)</b><span class="tag t-r">Giấu</span></div><p>Mẹ 27 tuổi, công nhân may, thức trắng 5 đêm; mai vào ca lúc 6 giờ, nghỉ thêm một ngày là mất chuyên cần (khoảng một phần năm thu nhập). Mẹ chỉ mong bé ngủ &#x27;một đêm thôi&#x27;. Chị òa khóc: &#x27;em không biết cháu bệnh gì nữa, em hết chịu nổi rồi&#x27;.</p><div class="cond">Điều kiện nói ra: Lúc đầu mẹ chỉ nói &#x27;cho cháu xin thuốc ngủ&#x27;. Chỉ kể lý do thật khi bác sĩ hỏi điều gì khiến chị đưa cháu đi ngay tối nay mà không đợi sáng, hoặc hỏi chị có ngủ được không, đang lo nhất điều gì.</div></div><div class="fact"><div class="fh"><b>Khả năng chuyển tuyến</b><span class="tag t-b">Khi được hỏi</span></div><p>Nhà cách phòng khám 1,2 km, bệnh viện huyện 9 km, bệnh viện nhi tỉnh 34 km. Chỉ có xe máy; mẹ chưa từng chạy xe đường xa ban đêm. Bé có BHYT.</p></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>8 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Cân 16,5 kg, cao 102 cm. Mặt tròn đầy như mặt trăng, hai má căng ửng đỏ; mỡ tập trung ở thân, bụng tròn, tứ chi không tương xứng; lông tơ mịn ở má và thái dương. Bé tỉnh nhưng giảm quan tâm đồ chơi, không đưa tay, nói 2–3 từ phải ngắt thở. Tự chọn tư thế ngồi chồm ra trước, cằm hơi ngẩng; đặt nằm lần hai lại ngồi dậy ư ử khóc. Môi khô có vảy, lưỡi khô, mắt hơi trũng, nếp véo da mất chậm dưới 2 giây. Chi mát, mạch quay nảy yếu, ấn giường móng tay màu trở lại sau 3 giây. Không tím môi và đầu chi, không phù, không vàng da. SpO₂ khi bé khóc tụt 85–86%, hồi phục về 90% sau khoảng 2 phút.</p></div><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Không sờ thấy hạch cổ, nách, bẹn. Cổ mềm, không gượng. Kết mạc hai bên không đỏ, không tiết dịch; mắt hơi trũng.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b></div><p><span class="lbl">Kết quả:</span> Họng đỏ nhẹ, không mảng giả, không mủ, không loét, không bóng nước. Amidan không to. Màng nhĩ hai bên sáng, không đỏ, không phồng. Mũi ít dịch trong. Môi khô, có vảy, không nứt đỏ; lưỡi khô, không đỏ như quả dâu.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, nhanh, tần số 158 l/p.</p><p><span class="lbl">Kết quả:</span> Tim nhanh đều 158 l/p, T1 T2 rõ, không âm thổi, không T3, không tiếng cọ màng ngoài tim. Mỏm tim ở khoang liên sườn IV đường giữa đòn trái. Mạch bẹn bắt rõ hai bên, mạch quay yếu hơn.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – Tim nhanh đều, T1 T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-NHANH-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><span class="key">★</span><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nhịp thở 52 l/p, thở nông, cánh mũi phập phồng, rút lõm lồng ngực.</p><p><span class="lbl">Kết quả:</span> Nhịp thở 52 l/p, thở nông, phập phồng cánh mũi theo từng nhịp, rút lõm hõm ức và bờ sườn dưới, rút lõm liên sườn nhẹ. Khi bé thiu thiu ngủ nghe một tiếng rên ngắn đều ở cuối thì thở ra; không có tiếng rít khi hít vào, không khò khè từ xa. Lồng ngực cân đối, khí quản ở giữa. Rung thanh không đánh giá được ở trẻ không hợp tác. Gõ đục nhẹ ở đáy phổi phải, hai bên còn lại vang. Nghe: rì rào phế nang giảm nhẹ ở đáy phải; ran nổ mịn cuối thì hít vào ở cả hai đáy, nhiều hơn bên phải; không ran rít, không ran ngáy, không cọ màng phổi.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Ran nổ mịn cuối thì hít vào, nhiều hơn bên trái; rì rào phế nang giảm nhẹ.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-RAN-NO-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Ran nổ mịn cuối thì hít vào, ít hơn bên phải.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-RAN-NO-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Vùng đỉnh phổi hai bên (phía trước)</b> – Rì rào phế nang êm, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm, không chướng, không đau. Gan sờ được dưới bờ sườn 1,5 cm, bờ mềm, mặt nhẵn. Lách không sờ thấy. Nhu động ruột bình thường. Không khối u.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Da, niêm mạc, ban</b></div><p><span class="lbl">Kết quả:</span> Hai vệt rạn da màu hồng nhạt chạy dọc hai bên hông, mỗi vệt dài khoảng 3 cm; ở trẻ 4 tuổi không béo phì rạn da không phải hiện tượng sinh lý. Lông tơ mịn ở hai má. Da khô. Không ban, không chấm xuất huyết hay bầm máu, không bóng nước ở lòng bàn tay, bàn chân, mông, gối; không nứt đỏ môi, không ban đa dạng. Cởi hết áo quần, khám cả lưng và mông.</p></div><div class="row"><div class="rh"><b>Thần kinh</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, đáp ứng khi gọi tên và với mẹ, giảm quan tâm môi trường. Không cổ gượng, không dấu thần kinh khu trú. Không giật mình chới với, không run giật cơ. Trương lực cơ và phản xạ gân xương bình thường.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>10 mục</small></h3></summary><div class="row"><div class="rh"><b>Đường huyết mao mạch (máy thử tại giường)</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Đường huyết mao mạch 2,3 mmol/L</p><p class="why">Que thử tại giường, không cần kỹ thuật viên. Dưới 2,5 mmol/L là hạ đường huyết cần glucose 10% (WHO Pocket Book 2013, Chart 10, tr. 16). Ăn kém hai ngày giải thích một phần; thiếu cortisol là cách giải thích thứ hai, hạ đường huyết nổi bật ở trẻ em (Endocrine Society 2016, mục 4.0).</p></div><div class="row"><div class="rh"><b>Glucose máu đói</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Glucose máu tĩnh mạch 2,3 mmol/L</p><p class="note">Thay thế khi cơ sở không có: Đường huyết mao mạch (máy thử tại giường)</p><p class="why">Phòng xét nghiệm khóa ngoài giờ; thay bằng que thử mao mạch (WHO Pocket Book 2013, Chart 10).</p></div><div class="row"><div class="rh"><b>Điện giải đồ (Na, K, Cl)</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Na 130 mmol/L, K 4,2 mmol/L</p><p class="why">Làm ở tuyến trên. Hạ natri, hạ đường huyết có thể gặp ở cơn suy thượng thận, không bắt buộc cho chẩn đoán (ESE/ES 2024, Bảng 9); không chờ kết quả để điều trị (mục 6.3).</p></div><div class="row"><div class="rh"><b>X-quang ngực thẳng</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Tổn thương kính mờ và dày mô kẽ hai đáy, ưu thế bên phải; không đông đặc thùy, không tràn dịch màng phổi</p><p class="why">Không có máy; làm ở tuyến trên, không chờ để quyết định chuyển. COVID-19 thường kính mờ, đốm mờ, dày mô kẽ, hai bên, vùng thấp (QĐ 2671/2023 mục 4.5, tr. 24). Gõ đục, giảm rì rào đáy phải cần X-quang loại tràn dịch (QĐ 708/2015, Phụ lục 1, khuyến cáo 5.3).</p></div><div class="row"><div class="rh"><b>RT-PCR / multiplex PCR virus hô hấp (SARS-CoV-2, cúm A/B, RSV)</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> SARS-CoV-2 dương tính; cúm A/B và RSV âm tính</p><p class="why">Khóa ngoài giờ, mất khoảng 4 giờ; làm ở tuyến trên. Ca xác định: RT-PCR dương tính (QĐ 2671/2023 mục 2.2, tr. 18).</p></div><div class="row"><div class="rh"><b>Test nhanh cúm A/B, SARS-CoV-2</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Test nhanh SARS-CoV-2 dương tính; cúm A/B âm tính</p><p class="why">Khóa ngoài giờ. Nơi thứ hai chỉ test cúm A/B (âm, ngày 3), chưa ai test SARS-CoV-2. Cúm âm trên test nhanh không loại cúm (QĐ 1840/2025 mục II.2.4.3).</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> BC 13,5 G/L · Neutrophil 76% · Lympho 14% · Hb 113 g/L · TC 205 G/L</p><p class="why">Khóa ngoài giờ; tờ kết quả ngày 5 đã có. Tác dụng của corticoid lên công thức bạch cầu: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><b>CRP</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> CRP 38 mg/L</p><p class="why">Khóa ngoài giờ. Tăng CRP, bạch cầu gợi ý bội nhiễm (QĐ 2671/2023 mục 4.4) nhưng chưa đủ khởi đầu kháng sinh khi có cách giải thích khác.</p></div><div class="row"><div class="rh"><b>Procalcitonin</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Procalcitonin 0,18 ng/mL</p><p class="why">Tuyến trên làm để quyết định kháng sinh: PCT dưới 0,5 ng/mL kèm cấy âm là điều kiện cân nhắc ngừng kháng sinh (QĐ 2671/2023 mục 6.8.2).</p></div><div class="row"><div class="rh"><b>Điện tâm đồ 12 chuyển đạo</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Nhịp xoang nhanh, không rối loạn dẫn truyền, ST-T bình thường</p><p class="why">Làm được tại chỗ nhưng không đổi xử trí, không làm chậm việc chuyển; viêm cơ tim chưa loại hẳn, tuyến trên làm thêm siêu âm tim.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Chuyển cấp cứu</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>COVID-19 mức nặng (viêm phổi virus, suy hô hấp giảm oxy máu) ở trẻ 4 tuổi, ca nghi ngờ chờ xác nhận; kèm hội chứng Cushing ngoại sinh và nghi suy thượng thận do ngưng đột ngột chế phẩm chứa corticoid; hạ đường huyết; mất nước</b></div><p class="why">Ca nghi ngờ: yếu tố dịch tễ và từ 3 triệu chứng (QĐ 2671/2023 mục 2.1, tr. 18). Mức nặng ở trẻ nhỏ: thở rên, rút lõm hoặc SpO₂ dưới 93% (mục 8.1.2, tr. 75). Mặt tròn, rạn da, tăng cân kèm chiều cao chững là dấu hiệu thừa glucocorticoid ở trẻ (Endocrine Society 2008, khuyến cáo 3.2, Bảng 1); có dấu hiệu Cushing ngoại sinh coi như có suy thượng thận do glucocorticoid (ESE/ES 2024, R 2.10). Vì sao corticoid làm bé không sốt: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Cúm mùa</b></div><p class="why">Chưa loại hẳn: trẻ dưới 5 tuổi là nhóm nguy cơ nặng (QĐ 1840/2025 mục II.2.3); test nhanh cúm âm ngày 3 không đủ loại (mục II.2.4.3). Lớp có bạn dương tính COVID-19 nên COVID-19 khả năng cao hơn; RT-PCR đa mồi ở tuyến trên.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm phổi vi khuẩn</b></div><p class="why">Chưa loại hẳn: CRP 42, neutrophil 78% ở ngày 5, gõ đục đáy phải. Nhưng ran nổ mịn hai đáy lan tỏa không kiểu đông đặc thùy, hết sốt giữa lúc xấu đi, và còn cách giải thích khác (virus nặng, corticoid). Vì chưa loại được và bé ở mức nặng, QĐ 2671/2023 mục 6.8.1c đặt kháng sinh theo kinh nghiệm theo yếu tố nguy cơ.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ngộ độc thực phẩm, viêm dạ dày ruột cấp</b></div><p class="why">Sốt khởi phát khoảng 7 giờ trước bữa ăn đường phố (tin nhắn cô giáo); nôn, tiêu lỏng hết từ ngày 3; không gây suy hô hấp tiến triển ở ngày 6.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tay chân miệng</b></div><p class="why">Không loét miệng, phỏng nước, giật mình chới với, run giật cơ. Độ 1 cần loét miệng và/hoặc tổn thương da (QĐ 3312/2015, Tay chân miệng mục 3.5.1, tr. 476). Mạch 158 l/p lúc nằm yên không sốt vượt ngưỡng 150 của độ 2b (mục 3.5.2, tr. 477) nhưng ở bé này giải thích được bằng thiếu oxy, mất nước.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Sốt xuất huyết Dengue</b></div><p class="why">Ngày 6, vừa hết sốt: đúng giai đoạn nguy hiểm, có thể đã giảm sốt (QĐ 2760/2023, Giai đoạn nguy hiểm mục 2.1). Không chảy máu, không đau bụng, gan 1,5 cm nhưng thiếu hematocrit, tiểu cầu nên chưa loại hẳn; báo tuyến trên.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Kawasaki, MIS-C</b></div><p class="why">Không đỏ kết mạc, nứt môi, lưỡi dâu, hạch cổ, ban. Tiêu chuẩn chẩn đoán Kawasaki: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Dị vật đường thở</b></div><p class="why">Không cơn sặc đột ngột có nhân chứng; không stridor; dấu hiệu ở cả hai đáy.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm cơ tim, suy tim</b></div><p class="why">Không thổi, không T3, mạch bẹn rõ, gan 1,5 cm; mạch nhanh không tương xứng nên chưa loại hẳn: điện tim, siêu âm tim ở tuyến trên.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Lao (bà nội ho kéo dài)</b></div><p class="why">Bệnh 6 ngày chưa gợi lao, nhưng trẻ dưới 15 tuổi tiếp xúc người ho kéo dài cần sàng lọc triệu chứng hoặc X-quang (WHO TB Module 5 2022, Bảng 3, tr. 8).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Coi là cấp cứu: không cho về, không chờ xét nghiệm sáng mai; gọi 115 hoặc xe cấp cứu có oxy chuyển bệnh viện nhi tuyến tỉnh (34 km), mẹ đi cùng</b></div><p class="why">Mức nặng (thở rên, rút lõm, SpO₂ dưới 93%): QĐ 2671/2023 mục 8.1.2 (tr. 75), 8.1.3. Viêm phổi nặng thì nhập viện (WHO Pocket Book 2013, Bảng 7, tr. 81; QĐ 101/QĐ-KCB 2014 mục V.2). SpO₂ dưới 92% hoặc gõ đục kèm giảm rì rào thì nhập viện/chuyển (QĐ 708/2015, Phụ lục 1, khuyến cáo 5.3). Đến 7 giờ sáng không có xét nghiệm, X-quang.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Cho oxy gọng mũi 1–2 L/phút ngay, theo dõi SpO₂ và nhịp thở liên tục; đích SpO₂ ≥ 94% hoặc &gt; 90%</b></div><p class="why">Đích ≥ 94% khi cấp cứu, ≥ 96% khi ổn định (QĐ 2671/2023 mục 8.1.3a, tr. 75–76) hoặc &gt; 90% với 1–2 L/phút gọng mũi (WHO Pocket Book 2013, Chart 5, tr. 11; tr. 82). Hai nguồn khác đích SpO₂ (QĐ 708/2015 khuyến cáo 5.12: oxy khi dưới 92%); 94% là số thận trọng hơn.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Đo đường huyết mao mạch ngay; dưới 2,5 mmol/L thì glucose 10% 5 mL/kg (khoảng 80 mL) tiêm tĩnh mạch chậm, đo lại sau 30 phút</b></div><p class="why">Bảng WHO cho 14–&lt; 19 kg là 80 mL, nhắc lại 5 mL/kg nếu còn thấp (WHO Pocket Book 2013, Chart 10, tr. 16). Hoặc 5–10 mL/kg glucose 10% cho trẻ dưới 12 tuổi (Endocrine Society 2016, Bảng 3): chồng nhau ở 5 mL/kg.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Tiêm hydrocortisone trước khi chuyển, không chờ xét nghiệm: 50 mg/m² (khoảng 35 mg) hoặc 50 mg theo bảng tuổi học đường, tĩnh mạch chậm hoặc tiêm bắp; ghi giờ tiêm vào giấy chuyển</b></div><p class="why">Nghi cơn suy thượng thận thì tiêm ngay (Endocrine Society 2016, khuyến cáo 1.3, 4.1: 50 mg/m² cho trẻ; Bảng 3: trẻ học đường 50 mg tiêm bắp, bolus 50–100 mg/m² trong cơn suy thượng thận). Người lớn 100 mg (ESE/ES 2024, mục 6.3). Bé 0,68 m²: 50 mg/m² là 35 mg, 100 mg/m² là 68 mg; 35 mg thận trọng hơn, 50 mg vẫn trong khoảng 50–100 mg/m². Công thức diện tích da: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Lập đường truyền tĩnh mạch; truyền NaCl 0,9% 20 mL/kg hoặc từng đợt nhỏ hơn, đánh giá lại mạch, CRT, SpO₂, nhịp thở, ran sau mỗi đợt</b></div><p class="why">Bolus NaCl 0,9% 20 mL/kg, lặp tới 60 mL/kg nếu sốc trong cơn suy thượng thận (Endocrine Society 2016, Bảng 3). Viêm phổi nặng: tránh thừa dịch (WHO Pocket Book 2013, tr. 83). Bé giảm tưới máu còn bù, phổi tổn thương lan tỏa nên chọn đợt nhỏ (vd 10 mL/kg = 165 mL); số 10 mL/kg do người soạn chọn, không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Kháng sinh theo kinh nghiệm vì mức nặng, không dùng aminopenicillin: giữ cefixime đang uống hoặc cho liều đầu ceftriaxone 80 mg/kg (khoảng 1.320 mg); ghi dị ứng amoxicillin và cefixime đã dùng 3 liều vào giấy chuyển, tuyến trên chọn thuốc và thời gian sau CRP, procalcitonin, X-quang</b></div><p class="why">Mức nặng: dùng kháng sinh theo kinh nghiệm phụ thuộc yếu tố nguy cơ (QĐ 2671/2023 mục 6.8.1c); viêm phổi nặng trẻ em cho kháng sinh (WHO Pocket Book 2013, Bảng 7, tr. 81) và viêm phổi không có xét nghiệm hỗ trợ cho kháng sinh (QĐ 101/QĐ-KCB 2014 mục VII.1.1): các nguồn cùng hướng. Thuốc đầu của WHO (ampicillin/benzylpenicillin + gentamicin, tr. 82) là aminopenicillin/penicillin nên không dùng; ceftriaxone 80 mg/kg ngày một lần được WHO nêu cho thất bại thuốc đầu (tr. 82). Liều kháng sinh đầu trước chuyển và phác đồ khi dị ứng penicillin: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không kê thuốc ngủ, an thần; giải thích với mẹ bé không ngủ được vì khó thở, ghi nhận mẹ kiệt sức, cho mẹ đi cùng xe và viết giấy xác nhận để chị xin nghỉ ca</b></div><p class="why">Li bì khó đánh thức là dấu hiệu nguy hiểm của viêm phổi rất nặng nên thuốc an thần che dấu hiệu này (QĐ 708/2015 mục 4.4). Tài liệu đã tải không có đoạn riêng về thuốc ngủ ức chế hô hấp ở trẻ. Đáp ứng nhu cầu thật của mẹ để chị không tự mua thuốc.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không dùng thuốc kháng virus uống (nirmatrelvir/ritonavir, molnupiravir) tại phòng khám</b></div><p class="why">Nirmatrelvir/ritonavir từ 12 tuổi và ≥ 40 kg, molnupiravir từ 18 tuổi (QĐ 2671/2023 Bảng 7, tr. 37). Bé 4 tuổi, 16,5 kg.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Ghi vào giấy chuyển đề nghị tuyến trên cân nhắc remdesivir tĩnh mạch (5 mg/kg ngày 1, 2,5 mg/kg các ngày sau) và oseltamivir 45 mg × 2 lần/ngày × 5 ngày khi chưa loại cúm</b></div><p class="why">Remdesivir trẻ 3 đến dưới 40 kg, nội trú (QĐ 2671/2023 Bảng 7, tr. 37). Oseltamivir 15–23 kg, càng sớm khi nghi cúm nặng (QĐ 1840/2025 mục III.2.1). Quyết định của tuyến trên.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Mang theo hai gói bột, sổ khám sức khỏe trường, kết quả ba nơi; đề nghị tuyến trên sàng lọc lao cho bé và khám bà nội ho kéo dài</b></div><p class="why">Tiếp xúc người ho kéo dài: trẻ dưới 15 tuổi cần sàng lọc triệu chứng hoặc X-quang (WHO TB Module 5 2022, Bảng 3, tr. 8). Thành phần gói bột: không có trong tài liệu đã tải.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Khí dung salbutamol</b></div><p class="why">Không có ran rít, ran ngáy; thuốc giãn phế quản dành cho trẻ khò khè (WHO Pocket Book 2013, tr. 83); mất thời gian khi cần oxy và chuyển.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Tiêm dexamethasone 6 mg (liều người lớn) thay cho hydrocortisone</b></div><p class="why">Liều dexamethasone trẻ em: không có trong QĐ 2671/2023 mục 8.1.3c. Dexamethasone là lựa chọn kém nhất khi nghi suy thượng thận, chỉ dùng nếu không có glucocorticoid khác (Endocrine Society 2016, khuyến cáo 4.2). Corticoid COVID-19 nặng (Bảng 6) do tuyến trên quyết định.</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Kê thuốc ngủ, an thần, kháng histamin thế hệ 1 hoặc siro ho có hoạt chất gây ngủ</b></div><p class="why">Bé đang bù trừ ở SpO₂ 90%; thuốc làm ngủ sâu, che dấu hiệu li bì (QĐ 708/2015 mục 4.4). Không dùng thuốc ho chứa codein, atropin, cồn (WHO Pocket Book 2013, mục 4.4, tr. 90).</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Kê amoxicillin hoặc ampicillin</b></div><p class="why">Tiền sử mề đay, phù mi tức thì sau amoxicillin 14 tháng trước nên tránh aminopenicillin. WHO Pocket Book 2013 (tr. 82) dùng ampicillin hoặc benzylpenicillin cho viêm phổi nặng nên tuyến trên phải chọn thuốc khác.</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Cho về nhà, hẹn sáng mai làm xét nghiệm</b></div><p class="why">SpO₂ 90% phụ thuộc oxy, thở rên, đường huyết 2,3 mmol/L, nghi suy thượng thận (QĐ 2671/2023 mục 8.1.2; WHO Pocket Book 2013, Bảng 7). Ở nhà không có oxy; mẹ chưa chạy xe máy đêm 34 km.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Cho về, hẹn tái khám</span></div><p>Bé Khang, 4 tuổi, SpO₂ 90% khí trời, thở 52 l/p, thở rên, mạch 158 l/p, HA 80/44 mmHg, đường huyết 2,3 mmol/L: cho về với thuốc ho, thuốc ngủ hoặc hẹn sáng mai làm xét nghiệm là rất nguy hiểm vì bé đang phụ thuộc oxy, mà ở nhà không có oxy (QĐ 2671/2023, mục 8.1.2; WHO Pocket Book 2013, Bảng 7). Thuốc ngủ, an thần làm bé ngủ sâu, che dấu hiệu li bì là dấu hiệu nguy hiểm của viêm phổi rất nặng (QĐ 708/2015, mục 4.4), trong khi hạ đường huyết và nguy cơ suy thượng thận do chế phẩm bột nghi chứa corticoid vẫn không được xử trí. Mẹ Mai đang kiệt sức sau 5 đêm không ngủ, nếu bé trở nặng giữa đêm thì chị phải chạy xe máy một mình hơn 30 km, bé có thể ngừng thở trên đường.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển bé Khang lên bệnh viện nhi tỉnh theo kiểu chuyển tuyến thường, mẹ bế đi xe nhà hoặc xe máy 34 km, không oxy, không đường truyền, chưa tiêm hydrocortisone và chưa xử trí đường huyết 2,3 mmol/L, là đúng hướng nhưng thiếu an toàn. Bé phụ thuộc oxy (SpO₂ 90% khí trời, ngưng 3 phút oxy là tụt lại), có thể hạ đường huyết nặng thêm và vào cơn suy thượng thận cấp trên đường đi, vì cần tiêm glucocorticoid ngay, không chờ xét nghiệm (Endocrine Society 2016, khuyến cáo 1.3, 4.1; ESE/ES 2024, mục 6.3). Phải gọi xe cấp cứu có oxy và nhân viên y tế, bàn giao đủ giờ tiêm hydrocortisone, dị ứng amoxicillin, cefixime đã dùng để tuyến trên không lặp lại sai lầm.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>COVID-19 mức nặng ở trẻ 4 tuổi (ca nghi ngờ, chờ RT-PCR/kháng nguyên ở tuyến trên): viêm phổi virus lan tỏa hai đáy, suy hô hấp giảm oxy máu phụ thuộc oxy, ngày bệnh thứ 6</li><li>Hội chứng Cushing ngoại sinh do chế phẩm bột không nhãn nghi chứa glucocorticoid dùng khoảng 5 tuần (mặt tròn, rạn da, lông tơ, tăng 2,1 kg trong 46 ngày, chiều cao chững)</li><li>Nghi suy thượng thận do glucocorticoid sau ngưng đột ngột 24 giờ trong lúc nhiễm trùng nặng: hạ đường huyết 2,3 mmol/L, huyết áp sát ngưỡng, không sốt; nguy cơ cơn suy thượng thận cấp</li><li>Mất nước nhẹ đến trung bình, giảm tưới máu ngoại vi còn bù (mạch 158 l/p, CRT 3 giây, chi mát)</li><li>Dị ứng amoxicillin (mề đay, phù mi tức thì, không phản vệ) ghi vào giấy chuyển</li><li>Chưa loại trừ: cúm mùa, bội nhiễm vi khuẩn, sốt xuất huyết Dengue, viêm cơ tim; tiếp xúc người ho kéo dài (lao)</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Hỏi bệnh: &#x27;không ngủ được, bế đứng thì chịu, đặt nằm là khóc&#x27; là khó thở khi nằm của trẻ nhỏ, không phải quấy; đó là lý do thật của lần khám thứ tư. Dựng lại từng ngày: sốt khởi phát khoảng 7 giờ trước bữa ăn đường phố (tin nhắn cô giáo 10 giờ 20), tiêu hóa giảm dần, hô hấp tăng dần, hết sốt giữa lúc xấu đi: không khớp ngộ độc thực phẩm. Ca nghi ngờ COVID-19 khi có yếu tố dịch tễ (lớp có bạn dương tính) và từ 3 triệu chứng như sốt, ho, nôn, tiêu chảy, khó thở (QĐ 2671/2023 mục 2.1, tr. 18).</li><li>Khám: nhịp thở 52 l/p vượt ngưỡng 40 l/p của trẻ 1–5 tuổi, rút lõm, thở rên, SpO₂ 90% và tụt 85–86% khi khóc: mức nặng (QĐ 2671/2023 mục 8.1.2, tr. 75; WHO Pocket Book 2013, Bảng 7, tr. 81; QĐ 101/QĐ-KCB 2014 mục V.2). Ran nổ mịn hai đáy là tổn thương lan tỏa; gõ đục kèm giảm rì rào đáy phải chưa loại tràn dịch (QĐ 708/2015, Phụ lục 1, khuyến cáo 5.3). Âm tính có giá trị: không loét miệng, phỏng nước, giật mình (QĐ 3312/2015, Tay chân miệng mục 3.5); không thổi tim, không T3.</li><li>Mặt tròn, rạn da, lông tơ, tăng 2,1 kg trong 46 ngày mà chiều cao chững: trẻ tăng cân kèm giảm tốc độ lớn là dấu hiệu hội chứng Cushing (Endocrine Society 2008, khuyến cáo 3.2, Bảng 1); phải hỏi kỹ tiền sử glucocorticoid (khuyến cáo 3.1). Gói bột dùng 5 tuần rồi ngưng đột ngột: coi như có suy thượng thận do glucocorticoid (ESE/ES 2024, R 2.10); ngưng đột ngột và nhiễm trùng là yếu tố khởi phát cơn suy thượng thận (Bảng 9). Thành phần gói bột; cơ chế corticoid làm hết sốt và đổi công thức bạch cầu: không có trong tài liệu đã tải. Vì vậy &#x27;không sốt, neutrophil 78%, CRP 42&#x27; không đủ để loại COVID-19 và không đủ để chẩn đoán vi khuẩn.</li><li>Cúm mùa: trẻ dưới 5 tuổi là nhóm nguy cơ (QĐ 1840/2025 mục II.2.3); test nhanh cúm âm không loại cúm (mục II.2.4.3), cần RT-PCR đa mồi. Viêm phổi vi khuẩn: chưa loại hẳn nhưng ran lan tỏa không kiểu đông đặc thùy. Dengue: ngày 6 hết sốt là giai đoạn nguy hiểm (QĐ 2760/2023, Giai đoạn nguy hiểm mục 2), chưa loại vì không có hematocrit, tiểu cầu.</li><li>Bẫy: cờ đỏ không bị giấu mà bị gọi sai tên: &#x27;quấy, mất ngủ&#x27; là khó thở khi nằm; &#x27;bụ bẫm&#x27; là Cushing; &#x27;ngộ độc đồ ăn&#x27; là trình tự nhớ ngược; &#x27;thuốc cam&#x27; là chế phẩm ẩn. Điểm gãy ba nơi trước: không đếm nhịp thở đủ 1 phút, không đo SpO₂.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Chuyển cấp cứu ngay, không chờ xét nghiệm: đến 7 giờ sáng không có xét nghiệm, X-quang, bé phụ thuộc oxy. Mức nặng cần oxy, theo dõi sát (QĐ 2671/2023 mục 8.1.3a); viêm phổi nặng thì nhập viện (WHO Pocket Book 2013, Bảng 7).</li><li>Oxy gọng mũi 1–2 L/phút là điều trị đặc hiệu cho giảm oxy máu. Đích SpO₂ ≥ 94% khi cấp cứu (QĐ 2671/2023 mục 8.1.3a) hoặc &gt; 90% (WHO Pocket Book 2013, tr. 82); đặt tư thế bé tự chọn.</li><li>Đường huyết mao mạch là xét nghiệm duy nhất làm được ngoài giờ. Dưới 2,5 mmol/L thì glucose 10% 5 mL/kg (80 mL theo bảng WHO), đo lại sau 30 phút (WHO Pocket Book 2013, Chart 10, tr. 16). Thở 52 l/p dễ sặc nên ưu tiên đường tĩnh mạch (nhận định của người soạn).</li><li>Hydrocortisone là thuốc thay thế hormone cơ thể không sản xuất đủ, không phải thuốc chống viêm phổi. Tiêm ngay, không chờ cortisol, điện giải (Endocrine Society 2016, khuyến cáo 1.3; ESE/ES 2024, mục 6.3). Trẻ em 50 mg/m² (khuyến cáo 4.1); duy trì 50–100 mg/m²/ngày chia mỗi 6 giờ do tuyến trên (Bảng 3). Nếu tuyến trên cho corticoid COVID-19 nặng (QĐ 2671/2023 mục 6.6.1b) phải tính gộp, tránh ngưng sớm gây cơn suy thượng thận lần hai.</li><li>Dịch: mất nước, giảm tưới máu còn bù, nghi thiếu cortisol nên cần dịch; viêm phổi lan tỏa nên tránh thừa dịch (WHO Pocket Book 2013, tr. 83). Đánh giá lại sau mỗi đợt; 20 mL/kg là cho sốc trong cơn suy thượng thận (Endocrine Society 2016, Bảng 3).</li><li>Kháng sinh: bé ở mức nặng nên QĐ 2671/2023 mục 6.8.1c đặt kháng sinh theo kinh nghiệm theo yếu tố nguy cơ; viêm phổi nặng trẻ em cũng cho kháng sinh (WHO Pocket Book 2013, Bảng 7). Dị ứng amoxicillin nên tránh aminopenicillin, và thuốc đầu WHO (ampicillin/benzylpenicillin, tr. 82) không dùng được; ceftriaxone 80 mg/kg ngày một lần là thuốc WHO nêu cho thất bại thuốc đầu. Cefixime đã dùng 3 liều không phản ứng. Phác đồ khi dị ứng penicillin và liều đầu trước chuyển: không có trong tài liệu đã tải; tuyến trên chọn sau CRP, procalcitonin, X-quang.</li><li>Kháng virus: không có thuốc uống cho trẻ 4 tuổi 16,5 kg (QĐ 2671/2023 Bảng 7). Remdesivir và oseltamivir 45 mg × 2 lần/ngày × 5 ngày (QĐ 1840/2025 mục III.2.1) là quyết định của tuyến trên.</li><li>Không kê thuốc ngủ, an thần, kháng histamin thế hệ 1, siro ho: bé đang bù trừ tối đa; thuốc làm ngủ sâu và che dấu hiệu li bì (QĐ 708/2015 mục 4.4). Không khí dung salbutamol vì không ran rít (WHO Pocket Book 2013, tr. 83). Không cho uống lại gói bột.</li><li>Với mẹ: &#x27;cho cháu thuốc ngủ&#x27; là hai thứ cùng lúc, một triệu chứng (bé không nằm được vì khó thở) và một nhu cầu thật (chị kiệt sức, mai vào ca). Trả lời cả hai: giải thích, cho đi cùng xe, viết giấy xác nhận để xin nghỉ ca.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Oxy y tế qua gọng mũi trẻ em</b><div class="sub">Oxy 100%</div></td><td data-l="Liều">Khởi đầu 1–2 L/phút, chỉnh theo SpO₂ (thử 1,5 L/phút)<div class="sub">Hít qua gọng mũi · Ngay khi vào phòng, duy trì liên tục kể cả trên xe cấp cứu</div></td><td data-l="Thời gian">Đến khi tuyến trên quyết định</td><td class="gc" data-l="Ghi chú">Đích SpO₂ ≥ 94% (QĐ 2671/2023 mục 8.1.3a, tr. 75–76) hoặc &gt; 90% (WHO Pocket Book 2013, Chart 5, tr. 11); không ngưng thử trong lúc vận chuyển.</td></tr><tr><td><b>Glucose 10%</b><div class="sub">Chai 500 mL (10 g/100 mL)</div></td><td data-l="Liều">5 mL/kg = khoảng 80 mL<div class="sub">Tiêm tĩnh mạch chậm · Ngay khi đường huyết mao mạch dưới 2,5 mmol/L (trước chuyển)</div></td><td data-l="Thời gian">1 liều; đo lại sau 30 phút, lặp 5 mL/kg nếu còn thấp</td><td class="gc" data-l="Ghi chú">WHO 2013 (Pocket Book, Chart 10, tr. 16 (14–&lt; 19 kg: 80 mL); Endocrine Society 2016, Bảng 3: 5–10 mL/kg cho trẻ dưới 12 tuổi.</td></tr><tr><td><b>Hydrocortisone natri succinat</b><div class="sub">Lọ bột 100 mg kèm dung môi</div></td><td data-l="Liều">50 mg/m² = khoảng 35 mg (diện tích da 0,68 m²) hoặc 50 mg theo bảng tuổi học đường<div class="sub">Tiêm tĩnh mạch chậm hoặc tiêm bắp · Ngay, trước khi chuyển, không chờ xét nghiệm; ghi giờ tiêm vào giấy chuyển</div></td><td data-l="Thời gian">1 liều tại phòng khám; liều tiếp do tuyến trên</td><td class="gc" data-l="Ghi chú">Endocrine Society 2016, khuyến cáo 1.3, 4.1, Bảng 3 (trẻ em 50 mg/m²; bolus 50–100 mg/m² trong cơn suy thượng thận); ESE/ES 2024 mục 6.3 (người lớn 100 mg). 35 mg thận trọng hơn.</td></tr><tr><td><b>Natri clorid 0,9%</b><div class="sub">Chai 500 mL</div></td><td data-l="Liều">Bolus 10 mL/kg = 165 mL trong 30 phút, đánh giá lại; tối đa 20 mL/kg mỗi đợt<div class="sub">Truyền tĩnh mạch · Sau khi có đường truyền, song song glucose và hydrocortisone</div></td><td data-l="Thời gian">Đợt đầu trước chuyển; tiếp theo theo đáp ứng</td><td class="gc" data-l="Ghi chú">20 mL/kg cho sốc trong cơn suy thượng thận (Endocrine Society 2016, Bảng 3) hoặc đợt nhỏ hơn vì tránh thừa dịch ở viêm phổi nặng (WHO Pocket Book 2013, tr. 83). Số 10 mL/kg: không có trong tài liệu đã tải.</td></tr><tr><td><b>Cefixime (đang dùng từ tuyến trước)</b><div class="sub">Theo toa nơi khám thứ ba</div></td><td data-l="Liều">100 mg × 2 lần/ngày<div class="sub">Uống · Giữ nguyên, không đổi sang aminopenicillin; ghi vào giấy chuyển đã dùng 3 liều</div></td><td data-l="Thời gian">Đến khi tuyến trên quyết định</td><td class="gc" data-l="Ghi chú">Đang dùng, giữ nguyên chờ tuyến trên (mức nặng cần kháng sinh theo kinh nghiệm: QĐ 2671/2023 mục 6.8.1c; QĐ 101/QĐ-KCB 2014 mục VII.1.1). Hoặc ceftriaxone 80 mg/kg ngày một lần (WHO Pocket Book 2013, tr. 82). Không aminopenicillin vì dị ứng amoxicillin.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Với mẹ: &#x27;Cháu không ngủ được vì khó thở, không phải vì quấy. Thuốc ngủ làm cháu ngủ sâu, thở yếu đi nên em không cho. Em tiêm thuốc, cho thở oxy và chuyển cháu lên bệnh viện nhi ngay đêm nay. Chị đi cùng cháu; em viết giấy xác nhận để chị xin nghỉ ca sáng mai.&#x27;</li><li>Trên xe cấp cứu: bế ngồi hoặc đầu cao theo tư thế bé chọn, oxy gọng mũi suốt đường đi, theo dõi SpO₂, nhịp thở, tri giác; báo ngay nếu SpO₂ tụt, thở rên liên tục, lơ mơ hoặc ngưng thở (QĐ 2671/2023 mục 8.1.2).</li><li>Giấy chuyển theo SBAR: 16,5 kg; SpO₂ 90% khí trời; giờ tiêm hydrocortisone; đường huyết trước và sau glucose; dị ứng amoxicillin (mề đay, phù mi); cefixime đã dùng 3 liều; chế phẩm bột không nhãn 5 tuần, ngưng ngày 5; chưa tiêm vaccine COVID-19, cúm; bà nội ho kéo dài. Đề nghị: PCR đa mồi, X-quang, công thức máu, CRP, procalcitonin, điện giải, cortisol/ACTH, điện tim, siêu âm tim, sàng lọc lao (WHO TB Module 5 2022, Bảng 3).</li><li>Mang theo hai gói bột, sổ khám sức khỏe trường, toa và kết quả ba nơi. Không cho bé uống lại gói bột và không tự mua thuốc cam, thuốc bổ, thuốc nam, thuốc tây không rõ thành phần.</li><li>Báo mọi bác sĩ sau này: bé từng dùng chế phẩm nghi chứa corticoid khoảng 5 tuần; khi bé ốm nặng, nôn, tiêu chảy hoặc lơ mơ phải đến khám ngay vì có thể cần corticoid (ESE/ES 2024, R 3.1). Thời gian hồi phục trục thượng thận: không có trong tài liệu đã tải.</li><li>Bà nội ho kéo dài cần đi khám lao; người nhà đeo khẩu trang khi ho gần bé và anh trai. Thời gian cách ly sau xuất viện theo tuyến trên (QĐ 2671/2023 mục 7.2).</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-8">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>COVID-19</b></div>
+<p class="note">Phải loại trừ: Cúm mùa, Viêm phổi vi khuẩn</p><p>Diễn tiến thiết kế: oxy 1,5 L/phút đưa SpO₂ lên 95%, ngưng 3 phút tụt về 89–90% (phụ thuộc oxy); glucose 10%, hydrocortisone lúc 22 giờ 25 và NaCl 0,9% từng đợt; mạch 158 xuống 146 l/p, CRT 3 xuống 2,5 giây. Xe cấp cứu chuyển lên bệnh viện nhi tỉnh, mẹ đi cùng; tuyến trên: RT-PCR SARS-CoV-2 dương tính, X-quang kính mờ mô kẽ hai đáy, điều trị suy thượng thận và COVID-19 nặng, kháng sinh không aminopenicillin. Điểm gãy (biến chứng do bỏ sót): ba lần khám trước không đếm nhịp thở, không đo SpO₂, không hỏi kỹ thuốc, đọc &#x27;quấy&#x27; là hành vi và &#x27;bụ bẫm&#x27; là khỏe, đúng giai đoạn toàn phát sau 4–5 ngày (QĐ 2671/2023 mục 3.2). Mốc diễn tiến nặng ngày 5–8 và số liệu tử vong: không có trong tài liệu đã tải.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-9">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Ngộ độc đồ ăn đường phố là cái neo của cả nhà: trình tự nhớ ngược (ăn lúc 5 giờ chiều, nhưng cô giáo báo ấm trán từ 10 giờ 20 sáng). Chỉ gỡ được khi hỏi mốc cụ thể và xem tin nhắn.</li><li>&#x27;Bụ bẫm, hồng hào&#x27; và không sốt làm bé trông nhẹ hơn thực tế; thực ra là hội chứng Cushing do gói bột, nên ba nơi trước không nghĩ tới nguy hiểm.</li><li>Xin thuốc ngủ: lý do thật là kiệt sức, đồng thời là mô tả khó thở khi nằm; kê thuốc ngủ sẽ làm bé ngủ sâu, thở yếu đi.</li><li>Từng khám 3 nơi: mẹ mất niềm tin, kể theo chẩn đoán đã có, giấu gói bột vì sợ bị mắng; hồ sơ không có nhịp thở, SpO₂.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Khó thở khi nằm ở trẻ nhỏ biểu hiện bằng khóc, không chịu nằm, không ngủ: dịch sang ngôn ngữ sinh lý trước khi gọi là &#x27;quấy&#x27;. Đếm nhịp thở đủ 1 phút lúc bé yên, đo SpO₂ bằng đầu dò đúng cỡ ở mọi trẻ ho (ngưỡng thở nhanh 1–5 tuổi 40 l/p: QĐ 101/QĐ-KCB 2014 mục V.1).</li><li>Hỏi thuốc ở Việt Nam là câu chẩn đoán: nêu tên &#x27;thuốc bà mua, thuốc nam, thuốc bột, thuốc cam&#x27; và không phán xét (Endocrine Society 2008, khuyến cáo 3.1). Cân bé, đối chiếu sổ khám sức khỏe: tăng cân nhanh kèm chiều cao chững là dấu hiệu thừa glucocorticoid ở trẻ (Bảng 1).</li><li>Gỡ neo bằng mốc khách quan (tin nhắn, sổ); hỏi bệnh sử từ đầu, đọc toa cũ sau khi đã có giả thuyết riêng. Triệu chứng nổi bật mà ba chẩn đoán cũ không giải thích được thì mở lại hồ sơ.</li><li>Nghi suy thượng thận do corticoid ngoại sinh ở bệnh nhân nặng: tiêm hydrocortisone trước, không chờ xét nghiệm (ESE/ES 2024, R 3.1, R 3.2; mục 6.3).</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>COVID-19 trẻ nhỏ mức nặng: tím tái, SpO₂ dưới 93%, thở rên, rút lõm lồng ngực, không uống được, li bì, co giật (QĐ 2671/2023 mục 8.1.2, tr. 75). Kháng virus uống: nirmatrelvir/ritonavir từ 12 tuổi và ≥ 40 kg, molnupiravir từ 18 tuổi (Bảng 7, tr. 37).</li><li>Hạ đường huyết ở trẻ: glucose 10% 5 mL/kg tĩnh mạch khi &lt; 2,5 mmol/L, đo lại sau 30 phút (WHO Pocket Book 2013, Chart 10). Cơn suy thượng thận ở trẻ: hydrocortisone 50 mg/m², NaCl 0,9% 20 mL/kg khi sốc; dexamethasone kém nhất (Endocrine Society 2016, khuyến cáo 4.1, 4.2, Bảng 3).</li><li>Corticoid trong COVID-19 có hai việc khác nhau: chống viêm ở mức nặng (QĐ 2671/2023 mục 6.6.1b) và thay thế khi trục thượng thận bị ức chế; không ngưng phần thay thế theo phác đồ COVID-19.</li><li>Tay chân miệng: mạch &gt; 150 l/p lúc nằm yên không sốt là độ 2b nhóm 2 (QĐ 3312/2015, mục 3.5.2); dengue nguy hiểm vào ngày 3–7, có thể đã hết sốt (QĐ 2760/2023).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-10">Nguồn tài liệu <small>12</small></h3></summary><ul class=""><li>QĐ 2671/QĐ-BYT 2023, Hướng dẫn chẩn đoán và điều trị COVID-19 – TL-0124 – ĐÃ ĐỌC: mục 2.1–2.2 (tr. 18), 3.2, 4.4–4.5 (tr. 24), Bảng 6 (tr. 35), 6.2.1 và Bảng 7 (tr. 37), 6.6.1, 6.8.1–6.8.2, 7.2, 8.1.2–8.1.3 (tr. 75–76)</li><li>Endocrine Society 2016, Diagnosis and Treatment of Primary Adrenal Insufficiency – TL-0099 – ĐÃ ĐỌC: khuyến cáo 1.3, 4.1, 4.2; Bảng 3; mục 4.0 (hướng dẫn suy thượng thận nguyên phát có phần trẻ em; áp dụng cho nghi suy thượng thận do corticoid là suy rộng của người soạn)</li><li>ESE/ES 2024, Diagnosis and Therapy of Glucocorticoid-induced Adrenal Insufficiency (Eur J Endocrinol 2024;190:G25) – TL-0063 – ĐÃ ĐỌC: R 2.10, R 3.1, R 3.2, mục 6.3, Bảng 8, Bảng 9</li><li>Endocrine Society 2008, The Diagnosis of Cushing&#x27;s Syndrome – TL-0331 – ĐÃ ĐỌC: khuyến cáo 3.1, 3.2, Bảng 1</li><li>WHO 2013, Pocket Book of Hospital Care for Children – TL-0250 – ĐÃ ĐỌC: Chart 5 (tr. 11), Chart 10 (tr. 16), mục 4.2.1 Bảng 7 (tr. 80–83), mục 4.4 (tr. 90)</li><li>QĐ 101/QĐ-KCB 2014, Hướng dẫn xử trí viêm phổi cộng đồng ở trẻ em – TL-0243 – ĐÃ ĐỌC: mục V, VI, VII.1</li><li>QĐ 708/QĐ-BYT 2015, Hướng dẫn sử dụng kháng sinh – TL-0015 – ĐÃ ĐỌC: viêm phổi trẻ em mục 4.4; Phụ lục 1 khuyến cáo 5.3 (tr. 313)</li><li>QĐ 1840/QĐ-BYT 2025, Hướng dẫn chẩn đoán và điều trị cúm mùa – TL-0122 – ĐÃ ĐỌC: mục II.2.3, II.2.4, III.2.1</li><li>QĐ 3312/QĐ-BYT 2015, Hướng dẫn chẩn đoán và điều trị một số bệnh thường gặp ở trẻ em – TL-0037 – ĐÃ ĐỌC: Tay chân miệng mục 3.3, 3.5 (tr. 475–477)</li><li>QĐ 2760/QĐ-BYT 2023, Hướng dẫn chẩn đoán và điều trị sốt xuất huyết Dengue – TL-0029 – ĐÃ ĐỌC: Giai đoạn nguy hiểm mục 2 (tr. 12)</li><li>WHO 2023, Clinical management of COVID-19: living guideline, 18 August 2023 – TL-0135 – ĐÃ ĐỌC: mục 3.7</li><li>WHO 2022, Consolidated guidelines on tuberculosis, Module 5 (trẻ em và thanh thiếu niên) – TL-0247 – ĐÃ ĐỌC: Chương 2, Bảng 3 (tr. 8)</li></ul></details>
+<details class="card"><summary><h3 id="m-11">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Hô hấp cấp tính</dd><dt>chan_doan_dich</dt><dd>COVID-19</dd><dt>chan_doan_phai_loai_tru</dt><dd>Cúm mùa; Viêm phổi vi khuẩn</dd><dt>nhom_tuoi</dt><dd>Mẫu giáo (1–5 tuổi)</dd><dt>gioi</dt><dd>Nam</dd><dt>do_kho</dt><dd>Ca bẫy</dd><dt>loai_bay</dt><dd>Cơ đỏ ngụy trang</dd><dt>co_co_do</dt><dd>Có</dd><dt>so_luot_kham</dt><dd>1</dd><dt>dien_tien_tai_kham</dt><dd>Không áp dụng (ca 1 lượt khám)</dd><dt>nhieu_benh_nhan</dt><dd>Từng khám 3 nơi không khỏi</dd><dt>rang_buoc_nguon_luc</dt><dd>Ngoài giờ, không có kỹ thuật viên</dd><dt>nghe_nghiep</dt><dd>Trẻ mẫu giáo</dd><dt>yeu_to_khoi_phat</dt><dd>Sau ăn thức ăn đường phố</dd><dt>thuoc_dang_dung</dt><dd>Corticoid tự mua (gói bột không nhãn)</dd><dt>ly_do_that_su_den_kham</dt><dd>Muốn được cho thuốc ngủ</dd><dt>loai_ket_cuc</dt><dd>Biến chứng do bỏ sót</dd></dl><ul class=""><li>12/10/2026 – viết: Sonnet. Cốt truyện tham khảo ca cũ ca-cu/Ca_HH-1242, đã bỏ chi tiết không có nguồn. Đường huyết đổi từ 3,1 thành 2,3 mmol/L để dưới ngưỡng 2,5 mmol/L của WHO Pocket Book 2013 (Chart 10).</li><li>Tài liệu đã đọc: TL-0124 (mục 2, 4.4–4.5, 6.1, 6.2.1, 6.6.1, 6.8, 7.2, 8.1); TL-0099 (1.3, 4.1–4.2, Bảng 3); TL-0063 (R 2.10, R 3.1–3.2, 6.3, Bảng 9); TL-0331 (3.1–3.2, Bảng 1); TL-0250 (Chart 5, 10; 4.2.1, 4.4); TL-0243; TL-0015 (4.4, PL1 5.3); TL-0122; TL-0037 (Tay chân miệng); TL-0029; TL-0135 (3.7); TL-0247 (Bảng 3).</li><li>Thiếu trong tài liệu đã tải: cơ chế corticoid làm hết sốt, đổi công thức bạch cầu; thành phần gói bột; tiêu chuẩn Kawasaki; kháng sinh viêm phổi nặng trẻ em khi dị ứng penicillin (chỉ có ceftriaxone 80 mg/kg); NaCl 10 mL/kg; công thức diện tích da; tử vong; thời gian hồi phục trục thượng thận; tác dụng thuốc an thần lên hô hấp trẻ.</li><li>Khác nguồn ghi cả hai cách: đích SpO₂ (≥ 94% / &gt; 90%); bolus 20 mL/kg và tránh thừa dịch; hydrocortisone 50 mg/m² (trẻ) và 100 mg (người lớn). Xem HH-1242_mau_thuan.md. khoa_cls khóa xn, xquang, sieu_am; CLS bị khóa vẫn có r để chấm việc gọi.</li></ul></details>
+<p class="chan-trang">Ca HH-1242 · phiên bản ca 1 – viết 12/10/2026, soát nguồn với bản chữ kho tài liệu · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

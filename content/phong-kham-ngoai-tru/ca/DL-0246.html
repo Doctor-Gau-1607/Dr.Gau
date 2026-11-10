@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DL-0246 · Mày đay cấp</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · DL-0246</div>
+   <h1>Nổi mẩn đỏ, ngứa khắp người từ chiều, sau khi ăn thực phẩm chức năng</h1>
+   <p class="dich-gia">Lê Minh Khôi · Nam · 10 tuổi · 34 kg</p>
+   <div class="chips"><span class="chip">Da liễu</span><span class="chip">Điển hình</span><span class="chip">1 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Học sinh lớp 5</dd><dt>Chiều cao, cân nặng</dt><dd>139 cm · 34 kg</dd>
+<dt>Xưng hô</dt><dd>Khôi 10 tuổi xưng &#x27;con&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;, trả lời rất ngắn, hay đáp &#x27;con không sao&#x27;. Mẹ xưng &#x27;em&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;; bác sĩ gọi mẹ là &#x27;chị&#x27;.</dd><dt>Tính cách</dt><dd>Khôi hiếu động, mê đá bóng, sợ bị tiêm và sợ bị cấm đá bóng nên giảm nhẹ mọi triệu chứng; ngồi không yên, gãi lén. Mẹ (chị Hạnh, 37 tuổi, nhân viên kế toán) hay đọc tin sức khỏe trên mạng và nhóm phụ huynh, lo lắng, nói nhanh, đòi &#x27;thử máu cho chắc&#x27;.</dd><dt>Người nhà</dt><dd>Mẹ bé (chị Hạnh) – Mẹ bé, chị Hạnh, 37 tuổi, đi cùng; mẹ kể phần lớn bệnh sử (nguoi_noi = nguoi_nha). Khi bác sĩ hỏi thẳng bé hoặc hỏi cảm giác của bé thì bé trả lời ngắn (nguoi_noi = benh_nhan).</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Ngoài giờ hành chính, kỹ thuật viên đã về: không làm được xét nghiệm, X-quang, siêu âm (chỉ có sáng mai). Có nhiệt kế, máy đo huyết áp, máy đo SpO₂ và máy điện tim do điều dưỡng thực hiện. Phải quyết định bằng hỏi bệnh và khám.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/1</span> </h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Bé trai Lê Minh Khôi, 10 tuổi, học sinh lớp 5, 34 kg, cao 139 cm, mẹ đưa đến lúc gần 19 giờ 30 tối thứ Bảy vì nổi mẩn đỏ, ngứa khắp người từ khoảng 16 giờ 30. Sinh hiệu: mạch 92 l/p, HA 98/62 mmHg, nhiệt độ 37,1 °C, nhịp thở 20 l/p, SpO₂ 99%. Bé tỉnh, ngồi không yên, gãi liên tục. Phòng khám ngoài giờ hành chính, kỹ thuật viên đã về.</p>
+  <blockquote>“Bác sĩ ơi, cháu nhà em nổi mẩn đỏ khắp người từ chiều, em đọc trên mạng nói uống thực phẩm chức năng mà nổi mẩn là nguy hiểm lắm, có khi hại gan hại thận, bác sĩ thử máu cho cháu giùm em. Còn bé thì cứ bảo &#x27;con không sao đâu mẹ&#x27;.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>92</b><small>l/p</small></div><div class="vs"><span>HA</span><b>98/62</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>37,1</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>20</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>99</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>12 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám, thời điểm khởi phát</b><span class="tag t-g">Tự kể</span></div><p>Chị Hạnh (mẹ) kể: chiều nay khoảng 16 giờ 30 Khôi bắt đầu ngứa rồi nổi mẩn đỏ ở bụng, lưng, hai tay; đến giờ (gần ba tiếng) vẫn còn nổi thêm. Chị lên mạng đọc thấy &#x27;nổi mẩn sau thực phẩm chức năng là nguy hiểm&#x27; nên đưa con đi ngay buổi tối.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Yếu tố khởi phát: thực phẩm chức năng mới, lần đầu, mốc thời gian (hỏi &#x27;hôm nay bé ăn/uống gì mới&#x27;)</b><span class="tag t-b">Khi được hỏi</span></div><p>Hôm nay 15 giờ 30, sau giờ tan học, chị cho Khôi ăn lần đầu 3 viên kẹo dẻo &#x27;bổ sung vitamin C, kẽm, chiết xuất keo ong, tăng sức đề kháng&#x27; mua trên mạng để &#x27;bồi bổ sau trận ốm&#x27; (nhãn dán nhà bán lẻ, chị không nhớ có số công bố sản phẩm không). Khôi chưa từng ăn loại này. Chừng một tiếng sau bé bắt đầu ngứa.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc đang dùng (kháng sinh 3 ngày) – thuốc nghi ngờ thứ hai; bối cảnh nhiễm trùng hô hấp trên</b><span class="tag t-b">Khi được hỏi</span></div><p>Bốn hôm trước bé sốt 38,5 °C hai ngày kèm đau họng, đi khám phòng khám khác, được kê amoxicillin uống ngày hai lần; bé đã uống 3 ngày (sáng nay là liều thứ 6), còn 4 liều. Hết sốt từ hôm kia, họng còn hơi rát. Ba ngày uống thuốc đó bé không nổi gì. Chị cầm theo vỉ thuốc nhưng không tự kể vì &#x27;tưởng thuốc không liên quan&#x27;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thời gian tồn tại mỗi sẩn phù (&lt; 24 giờ, không để lại dát thâm): tách viêm mạch mày đay</b><span class="tag t-b">Khi được hỏi</span></div><p>Mỗi mảng nổi lên rồi lặn trong khoảng một đến vài giờ, lặn xong da phẳng, không thâm, không bầm. Chị có chụp ảnh điện thoại mảng đỏ ở bụng lúc 17 giờ, bây giờ chỗ đó đã phẳng, nhưng sườn và lưng mới nổi. Ước chừng 20–30 mảng.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Mức độ ảnh hưởng thật (hỏi chức năng thay vì cảm giác)</b><span class="tag t-r">Giấu</span></div><p>Hỏi &#x27;con ngứa nhiều không&#x27; Khôi đáp &#x27;con không sao, hơi ngứa thôi&#x27;. Hỏi cụ thể: bé gãi tới xước một vết ở sườn trái, bỏ dở bài tập về nhà, hai lần nhờ mẹ gãi lưng, ngồi không yên. Bé sợ nói ngứa nhiều thì bị tiêm và bị cấm đá bóng ngày mai.</p><div class="cond">Điều kiện nói ra: Câu hỏi cảm giác (&#x27;có khó chịu, ngứa nhiều không&#x27;) bé đều trả lời &#x27;không sao&#x27;. Chỉ kể khi bác sĩ hỏi chức năng: bài tập, ngủ, gãi tới đâu, có nhờ mẹ gãi không.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dấu hiệu hô hấp – thanh quản – phù mạch (loại phản vệ, phù mạch bằng chức năng)</b><span class="tag t-r">Giấu</span></div><p>Hỏi chức năng: tối nay Khôi chạy lên xuống cầu thang nhà bình thường, không hụt hơi; nói chuyện giọng như mọi khi, không khàn; nuốt cháo và uống nước bình thường, không nghẹn, không cảm giác vướng cổ; không ho, không khò khè; môi, mắt, mặt không sưng (mẹ và bé cùng xác nhận). Bé ăn hết nửa bát cháo lúc 18 giờ.</p><div class="cond">Điều kiện nói ra: Hỏi &#x27;có khó thở, tức ngực, khó nuốt không&#x27; bé trả lời &#x27;không&#x27; dứt khoát (kể cả khi lỡ có). Cần hỏi chức năng cụ thể: leo cầu thang, nói chuyện, nuốt, giọng, sưng môi mắt; mẹ trả lời được phần này.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiêu hóa – tuần hoàn (đủ hệ cơ quan để loại phản vệ; đau bụng là chỉ định nhập viện, QĐ 4416 mục 3.2.1)</b><span class="tag t-b">Khi được hỏi</span></div><p>Bé không đau bụng, không buồn nôn, không nôn, không đi ngoài lỏng; không chóng mặt, không lả đi, không mệt lả, không ngất.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiền sử dị ứng (TT 51/2017 Điều 4 khoản 5)</b><span class="tag t-b">Khi được hỏi</span></div><p>Chưa từng nổi mẩn, không hen, không viêm mũi dị ứng, không dị ứng thức ăn hay thuốc. Năm 7 tuổi từng uống amoxicillin một đợt, không phản ứng. Sinh đủ tháng, chủng ngừa đủ. Trong nhà không ai bị mày đay.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Nguy cơ tái phát: còn dị nguyên nghi ngờ trong nhà</b><span class="tag t-r">Giấu</span></div><p>Lọ kẹo dẻo mua cả lọ 60 viên, còn gần đủ; chị nói sẽ &#x27;cho uống tiếp hết lọ cho bé đỡ ốm vặt&#x27; nếu bác sĩ bảo không sao. Đây là dự định chị chưa kể, chỉ nói khi được hỏi &#x27;lọ còn lại để làm gì&#x27;.</p><div class="cond">Điều kiện nói ra: Chỉ lộ khi bác sĩ hỏi về lọ thực phẩm chức năng còn lại, hoặc dặn bỏ hẳn.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật: lo lắng vì thông tin trên mạng</b><span class="tag t-r">Giấu</span></div><p>Chị đọc một bài trên mạng và nhóm phụ huynh lớp: &#x27;thực phẩm chức năng nổi mẩn là ngộ độc, hại gan thận, vài giờ sau có thể thành sốc phản vệ, phải thử máu và uống thuốc giải độc ngay&#x27;. Chị rất sợ nhưng ban đầu chỉ nói &#x27;cho cháu xem nổi mẩn gì&#x27;; chị đòi &#x27;thử máu gan thận&#x27; và &#x27;tiêm một mũi cho chắc&#x27;.</p><div class="cond">Điều kiện nói ra: Chỉ nói thật khi bác sĩ hỏi &#x27;chị đang lo nhất điều gì&#x27;, &#x27;chị đã đọc/nghe gì&#x27;, hoặc hỏi vì sao đưa con đi ngay tối nay.</div></div><div class="fact"><div class="fh"><b>Chi tiết nhiễu: mồ hôi/tắm nóng gợi mày đay cholinergic (QĐ 4416 mục 2.4.2); thức ăn thường ngày</b><span class="tag t-b">Khi được hỏi</span></div><p>Trưa nay Khôi đá bóng ở sân trường, ra nhiều mồ hôi, tắm nước ấm lúc 17 giờ 30 thì ngứa tăng. Buổi trưa ăn cơm với thịt kho, canh rau như mọi ngày; không ăn tôm cua, trứng, hải sản; không tiếp xúc cây cỏ, côn trùng cắn.</p></div><div class="fact"><div class="fh"><b>Bối cảnh nhiễm trùng hô hấp trên</b><span class="tag t-b">Khi được hỏi</span></div><p>Hiện không sốt, không ho, họng chỉ hơi rát khi nuốt, không đau tai, không tiêu chảy. Hai bạn cùng lớp cũng đang ốm họng.</p></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>6 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Da, niêm mạc, ban</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Hông – sườn trái: nhiều sẩn đỏ hồng nổi gồ, đám nối nhau, vài vệt xước (ảnh 1). Cẳng tay: các mảng đỏ hồng nhạt, bờ không rõ, nổi nhẹ (ảnh 2). Bụng, lưng: tổn thương tương tự rải rác. Mặt, môi, lòng bàn tay, bàn chân: không tổn thương.</p><p><span class="lbl">Kết quả:</span> Khoảng 20–30 sẩn phù đỏ hồng, nổi gồ nhẹ trên mặt da, tròn, bầu dục, nhiều mảng nối lại thành đám; rải rác ở hông – sườn hai bên, bụng, lưng và mặt trong hai cẳng tay, kích thước từ vài mm đến 3–4 cm; ở sườn trái có vài vệt xước thẳng do gãi. Ấn thấy mềm, bờ ranh giới khá rõ, nhạt màu khi ấn; không dát thâm tím, không chấm xuất huyết, không bọng nước, không vảy, không trợt loét. Lòng bàn tay, bàn chân, mặt, môi, mi mắt và niêm mạc miệng không tổn thương. Chưa có phù mạch; dưới 50 sẩn phù/24 giờ.</p><div class="media"><figure class="img"><a href="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/hinh/HA-DA-0140.jpg" target="_blank" rel="noopener"><a class="o-anh" href="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/hinh/HA-DA-0140.jpg"><img loading="lazy" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/hinh/HA-DA-0140.jpg" alt="Hông – sườn"></a></a><figcaption><b>Hông – sườn</b> – Nhiều sẩn đỏ hồng nổi gồ trên da vùng hông – sườn, tập hợp thành đám, kèm vệt xước nông do gãi.</figcaption><div class="src">Ảnh: SCIN (Google Research &amp; Stanford), case -8352699628138095738, dataset/images/8977765022181205065.png</div></figure><figure class="img"><a href="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/hinh/HA-DA-0141.jpg" target="_blank" rel="noopener"><a class="o-anh" href="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/hinh/HA-DA-0141.jpg"><img loading="lazy" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/hinh/HA-DA-0141.jpg" alt="Cẳng tay"></a></a><figcaption><b>Cẳng tay</b> – Mảng đỏ hồng nhạt, bờ không rõ, nổi nhẹ trên mặt trong cẳng tay.</figcaption><div class="src">Ảnh: SCIN (Google Research &amp; Stanford), case -6903160896710638127, dataset/images/6276334615397287053.png</div></figure></div></div><div class="row"><div class="rh"><span class="key">★</span><b>Họng, tai, mũi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Môi, mi mắt, lưỡi không sưng. Họng đỏ nhẹ, amidan không mủ. Giọng bình thường.</p><p><span class="lbl">Kết quả:</span> Môi, mi mắt, lưỡi, lưỡi gà không sưng; giọng nói bình thường, không khàn, không rít. Họng đỏ nhẹ, amidan độ I, không mủ, không giả mạc. Mũi thông, màng nhĩ hai bên bình thường.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nhịp thở 20 l/p, không co lõm ngực.</p><p><span class="lbl">Kết quả:</span> Nhịp thở 20 l/p, không co lõm, không rít, không khò khè; rì rào phế nang rõ hai bên, phổi không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 92 l/p, mạch quay đều.</p><p><span class="lbl">Kết quả:</span> Tim đều 92 l/p, T1 T2 rõ, không âm thổi; mạch quay rõ, đều; HA 98/62 mmHg.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm, không chướng, không điểm đau, không phản ứng thành bụng; gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh táo, nói chuyện lanh lợi, ngồi không yên vì ngứa, gãi liên tục; da ấm, môi hồng, không vã mồ hôi lạnh; không tím, không lơ mơ.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>6 mục</small></h3></summary><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Có kết quả sáng mai: BC 8,9 G/L, Neutrophil 61%, Bạch cầu ái toan 3%, Hb 128 g/L, TC 295 G/L.</p><p class="why">Không cần hôm nay và cơ sở không làm được ngoài giờ. QĐ 4416 (Bệnh mày đay mục 2.2) liệt kê công thức máu trong xét nghiệm cơ bản; TL-0405 (mục 4.1, Bảng 8): mày đay cấp không có xét nghiệm thường quy; ghi cả hai ở sổ mâu thuẫn. Quyết định xử trí không chờ kết quả.</p></div><div class="row"><div class="rh"><b>CRP</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Có kết quả sáng mai: 4 mg/L.</p><p class="why">Không cần: bé hết sốt, không có dấu hiệu nhiễm khuẩn nặng; CRP không thuộc xét nghiệm cho mày đay cấp (TL-0405 Bảng 8).</p></div><div class="row"><div class="rh"><b>IgE toàn phần huyết thanh</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Có kết quả sau vài ngày: 210 IU/mL (không đổi hướng xử trí).</p><p class="why">Không cần cho mày đay cấp: IgE toàn phần nằm trong xét nghiệm của mày đay mạn tự phát (TL-0405 Bảng 8); QĐ 4416 (mục 2.2) có định lượng IgE trong danh sách chung nhưng không bắt buộc ở thể cấp.</p></div><div class="row"><div class="rh"><b>AST, ALT</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Có kết quả sáng mai: AST 26, ALT 19 U/L, creatinin bình thường.</p><p class="why">Mẹ đòi &#x27;thử gan thận&#x27;: không có chỉ định, bé không vàng da, không đau bụng, không dùng thuốc độc gan. Tài liệu đã tải không nêu thử chức năng gan thận trong mày đay cấp (QĐ 4416 mục 2.2 không có).</p></div><div class="row"><div class="rh"><b>Test lẩy da (prick test) với dị nguyên</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần hôm nay, cơ sở không có. TL-0405 (mục 4.1): ngoại lệ là nghi mày đay cấp do dị ứng, test dị ứng có thể giúp; chọn dị nguyên là kẹo dẻo (thành phần chưa rõ) hay amoxicillin, thời điểm làm test với thực phẩm chức năng: không có trong tài liệu đã tải; TT 51/2017 Phụ lục VIII mục 8 (test sau khi ổn định 4–6 tuần, viết cho phản vệ).</p></div><div class="row"><div class="rh"><b>Điện tâm đồ 12 chuyển đạo</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Nhịp xoang 92 l/p, trục bình thường, không biến đổi ST–T.</p><p class="why">Không cần cho mày đay; làm để trấn an không bị trừ điểm. Khuyến cáo điện tâm đồ trong mày đay cấp: không có trong tài liệu đã tải.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Mày đay cấp, mức thông thường: khởi phát khoảng 3 giờ, khoảng 20–30 sẩn phù/24 giờ, chưa phù mạch, chưa có hô hấp – tuần hoàn – tiêu hóa; xuất hiện khoảng 1 giờ sau lần đầu ăn kẹo dẻo thực phẩm chức năng (nghi ngờ hàng đầu), bé đang uống amoxicillin ngày thứ 4 (nghi ngờ thứ hai) và vừa qua viêm họng 4 ngày</b></div><p class="why">Sẩn phù ngứa, đỏ, ranh giới rõ, xuất hiện rồi mất trong vòng 24 giờ, không để lại dát thâm (QĐ 4416/2023, Bệnh mày đay mục 2.1, 2.3); dưới 6 tuần là mày đay cấp (mục 1.1, 2.4.1); dưới 50 sẩn phù/24 giờ và không phù mạch là thông thường (mục 3.2.1). Căn nguyên gồm thức ăn, thuốc (bêta-lactam thường gặp nhất, các vitamin cũng có thể gây), chất tạo màu và chất bảo quản thực phẩm, nhiễm trùng hô hấp (QĐ 75/2015 mục 2a; TL-0405 mục 4.2.2). Chiết xuất keo ong là dị nguyên: không có trong tài liệu đã tải. Tiêu chuẩn phân biệt tác nhân (thực phẩm, thuốc, virus): không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Phản vệ</b></div><p class="why">Phản vệ cần da – niêm mạc kèm hô hấp hoặc tụt HA, hoặc ≥ 2/4 nhóm (da, hô hấp, tụt HA, tiêu hóa) sau tiếp xúc yếu tố nghi ngờ (TT 51/2017, Phụ lục I mục I.2; WAO 2020 Bảng 2). Khôi chỉ có da; hỏi chức năng: leo cầu thang, nuốt, nói đều bình thường, không đau bụng, không nôn; thở 20 l/p, SpO₂ 99%, HA 98/62 (trẻ em: tụt khi &lt; 70 mmHg hoặc giảm ≥ 30%). Bé phủ nhận &#x27;có khó chịu không&#x27; nên phải hỏi chức năng. TT 51 Phụ lục II độ I (chỉ da) áp dụng cho người đã chẩn đoán phản vệ: xem sổ mâu thuẫn.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm mạch mày đay</b></div><p class="why">Sẩn phù kéo dài hơn 24 giờ, mềm, ngứa ít, đáp ứng kém kháng histamin (QĐ 75/2015 mục 3b); mày đay viêm mạch nằm trong chẩn đoán phân biệt (QĐ 4416 mục 2.5). Mỗi mảng của Khôi lặn trong 1–vài giờ, không thâm, ngứa rất nhiều; chưa dùng kháng histamin nên chưa đánh giá đáp ứng.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Phù mạch</b></div><p class="why">Phù mạch là sưng nề môi, mắt, lưỡi, bàn tay, chân, sinh dục; sưng thanh gây khó thở (QĐ 4416 mục 2.1; QĐ 75/2015 mục 3b). Khám: môi, mi, lưỡi, lưỡi gà không sưng, giọng bình thường, không rít. Phù mạch ở lưỡi là chỉ định nhập viện (QĐ 4416 mục 3.2.1): bé không có.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Mày đay cholinergic (mồ hôi, tắm nước nóng)</b></div><p class="why">Thường gặp ở người trẻ 10–20 tuổi, tổn thương nhỏ 1–2 mm sau tập thể dục, tắm nước ấm (QĐ 4416 mục 2.4.2). Khôi có đá bóng và tắm nước ấm, nhưng ngứa bắt đầu ngay sau lần đầu ăn kẹo dẻo, tổn thương là sẩn phù 3–4 cm, không phải chấm nhỏ; bé tắm nước ấm chỉ làm ngứa tăng. Loại hẳn bằng test kích thích (mục 2.2): cơ sở không có, không cần hôm nay.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Phát ban do thuốc nặng (SJS/TEN, DRESS)</b></div><p class="why">Cần sốt, bọng nước, tổn thương niêm mạc hoặc nội tạng (QĐ 4416/2023, bài SJS/TEN mục 2.1, bài DRESS mục 2.1); Khôi không sốt, không bọng nước, niêm mạc miệng bình thường, tổn thương mất trong vài giờ.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi chức năng thay vì cảm giác (leo cầu thang, nuốt, giọng, ngủ, làm bài); hỏi mọi thứ bé ăn, uống, bôi trong ngày kể cả thực phẩm chức năng; hỏi thẳng &#x27;chị lo nhất điều gì&#x27;, nghe chị trước khi giải thích</b></div><p class="why">Kỹ năng khai thác và giao tiếp. TT 51/2017 (Điều 4 khoản 5): khai thác kỹ tiền sử dị ứng thuốc, dị nguyên trước khi kê đơn; QĐ 75/2015 (mục 2a): thuốc và thực phẩm đều có thể gây mày đay.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Kết luận không phải phản vệ (chỉ có da, sinh hiệu bình thường, hỏi chức năng âm tính): không tiêm adrenalin, cho về</b></div><p class="why">TT 51/2017 (Phụ lục I mục I.2; Điều 6 khoản 1); WAO 2020 (Bảng 2). Mày đay cấp thông thường điều trị ngoại trú (QĐ 4416 mục 3.2.1).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dừng ngay thực phẩm chức năng (kẹo dẻo); không cho lại dù chỉ 1 viên; ghi sản phẩm vào sổ khám bệnh như dị nguyên nghi ngờ</b></div><p class="why">QĐ 75/2015 (mục 4b): dừng tất cả các loại thuốc hoặc thực phẩm nghi ngờ; QĐ 4416 (mục 3.1, 4): tìm và loại trừ nguyên nhân, tránh tác nhân nghi ngờ; TT 51/2017 (Điều 4 khoản 5): ghi thông tin dị ứng, dị nguyên vào sổ khám bệnh.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Tạm ngừng amoxicillin (thuốc nghi ngờ thứ hai), ghi vào sổ khám; hẹn đánh giá lại viêm họng khi tái khám, không đổi sang kháng sinh khác khi bé đã hết sốt, họng chỉ hơi rát</b></div><p class="why">QĐ 75/2015 (mục 2a: bêta-lactam là nhóm gây mày đay hay gặp nhất, có thể sau vài ngày dùng thuốc; mục 4b: dừng thuốc nghi ngờ); TL-0405 (mục 5.2.1: thuốc nghi ngờ nên bỏ hẳn hoặc thay bằng nhóm khác nếu bắt buộc). Chỉ định kháng sinh cho viêm họng và việc hoàn tất liệu trình: không có trong tài liệu đã tải, không bàn ở ca này.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Kháng histamin H1 thế hệ 2, MỘT loại, liều theo tuổi, uống hằng ngày 10 ngày (QĐ 4416 mục 3.2.1) hoặc liên tục đến khi hết triệu chứng (TL-0405 mục 5.4)</b></div><p class="why">Gộp theo sổ mâu thuẫn &#x27;Thời gian dùng kháng histamin trong mày đay cấp thông thường&#x27;. Liều trẻ 6–11 tuổi: QĐ 3942/2014 (Bảng 3). TL-0405 (mục 5.5.1): loratadin, cetirizin, desloratadin, fexofenadin, levocetirizin, bilastin, rupatadin đều có bằng chứng ở trẻ em.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn chăm sóc da: không gãi, cắt móng, mặc cotton rộng, tránh tắm nước nóng, có thể áp lạnh; tránh vận động ra mồ hôi nhiều vài ngày</b></div><p class="why">QĐ 75/2015 (mục 4b tự chăm sóc: hạn chế gãi, áp lạnh hoặc tắm lạnh, tránh tắm nóng, mặc quần áo cotton, tránh hoạt động gây mồ hôi).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích cho mẹ: đây là mày đay cấp, không phải ngộ độc hay suy gan; không cần thử máu hôm nay (cơ sở cũng không có); nêu rõ dấu hiệu phải đi cấp cứu ngay</b></div><p class="why">TL-0405 (mục 4.1, Bảng 8): mày đay cấp tự giới hạn, không có xét nghiệm thường quy; QĐ 4416 (mục 2.3): chẩn đoán dựa vào lâm sàng. Ý nghĩa của bài đọc trên mạng: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn đến ngay hoặc gọi cấp cứu nếu: khó thở, thở rít, khàn tiếng, sưng môi, lưỡi, mặt, khó nuốt, đau bụng, nôn, chóng mặt, lả đi</b></div><p class="why">QĐ 4416 (mục 2.1: khó thở, tiếng rít thanh quản khi phù mạch gây chít hẹp đường hô hấp cần cấp cứu; mục 3.2.1: nhập viện khi phù mạch ở lưỡi hoặc đau bụng); TT 51/2017 (Phụ lục I mục I.2, Phụ lục II).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn tái khám khi hết thuốc (10 ngày), sớm hơn nếu còn nổi hoặc nổi lại; mang theo lọ kẹo dẻo, vỉ thuốc, đơn cũ</b></div><p class="why">QĐ 4416 (mục 3.2.1: 10 ngày; mục 4: dùng thuốc theo đơn, không tự ý ngừng); TL-0405 (mục 5.4). Lịch tái khám sớm hơn cụ thể: không có trong tài liệu đã tải.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Corticoid uống ngắn ngày cho mày đay mức thông thường</b></div><p class="why">Theo sổ mâu thuẫn &#x27;Corticoid uống trong mày đay cấp&#x27;: QĐ 4416 (mục 3.2.1) chỉ định cho mày đay cấp nặng (≥ 50 sẩn phù/24 giờ và/hoặc phù mạch), trẻ ≤ 12 tuổi 0,5–1 mg/kg/ngày methylprednisolon × 5 ngày; TL-0405 (mục 5.4) cho phép đợt ngắn tối đa 10 ngày, nhưng nêu liều 20–50 mg prednisone phù hợp người lớn, không phải trẻ em. Khôi chỉ ở mức thông thường nên không bắt buộc; kê thì chấp nhận.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Theo dõi tại phòng khám thêm vài giờ rồi cho về, hoặc theo dõi 24 giờ</b></div><p class="why">Hai cách theo sổ mâu thuẫn &#x27;Mày đay đơn thuần có thuộc phản vệ độ I&#x27;: sau tiếp xúc dị nguyên nghi ngờ rõ, theo dõi theo TT 51/2017 (Phụ lục II độ I, Phụ lục III mục I.1) hoặc ngoại trú theo QĐ 4416 (mục 3.2.1). Số giờ theo dõi cụ thể ở mày đay không phản vệ: không có trong tài liệu đã tải.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Nhập viện, chuyển tuyến đêm nay hoặc thử máu để &#x27;chắc&#x27;</b></div><p class="why">Không có chỉ định: không phù mạch lưỡi, không đau bụng (QĐ 4416 mục 3.2.1); không xét nghiệm thường quy (TL-0405 Bảng 8).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Tiêm adrenalin bắp hoặc truyền dịch</b></div><p class="why">Adrenalin tiêm bắp dành cho phản vệ từ độ II (TT 51/2017 Điều 6 khoản 1; Phụ lục III mục I.3); Khôi không có tiêu chuẩn phản vệ.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho kháng histamin thế hệ 1 (chlorpheniramin, promethazin, diphenhydramin) hoặc phối hợp hai loại H1</b></div><p class="why">TL-0405 (mục 5.4, 5.5.1): khuyến cáo không dùng H1 thế hệ 1 làm đầu tay, có tác dụng xấu lên kết quả học tập ở trẻ em; QĐ 4416 (mục 3.2.2): phối hợp 2 H1 không có lợi hơn một loại; QĐ 3942/2014 (mục 1b, tác dụng phụ): thế hệ 1 gây buồn ngủ.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Tiếp tục amoxicillin cho đủ liệu trình hoặc cho tiếp kẹo dẻo vì &#x27;mới nổi lần đầu&#x27;</b></div><p class="why">QĐ 75/2015 (mục 4b): dừng tất cả các loại thuốc hoặc thực phẩm nghi ngờ; TL-0405 (mục 5.2.1).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Cho Khôi nhập viện nằm theo dõi là không cần: bé không có phù mạch ở lưỡi, không đau bụng (chỉ định nhập viện của mày đay cấp, QĐ 4416, Bệnh mày đay mục 3.2.1), thở 20 l/p, SpO₂ 99%, HA 98/62, không đủ tiêu chuẩn phản vệ (TT 51/2017, Phụ lục I mục I.2). Bé 10 tuổi nằm giữa phòng bệnh qua đêm, mất buổi học và buổi đá bóng, mẹ nghỉ làm; càng củng cố niềm tin của mẹ rằng &#x27;bệnh nặng lắm&#x27;. Theo dõi 24 giờ của TT 51 (Phụ lục III mục I.1) viết cho người đã chẩn đoán phản vệ, không áp dụng cho bé này (xem sổ mâu thuẫn).</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển Khôi lên bệnh viện nhi ngay trong đêm chỉ để &#x27;thử máu&#x27; là quá tay: mày đay cấp thông thường điều trị ngoại trú bằng kháng histamin (QĐ 4416 mục 3.2.1) và thường không cần chẩn đoán thêm ngoài bệnh sử (TL-0405 mục 4.1, Bảng 8: mày đay cấp tự phát không có xét nghiệm thường quy). Hai mẹ con đi xe hơn một giờ giữa đêm, chờ ở khoa cấp cứu đông, mẹ nhận về tờ kết quả &#x27;bình thường&#x27; nhưng không hiểu vì sao, và vẫn chưa bỏ lọ kẹo dẻo vì chưa ai nói thẳng đó là thủ phạm nghi ngờ.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển cấp cứu</span></div><p>Tiêm adrenalin bắp hoặc gọi xe cấp cứu cho Khôi là sai chỉ định: adrenalin tiêm bắp dành cho phản vệ từ độ II (TT 51/2017 Điều 6 khoản 1; Phụ lục III mục I.3), còn bé chỉ có tổn thương da, tỉnh táo, không khó thở, không đau bụng, HA 98/62 (trẻ em: phản vệ khi HA tâm thu &lt; 70 mmHg hoặc giảm ≥ 30%, Phụ lục I mục I.2). Bé hoảng sợ vì mũi tiêm và xe cứu thương, mẹ càng tin lời đồn trên mạng; tác dụng không mong muốn của adrenalin ở trẻ này: không có trong tài liệu đã tải.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Mày đay cấp, mức thông thường: khởi phát khoảng 3 giờ, khoảng 20–30 sẩn phù/24 giờ, chưa phù mạch (QĐ 4416 mục 1.1, 2.4.1, 3.2.1)</li><li>Vị trí: hông – sườn, bụng, lưng, hai cẳng tay; mỗi sẩn phù lặn trong vài giờ, không để lại dát thâm</li><li>Yếu tố liên quan: lần đầu ăn kẹo dẻo thực phẩm chức năng (vitamin C, kẽm, chiết xuất keo ong) khoảng 1 giờ trước khi ngứa (nghi ngờ hàng đầu); amoxicillin ngày thứ 4 (nghi ngờ thứ hai); viêm họng 4 ngày trước (yếu tố gối); không xác định được tác nhân bằng lâm sàng</li><li>Chưa có dấu hiệu phản vệ (chỉ có da, SpO₂ 99%, HA 98/62, hỏi chức năng âm tính), phù mạch hay viêm mạch mày đay</li><li>Ngứa nhiều hơn bé nói: gãi xước, bỏ bài tập, nhờ mẹ gãi lưng (bé phủ nhận vì sợ bị tiêm)</li><li>Lý do thật đến khám: mẹ đọc thông tin trên mạng (ngộ độc, suy gan, sốc phản vệ) nên lo; lọ kẹo dẻo còn nhiều trong nhà</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự hợp lý: nghe mẹ kể → hỏi giờ bắt đầu, mỗi mảng tồn tại bao lâu, số mảng → hỏi mọi thứ mới bé ăn, uống, bôi hôm nay (ra thực phẩm chức năng) → thuốc đang dùng (ra amoxicillin) → hỏi CHỨC NĂNG thay vì cảm giác, vì bé nói &#x27;không sao&#x27; → hỏi &#x27;chị lo nhất điều gì&#x27; → khám da (đếm mảng), môi – mi – lưỡi – họng, phổi, bụng, sinh hiệu → chẩn đoán lâm sàng (TL-0405 mục 4.1) → xử trí.</li><li>Vì sao là mày đay cấp: sẩn phù ngứa, đỏ, ranh giới rõ, xuất hiện và biến mất trong vòng 24 giờ, không để lại dát thâm (QĐ 4416 mục 2.1, 2.3); dưới 6 tuần là cấp (mục 1.1, 2.4.1). Dưới 50 sẩn phù/24 giờ và không phù mạch nên mức thông thường (mục 3.2.1). Mày đay hay gặp từ sơ sinh đến 9 tuổi và 30–40 tuổi (mục 1.2).</li><li>Căn nguyên: QĐ 75/2015 (mục 2a) liệt kê thức ăn, thuốc (bêta-lactam gặp nhiều nhất; vitamin cũng có thể gây), chất tạo màu và chất bảo quản thực phẩm, nhiễm trùng hô hấp. TL-0405 (mục 4.2.2): mày đay cấp thường theo sau nhiễm trùng hô hấp trên. Khôi có ba khả năng chồng nhau; mốc thời gian (ngứa khoảng 1 giờ sau lần đầu ăn kẹo; 3 ngày uống amoxicillin không nổi) nghiêng về kẹo dẻo, nhưng tiêu chuẩn phân biệt: không có trong tài liệu đã tải. Xử trí an toàn: dừng cả hai tác nhân nghi ngờ (QĐ 75 mục 4b). Chiết xuất keo ong là dị nguyên: không có trong tài liệu đã tải.</li><li>Loại phản vệ: tiêu chuẩn cần da – niêm mạc kèm hô hấp hoặc tụt HA, hoặc ≥ 2/4 nhóm sau tiếp xúc yếu tố nghi ngờ (TT 51/2017 Phụ lục I mục I.2; WAO 2020 Bảng 2). Khôi chỉ có da; thở 20 l/p, SpO₂ 99%, HA 98/62 (trẻ em tụt HA khi &lt; 70 mmHg hoặc giảm ≥ 30%); hỏi chức năng âm tính; không đau bụng, nôn. Về mày đay đơn thuần sau dị nguyên rõ: TT 51 Phụ lục II xếp độ I (theo dõi, Phụ lục III mục I.1) còn QĐ 4416 (mục 3.2.1) điều trị ngoại trú: ghi cả hai, ngoại trú là đủ; theo dõi thêm vài giờ chấm a.</li><li>Loại viêm mạch mày đay: sẩn phù tồn tại hơn 24 giờ, mềm, ngứa ít, đáp ứng kém kháng histamin (QĐ 75/2015 mục 3b); Khôi có mảng đã phẳng sau 1–2 giờ, ngứa nhiều, không thâm. Loại phù mạch: không sưng môi, mi, lưỡi, họng (QĐ 4416 mục 2.1).</li><li>Phân biệt mày đay cholinergic: thường 10–20 tuổi, sẩn nhỏ 1–2 mm (QĐ 4416 mục 2.4.2); Khôi tổn thương lớn 3–4 cm và khởi phát sau lần đầu ăn kẹo. Phát ban do thuốc nặng loại bằng không sốt, không bọng nước, niêm mạc bình thường (QĐ 4416, bài SJS/TEN mục 2.1; bài DRESS mục 2.1).</li><li>Ngoài giờ, không có kỹ thuật viên: xét nghiệm, X-quang, siêu âm chỉ có sáng mai. Đáp án vẫn quyết định ngay đêm nay bằng bệnh sử và khám: mày đay cấp tự phát không cần chẩn đoán thêm ngoài bệnh sử (TL-0405 mục 4.1, Bảng 8); QĐ 4416 (mục 2.2) có danh sách xét nghiệm cơ bản nhưng không bắt buộc ở thể cấp (ghi cả hai ở sổ mâu thuẫn &#x27;Xét nghiệm thường quy trong mày đay cấp&#x27;). Không chuyển tuyến chỉ để thử máu.</li><li>Nhiễu &#x27;phủ nhận triệu chứng nặng&#x27;: Khôi sợ bị tiêm và cấm đá bóng nên đáp &#x27;con không sao&#x27; với mọi câu hỏi cảm giác. Câu hỏi chức năng (leo cầu thang, nói, nuốt, làm bài, ngủ, gãi) cho thông tin đáng tin hơn và vừa loại được phản vệ, phù mạch, vừa lộ ngứa nhiều thật. Lý do thật của mẹ là nỗi sợ từ bài đọc trên mạng: trấn an bằng dữ kiện của chính bé, không bác bỏ mẹ.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Hướng xử trí: ngoại trú, thuốc uống, hẹn tái khám (ve_hen). Không nhập viện vì không phù mạch lưỡi, không đau bụng (QĐ 4416 mục 3.2.1); không tiêm adrenalin vì không phải phản vệ từ độ II (TT 51/2017 Điều 6 khoản 1); không chuyển tuyến chỉ để xét nghiệm.</li><li>Bước đầu tiên: dừng dị nguyên nghi ngờ (QĐ 75/2015 mục 4b; QĐ 4416 mục 3.1, 4): bỏ kẹo dẻo, tạm ngừng amoxicillin và ghi cả hai vào sổ khám bệnh (TT 51/2017 Điều 4 khoản 5). Nếu chỉ cho thuốc mà mẹ vẫn cho bé ăn kẹo thì bệnh quay lại: đây là điểm dạy chính của ca vì kết cục là tái phát.</li><li>Thuốc chính: MỘT kháng histamin H1 thế hệ 2 liều tiêu chuẩn mỗi ngày (QĐ 4416 mục 3.2.1: 10 ngày; QĐ 75/2015 mục 4b; TL-0405 mục 5.4: uống hằng ngày, không theo nhu cầu, dùng liên tục đến khi không còn cần). Liều trẻ 6–11 tuổi: loratadin siro 5 mg/5 ml 5–10 ml/ngày; cetirizin siro 5 mg/5 ml 5–10 ml/ngày (QĐ 3942/2014 Bảng 3). Loratadin ít an thần ở liều thông thường, cetirizin có thể gây an thần (QĐ 3942/2014 mục 2a Đại cương): chọn loratadin để bé đi học được. Số ngày kéo dài thêm nếu hết 10 ngày vẫn còn nổi: không có trong tài liệu đã tải.</li><li>Không kê corticoid cho mức thông thường (QĐ 4416 mục 3.2.1 chỉ cho mày đay cấp nặng; TL-0405 mục 5.4 liều 20–50 mg prednisone chỉ phù hợp người lớn). Không kê H1 thế hệ 1, không phối hợp hai H1 (TL-0405 mục 5.4, 5.5.1; QĐ 4416 mục 3.2.2).</li><li>Giải thích với mẹ bằng dữ kiện của bé: không sưng môi lưỡi, thở êm, HA và SpO₂ bình thường, nuốt và nói bình thường nên không phải sốc phản vệ; nổi mẩn là phản ứng của mao mạch da, không phải suy gan. Tác động của thực phẩm chức năng lên gan thận: không có trong tài liệu đã tải; trấn an dựa trên lâm sàng, không hứa quá mức.</li><li>Dấu hiệu quay lại ngay: khó thở, thở rít, khàn tiếng, sưng môi – lưỡi – mặt, khó nuốt, đau bụng, nôn, chóng mặt, lả đi (QĐ 4416 mục 2.1, 3.2.1; TT 51/2017 Phụ lục I, II). Nhắc người nhà cho biết tên thực phẩm chức năng và thuốc khi đi khám bất cứ nơi nào.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Loratadin siro</b><div class="sub">5 mg/5 ml</div></td><td data-l="Liều">10 ml (10 mg) mỗi lần<div class="sub">Uống · 1 lần/ngày, cùng giờ mỗi ngày (vd buổi tối); uống đều kể cả khi đã hết nổi, không chỉ khi ngứa</div></td><td data-l="Thời gian">10 ngày (hơn 100 ml); tái khám khi hết thuốc</td><td class="gc" data-l="Ghi chú">QĐ 3942/2014 (Bảng 3): loratadin 5 mg/5 ml, trẻ 6–11 tuổi 5–10 ml/ngày, 1 lần/ngày (chọn 10 ml cho bé 34 kg, nằm trong khoảng nguồn; nguồn không chia theo cân nặng); QĐ 4416 (mục 3.2.1: kháng histamin liều tiêu chuẩn trong vòng 10 ngày); TL-0405 (mục 5.4: H1 thế hệ 2 hằng ngày). Cetirizin siro 5 mg/5 ml 5–10 ml/ngày thay thế cùng nguồn; chỉ dùng MỘT loại.</td></tr><tr><td><b>Amoxicillin (đơn cũ ở phòng khám khác)</b><div class="sub">Theo đơn cũ</div></td><td data-l="Liều">TẠM NGỪNG<div class="sub">Uống · Dừng từ liều tối nay</div></td><td data-l="Thời gian">Đánh giá lại khi tái khám</td><td class="gc" data-l="Ghi chú">QĐ 75/2015 (mục 2a, 4b); TL-0405 (mục 5.2.1). Ghi &#x27;amoxicillin: nghi ngờ gây mày đay&#x27; vào sổ khám bệnh (TT 51/2017 Điều 4 khoản 5). Chỉ định kháng sinh cho viêm họng và việc hoàn tất liệu trình: không có trong tài liệu đã tải.</td></tr><tr><td><b>Kẹo dẻo thực phẩm chức năng (vitamin C, kẽm, chiết xuất keo ong)</b><div class="sub">Cả lọ</div></td><td data-l="Liều">DỪNG, KHÔNG CHO LẠI<div class="sub">Uống · Từ nay</div></td><td data-l="Thời gian">Cho đến khi bác sĩ dị ứng đánh giá</td><td class="gc" data-l="Ghi chú">QĐ 75/2015 (mục 4b: dừng thực phẩm nghi ngờ); QĐ 4416 (mục 4: tránh tác nhân nghi ngờ). Cất lọ ngoài tầm với của bé, mang theo khi tái khám.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Với chị Hạnh: Khôi bị mày đay cấp lành tính, tự giới hạn (dưới 6 tuần), không phải ngộ độc, suy gan hay sốc phản vệ: bé không sưng môi lưỡi, thở êm, nuốt và nói bình thường, huyết áp và SpO₂ bình thường (QĐ 4416 mục 2.4.1; TL-0405 mục 4.1; TT 51/2017 Phụ lục I). Nghi ngờ nhất là kẹo dẻo mới ăn lần đầu và amoxicillin; hiện không xác định chắc được.</li><li>Bỏ hẳn lọ kẹo dẻo, không cho bé ăn lại &#x27;một viên cho thử&#x27;; tạm ngừng amoxicillin; ghi hai tên này vào sổ khám bệnh và nói với mọi bác sĩ, nhà thuốc sau này (QĐ 75/2015 mục 4b; TT 51/2017 Điều 4 khoản 5). Hỏi bác sĩ trước khi cho bé dùng thực phẩm chức năng mới.</li><li>Uống loratadin 10 ml mỗi tối, đều mỗi ngày 10 ngày kể cả khi hết nổi, không ngừng sớm (QĐ 4416 mục 3.2.1, 4; TL-0405 mục 5.4). Không tự thêm thuốc dị ứng khác.</li><li>Với Khôi: không cần sợ mũi tiêm; nếu ngứa nhiều cứ nói, đừng giấu; không gãi, cắt ngắn móng, mặc áo cotton rộng, tắm nước mát, vài ngày tới nghỉ chơi bóng ra nhiều mồ hôi (QĐ 75/2015 mục 4b).</li><li>Đến cấp cứu ngay nếu: khó thở, thở rít, khàn tiếng, sưng môi – lưỡi – mặt, khó nuốt, đau bụng, nôn, chóng mặt hoặc lả đi (QĐ 4416 mục 2.1, 3.2.1). Còn nổi hoặc nổi lại sau khi hết thuốc: tái khám sớm, mang lọ kẹo dẻo và đơn cũ.</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-8">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Mày đay cấp</b></div>
+<p class="note">Phải loại trừ: Phản vệ, Viêm mạch mày đay, Phù mạch</p><p>Khôi ngứa dịu rõ ngay đêm đầu, hết nổi sau hai ngày uống loratadin; chị Hạnh bỏ amoxicillin theo dặn nhưng vẫn giữ lọ kẹo dẻo trong tủ bếp. Ngày thứ 3, thấy con hết nổi, chị tự ngừng loratadin và &#x27;chỉ cho thử một viên&#x27; kẹo dẻo vì tiếc lọ; ngày thứ 5 Khôi nổi lại lúc đi học, ngứa tới mức xin về. Chị đưa bé đi khám lần hai, mang theo lọ kẹo; bác sĩ giải thích đây vẫn là mày đay cấp (dưới 6 tuần, QĐ 4416 mục 2.4.1) tái phát vì tác nhân nghi ngờ chưa bỏ hẳn và thuốc ngừng sớm (QĐ 4416 mục 3.2.1, 4: dùng đủ 10 ngày, tránh tác nhân nghi ngờ). Chị đồng ý bỏ lọ, uống lại loratadin đủ 10 ngày, ghi tên sản phẩm vào sổ khám bệnh và hẹn khám dị ứng; số ngày kéo dài thêm nếu vẫn nổi: không có trong tài liệu đã tải.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-9">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Phủ nhận triệu chứng nặng: Khôi đáp &#x27;con không sao&#x27; với mọi câu hỏi cảm giác vì sợ bị tiêm và bị cấm đá bóng; phải hỏi chức năng (leo cầu thang, nuốt, nói, làm bài, ngủ, gãi) mới ra ngứa nhiều và mới loại được phản vệ, phù mạch.</li><li>Mẹ không kể amoxicillin (&#x27;tưởng không liên quan&#x27;) và chỉ lộ khi hỏi &#x27;bé đang uống thuốc gì&#x27;; hai tác nhân nghi ngờ chồng nhau cùng viêm họng gối.</li><li>Lý do thật của mẹ là bài đọc trên mạng (ngộ độc, suy gan, sốc phản vệ); chỉ lộ khi hỏi &#x27;chị đã đọc hoặc nghe gì&#x27; hoặc &#x27;chị lo nhất điều gì&#x27;; nếu bỏ qua, mẹ sẽ đòi thử máu, đi bệnh viện ngay trong đêm.</li><li>Chi tiết nhiễu: đá bóng ra mồ hôi và tắm nước ấm làm ngứa tăng (gợi mày đay cholinergic); lọ kẹo còn nhiều là mầm tái phát.</li><li>Ngoài giờ không có kỹ thuật viên: mẹ đòi thử máu gan thận, cơ sở không làm được; phải quyết định ngay bằng bệnh sử và khám.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Bé phủ nhận triệu chứng: dùng câu hỏi chức năng (leo cầu thang, nuốt, nói, làm bài, ngủ) thay vì &#x27;có khó chịu không&#x27;; hỏi chức năng vừa loại phản vệ/phù mạch vừa đo độ nặng thật (TT 51/2017 Phụ lục I mục I.2; QĐ 4416 mục 2.1).</li><li>Luôn hỏi &#x27;hôm nay bé ăn, uống gì mới&#x27; và &#x27;đang dùng thuốc gì&#x27;, kể cả thực phẩm chức năng và thuốc kê ở nơi khác; ghi dị nguyên nghi ngờ vào sổ khám bệnh (TT 51/2017 Điều 4 khoản 5; QĐ 75/2015 mục 2a, 4b).</li><li>Không phải mọi mày đay sau thực phẩm chức năng là phản vệ: phản vệ cần thêm hệ cơ quan hoặc tụt HA; mày đay đơn thuần không cần adrenalin (TT 51/2017 Phụ lục I, Điều 6 khoản 1; WAO 2020 Bảng 2).</li><li>Không có xét nghiệm vẫn xử trí được mày đay cấp; không chuyển tuyến đêm chỉ để thử máu (TL-0405 mục 4.1, Bảng 8; QĐ 4416 mục 2.3).</li><li>Tái phát thường do nguyên nhân nền chưa bỏ và tuân thủ kém: dặn bỏ hẳn tác nhân nghi ngờ, hỏi lọ còn lại để làm gì, dặn uống đủ 10 ngày kể cả khi hết nổi (QĐ 4416 mục 3.2.1, 4).</li><li>Mẹ lo vì thông tin mạng: hỏi &#x27;chị đã đọc gì&#x27;, trấn an bằng dữ kiện của chính bé, không bác bỏ mẹ, không hứa quá mức.</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Mày đay cấp ≤ 6 tuần; mạn: hằng ngày hoặc gần hằng ngày &gt; 6 tuần (QĐ 4416, Bệnh mày đay mục 1.1, 2.4.1).</li><li>Sẩn phù đỏ, ngứa, xuất hiện rồi mất trong vòng 24 giờ, không để dát thâm; viêm mạch mày đay: sẩn tồn tại &gt; 24 giờ, mềm, ngứa ít (QĐ 4416 mục 2.1; QĐ 75/2015 mục 3b).</li><li>Cấp thông thường: kháng histamin liều tiêu chuẩn 10 ngày; cấp nặng (≥ 50 sẩn phù/24 giờ và/hoặc phù mạch): thêm corticoid, trẻ ≤ 12 tuổi 0,5–1 mg/kg/ngày × 5 ngày (QĐ 4416 mục 3.2.1).</li><li>Nhập viện khi phù mạch ở lưỡi hoặc đau bụng (QĐ 4416 mục 3.2.1).</li><li>Trẻ 6–11 tuổi: loratadin siro 5 mg/5 ml 5–10 ml/ngày; cetirizin siro 5–10 ml/ngày (QĐ 3942/2014 Bảng 3); không dùng H1 thế hệ 1 làm đầu tay, nhất là ở trẻ em (TL-0405 mục 5.4, 5.5.1).</li><li>Phản vệ ở trẻ em: da – niêm mạc kèm hô hấp hoặc tụt HA (HA tâm thu &lt; 70 mmHg hoặc giảm ≥ 30%), hoặc ≥ 2/4 nhóm; adrenalin tiêm bắp từ độ II (TT 51/2017 Phụ lục I mục I.2; Điều 6 khoản 1).</li><li>Thuốc, thực phẩm nghi ngờ phải dừng; vitamin và chất bảo quản thực phẩm cũng có thể gây mày đay (QĐ 75/2015 mục 2a, 4b).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-10">Nguồn tài liệu <small>8</small></h3></summary><ul class=""><li>Bộ Y tế – QĐ 4416/QĐ-BYT 2023, hướng dẫn chẩn đoán và điều trị bệnh da liễu (TL-0397) – Bệnh mày đay mục 1.1, 1.2, 2.1–2.5, 3.1, 3.2.1, 3.2.2, 4; bài SJS/TEN mục 2.1; bài DRESS mục 2.1.</li><li>Bộ Y tế – QĐ 75/QĐ-BYT 2015, hướng dẫn chẩn đoán và điều trị các bệnh da liễu (kho cũ tltk-10000-ca, TL-0241) – Bệnh mày đay mục 2a, 3b, 4b.</li><li>Bộ Y tế – QĐ 3942/QĐ-BYT 2014, hướng dẫn chẩn đoán và điều trị bệnh dị ứng – miễn dịch lâm sàng (kho cũ tltk-10000-ca) – mục kháng histamin H1: Bảng 2 (thế hệ 1), mục 2a Đại cương, Bảng 3 (liều thế hệ 2 theo tuổi).</li><li>GA²LEN/EAACI và 107 hội – Hướng dẫn quốc tế về mày đay 2026, Allergy 2026;81(8):2582-2632 (TL-0405) – mục 4.1, 4.2.2, 5.2.1, 5.4, 5.5.1, Bảng 8.</li><li>Bộ Y tế – Thông tư 51/2017/TT-BYT, phản vệ (TL-0014) – Điều 4 khoản 5; Điều 6 khoản 1; Phụ lục I mục I.2; Phụ lục II; Phụ lục III mục I.1, I.3; Phụ lục VIII mục 8.</li><li>WAO 2020, Anaphylaxis Guidance (TL-0025) – Bảng 2 (tiêu chuẩn chẩn đoán phản vệ).</li><li>Không có trong tài liệu đã tải: tiêu chuẩn phân biệt mày đay do thực phẩm chức năng, do amoxicillin và sau nhiễm virus; chiết xuất keo ong như dị nguyên; tác động của thực phẩm chức năng lên gan thận; chỉ định kháng sinh và hoàn tất liệu trình cho viêm họng; số giờ theo dõi mày đay không phản vệ; lịch tái khám sớm cụ thể; số ngày kháng histamin kéo dài quá 10 ngày; tác dụng không mong muốn của adrenalin ở trẻ này.</li><li>Ảnh da: SCIN (Google Research &amp; Stanford), HA-DA-0140 và HA-DA-0141, giấy phép SCIN Data Use License; không tìm cách nhận dạng người trong ảnh.</li></ul></details>
+<details class="card"><summary><h3 id="m-11">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Da liễu</dd><dt>chan_doan_dich</dt><dd>Mày đay cấp</dd><dt>chan_doan_phai_loai_tru</dt><dd>Phản vệ; Viêm mạch mày đay; Phù mạch</dd><dt>nhom_tuoi</dt><dd>Học sinh (6–15 tuổi)</dd><dt>do_kho</dt><dd>Điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>dien_tien_tai_kham</dt><dd>Không áp dụng (ca 1 lượt khám)</dd><dt>nhieu_benh_nhan</dt><dd>Phủ nhận triệu chứng nặng</dd><dt>rang_buoc_nguon_luc</dt><dd>Ngoài giờ, không có kỹ thuật viên</dd><dt>loai_ket_cuc</dt><dd>Tái phát</dd><dt>gioi</dt><dd>Nam</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>1</dd><dt>nghe_nghiep</dt><dd>Học sinh (lớp 5)</dd><dt>yeu_to_khoi_phat</dt><dd>Sau khi dùng thực phẩm chức năng (kẹo dẻo bổ sung vitamin – kẽm – chiết xuất keo ong)</dd><dt>thuoc_dang_dung</dt><dd>Kháng sinh uống (amoxicillin) đã dùng 3 ngày</dd><dt>ly_do_that_su_den_kham</dt><dd>Mẹ đọc thông tin trên mạng nên lo lắng (sợ ngộ độc, suy gan, sốc phản vệ)</dd></dl><ul class=""><li>Bản 1 (25/10/2026): thực phẩm chức năng = kẹo dẻo vitamin C – kẽm – chiết xuất keo ong, mua trên mạng, ăn lần đầu 3 viên lúc 15 giờ 30; ngứa khoảng 1 giờ sau (nghi hàng đầu); kháng sinh &#x27;đã dùng 3 ngày&#x27; = amoxicillin theo đơn phòng khám khác cho viêm họng (nghi thứ hai); lý do thật = mẹ đọc bài trên mạng; nhiễu &#x27;phủ nhận triệu chứng nặng&#x27; ở bé (sợ tiêm, sợ cấm đá bóng), kết cục &#x27;tái phát&#x27; = bỏ thuốc sớm + còn lọ kẹo (không phải chẩn đoán sai; vẫn dưới 6 tuần).</li><li>Ràng buộc &#x27;ngoài giờ, không có kỹ thuật viên&#x27; khai khoa_cls nhom xn, xquang, sieu_am (app kéo theo CT, nội soi); công thức máu khai &#x27;có kết quả sáng mai&#x27; chấm a nhưng đáp án quyết định ngay đêm nay. Mức thông thường (20–30 sẩn phù, không phù mạch): kháng histamin là thuốc chính, corticoid chấm a; theo dõi thêm vài giờ chấm a theo sổ mâu thuẫn. Không có mâu thuẫn mới: dùng các mục sổ &#x27;Xét nghiệm thường quy&#x27;, &#x27;Corticoid uống&#x27;, &#x27;Mày đay đơn thuần có thuộc phản vệ độ I&#x27;, &#x27;Thời gian dùng kháng histamin&#x27;.</li><li>Liều loratadin 10 ml/ngày chọn trong khoảng 5–10 ml của QĐ 3942/2014 Bảng 3 (nguồn không theo cân nặng). Tài liệu đã đọc: QĐ 4416/2023 (Bệnh mày đay cả bài), QĐ 75/2015 (Bệnh mày đay cả bài), QĐ 3942/2014 (Bảng 2, 3, mục 2a), TL-0405 (mục 4.1, 4.2.2, 5.2.1, 5.4, 5.5.1, Bảng 8), TT 51/2017 (Điều 4, Phụ lục I–III), TL-0025 (Bảng 2 qua sổ mâu thuẫn). Chỗ thiếu tài liệu ghi ở mục nguon. Ảnh SCIN: dùng HA-DA-0140 (hông – sườn), HA-DA-0141 (cẳng tay); loại HA-DA-0142 (vùng mông – đùi, không phù hợp trẻ em) và HA-DA-0143 (tổn thương quá nhạt, có vùng che đen). Khai báo: nhap/DL-0246/DL-0246_media.json, cần thêm vào danh_muc_media.json trước khi xuất.</li></ul></details>
+<p class="chan-trang">Ca DL-0246 · phiên bản ca 1 · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

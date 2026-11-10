@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PK-0212 · Thai ngoài tử cung (phát hiện)</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · PK-0212</div>
+   <h1>Đau bụng bên phải</h1>
+   <p class="dich-gia">Huỳnh Thị Kim Loan · Nữ · 37 tuổi · 56 kg</p>
+   <div class="chips"><span class="chip">Phụ khoa - thai sớm</span><span class="chip">Điển hình</span><span class="chip">1 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Nội trợ, ở nhà nuôi ba con, phụ chồng trông quầy tạp hóa nhỏ trước nhà</dd><dt>Chiều cao, cân nặng</dt><dd>156 cm · 56 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi chị là &#x27;chị Loan&#x27;. Chị tự xưng &#x27;em&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;.</dd><dt>Tính cách</dt><dd>Hiền, hay tự trách, sợ làm phiền người khác nên đi khám một mình khi chồng đi giao hàng xa. Nói vòng vo, e dè mỗi khi chạm đến chuyện đàn bà; ngượng vì sắp 40 tuổi, đã có ba con, chồng từng nói thôi đủ con rồi. Đang uống thuốc huyết áp nên sợ bị mắng vì có thể đã có thai.</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Phòng khám chỉ làm được xét nghiệm cơ bản (công thức máu, sinh hóa nền, tổng phân tích nước tiểu) và que thử thai tại giường; không có siêu âm, X-quang, CT, nội soi; không định lượng được β-hCG, không làm nhóm máu và phản ứng chéo.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/1</span> </h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Nữ 37 tuổi, nội trợ, tên Huỳnh Thị Kim Loan, đi một mình bằng xe máy đến phòng khám đa khoa tư nhân lúc 9 giờ 40 sáng thứ Ba, nói đau bụng bên phải mấy ngày nay, sáng nay đau nhiều hơn. Da hơi xanh, tay ôm bụng dưới, nói dài dòng và nhảy từ chuyện này sang chuyện khác. Có tăng huyết áp, đang uống thuốc hạ áp. Phòng khám chỉ làm công thức máu, sinh hóa, tổng phân tích nước tiểu và que thử thai; không có siêu âm, X-quang. Sinh hiệu lúc tiếp đón: mạch 115 l/p, HA 96/60 mmHg, nhiệt độ 37,0 °C, nhịp thở 22 l/p, SpO₂ 98%.</p>
+  <blockquote>“Dạ chào bác sĩ. Em đau bụng bên phải mấy bữa nay, hôm qua đỡ đỡ mà sáng nay đau lại dữ lắm. Con bà Tư nhà bên mới mổ ruột dư hồi tháng trước, bả nói đau bên phải là ruột dư đó. Chồng em đi giao hàng tuần sau mới về, thằng út ở nhà ho hoài, em phải lo… Thuốc huyết áp em uống đều lắm. Bác sĩ coi giùm em có phải ruột dư không, cho em thuốc uống rồi em về nấu cơm cho tụi nhỏ.”</blockquote>
+  <div class="vitals"><div class="vs warn"><span>Mạch</span><b>115</b><small>l/p</small></div><div class="vs warn"><span>HA</span><b>96/60</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>37,0</b><small>°C</small></div><div class="vs warn"><span>Nhịp thở</span><b>22</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>11 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do nêu ra: đau bụng bên phải, lo ruột dư</b><span class="tag t-g">Tự kể</span></div><p>Em đau bụng bên phải mấy bữa nay, sáng nay đau nhiều hơn. Em sợ ruột dư vì con bà hàng xóm mới mổ ruột dư, nó cũng đau bên phải. Chồng em đi giao hàng xa, em tự chạy xe máy tới.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Diễn tiến đau: âm ỉ rồi dữ dội, mót rặn, choáng khi đứng</b><span class="tag t-b">Khi được hỏi</span></div><p>Bốn ngày trước đau âm ỉ dưới rốn lệch phải, không để ý. Hai giờ sáng nay đau quặn dữ dội, vã mồ hôi, phải ngồi bệt xuống nền nhà vệ sinh; đau mót rặn như muốn đi cầu. Sáng nay vào bếp đứng dậy thì tối sầm mắt, suýt ngã. Hôm qua uống 2 viên paracetamol 500 mg thì đỡ ít.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đau vai (kích thích phúc mạc do máu trong ổ bụng)</b><span class="tag t-r">Giấu</span></div><p>Lúc nằm ngửa em thấy nhói lên đầu vai bên phải, ngồi dậy thì đỡ.</p><div class="cond">Điều kiện nói ra: Chỉ kể khi bác sĩ hỏi đau có lan đâu không, có đau vai không, hoặc nằm ngửa có khác không. Hỏi &#x27;đau ở đâu&#x27; chung chung thì chỉ chỉ vào bụng dưới bên phải.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Ra huyết âm đạo sẫm màu kéo dài</b><span class="tag t-r">Giấu</span></div><p>Sáu ngày nay thấy rỉ máu âm đạo ít một, màu nâu sẫm như nước trà đặc, không phải máu tươi, không thấm đầy băng vệ sinh. Em tưởng là kinh dây dưa nên ngại nói.</p><div class="cond">Điều kiện nói ra: Hỏi chung chung &#x27;có gì khác thường không&#x27; thì đáp &#x27;không có gì đâu bác sĩ&#x27;. Chỉ nói khi bác sĩ hỏi riêng, nhẹ nhàng, giải thích phụ nữ tuổi sinh đẻ đau bụng nào cũng phải hỏi chuyện kinh nguyệt và ra huyết âm đạo; hoặc hỏi cụ thể &#x27;có ra máu ở dưới không&#x27;.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Trễ kinh khoảng 7 tuần</b><span class="tag t-r">Giấu</span></div><p>Lần kinh cuối cách nay khoảng bảy tuần ba ngày. Trước đó kinh đều 28–30 ngày. Em nghĩ vì sắp 40 tuổi nên kinh trễ, cũng ngại nghĩ tới chuyện có bầu vì chồng dặn thôi đủ ba đứa rồi.</p><div class="cond">Điều kiện nói ra: Hỏi &#x27;kinh nguyệt thế nào&#x27; thì đáp &#x27;cũng bình thường&#x27;. Chỉ nói ngày kinh cuối và việc trễ khi bác sĩ hỏi ngày đầu của kỳ kinh gần nhất, hoặc &#x27;có trễ kinh không&#x27;, hoặc &#x27;có khả năng có thai không&#x27; bằng giọng không phán xét.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khả năng có thai, biện pháp tránh thai không tin cậy</b><span class="tag t-r">Giấu</span></div><p>Vợ chồng em tính ngày, không dùng bao cao su hay thuốc. Khoảng năm sáu tuần trước có mấy lần không tránh. Chồng em chưa biết gì.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi riêng về quan hệ vợ chồng và biện pháp tránh thai, và đã cam đoan giữ kín nếu chị chưa muốn báo cho chồng.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dấu hiệu nghén kín đáo</b><span class="tag t-b">Khi được hỏi</span></div><p>Hai tuần nay buồn nôn buổi sáng, căng tức hai bên ngực, em tưởng đau dạ dày vì thuốc huyết áp.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiền sử viêm vùng chậu (yếu tố nguy cơ), sản khoa</b><span class="tag t-b">Khi được hỏi</span></div><p>Tám năm trước em bị viêm vùng chậu, huyết trắng hôi, đau bụng dưới, nằm bệnh viện huyện ba ngày truyền kháng sinh. Không mổ bụng bao giờ. Ba cháu đều sinh thường, không sảy thai, không phá thai.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Sàng lọc viêm ruột thừa, nhiễm khuẩn tiểu</b><span class="tag t-b">Khi được hỏi</span></div><p>Không sốt, không ớn lạnh. Ăn ít vì buồn nôn nhưng không nôn nhiều. Đại tiện bình thường trừ cảm giác mót rặn lúc đau. Tiểu không buốt, không tiểu máu, nước tiểu vàng bình thường.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc hạ áp, huyết áp nền</b><span class="tag t-b">Khi được hỏi</span></div><p>Amlodipin 5 mg uống mỗi sáng đã hai năm, sáng nay uống rồi. Huyết áp đo ở trạm y tế tháng trước 138/86. Ngoài ra không dùng thuốc nào, chỉ paracetamol hôm qua. Không dị ứng thuốc.</p></div><div class="fact"><div class="fh"><b>benh_nen</b><span class="tag t-b">Khi được hỏi</span></div><p>Chỉ có tăng huyết áp. Không đái tháo đường, không bệnh tim, không rối loạn đông máu, chưa từng truyền máu.</p></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>7 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Chị nằm nghiêng, co gối, mặt xanh xao, trán có mồ hôi, bàn tay mát.</p><p><span class="lbl">Kết quả:</span> Tỉnh, lo lắng, nằm nghiêng co gối trên giường khám. Da niêm nhợt, lòng bàn tay nhạt, mồ hôi lạnh ở trán và lòng bàn tay, đầu chi mát, thời gian đổ đầy mao mạch khoảng 3 giây. Cân nặng 56 kg. Không phù, không vàng da.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đo huyết áp tư thế nằm – đứng</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nằm: HA 96/60, mạch 115. Ngồi dậy 30 giây: HA 82/48, mạch 130, chị nói tối sầm mắt.</p><p><span class="lbl">Kết quả:</span> Nằm: HA 96/60 mmHg, mạch 115 l/p. Ngồi dậy khoảng 30 giây: HA 82/48 mmHg, mạch 130 l/p, tối sầm mắt, phải nằm xuống ngay; không cho đứng. HA nền của chị khoảng 138/86, nên tụt khoảng 40 mmHg tâm thu.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Bụng</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Bụng hơi chướng, chị nhăn mặt khi ấn hạ vị và hố chậu phải, thành bụng căng nhẹ.</p><p><span class="lbl">Kết quả:</span> Bụng hơi chướng, nửa dưới di động kém theo nhịp thở. Ấn đau nhiều nhất hố chậu phải và hạ vị, kèm co cứng nhẹ thành bụng; phản ứng dội dương tính ở hạ vị và hố chậu phải. Điểm McBurney không đau hơn hẳn các điểm lân cận. Gõ đục nhẹ vùng thấp hai bên. Không sờ thấy khối. Nhu động ruột giảm.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Khám phụ khoa: âm hộ, mỏ vịt (âm đạo, cổ tử cung, dịch), khám hai tay (lắc cổ tử cung, tử cung, phần phụ)</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Có ít máu sẫm màu ở cổ tử cung; khi khám hai tay chị đau dữ dội, giật người khi lắc cổ tử cung.</p><p><span class="lbl">Kết quả:</span> Âm hộ bình thường. Mỏ vịt: ít máu sẫm màu như bã cà phê rỉ từ lỗ cổ tử cung; cổ tử cung tím nhạt, đóng kín, không thấy mô. Khám hai tay: tử cung hơi to, mềm, nhỏ hơn tuổi thai tính theo kinh; lắc cổ tử cung đau dữ dội, chị giật người; túi cùng sau đầy và rất đau; phần phụ phải đau, không rõ khối. Không mủ ở cổ tử cung.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, nhanh, tần số 115 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 115 l/p, T1, T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – Tim đều, nhanh khoảng 115 l/p, T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-NHANH-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nhịp thở 22 l/p, thở nông.</p><p><span class="lbl">Kết quả:</span> Nhịp thở 22 l/p, nông. Rì rào phế nang êm hai bên, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b></div><p><span class="lbl">Kết quả:</span> Hố thắt lưng hai bên không đau khi gõ, cầu bàng quang không căng.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>6 mục</small></h3></summary><div class="row"><div class="rh"><b>Que thử thai nước tiểu (hCG, làm tại giường)</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Que thử thai nước tiểu (điều dưỡng Linh làm tại giường, 5 phút): DƯƠNG TÍNH, vạch thứ hai rõ.</p><p class="why">Phụ nữ tuổi sinh đẻ có hoạt động tình dục, đau bụng hoặc ra huyết âm đạo đều phải thử thai, dù đang dùng biện pháp nào (ACOG PB 193 2018, mục Chẩn đoán). Mọi nhân viên y tế chăm sóc phụ nữ tuổi sinh đẻ phải có sẵn que thử thai và nghĩ tới thai khi triệu chứng không đặc hiệu, giống bệnh tiêu hóa (NICE NG126 2026, mục 1.4.5, 1.4.6). Phản ứng hCG nước tiểu dương tính là một phần chẩn đoán (QĐ 315/2015, Chửa ngoài tử cung, mục 2.2).</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-g">Cần làm</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class="hi"><td>Số lượng bạch cầu (WBC)</td><td class="num">11,8 ↑</td><td>G/L</td><td class="ref">4,0–10,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu trung tính (NEU%)</td><td class="num">74,0</td><td>%</td><td class="ref">45–75</td></tr><tr class="hi"><td>Số lượng bạch cầu trung tính (NEU#)</td><td class="num">8,7 ↑</td><td>G/L</td><td class="ref">2,0–7,5</td></tr><tr class=""><td>Tỷ lệ bạch cầu lympho (LYM%)</td><td class="num">20,0</td><td>%</td><td class="ref">20–40</td></tr><tr class=""><td>Số lượng bạch cầu lympho (LYM#)</td><td class="num">2,4</td><td>G/L</td><td class="ref">1,0–4,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu mono (MONO%)</td><td class="num">5,0</td><td>%</td><td class="ref">2–10</td></tr><tr class=""><td>Số lượng bạch cầu mono (MONO#)</td><td class="num">0,6</td><td>G/L</td><td class="ref">0,2–1,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa acid (EOS%)</td><td class="num">0,8</td><td>%</td><td class="ref">0–7</td></tr><tr class=""><td>Số lượng bạch cầu ưa acid (EOS#)</td><td class="num">0,09</td><td>G/L</td><td class="ref">0–0,5</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa base (BASO%)</td><td class="num">0,2</td><td>%</td><td class="ref">0–1</td></tr><tr class=""><td>Số lượng bạch cầu ưa base (BASO#)</td><td class="num">0,02</td><td>G/L</td><td class="ref">0–0,1</td></tr><tr class="lo"><td>Số lượng hồng cầu (RBC)</td><td class="num">3,5 ↓</td><td>T/L</td><td class="ref">3,8–4,8</td></tr><tr class="lo"><td>Lượng huyết sắc tố (HGB)</td><td class="num">102 ↓</td><td>g/L</td><td class="ref">120–150</td></tr><tr class="lo"><td>Thể tích khối hồng cầu (HCT)</td><td class="num">0,31 ↓</td><td>L/L</td><td class="ref">0,36–0,46</td></tr><tr class=""><td>Thể tích trung bình hồng cầu (MCV)</td><td class="num">88,6</td><td>fL</td><td class="ref">80–100</td></tr><tr class=""><td>Lượng HST trung bình hồng cầu (MCH)</td><td class="num">29,1</td><td>pg</td><td class="ref">27–32</td></tr><tr class=""><td>Nồng độ HST trung bình hồng cầu (MCHC)</td><td class="num">329</td><td>g/L</td><td class="ref">320–360</td></tr><tr class=""><td>Dải phân bố kích thước hồng cầu (RDW-CV)</td><td class="num">13,4</td><td>%</td><td class="ref">11,5–14,5</td></tr><tr class=""><td>Số lượng tiểu cầu (PLT)</td><td class="num">268</td><td>G/L</td><td class="ref">150–400</td></tr></tbody></table><p class="why">Hb giảm nhẹ, bạch cầu tăng nhẹ do mất máu và kích thích phúc mạc; không đặc hiệu. Xét nghiệm trong sốc mất máu thường có kết quả chậm so với lâm sàng (TL-0034 QĐ 1493/2015, Sốc giảm thể tích máu, mục 4.1a), nên không được chờ kết quả để quyết định chuyển.</p></div><div class="row"><div class="rh"><b>Tổng phân tích nước tiểu</b><span class="tag t-y">Chấp nhận</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Tỷ trọng (SG)</td><td class="num">1,02</td><td></td><td class="ref">1,005–1,03</td></tr><tr class=""><td>pH</td><td class="num">6,0</td><td></td><td class="ref">5,0–8,0</td></tr><tr class=""><td>Bạch cầu (LEU)</td><td class="num">Âm tính</td><td>Leu/µL</td><td class="ref"></td></tr><tr class=""><td>Nitrit (NIT)</td><td class="num">Âm tính</td><td></td><td class="ref"></td></tr><tr class=""><td>Protein (PRO)</td><td class="num">Âm tính</td><td>g/L</td><td class="ref"></td></tr><tr class=""><td>Glucose (GLU)</td><td class="num">Âm tính</td><td>mmol/L</td><td class="ref"></td></tr><tr class=""><td>Thể ceton (KET)</td><td class="num">Âm tính</td><td>mmol/L</td><td class="ref"></td></tr><tr class=""><td>Hồng cầu (ERY)</td><td class="num">Âm tính</td><td>Ery/µL</td><td class="ref"></td></tr></tbody></table><p class="why">Giúp loại nhiễm khuẩn tiểu, sỏi niệu quản, nhưng không thay được que thử thai; không làm chậm việc chuyển.</p></div><div class="row"><div class="rh"><b>Siêu âm tử cung - phần phụ (qua bụng hoặc đầu dò âm đạo)</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Siêu âm đầu dò âm đạo tại bệnh viện tuyến trên: buồng tử cung trống, không có túi thai trong tử cung; khối cạnh buồng trứng phải khoảng 30 mm không đồng nhất, dịch tự do nhiều ở túi cùng Douglas và quanh gan.</p><p class="note">Thay thế khi cơ sở không có: Que thử thai nước tiểu (hCG, làm tại giường)</p><p class="why">Phòng khám không có siêu âm. Tối thiểu để chẩn đoán thai ngoài tử cung là siêu âm đầu dò âm đạo và xác nhận có thai (ACOG PB 193 2018, mục Chẩn đoán); dấu hiệu khối cạnh phần phụ, tử cung trống, dịch tự do nhiều (NICE NG126 2026, mục 1.7.1–1.7.4). Cách thay thế tại phòng khám: que thử thai + khám phụ khoa + sinh hiệu (QĐ 315/2015, Chửa ngoài tử cung, mục 2.3: chẩn đoán dựa vào lâm sàng và cận lâm sàng); người bệnh bất ổn thì không chờ hình ảnh để chuyển.</p></div><div class="row"><div class="rh"><b>β-hCG huyết thanh định lượng</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> β-hCG huyết thanh định lượng tại bệnh viện tuyến trên: 4.200 mIU/mL.</p><p class="why">Phòng khám không định lượng được β-hCG. Giá trị hCG đơn độc không đủ chẩn đoán, phải đối chiếu bệnh sử, triệu chứng và siêu âm (ACOG PB 193 2018, mục Chẩn đoán, khuyến cáo Level B); ngưỡng &quot;discriminatory&quot; nên đặt cao thận trọng, ví dụ tới 3.500 mIU/mL (ACOG PB 193 2018, cùng mục). Không ảnh hưởng quyết định chuyển ở người đã bất ổn.</p></div><div class="row"><div class="rh"><b>Nhóm máu ABO, Rh (con và mẹ)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Nhóm máu và thử phản ứng chéo: làm tại bệnh viện tuyến trên, nhóm O, Rh dương.</p><p class="why">Người sốc mất máu cần truyền khối hồng cầu; nếu chưa có máu cùng nhóm thì có thể truyền nhóm O, Rh âm cho phụ nữ tuổi sinh đẻ (TL-0034 QĐ 1493/2015, Sốc giảm thể tích máu, mục 5.3b). Phòng khám không làm được nên báo cho tuyến trên chuẩn bị máu.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Chuyển cấp cứu</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Thai ngoài tử cung nghi vỡ, có chảy máu vào ổ bụng, mất máu mức độ vừa, chưa sốc mất bù (thai khoảng 7 tuần theo kinh)</b></div><p class="why">Trễ kinh khoảng 7 tuần, ra huyết sẫm màu, đau hố chậu phải, đau vai, que thử thai dương tính, đau lắc cổ tử cung, túi cùng đầy; mạch 115 l/p, HA 96/60 so với nền 138/86 (QĐ 315/2015, Chửa ngoài tử cung, mục 2.1, 2.2, 2.3; NICE NG126 2026, mục 1.4.3, 1.4.4: mạch &gt; 100, huyết áp &lt; 100/60, đau lắc cổ tử cung, phản ứng phúc mạc). Mất máu: mạch &gt; 100 và HA giảm ít tương ứng độ II (TL-0034 QĐ 1493/2015, Sốc giảm thể tích máu, mục 4.2); chưa tới HA tâm thu &lt; 90 mmHg lúc nằm.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Dọa sảy thai</b></div><p class="why">Dọa sảy thai thường chỉ tức nặng hoặc đau âm ỉ hạ vị, cổ tử cung đóng, tử cung to tương ứng tuổi thai (QĐ 315/2015, Dọa sẩy thai, mục 2.1.1), không gây mạch nhanh, HA tụt, phản ứng phúc mạc và đau lắc cổ tử cung. Tử cung ở chị nhỏ hơn tuổi thai. Không có siêu âm nên không chứng minh được túi thai trong tử cung; dọa sảy chỉ nghĩ khi siêu âm đã thấy túi ối trong buồng tử cung (QĐ 315/2015, Chửa ngoài tử cung, mục 3).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm ruột thừa cấp</b></div><p class="why">Đau hố chậu phải nhưng không sốt, không rối loạn tiêu hóa, McBurney không nổi trội, và que thử thai dương tính; viêm ruột thừa &quot;không có phản ứng thai nghén&quot; (QĐ 315/2015, Chửa ngoài tử cung, mục 3). Ở phụ nữ tuổi sinh đẻ đau bụng phải thử thai trước khi nghĩ tới ngoại khoa (ACOG PB 193 2018, mục Chẩn đoán). Triệu chứng thai ngoài tử cung có thể giống bệnh tiêu hóa (NICE NG126 2026, mục 1.4.5).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm phần phụ, viêm vùng chậu cấp</b></div><p class="why">Có tiền sử viêm vùng chậu nhưng không sốt, không mủ cổ tử cung; viêm phần phụ phân biệt với chửa ngoài tử cung bằng hCG và soi ổ bụng (QĐ 315/2015, Chửa ngoài tử cung, mục 3). Tiền sử này là yếu tố nguy cơ của thai ngoài tử cung (ACOG PB 193 2018, mục Risk Factors).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Vỡ nang hoàng thể, nang noãn xuất huyết</b></div><p class="why">Cũng gây chảy máu trong và choáng, thường chỉ phân biệt được sau mổ (QĐ 315/2015, Chửa ngoài tử cung, mục 3). Que thử thai dương tính, trễ kinh 7 tuần, huyết sẫm màu và đau lắc cổ tử cung nghiêng về thai ngoài tử cung; xử trí ban đầu giống nhau: chuyển cấp cứu.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Sảy thai không hoàn toàn hoặc đang sảy</b></div><p class="why">Cổ tử cung đóng, không thấy mô thai, tử cung không to; sảy thai cổ tử cung đã mở và ra máu đỏ nhiều (QĐ 315/2015, Dọa sẩy thai, mục 2.1.2, 2.3).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Nhiễm khuẩn tiết niệu, sỏi niệu quản phải</b></div><p class="why">Hố thắt lưng không đau, nước tiểu không hồng cầu, bạch cầu, nitrit; đau không lan xuống bẹn kiểu quặn thận.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Nhận ra bất ổn huyết động ngay: cho chị nằm đầu bằng, không cho đứng hay tự đi lại, theo dõi mạch, HA liên tục</b></div><p class="why">Mạch nhanh, hạ huyết áp, thời gian đổ đầy mao mạch &gt; 2 giây là dấu sốc; hạ huyết áp còn được hiểu là giảm quá 40 mmHg so với nền (TL-0034 QĐ 1493/2015, Sốc giảm thể tích máu, mục 3.1a). Vận chuyển nằm đầu bằng (TL-0034 QĐ 1493/2015, Sốc giảm thể tích máu, mục 5.2). Ngồi dậy đã tụt còn 82/48 mmHg.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chuyển cấp cứu (gọi 115 hoặc xe cấp cứu có nhân viên y tế đi kèm) đến bệnh viện có sản phụ khoa và phòng mổ; không để chị tự đi</b></div><p class="why">Người bất ổn huyết động hoặc đau nhiều phải chuyển thẳng đến cấp cứu (NICE NG126 2026, mục 1.4.1); thai ngoài tử cung là cấp cứu sản khoa (QĐ 315/2015, Chửa ngoài tử cung, mục 4.1); bất ổn huyết động hoặc dấu chảy máu trong ổ bụng là chỉ định phẫu thuật (ACOG PB 193 2018, mục Surgical; QĐ 315/2015, mục 4.2.1). Chuyển người bệnh càng nhanh càng tốt (TL-0034 QĐ 1493/2015, Sốc giảm thể tích máu, mục 5.2).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Đặt đường truyền tĩnh mạch lớn, bắt đầu truyền NaCl 0,9%, giữ đường truyền trong lúc chờ xe</b></div><p class="why">Đặt đường truyền lớn và cố định chắc, bắt đầu NaCl 0,9% trước khi chuyển (TL-0034 QĐ 1493/2015, Sốc giảm thể tích máu, mục 5.2). Thể tích bù tại phòng khám: không có trong tài liệu đã tải; ở bệnh viện truyền nhanh 1–2 lít NaCl 0,9% hoặc Ringer lactat rồi đánh giá lại (TL-0034 QĐ 1493/2015, Sốc giảm thể tích máu, mục 5.3b).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Làm que thử thai nước tiểu ngay tại giường; không chờ thêm xét nghiệm hay hình ảnh mới chuyển</b></div><p class="why">Que thử thai là bước tối thiểu ở phụ nữ tuổi sinh đẻ đau bụng (ACOG PB 193 2018, mục Chẩn đoán; NICE NG126 2026, mục 1.4.6). Xét nghiệm trong sốc mất máu thường chậm (TL-0034 QĐ 1493/2015, Sốc giảm thể tích máu, mục 4.1a). Không có siêu âm tại chỗ.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Gọi điện báo trước cho khoa sản, cấp cứu bệnh viện nhận; bàn giao: thai dương tính, trễ kinh 7 tuần, sinh hiệu, khám bụng, khám phụ khoa, tiền sử viêm vùng chậu, đang uống amlodipin; ghi giờ xử trí</b></div><p class="why">Giải thích lý do chuyển và chuyển ngay đến dịch vụ phụ khoa cấp cứu khi có thai dương tính kèm đau, đau bụng, đau lắc cổ tử cung (NICE NG126 2026, mục 1.4.7, 1.4.12). Mẫu bàn giao SBAR: không có trong tài liệu đã tải (thực hành chung).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ghi trong phiếu chuyển để bệnh viện chuẩn bị nhóm máu, thử phản ứng chéo và truyền máu</b></div><p class="why">Sốc mất máu cần truyền khối hồng cầu ngay khi có máu, có thể dùng nhóm O Rh âm cho phụ nữ tuổi sinh đẻ khi chưa có máu cùng nhóm (TL-0034 QĐ 1493/2015, Sốc giảm thể tích máu, mục 5.3b). Phòng khám không làm được nhóm máu.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Nhịn ăn uống hoàn toàn từ bây giờ, đưa đi cùng điều dưỡng</b></div><p class="why">Chuẩn bị cho khả năng phẫu thuật gây mê (thực hành chung; không có trong tài liệu đã tải). Điều dưỡng đi cùng để duy trì đường truyền và theo dõi sinh hiệu trên đường.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Không dùng amlodipin thêm hôm nay; ghi thuốc huyết áp vào phiếu chuyển</b></div><p class="why">Huyết áp đang thấp do mất máu nên không có lý do dùng thuốc hạ áp; việc dùng lại do bệnh viện quyết định. Không có hướng dẫn cụ thể trong tài liệu đã tải.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Hỏi chị có đồng ý báo cho chồng không, chỉ báo khi chị đồng ý; cam đoan giữ kín trong khi vẫn bảo đảm an toàn</b></div><p class="why">Tôn trọng riêng tư của người bệnh; chị chưa nói với chồng. Dưới góc độ an toàn, cần có người nhà ký đồng ý mổ nếu chị không tự quyết được. Không có trong tài liệu đã tải; thiết kế của ca.</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Cho về, kê thuốc giảm đau và kháng sinh, hẹn tái khám sau 1–2 ngày vì nghĩ viêm ruột thừa hoặc viêm dạ dày</b></div><p class="why">Thai ngoài tử cung vỡ vẫn là nguyên nhân hàng đầu gây tử vong do chảy máu trong thai kỳ, chiếm 2,7% tử vong liên quan thai nghén năm 2011–2013 (ACOG PB 193 2018, mục Epidemiology). Mạch 115 l/p, HA 96/60 mmHg không cho phép về nhà (NICE NG126 2026, mục 1.4.1).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Giữ lại phòng khám nằm theo dõi vài giờ, truyền dịch, tiêm giảm đau rồi mới quyết định</b></div><p class="why">Phòng khám không có siêu âm, phòng mổ, máu; chờ làm mất thời gian đến phẫu thuật. Điều trị phẫu thuật là bắt buộc khi huyết động không ổn định hoặc có dấu chảy máu trong ổ bụng (ACOG PB 193 2018, mục Surgical).</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Điều trị nội khoa bằng methotrexate tiêm bắp ngay tại phòng khám</b></div><p class="why">Thai ngoài tử cung vỡ và người bệnh huyết động không ổn định là chống chỉ định tuyệt đối của methotrexate (ACOG PB 193 2018, Box 1); điều kiện nội khoa gồm huyết động ổn, khối chửa &lt; 3,5 cm, βhCG &lt; 5000 mIU/mL (QĐ 315/2015, mục 4.2.2). Phòng khám cũng không có hCG, siêu âm để chọn.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Chuyển tuyến bằng xe nhà, xe ôm hoặc taxi, không đường truyền, không nhân viên y tế đi kèm</b></div><p class="why">Trong lúc chuyển người bệnh sốc phải có đường truyền và theo dõi (TL-0034 QĐ 1493/2015, Sốc giảm thể tích máu, mục 5.2); xe nhà không đáp ứng. Không báo trước nên bệnh viện không chuẩn bị phòng mổ, máu.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Nghĩ viêm ruột thừa, chuyển ngoại khoa chờ mổ ruột thừa, không thử thai</b></div><p class="why">Không thử thai ở phụ nữ tuổi sinh đẻ đau hố chậu phải là bỏ sót thai ngoài tử cung (ACOG PB 193 2018, mục Chẩn đoán). Chuyển đúng khoa sản cấp cứu mới có phẫu thuật viên sản phụ khoa.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kết luận dọa sảy, kê progesterone, nghỉ ngơi giữ thai</b></div><p class="why">Chưa có siêu âm chứng minh thai trong tử cung nên không được chẩn đoán dọa sảy (QĐ 315/2015, Chửa ngoài tử cung, mục 3); điều trị dọa sảy không giải quyết mất máu trong ổ bụng.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Cho về, hẹn tái khám</span></div><p>Chị Loan được kê thuốc giảm đau, kháng sinh, hẹn tái khám 2 ngày vì nghi ruột dư hoặc viêm dạ dày, rồi chạy xe máy về một mình với mạch 115 l/p, HA 96/60 mmHg, bụng đã có phản ứng phúc mạc. Đây là tình trạng không an toàn để về (NICE NG126 2026, mục 1.4.1, 1.4.4). Ống dẫn trứng có thể vỡ hẳn khi chị ở nhà, chồng vắng nhà, ngất không ai thấy; thai ngoài tử cung vỡ là nguyên nhân hàng đầu gây tử vong do chảy máu trong thai kỳ (ACOG PB 193 2018, mục Epidemiology). Chị cũng lỡ cơ hội nói được lý do thật của mình.</p></div><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Chị Loan được cho nằm giường theo dõi vài giờ, tiêm giảm đau, truyền dịch rồi mới quyết định. Phòng khám không có siêu âm, máu, phòng mổ; mỗi giờ chờ là một giờ máu tiếp tục chảy vào ổ bụng khi mạch đã 115 l/p, HA 96/60 mmHg. Khi HA tâm thu xuống dưới 90 mmHg (TL-0034 QĐ 1493/2015, Sốc giảm thể tích máu, mục 3.1a) việc chuyển khó hơn, cần truyền máu nhiều, và thời gian đến phòng mổ kéo dài. Phẫu thuật bắt buộc khi huyết động không ổn định (ACOG PB 193 2018, mục Surgical).</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chị Loan được chuyển lên bệnh viện nhưng đi bằng xe ôm công nghệ hơn 40 phút, không đường truyền, không nhân viên y tế đi kèm, không báo trước khoa sản. Nếu ống dẫn trứng vỡ hẳn trên đường, không ai truyền dịch hoặc hồi sức được; người bệnh sốc phải có đường truyền và nằm đầu bằng khi vận chuyển (TL-0034 QĐ 1493/2015, Sốc giảm thể tích máu, mục 5.2). Bệnh viện nhận chị trong tình trạng bất ngờ, chậm chuẩn bị máu và phòng mổ.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Thai ngoài tử cung (nghi ở vòi trứng phải), nghi vỡ, có chảy máu vào ổ bụng: thai khoảng 7 tuần theo kinh, que thử thai dương tính</li><li>Mất máu mức độ II–III, huyết động ở ngưỡng: mạch 115 l/p, HA 96/60 mmHg so với nền 138/86 mmHg dưới amlodipin, tụt 82/48 mmHg khi ngồi dậy; chưa sốc mất bù hoàn toàn</li><li>Yếu tố nguy cơ: tiền sử viêm vùng chậu 8 năm trước; không dùng biện pháp tránh thai tin cậy</li><li>Bệnh nền: tăng huyết áp độ 1 đang dùng amlodipin 5 mg</li><li>Lý do thật: chị giấu ra huyết, trễ kinh, quan hệ vì ngượng, chỉ nêu đau bụng bên phải, lo ruột dư; hướng xử trí: chuyển cấp cứu đến bệnh viện có phẫu thuật sản phụ khoa</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự đúng: nghe chị kể, ngắt lời lịch sự để sắp trục thời gian → hỏi tuổi, thuốc, bệnh nền (nhận ra amlodipin, HA nền) → hỏi RIÊNG, nhẹ nhàng về kinh nguyệt, ra huyết, quan hệ, vì mọi phụ nữ tuổi sinh đẻ đau bụng đều cần hỏi → đau vai, ngất, mót rặn → sinh hiệu nằm, ngồi → khám bụng, khám phụ khoa → que thử thai → chẩn đoán → xử trí.</li><li>Chẩn đoán đúng dựa trên bộ ba chậm kinh, đau bụng dưới, ra huyết âm đạo, kèm khối cạnh tử cung hoặc đau khi lắc cổ tử cung và túi cùng sau đầy (QĐ 315/2015, Chửa ngoài tử cung, mục 2.1, 2.3). Ra máu thường ít một, sẫm màu, dai dẳng; chậm kinh đôi khi không rõ nên dễ bị che đi (QĐ 315/2015, mục 2.1). Triệu chứng thường gặp còn có chóng mặt, ngất, đau đầu vai, mót rặn, ngực căng, triệu chứng tiêu hóa (NICE NG126 2026, mục 1.4.3). Dấu thực thể: đau bụng, đau lắc cổ tử cung, phản ứng phúc mạc, mạch &gt; 100 l/p hoặc huyết áp &lt; 100/60 mmHg, hạ huyết áp tư thế (NICE NG126 2026, mục 1.4.4).</li><li>Bẫy nhẹ của ca: chị nêu &#x27;đau bên phải, chắc ruột dư&#x27;, tự giấu ra huyết, trễ kinh; amlodipin làm HA 96/60 trông &#x27;không quá thấp&#x27; nếu không biết HA nền 138/86. Chỉ khi hỏi riêng và so với nền mới thấy tụt khoảng 40 mmHg, đủ tiêu chuẩn hạ huyết áp theo nền (TL-0034 QĐ 1493/2015, Sốc giảm thể tích máu, mục 3.1a). Khoảng một nửa số ca thai ngoài tử cung không có yếu tố nguy cơ nào (ACOG PB 193 2018, mục Risk Factors); khoảng một phần ba theo NICE NG126 2026, mục 1.4.8. Chị có yếu tố nguy cơ (viêm vùng chậu cũ), nhưng không có yếu tố nguy cơ cũng không loại trừ.</li><li>Phân biệt: dọa sảy thai không gây mạch nhanh, tụt huyết áp, phản ứng phúc mạc (QĐ 315/2015, Dọa sẩy thai, mục 2.1.1); viêm ruột thừa có biểu hiện nhiễm trùng, rối loạn tiêu hóa, không có phản ứng thai nghén (QĐ 315/2015, Chửa ngoài tử cung, mục 3); vỡ nang xuất huyết và viêm phần phụ chỉ phân biệt được bằng hCG, siêu âm hoặc soi ổ bụng (QĐ 315/2015, mục 3). Phòng khám không siêu âm nên chẩn đoán dựa vào lâm sàng + que thử thai, và không cần siêu âm mới chuyển.</li><li>Mức mất máu: mạch &gt; 100, HA bình thường hoặc giảm ít, nhịp thở tăng, lo lắng ứng với độ II (750–1500 mL); độ III khi HA tâm thu &lt; 90 mmHg, mạch &gt; 120 (TL-0034 QĐ 1493/2015, Sốc giảm thể tích máu, mục 4.2). Chị đang giữa độ II và độ III (ước lượng, không phải số đo).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Chuyển cấp cứu, không theo dõi tại chỗ: thai ngoài tử cung là cấp cứu sản khoa cần chẩn đoán sớm, điều trị sớm (QĐ 315/2015, mục 4.1); người bất ổn huyết động phải chuyển thẳng cấp cứu (NICE NG126 2026, mục 1.4.1); bất ổn huyết động hoặc dấu chảy máu trong ổ bụng bắt buộc phẫu thuật (ACOG PB 193 2018, mục Surgical).</li><li>Trước và trong lúc chuyển: nằm đầu bằng, đường truyền lớn, NaCl 0,9%, theo dõi mạch HA (TL-0034 QĐ 1493/2015, Sốc giảm thể tích máu, mục 5.2). Thể tích dịch tại phòng khám: không có trong tài liệu đã tải; tại bệnh viện truyền nhanh 1–2 lít rồi đánh giá lại, truyền khối hồng cầu ngay khi có máu (TL-0034 QĐ 1493/2015, Sốc giảm thể tích máu, mục 5.3b). Không chờ xét nghiệm, vì kết quả thường chậm (TL-0034 QĐ 1493/2015, Sốc giảm thể tích máu, mục 4.1a).</li><li>Vì sao không điều trị methotrexate: chống chỉ định tuyệt đối khi vỡ hoặc huyết động không ổn định (ACOG PB 193 2018, Box 1); bệnh viện sẽ quyết định phẫu thuật (nội soi, hoặc mở bụng khi bất ổn hoặc nhiều máu ổ bụng) (ACOG PB 193 2018, mục Surgical). Điều kiện nội khoa: huyết động ổn, βhCG &lt; 5000 mIU/mL, khối chửa &lt; 3,5 cm (QĐ 315/2015, mục 4.2.2).</li><li>Phần thiết kế của ca, không có trong tài liệu đã tải: nhịn ăn uống, tạm ngưng amlodipin, hỏi ý kiến chị trước khi báo chồng.</li><li>Điều dưỡng Linh đi kèm trong xe cấp cứu; phòng khám ghi giờ xử trí, sinh hiệu từng 10–15 phút (con số tần suất: thiết kế của ca, không có trong tài liệu đã tải).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Natri clorid 0,9% (chai truyền)</b><div class="sub">Chai 500 mL</div></td><td data-l="Liều">Truyền nhanh qua đường truyền tĩnh mạch lớn (kim luồn cỡ lớn), đánh giá lại mạch, HA liên tục. Liều bù ban đầu tại bệnh viện 1–2 lít nhanh; thể tích tại phòng khám trước chuyển: không có trong tài liệu đã tải<div class="sub">Tĩnh mạch · Ngay khi đặt được đường truyền, trước và trong lúc chuyển</div></td><td data-l="Thời gian">Đến khi bàn giao tại bệnh viện</td><td class="gc" data-l="Ghi chú">TL-0034 QĐ 1493/2015, Sốc giảm thể tích máu, mục 5.2 (đường truyền lớn, NaCl 0,9%), mục 5.3b (1–2 lít nhanh).</td></tr><tr><td><b>Amlodipin 5 mg (thuốc chị đang có, không kê thêm)</b><div class="sub">Viên 5 mg</div></td><td data-l="Liều">Không uống thêm; chị đã uống sáng nay<div class="sub">Uống · Tạm không dùng đến khi bệnh viện quyết định</div></td><td data-l="Thời gian">Theo bệnh viện</td><td class="gc" data-l="Ghi chú">Huyết áp thấp do mất máu; không có hướng dẫn cụ thể trong tài liệu đã tải (thiết kế của ca).</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Chị Loan, em cám ơn chị đã nói. Chị không có lỗi gì. Mọi phụ nữ tuổi sinh đẻ đau bụng như vậy em đều hỏi về kinh nguyệt và việc ra máu, và chuyện này em giữ kín; chồng chị chỉ biết khi chị đồng ý.</li><li>Thử thai dương tính, kinh trễ gần 7 tuần, ra máu sẫm, đau bên phải, nhói đầu vai, mạch nhanh và huyết áp thấp so với thường ngày của chị cho thấy rất có thể thai nằm ngoài tử cung, trong ống dẫn trứng bên phải và đã chảy máu vào bụng (QĐ 315/2015, Chửa ngoài tử cung, mục 2.1, 2.3). Bệnh này nguy hiểm, nhưng chữa được nếu đến bệnh viện kịp (cần phẫu thuật) (ACOG PB 193 2018, mục Surgical).</li><li>Chị không được tự chạy xe máy hay đi xe ôm nữa. Em gọi xe cấp cứu, điều dưỡng đi cùng, em đã báo trước khoa sản. Từ giờ chị nằm yên, không ăn uống gì để kịp mổ nếu bác sĩ cần.</li><li>Dặn thêm: nếu chị đồng ý em gọi chồng chị tới bệnh viện ký giấy; chị mang theo vỉ amlodipin và phiếu này. Sau này nếu có thai lần nữa, đi siêu âm sớm để biết thai nằm ở đâu: tiền sử thai ngoài tử cung làm tăng nguy cơ tái phát khoảng 10% (ACOG PB 193 2018, mục Risk Factors).</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-8">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Thai ngoài tử cung (phát hiện)</b></div>
+<p class="note">Phải loại trừ: Dọa sảy, Viêm ruột thừa</p><p>Xe cấp cứu đến sau 18 phút; trong lúc chờ, chị đã có đường truyền NaCl 0,9% chạy nhanh, nằm đầu bằng, điều dưỡng Linh đi kèm, khoa sản đã được báo trước. Tại bệnh viện siêu âm đầu dò âm đạo thấy tử cung trống, khối cạnh buồng trứng phải khoảng 30 mm và nhiều dịch tự do; β-hCG 4.200 mIU/mL; HA tụt 80/50 mmHg trước mổ. Chị được mổ mở cấp cứu cắt vòi trứng phải, hút khoảng 1.500 mL máu trong ổ bụng và truyền 3 đơn vị khối hồng cầu; hồi sức một đêm, ra viện ngày thứ sáu với Hb 92 g/L. Chị mất một vòi trứng; sau mổ được tư vấn nguy cơ vô sinh và tái phát thai ngoài tử cung (50% vô sinh, 15% tái phát theo QĐ 315/2015, Chửa ngoài tử cung, mục 5). Xử trí tại phòng khám đúng và kịp, nhưng bệnh nhân vẫn mất một vòi trứng vì đã chảy máu trong nhiều ngày trước khi đến khám, một phần do ngại nói; mổ mở vì bất ổn huyết động và nhiều máu ổ bụng (ACOG PB 193 2018, mục Surgical). Diễn tiến sau chuyển viện, số đơn vị máu, thời gian nằm viện là thiết kế của ca.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-9">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Kể lể lộn xộn: bắt đầu bằng chuyện bà hàng xóm, chồng, đứa út ho, thứ tự ngày tháng lẫn lộn; bác sĩ phải ngắt lời lịch sự và hỏi từng ngày mới ra trục thời gian.</li><li>Lý do nêu ra (nghi ruột dư) che lý do thật (trễ kinh, ra huyết, khả năng có thai): chị ngại vì sắp 40 tuổi, chồng dặn thôi đủ con, và đang dùng thuốc huyết áp. Hỏi chung chung chị đáp &#x27;không có gì&#x27;; hỏi riêng nhẹ nhàng thì chị nói.</li><li>Amlodipin làm HA 96/60 mmHg trông &#x27;không quá thấp&#x27;; HA nền 138/86 mmHg mới cho thấy tụt khoảng 40 mmHg. Bác sĩ phải hỏi thuốc và HA nền.</li><li>Kê thuốc giảm đau, hẹn về, hoặc theo dõi tại chỗ đều nguy hiểm: chấm h hoặc w. Chuyển bằng xe nhà không đường truyền chấm w.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Mọi phụ nữ tuổi sinh đẻ đau bụng hoặc ra huyết âm đạo: thử thai trước, dù người bệnh phủ nhận khả năng có thai; đau hố chậu phải không mặc nhiên là ruột thừa.</li><li>Hỏi riêng chuyện kinh nguyệt, ra huyết, quan hệ bằng giọng không phán xét và cam đoan giữ kín; giải thích vì sao ai cũng phải hỏi để người bệnh dám nói.</li><li>Đọc sinh hiệu theo nền của người bệnh: đang dùng thuốc hạ áp thì 96/60 không còn &#x27;bình thường&#x27;; hạ huyết áp còn tính bằng mức giảm so với nền.</li><li>Biết giới hạn của phòng khám: không siêu âm, không máu, không phòng mổ thì quyết định là chuyển cấp cứu có đường truyền và báo trước, không phải chờ thêm xét nghiệm.</li><li>Chống outcome bias: xử trí đúng vẫn có thể mất một vòi trứng; đánh giá quyết định theo thông tin lúc đó, không theo kết cục.</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Thai ngoài tử cung: chậm kinh (có thể không rõ), ra máu ít sẫm màu dai dẳng, đau bụng dưới, khối cạnh tử cung hoặc đau lắc cổ tử cung (QĐ 315/2015, Chửa ngoài tử cung, mục 2.1, 2.3). Triệu chứng gồm đau đầu vai, ngất, mót rặn, triệu chứng tiêu hóa (NICE NG126 2026, mục 1.4.3).</li><li>Dấu thực thể: đau bụng, phần phụ, lắc cổ tử cung, phản ứng phúc mạc, mạch &gt; 100 l/p, huyết áp &lt; 100/60 mmHg, hạ huyết áp tư thế (NICE NG126 2026, mục 1.4.4). Bất ổn huyết động: chuyển thẳng cấp cứu (NICE NG126 2026, mục 1.4.1).</li><li>Phẫu thuật bắt buộc khi huyết động không ổn định, đau do vỡ, dấu chảy máu trong; methotrexate chống chỉ định khi vỡ hoặc bất ổn (ACOG PB 193 2018, mục Surgical, Box 1). Nội khoa chỉ khi khối &lt; 3,5 cm, βhCG &lt; 5000 mIU/mL, huyết động ổn (QĐ 315/2015, mục 4.2.2).</li><li>Sốc mất máu độ I–IV theo mạch, HA, nhịp thở, ý thức; độ II: mạch &gt; 100, HA bình thường hoặc giảm ít (TL-0034 QĐ 1493/2015, Sốc giảm thể tích máu, mục 4.2). Xử trí ban đầu: đường truyền lớn, NaCl 0,9%, nằm đầu bằng, chuyển nhanh (TL-0034 QĐ 1493/2015, Sốc giảm thể tích máu, mục 5.2). Hạ huyết áp: HA tâm thu &lt; 90 mmHg hoặc giảm &gt; 40 mmHg so với nền (TL-0034 QĐ 1493/2015, Sốc giảm thể tích máu, mục 3.1a).</li><li>hCG: một lần đo không chẩn đoán được vị trí thai; ngưỡng discriminatory nên đặt cao thận trọng (tới 3.500 mIU/mL); hCG đơn độc không chẩn đoán thai ngoài tử cung (ACOG PB 193 2018, mục Chẩn đoán).</li><li>Sau mổ chửa ngoài tử cung: 50% vô sinh, 15% tái phát (QĐ 315/2015, Chửa ngoài tử cung, mục 5); tiền sử một lần thai ngoài tử cung làm nguy cơ tái phát khoảng 10% (ACOG PB 193 2018, mục Risk Factors).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-10">Nguồn tài liệu <small>4</small></h3></summary><ul class=""><li>Bộ Y tế – QĐ 315/QĐ-BYT năm 2015, Hướng dẫn chẩn đoán và điều trị các bệnh sản phụ khoa – TL-0036 (bản chữ giống kho cũ) – bài Chửa ngoài tử cung (mục 1, 2.1, 2.2, 2.3, 2.4, 3, 4.1, 4.2, 5) và bài Dọa sẩy thai – sẩy thai (mục 2.1.1, 2.1.2, 2.3).</li><li>ACOG – Practice Bulletin No. 193: Tubal Ectopic Pregnancy, Obstet Gynecol 2018;131:e91–e103 – TL-0091 – mục Epidemiology, Risk Factors, How is an ectopic pregnancy diagnosed? (Transvaginal ultrasonography, Serum hCG), Who are candidates for surgical management, Box 1.</li><li>NICE – NG126 Ectopic pregnancy and miscarriage (2019, cập nhật 06/2026) – kho cũ tltk-10000-ca, Phụ khoa - thai sớm/Quốc tế – mục 1.4.1–1.4.8, 1.4.12, 1.7.1–1.7.4.</li><li>Bộ Y tế – QĐ 1493/QĐ-BYT năm 2015, Hướng dẫn chẩn đoán và xử trí hồi sức tích cực – TL-0034 – bài Sốc giảm thể tích máu (mục 3.1a, 4.1a, 4.2, 5.2, 5.3b).</li></ul></details>
+<details class="card"><summary><h3 id="m-11">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Phụ khoa - thai sớm</dd><dt>chan_doan_dich</dt><dd>Thai ngoài tử cung (phát hiện)</dd><dt>chan_doan_phai_loai_tru</dt><dd>Dọa sảy; Viêm ruột thừa</dd><dt>nhom_tuoi</dt><dd>Thanh niên (16–39 tuổi)</dd><dt>do_kho</dt><dd>Điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>dien_tien_tai_kham</dt><dd>Không áp dụng (ca 1 lượt khám)</dd><dt>nhieu_benh_nhan</dt><dd>Kể lể lộn xộn</dd><dt>rang_buoc_nguon_luc</dt><dd>Chỉ có xét nghiệm cơ bản</dd><dt>loai_ket_cuc</dt><dd>Xử trí đúng nhưng diễn tiến xấu</dd><dt>gioi</dt><dd>Nữ</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>1</dd><dt>nghe_nghiep</dt><dd>Nội trợ</dd><dt>yeu_to_khoi_phat</dt><dd>Không rõ yếu tố khởi phát</dd><dt>thuoc_dang_dung</dt><dd>Thuốc hạ áp đang dùng</dd><dt>ly_do_that_su_den_kham</dt><dd>Giấu triệu chứng thật vì ngại ngùng</dd></dl><ul class=""><li>Viết: 16/10/2026 (Sonnet 5.5). Đã đọc: TL-0036 bài Chửa ngoài tử cung (mục 1–5) và Dọa sẩy thai (mục 2, 3.1); TL-0091 các mục Epidemiology, Risk Factors, chẩn đoán, hCG, Box 1, điều trị phẫu thuật; NICE NG126 mục 1.4, 1.7, 1.15, 1.18; TL-0034 bài Sốc giảm thể tích máu; TL-0263 và TL-0053 (WSES viêm ruột thừa) chỉ để xác nhận không dùng điểm số cho ca này.</li><li>Chỗ thiếu tài liệu: thể tích NaCl 0,9% truyền tại phòng khám trước chuyển; nhịn ăn uống trước mổ; tạm ngưng amlodipin khi mất máu; mẫu bàn giao SBAR; tần suất theo dõi sinh hiệu trên xe; quyền riêng tư với chồng. Đã ghi &#x27;không có trong tài liệu đã tải&#x27; tại chỗ dùng.</li><li>Sổ mâu thuẫn: không có mâu thuẫn mới về xử trí. Hai khác biệt nhỏ đã ghi cách trình bày: tỉ lệ thai ngoài tử cung không có yếu tố nguy cơ (ACOG: một nửa; NICE: khoảng một phần ba) và ngưỡng hạ huyết áp (NICE &lt; 100/60 mmHg; TL-0034 tâm thu &lt; 90 mmHg hoặc giảm &gt; 40 mmHg so với nền); xem PK-0212_mau_thuan.md.</li><li>Thiết kế của ca: không có siêu âm tại phòng khám; β-hCG, nhóm máu làm ở tuyến trên; bệnh viện nhận có phòng mổ; xe cấp cứu đến sau 18 phút; HA nền 138/86 mmHg; thai ~7 tuần; các kết quả sau chuyển viện.</li><li>Danh mục đề xuất: bhcg (β-hCG huyết thanh định lượng, nhóm xn, không cơ bản); xem PK-0212_de_xuat_danh_muc.json.</li></ul></details>
+<p class="chan-trang">Ca PK-0212 · phiên bản ca 1 · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

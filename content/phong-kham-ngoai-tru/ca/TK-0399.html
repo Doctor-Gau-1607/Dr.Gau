@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TK-0399 · Động kinh (theo dõi)</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · TK-0399</div>
+   <h1>Hay bị ngất xỉu, chắc tụt đường huyết, xin thuốc bổ</h1>
+   <p class="dich-gia">Huỳnh Thị Lụa · Nữ · 67 tuổi · 52 kg</p>
+   <div class="chips"><span class="chip">Thần kinh - tiền đình - giấc ngủ</span><span class="chip">Không điển hình</span><span class="chip">2 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Nông dân (trồng lúa, rau màu, nuôi vài con heo)</dd><dt>Chiều cao, cân nặng</dt><dd>151 cm · 52 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi bà là ‘bà’ hoặc ‘dì’. Bà tự xưng ‘tui’ hoặc ‘dì’, gọi bác sĩ là ‘bác sĩ’ hoặc ‘con’. Con gái Hạnh gọi bà là ‘má’, gọi bác sĩ là ‘bác sĩ’.</dd><dt>Tính cách</dt><dd>Góa chồng từ năm ngoái, học hết lớp ba. Nói duyên nhưng vòng vo, hay lo xa, sợ làm phiền con cháu và sợ ‘xóm làng nói’. Tin lời người quen và thuốc nam, ít khi đi khám.</dd><dt>Người nhà</dt><dd>Lê Thị Hạnh – Con gái</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Phòng khám đa khoa xã không có máy siêu âm, nên cũng không có CT, MRI, nội soi; không có máy điện não. Làm được: xét nghiệm máu cơ bản (công thức máu, sinh hóa nền, điện giải, canxi), tổng phân tích nước tiểu, điện tim, đường huyết mao mạch tại giường. Bệnh viện tỉnh có khoa thần kinh, điện não đồ và MRI, cách khoảng 50 km (hơn một giờ xe khách). Bệnh viện huyện chỉ có khoa nội–ngoại cơ bản, không có điện não và MRI.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/2</span> </h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Nữ 67 tuổi, nông dân, con gái Hạnh đưa đi. Bà nói hay bị ‘ngất xỉu’, chắc tụt đường huyết, xin thuốc bổ và truyền nước. Thỉnh thoảng uống paracetamol khi nhức đầu. Cân nặng 52 kg. Sinh hiệu lúc tiếp đón: mạch 76 l/p, HA 138/84 mmHg, nhiệt 36,7 °C, nhịp thở 18, SpO₂ 98%.</p>
+  <blockquote>“Chào bác sĩ. Tui bị cái bệnh ngất, chắc tại tụt đường, hồi đám giỗ ông nhà tui đó, ăn thịt nhiều quá rồi xỉu một cái. Mà trước đó tui cũng hay đau lưng, thằng rể nói... để coi, giá lúa năm nay rớt nữa. Bác sĩ cho tui thuốc bổ, truyền chai nước biển cho khỏe.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>76</b><small>l/p</small></div><div class="vs"><span>HA</span><b>138/84</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,7</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>18</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>15 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do đến khám và yêu cầu ban đầu</b><span class="tag t-g">Tự kể</span></div><p>Đi khám vì ‘ngất xỉu’ mấy lần, bà tin là do tụt đường huyết hay ăn nhiều thịt. Con gái Hạnh bắt đi. Bà xin thuốc bổ và truyền nước.</p></div><div class="fact"><div class="fh"><b>Lời kể lan man</b><span class="tag t-g">Tự kể</span></div><p>Bà kể xen: giá lúa rớt, con heo nái bệnh, thuốc nam hạ áp của bà hàng xóm, chuyện đau lưng. Không giúp chẩn đoán.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dòng thời gian: ba cơn cách nhau trên 24 giờ</b><span class="tag t-b">Khi được hỏi</span></div><p>Theo thứ tự (lần theo cuốn lịch của Hạnh): ba cơn ‘xỉu’ thật sự. Cơn một 14 tuần trước, chiều ngày giỗ đầu của chồng. Cơn hai 9 tuần trước, 5 giờ sáng ở nhà. Cơn ba 3 tuần trước, 8 giờ sáng ngoài chợ. Giữa các cơn bà khỏe, vẫn làm ruộng.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Mô tả cơn: đờ ra, chép miệng, lú lẫn kéo dài</b><span class="tag t-b">Khi được hỏi</span></div><p>Cơn một: sau hai đêm gần như không ngủ để nấu cỗ, bà ăn rất nhiều thịt heo quay, gà. Đang nói chuyện thì khựng lại, mắt nhìn đờ, miệng chép chép, tay vuốt vạt áo, gọi không đáp; Hạnh thấy chừng 1–2 phút. Sau đó bà lơ ngơ, hỏi đi hỏi lại ‘tui làm sao vậy’, nói ú ớ khoảng 20 phút rồi nhức đầu, buồn ngủ. Người nhà cạo gió, cho uống nước đường.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Ba cơn rập khuôn như nhau</b><span class="tag t-b">Khi được hỏi</span></div><p>Cơn hai: Hạnh chạy sang, thấy má ngồi mép giường đờ ra, chép môi, vê mép chăn, gọi không đáp chừng một phút rưỡi, rồi lú lẫn khoảng 20 phút. Cơn ba: đang bán rau thì ngưng, mắt nhìn đâu đâu, mân nút áo chừng một phút, lú lẫn nửa tiếng. Giống hệt cơn một.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Aura bụng, mùi khét, quen quen: khởi phát cục bộ</b><span class="tag t-r">Giấu</span></div><p>Trước cả ba cơn đều có cảm giác lạ giống hệt: cồn cào từ bụng chạy lên cổ, mùi khét như cháy rơm, và ‘quen quen như từng thấy rồi’, chừng nửa phút. Cảm giác này thỉnh thoảng đến rồi qua, bà không xỉu (3–4 lần trong hai tháng nay).</p><div class="cond">Điều kiện nói ra: Hỏi chung ‘có báo trước gì không’ thì bà nói ‘không, tự nhiên xỉu’. Chỉ kể khi bác sĩ hỏi cụ thể trước khi xỉu có thấy gì lạ trong bụng, mùi vị, cảm giác quen quen không, hoặc có lần nào thấy lạ mà không xỉu.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Không co giật toàn thân: dễ nhầm với ngất</b><span class="tag t-b">Khi được hỏi</span></div><p>Chưa cơn nào co giật tay chân, sùi bọt mép, cắn lưỡi, tiểu dầm hay té đập đầu. Bà ngồi hoặc đứng khựng chứ không đổ rầm.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Loại trừ ngất</b><span class="tag t-b">Khi được hỏi</span></div><p>Không xảy ra khi vừa đứng dậy, đứng lâu, lúc đau hay hoảng sợ. Không tối sầm mắt, vã mồ hôi, hồi hộp, đau ngực báo trước. Tỉnh lại không nhanh mà lơ ngơ cả chục phút.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Loại trừ hạ đường huyết; gỡ neo ‘ăn nhiều đạm’</b><span class="tag t-b">Khi được hỏi</span></div><p>Không tiểu đường, không thuốc hạ đường. Cơn ba: người bán hàng bên cạnh đo bằng máy của chồng bà ấy ngay lúc bà còn lú lẫn được 6,4 mmol/L. Cơn hai xảy ra sáng sớm khi chưa ăn; uống nước đường không làm bà tỉnh nhanh hơn. Hai cơn sau không liên quan bữa cỗ mà bà đổ lỗi.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Sàng lọc TIA và đột quỵ</b><span class="tag t-b">Khi được hỏi</span></div><p>Chưa lần nào yếu hoặc tê nửa người, méo miệng, nói khó kéo dài, nhìn đôi hay mất thị lực một mắt. Sau cơn nói ú ớ chừng 20 phút rồi hết hẳn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Bệnh nền, yếu tố nguy cơ, sàng lọc nguyên nhân thực thể</b><span class="tag t-b">Khi được hỏi</span></div><p>Không tiểu đường, tim, đột quỵ, chấn thương đầu, viêm màng não; hồi nhỏ không co giật khi sốt; họ hàng không ai bị động kinh. Không rượu, thuốc lá, thuốc ngủ. Gần đây không sốt, đau đầu dữ dội, nôn, sụt cân, quên nhiều hay đổi tính.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc đang dùng</b><span class="tag t-b">Khi được hỏi</span></div><p>Paracetamol 500 mg, 1 viên khi nhức đầu âm ỉ vài giờ sau cơn hoặc khi đau gối, 2–3 lần mỗi tuần, không quá 2 viên một ngày. Thỉnh thoảng vitamin B nhà thuốc bán.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khí sắc, giấc ngủ</b><span class="tag t-r">Giấu</span></div><p>Từ khi chồng mất (13 tháng nay): ngủ 4–5 giờ mỗi đêm, hay thức 3 giờ sáng nghĩ chuyện cũ, ăn ít, buồn; không nghĩ làm hại bản thân.</p><div class="cond">Điều kiện nói ra: Hỏi chung ‘có sao không’ thì bà nói ‘ai mà không buồn, vậy thôi’. Chỉ kể khi bác sĩ hỏi cụ thể về giấc ngủ, ăn uống, tâm trạng từ khi chồng mất.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>An toàn sinh hoạt: bếp củi, nước, thang, xe máy, ở một mình</b><span class="tag t-b">Khi được hỏi</span></div><p>Bà ở một mình trong nhà vườn cạnh nhà Hạnh. Nấu bằng bếp củi, tắm gáo ở bể sau nhà, đi ruộng và ao mương mỗi ngày, hay trèo thang hái trái, chạy xe máy ra chợ. Chưa té, chưa bỏng.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Động cơ thật: sợ kỳ thị ‘bệnh điên’</b><span class="tag t-r">Giấu</span></div><p>Điều bà thật sự sợ: đây là bệnh ‘kinh phong’ như chú Tư, em chồng ngày trước bị xóm xa lánh, gọi là điên, sống một mình trong chòi cuối vườn đến lúc mất. Bà sợ con rể không cho trông cháu ngoại, sợ xóm biết, sợ thành gánh nặng cho con. Vì vậy chỉ nói ‘ngất’, ‘tụt đường’ và giấu chuyện chép môi, lú lẫn. Bà muốn nghe bác sĩ nói ‘không phải bệnh kinh phong’.</p><div class="cond">Điều kiện nói ra: Chỉ nói ra khi bác sĩ hỏi điều bà lo nhất, bà nghĩ mình bị bệnh gì, hoặc nhắc chú Tư hay bệnh ‘kinh phong’. Nếu bị hỏi dồn hoặc nghe chữ ‘động kinh’ một cách lạnh lùng thì bà chối ‘không phải, tui đâu có điên’ rồi im lặng.</div></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>7 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Thần kinh</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, định hướng đủ, nói trôi chảy. Dây sọ bình thường. Sức cơ 5/5 bốn chi, không Babinski; phản xạ gân xương đều; cảm giác bình thường; Romberg âm tính, đi thẳng.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đo huyết áp tư thế nằm – đứng</b></div><p><span class="lbl">Kết quả:</span> Nằm 138/84 mmHg, mạch 76. Đứng 1 phút 136/84, mạch 78; đứng 3 phút 134/82, mạch 80. Không chóng mặt.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 76 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 76 l/p, T1, T2 rõ, không âm thổi, không T3.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi, không T3.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Lồng ngực cân đối, rung thanh đều, gõ trong hai bên.</p><p><span class="lbl">Kết quả:</span> Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><span class="key">★</span><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Lưỡi hai bên không có vết cắn hay sẹo cắn. Niêm mạc miệng hồng. Cổ mềm, không hạch.</p></div><div class="row"><div class="rh"><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Gầy vừa, 52 kg, cao 151 cm, BMI 22,8. Da niêm hồng, không vết bầm, sẹo hay vết bỏng.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Khám tâm thần (dáng vẻ, khí sắc, tư duy, nhận thức, ý tưởng tự hại)</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, hợp tác, hơi lo lắng. Khí sắc trầm nhẹ; khi nhắc ‘bệnh kinh phong’ thì cúi mặt, mắt rưng rưng. Tư duy mạch lạc, không hoang tưởng, không ý tưởng tự hại.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>7 mục</small></h3></summary><div class="row"><div class="rh"><b>Đường huyết mao mạch (máy thử tại giường)</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Đường huyết mao mạch 5,8 mmol/L (ăn sáng nhẹ hai giờ trước).</p><p class="why">NICE NG217 mục 1.2.3: hạ đường huyết có thể gây cơn; ADA 2026 Bảng 6.4: hạ đường huyết khi &lt; 3,9 mmol/L; QĐ 2058/2020 bài 35 mục 3.2 (tr. 187). Cùng 6,4 mmol/L đo trong cơn ba (bà kể) loại trừ hạ đường huyết.</p></div><div class="row"><div class="rh"><b>Điện tâm đồ 12 chuyển đạo</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Nhịp xoang đều 76 l/p, trục bình thường, PR 160 ms, QRS 90 ms, QTc 420 ms. Không block nhĩ thất, không ST–T bất thường.</p><p class="why">NICE NG217 mục 1.2.2: điện tim 12 chuyển đạo sau cơn nghi động kinh; ESC 2018 mục 4.1.1: điện tim trong đánh giá ban đầu ngất. Bình thường nên không cần Holter hay siêu âm tim (ESC 2018 mục 4.1.1).</p></div><div class="row"><div class="rh"><b>Điện giải đồ (Na, K, Cl)</b><span class="tag t-b">Hữu ích</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Natri (Na⁺)</td><td class="num">138</td><td>mmol/L</td><td class="ref">135–145</td></tr><tr class=""><td>Kali (K⁺)</td><td class="num">4,1</td><td>mmol/L</td><td class="ref">3,5–5,0</td></tr><tr class=""><td>Clo (Cl⁻)</td><td class="num">102</td><td>mmol/L</td><td class="ref">98–106</td></tr></tbody></table><p class="why">Loại hạ natri gây cơn (NICE NG217 mục 1.2.3; QĐ 2058 mục 1, tr. 184). Natri nền cho lúc chọn thuốc (AGS Beers 2023 Bảng 4: carbamazepin, oxcarbazepin có thể gây hạ natri).</p></div><div class="row"><div class="rh"><b>Ure, creatinin, eGFR</b><span class="tag t-b">Hữu ích</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Ure</td><td class="num">5,2</td><td>mmol/L</td><td class="ref">2,5–7,5</td></tr><tr class=""><td>Creatinin</td><td class="num">78</td><td>µmol/L</td><td class="ref">53–100</td></tr><tr class="lo"><td>eGFR (CKD-EPI 2021)</td><td class="num">72 ↓</td><td>mL/ph/1,73m²</td><td class="ref">≥ 90</td></tr></tbody></table><p class="why">Cần khi chọn thuốc và liều về sau: AGS Beers 2023 Bảng 6 (levetiracetam giảm liều khi CrCl ≤ 80 mL/phút). Cockcroft–Gault ≈ 51 mL/phút (52 kg, creatinin 0,88 mg/dL), thấp hơn eGFR.</p></div><div class="row"><div class="rh"><b>Điện não đồ</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Phòng khám không có máy điện não. Điện não đồ lúc thức làm ở bệnh viện tỉnh theo giấy giới thiệu.</p><p class="why">NICE NG217 mục 1.2.5, 1.2.7: điện não lúc thức, càng sớm càng tốt (lý tưởng trong 72 giờ sau cơn); mục 1.2.6: không dùng để loại trừ động kinh; QĐ 2058 mục 3.1.4a (tr. 187). Không có tại cơ sở: lý do chuyển tuyến.</p></div><div class="row"><div class="rh"><b>MRI sọ não (kèm ống tai trong, góc cầu tiểu não khi cần), có thuốc đối quang từ</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> MRI sọ não: không u, không xuất huyết, không nhồi máu mới; tổn thương chất trắng quanh não thất mức nhẹ (Fazekas 1), không teo hồi hải mã rõ. (Nếu làm ở nơi có MRI.)</p><p class="why">NICE NG217 mục 1.3.1: MRI trong 6 tuần kể từ giới thiệu; mục 1.2.4. QĐ 2058 mục 2 (tr. 184): người trên 60 tuổi tìm u não, di căn, xơ cứng mạch máu, teo não. Cơ sở không có MRI: chuyển tuyến.</p></div><div class="row"><div class="rh"><b>Siêu âm tim</b><span class="tag t-r">Không cần</span></div><p class="why">Không có bệnh tim đã biết hay gợi ý bệnh cấu trúc (ESC 2018 mục 4.1.1). Cơ sở cũng không có siêu âm.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Chuyển tuyến / chuyên khoa</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Động kinh khởi phát muộn, nghi cơn cục bộ có suy giảm ý thức (ổ thái dương), chưa rõ nguyên nhân; cần điện não và MRI ở tuyến trên</b></div><p class="why">Ba cơn không có yếu tố khởi phát cách nhau hơn 24 giờ (ILAE 2014 Bảng 1; QĐ 2058/2020 bài 35 mục 1, tr. 184). Cơn rập khuôn: aura bụng–mùi khét → đờ, chép môi → lú lẫn ~20 phút, giống ví dụ ILAE 2025 (tr. 13) và ESC 2018 Bảng 10. Xác định cần điện não (QĐ 2058 mục 3.1, tr. 184) nên lượt này ghi ‘nghi’.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ngất (phản xạ, hạ huyết áp tư thế, do tim)</b></div><p class="why">Không tình huống khởi phát, không tiền triệu tối mắt–vã mồ hôi, HA nằm–đứng không tụt (ngưỡng ≥ 20/10 hoặc &lt; 90 mmHg, ESC 2018 mục 4.2.2.1), điện tim bình thường. Ngất hồi phục 10–30 giây, lú lẫn &lt; 10 giây; bà lú lẫn nhiều phút, có aura bụng–mùi lạ và chép môi (ESC 2018 mục 8.1.2, Bảng 10).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Cơn thiếu máu não thoáng qua (TIA) hoặc đột quỵ</b></div><p class="why">TIA là suy giảm chức năng thần kinh khu trú cấp, tạm thời trong 24 giờ (QĐ 5331/2020 mục 6, tr. 18); ESC 2018 mục 8.1.3: TIA thường là thiếu sót khu trú không mất ý thức. Bà có hiện tượng dương tính, rập khuôn, khám thần kinh bình thường. Tuổi 67 vẫn cần MRI (QĐ 2058 mục 2, tr. 184).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Hạ đường huyết</b></div><p class="why">Không tiểu đường; 6,4 mmol/L ngay trong cơn ba, 5,8 mmol/L lúc khám, trên ngưỡng 3,9 mmol/L (ADA 2026 Bảng 6.4). QĐ 2058 mục 3.2 (tr. 187): hạ đường huyết xảy ra lúc đói, dựa vào đường huyết; cơn một sau ăn no.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Cơn do rối loạn chuyển hóa hay nguyên nhân cấp (hạ natri, hạ canxi, nhiễm trùng, rượu, chấn thương)</b></div><p class="why">Na 138 mmol/L, không sốt, rượu, chấn thương (NICE NG217 mục 1.2.3; QĐ 2058 mục 1, tr. 184).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Trầm cảm sau mất chồng</b></div><p class="why">Khí sắc trầm nhẹ, ngủ 4–5 giờ 13 tháng nay, không ý tưởng tự hại: ghi nhận, hỏi lại (NICE NG217 mục 1.1.4, 9.2.3–9.2.4).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Để bà kể rồi ngắt nhẹ, tóm tắt thứ tự thời gian, hỏi từng cơn một; hỏi Hạnh điều chính mắt thấy; hỏi thẳng aura và thời gian lú lẫn sau cơn</b></div><p class="why">NICE NG217 mục 1.2.1 (lời người chứng kiến, video). ILAE 2025 (tr. 6): hỏi nhớ gì và đáp ứng ra sao thay vì ‘mất ý thức không’.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Khám thần kinh, huyết áp nằm–đứng, tim, lưỡi; làm điện tim và đường huyết mao mạch tại chỗ</b></div><p class="why">NICE NG217 mục 1.2.1–1.2.3; ESC 2018 mục 4.1.1, 4.2.2.1.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi điều bà lo nhất; nói rõ đây có thể là cơn từ não, có thuốc kiểm soát, không phải bệnh điên</b></div><p class="why">NICE NG217 mục 9.2.1 (kỳ thị), Box 1 (mục 2.1.11). QĐ 2058 mục 2 (tr. 189): khoảng 60% người điều trị ban đầu cắt được cơn.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chuyển tuyến có hẹn (không cấp cứu) lên khoa thần kinh bệnh viện tỉnh trong 2 tuần để điện não đồ và MRI sọ não</b></div><p class="why">NICE NG217 mục 1.1.1 (chuyên khoa trong 2 tuần), 1.2.5, 1.3.1 (MRI trong 6 tuần); QĐ 2058 mục 3.1.4 (tr. 187), mục 2 (tr. 184). Cơ sở không có điện não, CT, MRI. Không cấp cứu: thần kinh bình thường (NICE mục 7.1.1: cấp cứu khi cơn ≥ 5 phút).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chuẩn bị trước chuyển: thư giới thiệu ghi ngày giờ ba cơn, mô tả của Hạnh, aura, sinh hiệu, điện tim, xét nghiệm, thuốc đang dùng; Hạnh đi cùng với lịch ghi cơn, bà không tự chạy xe</b></div><p class="why">NICE NG217 mục 1.2.1, 1.1.8. Khung bàn giao SBAR: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn an toàn tạm thời, cách xử trí khi có cơn, dấu hiệu phải gọi cấp cứu; hỏi giấc ngủ và tâm trạng từ khi chồng mất</b></div><p class="why">NICE NG217 mục 1.1.8, Box 1 (tắm vòi, nấu ăn an toàn, tránh làm việc trên cao, lái xe), mục 10.1.2, 7.1.1, 1.1.4 và 9.2.2–9.2.4. Cách sơ cứu cụ thể không có trong tài liệu đã tải.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Paracetamol 500 mg 1 viên khi nhức đầu sau cơn, không quá 4 viên/ngày</b></div><p class="why">QĐ 361/2014 Phụ lục thuốc giảm đau mục 3.1: tối đa 4 g; Phụ lục NSAID mục 3.3: người cao tuổi gầy yếu dưới 3 g/ngày (sổ mâu thuẫn).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Bắt đầu thuốc chống động kinh (lamotrigin hoặc levetiracetam) ngay tại phòng khám trước khi có điện não và MRI</b></div><p class="why">Hai cách đều có nguồn. AAN/AES 2015: sau cơn đầu nếu có thêm cơn thì nên bắt đầu thuốc (57% sau 1 năm, 73% sau 4 năm). QĐ 2058 mục 4.1 (tr. 188): chỉ dùng khi đã xác định chắc loại cơn; NICE mục 4.2.1: khi chẩn đoán xác nhận. Cơn cục bộ: lamotrigin hoặc levetiracetam bậc một (NICE mục 5.2.1; mhGAP 2023 EPI3).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho về với chẩn đoán ‘tụt đường, ngất’, truyền dịch và thuốc bổ</b></div><p class="why">Truyền dịch, thuốc bổ theo yêu cầu: không có trong tài liệu đã tải; bỏ lỡ hẹn chuyên khoa 2 tuần (NICE NG217 mục 1.1.1).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Gọi xe cấp cứu hoặc nhập viện huyện ngay hôm nay</b></div><p class="why">Tỉnh hoàn toàn, cơn cuối cách 3 tuần: hẹn chuyên khoa trong 2 tuần (NICE NG217 mục 1.1.1); cấp cứu khi cơn ≥ 5 phút (mục 7.1.1).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Hẹn tái khám sau 1 tháng, chưa chuyển tuyến</b></div><p class="why">Chậm hơn mốc 2 tuần (NICE NG217 mục 1.1.1); phòng khám không có công cụ chẩn đoán xác định (QĐ 2058 mục 3.1.4, tr. 187).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê benzodiazepin hoặc thuốc ngủ cho mất ngủ, lo lắng</b></div><p class="why">AGS Beers 2023 Bảng 2–3: tránh ở người cao tuổi; mất ngủ của bà gắn với tang tóc (NICE NG217 mục 9.2.2).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Cho về, hẹn tái khám</span></div><p>Bà Lụa về nhà với chẩn đoán ‘tụt đường, ngất’ và thuốc bổ, không ai hẹn điện não hay MRI. Bà đã có ba cơn cách nhau hơn 24 giờ, đủ tiêu chuẩn động kinh (ILAE 2014 Bảng 1) và cần khám chuyên khoa trong 2 tuần (NICE NG217 mục 1.1.1); khi đã có thêm cơn thì nguy cơ cơn nữa rất cao (57% sau 1 năm, 73% sau 4 năm, AAN/AES 2015). Cơn kế tiếp có thể đến khi bà đứng bên bếp củi hay đi một mình bên mương.</p></div><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Giữ bà Lụa ở phòng khám truyền chai nước biển ‘cho khỏe’: bà đã tỉnh hẳn, thần kinh, điện tim và đường huyết (5,8 mmol/L) bình thường nên không còn gì để theo dõi. Truyền dịch theo yêu cầu không có trong tài liệu đã tải; phòng khám không có điện não, MRI nên chẩn đoán không tiến thêm, trong khi cần khám chuyên khoa trong 2 tuần (NICE NG217 mục 1.1.1).</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhập bà Lụa vào khoa nội bệnh viện huyện ‘tìm nguyên nhân ngất’ (Holter, siêu âm tim…) dù bà tỉnh táo, điện tim bình thường. Cơn có aura bụng–mùi khét, chép môi và lú lẫn kéo dài là kiểu động kinh hơn ngất (ESC 2018 mục 8.1.2, Bảng 10); bệnh viện huyện không có điện não, MRI nên bà nằm vài ngày rồi vẫn phải lên tuyến tỉnh (NICE NG217 mục 1.1.1, 1.2.5, 1.3.1).</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển cấp cứu</span></div><p>Gọi xe cấp cứu đưa bà Lụa 50 km lên bệnh viện tỉnh ngay trong ngày dù bà tỉnh hoàn toàn, không dấu thần kinh khu trú. NICE NG217 mục 1.1.1 chỉ cần hẹn khám trong 2 tuần và chỉ xem là cấp cứu khi cơn kéo dài từ 5 phút (mục 7.1.1). Xe cấp cứu trước nhà làm cả xóm biết, đúng điều bà sợ nhất, và bà có thể từ chối đi khám lần sau.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Động kinh khởi phát muộn (67 tuổi), nghi cơn cục bộ có suy giảm ý thức, ổ thái dương: ba cơn trong 14 tuần cách nhau hơn 24 giờ, rập khuôn, aura bụng–mùi khét, chép môi, lú lẫn sau cơn ~20 phút</li><li>Chưa xác định chắc loại cơn và nguyên nhân: cần điện não và MRI sọ não ở bệnh viện tỉnh</li><li>Đã loại trừ trong giới hạn tại chỗ: ngất, hạ đường huyết, rối loạn điện giải, TIA hoặc đột quỵ</li><li>Yếu tố đi kèm: khí sắc trầm nhẹ, mất ngủ 13 tháng sau mất chồng; sợ bị gọi là ‘bệnh điên’; sống một mình, bếp củi, ao mương, xe máy</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự đúng: để bà kể, ngắt nhẹ, tóm tắt theo thời gian rồi hỏi từng cơn một; hỏi Hạnh; hỏi thẳng aura; hỏi điều bà lo nhất. Khám thần kinh, huyết áp nằm–đứng, tim, lưỡi; điện tim, đường huyết, điện giải, creatinin (NICE NG217 mục 1.2.1–1.2.3; ESC 2018 mục 4.1.1).</li><li>Vì sao nghĩ động kinh: ≥ 2 cơn không có yếu tố khởi phát cách &gt; 24 giờ (ILAE 2014 Bảng 1; QĐ 2058/2020 bài 35 mục 1, tr. 184). ILAE 2025 (tr. 13) có ví dụ cùng chuỗi aura thượng vị → mất ý thức → tự động hóa (đo bằng đáp ứng và nhớ lại, tr. 6). ESC 2018 Bảng 10: aura lặp lại (dâng ở bụng, mùi khó chịu, déjà vu), chép môi kéo dài, lú lẫn nhiều phút nghiêng về động kinh.</li><li>Vì sao không điển hình: khởi phát muộn ở tuổi 67; không co giật, sùi bọt mép, cắn lưỡi, tiểu dầm; bà gọi là ‘ngất, tụt đường’; bà giấu chi tiết vì sợ ‘bệnh điên’.</li><li>Loại ngất: HA nằm 138/84 → đứng 3 phút 134/82 (dưới ngưỡng ≥ 20/10 hay &lt; 90 mmHg, ESC 2018 mục 4.2.2.1), điện tim bình thường. Loại TIA: thiếu sót thần kinh khu trú ≤ 24 giờ (QĐ 5331/2020 mục 6, tr. 18), bà toàn hiện tượng dương tính. Loại hạ đường huyết: 6,4 và 5,8 mmol/L, ngưỡng &lt; 3,9 (ADA 2026 Bảng 6.4; QĐ 2058 mục 3.2, tr. 187).</li><li>Người trên 60 tuổi: động kinh có thể do u não, di căn, xơ cứng mạch máu, teo não, thiếu máu não cấp (QĐ 2058 mục 2, tr. 184) nên MRI là phần của chẩn đoán; điện não bình thường không loại trừ (NICE mục 1.2.6).</li><li>Chưa cấp cứu: NICE mục 1.1.1 hẹn chuyên khoa trong 2 tuần, cấp cứu khi cơn ≥ 5 phút (mục 7.1.1). Hỏi tâm lý vì NICE mục 1.1.4 coi vấn đề tâm thần là yếu tố có thể sửa, mục 9.2.1: người bệnh dễ thấy bị kỳ thị.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Chuyển tuyến có hẹn, không cấp cứu: NICE NG217 mục 1.1.1, 1.2.5, 1.3.1; QĐ 2058 mục 3.1.4 (tr. 187). Phòng khám không có điện não, CT, MRI. Điện não bình thường vẫn không loại trừ (mục 1.2.6).</li><li>Chuẩn bị và bàn giao: thư giới thiệu ghi ba cơn có ngày giờ, mô tả của Hạnh, aura, sinh hiệu, điện tim, xét nghiệm, thuốc đang dùng, creatinin (CrCl ≈ 51 mL/phút). Hạnh đi cùng, mang lịch ghi cơn (NICE mục 1.2.1).</li><li>Chưa kê thuốc chống động kinh hôm nay: QĐ 2058 mục 4.1 (tr. 188) chỉ dùng khi đã xác định chắc loại cơn; NICE mục 4.2.1 khi chẩn đoán xác nhận; AAN/AES 2015 nói sau cơn thứ hai nên bắt đầu thuốc. Ba nguồn khác nhau ở thời điểm nên bắt đầu tại chỗ chấm ‘chấp nhận’.</li><li>Dặn an toàn (NICE mục 1.1.8, Box 1): tạm không tự chạy xe máy, không ao mương và trèo thang một mình, tắm có người gần, nhờ nấu thay bếp củi; gọi cấp cứu khi cơn ≥ 5 phút (mục 7.1.1). Trả lời nỗi sợ: có thuốc kiểm soát, khoảng 60% người điều trị ban đầu cắt được cơn (QĐ 2058 mục 2, tr. 189).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Paracetamol</b><div class="sub">500 mg</div></td><td data-l="Liều">1 viên mỗi lần khi nhức đầu, không quá 4 viên (2 g)/ngày<div class="sub">Uống · Khi nhức đầu sau cơn hoặc đau gối, sau ăn</div></td><td data-l="Thời gian">Khi cần, không dùng hằng ngày kéo dài</td><td class="gc" data-l="Ghi chú">QĐ 361/2014: 0,5 g × 4–6 viên/24 giờ, tối đa 4 g (Phụ lục thuốc giảm đau mục 3.1); người cao tuổi gầy yếu dưới 3 g/ngày (Phụ lục NSAID mục 3.3); 2 g/ngày nằm trong cả hai.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Má bị những cơn ngắn mất ý thức, chưa phải bệnh điên; có thể là cơn từ não và có thuốc kiểm soát. Cần điện não đồ và MRI ở khoa thần kinh bệnh viện tỉnh (QĐ 2058 mục 3.1.4, tr. 187; NICE mục 1.2.5, 1.3.1).</li><li>Đi khám trong 2 tuần (NICE mục 1.1.1): Hạnh đi cùng, mang giấy giới thiệu, lịch ghi cơn, kết quả xét nghiệm, điện tim. Quay video nếu có cơn.</li><li>Tạm thời chưa tự chạy xe máy; không tắm, ra ao mương hay trèo thang một mình; nhờ người ở gần khi dùng bếp củi (NICE mục 1.1.8, Box 1).</li><li>Khi có cơn: đặt má nằm nghiêng chỗ an toàn, dọn vật cứng xung quanh, tính thời gian, ở lại đến khi tỉnh. Chi tiết sơ cứu không có trong tài liệu đã tải.</li><li>Gọi 115 khi cơn kéo dài từ 5 phút, các cơn nối tiếp không tỉnh, bị thương hay bỏng, yếu hay tê nửa người, méo miệng, nói khó kéo dài (NICE mục 7.1.1; QĐ 5331/2020 mục 6).</li><li>Má muốn nói với ai về bệnh là quyền của má, bác sĩ giữ kín. Buồn, mất ngủ từ khi mất chồng thì nói ra để được giúp (NICE mục 9.2.1–9.2.4).</li><li>Paracetamol khi nhức đầu: 1 viên mỗi lần, tối đa 4 viên/ngày (QĐ 361/2014). Quay lại phòng khám với kết quả và đơn của bệnh viện tỉnh.</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-2">
+ <h2 id="h-luot-2"><span class="ln">Lượt 2/2</span> · sau 5 tuần</h2>
+ <div class="card intro"><h3 id="m-8">Tiếp đón</h3><p>Nữ 67 tuổi, con gái Hạnh đưa đi tái khám sau 5 tuần. Bà đã lên bệnh viện tỉnh khám khoa thần kinh theo giấy giới thiệu, đang uống levetiracetam 500 mg × 2 lần/ngày (khởi đầu 250 mg × 2, tăng sau hai tuần). Từ đó chưa thấy cơn mất ý thức nhưng còn vài lần thấy ‘lạ lạ’ trong người; bà hỏi có bỏ thuốc được chưa. Cân nặng 52 kg. Sinh hiệu lúc tiếp đón: mạch 74 l/p, HA 134/82 mmHg, nhiệt 36,6 °C, nhịp thở 18, SpO₂ 98%.</p>
+  <blockquote>“Bác sĩ hả, thuốc bệnh viện tỉnh cho tui uống thấy đỡ được chút chút. Mà cái hộp thuốc thằng rể tui thấy, nó nói thuốc thần kinh, thuốc điên, tui xấu hổ lắm. Mấy bữa trước lạ lạ trong người lại, chắc thuốc không hợp. Bác sĩ cho tui hỏi bỏ thuốc được chưa, uống hoài tốn tiền.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>74</b><small>l/p</small></div><div class="vs"><span>HA</span><b>134/82</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,6</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>18</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-9">Hỏi bệnh <small>8 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do tái khám và câu hỏi bỏ thuốc</b><span class="tag t-g">Tự kể</span></div><p>Tái khám sau 5 tuần, Hạnh đưa đi. Bà đã lên bệnh viện tỉnh khám khoa thần kinh theo giấy giới thiệu, đang uống levetiracetam. Mấy hôm trước lại thấy ‘lạ lạ’ trong người nên hỏi bỏ thuốc được chưa.</p></div><div class="fact"><div class="fh"><b>Lời kể lan man</b><span class="tag t-g">Tự kể</span></div><p>Bà kể xen: con rể thấy hộp thuốc, giá heo lên, nồi cơm điện sửa tốn tiền, bà hàng xóm hỏi sao má Hạnh đi bệnh viện tỉnh. Không giúp xử trí.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Kết quả và kế hoạch của tuyến trên</b><span class="tag t-b">Khi được hỏi</span></div><p>Giấy bệnh viện tỉnh (Hạnh đọc): điện não đồ lúc thức có sóng nhọn–chậm khu trú vùng thái dương trái. MRI sọ não: không u, không xuất huyết, không nhồi máu mới; tổn thương chất trắng quanh não thất mức nhẹ. Chẩn đoán: động kinh cục bộ khởi phát muộn, cơn có suy giảm ý thức. Levetiracetam 250 mg × 2 lần/ngày 2 tuần, rồi 500 mg × 2 lần/ngày; hẹn chuyên khoa sau 3 tháng, theo dõi thuốc tại phòng khám xã.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Mức đáp ứng: hết cơn mất ý thức, còn aura</b><span class="tag t-b">Khi được hỏi</span></div><p>Từ khi uống thuốc 5 tuần, không còn lần nào đờ ra, chép môi hay lú lẫn như ba cơn trước. Còn 3 lần cảm giác lạ (cồn cào từ bụng lên, mùi khét) mỗi lần vài chục giây, bà vẫn biết mình ở đâu, trả lời được; lần gần nhất cách đây chín ngày. Trước đó: 3 cơn trong 14 tuần và 3–4 lần cảm giác lạ trong 2 tháng.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tuân thủ: bỏ liều tối, ba lần aura sau đêm bỏ thuốc</b><span class="tag t-r">Giấu</span></div><p>Thật ra buổi sáng bà uống đều, nhưng buổi tối bỏ khoảng một phần ba số lần (chừng 10 lần trong 5 tuần) vì ngại con rể thấy hộp thuốc; bà giấu hộp trong thùng gạo, tối nào con rể ở nhà Hạnh thì không dám lấy. Cả ba lần cảm giác lạ đều rơi vào sáng hôm sau đêm bỏ thuốc.</p><div class="cond">Điều kiện nói ra: Hỏi chung ‘có uống thuốc đều không’ thì bà nói ‘đều mà, uống đều’. Chỉ kể thật khi bác sĩ hỏi cụ thể từng buổi sáng–tối, ‘lần gần nhất quên là khi nào’, hoặc bà cất thuốc ở đâu, uống lúc nào.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tác dụng phụ: buồn ngủ, cáu gắt</b><span class="tag t-b">Khi được hỏi</span></div><p>Hai tuần đầu hơi buồn ngủ ban ngày, nay đỡ. Dạo này hay cáu gắt với cháu ngoại và Hạnh. Không choáng, không té, không phát ban. Ngủ 5 giờ mỗi đêm, ăn được.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khí sắc, kỳ thị, kỳ vọng sai về thuốc</b><span class="tag t-b">Khi được hỏi</span></div><p>Vẫn buồn khi nhớ chồng, không ý nghĩ làm hại bản thân. Hạnh biết hết chuyện bệnh; bà mừng vì bác sĩ ở tỉnh nói ‘bệnh như tiểu đường, huyết áp, không phải điên’, nhưng chưa dám nói con rể và hàng xóm. Bà tưởng uống vài tuần hết cơn là bỏ như thuốc cảm, nghe nói ‘thuốc thần kinh uống lâu thành ngớ ngẩn’.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>An toàn sinh hoạt; không dấu hiệu mới</b><span class="tag t-b">Khi được hỏi</span></div><p>Sau lần khám trước bà nhờ Hạnh nấu bếp thay bếp củi, không còn chạy xe máy một mình, nhưng vẫn đi ruộng và tắm gáo ở bể sau nhà một mình. Không cơn mất ý thức, không té, không yếu hay tê nửa người, không đau đầu dữ dội, không sốt.</p></div></details>
+ <details class="card"><summary><h3 id="m-10">Khám <small>3 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Thần kinh</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, định hướng đủ, nói trôi chảy. Dây sọ bình thường, sức cơ 5/5 bốn chi, phản xạ đều, cảm giác bình thường, đi thẳng, Romberg âm tính. Không dấu thần kinh khu trú mới.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Khám tâm thần (dáng vẻ, khí sắc, tư duy, nhận thức, ý tưởng tự hại)</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, hợp tác, hơi mệt. Khí sắc trầm nhẹ, đôi lúc cáu khi nhắc con rể. Tư duy mạch lạc, không hoang tưởng, không ý tưởng tự hại.</p></div><div class="row"><div class="rh"><b>Đo huyết áp tư thế nằm – đứng</b></div><p><span class="lbl">Kết quả:</span> Nằm 134/82 mmHg, mạch 74. Đứng 3 phút 132/80, mạch 78. Không chóng mặt.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Tổng trạng, da niêm, vòng eo</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, tiếp xúc tốt. Da niêm hồng. Không vàng da.</p></div><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Tim</b><span class="tag t-m">Bình thường</span></div><p>Tim đều 74 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 18 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-11">Cận lâm sàng <small>3 mục</small></h3></summary><div class="row"><div class="rh"><b>Ure, creatinin, eGFR</b><span class="tag t-g">Cần làm</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Ure</td><td class="num">5,0</td><td>mmol/L</td><td class="ref">2,5–7,5</td></tr><tr class=""><td>Creatinin</td><td class="num">76</td><td>µmol/L</td><td class="ref">53–100</td></tr><tr class="lo"><td>eGFR (CKD-EPI 2021)</td><td class="num">74 ↓</td><td>mL/ph/1,73m²</td><td class="ref">≥ 90</td></tr></tbody></table><p class="why">AGS Beers 2023 Bảng 6; SmPC Keppra mục 4.2 (nguồn bổ sung tự tìm): CrCl 50–79 mL/phút dùng 500–1.000 mg × 2 lần/ngày. Cockcroft–Gault ≈ 52 mL/phút (52 kg, creatinin 0,86 mg/dL).</p></div><div class="row"><div class="rh"><b>Điện não đồ</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Phòng khám không có máy điện não. Điện não đã làm ở bệnh viện tỉnh (xem giấy): sóng nhọn–chậm khu trú thái dương trái.</p><p class="why">Không lặp lại: đã có loại cơn (NICE NG217 mục 1.2.5).</p></div><div class="row"><div class="rh"><b>MRI sọ não (kèm ống tai trong, góc cầu tiểu não khi cần), có thuốc đối quang từ</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Đã chụp ở bệnh viện tỉnh (xem giấy): không u, không xuất huyết, không nhồi máu mới; tổn thương chất trắng quanh não thất mức nhẹ.</p><p class="why">Không lặp lại: NICE NG217 mục 1.3.6 chỉ chụp thêm khi phim chưa đạt, có đặc điểm mới hoặc cân nhắc phẫu thuật. Cơ sở không có MRI.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-12">Đáp án lượt 2 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Động kinh cục bộ khởi phát muộn có suy giảm ý thức (ổ thái dương trái), đáp ứng một phần levetiracetam 1.000 mg/ngày: hết cơn mất ý thức, còn aura, do bỏ khoảng một phần ba liều tối và liều chưa tới mức tối ưu</b></div><p class="why">Hết cơn mất ý thức, còn 3 aura trong 5 tuần, cả ba sau đêm bỏ thuốc. Chưa phải thất bại: NICE NG217 mục 4.1.4 chỉ xét lại chẩn đoán khi cơn tiếp diễn dù liều tối ưu; QĐ 2058 mục 4.1 (tr. 188) kháng thuốc là sau ba loại thuốc. Bỏ thuốc là yếu tố nguy cơ tử vong có thể giảm (NICE mục 10.1.2).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Thất bại điều trị hoặc động kinh kháng thuốc</b></div><p class="why">Mới 5 tuần, liều 1.000 mg/ngày thấp hơn tối đa theo thận, tuân thủ khoảng hai phần ba (NICE mục 4.1.4; QĐ 2058 mục 4.1, tr. 188).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tác dụng phụ hành vi của levetiracetam</b></div><p class="why">Cáu gắt mới có thể do thuốc (SmPC Keppra mục 4.4, nguồn bổ sung tự tìm), nhưng cũng do tang tóc, ngủ ít, căng thẳng với con rể. Chưa nặng: theo dõi, chưa đổi thuốc (NICE mục 9.2.2–9.2.4).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Trầm cảm</b></div><p class="why">Khí sắc trầm nhẹ, ngủ 5 giờ, không ý tưởng tự hại: theo dõi, hỏi lại (NICE mục 9.2.3–9.2.4).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi cụ thể từng buổi sáng–tối, lần gần nhất quên, nơi cất thuốc; đối chiếu ngày bỏ thuốc với ngày có cảm giác lạ</b></div><p class="why">NICE NG217 Box 1 (mục 2.1.11: tuân thủ, tác dụng phụ), mục 4.4.3, 7.1.5 và 10.1.2 (bỏ thuốc là yếu tố nguy cơ).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Xác định đây là đáp ứng một phần chưa phải thất bại; giữ levetiracetam, chưa đổi hay thêm thuốc</b></div><p class="why">NICE NG217 mục 4.1.3, 4.1.4; QĐ 2058/2020 mục 4.1 (tr. 188): đổi thuốc khi liều đã cao mà không cắt cơn.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giữ levetiracetam 500 mg × 2 lần/ngày, uống đều sáng và tối; hộp chia liều, gắn với bữa cơm, chỗ cất bà tự chọn, Hạnh nhắc</b></div><p class="why">Hai nguồn liều. QĐ 2058 mục 4.2.1 (tr. 189): 1.000–3.000 mg/ngày, không chỉnh theo thận. SmPC Keppra mục 4.2 (nguồn bổ sung tự tìm): CrCl 50–79 mL/phút dùng 500–1.000 mg × 2; AGS Beers 2023 Bảng 6: giảm liều khi CrCl ≤ 80. Bà CrCl ≈ 52 nên 1.000 mg/ngày nằm trong cả hai; tối đa thận trọng hơn là 2.000 mg/ngày.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi tác dụng phụ (buồn ngủ, cáu gắt, trầm cảm, ý nghĩ tự hại), khám tâm thần, hẹn hỏi lại khí sắc</b></div><p class="why">SmPC Keppra mục 4.4 (nguồn bổ sung tự tìm); NICE NG217 mục 4.1.2, 9.2.2–9.2.4.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích bằng lời bà hiểu: đây là thuốc chống động kinh, không phải ‘thuốc điên’; đỡ một phần lúc này là bình thường; uống đều nhiều năm, không tự bỏ; bàn việc ngừng thuốc chỉ sau nhiều năm hết cơn</b></div><p class="why">QĐ 2058/2020 mục 2 (tr. 190): có thể ngừng khi cắt cơn 2,5–5 năm, không dừng đột ngột; NICE NG217 mục 4.6.2: sau 2 năm không cơn thì đánh giá cá nhân việc ngừng thuốc (hai mốc khác nhau, sổ mâu thuẫn); mục 9.2.1: kỳ thị.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn an toàn còn lại: tắm có người gần, Hạnh gọi mỗi sáng–tối hoặc cho má ngủ gần, chưa chạy xe máy đến khi chuyên khoa cho phép; nêu mốc quay lại tuyến trên</b></div><p class="why">NICE NG217 mục 10.1.2, 10.1.5, Box 1; mục 3.1.3 và 7.1.1 (mốc chuyển); WHO mhGAP 2023 EPI3.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn tái khám sau 4 tuần cùng lịch cơn; giữ hẹn chuyên khoa sau 3 tháng</b></div><p class="why">NICE NG217 mục 4.4.1. Số tuần 4: nhận định lâm sàng (SmPC Keppra mục 4.2: đổi liều theo bậc mỗi 2–4 tuần).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Nâng ngay lên 750 mg × 2 lần/ngày (1.500 mg/ngày) vì còn aura</b></div><p class="why">Chấp nhận: SmPC Keppra mục 4.2 đổi theo bậc 250–500 mg × 2 mỗi 2–4 tuần, CrCl 50–79 tối đa 1.000 mg × 2; QĐ 2058 (1.000–3.000 mg/ngày). Nhưng bà chưa uống đủ liều nên chưa thử được hiệu quả liều hiện tại.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Đo nồng độ levetiracetam máu</b></div><p class="why">NICE NG217 mục 4.4.3: cân nhắc khi cơn không kiểm soát hoặc tuân thủ kém. Phòng khám không làm được.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Đổi sang lamotrigin hoặc thêm thuốc thứ hai (carbamazepin, valproat, phenobarbital)</b></div><p class="why">NICE NG217 mục 4.1.3, 4.1.5–4.1.6: đổi hoặc thêm thuốc khi đơn trị thất bại, chưa thất bại; QĐ 2058 mục 4.1 (tr. 188); AGS Beers 2023 Bảng 3, 4.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Chuyển tuyến hoặc nhập viện vì ‘thất bại thuốc’</b></div><p class="why">NICE NG217 mục 3.1.3: tiêu chí chuyển tuyến ba chưa thỏa; bà đã hẹn chuyên khoa sau 3 tháng.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê thuốc ngủ hoặc benzodiazepin cho mất ngủ</b></div><p class="why">AGS Beers 2023 Bảng 2–3, 5: tránh ở người cao tuổi.</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Đồng ý cho bỏ levetiracetam vì đỡ rồi hoặc vì tốn tiền</b></div><p class="why">QĐ 2058/2020 mục 3 (tr. 190): không dừng đột ngột để tránh tái phát; mục 2 (tr. 190): ngừng thuốc sau cắt cơn 2,5–5 năm. NICE NG217 mục 4.6.2, 4.6.4: sau 2 năm không cơn mới đánh giá, giảm thuốc dần trên 3 tháng.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển bà Lụa trở lại bệnh viện tỉnh vì ‘thuốc không hiệu quả’ khi mới uống 5 tuần ở 1.000 mg/ngày, thấp hơn mức tối đa theo độ lọc thận của bà, và bà vừa thú nhận bỏ khoảng một phần ba liều tối. NICE NG217 mục 3.1.3 chỉ chuyển tuyến ba khi nghi ngờ chẩn đoán, kháng thuốc hoặc tác dụng phụ không chịu nổi; bà đã có chẩn đoán rõ. Chuyến đi 50 km tốn ngày ruộng và củng cố nỗi sợ ‘bệnh nặng’.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhập viện ‘chỉnh thuốc’ cho bà Lụa dù bà tỉnh táo, 5 tuần không còn cơn mất ý thức, chỉ còn cảm giác lạ ngắn. NICE NG217 mục 4.1.2 khuyên người cao tuổi khởi đầu liều thấp và tăng chậm, làm được ngoại trú. Nằm viện làm hàng xóm biết, đúng điều bà sợ, mà nguyên nhân thật là bỏ liều tối thì không được giải quyết.</p></div><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Giữ bà Lụa ở phòng khám vài giờ không giúp gì: bà tỉnh táo, thần kinh bình thường và cảm giác lạ đã hết từ nhiều ngày trước. Việc cần làm là hỏi kỹ từng buổi uống thuốc, nói về nỗi ngại của bà, đổi cách cất–uống thuốc rồi hẹn khám lại (NICE NG217 mục 4.4.3, Box 1 mục 2.1.11).</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Động kinh cục bộ khởi phát muộn, cơn có suy giảm ý thức, ổ thái dương trái (điện não: sóng nhọn–chậm thái dương trái; MRI không u, không nhồi máu mới), đang điều trị levetiracetam 1.000 mg/ngày</li><li>Đáp ứng một phần sau 5 tuần: hết cơn mất ý thức, còn 3 lần aura ngắn khi vẫn tỉnh; chưa phải thất bại</li><li>Nguyên nhân còn aura: bỏ khoảng một phần ba liều tối (chừng 10 lần/5 tuần) vì ngại con rể thấy thuốc; cả ba lần aura sau đêm bỏ thuốc</li><li>Thận: creatinin 76 µmol/L, eGFR 74, CrCl ≈ 52 mL/phút: liều tối đa thận trọng 2.000 mg/ngày</li><li>Tâm lý: khí sắc trầm nhẹ, cáu gắt mới (tang tóc, thiếu ngủ, một phần có thể do thuốc), không ý nghĩ tự hại; sợ ‘thuốc thần kinh’, chưa nói với con rể</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự đúng: hỏi mức đáp ứng cụ thể (số cơn mất ý thức, số lần aura), hỏi từng buổi uống thuốc và nơi cất, tác dụng phụ, tâm trạng; xem giấy bệnh viện tỉnh; khám thần kinh, tâm thần; creatinin để chỉnh liều (NICE NG217 mục 2.1.11, Box 1; 4.4.3; AGS Beers 2023 Bảng 6).</li><li>Trước: 3 cơn mất ý thức trong 14 tuần; nay 0 cơn, 3 aura. Đáp ứng một phần, chưa phải thất bại: mới 5 tuần, uống khoảng hai phần ba số liều. NICE mục 4.1.4 chỉ xét lại chẩn đoán khi cơn tiếp diễn dù liều tối ưu; QĐ 2058 mục 4.1 (tr. 188) kháng thuốc là sau ba loại thuốc. Thời gian thử tối thiểu một thuốc: không có trong tài liệu đã tải.</li><li>Hỏi cụ thể từng buổi mới ra bà bỏ liều tối vì ngại con rể thấy hộp thuốc, ba lần aura đều sau đêm bỏ thuốc. NICE mục 7.1.5 và 10.1.2: bỏ thuốc là nguyên nhân trạng thái động kinh và yếu tố nguy cơ tử vong có thể giảm.</li><li>Cáu gắt mới có thể do thuốc (SmPC Keppra mục 4.4, nguồn bổ sung tự tìm), tang tóc hoặc ngủ ít: chưa nặng, theo dõi, không vội đổi thuốc (NICE mục 9.2.2–9.2.4). Không dấu thần kinh mới, Na 138 mmol/L; điện não và MRI đã có, không lặp lại (NICE mục 1.3.6).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Giữ levetiracetam 500 mg × 2 lần/ngày, chưa đổi hay thêm thuốc (NICE mục 4.1.3, 4.1.4; QĐ 2058 mục 4.1, tr. 188). Liều: QĐ 2058 mục 4.2.1 (tr. 189) 1.000–3.000 mg/ngày; SmPC Keppra mục 4.2 ở CrCl 50–79 mL/phút là 500–1.000 mg × 2; Beers 2023 Bảng 6 giảm liều khi CrCl ≤ 80. QĐ 2058 không chỉnh theo thận; bà CrCl ≈ 52 nên 1.000 mg/ngày nằm trong cả hai, tối đa thận trọng 2.000 mg/ngày.</li><li>Sửa tuân thủ trước khi sửa liều (NICE NG217 2022 mục 9.2.1): hộp chia liều sáng–tối, gắn với bữa cơm, bà tự chọn chỗ cất kín đáo, Hạnh nhắc; hỏi bà có muốn Hạnh nói giúp với con rể. Chỉ thêm 250 mg × 2 lần/ngày sau 4–6 tuần uống đều mà vẫn còn cơn (SmPC Keppra mục 4.2: đổi liều mỗi 2–4 tuần); nâng ngay vẫn chấp nhận nhưng chưa thử được liều đang dùng.</li><li>Theo dõi buồn ngủ, cáu gắt, trầm cảm, ý nghĩ tự hại (SmPC Keppra mục 4.4; NICE mục 9.2.2–9.2.4); dặn bà và Hạnh báo ngay khi buồn nhiều hoặc có ý nghĩ tự hại. Không đo nồng độ thuốc (NICE mục 4.4.3 chỉ cân nhắc).</li><li>Giải thích kỳ vọng: uống đều nhiều năm. QĐ 2058 mục 2 (tr. 190): ngừng khi cắt cơn 2,5–5 năm; NICE mục 4.6.2: đánh giá cá nhân sau 2 năm không cơn, giảm thuốc chậm trên 3 tháng (4.6.4). Không dừng đột ngột (QĐ 2058 mục 3, tr. 190).</li><li>An toàn (NICE mục 10.1.2, 10.1.5, Box 1): Hạnh gọi mỗi sáng–tối hoặc cho má ngủ gần, tắm có người, chưa chạy xe máy. Chuyển sớm khi cơn mất ý thức tái phát dù uống đều, cơn ≥ 5 phút, dấu thần kinh mới, tác dụng phụ không chịu nổi (NICE mục 3.1.3, 7.1.1; mhGAP 2023 EPI3).</li><li>Không nên: chuyển tuyến, nhập viện vì ‘thất bại’; đổi carbamazepin hoặc thêm thuốc (NICE mục 4.1.5–4.1.6; Beers 2023 Bảng 3, 4); thuốc ngủ, benzodiazepin (Beers 2023 Bảng 2–3, 5); bỏ thuốc (QĐ 2058 mục 3, tr. 190).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Levetiracetam</b><div class="sub">Viên 500 mg (hàm lượng lưu hành ở Việt Nam không có trong tài liệu đã tải)</div></td><td data-l="Liều">500 mg × 2 lần/ngày (1.000 mg/ngày)<div class="sub">Uống · Sáng và tối cùng giờ mỗi ngày, gắn với bữa cơm; không bỏ liều tối</div></td><td data-l="Thời gian">Liên tục nhiều năm; phát thuốc 4 tuần rồi tái khám</td><td class="gc" data-l="Ghi chú">Liều theo QĐ 2058/2020 mục 4.2.1 (tr. 189) 1.000–3.000 mg/ngày; SmPC Keppra mục 4.2 (nguồn bổ sung tự tìm) CrCl 50–79 mL/phút 500–1.000 mg × 2; AGS Beers 2023 Bảng 6. Bà CrCl ≈ 52 nên chọn mức thận trọng, tối đa 2.000 mg/ngày. Không ngừng đột ngột (QĐ 2058 mục 3, tr. 190).</td></tr><tr><td><b>Paracetamol</b><div class="sub">500 mg</div></td><td data-l="Liều">1 viên mỗi lần khi nhức đầu, không quá 4 viên (2 g)/ngày<div class="sub">Uống · Khi nhức đầu hoặc đau gối, sau ăn</div></td><td data-l="Thời gian">Khi cần</td><td class="gc" data-l="Ghi chú">QĐ 361/2014 Phụ lục thuốc giảm đau mục 3.1: tối đa 4 g; Phụ lục NSAID mục 3.3: người cao tuổi gầy yếu dưới 3 g/ngày; 2 g/ngày nằm trong cả hai.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Đây là thuốc chống động kinh, không phải ‘thuốc điên’. Uống đều nhiều năm; đỡ chưa nghĩa là hết, ngừng đột ngột dễ lên cơn lại (QĐ 2058 mục 3, tr. 190). Chuyện ngừng thuốc chỉ bàn sau nhiều năm hết cơn (QĐ 2058 mục 2: 2,5–5 năm; NICE mục 4.6.2: xét sau 2 năm không cơn).</li><li>Uống 1 viên 500 mg sáng và 1 viên tối, cùng giờ, gắn với bữa cơm. Dùng hộp chia liều, cất chỗ kín đáo má dễ lấy. Xử trí khi quên liều: không có trong tài liệu đã tải.</li><li>Mỗi lần thấy cảm giác lạ hoặc quên thuốc, ghi lên lịch, mang lịch và hộp thuốc khi tái khám.</li><li>Nói với bác sĩ ngay nếu buồn nhiều, cáu gắt nhiều, mất ngủ nặng hoặc có ý nghĩ không muốn sống (SmPC Keppra mục 4.4; NICE mục 9.2.4).</li><li>Hạnh gọi hoặc ghé má mỗi sáng và tối; tắm khi có người ở nhà; chưa tự chạy xe máy đến khi bác sĩ chuyên khoa cho phép (NICE mục 10.1.2, 10.1.5, Box 1).</li><li>Gọi 115 khi cơn kéo dài từ 5 phút, các cơn nối tiếp không tỉnh, bị thương, yếu hay tê nửa người, méo miệng (NICE mục 7.1.1).</li><li>Má chọn ai biết về bệnh; bác sĩ sẵn lòng nói với con rể cùng má nếu má muốn: bệnh có thuốc kiểm soát, giống tiểu đường hay huyết áp (NICE mục 9.2.1).</li><li>Tái khám sau 4 tuần cùng lịch cơn; giữ hẹn khoa thần kinh sau 3 tháng. Paracetamol khi nhức đầu: 1 viên mỗi lần, tối đa 4 viên/ngày (QĐ 361/2014).</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-13">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Động kinh (theo dõi)</b></div>
+<p class="note">Phải loại trừ: Ngất, TIA, Hạ đường huyết</p><p>Ba tháng sau bà Lụa uống levetiracetam đều cả sáng lẫn tối nhờ hộp chia liều và Hạnh nhắc; Hạnh nói giúp với con rể, anh không phản đối. Không còn cơn mất ý thức, cảm giác lạ hết sau hai tuần uống đều, tâm trạng khá hơn. Bác sĩ thần kinh giữ liều 1.000 mg/ngày, chưa bàn ngừng thuốc. Chuyển tuyến có hẹn ở lượt 1 giúp có điện não, MRI và thuốc đúng; ‘đỡ một phần’ ở lượt 2 là do dùng chưa đủ liều, chưa phải thất bại điều trị.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-14">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Cơn đầu sau bữa cỗ nhiều thịt: dễ kết luận ‘ngất sau ăn’, ‘tụt đường’, truyền dịch và thuốc bổ. Hai cơn sau không liên quan bữa ăn; đường huyết 6,4 mmol/L ngay trong cơn.</li><li>Kể lể lộn xộn: giá lúa, con heo nái, thằng rể xen vào lịch sử cơn; cần ngắt nhẹ, tóm tắt thứ tự thời gian, hỏi từng cơn và hỏi người chứng kiến.</li><li>Giấu chi tiết vì sợ ‘bệnh điên’ như chú Tư: aura bụng–mùi khét và chép môi chỉ ra khi được hỏi cụ thể. Lượt 2: ‘uống đều mà’ nhưng bỏ liều tối vì ngại con rể; cáu gắt mới dễ bị quy hết cho thuốc.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Không điển hình: 67 tuổi, không co giật, cắn lưỡi, tiểu dầm, tự gọi là ‘ngất’. Nghĩ đến động kinh khi cơn rập khuôn, có aura (bụng, mùi, quen quen), chép môi và lú lẫn nhiều phút (ESC 2018 mục 8.1.2, Bảng 10; ILAE 2025 tr. 13). Hỏi nhớ gì và đáp ứng ra sao thay vì ‘mất ý thức không’ (ILAE 2025 tr. 6).</li><li>Không có siêu âm (kéo theo không CT, MRI) và không điện não: dùng lâm sàng, điện tim, đường huyết, điện giải để loại ngất, hạ đường huyết; phần còn lại chuyển tuyến có hẹn trong 2 tuần (NICE NG217 mục 1.1.1).</li><li>Chuyển tuyến kịp thời không phải cấp cứu: nêu tiêu chí, chuẩn bị (thư, lời người chứng kiến, xét nghiệm, người đi cùng, dặn an toàn) và bàn giao.</li><li>Đỡ một phần ở lượt 2: phân biệt hồi phục chậm bình thường với thất bại điều trị bằng liều, tuân thủ thực sự và thời gian; hỏi cụ thể từng buổi uống.</li><li>Động cơ thật là sợ kỳ thị ‘bệnh điên’: hỏi điều bà lo nhất; kỳ thị cũng là lý do bỏ thuốc (NICE mục 9.2.1).</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Định nghĩa thực hành: ≥ 2 cơn không có yếu tố khởi phát cách &gt; 24 giờ, hoặc 1 cơn kèm nguy cơ tái phát ≥ 60%, hoặc hội chứng động kinh (ILAE 2014 Bảng 1; QĐ 2058/2020 bài 35 mục 1, tr. 184).</li><li>Sau cơn nghi động kinh đầu tiên: chuyên khoa trong 2 tuần (NICE mục 1.1.1), điện tim (mục 1.2.2), điện não (mục 1.2.5), MRI trong 6 tuần (mục 1.3.1). Người trên 60 tuổi tìm u, di căn, xơ cứng mạch máu, teo não (QĐ 2058 mục 2, tr. 184).</li><li>Thuốc đầu tay cơn cục bộ: lamotrigin hoặc levetiracetam (NICE mục 5.2.1; WHO mhGAP 2023 EPI3); carbamazepin bậc hai (NICE mục 5.2.2). Xét lại chẩn đoán khi cơn tiếp diễn dù liều tối ưu (NICE mục 4.1.4).</li><li>Levetiracetam ở CrCl 50–79 mL/phút: 500–1.000 mg × 2 lần/ngày (SmPC Keppra mục 4.2); Beers 2023 Bảng 6: giảm liều khi CrCl ≤ 80. Cấp cứu khi cơn ≥ 5 phút (NICE mục 7.1.1).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-15">Nguồn tài liệu <small>10</small></h3></summary><ul class=""><li>BYT – QĐ 2058/QĐ-BYT 2020, Hướng dẫn chẩn đoán và điều trị một số rối loạn tâm thần thường gặp – TL-0443 – Bài 35 Động kinh: mục 1, 2 (tr. 184), 3.1, 3.1.4, 3.2 (tr. 184–187), 4.1 (tr. 188), 4.2.1 (tr. 188–189), Tiên lượng (tr. 189–190), Phòng bệnh (tr. 190).</li><li>NICE NG217 2022 (cập nhật 2025) – Epilepsies in children, young people and adults – TL-0466 – mục 1.1.1, 1.1.4, 1.1.8, 1.2.1–1.2.9, 1.3.1–1.3.7, 2.1.11 và Box 1, 3.1.3, 4.1.2–4.1.7, 4.2.1, 4.4.1, 4.4.3, 4.6.2–4.6.4, 5.2.1–5.2.2, 7.1.1–7.1.5, 9.2.1–9.2.4, 10.1.2, 10.1.5.</li><li>ILAE 2014 – Fisher RS et al., Epilepsia 2014;55:475-82 – TL-0490 – Bảng 1. ILAE 2025 – Beniczky S et al., Epilepsia 2025;66:1804-23 – TL-0456 – tr. 6, 12–13.</li><li>AAN/AES 2015 – Krumholz A et al., Neurology 2015;84:1705-13 – TL-0488 – Khuyến cáo và Thảo luận (21–45% trong 2 năm; 57% sau 1 năm, 73% sau 4 năm khi đã có thêm cơn).</li><li>WHO mhGAP guideline 2023 – TL-0573 – khuyến cáo EPI3 mục 3.2.</li><li>ESC 2018 Guidelines for syncope, Eur Heart J 2018;39:1883-1948 – TL-0090 – mục 3, 4.1.1, 4.2.2.1, 8.1.2 (Bảng 10), 8.1.3.</li><li>BYT – QĐ 5331/QĐ-BYT 2020, Hướng dẫn chẩn đoán và xử trí đột quỵ não – TL-0030 – mục 4 (tr. 17), mục 6 (tr. 18).</li><li>ADA Standards of Care in Diabetes 2026 – TL-0296 – Bảng 6.4. AGS Beers Criteria 2023, J Am Geriatr Soc 2023;71:2052-81 – TL-0022 – Bảng 2, 3, 4, 5, 6.</li><li>BYT – QĐ 361/QĐ-BYT 2014, Bệnh cơ xương khớp – TL-0286 – Phụ lục thuốc giảm đau mục 3.1; Phụ lục NSAID mục 3.3.</li><li>Nguồn bổ sung tự tìm: SmPC Keppra (levetiracetam), Electronic Medicines Compendium, https://www.medicines.org.uk/emc/product/2296/smpc – mục 4.2 (đổi liều mỗi 2–4 tuần; CrCl 50–79 mL/phút: 500–1.000 mg × 2) và mục 4.4 (kích thích, hung hăng, ý nghĩ tự hại). Trích qua công cụ tóm tắt trang web, chưa đối chiếu toàn văn.</li></ul></details>
+<details class="card"><summary><h3 id="m-16">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Thần kinh - tiền đình - giấc ngủ</dd><dt>chan_doan_dich</dt><dd>Động kinh (theo dõi)</dd><dt>chan_doan_phai_loai_tru</dt><dd>Ngất; TIA; Hạ đường huyết</dd><dt>nhom_tuoi</dt><dd>Cao tuổi (60–74 tuổi)</dd><dt>do_kho</dt><dd>Không điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>dien_tien_tai_kham</dt><dd>Đỡ một phần</dd><dt>nhieu_benh_nhan</dt><dd>Kể lể lộn xộn</dd><dt>rang_buoc_nguon_luc</dt><dd>Không có siêu âm</dd><dt>loai_ket_cuc</dt><dd>Chuyển tuyến kịp thời</dd><dt>gioi</dt><dd>Nữ</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>2</dd><dt>nghe_nghiep</dt><dd>Nông dân (trồng lúa, rau màu, nuôi vài con heo; ở một mình trong nhà vườn cạnh nhà con gái)</dd><dt>yeu_to_khoi_phat</dt><dd>Sau bữa cỗ giỗ đầu của chồng, ăn rất nhiều thịt sau hai đêm gần như không ngủ để nấu cỗ (cơn đầu tiên xảy ra ngay sau bữa ăn nhiều đạm đó)</dd><dt>thuoc_dang_dung</dt><dd>Paracetamol 500 mg liều thông thường, thỉnh thoảng 1 viên khi nhức đầu sau cơn hoặc đau gối; không dùng thuốc nào khác</dd><dt>ly_do_that_su_den_kham</dt><dd>Vấn đề tâm lý giấu sau triệu chứng: bà sợ đây là bệnh ‘kinh phong’ như em chồng ngày trước (bị xóm làng xa lánh, gọi là điên), sợ con rể không cho trông cháu, nên chỉ nói ‘ngất, tụt đường’ và giấu chuyện chép môi, lú lẫn; kèm buồn, mất ngủ kéo dài từ khi chồng mất</dd></dl><ul class=""><li>Viết 2026-10-25. Tài liệu đã đọc: TL-0443 QĐ 2058 bài 35; TL-0466 NICE NG217; TL-0490 ILAE 2014; TL-0456 ILAE 2025; TL-0488 AAN/AES 2015; TL-0573 mhGAP 2023; TL-0090 ESC 2018; TL-0030 QĐ 5331; TL-0296 ADA 2026; TL-0022 Beers 2023; TL-0286 QĐ 361.</li><li>Thiếu tài liệu: liều khởi đầu và đổi liều levetiracetam, lamotrigin theo NICE; liều levetiracetam theo thận (SmPC Keppra tự tìm và Beers 2023); thời gian thử thuốc tối thiểu; xử trí quên liều; sơ cứu cơn; quy định lái xe ở Việt Nam; hàm lượng viên ở Việt Nam; Cockcroft–Gault (tính tay).</li><li>Mâu thuẫn nguồn ghi cả hai cách: xem TK-0399_mau_thuan.md. Không dùng ảnh da. Không đề xuất mục danh mục mới.</li></ul></details>
+<p class="chan-trang">Ca TK-0399 · phiên bản ca 1 – viết theo tài liệu đã tải (2026-10-25) · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

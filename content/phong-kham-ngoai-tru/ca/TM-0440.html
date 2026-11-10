@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TM-0440 · Glôcôm góc đóng cấp (phát hiện)</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · TM-0440</div>
+   <h1>Nhức đầu, buồn nôn, đỏ mắt phải</h1>
+   <p class="dich-gia">Phạm Văn Tư · Nam · 68 tuổi · 58 kg</p>
+   <div class="chips"><span class="chip">Tai mũi họng + Mắt</span><span class="chip">Điển hình</span><span class="chip">1 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Nông dân đã nghỉ hưu (còn phụ con gặt lúa)</dd><dt>Chiều cao, cân nặng</dt><dd>160 cm · 58 kg</dd>
+<dt>Xưng hô</dt><dd>Ông 68 tuổi, xưng &#x27;tôi&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27; hoặc &#x27;cậu/cô bác sĩ&#x27; tùy tuổi; gọi con trai là &#x27;thằng Hải&#x27;. Con trai (anh Hải, 40 tuổi) xưng &#x27;con&#x27;, gọi ông là &#x27;ba&#x27;.</dd><dt>Tính cách</dt><dd>Ông Tư cứng đầu, chịu đựng, ngại tốn tiền và sợ nghe chữ &#x27;mổ&#x27; hay &#x27;mù&#x27;. Kể bệnh ngắn, hay nhắc &#x27;cho tôi chai nước truyền là khỏe, lần trước truyền xong hết mệt&#x27;. Nhắm một mắt lại, tay đỡ trán.</dd><dt>Người nhà</dt><dd>Con trai (anh Hải) – Con trai, anh Hải, 40 tuổi, chở ba đi khám. Anh biết ba ngại nói chuyện thuốc nhưng không rõ chi tiết; khi được hỏi anh kể ba có hộp thuốc dị ứng để ở đầu giường.</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Cơ sở không có máy X-quang.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/1</span> </h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Ông Phạm Văn Tư, 68 tuổi, nông dân đã nghỉ hưu, con trai đưa đến. Nhăn mặt, tay đỡ trán phải, nhắm mắt phải, nói đau đầu, buồn nôn, mắt đỏ. Sinh hiệu: nhiệt 36,9 °C, mạch 88 l/p, huyết áp 160/95 mmHg, nhịp thở 20 l/p, SpO₂ 97%.</p>
+  <blockquote>“Chào bác sĩ. Tôi nhức đầu dữ lắm, buồn nôn nữa, mắt phải đỏ. Chắc tôi bị nóng trong người, hồi qua cãi nhau tức quá. Bác sĩ cho tôi truyền chai nước là khỏe.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>88</b><small>l/p</small></div><div class="vs"><span>HA</span><b>160/95</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,9</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>20</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>97</b><small>%</small></div><div class="vs warn wide"><span>Cảnh báo</span><b>Huyết áp tăng theo cơn đau</b></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>14 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám: nhức mắt phải lan nửa đầu, nhìn mờ, buồn nôn (triệu chứng cơ năng cơn cấp, QĐ 40/QĐ-BYT 2015, Glôcôm góc đóng nguyên phát, mục 3a)</b><span class="tag t-g">Tự kể</span></div><p>Từ chiều hôm qua mắt phải đỏ, nhức, rồi nhức lan lên nửa đầu bên phải. Đêm không ngủ được, sáng nay buồn nôn, nôn 2 lần ra nước, người mệt rã. Mắt phải nhìn mờ như qua màn sương.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khởi phát chiều tối sau xúc động mạnh (mục 3a), đồng tử giãn nửa vời trong chỗ tối (mục 2a)</b><span class="tag t-b">Khi được hỏi</span></div><p>Chiều tối hôm qua ông cãi nhau với thương lái về giá lúa gặt cho nhà con, tức giận, ngồi một lúc ở góc hiên mờ tối thì thấy mắt phải nhức tăng dần, một lúc sau mới đỏ.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Quầng xanh đỏ quanh đèn (mục 3a); loại trừ bong võng mạc</b><span class="tag t-b">Khi được hỏi</span></div><p>Nhìn bóng đèn trong nhà thấy có quầng nhiều màu xanh đỏ quanh đèn, bên mắt phải. Không thấy chớp sáng, không thấy màn đen che.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thị lực giảm nhiều (mục 3a)</b><span class="tag t-b">Khi được hỏi</span></div><p>Mắt phải nhìn mờ nhiều, chỉ thấy bóng người, không đếm được ngón tay ở xa. Mắt trái nhìn bình thường.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiết tố: không phải viêm kết mạc</b><span class="tag t-b">Khi được hỏi</span></div><p>Mắt chảy nước, hơi sợ chói, không có ghèn mủ, không ngứa. Mi mắt không dính vào buổi sáng.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Triệu chứng toàn thân của cơn cấp (nôn, vã mồ hôi); loại trừ nguyên nhân đau đầu-nôn khác (mục 3a)</b><span class="tag t-b">Khi được hỏi</span></div><p>Đau đầu bên phải dữ dội, buồn nôn, nôn nước 2 lần, vã mồ hôi lạnh. Không sốt, không tê yếu tay chân, không nói ngọng, không té ngã, không chấn thương đầu, không đau ngực, khó thở.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc kháng cholinergic có thể gây giãn đồng tử và khởi phát cơn góc đóng (AAO PACD PPP 2026, mục History và Management – PACS: thuốc dị ứng, cảm cúm)</b><span class="tag t-r">Giấu</span></div><p>Ông chỉ kể &#x27;thuốc huyết áp thì không uống, không có bệnh gì&#x27;. Anh Hải kể ba có hộp thuốc dị ứng &#x27;clorpheniramin 4 mg&#x27; mua ở tiệm thuốc, uống 2 viên chia 2 lần mỗi ngày, được 3 ngày vì sổ mũi, ngứa mũi theo mùa lúa trổ.</p><div class="cond">Điều kiện nói ra: Ông không tự kể. Lộ khi bác sĩ hỏi &#x27;mấy hôm nay ông có uống thuốc gì, kể cả thuốc tự mua, thuốc dị ứng, thuốc cảm không?&#x27; hoặc hỏi người nhà đi cùng.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Các đợt tăng nhãn áp bán cấp trước đó (mục 3a, glôcôm góc đóng bán cấp: giảm thị lực, quầng quanh đèn, đau nhức nhẹ tự qua)</b><span class="tag t-r">Giấu</span></div><p>Mấy tháng nay, thỉnh thoảng chiều tối ông bị mờ mắt, nhức nhẹ hai bên đầu, nhìn đèn có quầng, ngủ một giấc là hết. Ông tưởng &#x27;mắt già&#x27; và không dám nói vì sợ phải đi mổ, tốn tiền.</p><div class="cond">Điều kiện nói ra: Ông không tự kể. Lộ khi bác sĩ hỏi nhẹ nhàng &#x27;trước đây có lúc nào mắt bị mờ, nhìn đèn có quầng rồi tự hết không?&#x27; và cam đoan chuyện đó rất thường gặp, không phán xét.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiền sử gia đình có cơn góc đóng là yếu tố nguy cơ (AAO PACD PPP 2026, Risk Factors, Natural History)</b><span class="tag t-r">Giấu</span></div><p>Mẹ ông ngày xưa &#x27;đau mắt đỏ nhức đầu rồi mù một bên&#x27; khi khoảng 70 tuổi, không biết bệnh gì. Ông nhớ mà không nói.</p><div class="cond">Điều kiện nói ra: Lộ khi bác sĩ hỏi trong nhà có ai bị bệnh mắt, mù, đau mắt nhức đầu.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Viễn thị là yếu tố nguy cơ (AAO PACD PPP 2026, Risk Factors)</b><span class="tag t-b">Khi được hỏi</span></div><p>Trước giờ nhìn gần phải đưa ra xa mới đọc được báo, mua kính lão từ khoảng 50 tuổi, ông nói &#x27;mắt mình viễn&#x27;. Không cận, chưa mổ mắt, chưa chấn thương mắt, không nhỏ thuốc mắt nào.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Bệnh nền: cần biết trước khi dùng chẹn bêta, acetazolamid (thận trọng bệnh phổi, tim, mạch – QĐ 40/QĐ-BYT 2015, mục 4b)</b><span class="tag t-b">Khi được hỏi</span></div><p>Không tăng huyết áp biết được, không đái tháo đường, không hen hay bệnh phổi, không bệnh tim. Hút thuốc lào ít, không rượu. Không dị ứng thuốc, chưa dùng thuốc sulfa.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật: muốn được truyền dịch</b><span class="tag t-r">Giấu</span></div><p>Ông nói thẳng: &#x27;Cho tôi truyền chai nước đi bác sĩ. Lần trước tôi mệt đầu cũng được truyền chai nước là hết ngay.&#x27; Ông không tin thuốc uống, cho rằng mắt chỉ là &#x27;nóng đỏ&#x27; nhờ truyền nước mát là xuống. Ông cũng sợ nghe chữ chuyển bệnh viện tuyến trên vì tốn tiền, không ai trông ruộng.</p><div class="cond">Điều kiện nói ra: Ông chỉ nhắc &#x27;truyền nước&#x27; khi bác sĩ hỏi &#x27;ông mong tôi giúp được gì cho ông hôm nay?&#x27;; đầu buổi chỉ than nhức đầu và buồn nôn.</div></div><div class="fact"><div class="fh"><b>Ăn uống, tiêu tiểu</b><span class="tag t-b">Khi được hỏi</span></div><p>Sáng chưa ăn gì vì buồn nôn, uống ít nước. Đại tiện bình thường, tiểu bình thường.</p></div><div class="fact"><div class="fh"><b>Nghề nghiệp, stress</b><span class="tag t-b">Khi được hỏi</span></div><p>Ông còn phụ con gặt lúa, thức sớm làm đồng, chiều đi bán. Lo trả tiền phân bón nên gần đây hay mất ngủ, hay bực.</p></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>9 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Mắt (kết mạc, đồng tử, thị lực)</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Mắt phải đỏ, mờ như có hơi nước. Thị lực đếm ngón tay 1 m. Mắt trái bình thường, thị lực 6/10.</p><p><span class="lbl">Kết quả:</span> Mắt phải: mi sưng nhẹ, kết mạc cương tụ đỏ sẫm quanh rìa (cương tụ rìa, màu tím), giác mạc phù mờ như hơi nước, không thấy rõ mống mắt; đồng tử giãn nửa vời 5–6 mm, hình bầu dục dọc, gần như không co khi chiếu đèn pin; tiền phòng nông (đèn pin chiếu nghiêng từ thái dương: mống mắt phồng, phần phía mũi nằm trong bóng); không có ghèn mủ, không thấy tủa sau giác mạc. Thị lực mắt phải đếm ngón tay 1 m, không cải thiện qua kính lỗ. Mắt trái: kết mạc trắng, giác mạc trong, đồng tử 3 mm co tốt, tiền phòng nông (đèn pin chiếu nghiêng thấy bóng liềm ở phần mũi), thị lực 6/10 không kính. QĐ 40/QĐ-BYT 2015, Glôcôm góc đóng nguyên phát, mục 3a: mắt cương tụ đỏ, giác mạc phù mờ, đồng tử giãn méo, giảm phản xạ ánh sáng, tiền phòng nông; mắt còn lại thường tiền phòng nông và góc hẹp. Không có mủ, không tủa viêm, không co nhỏ đồng tử nên khác với viêm kết mạc và viêm màng bồ đào.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đo nhãn áp (nhãn áp kế hoặc ước lượng bằng ngón tay)</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Đo nhãn áp hai mắt (mắt phải cứng hơn rõ rệt).</p><p><span class="lbl">Kết quả:</span> Nhãn áp mắt phải rất cao: ước lượng bằng ngón tay cứng như đá (Tn+3); đo nhãn áp kế Schiøtz 58 mmHg. Mắt trái: mềm bình thường, 17 mmHg. Nhãn áp tăng rất cao là dấu hiệu thực thể của cơn cấp (QĐ 40/QĐ-BYT 2015, mục 3a). Đo nhãn áp cả hai mắt (AAO PACD PPP 2026, Intraocular pressure measurement). Con số mmHg là số liệu minh họa của ca, tài liệu đã tải không cho giá trị cụ thể.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Giác mạc: nhỏ fluorescein, soi đèn (đèn khe hoặc đèn xanh)</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Soi giác mạc hai mắt sau nhỏ fluorescein.</p><p><span class="lbl">Kết quả:</span> Nhỏ fluorescein: giác mạc mắt phải phù mờ, nhìn qua đèn xanh thấy bề mặt hơi lấm tấm nhưng không có ổ loét, không có tổn thương hình cành cây, không bắt màu thành mảng. Giác mạc mắt trái trong, không bắt màu. Giác mạc phù (microcystic edema) là dấu của cơn cấp (AAO PACD PPP 2026, Slit-lamp biomicroscopy).</p></div><div class="row"><div class="rh"><b>Soi đáy mắt</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Không soi rõ đáy mắt phải.</p><p><span class="lbl">Kết quả:</span> Mắt phải: không soi được đáy mắt do phù giác mạc (QĐ 40/2015, mục 3a: đáy mắt rất khó soi do phù các môi trường trong suốt). Mắt trái: đĩa thị hồng, bờ rõ, lõm đĩa/đĩa khoảng 0,3, mạch máu bình thường. Không giãn đồng tử để soi vì nguy cơ gây cơn góc đóng ở mắt lành (AAO PACD PPP 2026, Other components of the initial evaluation).</p></div><div class="row"><div class="rh"><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, tiếp xúc tốt, nhăn mặt vì đau, vã mồ hôi nhẹ. Da niêm hồng, không vàng da, không mất nước nặng.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, 88 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 88 l/p, T1 T2 rõ, không âm thổi.</p></div><div class="row"><div class="rh"><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nhịp thở 20 l/p.</p><p><span class="lbl">Kết quả:</span> Rì rào phế nang êm dịu hai bên, không ran, không khò khè.</p></div><div class="row"><div class="rh"><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy. Buồn nôn do đau mắt chứ không do bệnh tiêu hóa.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thần kinh</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Khám thần kinh sơ bộ.</p><p><span class="lbl">Kết quả:</span> Tỉnh, GCS 15, không liệt khu trú, không dấu màng não, không nói khó. Cổ mềm. Không có yếu tay chân. Đau đầu bên phải liên quan mắt.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>8 mục</small></h3></summary><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-y">Chấp nhận</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Số lượng bạch cầu (WBC)</td><td class="num">9,8</td><td>G/L</td><td class="ref">4,0–10,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu trung tính (NEU%)</td><td class="num">72</td><td>%</td><td class="ref">45–75</td></tr><tr class=""><td>Số lượng bạch cầu trung tính (NEU#)</td><td class="num">7,06</td><td>G/L</td><td class="ref">2,0–7,5</td></tr><tr class=""><td>Tỷ lệ bạch cầu lympho (LYM%)</td><td class="num">21</td><td>%</td><td class="ref">20–40</td></tr><tr class=""><td>Số lượng bạch cầu lympho (LYM#)</td><td class="num">2,06</td><td>G/L</td><td class="ref">1,0–4,0</td></tr><tr class=""><td>Lượng huyết sắc tố (HGB)</td><td class="num">142</td><td>g/L</td><td class="ref">130–170</td></tr><tr class=""><td>Số lượng tiểu cầu (PLT)</td><td class="num">238</td><td>G/L</td><td class="ref">150–400</td></tr></tbody></table><p class="why">Không cần để chẩn đoán; chấp nhận khi chuẩn bị chuyển tuyến. Bạch cầu tăng nhẹ do đau, stress. Tài liệu đã tải không có chỉ định xét nghiệm máu cho cơn glôcôm góc đóng.</p></div><div class="row"><div class="rh"><b>Điện giải đồ (Na, K, Cl)</b><span class="tag t-y">Chấp nhận</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Natri (Na⁺)</td><td class="num">138</td><td>mmol/L</td><td class="ref">135–145</td></tr><tr class=""><td>Kali (K⁺)</td><td class="num">3,9</td><td>mmol/L</td><td class="ref">3,5–5,0</td></tr><tr class=""><td>Clo (Cl⁻)</td><td class="num">101</td><td>mmol/L</td><td class="ref">98–106</td></tr></tbody></table><p class="why">Hữu ích trước khi dùng acetazolamid vì thuốc có nhiều tác dụng phụ toàn thân và cần bổ sung kali (QĐ 40/QĐ-BYT 2015, mục 4b). Không bắt buộc nếu chuyển ngay.</p></div><div class="row"><div class="rh"><b>Ure, creatinin, eGFR</b><span class="tag t-y">Chấp nhận</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Creatinin</td><td class="num">82</td><td>µmol/L</td><td class="ref">62–120</td></tr><tr class="lo"><td>eGFR (CKD-EPI 2021)</td><td class="num">85 ↓</td><td>mL/ph/1,73m²</td><td class="ref">≥ 90</td></tr></tbody></table><p class="why">Chấp nhận trước khi dùng acetazolamid, mannitol; tài liệu đã tải không nêu ngưỡng chức năng thận cho các thuốc này.</p></div><div class="row"><div class="rh"><b>Đường huyết mao mạch (máy thử tại giường)</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Đường huyết mao mạch 6,4 mmol/L</p><p class="why">Không cần: không nghi hạ hay tăng đường huyết, chỉ buồn nôn do đau.</p></div><div class="row"><div class="rh"><b>CRP</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> CRP 3 mg/L</p><p class="why">Không cần: không nghi nhiễm trùng, không giúp phân biệt với viêm kết mạc hay viêm màng bồ đào.</p></div><div class="row"><div class="rh"><b>Test nhanh kháng nguyên adenovirus (dịch kết mạc)</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Âm tính</p><p class="why">Không cần: không có ghèn, không hạch trước tai, nhức sâu; dấu hiệu giác mạc phù và đồng tử giãn không hợp với viêm kết mạc virus.</p></div><div class="row"><div class="rh"><b>Phết dịch kết mạc: nhuộm Gram và cấy</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần: không có mủ.</p></div><div class="row"><div class="rh"><b>Điện tâm đồ 12 chuyển đạo</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Nhịp xoang 88 l/p, không bất thường</p><p class="why">Không cần cho chẩn đoán. Buồn nôn, vã mồ hôi dễ khiến nghĩ đến tim mạch nhưng bệnh nhân không đau ngực, không khó thở.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Chuyển tuyến / chuyên khoa</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Glôcôm góc đóng nguyên phát cơn cấp mắt phải (nghẽn đồng tử), khởi phát sau xúc động và uống thuốc dị ứng kháng cholinergic; có dấu hiệu bán cấp trước đó; mắt trái tiền phòng nông, nguy cơ cao</b></div><p class="why">Nhức mắt lan nửa đầu, nhìn mờ, quầng xanh đỏ quanh đèn, buồn nôn và nôn; thị lực giảm nhiều (đếm ngón tay 1 m), nhãn áp tăng rất cao, giác mạc phù mờ, đồng tử giãn méo gần như không co, tiền phòng nông; khởi phát chiều tối sau xúc động mạnh (QĐ 40/QĐ-BYT 2015, Glôcôm góc đóng nguyên phát, mục 3a – chẩn đoán xác định). Cơn cấp: mắt đỏ, đau, đồng tử giãn nửa vời, giác mạc phù (AAO PACD PPP 2026, Highlighted Findings). Soi góc tiền phòng để khẳng định góc đóng: không làm được ở cơ sở này, ghi cho tuyến trên (gonioscopy – AAO PACD PPP 2026, Gonioscopy).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm kết mạc cấp</b></div><p class="why">Loại trừ: viêm kết mạc cấp ra dử mắt nhiều, cương tụ nông, không ảnh hưởng đến thị lực (QĐ 40/QĐ-BYT 2015, Viêm màng bồ đào trước cấp tính, mục 3d, chẩn đoán phân biệt). Ông đỏ sẫm quanh rìa, thị lực đếm ngón tay, giác mạc phù, không có ghèn, đồng tử giãn.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm màng bồ đào trước tăng nhãn áp</b></div><p class="why">Loại trừ: có tủa sau giác mạc, đồng tử dính, co nhỏ (QĐ 40/QĐ-BYT 2015, Glôcôm góc đóng, mục 3a, chẩn đoán phân biệt). Ông có đồng tử giãn, không tủa viêm. Lưu ý: trong cơn cấp cũng có thể có phản ứng viêm màng bồ đào nên phải nhìn đồng tử giãn của mắt bệnh và tiền phòng nông, góc hẹp của mắt thứ hai (QĐ 40/QĐ-BYT 2015, Lưu ý mục 3a); ở ông mắt trái có tiền phòng nông.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Glôcôm góc mở hoặc glôcôm thứ phát (tân mạch mống mắt, thuốc gây phù thể mi – topiramate, sulfonamid)</b></div><p class="why">Ít nghĩ: mắt đối bên tiền phòng nông, góc hẹp, bệnh khởi phát cấp sau đồng tử giãn trong chỗ tối; không dùng topiramate hay sulfonamid, không đái tháo đường, không huyết khối tĩnh mạch võng mạc (AAO PACD PPP 2026, Differential Diagnosis: angle đóng hai bên và góc mở rộng ở mắt kia gợi bệnh khác). Soi góc tiền phòng cần ở tuyến trên.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Đau đầu – nôn do nguyên nhân thần kinh hoặc tiêu hóa (xuất huyết não, đau nửa đầu, ngộ độc thực phẩm)</b></div><p class="why">Ít nghĩ: không liệt khu trú, cổ mềm, không sốt, có triệu chứng mắt đặc hiệu (đỏ một mắt, đồng tử giãn, nhãn áp rất cao). Tài liệu đã tải không có tiêu chuẩn chẩn đoán xuất huyết não hay đau nửa đầu cho ca này. CT sọ não bị khóa ở cơ sở không có X-quang và không cần.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Cơn tăng huyết áp</b></div><p class="why">Ít nghĩ: huyết áp 160/95 mmHg chỉ tăng theo đau, không có tiền sử, không có tổn thương cơ quan đích. Tiêu chuẩn chẩn đoán tăng huyết áp: không có trong tài liệu đã tải cho ca này; dặn đo lại sau khi hết đau.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Nhận ra đây là cấp cứu mắt, nói rõ cho ông và con trai: nếu không hạ nhãn áp kịp thời sẽ mù; cần chuyển ngay bệnh viện có chuyên khoa mắt trong ngày</b></div><p class="why">QĐ 40/QĐ-BYT 2015 (Tiến triển, mục 5a): glôcôm góc đóng cơn cấp nếu không được điều trị, nhãn áp tăng cao kéo dài sẽ dẫn đến mù; (mục 4a) tích cực, khẩn trương hạ nhãn áp bằng thuốc. AAO PACD PPP 2026 (Acute attack management): hạ nhãn áp sớm để giảm triệu chứng và nguy cơ tổn thương thần kinh thị; sau đó cắt mống mắt chu biên bằng laser (LPI) hoặc phẫu thuật; điều trị bằng phẫu thuật là bắt buộc (QĐ 40, mục 4b). Cơ sở không có chuyên khoa mắt nên không làm được laser.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hạ nhãn áp tại chỗ trước khi chuyển: acetazolamid uống 0,25 g × 2 viên (0,5 g) rồi tiếp 2–4 viên/ngày; nếu nôn nhiều không uống được thì tiêm tĩnh mạch acetazolamid 500 mg</b></div><p class="why">QĐ 40/QĐ-BYT 2015 (mục 4b, Toàn thân): uống acetazolamide 0,25 g × 2–4 viên/ngày, hoặc tiêm tĩnh mạch 500 mg × 1 ống nếu nôn nhiều (bản chữ in &#x27;500g&#x27;, hiểu là 500 mg theo câu liền sau &#x27;tiêm 500 mg và uống 500 mg&#x27;); chỉ dùng trong thời gian chờ phẫu thuật, không dùng kéo dài, cần bổ sung kali. AAO PACD PPP 2026 (Acute attack management) không nêu liều; thuốc ức chế tạo thủy dịch có thể kém tác dụng lúc đầu khi thể mi thiếu máu do nhãn áp rất cao.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Nhỏ mắt phải: pilocarpin 1% mỗi 15–20 phút cho đến khi đồng tử co lại và nhãn áp hạ, rồi 1 giờ/lần; phối hợp thuốc chẹn bêta giao cảm (nếu không có hen, tim) hoặc thuốc ức chế anhydrase carbonic nhỏ mắt. Biết giới hạn: nhãn áp rất cao thì đồng tử có thể không co, vẫn phải chuyển</b></div><p class="why">QĐ 40/QĐ-BYT 2015 (mục 4b, Tại mắt): tra thuốc co đồng tử cứ 15–20 phút/lần đến khi đồng tử co và nhãn áp hạ, sau đó 1 giờ/lần; phối hợp chẹn bêta giao cảm 2 lần/ngày (thận trọng bệnh phổi, tim, mạch) hoặc ức chế anhydrase carbonic 2–3 lần/ngày. AAO PACD PPP 2026 (Acute attack management): khi nhãn áp rất cao cơ vòng đồng tử thiếu máu nên không đáp ứng thuốc co đồng tử; thuốc co đồng tử có thể mở góc khi đồng tử co được. Nồng độ pilocarpin 1% theo QĐ 40 mục 4b cho mắt thứ hai; nồng độ cho mắt bệnh và chẹn bêta: không có trong tài liệu đã tải, ca ghi pilocarpin 1% theo cùng thuốc.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Bảo vệ mắt trái: chuyển kèm dặn tuyến trên cắt mống mắt chu biên mắt trái sớm; trong lúc chờ có thể nhỏ pilocarpin 1% mắt trái theo QĐ 40/2015 hoặc, theo AAO 2026, ưu tiên cắt mống mắt chu biên sớm (laser) cho mắt lành, không dùng thuốc co đồng tử kéo dài thay laser</b></div><p class="why">Nguồn A: QĐ 40/QĐ-BYT 2015 (mục 4b, Tại mắt): để đề phòng cơn ở mắt thứ hai nên tra 1–2 giọt pilocarpin 1% cho mắt thứ hai. Nguồn B: AAO PACD PPP 2026 (Fellow-eye management): mắt lành phải đánh giá, làm LPI dự phòng sớm nếu góc hẹp vì khoảng một nửa mắt lành bị cơn cấp trong 5 năm, cơn có thể xảy ra trong vài ngày; điều trị thuốc co đồng tử kéo dài không thay thế LPI, khoảng 40% mắt lành dùng thuốc co đồng tử vẫn bị cơn trong 5 năm. Hai nguồn khác nhau vì năm, nguồn lực (QĐ 40 là cầu nối tại tuyến không laser, AAO là xử trí tại cơ sở đủ laser); cả hai cách đều có chỗ.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dừng ngay thuốc dị ứng clorpheniramin; dặn không dùng thuốc cảm, thuốc dị ứng, thuốc say tàu xe, thuốc an thần, nhỏ mắt giãn đồng tử khi chưa hỏi bác sĩ mắt</b></div><p class="why">AAO PACD PPP 2026 (Management – PACS và History): thuốc có đặc tính kháng cholinergic (thuốc thông mũi, cảm cúm, dị ứng, thuốc ngủ, thuốc tâm thần, say tàu xe) có thể gây giãn đồng tử và khởi phát cơn cấp; thuốc nhỏ mắt giãn đồng tử cũng có thể khởi phát. Thuốc thay thế cho chứng ngứa mũi theo mùa: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giảm đau, chống nôn nhẹ nhàng trong lúc chuyển; ghi lại giờ, thuốc đã cho, nhãn áp trước và sau để gửi kèm; con trai đi cùng trên xe, không để ông tự đi</b></div><p class="why">QĐ 40/QĐ-BYT 2015 (mục 4b): thuốc giảm đau, an thần là một phần điều trị toàn thân. Tên thuốc, liều giảm đau và chống nôn: không có trong tài liệu đã tải. AAO PACD PPP 2026 (Counseling and Referral): hội chẩn hoặc chuyển chuyên khoa khi chẩn đoán hoặc xử trí khó. Tiêu chuẩn chuyển tuyến chi tiết của tuyến huyện ở Việt Nam: không có trong tài liệu đã tải; ca dùng nguyên tắc cấp cứu của hai nguồn trên.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích cho ông lý do chưa truyền chai nước thường: chai nước không hạ nhãn áp; thuốc truyền duy nhất có tác dụng ở đây là thuốc hạ nhãn áp (acetazolamid tĩnh mạch, mannitol 20% truyền nhanh) do bệnh viện mắt quyết định. Nghe lo ngại về tiền và ruộng, giải thích chuyển tuyến là để giữ mắt</b></div><p class="why">QĐ 40/QĐ-BYT 2015 (mục 4b): khi nhãn áp tăng rất cao có thể bổ sung thuốc thẩm thấu như truyền tĩnh mạch nhanh mannitol 20% × 200 mL hoặc uống glycerol 50% (1 mL/kg). AAO PACD PPP 2026: thuốc thẩm thấu toàn thân (mannitol) có thể cần để hạ nhanh nhãn áp. Việc dịch truyền thường (NaCl 0,9%, glucose) không có vai trò hạ nhãn áp: không có trong tài liệu đã tải, không phải đáp án. Chi phí chuyển tuyến và bảo hiểm: không có trong tài liệu đã tải.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Truyền tĩnh mạch NaCl 0,9% hoặc glucose theo ý ông để &#x27;cho khỏe&#x27;, rồi theo dõi</b></div><p class="why">Không hại trực tiếp nhưng không hạ nhãn áp, làm chậm chuyển tuyến. Tài liệu đã tải không nêu vai trò dịch truyền thường trong cơn cấp. Chấm chấp nhận chỉ khi vẫn chuyển ngay và đã dùng thuốc hạ nhãn áp.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Gọi tuyến trên báo trước (SBAR): nam 68 tuổi, mắt phải nhãn áp rất cao, thị lực đếm ngón tay, đã dùng acetazolamid ± nhỏ pilocarpin, mắt trái tiền phòng nông, đã uống clorpheniramin; đề nghị hạ nhãn áp và cắt mống mắt chu biên cả hai mắt</b></div><p class="why">AAO PACD PPP 2026 (Acute attack management; Fellow-eye management): LPI sớm cho mắt bệnh khi giác mạc đủ trong và cho mắt lành. Chuẩn SBAR không có trong tài liệu đã tải.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Nhỏ nhỏ mắt kháng sinh (tobramycin) và dặn tái khám sau vài ngày vì nghĩ &#x27;đau mắt đỏ&#x27;</b></div><p class="why">QĐ 40/QĐ-BYT 2015 (mục 5a): cơn cấp không được điều trị thì nhãn áp cao kéo dài dẫn đến mù. Kháng sinh nhỏ mắt không hạ nhãn áp; chẩn đoán viêm kết mạc bị loại trừ (xem chan_doan).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Nhỏ corticoid (dexamethasone) nghĩ &#x27;viêm màng bồ đào&#x27; rồi cho về</b></div><p class="why">QĐ 40/QĐ-BYT 2015 (mục 3a, Lưu ý): trong cơn cấp có thể có phản ứng viêm, nhưng phải nhận ra đồng tử giãn và tiền phòng nông; điều trị trọng tâm là hạ nhãn áp (mục 4a). Corticoid chỉ dùng sau mổ laser/phẫu thuật (AAO PACD PPP 2026, Surgery and Postoperative Care).</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Nhỏ thuốc giãn đồng tử (atropin, tropicamid) để soi đáy mắt cho rõ</b></div><p class="why">AAO PACD PPP 2026 (History; Other components of the initial evaluation): nhỏ thuốc giãn đồng tử có thể khởi phát cơn cấp; chống chỉ định khi nghi góc đóng chưa điều trị, đặc biệt trong cơn cấp (đồng tử đang giãn nửa vời, thuốc co đồng tử mới là hướng điều trị).</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Tiếp tục cho ông dùng clorpheniramin vì &#x27;dị ứng theo mùa&#x27;</b></div><p class="why">AAO PACD PPP 2026 (History; Management – PACS): thuốc dị ứng, cảm cúm có đặc tính kháng cholinergic có thể gây giãn đồng tử và khởi phát cơn góc đóng cấp.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho về nhà uống acetazolamid và hẹn tái khám tuần sau</b></div><p class="why">QĐ 40/QĐ-BYT 2015 (mục 4b): acetazolamid chỉ dùng trong thời gian chờ phẫu thuật, không kéo dài; điều trị bằng phẫu thuật (cắt mống mắt chu biên) là bắt buộc. AAO PACD PPP 2026 (Acute attack management): LPI phải làm sớm nhất khi an toàn; để chậm làm tổn thương thần kinh thị phát triển nhanh (Natural History).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Cho về, hẹn tái khám</span></div><p>Ông Tư về nhà với thuốc đỡ đau và nhỏ mắt kháng sinh, hẹn mai khám lại. Đêm đó mắt phải đau hơn, nôn nhiều, ông ở nhà vì sợ tốn tiền. Nhãn áp rất cao kéo dài làm tổn thương thần kinh thị xảy ra nhanh và không hồi phục (AAO PACD PPP 2026, Natural History; QĐ 40/QĐ-BYT 2015, Glôcôm góc đóng, mục 5a: không điều trị thì dẫn đến mù). Mắt trái chưa được dự phòng, nguy cơ cơn cấp mắt kia (AAO 2026, Fellow-eye management).</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Ông được nhận nằm khoa nội ở huyện truyền dịch theo ý ông, nhưng ở đó không có đèn khe, nhãn áp kế, laser nên không thể cắt mống mắt chu biên. Nhãn áp chỉ hạ một phần nhờ thuốc, mất thêm nửa ngày đến một ngày trong khi thần kinh thị tiếp tục tổn thương; acetazolamid chỉ dùng trong thời gian chờ phẫu thuật và có nhiều tác dụng phụ toàn thân (QĐ 40/2015, mục 4b). Chi phí nằm viện thêm, ông vẫn phải chuyển tuyến sau đó.</p></div><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Ông được theo dõi tại phòng khám 2–3 giờ sau nhỏ thuốc và uống acetazolamid, đỡ nhức nên nghĩ đã xong và cho về. Nhãn áp có thể hạ tạm nhưng cơn chưa được &#x27;cắt&#x27; bằng laser; tắc nghẽn đồng tử vẫn còn, dính góc tiếp tục hình thành (AAO 2026, Surgery; Management – cắt mống mắt chu biên là điều trị đúng). Ông có nguy cơ cơn tái phát trong vài ngày mà không ai theo dõi.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Glôcôm góc đóng nguyên phát cơn cấp mắt phải, thể có nghẽn đồng tử (nhãn áp rất cao, giác mạc phù, đồng tử giãn nửa vời, tiền phòng nông, thị lực ĐNT 1 m)</li><li>Yếu tố khởi phát: giãn đồng tử trong chỗ tối sau xúc động mạnh, kèm uống clorpheniramin (thuốc dị ứng có tác dụng kháng cholinergic) 3 ngày</li><li>Tiền sử giấu: các đợt mờ mắt, quầng quanh đèn buổi chiều vài tháng nay (nghĩ cơn bán cấp), mẹ từng mù một bên sau đau mắt; viễn thị</li><li>Mắt trái: tiền phòng nông, góc nghi hẹp, nguy cơ cơn cấp cao, cần cắt mống mắt chu biên dự phòng</li><li>Đã loại trừ viêm kết mạc, viêm màng bồ đào trước tăng nhãn áp; đau đầu-nôn do nguyên nhân thần kinh hay tiêu hóa không nghĩ tới</li><li>Huyết áp 160/95 mmHg do đau, cần đo lại sau khi hết đau; muốn được truyền dịch (lý do thật đến khám)</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự đúng: (1) Hỏi bệnh: khởi phát, đau mắt lan nửa đầu, quầng xanh đỏ, nhìn mờ, buồn nôn, ghèn, thuốc đã dùng (kể cả thuốc tự mua), tiền sử các đợt mờ mắt, người nhà có ai bị bệnh mắt, kính viễn (AAO PACD PPP 2026, History). (2) Khám: thị lực hai mắt, đồng tử, kết mạc, giác mạc, tiền phòng, nhãn áp hai mắt (Physical Examination). (3) CLS: không cần cho chẩn đoán; soi góc tiền phòng (gonioscopy) làm ở tuyến mắt. (4) Chẩn đoán, loại trừ. (5) Hạ nhãn áp và chuyển tuyến ngay.</li><li>Vì sao là glôcôm góc đóng cấp: bệnh khởi phát đột ngột, thường chiều tối sau xúc động mạnh; nhức mắt, nhức lan nửa đầu, nhìn mờ như qua màn sương, đèn có quầng xanh đỏ, buồn nôn, nôn, vã mồ hôi; thị lực giảm nhiều, nhãn áp tăng rất cao, mắt cương tụ đỏ, giác mạc phù mờ, đồng tử giãn méo, giảm hoặc mất phản xạ, tiền phòng nông (QĐ 40/QĐ-BYT 2015, Glôcôm góc đóng nguyên phát, mục 3a). Mắt còn lại thường có tiền phòng nông và góc hẹp (mục 3a). AAO 2026 (Highlighted Findings): triệu chứng đau mắt, đau đầu, buồn nôn nôn, nhìn mờ có quầng; dấu hiệu nhãn áp rất cao, phù giác mạc, cương tụ kết mạc và thượng củng mạc, đồng tử giãn nửa vời.</li><li>Vì sao hay bị lỡ: ông giấu tiền sử. Lời kể ban đầu chỉ là &#x27;nhức đầu, buồn nôn, mệt&#x27; nên dễ nghĩ bệnh nội khoa, thần kinh hay tiêu hóa và cho truyền dịch. Chi tiết quyết định nằm ở 3 thứ chỉ lộ khi hỏi lại nhẹ nhàng: thuốc dị ứng clorpheniramin (thuốc kháng cholinergic gây giãn đồng tử – AAO PACD PPP 2026, History), đợt mờ mắt quầng quanh đèn vài tháng nay (glôcôm góc đóng bán cấp – QĐ 40/QĐ-BYT 2015, mục 3b), mẹ mù một bên (tiền sử gia đình – AAO PACD PPP 2026, Risk Factors). Yếu tố nguy cơ khác: tuổi cao, viễn thị (Risk Factors). Giới nam ít gặp hơn nữ nhưng không loại trừ (Risk Factors: nữ là yếu tố nguy cơ).</li><li>Vì sao không phải viêm kết mạc: viêm kết mạc cấp ra dử nhiều, cương tụ nông, không ảnh hưởng thị lực (QĐ 40/QĐ-BYT 2015, Viêm màng bồ đào trước cấp tính, mục 3d). Ông không có ghèn, thị lực đếm ngón tay, giác mạc phù, đồng tử giãn, cương tụ rìa sẫm.</li><li>Vì sao không phải viêm màng bồ đào: viêm màng bồ đào tăng nhãn áp có tủa sau giác mạc, đồng tử dính, co nhỏ (QĐ 40/QĐ-BYT 2015, Glôcôm góc đóng, mục 3a, chẩn đoán phân biệt). Ông có đồng tử giãn, mắt đối bên tiền phòng nông, không có tủa. Nhớ lưu ý: cơn cấp cũng có thể có phản ứng viêm, nên không dựa vào &#x27;có viêm&#x27; để loại glôcôm.</li><li>Không có X-quang: không ảnh hưởng chẩn đoán. CT sọ não bị khóa nhưng không cần; chẩn đoán dựa vào hỏi bệnh, thị lực, đồng tử, nhãn áp, tiền phòng. Thiếu soi góc tiền phòng và OCT: ghi cho tuyến trên, không có ở cơ sở. Chọn xét nghiệm máu, điện giải, creatinin chỉ nhằm chuẩn bị dùng acetazolamid, tài liệu đã tải không đặt thành bắt buộc.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Hướng đúng: chuyển tuyến ngay đến bệnh viện có khoa mắt sau khi đã bắt đầu hạ nhãn áp, vì cắt mống mắt chu biên bằng laser hoặc phẫu thuật là bắt buộc (QĐ 40/QĐ-BYT 2015, mục 4b) và nên làm sớm nhất khi an toàn sau khi hạ nhãn áp (AAO PACD PPP 2026, Acute attack management). Tuyến huyện không có đèn khe, soi góc, laser.</li><li>Hạ nhãn áp: toàn thân acetazolamid 0,25 g × 2–4 viên/ngày hoặc tiêm tĩnh mạch 500 mg khi nôn nhiều, kèm kali; tại mắt pilocarpin 1% mỗi 15–20 phút cho đến khi đồng tử co, rồi 1 giờ/lần, kèm chẹn bêta hoặc ức chế anhydrase carbonic nhỏ mắt (QĐ 40/QĐ-BYT 2015, mục 4b). Thuốc thẩm thấu (mannitol 20% 200 mL truyền nhanh hoặc glycerol 50% 1 mL/kg) khi nhãn áp rất cao do tuyến trên quyết định. AAO 2026: các thuốc ức chế tạo thủy dịch có thể kém hiệu quả lúc nhãn áp rất cao; thuốc co đồng tử có thể không đáp ứng do thiếu máu cơ vòng; khi đó dùng thêm thuốc thẩm thấu, nhấn giác mạc, laser tạo hình mống mắt, chọc tiền phòng. Hai nguồn bổ sung cho nhau, không mâu thuẫn.</li><li>Mắt lành: QĐ 40/2015 dặn nhỏ pilocarpin 1% để phòng cơn ở mắt thứ hai, AAO 2026 dặn làm LPI dự phòng sớm cho mắt lành vì khoảng một nửa mắt lành bị cơn trong 5 năm, có thể trong vài ngày, và thuốc co đồng tử kéo dài không thay được LPI (khoảng 40% mắt lành dùng thuốc co đồng tử vẫn bị cơn trong 5 năm). Ghi cả hai (xem xu_tri).</li><li>Dừng thuốc kháng cholinergic: clorpheniramin phải ngừng; dặn tránh thuốc cảm, thuốc dị ứng, thuốc ngủ, thuốc say tàu xe (AAO PACD PPP 2026, Management – PACS).</li><li>Lý do thật &#x27;muốn truyền dịch&#x27;: không cho dịch thường, giải thích hợp lý và nghe nỗi lo chi phí, không ai trông ruộng. Nói rõ chỉ có thuốc truyền hạ nhãn áp mới có ích và được dùng ở bệnh viện mắt. Cách thuyết phục tăng khả năng ông chấp nhận chuyển tuyến.</li><li>Không làm: nhỏ giãn đồng tử, nhỏ kháng sinh/corticoid rồi cho về, cho về uống acetazolamid dài ngày.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Acetazolamid</b><div class="sub">250 mg (0,25 g)</div></td><td data-l="Liều">2 viên (500 mg) liều đầu, sau đó theo bác sĩ mắt; tổng 2–4 viên/ngày<div class="sub">Uống · Ngay tại phòng khám trước khi chuyển</div></td><td data-l="Thời gian">Chỉ trong thời gian chờ phẫu thuật, không kéo dài</td><td class="gc" data-l="Ghi chú">QĐ 40/QĐ-BYT 2015 (mục 4b): 0,25 g × 2–4 viên/ngày; chỉ dùng chờ phẫu thuật; bổ sung kali. Nếu nôn nhiều: tiêm tĩnh mạch 500 mg (bản chữ in &#x27;500g&#x27;). Liều đầu 2 viên là diễn giải khoảng 2–4 viên/ngày, không có trong tài liệu đã tải một cách riêng.</td></tr><tr><td><b>Pilocarpin nhỏ mắt phải</b><div class="sub">1%</div></td><td data-l="Liều">1–2 giọt mỗi lần<div class="sub">Nhỏ mắt · Mỗi 15–20 phút cho đến khi đồng tử co và nhãn áp hạ, sau đó 1 giờ/lần, duy trì 3–4 lần/ngày</div></td><td data-l="Thời gian">Đến khi làm laser</td><td class="gc" data-l="Ghi chú">QĐ 40/QĐ-BYT 2015 (mục 4b, Tại mắt). Nồng độ 1% nêu cho mắt thứ hai; nồng độ cho mắt bệnh không có trong tài liệu đã tải. AAO 2026: có thể không đáp ứng khi nhãn áp rất cao.</td></tr><tr><td><b>Thuốc chẹn bêta giao cảm nhỏ mắt (vd timolol) nhỏ mắt phải</b><div class="sub">Không có trong tài liệu đã tải</div></td><td data-l="Liều">1 giọt<div class="sub">Nhỏ mắt · 2 lần/ngày</div></td><td data-l="Thời gian">Chờ phẫu thuật</td><td class="gc" data-l="Ghi chú">QĐ 40/QĐ-BYT 2015 (mục 4b): chẹn bêta giao cảm 2 lần/ngày, thận trọng bệnh phổi, tim, mạch. Ông Tư không hen, không bệnh tim; mạch 88. Tên thuốc, nồng độ cụ thể: không có trong tài liệu đã tải.</td></tr><tr><td><b>Pilocarpin nhỏ mắt trái (phòng ngừa)</b><div class="sub">1%</div></td><td data-l="Liều">1–2 giọt<div class="sub">Nhỏ mắt · Một lần, rồi tuyến trên quyết định laser cắt mống mắt chu biên mắt trái</div></td><td data-l="Thời gian">Tạm thời cho đến LPI</td><td class="gc" data-l="Ghi chú">Theo QĐ 40/QĐ-BYT 2015 (mục 4b). AAO 2026 (Fellow-eye management): thuốc co đồng tử mạn không thay LPI; làm LPI dự phòng sớm.</td></tr><tr><td><b>Thuốc giảm đau</b><div class="sub">Không có trong tài liệu đã tải</div></td><td data-l="Liều">Không có trong tài liệu đã tải<div class="sub">Uống hoặc theo bác sĩ · Khi đau nhiều</div></td><td data-l="Thời gian">Trong thời gian chuyển</td><td class="gc" data-l="Ghi chú">QĐ 40/QĐ-BYT 2015 (mục 4b): thuốc giảm đau, an thần. Tên, liều: không có trong tài liệu đã tải.</td></tr><tr><td><b>Clorpheniramin 4 mg (thuốc dị ứng ông tự mua)</b><div class="sub">4 mg</div></td><td data-l="Liều">NGỪNG<div class="sub">Uống · Dừng ngay</div></td><td data-l="Thời gian">Không dùng lại khi chưa hỏi bác sĩ mắt</td><td class="gc" data-l="Ghi chú">AAO PACD PPP 2026 (History; Management – PACS): thuốc dị ứng có tính kháng cholinergic có thể gây cơn cấp.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Bệnh của ông là cơn tăng nhãn áp cấp, nhãn áp mắt phải đang rất cao nên đau, mờ, buồn nôn; để lâu có thể mù vĩnh viễn (QĐ 40/QĐ-BYT 2015, mục 5a). Cần đi bệnh viện có khoa mắt ngay trong hôm nay, con trai đi cùng.</li><li>Truyền chai nước thường không làm hạ nhãn áp; thuốc cần cho ông là thuốc hạ nhãn áp, ở bệnh viện mắt sẽ làm laser nhỏ cắt mống mắt để mở đường thoát cho nước trong mắt, đa số làm trong ngày, ít đau.</li><li>Ngừng ngay thuốc dị ứng clorpheniramin; về sau không tự mua thuốc cảm, thuốc dị ứng, thuốc ngủ, thuốc say tàu xe; trước khi đi khám mắt báo bác sĩ nhãn khoa rằng đã từng bị cơn cấp.</li><li>Mắt trái cũng nằm trong vùng nguy hiểm: nửa số mắt còn lại bị cơn cấp trong 5 năm nếu không làm laser (AAO PACD PPP 2026, Fellow-eye management). Đề nghị bác sĩ mắt cắt mống mắt cả hai bên.</li><li>Con cháu, anh em ruột của ông nên đi khám mắt; người trên 40 tuổi khám mắt mỗi năm, người ruột thịt của bệnh nhân glôcôm khám mỗi 6 tháng (QĐ 40/QĐ-BYT 2015, mục 6).</li><li>Về sau theo dõi lâu dài nhãn áp, đĩa thị, thị trường (AAO PACD PPP 2026, Follow-up Evaluation). Nếu nhức mắt, đỏ, mờ trở lại: đi khám ngay, không chờ qua đêm.</li><li>Nếu ông ngại đi: gọi cho con ông (anh Hải) và nhờ trạm y tế xã, hoặc xe cấp cứu; chi phí tùy bảo hiểm: không có trong tài liệu đã tải.</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-8">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Glôcôm góc đóng cấp (phát hiện)</b></div>
+<p class="note">Phải loại trừ: Viêm kết mạc, Viêm màng bồ đào</p><p>Ông Tư được hạ nhãn áp ngay tại phòng khám rồi con trai chở lên bệnh viện mắt tỉnh trong buổi sáng. Ở đó nhãn áp mắt phải hạ xuống nhưng chậm, giác mạc phù mất dần sau 2 ngày nên laser cắt mống mắt chu biên phải làm muộn hơn dự kiến; mắt trái được cắt mống mắt chu biên dự phòng. Thị lực mắt phải tăng từ đếm ngón tay lên 3/10 sau 2 tuần, và chỉ khoảng 5/10 sau 3 tháng do còn dính góc một phần, phải nhỏ thuốc hạ nhãn áp lâu dài, theo dõi thị trường. Ông ngừng clorpheniramin, bỏ ý định &#x27;truyền nước&#x27;, và con trai được dặn đi khám mắt (diễn tiến mang tính minh họa của ca; tiên lượng tùy giai đoạn lúc đến khám – QĐ 40/2015, mục 5a; sau cơn cấp có thể tổn thương thần kinh thị tiến triển – AAO PACD PPP 2026, Natural History).</p></details>
+<details class="card" id="bai"><summary><h3 id="m-9">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Giấu tiền sử: ông không tự kể thuốc dị ứng clorpheniramin, các đợt mờ mắt quầng quanh đèn vài tháng, mẹ mù một bên; chỉ ra khi hỏi lại nhẹ nhàng từng việc.</li><li>Lời kể &#x27;nhức đầu, buồn nôn, mệt, tức giận&#x27; dễ gợi nội khoa, thần kinh hoặc tiêu hóa; cùng với huyết áp 160/95 dễ nghĩ cơn tăng huyết áp.</li><li>Mắt đỏ dễ nghĩ viêm kết mạc, nhưng đỏ sẫm quanh rìa, giác mạc phù, không ghèn, đồng tử giãn.</li><li>Ông đòi &#x27;truyền chai nước&#x27; và ngại tốn tiền chuyển tuyến; cần giải thích thay vì cho dịch thường hay cho về.</li><li>Không có X-quang: CT sọ bị khóa, không cần; chẩn đoán dựa vào thị lực, đồng tử, tiền phòng, nhãn áp.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Đau đầu-nôn kèm một mắt đỏ, nhìn mờ ở người trên 60 tuổi: nghĩ glôcôm góc đóng cấp, đo nhãn áp và nhìn đồng tử trước khi nghĩ đến thần kinh hoặc tiêu hóa.</li><li>Hỏi mọi thuốc tự mua (thuốc dị ứng, cảm, ngủ, say tàu xe) vì kháng cholinergic có thể làm giãn đồng tử và khởi phát cơn cấp (AAO 2026, History).</li><li>Hỏi lại không phán xét về các đợt mờ mắt, quầng quanh đèn đã qua và tiền sử gia đình; ông giấu vì sợ mổ, sợ tốn tiền.</li><li>Cơn cấp là cấp cứu mắt: hạ nhãn áp ngay rồi chuyển, không cho về, không nhỏ giãn đồng tử, không điều trị như viêm kết mạc.</li><li>Mắt lành cũng cần được bảo vệ bằng cắt mống mắt chu biên sớm; chỉ dùng thuốc co đồng tử là giải pháp tạm.</li><li>Lý do thật &#x27;muốn truyền dịch&#x27;: dịch thường không hạ nhãn áp, giải thích và gắn với lý do chuyển tuyến.</li><li>Khỏi chậm hơn dự kiến: nhãn áp hạ chậm, giác mạc phù lâu, thị lực hồi phục từng phần; cần theo dõi nhãn áp, đĩa thị, thị trường lâu dài (AAO 2026, Follow-up Evaluation).</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Glôcôm góc đóng nguyên phát cơn cấp: khởi phát chiều tối sau xúc động mạnh, nhức mắt lan nửa đầu, quầng xanh đỏ quanh đèn, buồn nôn, thị lực giảm nhiều, nhãn áp rất cao, giác mạc phù, đồng tử giãn méo, tiền phòng nông (QĐ 40/QĐ-BYT 2015, Glôcôm góc đóng nguyên phát, mục 3a).</li><li>Hạ nhãn áp: acetazolamid 0,25 g × 2–4 viên/ngày hoặc tiêm tĩnh mạch 500 mg, pilocarpin tại mắt mỗi 15–20 phút, chẹn bêta hoặc ức chế anhydrase carbonic nhỏ mắt, mannitol 20% 200 mL khi quá cao (QĐ 40/2015, mục 4b); cắt mống mắt chu biên bằng laser hoặc phẫu thuật là bắt buộc (mục 4b).</li><li>AAO 2026: dấu hiệu AACC là đau mắt, nhức đầu, buồn nôn, nhìn mờ có quầng; nhãn áp rất cao, phù giác mạc, cương tụ, đồng tử giãn nửa vời; điều trị nội khoa trước rồi LPI, cắt mống mắt hay lấy thể thủy tinh.</li><li>Mắt lành: khoảng một nửa bị cơn cấp trong 5 năm, thuốc co đồng tử mạn không thay LPI (AAO PACD PPP 2026, Fellow-eye management).</li><li>Thuốc kháng cholinergic (thuốc dị ứng, cảm, ngủ) có thể khởi phát cơn cấp ở mắt có góc hẹp (AAO PACD PPP 2026, History; Management – PACS).</li><li>Yếu tố nguy cơ: tiền sử gia đình, tuổi cao, nữ, người châu Á, viễn thị, tiền phòng nông (AAO PACD PPP 2026, Risk Factors).</li><li>Phòng bệnh: người trên 40 tuổi khám mắt mỗi năm, người ruột thịt của bệnh nhân glôcôm mỗi 6 tháng (QĐ 40/2015, mục 6).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-10">Nguồn tài liệu <small>2</small></h3></summary><ul class=""><li>BYT – QĐ 40/QĐ-BYT 2015, Hướng dẫn chẩn đoán và điều trị các bệnh về mắt – TL-0242 – ĐÃ ĐỌC: Glôcôm góc đóng nguyên phát (mục 1–6); chẩn đoán phân biệt viêm màng bồ đào tăng nhãn áp (mục 3a). Bản chữ có lỗi in &#x27;Acetazolamide 500g&#x27; (hiểu là 500 mg).</li><li>AAO – Primary Angle-Closure Disease Preferred Practice Pattern 2026 (Ophthalmology 2026;133(4):P153-P201) – TL-0047 – ĐÃ ĐỌC: Highlighted Findings; Risk Factors; Natural History; Diagnosis – History, Physical Examination, Gonioscopy; Management – PACS, Acute Angle-Closure Crisis (Acute attack management, Fellow-eye management), Surgery and Postoperative Care, Follow-up Evaluation; Clinician and Setting; Counseling and Referral</li></ul></details>
+<details class="card"><summary><h3 id="m-11">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Tai mũi họng + Mắt</dd><dt>chan_doan_dich</dt><dd>Glôcôm góc đóng cấp (phát hiện)</dd><dt>chan_doan_phai_loai_tru</dt><dd>Viêm kết mạc; Viêm màng bồ đào</dd><dt>nhom_tuoi</dt><dd>Cao tuổi (60–74 tuổi)</dd><dt>gioi</dt><dd>Nam</dd><dt>do_kho</dt><dd>Điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>1</dd><dt>dien_tien_tai_kham</dt><dd>Không áp dụng (ca 1 lượt khám)</dd><dt>nhieu_benh_nhan</dt><dd>Giấu tiền sử</dd><dt>rang_buoc_nguon_luc</dt><dd>Không có X-quang</dd><dt>nghe_nghiep</dt><dd>Nông dân đã nghỉ hưu</dd><dt>yeu_to_khoi_phat</dt><dd>Sau căng thẳng công việc</dd><dt>thuoc_dang_dung</dt><dd>Thuốc dị ứng theo mùa tự mua</dd><dt>ly_do_that_su_den_kham</dt><dd>Muốn được truyền dịch</dd><dt>loai_ket_cuc</dt><dd>Khỏi chậm hơn dự kiến</dd></dl><ul class=""><li>Bản 1 (25/10/2026) – viết: Sonnet. Tài liệu đã đọc: TL-0242 (QĐ 40/2015) mục Glôcôm góc đóng nguyên phát; TL-0047 (AAO PACD PPP 2026) các mục ghi ở nguon.</li><li>Thiếu trong tài liệu đã tải: nồng độ pilocarpin cho mắt bệnh và nồng độ/tên thuốc chẹn bêta nhỏ mắt; tên và liều thuốc giảm đau, chống nôn; vai trò của dịch truyền thường; giá trị nhãn áp mmHg theo ngưỡng; tiêu chuẩn chuyển tuyến của tuyến huyện; tiêu chuẩn chẩn đoán tăng huyết áp và đau đầu thần kinh. Số liệu thị lực, nhãn áp 58 mmHg, thời gian hồi phục là số liệu minh họa của ca.</li><li>Mâu thuẫn/khác nhau: pilocarpin 1% mắt lành (QĐ 40/2015) và LPI mắt lành sớm (AAO 2026) – ghi cả hai (xem TM-0440_mau_thuan.md). QĐ 40 và AAO về thuốc co đồng tử khi nhãn áp rất cao: bổ sung, không mâu thuẫn.</li><li>Mục khám/CLS: dùng id có sẵn (mat, nhan_ap, giac_mac_fluorescein, day_mat, than_kinh); soi góc tiền phòng và đèn khe không có trong danh mục nên nhập vào mô tả &#x27;mat&#x27;. Không có đề xuất danh mục mới.</li><li>Ca không có ảnh da/ảnh mắt (không có trong kho, mô tả bằng chữ).</li></ul></details>
+<p class="chan-trang">Ca TM-0440 · phiên bản ca 1 · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

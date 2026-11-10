@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TH-0014 · Khó tiêu chức năng</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · TH-0014</div>
+   <h1>Đầy bụng, ăn mau no, ợ hơi hơn hai tuần nay sau chuyến về quê uống nước giếng; đã truyền nước hai lần ở nhà vẫn chưa hết</h1>
+   <p class="dich-gia">Đoàn Thị Lài · Nữ · 80 tuổi · 45 kg</p>
+   <div class="chips"><span class="chip">Tiêu hóa - gan mật</span><span class="chip">Điển hình</span><span class="chip">2 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Nông dân đã nghỉ hưu: hơn 50 năm làm ruộng và chăn nuôi ở xã, nay chỉ còn chăm vườn rau và đàn gà sau nhà, sống chung với gia đình con trai</dd><dt>Chiều cao, cân nặng</dt><dd>150 cm · 45 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi bà. Bà tự xưng &#x27;bà&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;, hay &#x27;dạ&#x27; đầu câu.</dd><dt>Tính cách</dt><dd>Hiền, nói chậm, kể vòng vo, hay bắt đầu từ chuyện đồng ruộng thuở trước. Thật thà, hỏi gì đáp nấy nhưng không tự kể vì ngại làm phiền con cháu. Sợ tốn tiền của con, dễ tự ái khi bị nói &#x27;làm bộ&#x27;. Nghe giải thích thì gật đầu và làm đúng.</dd><dt>Người nhà</dt><dd>Anh Võ Văn Thành (54 tuổi, con trai, chở bà bằng xe máy, ít nói, nhìn mẹ lo lắng) – con trai</dd></dl></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/2</span> </h2>
+ <div class="card intro"><h3 id="m-2">Tiếp đón</h3><p>Bà Đoàn Thị Lài, 80 tuổi, nông dân đã nghỉ hưu, đến khám lúc 8 giờ 30, được con trai là anh Võ Văn Thành chở bằng xe máy. Bà nói hơn nửa tháng nay ăn không tiêu, đầy bụng, mau no, sau chuyến về quê dự giỗ. Bà bước vào chậm, nói nhỏ, tay cầm tờ thẻ BHYT. Sinh hiệu: HA 136/78 mmHg, mạch 76 l/p, nhiệt 36,7 °C, nhịp thở 18 l/p, SpO₂ 96%. Cân nặng 45 kg, cao 150 cm.</p>
+  <blockquote>“Dạ chào bác sĩ. Bà ăn không tiêu, bụng đầy tức, ăn có mấy muỗng cơm là no. Hồi đi giỗ ở quê về, bà uống nước giếng xong là sình bụng tới giờ. Con trai bà chở bà đi khám.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>76</b><small>l/p</small></div><div class="vs"><span>HA</span><b>136/78</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,7</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>18</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>96</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-3">Hỏi bệnh <small>14 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám nêu ra</b><span class="tag t-g">Tự kể</span></div><p>Bà nói: &#x27;Bà ăn không tiêu, bụng đầy tức, ăn có mấy muỗng cơm là no. Hồi đi giỗ ở quê về, uống nước giếng xong là sình bụng tới giờ.&#x27; Hơn nửa tháng nay.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Triệu chứng nền đủ thời gian cho tiêu chuẩn Rome (PDS)</b><span class="tag t-b">Khi được hỏi</span></div><p>Khoảng 8 tháng nay bà đã hay đầy tức và no sớm sau bữa ăn (trong vòng 1–2 giờ), chừng 3–4 ngày mỗi tuần; bà nghĩ &#x27;già thì ăn lâu tiêu&#x27;. Thỉnh thoảng, khoảng 1 lần mỗi tuần, nóng rát giữa bụng trên sau bữa ăn. Không ợ chua, không nóng sau xương ức. Không đau khi gắng sức, không lan lưng.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Yếu tố khởi phát: nhiễm trùng tiêu hóa cấp sau uống nước không sạch, làm nặng triệu chứng nền</b><span class="tag t-b">Khi được hỏi</span></div><p>Mười sáu ngày trước bà về quê dự giỗ, nhà chủ cúp nước máy nên dùng nước giếng đào, bà uống nước chưa đun sôi. Đêm đó đau quặn quanh rốn, đi cầu phân lỏng 5–6 lần/ngày trong 2 ngày, không máu, không nhầy, không sốt cao, không nôn nhiều; bà uống nước cháo muối. Ngày thứ 3 hết tiêu chảy, nhưng đầy bụng nặng hơn, mau no hơn, ợ hơi, buồn nôn nhẹ buổi sáng. Hai người cùng đi giỗ cũng tiêu chảy 1–2 ngày rồi tự hết.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiêu chảy cấp đã hết, không phải tiêu chảy kéo dài</b><span class="tag t-b">Khi được hỏi</span></div><p>Hiện bà đi cầu 1 lần mỗi ngày, phân vàng nâu thành khuôn, không máu, không đen, không nhầy. Không sốt từ ngày thứ 3. Không còn đau quặn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc đang dùng: tự truyền dịch tại nhà</b><span class="tag t-b">Khi được hỏi</span></div><p>Ngày thứ 3, thấy mệt và không ăn được, bà nhờ chị Sáu (y tá về hưu trong xóm) đến nhà truyền một chai nước biển 500 ml; ngày thứ 9, vì vẫn đầy bụng, truyền thêm chai thứ hai. Mỗi lần khoảng 2 giờ, tốn 150.000 đồng. Bà khỏe được 1–2 ngày rồi lại đầy. Không sưng đau chỗ chích, không sốt, không rét run. Ngoài hai chai này bà không uống thuốc nào khác.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc ẩn (nghi thuốc ức chế bơm proton đường tĩnh mạch, chưa biết tên): ảnh hưởng thời điểm xét nghiệm H. pylori</b><span class="tag t-r">Giấu</span></div><p>Mỗi lần chị Sáu pha vào chai một ống thuốc bột trắng, nói là &#x27;thuốc bao tử&#x27;, và một ống sinh tố; bà không biết tên. Lần truyền gần nhất cách nay 7 ngày. Bà vẫn gọi đó là &#x27;chai nước biển&#x27;, không coi là thuốc.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi cụ thể: trong chai có pha thêm gì, có tiêm thêm ống thuốc nào, lần cuối cách nay mấy ngày. Hỏi chung &#x27;có thuốc gì không&#x27; thì bà đáp &#x27;chỉ truyền hai chai nước thôi&#x27;.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Sàng lọc dấu báo động: âm tính (sụt 1 kg, khoảng 2%, chưa đến 10%)</b><span class="tag t-b">Khi được hỏi</span></div><p>Không nôn ra máu, phân không đen, không nuốt nghẹn hay đau khi nuốt, không nôn nhiều (chỉ buồn nôn nhẹ buổi sáng), không vàng da. Cân tại trạm y tế xã 3 tháng trước 46 kg, hôm nay 45 kg.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Loại trừ thuốc gây khó tiêu</b><span class="tag t-b">Khi được hỏi</span></div><p>Không uống thuốc giảm đau chống viêm, aspirin, corticoid, sắt, thuốc nam hay thực phẩm chức năng. Đau gối nhẹ nhiều năm, không dùng thuốc. Không rượu, không hút thuốc.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Chưa thăm dò lần nào; không tiền sử gia đình</b><span class="tag t-b">Khi được hỏi</span></div><p>Huyết áp ở trạm y tế khoảng 130/80, không dùng thuốc. Không đái tháo đường, bệnh tim, gan, thận. Chưa từng nội soi, chưa từng thử H. pylori, chưa từng bị loét. Gia đình không ai ung thư dạ dày hay tiêu hóa.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Không mất nước: không có chỉ định truyền dịch</b><span class="tag t-b">Khi được hỏi</span></div><p>Mỗi ngày bà uống khoảng 1,2–1,5 lít nước và nước cháo, tiểu 4–5 lần, nước tiểu vàng nhạt. Không khát nhiều, không chóng mặt khi đứng dậy.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật: mâu thuẫn gia đình về tiền thuốc, bà muốn được xác nhận &#x27;bệnh thật&#x27;</b><span class="tag t-r">Giấu</span></div><p>Hôm kia con dâu (chị Hạnh) nói trước mặt hàng xóm: &#x27;Bà truyền nước hoài tốn tiền, già rồi làm bộ ốm cho con cái lo.&#x27; Hai vợ chồng con trai to tiếng về tiền thuốc của bà. Bà tủi thân, từ hôm đó ăn không ngon, đêm trằn trọc. Hôm nay bà xin con trai chở đi khám, thật ra để bác sĩ nói giùm bà bệnh thật hay không, để con trai có lời nói lại với vợ.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi vì sao hôm nay quyết định đi khám, ở nhà mọi người nói gì về bệnh của bà, bà lo điều gì nhất, hoặc hỏi nhẹ về chuyện tiền bạc, gia đình. Hỏi triệu chứng thuần túy thì bà không nhắc.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Ràng buộc: từ chối xét nghiệm; lý do thật là tiền, không phải sợ</b><span class="tag t-b">Khi được hỏi</span></div><p>Bà nói: &#x27;Bác sĩ cho thuốc thôi, đừng xét nghiệm, tốn tiền con bà nhiều lắm.&#x27; Bà không sợ kim hay nội soi, chỉ sợ tiền (nghe nói nội soi mấy trăm ngàn, xét nghiệm máu cả triệu). Bà chịu khám bụng, đo huyết áp, thăm trực tràng, đo điện tim. Bác sĩ giải thích từng xét nghiệm thì bà nghe và gật nhưng lần này vẫn từ chối, nói &#x27;để bà về bàn với con&#x27;. Bà không bỏ về, không giận.</p></div><div class="fact"><div class="fh"><b>Người nhà gợi ý có chuyện chưa nói</b><span class="tag t-b">Khi được hỏi</span></div><p>Anh Thành: &#x27;Mẹ tôi thương con cháu nên ít nói bệnh. Mấy tuần nay mẹ ăn ít, tối ngồi một mình.&#x27; Khi bác sĩ hỏi chuyện ở nhà, anh ngập ngừng, nhìn mẹ rồi nói &#x27;để mẹ nói&#x27;.</p></div><div class="fact"><div class="fh"><b>Điều kiện tái khám; giấc ngủ</b><span class="tag t-b">Khi được hỏi</span></div><p>Có thẻ BHYT. Nhà cách phòng khám 12 km, bệnh viện tỉnh khoảng 35 km. Bà ngủ chập chờn, hay thức 3–4 giờ sáng nghĩ chuyện nhà, không ý nghĩ tự hại. Ăn chín, uống nước máy ở nhà.</p></div></details>
+ <details class="card"><summary><h3 id="m-4">Khám <small>8 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, tiếp xúc tốt, dáng gầy nhỏ. Cao 150 cm, nặng 45 kg, BMI 20,0. Niêm mạc mắt hồng, môi và lưỡi ẩm, da véo trở lại nhanh so với tuổi. Không vàng da, không hạch cổ, không hạch thượng đòn trái.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đo huyết áp tư thế nằm – đứng</b></div><p><span class="lbl">Kết quả:</span> Nằm: HA 138/80 mmHg, mạch 74 l/p. Đứng 3 phút: HA 134/78 mmHg, mạch 80 l/p. Không chóng mặt, không tụt huyết áp tư thế.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng phẳng, mềm, không chướng, âm ruột 5–6 lần/phút. Ấn khó chịu nhẹ vùng thượng vị, không phản ứng thành bụng, không co cứng. Không sờ thấy khối, gan lách không to, Murphy âm tính, không đau hố chậu.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b></div><p><span class="lbl">Kết quả:</span> Không phù hai cẳng chân, không phù mi mắt. Không giãn tĩnh mạch, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Mu bàn tay trái có vài vết tím nhạt nhỏ, không sưng đỏ.</p><p><span class="lbl">Kết quả:</span> Mu bàn tay trái có hai vết kim cũ, tím nhạt đường kính 5–7 mm, không sưng, nóng, đỏ, không đường đỏ dọc tĩnh mạch. Không ban, không vàng da.</p></div><div class="row"><div class="rh"><b>Thăm trực tràng</b></div><p><span class="lbl">Kết quả:</span> Thăm trực tràng (bà đồng ý sau giải thích): không khối, găng dính phân vàng nâu, không máu, không phân đen.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 76 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 76 l/p, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi, không T3.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Lồng ngực cân đối, gõ trong hai bên.</p><p><span class="lbl">Kết quả:</span> Rì rào phế nang êm dịu hai bên, không ran, không dấu hiệu ứ dịch.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-5">Cận lâm sàng <small>7 mục</small></h3></summary><div class="row"><div class="rh"><b>Điện tâm đồ 12 chuyển đạo</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Nhịp xoang 76 l/p, trục bình thường, PR 0,16 s, QRS hẹp, không ST chênh, không sóng Q bệnh lý, sóng T bình thường.</p><p class="why">Bà đồng ý vì &#x27;không rút máu&#x27;. Đau thượng vị là triệu chứng tương đương đau ngực (ESC 2023, mục 3.1); hợp lý ở người 80 tuổi, không bắt buộc vì triệu chứng 8 tháng, không liên quan gắng sức.</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> (Bà Lài không đồng ý rút máu: &#x27;Thôi bác sĩ, tốn tiền con bà.&#x27; Đã ghi nhận từ chối vào hồ sơ.)</p><p class="why">VNAGE 2024 (KC 4); BSG 2022 (Executive summary): công thức máu cho người từ 55 tuổi khó tiêu. Thiếu máu thiếu sắt là dấu báo động (VNAGE 2024, KC 2); khi không có Hb phải dựa vào niêm mạc hồng, hỏi phân đen, thăm trực tràng (đều bình thường).</p></div><div class="row"><div class="rh"><b>Điện giải đồ (Na, K, Cl)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> (Bà Lài không đồng ý rút máu: &#x27;Thôi bác sĩ, tốn tiền con bà.&#x27; Đã ghi nhận từ chối vào hồ sơ.)</p><p class="why">VNAGE 2024 (KC 4: sinh hóa gồm điện giải). Hợp lý vì bà vừa tiêu chảy và đã truyền hai chai; khi từ chối phải dựa vào khám lâm sàng (uống được, tiểu đều, huyết áp nằm đứng không đổi, không phù).</p></div><div class="row"><div class="rh"><b>Soi phân (hồng cầu, bạch cầu, ký sinh trùng)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> (Bà Lài không đồng ý lấy phân đi xét nghiệm: &#x27;Thôi bác sĩ, tốn tiền, phân thì có gì đâu.&#x27; Đã ghi nhận từ chối vào hồ sơ.)</p><p class="why">VNAGE 2024, KC 4 và Bảng 2: ký sinh trùng, nhất là Giardia lamblia, có thể gây khó tiêu. Hợp lý vì bà vừa tiêu chảy sau nước không sạch; đã hết tiêu chảy, không sốt nên không khẩn.</p></div><div class="row"><div class="rh"><b>Test thở urê (UBT) tìm H. pylori</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> (Bà Lài không đồng ý thử hơi thở: &#x27;Thôi bác sĩ, để bà về bàn với con.&#x27; Đã ghi nhận từ chối vào hồ sơ.)</p><p class="note">Thay thế khi cơ sở không có: Nội soi dạ dày – tá tràng</p><p class="why">Mọi người khó tiêu cần xác định H. pylori (VNAGE 2024, KC 3; Rome V 2026, Clinical Evaluation); không nội soi thì thở urê là lựa chọn đầu (VNAGE 2023, Statement 5), với điều kiện không PPI 2 tuần, không kháng sinh hoặc bismuth 4 tuần (Statement 6). Kể cả bà đồng ý, hôm nay chưa nên thử: nếu thuốc pha vào chai 7 ngày trước là PPI thì có thể âm tính giả, và bà sắp dùng PPI. Hẹn thử sau khi ngưng PPI ít nhất 2 tuần.</p></div><div class="row"><div class="rh"><b>Siêu âm bụng (gan, thận, thượng thận)</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> (Bà Lài không đồng ý siêu âm bụng: &#x27;Thôi bác sĩ, nằm bôi gel mất tiền.&#x27; Đã ghi nhận từ chối vào hồ sơ.)</p><p class="why">VNAGE 2024 (KC 4) khuyên; Rome V 2026 (Clinical Evaluation) không ủng hộ hình ảnh thường quy. Không đau thành cơn, không vàng da nên không khẩn.</p></div><div class="row"><div class="rh"><b>Nội soi dạ dày – tá tràng</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> (Bà Lài không đồng ý nội soi dạ dày: &#x27;Thôi bác sĩ, mấy trăm ngàn lận, tốn tiền con bà.&#x27; Đã ghi nhận từ chối vào hồ sơ.)</p><p class="why">Có chỉ định: 80 tuổi, chưa thăm dò (VNAGE 2024, KC 1: từ 40 tuổi; VNAGE 2023, Statement 3; ACG-CAG 2017, Statement 1: từ 60 tuổi; BSG 2022: khẩn khi trên 40 tuổi ở vùng nguy cơ ung thư dạ dày cao). Không cấp cứu vì chưa có dấu báo động (VNAGE 2024, KC 2). Rome V 2026 cho phép không nội soi khi không dấu báo động, khác bối cảnh dịch tễ. Bà từ chối: ghi nhận, đề nghị lại, phương án B.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-6">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Khó tiêu chức năng (chẩn đoán dự kiến, chưa thăm dò vì bà từ chối): thể khó chịu sau ăn (PDS), đợt nặng lên sau viêm dạ dày ruột cấp do uống nước không sạch; chưa có dấu báo động; chưa xác định H. pylori</b></div><p class="why">Đầy tức và mau no sau ăn trong 1–2 giờ, 3–4 ngày/tuần, kéo dài 8 tháng: đủ tiêu chuẩn Rome V (B1, B1a: ≥ 2 ngày/tuần, khởi phát ≥ 6 tháng; nóng rát thượng vị sau ăn là một phần của PDS, B1a mục 2) và Rome IV (PDS ≥ 3 ngày/tuần, VNAGE 2024 phần Introduction). Viêm dạ dày ruột cấp làm tăng nguy cơ khó tiêu (Rome V, Pathophysiology); ở bà đó là yếu tố làm nặng trên nền 8 tháng. Chỉ khẳng định khi đã loại bệnh thực thể (Rome V B1a mục 5; VNAGE 2024, KC 5): bà từ chối nên còn là dự kiến.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Loét dạ dày – tá tràng (do H. pylori hoặc thuốc)</b></div><p class="why">Chưa loại trừ được: chưa thử H. pylori, chưa nội soi. Không dùng NSAID, aspirin, corticoid; không nôn máu, phân không đen. Hỏi bệnh không phân biệt được với khó tiêu chức năng, chỉ nội soi mới loại trừ (VNAGE 2024, KC 1, 5).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ung thư dạ dày hoặc thực quản</b></div><p class="why">Không dấu báo động: không nuốt nghẹn, không nôn kéo dài, không thiếu máu trên lâm sàng, không khối, gia đình không ung thư tiêu hóa, sụt cân khoảng 2% (ngưỡng báo động trên 10%, VNAGE 2024, KC 2). Nhưng 80 tuổi, chưa nội soi lần nào nên vẫn có chỉ định nội soi (KC 1). Không dấu báo động không cho phép nói &#x27;chắc chắn không phải ung thư&#x27;.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Nhiễm H. pylori / viêm dạ dày do H. pylori</b></div><p class="why">Chưa biết tình trạng; phải loại viêm dạ dày do H. pylori trước khi chẩn đoán khó tiêu chức năng đáng tin (Maastricht VI 2022, Statement 7; VNAGE 2024, KC 3). Test hôm nay chưa đáng tin vì thuốc qua đường truyền (VNAGE 2023, Statement 6).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Nhiễm khuẩn hay ký sinh trùng ruột còn kéo dài (kể cả Giardia); trào ngược; bệnh đường mật – tụy</b></div><p class="why">Tiêu chảy đã hết, không sốt, phân thành khuôn; Giardia là nguyên nhân cần nghĩ ở Việt Nam (VNAGE 2024, Bảng 2, KC 4), soi phân bà từ chối nên theo dõi lâm sàng. Không ợ chua, không nóng sau xương ức (KC 14: có thể chồng lấp). Đau không thành cơn, không liên quan bữa mỡ, không vàng da (VNAGE 2024 Introduction: đau liên quan bữa ăn phải loại cơn đau quặn mật).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Mất nước hoặc rối loạn điện giải sau tiêu chảy (lý do bà tự truyền dịch)</b></div><p class="why">Không: uống 1,2–1,5 lít/ngày, tiểu 4–5 lần vàng nhạt, môi lưỡi ẩm, huyết áp và mạch nằm đứng không đổi, không phù. Điện giải đồ bà từ chối.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Hội chứng vành cấp (đau thượng vị tương đương đau ngực); căng thẳng tâm lý góp phần (xung đột gia đình, mất ngủ)</b></div><p class="why">Đau thượng vị là triệu chứng tương đương đau ngực (ESC 2023, mục 3.1) nhưng kéo dài 8 tháng, không liên quan gắng sức, điện tim bình thường. Căng thẳng và bệnh đồng mắc tâm lý đi cùng khó tiêu chức năng (Rome V, Pathophysiology; Đồng thuận châu Á 2026, Statement 7); bà không có dấu hiệu trầm cảm nặng.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi riêng lý do bà từ chối, giải thích từng xét nghiệm (lấy gì, có đau không, để làm gì, khoảng bao nhiêu tiền), nói rõ chỉ nội soi mới loại trừ loét và ung thư; tôn trọng quyết định, ghi nhận từ chối từng xét nghiệm vào hồ sơ, hẹn đề nghị lại</b></div><p class="why">Tôn trọng quyền tự quyết và có phương án B (đặc tả sổ cái). Nội soi có chỉ định từ 40 tuổi (VNAGE 2024, KC 1, mạnh); nhiều người bệnh châu Á ngần ngại nhưng đây vẫn là công cụ then chốt (Đồng thuận châu Á 2026, Statement 3). Quy trình ghi nhận từ chối, mẫu văn bản, mốc đề nghị lại: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi cụ thể về chai truyền tại nhà (ai truyền, mấy lần, trong chai pha gì, tiêm thêm ống thuốc nào, lần cuối khi nào), xem vết kim; hỏi vì sao hôm nay bà quyết định đi khám và ở nhà mọi người nói gì về bệnh của bà</b></div><p class="why">Hỏi thuốc và thực phẩm bổ sung là một phần bệnh sử khó tiêu (Rome V, Clinical Evaluation). Thông tin này quyết định thời điểm test H. pylori: PPI trong 2 tuần trước test có thể gây âm tính giả (VNAGE 2023, Statement 6). Lắng nghe, trấn an ngay từ lần khám đầu giúp tuân thủ (VNAGE 2024 phần Treatment of FD; Đồng thuận châu Á 2026, Statement 20).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Mời anh Thành (và cả gia đình nếu có mặt) cùng nghe bác sĩ giải thích bệnh của bà là có thật, thường gặp, không phải &#x27;làm bộ&#x27;, và lý do cần theo dõi; không đứng về phe nào trong chuyện tiền bạc</b></div><p class="why">Mâu thuẫn gia đình là lý do thật bà đến khám (đặc tả sổ cái). Giao tiếp tốt và cách tiếp cận toàn diện được khuyến cáo (Đồng thuận châu Á 2026, Statement 20); khó tiêu chức năng đi cùng căng thẳng tâm lý (Statement 7). Câu chữ cụ thể: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ngưng tự truyền dịch tại nhà; bù nước và ăn bằng đường miệng (nước, cháo, súp); giải thích bằng chính dấu hiệu của bà (uống được, tiểu đều, huyết áp nằm đứng không tụt) và khi nào mới cần truyền (nôn nhiều, không uống được, chóng mặt khi đứng)</b></div><p class="why">Không tài liệu khó tiêu nào chỉ định truyền dịch (VNAGE 2024, Rome V 2026, BSG 2022, ACG-CAG 2017). Nguyên tắc chung: đa số người tiêu chảy cấp bù đủ muối nước bằng đường uống (ACG 2016 tiêu chảy cấp, khuyến cáo 5); bù dịch đường uống trước, chỉ xem xét truyền khi nôn nhiều, không uống được, có dấu mất nước (QĐ 2760/2023, B2 mục 1.2, 1.4; văn bản về sốt xuất huyết, chỉ dùng làm nguyên tắc chung). Nguy cơ của truyền dịch tại nhà do người không phải bác sĩ làm: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Điều trị thử 8 tuần bằng PPI liều chuẩn 1 lần/ngày (omeprazol 20 mg uống 30–60 phút trước bữa sáng) hoặc thuốc vận động (itopride 50 mg × 3 lần/ngày); chọn một hoặc phối hợp, rồi đánh giá lại</b></div><p class="why">PPI liều chuẩn 1 lần/ngày cho cả hai thể, không tăng liều (VNAGE 2024, KC 7, Bảng 4: omeprazol 20 mg); thuốc vận động là lựa chọn đầu ở PDS (KC 10, Bảng 5: itopride 50 mg × 3 lần/ngày); 8 tuần rồi đánh giá lại (KC 11). Rome V 2026 (Treatment): PPI 4–8 tuần, chọn PPI hay thuốc vận động tùy kinh nghiệm, điều kiện; Đồng thuận châu Á 2026 (Statement 23, 26) dè dặt hơn về PPI, itopride không lặp lại lợi ích ở pha 3. Giờ uống PPI: ACG 2022 GERD, KC 8. Gộp một mục vì nguồn khác nhau, cả hai đều đúng. Liều itopride ở người trên 75 tuổi, chống chỉ định: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chưa làm test H. pylori hôm nay; hẹn thử sau khi ngưng PPI ít nhất 2 tuần (test thở hoặc kháng nguyên phân), hoặc urease lúc nội soi nếu bà đồng ý; chưa diệt H. pylori theo kinh nghiệm</b></div><p class="why">Ngừng PPI 2 tuần, kháng sinh hoặc bismuth 4 tuần trước test (VNAGE 2023, Statement 6); nội soi thì urease nhanh, không nội soi thì test thở hoặc kháng nguyên phân, hạn chế huyết thanh (VNAGE 2024, KC 3; VNAGE 2023, Statement 4, 5). Chỉ xét nghiệm khi có ý định diệt (VNAGE 2023, Statement 1).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Tư vấn ăn 5–6 bữa nhỏ, giảm mỡ, dùng nước đun sôi; dặn dấu hiệu phải quay lại ngay (nôn ra máu, phân đen, nôn nhiều hoặc sau mỗi bữa, nuốt nghẹn hay đau, sụt cân, xanh xao, tiêu chảy tái phát, hoa mắt khi đứng) và hẹn tái khám sau 8 tuần</b></div><p class="why">Bữa nhỏ, tránh nhiều mỡ (Rome V 2026, Treatment; VNAGE 2024, KC 13); nước đun sôi: không có trong tài liệu đã tải. Dấu báo động: xuất huyết tiêu hóa trên, thiếu máu thiếu sắt, sụt cân trên 10%, nôn kéo dài (trên 10 lần/24 giờ hoặc sau mỗi bữa), nuốt nghẹn tiến triển hoặc nuốt đau, khối hoặc hạch, tiền sử gia đình ung thư tiêu hóa trên (VNAGE 2024, KC 2). Đánh giá đáp ứng sau 8 tuần (KC 11). Mốc hẹn tái khám sớm hơn: không có trong tài liệu đã tải.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Amitriptylin ngay từ đầu, hoặc metoclopramid, hoặc thuốc chống co thắt kháng cholinergic mạnh (atropin, dicyclomin, hyoscyamin, scopolamin) cho &#x27;dễ ngủ, đỡ ậm ạch&#x27;</b></div><p class="why">AGS Beers 2023 (Bảng 2): tránh amitriptylin ở người từ 65 tuổi (kháng cholinergic, an thần, hạ huyết áp tư thế), tránh metoclopramid (ngoại tháp, nguy cơ lớn ở người yếu) trừ liệt dạ dày và không quá 12 tuần, tránh thuốc chống co thắt kháng cholinergic mạnh. Thuốc chống trầm cảm ba vòng còn là bậc hai sau PPI/thuốc vận động (VNAGE 2024, KC 11; BSG 2022); metoclopramid tối đa 5 ngày (VNAGE 2024, Bảng 5).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Truyền dịch tại phòng khám, hoặc kê chai truyền cho bà mang về nhà truyền</b></div><p class="why">Không mất nước, uống được, không có chỉ định trong tài liệu đã tải; củng cố niềm tin sai &#x27;phải truyền mới khỏe&#x27; và tăng chi phí đúng chỗ gia đình đang căng thẳng. Nguy cơ cụ thể của truyền dịch thừa ở người 80 tuổi: không có trong tài liệu đã tải.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho phác đồ diệt H. pylori theo kinh nghiệm khi chưa có xét nghiệm</b></div><p class="why">Nên xác nhận nhiễm trước khi diệt (VNAGE 2024, KC 3; VNAGE 2023, Statement 1); điều trị theo kinh nghiệm thay xét nghiệm có thể làm chậm phát hiện tổn thương thực thể (VNAGE 2024, phần Diagnosis).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Nói &#x27;không xét nghiệm thì không khám, không kê thuốc&#x27;, ép bà làm, hoặc bắt ký giấy cam đoan rồi cho về không giải thích</b></div><p class="why">Bà có quyền từ chối và vẫn cần điều trị theo phương án B (đặc tả sổ cái). Ép buộc làm bà bỏ về, mất cơ hội theo dõi và dặn dấu báo động, lại đúng vào nỗi lo tiền bạc đang gây xung đột trong nhà.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Nhập viện hoặc chuyển cấp cứu ngay để truyền dịch, nội soi và làm hết xét nghiệm</b></div><p class="why">Không dấu báo động nên không phải đánh giá gấp (VNAGE 2024, KC 2); bà lại không đồng ý xét nghiệm nên nhập viện không làm được thêm gì.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Giữ bà Lài lại nhập viện &#x27;cho truyền dịch và làm đủ xét nghiệm&#x27; là quá tay: bà tỉnh, uống được 1,2–1,5 lít mỗi ngày, tiểu đều, huyết áp nằm đứng không tụt và không có dấu báo động (VNAGE 2024, KC 2); bà lại đang từ chối xét nghiệm vì tiền. Nằm viện làm chi phí tăng đúng lúc con dâu đang trách chuyện tiền thuốc, bà dễ đòi về giữa chừng, còn nỗi lo thật và thói quen truyền chai chưa ai gỡ.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển bà lên bệnh viện tỉnh nội soi ngay hôm nay là quá tay: chưa có dấu báo động nên không phải đánh giá gấp (VNAGE 2024, KC 2), nội soi vẫn nên được đề nghị nhưng có thể hẹn ngoại trú, và bà đang từ chối vì chi phí (Đồng thuận châu Á 2026, Statement 3: nhiều người bệnh ngần ngại nội soi). Chuyến đi 35 km tốn thêm tiền, bà có thể từ chối ngay trước phòng nội soi và trở về với cảm giác &#x27;bệnh nặng, tốn kém&#x27;, chưa ai giải thích hay cho thuốc điều trị thử.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Khó tiêu chức năng, thể khó chịu sau ăn (PDS), theo Rome V 2026 (B1, B1a); chẩn đoán dự kiến, chưa thăm dò vì người bệnh từ chối</li><li>Đợt nặng lên sau viêm dạ dày ruột cấp do uống nước giếng chưa đun sôi (đã hết tiêu chảy), trên nền triệu chứng 8 tháng</li><li>Chưa có dấu báo động; H. pylori chưa xác định; chưa nội soi dù có chỉ định theo tuổi (80 tuổi)</li><li>Yếu tố góp phần: căng thẳng do mâu thuẫn gia đình, mất ngủ; thói quen tự truyền chai tại nhà (không mất nước, không có chỉ định)</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự (Rome V 2026, B1): hỏi bệnh (nền 8 tháng, đợt cấp 16 ngày, tiêu chảy đã hết, chai truyền và thuốc pha trong chai, dấu báo động, thuốc gây khó tiêu, chuyện ở nhà) → khám (bụng, niêm mạc, huyết áp nằm đứng, phù, thăm trực tràng, dấu kim) → cận lâm sàng (điện tim; bà từ chối các xét nghiệm khác) → chẩn đoán dự kiến → xử trí.</li><li>Tiêu chuẩn: Rome V 2026 (B1, B1a): triệu chứng gây khó chịu trong 3 tháng gần đây, khởi phát ≥ 6 tháng, PDS ≥ 2 ngày/tuần (Rome IV: ≥ 3 ngày/tuần, VNAGE 2024 Introduction). Bà 8 tháng, 3–4 ngày/tuần: thỏa cả hai. Viêm dạ dày ruột cấp là yếu tố làm nặng (Rome V, Pathophysiology).</li><li>Tạm dừng chẩn đoán trước khi chốt: ngưng thuốc gây khó tiêu chưa (bà không dùng), H. pylori đã biết chưa (chưa; Maastricht VI 2022, Statement 7), dấu báo động có không (không), bệnh thực thể đã loại chưa (chưa vì chưa nội soi) nên chỉ ghi &#x27;dự kiến&#x27;. Sụt 1 kg (khoảng 2%) và &#x27;ăn ít&#x27; dễ làm lo nhưng chưa đến ngưỡng trên 10% (VNAGE 2024, KC 2).</li><li>Vì sao vẫn có chỉ định nội soi dù không dấu báo động: VNAGE 2024 (KC 1) từ 40 tuổi; VNAGE 2023 (Statement 3) nữ từ 35 tuổi; ACG-CAG 2017 (Statement 1) từ 60 tuổi; BSG 2022 khẩn khi trên 40 tuổi ở vùng nguy cơ cao; Rome V 2026 không bắt buộc vì khác bối cảnh dịch tễ. Bà chưa nội soi lần nào nên các nguồn cùng hướng; bà từ chối vì tiền nên chuyển sang phương án B.</li><li>Ghi chú áp dụng (Applicability Note): tài liệu đã tải không có dữ liệu riêng cho người từ 75 tuổi; thử nghiệm PPI và thuốc vận động chủ yếu từ người trẻ hơn. Với người 80 tuổi phải cân nguy cơ thuốc theo AGS Beers 2023 (Bảng 2): tránh PPI cố định quá 8 tuần nếu không nguy cơ cao, tránh metoclopramid, amitriptylin, thuốc chống co thắt kháng cholinergic mạnh.</li><li>Lý do thật đến khám: bà muốn được xác nhận &#x27;bệnh thật&#x27; sau lời nói nặng của con dâu; giải quyết chuyện này cũng là điều trị (Rome V, Pathophysiology; Đồng thuận châu Á 2026, Statement 7).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Từ chối xét nghiệm: hỏi riêng lý do (ở đây là tiền, không phải sợ), giải thích từng xét nghiệm, ghi nhận từ chối vào hồ sơ, đề nghị lại ở lần sau; làm những gì rẻ và ít xâm lấn (khám, điện tim). Quy trình ghi nhận từ chối và mốc đề nghị lại nội soi: không có trong tài liệu đã tải.</li><li>Thuốc: PPI liều chuẩn 1 lần/ngày hoặc thuốc vận động cho PDS (VNAGE 2024, KC 7, 10, 11; Rome V 2026, Treatment). Thời gian thử PPI: 4–8 tuần (Rome V 2026), 8 tuần (VNAGE 2024, KC 8, 11), 12 tuần (Đồng thuận châu Á 2026, Statement 23; 32% thành viên còn dè dặt vì bằng chứng ở người châu Á yếu hơn). Hẹn 8 tuần, khớp AGS Beers 2023 (Bảng 2: người từ 65 tuổi tránh PPI cố định quá 8 tuần nếu không nguy cơ cao).</li><li>Vì sao không truyền dịch: bà uống được, tiểu đều, huyết áp nằm đứng không đổi, không phù; không tài liệu khó tiêu nào chỉ định. Cảm giác &#x27;khỏe 1–2 ngày sau truyền&#x27; không giải quyết gốc bệnh.</li><li>H. pylori: phải hỏi ra chai pha thuốc gì mới biết test hôm nay có đáng tin không. Nghi có PPI trong chai 7 ngày trước và bà sắp dùng omeprazol nên xét nghiệm hợp lý là sau ngưng PPI ít nhất 2 tuần (VNAGE 2023, Statement 6). Không diệt khi chưa có kết quả dương tính.</li><li>Những việc sai: truyền dịch tiếp, amitriptylin, metoclopramid, thuốc chống co thắt kháng cholinergic mạnh, diệt H. pylori theo kinh nghiệm, ép xét nghiệm, nhập viện hay chuyển cấp cứu khi không dấu báo động.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Omeprazol</b><div class="sub">20 mg</div></td><td data-l="Liều">20 mg × 1 lần/ngày<div class="sub">Uống · 30–60 phút trước bữa sáng</div></td><td data-l="Thời gian">8 tuần rồi tái khám đánh giá (4–8 tuần theo Rome V 2026; 8 tuần theo VNAGE 2024; 12 tuần theo Đồng thuận châu Á 2026)</td><td class="gc" data-l="Ghi chú">VNAGE 2024, KC 7, Bảng 4 (liều); Rome V 2026, Treatment (không tăng liều); ACG 2022 GERD, KC 8 (giờ uống). Người từ 65 tuổi: AGS Beers 2023, Bảng 2 tránh PPI cố định quá 8 tuần nếu không nguy cơ cao.</td></tr><tr><td><b>Itopride (thay thế omeprazol hoặc phối hợp, theo ý bác sĩ)</b><div class="sub">50 mg</div></td><td data-l="Liều">50 mg × 3 lần/ngày<div class="sub">Uống · Cách dùng so với bữa ăn: không có trong tài liệu đã tải</div></td><td data-l="Thời gian">8 tuần rồi đánh giá (VNAGE 2024, KC 11)</td><td class="gc" data-l="Ghi chú">VNAGE 2024, KC 10, Bảng 5. Đồng thuận châu Á 2026 (Statement 26): lợi ích so với giả dược không lặp lại ở pha 3. Liều ở người trên 75 tuổi, chống chỉ định, tương tác: không có trong tài liệu đã tải.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Không nhờ ai truyền chai ở nhà nữa; ăn uống bằng đường miệng (nước, cháo, súp). Chỉ đi khám để truyền khi nôn nhiều, không uống được, chóng mặt hoặc hoa mắt khi đứng, tiểu rất ít (QĐ 2760/2023, B2 mục 1.4, nguyên tắc chung).</li><li>Uống omeprazol mỗi sáng, 30–60 phút trước ăn, không tự tăng liều (VNAGE 2024, KC 7). Uống đủ 8 tuần rồi mang vỏ thuốc đến tái khám, không tự ngưng hay tự kéo dài.</li><li>Ăn 5–6 bữa nhỏ, giảm cá kho mặn và đồ chiên mỡ, không bỏ bữa sáng (Rome V 2026, Treatment). Dùng nước đun sôi: không có trong tài liệu đã tải.</li><li>Quay lại ngay nếu nôn ra máu hoặc phân đen, nôn nhiều hoặc sau mỗi bữa, nuốt nghẹn hoặc đau khi nuốt, sụt cân, xanh xao, mệt lả, tiêu chảy trở lại (VNAGE 2024, KC 2).</li><li>Về xét nghiệm: không bắt buộc hôm nay, đã ghi nhận bà từ chối; khi bà và gia đình bàn xong thì quay lại, nội soi vẫn là cách duy nhất loại trừ loét và ung thư (VNAGE 2024, KC 1).</li><li>Tái khám sau 8 tuần (VNAGE 2024, KC 11), có con trai hoặc con dâu cùng đi nếu được. Giấc ngủ và nỗi lo trong nhà cũng là một phần của bệnh; cứ nói với bác sĩ.</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-2">
+ <h2 id="h-luot-2"><span class="ln">Lượt 2/2</span> · sau 8 tuần</h2>
+ <div class="card intro"><h3 id="m-7">Tiếp đón</h3><p>Bà Lài tái khám sau 8 tuần theo hẹn, đi cùng anh Thành và lần này có cả con dâu là chị Hạnh. Theo hồ sơ lượt trước: bà đã ngưng truyền chai tại nhà, uống omeprazol 20 mg mỗi sáng, ghi nhận từ chối xét nghiệm và nội soi, hẹn đề nghị lại sau 8 tuần. Sinh hiệu: HA 132/76 mmHg, mạch 72 l/p, nhiệt 36,6 °C, nhịp thở 16 l/p, SpO₂ 97%. Cân nặng 46,5 kg.</p>
+  <blockquote>“Dạ chào bác sĩ. Bà hết đầy bụng rồi, ăn cơm được hai chén, hết ợ hơi. Con dâu bà đi theo nghe bác sĩ nói luôn. Giờ bà có phải uống thuốc hoài không bác sĩ?”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>72</b><small>l/p</small></div><div class="vs"><span>HA</span><b>132/76</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,6</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>16</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>97</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-8">Hỏi bệnh <small>6 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám lượt 2: đỡ hoàn toàn, hỏi chuyện ngưng thuốc</b><span class="tag t-g">Tự kể</span></div><p>Bà nói: &#x27;Bà hết đầy bụng rồi, ăn cơm được hai chén, hết ợ hơi. Con dâu bà đi theo nghe bác sĩ nói luôn. Giờ bà có phải uống thuốc hoài không?&#x27;</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đỡ hoàn toàn; mốc thời gian đáp ứng</b><span class="tag t-b">Khi được hỏi</span></div><p>Khoảng 10 ngày sau khi uống omeprazol bà bớt đầy; tuần thứ 3–4 hết hẳn đầy tức, mau no và ợ hơi. Từ đó đến nay hơn một tháng không có triệu chứng. Có một lần, ở bữa giỗ nhà hàng xóm tuần thứ 6, ăn nhiều đồ mỡ, đầy nhẹ một buổi rồi tự hết. Không còn nóng rát sau ăn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tuân thủ; không tác dụng phụ; đã ngưng truyền dịch tại nhà</b><span class="tag t-b">Khi được hỏi</span></div><p>Bà uống omeprazol mỗi sáng trước ăn, đủ 8 tuần, hôm qua uống viên cuối. Không bỏ viên nào, không tự mua thuốc thêm, không còn nhờ chị Sáu truyền chai (chị có hỏi, bà từ chối). Không đau đầu, không tiêu chảy, không táo bón do thuốc.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Sàng lọc dấu báo động lại: âm tính</b><span class="tag t-b">Khi được hỏi</span></div><p>Không nôn ra máu, phân không đen, không nuốt nghẹn, không nôn, không tiêu chảy lại. Đại tiện 1 lần/ngày bình thường. Ngủ được 6 giờ mỗi đêm.</p></div><div class="fact"><div class="fh"><b>Mâu thuẫn gia đình đã nguôi</b><span class="tag t-b">Khi được hỏi</span></div><p>Sau lần khám trước, anh Thành kể lại những gì bác sĩ nói. Chị Hạnh xin lỗi bà, hai bên êm. Lần này chị Hạnh tự xin đi theo, nói &#x27;con muốn nghe bác sĩ nói cho rõ&#x27;; tiền khám lần này chị lo.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đồng ý xét nghiệm không xâm lấn, tiếp tục từ chối nội soi</b><span class="tag t-b">Khi được hỏi</span></div><p>Nghe bác sĩ nói cần thử vi khuẩn dạ dày, bà nói: &#x27;Thở hơi thì bà chịu, không đau, con dâu cũng bảo làm cho chắc.&#x27; Nhưng nội soi bà vẫn sợ (&#x27;nghe nói đút ống vào cổ&#x27;) và sợ mất công đi xa; bà nói &#x27;để bà nghĩ thêm&#x27;. Bà không giận, không bỏ về.</p></div></details>
+ <details class="card"><summary><h3 id="m-9">Khám <small>2 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, vui vẻ, dáng gầy nhỏ. Cân nặng 46,5 kg (tăng 1,5 kg so với lượt trước), BMI 20,7. Niêm mạc mắt hồng, môi ẩm, không vàng da, không hạch.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng phẳng, mềm, không đau khi ấn vùng thượng vị, không phản ứng thành bụng, không sờ thấy khối, gan lách không to, âm ruột bình thường.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Tim</b><span class="tag t-m">Bình thường</span></div><p>Tim đều 72 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 16 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-10">Cận lâm sàng <small>4 mục</small></h3></summary><div class="row"><div class="rh"><b>Nội soi dạ dày – tá tràng</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> (Bà Lài vẫn chưa đồng ý nội soi: &#x27;Để bà nghĩ thêm, bà sợ lắm.&#x27; Từ chối lần thứ hai đã được ghi nhận vào hồ sơ; bác sĩ hẹn nhắc lại ở lần sau.)</p><p class="why">Vẫn có chỉ định theo tuổi, kể cả khi đã hết triệu chứng (VNAGE 2024, KC 1: người khó tiêu từ 40 tuổi; Rome V 2026 mục Clinical Evaluation: chẩn đoán chỉ chắc chắn khi đã loại bệnh thực thể). Tài liệu đã tải không nói đáp ứng với PPI có loại trừ được loét hoặc ung thư hay không. Không khẩn vì không dấu báo động (KC 2). Bà từ chối lần hai: tôn trọng, ghi nhận, nhắc lại mà không ép (Đồng thuận châu Á 2026, Statement 3).</p></div><div class="row"><div class="rh"><b>Test thở urê (UBT) tìm H. pylori</b><span class="tag t-r">Không cần</span></div><p class="why">Không làm hôm nay: bà vừa uống omeprazol 8 tuần, kết quả có thể âm tính giả; phải ngưng PPI ít nhất 2 tuần rồi mới thử (VNAGE 2023, Statement 6). Bà đồng ý thử sau ngưng thuốc nên được hẹn lại (xem xu_tri).</p></div><div class="row"><div class="rh"><b>Kháng nguyên H. pylori trong phân</b><span class="tag t-r">Không cần</span></div><p class="why">Không làm hôm nay vì cùng lý do với test thở (VNAGE 2023, Statement 6). Hẹn thử sau ngưng PPI ít nhất 2 tuần; test thở được ưu tiên hơn (Statement 5).</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-r">Không cần</span></div><p class="why">Không cần hôm nay: hết triệu chứng, không dấu báo động, niêm mạc hồng. VNAGE 2024 (KC 4) khuyên khi chẩn đoán lần đầu, Rome V 2026 không khuyến cáo thường quy; bà đã từ chối ở lượt trước và hiện không có chỉ định mới.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-11">Đáp án lượt 2 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Khó tiêu chức năng, thể khó chịu sau ăn (PDS), đáp ứng hoàn toàn sau 8 tuần điều trị bằng PPI; chưa thăm dò (chưa nội soi, chưa xác định H. pylori) vì bà từ chối</b></div><p class="why">Triệu chứng hết hẳn từ tuần 3–4, ăn uống bình thường, cân tăng 1,5 kg, không dấu báo động. Phù hợp khó tiêu chức năng nhưng chưa chứng minh được không có loét hay ung thư (Rome V 2026, mục Definition: chẩn đoán chỉ chắc chắn khi loại bệnh thực thể). Khó tiêu chức năng là chẩn đoán dương tính, điều trị theo triệu chứng dù có hay không kết quả nội soi (Đồng thuận châu Á 2026, Statement 3).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Loét dạ dày – tá tràng, ung thư dạ dày (chưa loại trừ vì chưa nội soi)</b></div><p class="why">Không dấu báo động, hết triệu chứng; nhưng 80 tuổi, chưa nội soi lần nào nên vẫn có chỉ định thăm dò (VNAGE 2024, KC 1). Tài liệu đã tải không nói đáp ứng với PPI loại trừ được hai bệnh này. Phải có mốc nội soi bằng văn bản: dấu báo động mới hoặc tái phát trong 2–4 tuần sau ngưng điều trị (VNAGE 2023, Bảng 2).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Nhiễm H. pylori (chưa xác định)</b></div><p class="why">Chưa thử vì PPI. Phải xác định H. pylori ở mọi người khó tiêu (VNAGE 2024, KC 3); dương tính thì diệt (VNAGE 2024, KC 6; Đồng thuận châu Á 2026, Statement 22).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Khẳng định bà đã đáp ứng điều trị (hết triệu chứng, ăn uống bình thường, cân tăng, không dấu báo động) và giải thích rõ: &#x27;đáp ứng&#x27; khác với &#x27;đã chứng minh không có loét hay ung thư&#x27;</b></div><p class="why">Đánh giá đáp ứng sau 8 tuần (VNAGE 2024, KC 11). Khó tiêu chức năng chỉ chắc chắn khi đã loại bệnh thực thể (Rome V 2026, mục Definition). Định nghĩa &#x27;khỏi hoàn toàn&#x27; và thời gian không triệu chứng tối thiểu: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ngưng omeprazol vì đã đủ 8 tuần và hết triệu chứng; HOẶC theo VNAGE có thể tiếp tục tối đa khoảng 6 tháng rồi thử ngưng nếu bác sĩ thấy cần (với bà chọn ngưng, kèm mốc quay lại nếu tái phát)</b></div><p class="why">Ba mốc khác nhau: Rome V 2026 (Treatment) PPI 4–8 tuần; VNAGE 2024 (KC 8) người đáp ứng thử ngưng sau 6 tháng để tránh tác dụng phụ; Đồng thuận châu Á 2026 (Statement 23) tiếp tục nếu có lợi, ngưng nếu không đáp ứng sau 12 tuần. AGS Beers 2023 (Bảng 2): tránh PPI cố định quá 8 tuần ở người từ 65 tuổi không thuộc nhóm nguy cơ cao (C. difficile, viêm phổi, mất xương, gãy xương), nên với bà thận trọng hơn là ngưng. Cách giảm liều dần: không có trong tài liệu đã tải. Không chấm w hướng nào.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn xét nghiệm H. pylori (test thở hoặc kháng nguyên phân) sau khi ngưng omeprazol ít nhất 2 tuần, bà đã đồng ý; dương tính thì diệt H. pylori</b></div><p class="why">Mọi người khó tiêu cần xác định H. pylori (VNAGE 2024, KC 3; Rome V 2026); test thở là lựa chọn đầu, ngừng PPI 2 tuần, kháng sinh hoặc bismuth 4 tuần (VNAGE 2023, Statement 5, 6); phải loại H. pylori trước khi coi là khó tiêu chức năng (Maastricht VI 2022, Statement 7). Diệt khi dương tính (VNAGE 2024, KC 6; Đồng thuận châu Á 2026, Statement 22). Phác đồ không kê hôm nay vì chưa có kết quả.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Đề nghị lại nội soi dạ dày vì 80 tuổi chưa thăm dò, tôn trọng việc bà chưa đồng ý, ghi nhận từ chối lần hai và hẹn nhắc lại; nêu rõ khi nào phải soi dù bà chưa muốn</b></div><p class="why">VNAGE 2024 (KC 1, 2); Đồng thuận châu Á 2026 (Statement 3: nhiều người bệnh ngần ngại nội soi). Mốc phải nội soi: dấu báo động (VNAGE 2024, KC 2), tái phát trong 2–4 tuần sau ngưng PPI (VNAGE 2023, Bảng 2), không đáp ứng sau 8 tuần (VNAGE 2024, KC 11). Quy trình ghi nhận từ chối và mốc nhắc lại: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn ăn uống phòng tái phát (bữa nhỏ, giảm đồ nhiều mỡ, nước đun sôi khi về quê), cho biết bà không phải uống thuốc dài hạn, không cần truyền chai; quay lại sớm nếu tái phát; hẹn khám lại khi có kết quả test H. pylori</b></div><p class="why">Bữa nhỏ, tránh nhiều mỡ (Rome V 2026, Treatment; VNAGE 2024, KC 13). Khó tiêu chức năng mạn tính, tái diễn (VNAGE 2024 Introduction) nên tái phát không phải thuốc kém. Đáp ứng thì không cần duy trì thuốc vô thời hạn (VNAGE 2024, KC 8; AGS Beers 2023, Bảng 2). Nước đun sôi, mốc tái khám cụ thể: không có trong tài liệu đã tải.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Tiếp tục omeprazol thêm vài tháng &#x27;cho chắc&#x27;, hoặc làm thêm công thức máu, điện giải, siêu âm bụng &#x27;xác nhận khỏi&#x27;</b></div><p class="why">VNAGE 2024 (KC 8) cho phép tiếp tục đến khoảng 6 tháng rồi thử ngưng, Beers 2023 (Bảng 2) khuyên tránh quá 8 tuần ở người từ 65 tuổi: chấp nhận nếu bác sĩ có lý do, không phải đáp án chính. Xét nghiệm cơ bản: VNAGE 2024 (KC 4) khuyên khi chẩn đoán, Rome V 2026 không thường quy; đã hết triệu chứng nên không đổi xử trí.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Chuyển bà đi bệnh viện nội soi ngay trong ngày, hoặc nhập viện để &#x27;theo dõi sau điều trị&#x27;</b></div><p class="why">Không dấu báo động, đã hết triệu chứng nên không khẩn (VNAGE 2024, KC 2). Nội soi vẫn nên đề nghị và hẹn, nhưng ép làm hôm nay khi bà chưa muốn thì mất lòng tin và nguy cơ bỏ luôn việc thử H. pylori.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho amitriptylin &#x27;dự phòng tái phát&#x27;, hoặc cho phác đồ diệt H. pylori &#x27;cho chắc&#x27; khi chưa có kết quả</b></div><p class="why">Thuốc chống trầm cảm ba vòng chỉ là bậc hai khi không đáp ứng PPI hoặc thuốc vận động (VNAGE 2024, KC 11; BSG 2022), AGS Beers 2023 (Bảng 2) khuyên tránh ở người từ 65 tuổi; bà đã đáp ứng hoàn toàn. Nên xác nhận nhiễm H. pylori trước khi diệt (VNAGE 2024, KC 3; VNAGE 2023, Statement 1); test hôm nay cũng chưa đáng tin vì vừa dùng PPI (Statement 6).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển bà Lài đi bệnh viện tỉnh nội soi ngay trong ngày để &#x27;xác nhận khỏi&#x27;, khi bà đã hết triệu chứng, vừa hòa thuận với con dâu và nói rõ chưa muốn nội soi, là quá tay: nội soi vẫn nên được đề nghị và hẹn (VNAGE 2024, KC 1) nhưng không khẩn vì không dấu báo động (KC 2). Ép đi ngay làm bà mất lòng tin, có thể bỏ luôn việc thử hơi thở và tái khám; chuyến đi 35 km lại gợi chuyện tiền bạc vừa nguôi trong nhà.</p></div><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Giữ bà trong diện theo dõi sát, hẹn khám mỗi 2 tuần và cho uống tiếp omeprazol vô thời hạn vì sợ tái phát là quá tay: bà đã đáp ứng hoàn toàn, đủ 8 tuần. Dùng PPI cố định kéo dài ở người từ 65 tuổi có nguy cơ nhiễm C. difficile, viêm phổi, mất xương, gãy xương (AGS Beers 2023, Bảng 2), còn mỗi lần khám hằng tuần là thêm tiền và công của gia đình, đúng điều làm bà tủi thân trước đó.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Khó tiêu chức năng, thể khó chịu sau ăn (PDS), đáp ứng hoàn toàn sau 8 tuần PPI; chưa thăm dò (chưa nội soi, chưa xác định H. pylori) vì người bệnh từ chối</li><li>Không dấu báo động; cân tăng 1,5 kg; mâu thuẫn gia đình đã nguôi</li><li>Cần xác định H. pylori sau ngưng PPI; nội soi vẫn được đề nghị theo tuổi (VNAGE 2024, KC 1)</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự: hỏi (mức đáp ứng, mốc hết triệu chứng, tuân thủ, tác dụng phụ, dấu báo động, chuyện ở nhà, thái độ với xét nghiệm) → khám (cân nặng, bụng) → không cần xét nghiệm mới hôm nay → chẩn đoán → ngưng thuốc và hẹn thăm dò.</li><li>Đáp ứng hoàn toàn trong 8 tuần phù hợp khó tiêu chức năng (Rome V 2026, Treatment; VNAGE 2024, KC 11) nhưng không thay được thăm dò: chẩn đoán chỉ chắc chắn khi loại bệnh thực thể (Rome V 2026, Definition). Tài liệu đã tải không nói đáp ứng với PPI có loại trừ loét hoặc ung thư hay không.</li><li>Tạm dừng chẩn đoán trước khi chốt &#x27;khỏi&#x27;: bà 80 tuổi, chưa nội soi, chưa biết H. pylori. Hết triệu chứng dễ khiến đóng hồ sơ sớm (premature closure); phải giải thích cho bà và con dâu khác biệt giữa &#x27;hết triệu chứng&#x27; và &#x27;đã loại bệnh thực thể&#x27;.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Ngưng PPI: ba mốc khác nhau (Rome V 2026: 4–8 tuần; VNAGE 2024, KC 8: người đáp ứng thử ngưng sau 6 tháng; Đồng thuận châu Á 2026, Statement 23: 12 tuần) và AGS Beers 2023 (Bảng 2) tránh PPI cố định quá 8 tuần ở người từ 65 tuổi không nguy cơ cao. Bà đủ 8 tuần, không nguy cơ cao: ngưng; nếu bác sĩ muốn tiếp tục thì ghi mốc 6 tháng rồi thử ngưng. Không chấm w hướng nào.</li><li>Test H. pylori đặt sau ngưng PPI ít nhất 2 tuần (VNAGE 2023, Statement 6): dặn bà không dùng thuốc bao tử nào trong thời gian chờ, kể cả chai truyền có pha thuốc. Đây là lúc nhận lại sự hợp tác của bà: thở hơi không đau, bà đồng ý.</li><li>Nội soi: vẫn có chỉ định theo tuổi (VNAGE 2024, KC 1), bà từ chối lần hai. Đề nghị lại mà không ép; ghi mốc phải soi bất kể ý bà (dấu báo động, tái phát sớm sau ngưng PPI).</li><li>Không làm: amitriptylin dự phòng, diệt H. pylori khi chưa có kết quả, chuyển tuyến hay nhập viện &#x27;xác nhận khỏi&#x27;. Tiêu chí &#x27;khỏi&#x27;: hết triệu chứng, ăn uống bình thường, cân tăng, không dấu báo động; thời gian không triệu chứng tối thiểu: không có trong tài liệu đã tải.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Omeprazol</b><div class="sub">20 mg</div></td><td data-l="Liều">Ngưng thuốc (đã đủ 8 tuần)<div class="sub">Uống · Viên cuối cùng uống hôm qua; không uống thêm</div></td><td data-l="Thời gian">Ngưng ít nhất 2 tuần trước khi thử H. pylori; nếu tái phát thì quay lại khám, không tự uống lại</td><td class="gc" data-l="Ghi chú">Rome V 2026, Treatment (4–8 tuần); VNAGE 2024, KC 8 (thử ngưng sau 6 tháng ở người đáp ứng); Đồng thuận châu Á 2026, Statement 23 (12 tuần); AGS Beers 2023, Bảng 2 (người từ 65 tuổi tránh PPI cố định quá 8 tuần). Cách giảm liều dần: không có trong tài liệu đã tải.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Hết đầy tức không có nghĩa đã loại bệnh nặng: vẫn cần thử vi khuẩn dạ dày và đề nghị nội soi khi bà sẵn sàng (VNAGE 2024, KC 1, 3).</li><li>Không uống thuốc bao tử nào ít nhất 2 tuần trước khi thử hơi thở, kể cả chai truyền có pha thuốc, để kết quả đáng tin (VNAGE 2023, Statement 6); sau đó hẹn thử hơi thở.</li><li>Ăn 5–6 bữa nhỏ, hạn chế đồ chiên mỡ nhất là trong các bữa giỗ, đám cưới (Rome V 2026, Treatment). Về quê dùng nước đun sôi: không có trong tài liệu đã tải.</li><li>Quay lại sớm nếu triệu chứng trở lại trong 2–4 tuần sau ngưng thuốc, hoặc nôn ra máu, phân đen, nuốt nghẹn, nôn nhiều, sụt cân, xanh xao (VNAGE 2023, Bảng 2; VNAGE 2024, KC 2).</li><li>Không nhờ truyền chai; khó tiêu chức năng có thể tái phát, đó là tính chất của bệnh chứ không phải thuốc kém hay bệnh nặng thêm.</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-12">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Khó tiêu chức năng</b></div>
+<p class="note">Phải loại trừ: Loét dạ dày-tá tràng, Ung thư dạ dày</p><p>Ba tuần sau khi ngưng omeprazol, bà Lài làm test thở urê tại phòng khám: âm tính. Ba tháng sau bà không tái phát, ăn uống bình thường, không còn nhờ truyền chai. Bà vẫn chưa nội soi; từ chối lần hai đã được ghi vào hồ sơ và bác sĩ hẹn nhắc lại. Chị Hạnh cùng bà đến lấy kết quả, chuyện tiền thuốc không còn làm bà tủi. Kết cục tốt, nhưng bài học nằm ở khoảng trống còn lại: &#x27;khỏi&#x27; dựa trên đáp ứng điều trị và H. pylori âm tính, chưa phải bằng chứng đã loại loét hay ung thư ở người 80 tuổi; hồ sơ phải ghi chẩn đoán là khó tiêu chức năng chưa thăm dò, kèm mốc phải soi (dấu báo động, tái phát sớm sau ngưng PPI). Kết quả tốt không chứng minh quyết định bỏ qua nội soi là đúng, và tôn trọng quyền từ chối không có nghĩa là ngừng đề nghị.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-13">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Bệnh nhân hợp tác tốt nhưng không tự kể chuyện truyền chai và chuyện con dâu: phải hỏi cụ thể &#x27;ai truyền, trong chai có gì&#x27; và &#x27;vì sao hôm nay quyết định đi khám&#x27;.</li><li>Từ chối xét nghiệm vì tiền, không vì sợ: giải thích từng xét nghiệm, ghi nhận từ chối, làm những gì rẻ và ít xâm lấn (điện tim, khám), có phương án B.</li><li>Thuốc ẩn: chai truyền có pha &#x27;thuốc bao tử&#x27; (nghi PPI). Không hỏi ra thì dễ chỉ định test H. pylori sớm và nhận âm tính giả.</li><li>Lý do thật: mâu thuẫn gia đình, bà muốn được xác nhận &#x27;bệnh thật&#x27;; nói điều đó với cả gia đình là một phần điều trị.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Người cao tuổi hợp tác tốt vẫn có hai điều không tự nói: thứ bà không coi là thuốc (chai truyền) và điều bà ngại (chuyện nhà). Hỏi cụ thể và hỏi &#x27;vì sao hôm nay đi khám&#x27;.</li><li>Khó tiêu chức năng ở người 80 tuổi chưa nội soi chỉ là chẩn đoán dự kiến (Rome V 2026; VNAGE 2024, KC 1). Từ chối xét nghiệm phải được ghi nhận, có phương án B và đề nghị lại.</li><li>Test H. pylori phải đặt đúng thời điểm: ngưng PPI 2 tuần, kháng sinh hoặc bismuth 4 tuần (VNAGE 2023, Statement 6); chai truyền có pha thuốc cũng tính.</li><li>Không có chỉ định truyền dịch khi uống được, tiểu đều, huyết áp nằm đứng không đổi; giải thích bằng chính dấu hiệu của người bệnh.</li><li>Ca đỡ hoàn toàn: ngưng thuốc có kế hoạch (Rome V 2026; VNAGE 2024, KC 8; AGS Beers 2023); hết triệu chứng không có nghĩa đã loại bệnh thực thể. Chống premature closure: &#x27;khỏi&#x27; phải kèm lời nhắc những gì chưa làm và mốc quay lại.</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Rome V 2026 (B1, B1a): 3 tháng gần đây, khởi phát ≥ 6 tháng; PDS ≥ 2 ngày/tuần (Rome IV: ≥ 3 ngày/tuần).</li><li>Dấu báo động: xuất huyết tiêu hóa, thiếu máu, sụt cân trên 10%, nôn kéo dài, nuốt nghẹn, khối hoặc hạch, tiền sử gia đình ung thư tiêu hóa trên (VNAGE 2024, KC 2).</li><li>Nội soi: người khó tiêu từ 40 tuổi (VNAGE 2024, KC 1); tái phát 2–4 tuần sau ngưng PPI cũng tính là dấu báo động (VNAGE 2023, Bảng 2).</li><li>Test H. pylori: không PPI 2 tuần, không kháng sinh hoặc bismuth 4 tuần (VNAGE 2023, Statement 6); test thở là lựa chọn đầu (Statement 5).</li><li>PPI liều chuẩn 1 lần/ngày, không tăng liều (VNAGE 2024, KC 7); 4–8 tuần / 8 tuần / 12 tuần tùy nguồn; người từ 65 tuổi tránh PPI cố định quá 8 tuần nếu không nguy cơ cao (AGS Beers 2023, Bảng 2).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-14">Nguồn tài liệu <small>7</small></h3></summary><ul class=""><li>VNAGE 2024 – khó tiêu chức năng – TL-0178 – phần Introduction, KC 1–14 (Bảng 1), Bảng 2–5</li><li>VNAGE 2023 – H. pylori – TL-0179 – Statement 1, 3, 4, 5, 6; Bảng 2 (dấu báo động)</li><li>Rome V – Gastroduodenal Disorders 2026 – TL-0191 (tệp _ban_02) – B1, B1a, Pathophysiology, Clinical Evaluation, Treatment</li><li>Đồng thuận châu Á về khó tiêu chức năng 2026 – TL-0193 – Statement 3, 7, 20, 21, 22, 23, 26</li><li>ACG-CAG 2017 – khó tiêu – TL-0232 – Statement 1; BSG 2022 – TL-0213 – Executive summary; Maastricht VI/Florence 2022 – TL-0215 (tệp _ban_02) – Statement 7</li><li>AGS Beers 2023 – TL-0022 – Bảng 2; ACG 2022 GERD – TL-0212 – KC 8; ACG 2016 tiêu chảy cấp – TL-0233 – khuyến cáo 5; QĐ 2760/2023 – TL-0029 – B2 mục 1.2, 1.4 (nguyên tắc chung bù dịch); ESC 2023 – TL-0069 – mục 3.1</li><li>Không có trong tài liệu đã tải: quy trình ghi nhận từ chối xét nghiệm và mốc nhắc lại nội soi; mốc tái khám sớm hơn 8 tuần; nguy cơ truyền dịch tại nhà do người không phải bác sĩ làm; liều, chống chỉ định của itopride ở người trên 75 tuổi; cách giảm liều PPI dần; định nghĩa và thời gian &#x27;khỏi hoàn toàn&#x27;; nước đun sôi phòng tái nhiễm; dữ liệu khó tiêu riêng cho nhóm từ 75 tuổi.</li></ul></details>
+<details class="card"><summary><h3 id="m-15">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Tiêu hóa - gan mật</dd><dt>chan_doan_dich</dt><dd>Khó tiêu chức năng</dd><dt>chan_doan_phai_loai_tru</dt><dd>Loét dạ dày-tá tràng; Ung thư dạ dày</dd><dt>nhom_tuoi</dt><dd>Rất cao tuổi (≥75 tuổi)</dd><dt>do_kho</dt><dd>Điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>dien_tien_tai_kham</dt><dd>Đỡ hoàn toàn khi tái khám</dd><dt>nhieu_benh_nhan</dt><dd>Bệnh nhân hợp tác tốt</dd><dt>rang_buoc_nguon_luc</dt><dd>Bệnh nhân từ chối xét nghiệm</dd><dt>loai_ket_cuc</dt><dd>Ổn định, khỏi bệnh</dd><dt>gioi</dt><dd>Nữ</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>2</dd><dt>nghe_nghiep</dt><dd>Nông dân đã nghỉ hưu</dd><dt>yeu_to_khoi_phat</dt><dd>Sau uống nước không sạch</dd><dt>thuoc_dang_dung</dt><dd>Tự truyền dịch tại nhà</dd><dt>ly_do_that_su_den_kham</dt><dd>Mâu thuẫn gia đình</dd></dl><ul class=""><li>2026-11-07 (bản 1): đọc VNAGE 2024 (TL-0178: toàn văn, KC 1–14, Bảng 2–5), VNAGE 2023 (TL-0179: Statement 1–7, Bảng 2), Rome V ban_02 (TL-0191: B1, B1a, Pathophysiology, Clinical Evaluation, Treatment), Đồng thuận châu Á (TL-0193: Statement 3, 7, 20–23, 26), ACG-CAG 2017 (TL-0232: Table 1), BSG 2022 (TL-0213: Executive summary), Maastricht VI (TL-0215: Statement 3, 7), AGS Beers 2023 (TL-0022: Bảng 2), ACG 2022 GERD (TL-0212: KC 8), ACG 2016 tiêu chảy cấp (TL-0233: khuyến cáo 5), QĐ 2760/2023 (TL-0029: B2 mục 1.2, 1.4), ESC 2023 (TL-0069: mục 3.1).</li><li>Thiết kế: khoa_cls để null (bà từ chối vì tiền) giống TH-0086. Triệu chứng nền 8 tháng để thỏa Rome; đợt nặng sau nước giếng (viêm dạ dày ruột cấp, đã hết) là yếu tố làm nặng. Chai truyền có pha &#x27;thuốc bao tử&#x27; (nghi PPI) là chi tiết của người viết để dạy thời điểm test H. pylori, không phải dữ kiện có nguồn. Lượt 2 sau 8 tuần theo xử trí chuẩn lượt 1.</li><li>Mục cũ trong sổ đã áp dụng, không tạo mâu thuẫn mới: tuổi nội soi; thời gian thử PPI 4–8/8/12 tuần (TH-0083); PPI hoặc thuốc vận động ở PDS một mục c (TH-0061); đỡ hoàn toàn thì ngưng hoặc tiếp tục tối đa khoảng 6 tháng (TH-0125, TH-0009); PPI cố định quá 8 tuần ở người từ 65 tuổi (TH-0162); giờ uống PPI (TH-0295); amitriptylin bậc hai và Beers; truyền dịch theo yêu cầu chấm w; xét nghiệm cơ bản và siêu âm mục a (TH-0025). Chỗ thiếu tài liệu: xem mục cuối của nguon.</li></ul></details>
+<p class="chan-trang">Ca TH-0014 · phiên bản ca 1 · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

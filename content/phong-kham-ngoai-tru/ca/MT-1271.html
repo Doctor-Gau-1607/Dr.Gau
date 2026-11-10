@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MT-1271 · ĐTĐ kiểm soát kém (HbA1c cao)</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · MT-1271</div>
+   <h1>Gầy sút, khát nước, tiểu nhiều, mệt – sợ bị bệnh nặng</h1>
+   <p class="dich-gia">Huỳnh Thị Mười · Nữ · 67 tuổi · 49 kg</p>
+   <div class="chips"><span class="chip">Bệnh mạn tính người lớn</span><span class="chip">Ca bẫy</span><span class="chip">Hai chẩn đoán cùng lúc</span><span class="chip">1 lượt khám</span><span class="chip">Có cờ đỏ</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Bảo vệ cổng trường tiểu học (ca ngày)</dd><dt>Chiều cao, cân nặng</dt><dd>153 cm · 49 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi bà là &#x27;bác&#x27;. Bà tự xưng &#x27;tôi&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;. Gọi con gái là &#x27;con Hoa&#x27;.</dd><dt>Tính cách</dt><dd>Giọng Nam Bộ, hiền, chịu khó, đứng gác cổng trường cả ngày, sợ mất việc. Ít học, hiểu bệnh theo kiểu truyền miệng (&#x27;ốm là do ăn bậy&#x27;, &#x27;gầy là ung thư&#x27;). Hay tin thầy thuốc đông y ở chợ. Rất sợ nằm viện vì lo mất việc và tốn tiền.</dd><dt>Người nhà</dt><dd>Chị Hoa (con gái) – Con gái, chị Hoa, 40 tuổi, nhân viên văn phòng, ở gần nhà mẹ, đưa mẹ đi khám. Mua máy thử đường huyết cho mẹ, chia thuốc vào hộp theo buổi, ghi sổ đường huyết 2 tuần nay. KHÔNG biết mẹ có vết loét ở chân vì bà tự băng, đi tất kín. Lo mẹ gầy nên hay giục bác sĩ &#x27;cho má làm hết các xét nghiệm đi bác sĩ&#x27;.</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Phòng khám không làm được xét nghiệm nào (không máu, không nước tiểu phòng xét nghiệm); vì vậy cũng không có X-quang, CT, nội soi. Có máy thử đường huyết mao mạch, que thử nước tiểu, máy điện tim, máy đo huyết áp; không có Doppler cầm tay. Bệnh viện đa khoa tỉnh (khoa Nội tiết, Ngoại, X-quang, xét nghiệm) cách 35 km, đi xe khoảng 50 phút.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/1</span> </h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Bà Huỳnh Thị Mười, 67 tuổi, bảo vệ cổng trường tiểu học, đái tháo đường típ 2 khoảng 12 năm, đang uống metformin và gliclazide. Con gái là chị Hoa đưa đến vì mẹ sụt cân, khát nước, tiểu nhiều và mệt khoảng hai tháng nay; bà khóc nhiều và rất sợ bị bệnh nặng. Cân nặng 49 kg, cao 153 cm. HA 138/82 mmHg, mạch 96 l/p, nhiệt độ 36,8 °C, nhịp thở 18 l/p, SpO₂ 98%. Phòng khám không làm được xét nghiệm nào.</p>
+  <blockquote>“Bác sĩ ơi, tôi sụt sáu ký rồi, uống nước hoài mà vẫn khát, đêm dậy tiểu bốn, năm lần... Hồi đó chị tôi cũng gầy như vầy rồi mất vì ung thư gan. Tôi bị ung thư rồi phải không bác sĩ? Làm ơn chụp CT cho tôi đi, tôi sợ lắm!”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>96</b><small>l/p</small></div><div class="vs"><span>HA</span><b>138/82</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,8</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>18</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>15 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám và triệu chứng tăng đường huyết</b><span class="tag t-g">Tự kể</span></div><p>Hai tháng nay khát nước, uống hơn 3 lít mỗi ngày mà vẫn khát; đêm tiểu 4–5 lần; mệt, mờ mắt; sụt từ 55 kg xuống 49 kg. Bà rất sợ bị bệnh nặng.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiền sử ĐTĐ, thuốc đang dùng, xét nghiệm cũ</b><span class="tag t-b">Khi được hỏi</span></div><p>Đái tháo đường típ 2 khoảng 12 năm. Đang uống metformin 850 mg ngày 2 lần sau ăn và gliclazide MR 60 mg mỗi sáng. Phiếu xét nghiệm 8 tháng trước (mang theo): HbA1c 8,6%, creatinin 82 µmol/L, eGFR 67. Từ đó chưa kiểm tra lại. Không hút thuốc, không uống rượu.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tuân thủ điều trị, hạ đường huyết</b><span class="tag t-b">Khi được hỏi</span></div><p>Uống thuốc đều: con gái chia vào hộp theo buổi, bà uống đúng giờ, vỉ thuốc còn đúng số viên. Chưa bị hạ đường huyết lần nào.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Sổ đường huyết tại nhà</b><span class="tag t-b">Khi được hỏi</span></div><p>Con gái mua máy thử đường huyết, ghi sổ 2 tuần nay: sáng đói 13–16 mmol/L, sau ăn 2 giờ 18–23 mmol/L, cao nhất 24 mmol/L.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Loại trừ nhiễm toan ceton và tăng áp lực thẩm thấu</b><span class="tag t-b">Khi được hỏi</span></div><p>Không buồn nôn, nôn, đau bụng, không thở nhanh sâu, không lơ mơ, vẫn ăn được và uống nước được, tiểu được.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Triệu chứng thần kinh và mạch máu chi dưới</b><span class="tag t-b">Khi được hỏi</span></div><p>Hai bàn chân tê như đi trên bông đã 2–3 năm, hay bị tất dính &#x27;nước vàng&#x27; mà không thấy đau. Không đau bắp chân khi đi, không đau chân về đêm, chân không lạnh.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Ổ loét bàn chân (chẩn đoán thứ hai)</b><span class="tag t-r">Giấu</span></div><p>Khoảng 3 tuần nay có một lỗ loét ở gan bàn chân trái, không đau. Bà phát hiện khi tất dính nước vàng. Nghĩ là &#x27;vết phồng do giày&#x27;, thấy nhỏ nên không nói với con.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi có vết thương, lở loét, phồng rộp, nước vàng ở bàn chân không, hoặc đề nghị cởi giày tất xem chân. Hỏi chung &#x27;còn gì khác không&#x27; bà đáp &#x27;không, chỉ gầy với khát thôi&#x27;.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc đông y đắp ngoài da</b><span class="tag t-r">Giấu</span></div><p>Ba tuần nay mỗi ngày đắp lên chỗ lở một loại bột lá nâu xám trộn rượu, mua của thầy đông y ở chợ, băng kín bằng vải và băng keo rồi đi giày. Không rõ thành phần. Thấy &#x27;đỡ rỉ nước&#x27; nên tiếp tục.</p><div class="cond">Điều kiện nói ra: Chỉ kể khi bác sĩ hỏi có đắp, bôi thuốc gì lên chân, hay thuốc nam, thuốc bắc, thuốc tự mua. Hỏi &#x27;thuốc đang uống&#x27; thì bà chỉ kể metformin và gliclazide.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Nghề nghiệp, giày dép, yếu tố gây loét</b><span class="tag t-b">Khi được hỏi</span></div><p>Đứng và đi tuần 8 giờ mỗi ngày trên nền sân. Hai tháng trước đổi đôi giày bảo hộ da cứng, hơi chật phần mũi, thấy &#x27;đau đau&#x27; đầu ngón cái hai tuần đầu rồi hết đau.</p></div><div class="fact"><div class="fh"><b>Yếu tố khởi phát: ăn gỏi cá, đồ ngọt</b><span class="tag t-b">Khi được hỏi</span></div><p>Ba tuần trước, đám cưới họ hàng, ăn gỏi cá và nhiều chè, bánh; hôm sau tiêu chảy nhẹ 2 ngày rồi tự hết. Khát và mệt nhiều hơn từ sau đám cưới, nhưng sụt cân và tiểu đêm đã có từ trước đó.</p></div><div class="fact"><div class="fh"><b>Triệu chứng gan mật, tiêu hóa, dấu hiệu ung thư</b><span class="tag t-b">Khi được hỏi</span></div><p>Không đau bụng, không vàng da, phân không có đờm sống hay máu, ăn vẫn ngon miệng. Không đau tức hạ sườn phải. Chưa từng bị ho ra máu hay chảy máu nơi nào.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dấu hiệu nhiễm trùng toàn thân và tại chỗ</b><span class="tag t-b">Khi được hỏi</span></div><p>Không sốt, không rét run, không thấy chân sưng đỏ lan lên. Tháo vải đắp gần đây thấy ít nước vàng, không mủ, không hôi.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiền sử gia đình, nguồn gốc nỗi sợ</b><span class="tag t-b">Khi được hỏi</span></div><p>Chị gái ruột mất vì ung thư gan 2 năm trước, trước đó gầy sút và vàng da. Chồng mất cách đây 8 năm; bà ở riêng, con gái ở gần.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Động cơ thật: sợ ung thư</b><span class="tag t-r">Giấu</span></div><p>Lý do thật: sợ bị ung thư gan như chị. Hàng xóm nói ăn gỏi cá bị sán lá gan rồi thành ung thư gan, mà bà vừa gầy sút vừa ăn gỏi cá. Muốn được chụp CT, nội soi cho chắc. Không dám nói ra vì sợ nghe kết quả, sợ phải nằm viện mất việc và tốn tiền.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi bà đang lo nhất điều gì, nghĩ mình bị bệnh gì, có ai trong nhà từng bệnh nặng không, hoặc gọi tên nỗi sợ (&#x27;bác có sợ bị ung thư không&#x27;). Hỏi chung &#x27;bác lo gì không&#x27; thì bà khóc và nói &#x27;lo bệnh nặng&#x27;.</div></div><div class="fact"><div class="fh"><b>Ràng buộc nghề nghiệp, bảo hiểm, khả năng đi chuyển tuyến</b><span class="tag t-b">Khi được hỏi</span></div><p>Nếu phải nằm viện hay nghỉ làm lâu, bà sợ trường thuê người khác. Có bảo hiểm y tế đăng ký ở trạm y tế xã; lên bệnh viện tỉnh bà chưa đi lần nào.</p></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>11 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, tiếp xúc tốt, run tay, mắt đỏ vì khóc. Gầy (49 kg, BMI 20,9). Môi khô, mắt trũng nhẹ, nếp véo da mất chậm khoảng 2 giây. Thở êm, không thở sâu, hơi thở không mùi ceton.</p></div><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Không có hạch cổ, hạch thượng đòn. Tuyến giáp không to. Không vàng da, không vàng củng mạc.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p><span class="lbl">Kết quả:</span> Tim đều 96 l/p, T1 T2 rõ, không âm thổi.</p></div><div class="row"><div class="rh"><b>Phổi</b></div><p><span class="lbl">Kết quả:</span> Nhịp thở 18 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm, không đau, gan không to dưới bờ sườn, không đau hạ sườn phải, lách không sờ thấy, không khối, không báng.</p></div><div class="row"><div class="rh"><b>Khám vú, ngực (tuyến vú, núm vú, hạch nách)</b></div><p><span class="lbl">Kết quả:</span> Hai vú không khối, núm vú bình thường, không hạch nách.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b></div><p><span class="lbl">Kết quả:</span> Bàn chân trái đi giày bảo hộ, tất ướt vàng; bên trong là lớp băng vải và bột lá nâu xám. Sau khi tháo và rửa nước muối: ổ loét tròn 1,6 × 1,2 cm ở gan bàn chân, ngay dưới đầu xương bàn chân thứ nhất, sâu khoảng 3 mm tới mô dưới da. Nền hồng có mô hạt, bờ chai dày trắng 3–4 mm, ít dịch thanh vàng nhạt, không mủ, không mùi. Que thăm vô trùng không chạm xương. Da quanh ổ loét không đỏ, không nóng, không sưng; không đỏ lan lên mu chân. Bàn chân phải: chai ở dưới đầu xương bàn 1, không loét. Hai bàn chân khô, nứt gót, móng dày vàng, ngón cái hơi cụp, vùng mũi giày hằn.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Mạch ngoại biên, âm thổi động mạch</b></div><p><span class="lbl">Kết quả:</span> Mạch mu chân và mạch chày sau bắt được hai bên, mạch mu chân trái yếu hơn phải. Đổ đầy mao mạch ngón chân 2 giây, bàn chân ấm, màu da không tái khi giơ chân, thưa lông ngón chân. Động mạch đùi bắt được, không âm thổi. Không có Doppler nên không đo được ABI.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thần kinh</b></div><p><span class="lbl">Kết quả:</span> Monofilament 10 g (3 vị trí mỗi bàn chân, không đặt lên ổ loét và chai): không cảm nhận ở cả 3 vị trí hai bàn chân. Âm thoa 128 Hz: mất cảm giác rung ở ngón cái và mu bàn chân hai bên, còn ở mắt cá. Phản xạ gót mất hai bên. Sức cơ 5/5. Mất cảm giác bảo vệ hai bàn chân.</p></div><div class="row"><div class="rh"><b>Soi đáy mắt</b></div><p><span class="lbl">Kết quả:</span> Vài vi phình mạch rải rác hai mắt, không xuất tiết, không tân mạch; thị lực thử bằng bảng 7/10 hai mắt.</p></div><div class="row"><div class="rh"><b>Khám tâm thần (dáng vẻ, khí sắc, tư duy, nhận thức, ý tưởng tự hại)</b></div><p><span class="lbl">Kết quả:</span> Lo âu rõ, hay khóc, ngủ kém 2 tuần. Định hướng đúng, nhận thức bình thường. Không có ý tưởng tự hại. Bình tĩnh hơn khi được giải thích cụ thể.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>11 mục</small></h3></summary><div class="row"><div class="rh"><b>Đường huyết mao mạch (máy thử tại giường)</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> 19,8 mmol/L (khoảng 2 giờ sau bữa trưa)</p><p class="why">Xác nhận tăng đường huyết rõ, vượt 16,7 mmol/L: ngưỡng cân nhắc insulin ở cả hai nguồn (QĐ 5481 Phần 4 mục 4.2f; ADA 2026 KC 9.20). Tiêu chí chuyển tuyến của QĐ 5904 tính glucose lúc đói &gt; 16,7 (Phần 3 Bước 4A mục 8), ở đây đo sau ăn nên chỉ tham khảo; bà vẫn đủ tiêu chí vì có triệu chứng và gầy sút.</p></div><div class="row"><div class="rh"><b>Điện tâm đồ 12 chuyển đạo</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Nhịp xoang 94 l/p, trục trung gian, không biến đổi ST–T.</p><p class="why">Điện tim là xét nghiệm cơ bản khi quản lý ĐTĐ tuyến xã (QĐ 5904 Phần 3 Bước 2 mục 6); không quyết định hướng xử trí.</p></div><div class="row"><div class="rh"><b>Que thử nước tiểu 10 thông số (tại giường)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Glucose +++, ceton âm tính, protein vết, bạch cầu và nitrit âm tính.</p><p class="why">Ceton âm tính ủng hộ chưa có nhiễm toan ceton (QĐ 5481 Phần 7 mục 2.1, 2.2). Không thay được khí máu và ceton máu.</p></div><div class="row"><div class="rh"><b>Chỉ số cổ chân–cánh tay (ABI) bằng máy đo huyết áp và Doppler cầm tay</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Không đo được: phòng khám không có Doppler cầm tay.</p><p class="why">Thay bằng sờ mạch, đổ đầy mao mạch, màu da khi giơ chân (ADA 2026 KC 12.27); ABI kèm áp lực ngón chân làm ở tuyến trên (ADA 2026 mục 12, tr. S269).</p></div><div class="row"><div class="rh"><b>HbA1c</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> 11,3%</p><p class="note">Thay thế khi cơ sở không có: Đường huyết mao mạch (máy thử tại giường)</p><p class="why">Phòng khám không làm được; đây là kết quả tuyến trên sẽ cho (minh họa thiết kế). Phiếu 8 tháng trước 8,6%. Mốc cân nhắc insulin: &gt; 10% (ADA 2026 KC 9.20) hoặc ≥ 9% (QĐ 5481 Phần 4 mục 4.2f); bà đã có triệu chứng và dị hóa nên cả hai nguồn cùng hướng. QĐ 5481 Phần 4 mục 4.2i: đánh giá lại điều trị mỗi 3 tháng.</p></div><div class="row"><div class="rh"><b>Ure, creatinin, eGFR</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Creatinin 88 µmol/L · eGFR 62 mL/ph/1,73m²</p><p class="why">Phòng khám không làm được; kết quả minh họa (thiết kế). Cần trước khi quyết định metformin (QĐ 5481 PL01 mục 2: chống chỉ định eGFR &lt; 30, giảm liều 30–45) và nhóm thuốc mới.</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Bạch cầu 8,6 G/L, trung tính 62%, Hb 128 g/L, tiểu cầu 290 G/L</p><p class="why">Bạch cầu không tăng, nhưng ở bàn chân mất cảm giác dấu hiệu toàn thân có thể vắng (IWGDF 2023 mục 4.1.1); không loại trừ viêm xương.</p></div><div class="row"><div class="rh"><b>CRP</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> CRP 5 mg/L</p><p class="why">Dùng cùng probe-to-bone và X-quang để nghĩ tới viêm xương (IWGDF/IDSA 2023, khuyến cáo 7).</p></div><div class="row"><div class="rh"><b>Điện giải đồ (Na, K, Cl)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Na 134 · K 4,2 · Cl 99 mmol/L</p><p class="why">Na hiệu chỉnh khoảng 138 mmol/L = 134 + 1,6 × (19,8 − 5,6) / 5,6 (công thức QĐ 5481 Phần 7 mục 2.2).</p></div><div class="row"><div class="rh"><b>X-quang khớp (tay, cổ tay, gối, chân)</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> X-quang bàn chân trái thẳng và nghiêng (tuyến trên): không tiêu xương, không hơi trong mô mềm, không dị vật cản quang.</p><p class="why">Ổ loét sâu hơn lớp da nên cần X-quang thường (IWGDF 2023 mục 4.1.1; IWGDF/IDSA 2023 khuyến cáo 7). Phòng khám không có X-quang: lý do chuyển tuyến.</p></div><div class="row"><div class="rh"><b>Siêu âm bụng (gan, thận, thượng thận)</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Gan không to, không khối, đường mật không giãn.</p><p class="why">Chỉ để chiều lòng nỗi sợ ung thư: khám bụng bình thường, không vàng da, không đau hạ sườn phải. Siêu âm là xét nghiệm hình ảnh khi nghi sán lá gan nhỏ (QĐ 1172/2022 mục 3.2) nhưng ở đây nghi ngờ thấp vì ăn gỏi cá mới 3 tuần.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Chuyển tuyến / chuyên khoa</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>ĐTĐ típ 2 kiểm soát kém, tăng đường huyết có triệu chứng và dị hóa, KÈM loét bàn chân thần kinh ĐTĐ không nhiễm trùng (Wagner độ 1) ở bàn chân trái và bệnh đa dây thần kinh ĐTĐ mất cảm giác bảo vệ</b></div><p class="why">Hai bệnh cùng lúc. Một: khát, tiểu đêm, sụt 6 kg, đường huyết mao mạch 19,8 mmol/L (QĐ 5481 Phần 4 mục 4.2f). Hai: ổ loét 1,6 × 1,2 cm nông, sạch, ở vùng chịu lực, trên nền mất monofilament 0/3 (QĐ 5481 Phần 8 mục 4c; QĐ 3510/2025 mục 3.2.2, Phụ lục 01). Tăng đường huyết không giải thích được ổ loét.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>ĐTĐ típ 2 kiểm soát kém, tăng đường huyết có triệu chứng (không ghi nhận ổ loét bàn chân)</b></div><p class="why">Đúng một nửa và là điểm gãy của ca: đóng hồ sơ sớm khi đã giải thích xong lý do khám. Bỏ sót ổ loét đang bị che dưới băng và thuốc đắp.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Loét bàn chân ĐTĐ có nhiễm trùng (viêm mô mềm hoặc viêm xương)</b></div><p class="why">Loại trừ trên lâm sàng. Nhiễm trùng khi có ít nhất 2 dấu viêm (đỏ, nóng, cứng, đau) hoặc mủ (IWGDF 2023 mục 4.1.1): ổ loét không có dấu nào, không mủ, không mùi, que thăm không chạm xương, nhiệt 36,8 °C. Giới hạn: dấu hiệu có thể mờ ở bàn chân mất cảm giác (IWGDF 2023 mục 4.1.1; ADA 2026 mục 12, tr. S268) và phòng khám không có CRP, X-quang nên viêm xương chưa loại trừ hẳn.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Đường huyết kém do kém tuân thủ điều trị</b></div><p class="why">Loại trừ: bà uống đều, con gái chia hộp thuốc, vỉ thuốc đúng số viên (đánh giá tuân thủ: QĐ 5481 Phần 3 mục 2.1). Đường huyết cao vì chưa được tăng cường điều trị: lần kiểm tra cuối cách 8 tháng, HbA1c 8,6% (QĐ 5481 Phần 4 mục 4.2h, 4.2i: không đạt mục tiêu thì điều trị tích cực, đánh giá lại mỗi 3 tháng).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Nhiễm toan ceton ĐTĐ hoặc tăng đường huyết tăng áp lực thẩm thấu</b></div><p class="why">Loại trừ trên lâm sàng: tỉnh, không nôn, không đau bụng, không thở sâu, hơi thở không mùi ceton, mất nước nhẹ, que nước tiểu ceton âm tính. Tiêu chuẩn cần khí máu, ceton máu (QĐ 5481 Phần 7 mục 2.1, 2.2, Bảng 7), phòng khám không làm được nên vẫn dặn dấu hiệu nguy hiểm.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ung thư (gan, đường mật, tụy…) gây sụt cân</b></div><p class="why">Không có dấu hiệu trên lâm sàng: không hạch, gan không to, không vàng da, không khối bụng, vú bình thường. Sụt cân kèm khát, tiểu nhiều là bằng chứng dị hóa của thiếu insulin (QĐ 5481 Phần 4 mục 4.2f). Không loại trừ tuyệt đối khi không có xét nghiệm: nếu đường huyết đã ổn mà vẫn sụt cân hay có dấu mới thì phải tìm nguyên nhân khác; tài liệu đã tải không có quy trình cho sụt cân không giải thích.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Nhiễm sán lá gan nhỏ do ăn gỏi cá</b></div><p class="why">Ít nghĩ tới: ăn gỏi cá mới 3 tuần, trong khi sán cần 26–30 ngày để trưởng thành (QĐ 1172/2022 mục 1.1); sụt cân và tiểu đêm đã có trước bữa tiệc; không đau hạ sườn phải, không vàng da, gan không to (QĐ 1172/2022 mục 2). Xác định cần trứng sán trong phân hoặc huyết thanh (mục 4.2), phòng khám không làm được.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Loét thần kinh – thiếu máu (kèm bệnh động mạch ngoại biên)</b></div><p class="why">Chưa loại trừ hẳn: mạch mu chân trái yếu hơn nhưng vẫn bắt được, đổ đầy mao mạch 2 giây, không đau cách hồi (IWGDF 2023 mục 4.1.1: còn ít nhất một mạch sờ được thì dòng máu bàn chân coi như còn). Không có Doppler nên cần ABI kèm áp lực ngón chân ở tuyến trên (ADA 2026 KC 12.27).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Gọi tên nỗi sợ ung thư của bà, trấn an có cấu trúc: nói đã khám thấy gì (không hạch, gan không to, không vàng da), sụt cân và khát giải thích được bằng đường huyết cao, chưa loại trừ được gì, sẽ làm gì tiếp; không chiều lòng đòi CT, nội soi</b></div><p class="why">Nhiễu &#x27;sợ hãi quá mức&#x27; (phương pháp giao tiếp: không có trong tài liệu đã tải). Căn cứ nội dung: sụt cân là dấu dị hóa (QĐ 5481 Phần 4 mục 4.2f); sán lá gan nhỏ cần 26–30 ngày để trưởng thành và cần trứng hoặc huyết thanh để xác định (QĐ 1172/2022 mục 1.1, 4.2).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Tháo lớp thuốc đắp; rửa ổ loét bằng nước muối sinh lý hoặc nước sạch (không ngâm), băng gạc không dính giữ ẩm; ngưng đắp thuốc đông y và mọi chất lạ; không tự cạo chai</b></div><p class="why">Rửa nhưng không ngâm, băng không dính (IWGDF 2023 mục 4.2.3B, mục 6); không dùng hóa chất, bột trét tẩy chai (QĐ 3510/2025 mục 3.5). Loại dung dịch rửa: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giảm tải áp lực ngay: ngừng đứng, đi tuần kéo dài; bỏ đôi giày chật mũi, đi dép/giày rộng mềm, không đi chân đất; nghỉ làm cho tới khi tuyến trên hướng dẫn</b></div><p class="why">Giảm tải là nền tảng điều trị loét do tì đè; thiết bị tốt nhất là bó bột tiếp xúc toàn bộ hoặc giày đi bộ cố định (IWGDF 2023 mục 4.2.3A), phòng khám không có nên tuyến trên lắp. Giày chuyên dụng cho người mất cảm giác bảo vệ có loét (ADA 2026 KC 12.31).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chuyển tuyến khẩn (trong ngày hoặc sáng mai) tới bệnh viện có khoa Nội tiết, Ngoại, X-quang, xét nghiệm; giấy chuyển ghi rõ hai vấn đề (tăng đường huyết có triệu chứng, loét bàn chân ĐTĐ không nhiễm trùng), kèm sổ đường huyết, phiếu cũ; chị Hoa đi cùng</b></div><p class="why">Ổ loét hở cần chuyển khẩn đến chuyên khoa hoặc nhóm liên chuyên khoa (ADA 2026 mục 12, tr. S270; KC 12.28). Tuyến xã chuyển khi có triệu chứng tăng glucose, gầy sút, loét bàn chân (QĐ 5904/2019 Phần 3 Bước 4A mục 8–9). Mốc bằng giờ cho loét không nhiễm trùng: không có trong tài liệu đã tải; chọn trong ngày hoặc sáng mai (thiết kế).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giữ nguyên metformin và gliclazide MR đang dùng, không tự tăng hay ngưng; để tuyến trên có HbA1c và creatinin rồi quyết định insulin hoặc đổi thuốc</b></div><p class="why">Triệu chứng và dị hóa là chỉ định cân nhắc insulin (QĐ 5481 Phần 4 mục 4.2f; ADA 2026 KC 9.20) nhưng cần creatinin trước khi chọn thuốc (QĐ 5481 PL01 mục 2) và theo dõi sát vì hạ glucose ở người lớn tuổi (QĐ 5481 Phần 4 mục 4.2j; PL01 mục 1).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn dấu hiệu phải đi ngay hoặc gọi: sốt, rét run, chân sưng đỏ nóng lan, chảy mủ, mùi hôi, đau tăng; nôn, đau bụng, thở sâu nhanh, lơ mơ; run, vã mồ hôi, đói cồn cào (hạ đường huyết)</b></div><p class="why">Dấu nhiễm trùng mới hoặc nặng thêm, tăng đường huyết (IWGDF 2023 mục 4.2); nhiễm toan ceton, tăng áp lực thẩm thấu (QĐ 5481 Phần 7 mục 2.1); hạ glucose do sulfonylurea (QĐ 5481 PL01 mục 1).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Tạm ngưng metformin cho đến khi có creatinin vì mất nước nhẹ</b></div><p class="why">Thiếu tài liệu về metformin khi mất nước (sổ mâu thuẫn). Chống chỉ định eGFR &lt; 30, giảm liều 30–45 (QĐ 5481 PL01 mục 2); eGFR 67 cách 8 tháng: giữ hay tạm ngưng đều chấp nhận.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Tiêm insulin nền ngay tại phòng khám trước khi chuyển (0,1–0,2 đơn vị/kg, tức 5–10 đơn vị)</b></div><p class="why">Chấp nhận về nguyên tắc (QĐ 5481 Phần 4 mục 4.2f, tr. 25; ADA 2026 KC 9.20) nhưng không có HbA1c, creatinin, bà ăn kém và lớn tuổi nên nguy cơ hạ glucose (QĐ 5481 Phần 4 mục 4.2j).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Cấp giấy nghỉ ốm để bà nghỉ gác cổng; dặn xét nghiệm phân tìm trứng sán lá gan nhỏ khi lên tuyến trên</b></div><p class="why">Giấy nghỉ: TT 56/2017/TT-BYT Điều 3 khoản 1, Điều 20 khoản 1 điểm c (nguồn bổ sung tự tìm, sổ mâu thuẫn). Xét nghiệm phân: chẩn đoán sán bằng trứng trong phân hoặc huyết thanh (QĐ 1172/2022 mục 4.2), nghi ngờ thấp nên không bắt buộc.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê kháng sinh uống cho ổ loét</b></div><p class="why">Không dùng kháng sinh cho ổ loét chưa nhiễm trùng để dự phòng hay để lành nhanh (IWGDF/IDSA 2023, khuyến cáo 11).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho về, hẹn tái khám 1 tuần; bà tiếp tục đắp thuốc đông y và đi làm</b></div><p class="why">Bỏ sót điều trị loét: cần giảm tải, chăm sóc tại chỗ, loại trừ viêm xương và thiếu máu (IWGDF 2023 mục 4.2); ADA yêu cầu chuyển khẩn (ADA 2026 mục 12, tr. S270).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Chiều lòng bà: chuyển đi chụp CT bụng hoặc nội soi dạ dày ngay để &#x27;tìm ung thư&#x27;</b></div><p class="why">Không có dấu hiệu ung thư hay triệu chứng tiêu hóa, không trả lời vấn đề hôm nay, tốn kém, đẩy nỗi sợ lên.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho uống praziquantel tẩy sán lá gan nhỏ theo suy đoán</b></div><p class="why">Chưa xác định bệnh (QĐ 1172/2022 mục 4.2); thuốc chống chỉ định khi đang bị bệnh cấp tính (mục 5.2b).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Bảo bà ngâm chân nước muối ấm hằng ngày và dùng dao cạo chai quanh ổ loét</b></div><p class="why">Rửa nhưng không ngâm; cắt lọc do người được huấn luyện làm (IWGDF 2023 mục 4.2.3B); không dùng hóa chất tẩy chai, nước rửa chân dưới 37 °C (QĐ 3510/2025 mục 3.5).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Tăng gliclazide MR lên 120 mg/ngày hoặc thêm glibenclamide ngay tại phòng khám</b></div><p class="why">Sulfonylurea dễ hạ glucose ở người lớn tuổi ăn kém, chưa biết chức năng thận; glibenclamide nguy cơ cao nhất ở người già (QĐ 5481 PL01 mục 1a; Phần 4 mục 4.2j).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Cho về, hẹn tái khám</span></div><p>Bà Mười được hẹn tái khám sau 1 tuần, tự thay băng ở nhà và quay lại gác cổng 8 giờ mỗi ngày, vẫn đắp thuốc đông y vì chưa ai nhìn vào bàn chân. Ổ loét dưới đầu xương bàn chân thứ nhất vẫn chịu lực suốt ca trực nên khó lành; phòng khám không có X-quang để loại trừ viêm xương và không đánh giá được tưới máu. Nhiễm trùng ở bàn chân mất cảm giác có thể tiến nhanh mà dấu hiệu không tương xứng, và thường là nguyên nhân cuối cùng dẫn đến cắt cụt (ADA 2026 mục 12, tr. S268). Đường huyết vẫn trên 16,7 mmol/L nên bà tiếp tục sụt cân, còn nỗi sợ ung thư chưa được trả lời nên bà dễ bỏ hẹn.</p></div><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Bà được giữ lại phòng khám vài giờ, đo lại đường huyết rồi cho về với lời dặn theo dõi. Mọi việc cần làm đều nằm ngoài phòng khám (X-quang bàn chân, HbA1c, creatinin, đánh giá tưới máu, khởi insulin, đội chăm sóc bàn chân), nên theo dõi chỉ làm mất thêm ngày công trong khi ổ loét vẫn bị tì đè mỗi ngày. Triệu chứng tăng đường huyết, gầy sút và loét bàn chân đều là tiêu chí chuyển tuyến (QĐ 5904/2019 Phần 3 Bước 4A mục 8–9).</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển cấp cứu</span></div><p>Bà được gọi xe cấp cứu 115 đưa vào khoa cấp cứu bệnh viện tỉnh. Bà tỉnh, sinh hiệu ổn, không thở sâu, không nôn, không lơ mơ nên không có dấu nhiễm toan ceton hay tăng áp lực thẩm thấu (QĐ 5481 Phần 7 mục 2.1) và không cần phương tiện cấp cứu. Bà càng tin mình bị bệnh nặng, tốn kém thêm, và dễ bị xử trí như một ca tăng đường huyết đơn thuần (thiết kế minh họa) trong khi cái cần là đội chăm sóc bàn chân, ADA chỉ yêu cầu chuyển khẩn đến chuyên khoa hoặc nhóm liên chuyên khoa, không bắt buộc đường cấp cứu (ADA 2026 mục 12, tr. S270).</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Đái tháo đường típ 2 kiểm soát kém: tăng đường huyết có triệu chứng và dị hóa (đường huyết mao mạch 19,8 mmol/L sau ăn, sổ tại nhà 13–24 mmol/L, sụt 6 kg trong 2 tháng); HbA1c chưa đo được (phiếu 8 tháng trước 8,6%)</li><li>Loét bàn chân ĐTĐ thần kinh, gan bàn chân trái dưới đầu xương bàn 1, 1,6 × 1,2 cm, Wagner độ 1, không dấu nhiễm trùng trên lâm sàng (chưa loại trừ viêm xương vì không có X-quang)</li><li>Bệnh đa dây thần kinh ĐTĐ mất cảm giác bảo vệ hai bàn chân (monofilament 0/3, mất rung âm thoa, mất phản xạ gót)</li><li>Yếu tố gây loét: giày bảo hộ mới chật mũi, đứng và đi tuần 8 giờ/ngày, mất cảm giác nên không biết đau; yếu tố làm chậm lành: tăng đường huyết, đắp thuốc lạ kín 3 tuần</li><li>Mất nước nhẹ; chưa có dấu nhiễm toan ceton hay tăng áp lực thẩm thấu</li><li>Lo âu nặng, sợ ung thư (chị gái mất vì ung thư gan, ăn gỏi cá 3 tuần trước); lâm sàng không có dấu hiệu ung thư hay nhiễm sán</li><li>Chưa đánh giá được vì không có xét nghiệm: bệnh động mạch ngoại biên (mạch mu chân trái yếu), viêm xương, chức năng thận, albumin niệu</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Hỏi bệnh: triệu chứng tăng đường huyết, thuốc, tuân thủ, sổ đường huyết tại nhà, xét nghiệm cũ (QĐ 5481 Phần 3 mục 2.1); rồi hỏi cụ thể bàn chân (tê bì, vết lở, nước vàng), thuốc nam bắc và thuốc đắp ngoài da (QĐ 5481 Phần 3 mục 2.1; QĐ 5904 Phần 3 Bước 1 mục 4–5), nghề, giày dép (IWGDF 2023 mục 4.1.2) và nỗi sợ thật của bà. Khám: mất nước, hạch, bụng, bàn chân sau khi tháo giày, tất, băng, mạch ngoại biên, monofilament, âm thoa (QĐ 5481 Phần 3 mục 2.2g–h, Phần 8 mục 4e; ADA 2026 KC 12.24–12.25). Cận lâm sàng tại chỗ chỉ có đường huyết mao mạch, que nước tiểu, điện tim.</li><li>Chẩn đoán 1, ĐTĐ kiểm soát kém: khát, tiểu đêm, mờ mắt, sụt cân, đường huyết 19,8 mmol/L (QĐ 5481 Phần 4 mục 4.2f; QĐ 5904 Phần 3 Bước 1 mục 4). Mục tiêu HbA1c ghi cả hai: &lt; 7%, nới lỏng khi suy yếu hoặc nhiều bệnh nặng (ADA 2026 KC 6.3a, 6.5) hoặc &lt; 7,5% / &lt; 8,0% / &lt; 8,5% theo sức khỏe người cao tuổi (QĐ 5481 Phần 4 Bảng 5); bà xa cả hai mốc.</li><li>Dữ kiện KHÔNG được giải thích bởi chẩn đoán 1: ổ loét gan bàn chân 3 tuần, tất ướt nước vàng, thuốc đắp kín mỗi ngày, bà không đau. Tăng đường huyết làm chậm lành nhưng không tạo ổ loét; ổ loét do mất cảm giác, tì đè, giày chật (IWGDF 2023 mục 4.1.2). Bẫy: khi &#x27;khát, tiểu nhiều, sụt cân, đường huyết 19,8&#x27; đã trả lời xong lý do khám thì dễ đóng hồ sơ (premature closure); nỗi sợ ung thư chiếm hết thời gian; &#x27;còn gì khác không&#x27; trả lời &#x27;không&#x27; chỉ chứng tỏ bà không đau, không chứng tỏ chân bình thường; bàn chân nằm dưới giày, tất, băng nên chỉ thấy khi chủ động tháo (QĐ 5481 Phần 8 mục 4e: kiểm tra bàn chân mọi lần khám).</li><li>Chẩn đoán 2, loét bàn chân ĐTĐ thần kinh: không cảm nhận monofilament 10 g, kèm ít nhất một đánh giá khác như châm kim, nhiệt độ hoặc rung âm thoa (ADA 2026 KC 12.24); QĐ 3510/2025 mục 3.2.2 liệt kê thêm phản xạ gót; không đặt monofilament lên ổ loét, chai (Phụ lục 01). Loại thần kinh khi có mất cảm giác bảo vệ mà không có bệnh động mạch ngoại biên (IWGDF 2023 mục 4.1.1). Wagner độ 1: loét nông ở nơi tì đè lớn (QĐ 5481 Phần 8 mục 4c); độ 2 của QĐ này là loét sâu có nhiễm trùng nên không áp dụng.</li><li>Loại trừ nhiễm trùng: cần ít nhất 2 dấu viêm hoặc mủ (IWGDF 2023 mục 4.1.1). Ổ loét không đỏ, nóng, sưng, mủ, mùi; que thăm không chạm xương; không sốt. Nhưng dấu hiệu mờ ở bàn chân mất cảm giác hoặc thiếu máu (IWGDF 2023 mục 4.1.1; ADA 2026 mục 12, tr. S268) và viêm xương cần X-quang cùng CRP/ESR (IWGDF/IDSA 2023, khuyến cáo 7): đó là lý do chuyển tuyến, không phải lý do dùng kháng sinh (IWGDF/IDSA 2023, khuyến cáo 11).</li><li>Loại trừ tuân thủ kém: hộp thuốc do con gái chia, vỉ đúng số viên, mua thuốc đều; đường huyết cao vì lần đánh giá cuối cách 8 tháng và chưa tăng cường (QĐ 5481 Phần 4 mục 4.2h, 4.2i). Tuân thủ tốt mà kiểm soát kém: đừng kết tội bà quên thuốc.</li><li>Loại trừ biến chứng cấp: không nôn, đau bụng, thở sâu; ceton niệu âm tính; glucose 19,8 thấp hơn mốc tăng áp lực thẩm thấu &gt; 33,3 mmol/L (QĐ 5481 Phần 7 mục 2.1, 3.2, Bảng 7). Không có khí máu, ceton máu nên loại trừ bằng lâm sàng và dặn dấu hiệu nguy hiểm.</li><li>Nỗi sợ ung thư: sụt cân kèm khát, tiểu nhiều giải thích được bằng thiếu insulin; khám không hạch, gan không to, không vàng da, không khối bụng. Gỏi cá mới 3 tuần (sán cần 26–30 ngày để trưởng thành) nên không giải thích sụt cân 2 tháng (QĐ 1172/2022 mục 1.1). Không loại trừ tuyệt đối khi không có xét nghiệm; tài liệu đã tải không có quy trình sụt cân không giải thích.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Hướng xử trí: chuyển tuyến khẩn. Ổ loét hở cần chuyển khẩn đến chuyên khoa hoặc nhóm liên chuyên khoa (ADA 2026 mục 12, tr. S270; KC 12.28); tuyến xã chuyển khi có triệu chứng tăng glucose, gầy sút, loét bàn chân (QĐ 5904 Phần 3 Bước 4A mục 8–9). Cần thứ phòng khám không có: X-quang, HbA1c, creatinin, ABI và áp lực ngón chân (ADA 2026 KC 12.27), thiết bị giảm tải, cắt lọc, khởi insulin có theo dõi. Không cần 115: bà tỉnh, sinh hiệu ổn, không nhiễm trùng toàn thân. Mốc giờ cho loét không nhiễm trùng: không có trong tài liệu đã tải (chọn trong ngày hoặc sáng mai).</li><li>Trước khi đi: tháo thuốc đắp, rửa không ngâm, băng không dính (IWGDF 2023 mục 4.2.3B, mục 6); ngưng đắp; giảm tải bằng cách ngừng đứng đi, đổi giày rộng mềm (IWGDF 2023 mục 4.2.3A; ADA 2026 KC 12.31); không kháng sinh vì chưa nhiễm trùng (IWGDF/IDSA 2023, khuyến cáo 11).</li><li>Thuốc hạ đường huyết: giữ metformin 850 mg × 2 và gliclazide MR 60 mg sáng (QĐ 5481 Bảng 14), không tăng liều vì sulfonylurea dễ hạ glucose ở người lớn tuổi ăn kém (QĐ 5481 PL01 mục 1; Phần 4 mục 4.2j). Insulin do tuyến trên quyết định: cân nhắc khi dị hóa, triệu chứng, HbA1c ≥ 9% hoặc glucose ≥ 16,7 mmol/L (QĐ 5481 Phần 4 mục 4.2f) hoặc triệu chứng, HbA1c &gt; 10%, glucose ≥ 16,7 (ADA 2026 KC 9.20): cùng hướng khi đã có triệu chứng. Tiêm insulin nền 0,1–0,2 đơn vị/kg ngay tại phòng khám cũng chấp nhận (QĐ 5481 Phần 4, tr. 25). Chọn thuốc thêm về sau: canagliflozin liên quan tăng nguy cơ cắt cụt ngón (ADA 2026 mục 12, tr. S271); GLP-1 RA có thể giảm loét và cắt cụt (ADA 2026 mục 12, tr. S270).</li><li>Trấn an có cấu trúc thay cho chiều lòng: gọi tên nỗi sợ (&#x27;bác sợ bị ung thư gan như chị&#x27;); nói điều đã khám thấy; nói điều chưa loại trừ hết nhưng ít nghĩ và việc cần làm trước là đường huyết và bàn chân; kế hoạch cụ thể ngày giờ, ai đi cùng; hỏi lại bà hiểu gì. Phương pháp giao tiếp: không có trong tài liệu đã tải. CT, nội soi không có chỉ định, phòng khám cũng không có.</li><li>Hỗ trợ đi chuyển tuyến: bà sợ mất việc và tốn tiền nên nói rõ có bảo hiểm y tế, cấp giấy nghỉ ốm (TT 56/2017, nguồn bổ sung tự tìm), nhờ chị Hoa đi cùng, hỏi trước nếu bà định từ chối; nếu 24 giờ sau chưa đi thì gọi cho chị Hoa.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Metformin</b><div class="sub">850 mg</div></td><td data-l="Liều">850 mg × 2 lần/ngày<div class="sub">Uống · Ngay sau ăn sáng và sau ăn tối</div></td><td data-l="Thời gian">Giữ nguyên đến khi tuyến trên quyết định</td><td class="gc" data-l="Ghi chú">Thuốc đang dùng, giữ nguyên (QĐ 5481 Bảng 14: 1–2,5 g/ngày, uống sau ăn). Chống chỉ định eGFR &lt; 30, giảm liều 30–45 (QĐ 5481 PL01 mục 2); eGFR 67 cách 8 tháng, cần creatinin mới. Tạm ngưng khi nôn, ăn uống kém: tài liệu đã tải không có hướng dẫn &#x27;ngày ốm&#x27; (sổ mâu thuẫn).</td></tr><tr><td><b>Gliclazide MR</b><div class="sub">60 mg</div></td><td data-l="Liều">60 mg × 1 lần/ngày<div class="sub">Uống · Buổi sáng, trước ăn sáng</div></td><td data-l="Thời gian">Giữ nguyên đến khi tuyến trên quyết định</td><td class="gc" data-l="Ghi chú">Thuốc đang dùng, KHÔNG tăng liều (QĐ 5481 Bảng 14: dạng phóng thích chậm 30–120 mg/ngày, uống 1 lần). Trước ăn 15 phút (QĐ 5904 Phụ lục 2.3, Bước 1) hoặc 30 phút (QĐ 5481 PL01 mục 1). Nguy cơ hạ glucose ở người lớn tuổi ăn kém (QĐ 5481 PL01 mục 1; Phần 4 mục 4.2j).</td></tr><tr><td><b>Nước muối sinh lý NaCl 0,9% và gạc không dính</b><div class="sub">Chai 500 mL; gạc không dính vô khuẩn</div></td><td data-l="Liều">Rửa nhẹ ổ loét và da quanh ổ loét, băng gạc không dính<div class="sub">Dùng ngoài da · Một lần trước khi đi bệnh viện; về sau theo hướng dẫn tuyến trên</div></td><td data-l="Thời gian">Đến khi tuyến trên chăm sóc</td><td class="gc" data-l="Ghi chú">Rửa nhưng không ngâm, băng không dính giữ ẩm, không dùng chất sát khuẩn hay băng kháng khuẩn thường quy (IWGDF 2023 mục 4.2.3B, mục 6). Loại dung dịch rửa, tần suất thay băng: không có trong tài liệu đã tải.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Đi bệnh viện tỉnh hôm nay hoặc sáng mai cùng chị Hoa; mang giấy chuyển, sổ đường huyết, phiếu xét nghiệm cũ, hộp thuốc và gói thuốc đắp để bác sĩ biết thành phần (ADA 2026 mục 12, tr. S270; QĐ 5904 Phần 3 Bước 4A mục 8–9). Nếu chưa đi được, gọi lại phòng khám vì sao, đừng im lặng.</li><li>Không đắp thuốc đông y hay bất kỳ chất lạ nào lên vết loét; không tự cạo chai hay dùng thuốc tẩy chai (QĐ 3510/2025 mục 3.5). Không đi chân đất, không đi tất không mang giày, không đi dép mỏng; xem kỹ và sờ trong giày trước khi mang (QĐ 3510/2025 mục 3.5).</li><li>Nghỉ gác cổng, hạn chế đứng và đi lại cho tới khi tuyến trên hướng dẫn; xin giấy nghỉ ốm (nguồn bổ sung tự tìm: TT 56/2017/TT-BYT).</li><li>Kiểm tra cả hai bàn chân mỗi ngày, dùng gương không vỡ hoặc nhờ con; rửa chân nước dưới 37 °C và lau khô kẽ ngón; mang tất không đường may, thay hằng ngày (QĐ 3510/2025 mục 3.5; ADA 2026 KC 12.30).</li><li>Đi ngay hoặc gọi khi: sốt, rét run, chân sưng đỏ nóng lan, chảy mủ, mùi hôi, đau tăng; nôn, đau bụng, thở sâu nhanh, lơ mơ, khát nhiều dữ dội; run, vã mồ hôi, đói cồn cào (IWGDF 2023 mục 4.2; QĐ 5481 Phần 7 mục 2.1; PL01 mục 1). Ổ loét không đau là do mất cảm giác, không phải do lành.</li><li>Không ăn gỏi cá và cá chưa nấu chín (QĐ 1172/2022 mục 8). Hiện không có dấu hiệu ung thư hay nhiễm sán; nếu sau khi đường huyết ổn mà vẫn sụt cân, vàng da hoặc đau bụng thì báo bác sĩ (tài liệu đã tải không có quy trình cho sụt cân không giải thích).</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-8">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>ĐTĐ kiểm soát kém (HbA1c cao)</b></div>
+<p class="note">Phải loại trừ: Nhiễm trùng, Tuân thủ kém</p><p>Hướng đúng (phần sau chuyển tuyến là thiết kế minh họa, không phải số liệu từ tài liệu): sáng hôm sau chị Hoa chở bà lên bệnh viện tỉnh có giấy chuyển và giấy nghỉ ốm. Tuyến trên: HbA1c 11,3%, eGFR 62, CRP 5 mg/L, X-quang bàn chân không tiêu xương; bà được bắt đầu insulin nền, cắt lọc ổ loét, lắp giày giảm tải, nghỉ gác cổng. Ổ loét được hẹn xem lại; chưa lành sau 4–6 tuần thì xem lại tưới máu và biện pháp bổ trợ (IWGDF 2023 mục 4.2.2, 4.2.3B). Thời gian lành: không có trong tài liệu đã tải. Hướng bỏ sót (điểm gãy): phòng khám trấn an, chỉnh thuốc, hẹn lại 2 tuần mà không nhìn bàn chân; bà tiếp tục đứng gác 8 giờ/ngày trên ổ loét và đắp thuốc kín, nhiễm trùng sâu xuống mô mềm và xương mà bàn chân mất cảm giác nên không đau. Chuỗi quyết định gãy ở: đóng hồ sơ khi đường huyết đã giải thích lý do khám; không hỏi cụ thể về chân và thuốc đắp; không cởi giày tất; tin lời &#x27;không có gì khác&#x27;; coi &#x27;không có xét nghiệm&#x27; là lý do hẹn thay vì chuyển. Nhiễm trùng là nguyên nhân cuối cùng dẫn đến cắt cụt (ADA 2026 mục 12, tr. S268).</p></details>
+<details class="card" id="bai"><summary><h3 id="m-9">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Gỏi cá ba tuần trước và hàng xóm nói &#x27;sán lá gan thành ung thư&#x27;: gây nỗi sợ nhưng không giải thích sụt cân (sán cần 26–30 ngày để trưởng thành, QĐ 1172/2022 mục 1.1). Tiêu chảy 2 ngày sau bữa tiệc tự hết, không liên quan.</li><li>Thuốc đông y đắp ngoài da: không rõ thành phần; điều đáng nhớ là nó che ổ loét và bà coi là &#x27;thuốc&#x27;, nên không kể khi được hỏi thuốc đang uống.</li><li>Đòi chụp CT, nội soi và lời giục của chị Hoa &#x27;làm hết đi bác sĩ&#x27;: xét nghiệm chiều lòng, không có chỉ định và phòng khám không có.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Hai chẩn đoán cùng lúc: tìm ra &#x27;ĐTĐ mất bù&#x27; rồi đóng hồ sơ là bỏ sót ổ loét. Luôn hỏi &#x27;dữ kiện nào chưa được chẩn đoán này giải thích?&#x27;: ở đây là ổ loét không đau và nước vàng trong tất.</li><li>Bàn chân người ĐTĐ mất cảm giác không biết đau nên bệnh nhân không kể: khám bàn chân (cởi giày, tất, băng) ở MỌI lần khám người ĐTĐ (QĐ 5481 Phần 8 mục 4e; ADA 2026 KC 12.25). &#x27;Đắp&#x27; cũng là thuốc: hỏi cụ thể thuốc nam bắc và thuốc ngoài da (QĐ 5481 Phần 3 mục 2.1).</li><li>Sợ hãi quá mức: gọi đúng tên nỗi sợ, nói cụ thể đã khám thấy gì, chưa loại trừ gì và sẽ làm gì tiếp; không trấn an chung chung và không chiều lòng bằng CT, nội soi (phương pháp giao tiếp: không có trong tài liệu đã tải).</li><li>Không có xét nghiệm: quyết định bằng lâm sàng và biết điều mình không loại trừ được (viêm xương, bệnh động mạch ngoại biên, ceton máu); thiếu công cụ là lý do chuyển tuyến đúng lúc, không phải lý do hẹn (QĐ 5904 Phần 3 Bước 4A).</li><li>Loét chưa nhiễm trùng không dùng kháng sinh (IWGDF/IDSA 2023, khuyến cáo 11); nhưng &#x27;chưa nhiễm trùng&#x27; trên lâm sàng ở bàn chân mất cảm giác chưa phải &#x27;không viêm xương&#x27;: cần X-quang (IWGDF 2023 mục 4.1.1).</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Phân loại ổ loét: SINBAD (vị trí, thiếu máu, thần kinh, nhiễm trùng, diện tích, độ sâu); loại thần kinh = mất cảm giác bảo vệ, không bệnh động mạch ngoại biên; còn ít nhất một mạch sờ được thì dòng máu coi như còn, ABI 0,9–1,3 và TBI ≥ 0,70 làm bệnh động mạch ngoại biên ít khả năng (IWGDF 2023 mục 4.1.1). ABI có thể sai ở ĐTĐ vì mạch không xẹp, áp lực ngón chân chính xác hơn; áp lực ngón &lt; 30 mmHg gợi ý không lành (ADA 2026 mục 12, tr. S269).</li><li>Chẩn đoán nhiễm trùng bàn chân ĐTĐ: ≥ 2 dấu viêm (đỏ, nóng, cứng, đau) hoặc mủ; dấu toàn thân thường vắng ở nhiễm trùng nhẹ, vừa (IWGDF 2023 mục 4.1.1). Chẩn đoán viêm xương: probe-to-bone, X-quang, ESR/CRP/procalcitonin; MRI khi còn nghi ngờ (IWGDF/IDSA 2023, khuyến cáo 7–8).</li><li>Insulin: cân nhắc khi triệu chứng, dị hóa, glucose ≥ 16,7 mmol/L; HbA1c ≥ 9% (QĐ 5481 Phần 4 mục 4.2f) hoặc &gt; 10% (ADA 2026 KC 9.20). Hai nguồn cùng hướng khi đã có triệu chứng. GLP-1 RA ưu tiên hơn insulin nếu chưa tăng đường huyết nặng (ADA 2026 KC 9.21; QĐ 5481 Phần 4 mục 4.2g).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-10">Nguồn tài liệu <small>7</small></h3></summary><ul class=""><li>BYT – QĐ 5481/QĐ-BYT 2020, Hướng dẫn chẩn đoán và điều trị ĐTĐ típ 2 – TL-0031 – Phần 3 mục 2.1, 2.2g–h, Bảng 2; Phần 4 mục 4.2f–j, Bảng 5, 14, tr. 25 (insulin nền); Phần 7 mục 1, 2.1–2.2, 3.2, Bảng 7; Phần 8 mục 4c, 4e; Phụ lục 01 mục 1, 2.</li><li>BYT – QĐ 5904/QĐ-BYT 2019, Quản lý bệnh không lây nhiễm tại trạm y tế xã – TL-0284 – Phần 3 Bước 1 mục 4–5, Bước 2 mục 4, 6, Bước 4A mục 8–9; Phụ lục 2.3 Bước 1.</li><li>BYT – QĐ 3510/QĐ-BYT 2025, Hướng dẫn chẩn đoán và điều trị bệnh thần kinh ĐTĐ – TL-0279 – mục 3.2.2, 3.5; Phụ lục 01 (monofilament 10 g).</li><li>BYT – QĐ 1172/QĐ-BYT 2022, Hướng dẫn chẩn đoán, điều trị và phòng bệnh sán lá gan nhỏ – TL-0167 – mục 1, 1.1 (5), 2, 4.1–4.3, 5.2b, 8.</li><li>ADA 2026 Standards of Care in Diabetes – TL-0296 (chương 6 KC 6.3a, 6.5; chương 9 KC 9.20, 9.21) và TL-0446 (chương 12 Foot Care: KC 12.23–12.31, Bảng 12.1; tr. S268–S271).</li><li>IWGDF 2023 Practical Guidelines và IWGDF/IDSA 2023 Infection Guideline – kho cũ tltk-10000-ca (04 Bệnh mạn tính người lớn/Quốc tế/IWGDF 2023) – Practical mục 3, 4.1.1–4.1.3, 4.2, 4.2.2, 4.2.3A–B, 4.2.4, 6, Bảng 1; Infection khuyến cáo 7, 8, 11.</li><li>TT 56/2017/TT-BYT (sửa đổi TT 18/2022/TT-BYT), giấy nghỉ ốm, Điều 3 khoản 1, Điều 20 khoản 1 điểm c – nguồn bổ sung tự tìm, chưa đối chiếu bản hiện hành sau Luật BHXH 2024 (theo sổ mâu thuẫn).</li></ul></details>
+<details class="card"><summary><h3 id="m-11">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Bệnh mạn tính người lớn</dd><dt>chan_doan_dich</dt><dd>ĐTĐ kiểm soát kém (HbA1c cao)</dd><dt>chan_doan_phai_loai_tru</dt><dd>Nhiễm trùng; Tuân thủ kém</dd><dt>nhom_tuoi</dt><dd>Cao tuổi (60–74 tuổi)</dd><dt>gioi</dt><dd>Nữ</dd><dt>do_kho</dt><dd>Ca bẫy</dd><dt>loai_bay</dt><dd>Hai chẩn đoán cùng lúc</dd><dt>co_co_do</dt><dd>Có</dd><dt>so_luot_kham</dt><dd>1</dd><dt>dien_tien_tai_kham</dt><dd>Không áp dụng (ca 1 lượt khám)</dd><dt>nhieu_benh_nhan</dt><dd>Sợ hãi quá mức</dd><dt>rang_buoc_nguon_luc</dt><dd>Không có xét nghiệm nào</dd><dt>nghe_nghiep</dt><dd>Bảo vệ</dd><dt>yeu_to_khoi_phat</dt><dd>Sau ăn đồ sống (gỏi cá)</dd><dt>thuoc_dang_dung</dt><dd>Thuốc đông y đắp ngoài da</dd><dt>ly_do_that_su_den_kham</dt><dd>Sợ mắc ung thư</dd><dt>loai_ket_cuc</dt><dd>Biến chứng do bỏ sót</dd></dl><ul class=""><li>2026-10-16, người viết bản đầu. Tài liệu đã đọc: TL-0031 (QĐ 5481: Phần 3 mục 2.1–2.2, Bảng 2; Phần 4 mục 4.2, Bảng 4, 5, 14; Phần 7; Phần 8 mục 4; PL01 mục 1–2); TL-0284 (QĐ 5904 Phần 3, Phụ lục 2.3); TL-0446 và TL-0296 (ADA 2026 chương 6, 9, 12); TL-0279 (QĐ 3510); TL-0167 (QĐ 1172/2022); IWGDF 2023 (kho cũ). Đã tra sổ mâu thuẫn (HbA1c mục tiêu người cao tuổi, ngưỡng insulin, metformin khi mất nước, giấy nghỉ ốm) và ghi cả hai cách.</li><li>Thiếu tài liệu đã tải: mốc giờ chuyển tuyến cho loét không nhiễm trùng; thời gian lành ổ loét; dung dịch rửa, tần suất thay băng; &#x27;ngày ốm&#x27; của metformin; quy trình sụt cân không giải thích; phương pháp trấn an. Kết quả tuyến trên (HbA1c 11,3%, creatinin 88, CRP 5, X-quang) là số minh họa của người viết.</li><li>Thiết kế: khám bàn chân dùng chi_duoi, mạch dùng mach_ngoai_bien, monofilament dùng than_kinh (như MT-0333). Không gắn âm thanh tim/phổi vì mạch 96 l/p không khớp tệp tim bình thường (≈ 60 l/p).</li></ul></details>
+<p class="chan-trang">Ca MT-1271 · phiên bản ca 1 – bản nháp của người viết, chờ trưởng nhóm duyệt (2026-10-16) · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

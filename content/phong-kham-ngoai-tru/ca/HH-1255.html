@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HH-1255 · COVID-19</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · HH-1255</div>
+   <h1>Ho, sốt, mệt 5 ngày, đã uống thuốc ở ba nơi không đỡ</h1>
+   <p class="dich-gia">Lê Thị Mận · Nữ · 48 tuổi · 57 kg</p>
+   <div class="chips"><span class="chip">Hô hấp cấp tính</span><span class="chip">Điển hình</span><span class="chip">2 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Chủ quán bún bò ở thị trấn, tự đứng bếp nấu nước lèo và nêm nếm mỗi sáng</dd><dt>Chiều cao, cân nặng</dt><dd>156 cm · 57 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi chị là &#x27;chị&#x27; hoặc &#x27;chị Mận&#x27;. Chị tự xưng &#x27;tôi&#x27;, gọi &#x27;bác sĩ&#x27;. Chồng gọi chị là &#x27;bà xã&#x27;, xưng &#x27;tôi&#x27; với bác sĩ.</dd><dt>Tính cách</dt><dd>Nói nhanh, dứt khoát, quen buôn bán nên hay tính tiền và tính ngày nghỉ. Mệt và gắt, dễ cắt ngang. Sau ba nơi khám mà không ai nói rõ bệnh gì, chị nghi bác sĩ nào cũng &#x27;cho thuốc cho có&#x27;. Được lắng nghe và giải thích rõ thì dịu hẳn, hỏi han kỹ. Tỉnh táo, trả lời đúng.</dd><dt>Người nhà</dt><dd>Chồng (anh Tâm) – Chồng, anh Tâm, 52 tuổi, chạy xe tải nhỏ, chở vợ đi khám. Hiền, ít nói, hay xen vào &#x27;tiệm thuốc đo huyết áp cao lắm&#x27;. Anh biết: vợ ho sốt 5 ngày, uống thuốc ba nơi, mất mùi vị, hai nhân viên nghỉ vì ho sốt, anh ho nhẹ từ hôm qua. Anh KHÔNG biết vợ sợ đột quỵ. Ở nhà còn mẹ chị 76 tuổi từng bị nhồi máu não, ở phòng riêng tầng trệt, và con gái 22 tuổi đi học xa. Anh trả lời khi hỏi về quán, người trong nhà, thuốc đã mua (nguoi_noi = chi, anh bổ sung).</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Phòng khám đa khoa tuyến cơ sở, không có phòng xét nghiệm nào (không công thức máu, CRP, test nhanh COVID-19/cúm, PCR), kéo theo không có X-quang, CT, nội soi; không có máy siêu âm. Còn có nhiệt kế, huyết áp kế, ống nghe, máy đo SpO₂ và máy điện tim. Bệnh viện huyện có xét nghiệm và X-quang, cách 14 km.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/2</span> </h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Chị Lê Thị Mận, 48 tuổi, chủ quán bún bò, chồng chở đến vì ho, sốt, mệt 5 ngày, đã khám và uống thuốc ở ba nơi mà chưa đỡ. Sinh hiệu: nhiệt độ 38,0 °C, mạch 88 l/p, HA 138/86 mmHg, nhịp thở 20 l/p, SpO₂ 97% khí trời, cân nặng 57 kg.</p>
+  <blockquote>“Bác sĩ định cho thuốc giống mấy chỗ kia hả? Tôi đi ba chỗ rồi, tốn gần triệu bạc, ho sốt vẫn y vậy. Bác sĩ coi giùm tôi bị gì.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>88</b><small>l/p</small></div><div class="vs"><span>HA</span><b>138/86</b><small>mmHg</small></div><div class="vs warn"><span>Nhiệt</span><b>38,0</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>20</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>97</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>12 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám</b><span class="tag t-g">Tự kể</span></div><p>Ho, sốt, mệt 5 ngày. Đã uống thuốc ở ba nơi không đỡ nên đến khám.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Diễn tiến, không có dấu hiệu viêm phổi</b><span class="tag t-b">Khi được hỏi</span></div><p>Ngày 1: đau họng, ớn lạnh, đau mỏi người, sốt 38,5 °C. Ngày 2: ho khan, sổ mũi, mệt. Ngày 3: đau đầu. Từ ngày 4 sốt chiều 38,0–38,5 °C, ho khan nhiều về đêm, đờm trắng ít. Không khó thở, không đau ngực, không ho ra máu, không rét run. Đi lại, leo cầu thang một tầng vẫn được.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Mất khứu giác, vị giác</b><span class="tag t-r">Giấu</span></div><p>Từ ngày 3 nêm nước lèo không biết mặn nhạt, ngửi hành, mắm, cà phê đều nhạt hẳn. Chị tưởng do nghẹt mũi và do thuốc.</p><div class="cond">Điều kiện nói ra: Hỏi chung &#x27;còn khó chịu gì&#x27; thì chị nói &#x27;ăn không ngon&#x27;. Chỉ kể khi hỏi về mùi, vị, hoặc hỏi theo việc làm (nêm nước lèo, ngửi hành, mắm).</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Yếu tố dịch tễ</b><span class="tag t-b">Khi được hỏi</span></div><p>Quán đông khách. Hai nhân viên (bếp phụ, bưng bê) nghỉ vì ho sốt từ trước chị 3–4 ngày, một người kể mất mùi. Chồng ho nhẹ từ hôm qua. Chị đứng bếp đến hôm qua, hôm nay mới đóng cửa.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc, kháng sinh và xét nghiệm đã có ở ba nơi</b><span class="tag t-b">Khi được hỏi</span></div><p>Ngày 2 tiệm thuốc đầu ngõ: bán amoxicillin 500 mg, ngày 3 lần, và paracetamol, siro ho; chị tự làm test nhanh kháng nguyên mua ở đó, một vạch (âm tính). Ngày 3 trạm y tế phường: đo sốt 38,4 °C, nói viêm họng, cho vitamin C và paracetamol. Ngày 4 phòng khám tư: nói viêm phế quản, kê cefuroxim 500 mg ngày 2 lần; chị không dám bỏ amoxicillin nên uống cả hai. Cả ba nơi không ai chụp phim, thử máu hay khám thần kinh.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tác dụng phụ kháng sinh hoặc COVID-19; mất nước</b><span class="tag t-b">Khi được hỏi</span></div><p>Từ ngày 4 đi tiêu lỏng 2–3 lần mỗi ngày, phân vàng, không máu, bụng sôi, sau khi uống thêm cefuroxim. Tiểu ít hơn thường, uống nước ít.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đau đầu, huyết áp đo ngoài</b><span class="tag t-b">Khi được hỏi</span></div><p>Đau đầu âm ỉ hai bên thái dương từ ngày 3, hơi choáng khi đứng dậy nhanh. Hôm qua tiệm thuốc đo huyết áp được 150/95 mmHg. Chưa từng đo huyết áp trước đó.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Người nhà có nguy cơ cao ở chung nhà</b><span class="tag t-b">Khi được hỏi</span></div><p>Mẹ chị 76 tuổi, nhồi máu não cách đây 2 năm, yếu nhẹ tay phải, đi lại được, ở phòng riêng tầng trệt. Chị nấu ăn và đưa cơm cho mẹ.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật: sợ đột quỵ</b><span class="tag t-r">Giấu</span></div><p>Chị sợ bị đột quỵ như mẹ: đau đầu, huyết áp 150/95, và nghe tuần trước một người cùng xóm 50 tuổi bị đột quỵ sau khi dương tính COVID-19. Vì sợ nên chị đi hết nơi này đến nơi khác, nhưng không ai hỏi đến đầu của chị. Chị chưa dám nói với chồng.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi chị lo điều gì nhất, sợ bệnh gì, hoặc vì sao đi nhiều nơi như vậy; hỏi riêng chị thì chị nói nhỏ, mắt đỏ lên.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Yếu tố nguy cơ bệnh nặng, thai, dị ứng</b><span class="tag t-b">Khi được hỏi</span></div><p>Khỏe, chưa có bệnh nền nào, không hút thuốc, không uống rượu. Kinh còn đều, đang đặt vòng tránh thai, không có thai. Không dị ứng thuốc.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiêm chủng (yếu tố nguy cơ)</b><span class="tag t-b">Khi được hỏi</span></div><p>Đã tiêm 3 mũi vắc xin COVID-19 (2021–2022), không tiêm nhắc sau đó.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc đang dùng, kể cả thuốc bôi</b><span class="tag t-b">Khi được hỏi</span></div><p>Một tuýp thuốc bôi không nhãn do người quen cho, bôi hai bàn tay mỗi tối khoảng 3 tháng vì ngứa, nứt tay do rửa chén. Không rõ tên, thành phần. Không dùng thuốc uống thường xuyên nào khác ngoài các thuốc ba nơi vừa kê.</p></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>11 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, tiếp xúc tốt, hơi mệt, nói câu dài vẫn trọn. Môi hơi khô, da niêm hồng, không tím. BMI 23,4.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b></div><p><span class="lbl">Kết quả:</span> Họng đỏ nhẹ, amidan không to, không mủ. Mũi nghẹt nhẹ, dịch trong. Không hạch cổ.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nhịp thở 20 l/p, đều, không co kéo cơ hô hấp phụ. Rung thanh đều, gõ trong hai phổi.</p><p><span class="lbl">Kết quả:</span> Thở 20 l/p, đều, không co kéo cơ hô hấp phụ. Rung thanh đều hai bên, gõ trong. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Hai đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 88 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều, 88 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><span class="key">★</span><b>Thần kinh</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, nói rõ, nếp mũi má cân, nhe răng đối xứng, thè lưỡi giữa. Sức cơ 5/5 bốn chi, nâng hai tay không rơi, cảm giác bình thường. Ngón tay–mũi đúng, đi hàng một vững. Không dấu màng não.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thử khứu giác (từng bên mũi, bằng mùi quen thuộc hoặc bộ thử chuẩn)</b></div><p><span class="lbl">Kết quả:</span> Không nhận ra mùi cà phê, mắm tôm, hành phi ở cả hai bên mũi; chỉ nhận mùi amoniac nồng. Chị nói &#x27;vậy là hư mũi luôn rồi hả bác sĩ&#x27;.</p></div><div class="row"><div class="rh"><b>Đo lại huyết áp hai tay</b></div><p><span class="lbl">Kết quả:</span> Tay phải 138/86, tay trái 136/84 mmHg, hai tay tương đương nhau. Lúc đo chị lo, nhịp thở nhanh hơn.</p></div><div class="row"><div class="rh"><b>Đo huyết áp tư thế nằm – đứng</b></div><p><span class="lbl">Kết quả:</span> Nằm 136/84, mạch 88. Đứng 1 phút 132/84, mạch 98. Không hạ huyết áp tư thế; chị thấy hơi choáng nhẹ khi đứng.</p></div><div class="row"><div class="rh"><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm, không chướng, nhu động tăng nhẹ, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b></div><p><span class="lbl">Kết quả:</span> Không ban, không chấm xuất huyết toàn thân. Hai bàn tay khô, nứt kẽ ngón, vài mảng đỏ bong vảy ở mu tay, không mụn nước mới, không nhiễm trùng.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Nghiệm pháp đi bộ đo SpO₂</b></div><p><span class="lbl">Kết quả:</span> Đi bộ trong hành lang 40 m không phải dừng, nói chuyện được. SpO₂ 97% → 96%, nhịp thở 22 l/p, mạch 98, về 97% sau 1 phút. Không khó thở.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>1 mục</small></h3></summary><div class="row"><div class="rh"><b>Điện tâm đồ 12 chuyển đạo</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Nhịp xoang 88 l/p, trục trung gian, không biến đổi ST–T.</p><p class="why">Không cần: không đau ngực, mạch đều 88, không khó thở.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>COVID-19 mức nhẹ, ngày bệnh thứ 5, chẩn đoán lâm sàng – dịch tễ (chưa có xét nghiệm xác nhận)</b></div><p class="why">Ca nghi ngờ: yếu tố dịch tễ + ≥ 3 triệu chứng (QĐ 2671/2023 mục 2.1a, tr. 18): hai nhân viên cùng quán ho sốt, chồng ho; sốt, ho, đau người, ớn lạnh, đau đầu, đau họng, tiêu lỏng, mất vị giác, khứu giác. Mất mùi vị gặp ở COVID-19 (mục 3.1, tr. 19; WHO 2023 Bảng 6.1, tr. 29). Mức nhẹ: không khó thở, SpO₂ 97% ≥ 96%, thở 20 &lt; 22 (mục 5.2.1, Bảng 4). Không có test: WHO xếp ca có khả năng (probable) và vẫn đi theo đường chăm sóc COVID-19 (mục 3.2 Remark 1, 4, tr. 18). ICD-10 U07.2 (TT 06/2026, Phụ lục ICD-10).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Cúm mùa</b></div><p class="why">Không loại trừ chắc bằng lâm sàng; khẳng định cúm cần test (QĐ 1840/2025 mục II.2.4.2, tr. 8). Nghiêng COVID-19 vì mất mùi vị và dịch tễ; cúm khởi phát đột ngột sốt, ớn lạnh, đau cơ, sốt 3–5 ngày (mục II.1.1, tr. 6). Thể nhẹ không yếu tố nguy cơ: xử trí giống nhau (QĐ 1840 mục III.2.2, tr. 9–10).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm phổi vi khuẩn (kể cả bội nhiễm)</b></div><p class="why">Không rét run, không đờm mủ, không đau ngực màng phổi, sốt 38,0 &lt; 39 °C, phổi không ran, thở 20, SpO₂ 97% (QĐ 2147/2026 mục 3.1.1, tr. 15). CURB-65: C, R, B, tuổi đều 0; ure không đo được, điểm tối đa 1 vẫn nhóm 0–1 (mục 3.2.1, tr. 18). Không có phim, máu nên chưa loại trừ tuyệt đối: dựa vào mốc theo dõi.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Giảm oxy máu thầm lặng</b></div><p class="why">5–10% người bệnh COVID-19 giảm oxy mà không khó thở (QĐ 2671 mục 3.2.1, tr. 19). Đo SpO₂ nghỉ 97% và sau đi bộ 96%, không dưới 96% (Bảng 4 tr. 33: SpO₂ có lúc &lt; 96% hoặc &lt; 96% kèm khó thở khi vận động là dấu hiệu cảnh báo).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Đột quỵ hoặc biến chứng thần kinh – mạch máu của COVID-19</b></div><p class="why">Nhồi máu não ở COVID-19 khởi phát đột ngột (rối loạn ý thức, liệt nửa người, thất ngôn, mất thị lực…), hay gặp ở người có tuổi cao, đái tháo đường, rối loạn lipid, thuốc lá, béo phì (QĐ 2671 mục 3.2.4, tr. 21). Chị 48 tuổi, BMI 23,4, không hút thuốc; lipid máu chưa biết, ở đây không đo được; khám thần kinh bình thường. HA 138/86 một lần đo lúc sốt, lo: chưa kết luận tăng huyết áp (ngưỡng chẩn đoán: không có trong tài liệu đã tải).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tiêu chảy do kháng sinh (hoặc do COVID-19)</b></div><p class="why">Tiêu lỏng từ ngày 4 sau khi uống thêm cefuroxim; QĐ 2671 mục 3.2.5 (tr. 21) nêu tiêu chảy có thể do COVID-19 hoặc do kháng sinh. Không máu, bụng mềm. Ngừng kháng sinh và theo dõi.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm họng liên cầu / viêm phế quản vi khuẩn (chẩn đoán ở các nơi trước)</b></div><p class="why">Ho khan, đờm trắng ít, họng đỏ nhẹ không mủ, phổi không ran, bối cảnh có dịch tễ và mất mùi vị: giải thích đủ bằng COVID-19; không có bằng chứng nhiễm khuẩn để dùng kháng sinh (QĐ 2671 mục 6.8.1a, tr. 52).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Cho về, điều trị và cách ly tại nhà; không nhập viện, không chuyển tuyến</b></div><p class="why">Bảng 4 (QĐ 2671 tr. 32–33): mức nhẹ điều trị tại nhà khi SpO₂ ≥ 96%, thở 12–21 l/p, HA &gt; 90/60, tỉnh; chị đủ cả, chưa có dấu hiệu cảnh báo (SpO₂ có lúc &lt; 96%, sốt cao liên tục không giảm với paracetamol, yếu tố nguy cơ Bảng 5). WHO 2023 mục 3.6 (tr. 36): tự cách ly tại nhà, tùy hoàn cảnh nhà và người dễ tổn thương (mẹ 76 tuổi).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ngừng amoxicillin và cefuroxim; không kê kháng sinh</b></div><p class="why">QĐ 2671 mục 6.8.1a (tr. 52), Bảng 6 (tr. 36): mức nhẹ không kháng sinh nếu không có bằng chứng nhiễm khuẩn; WHO 2023 mục 3.6 (tr. 36): khuyến cáo không dùng. Tiêu lỏng có thể do kháng sinh (mục 3.2.5).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Paracetamol 0,5 g khi sốt &gt; 38,5 °C hoặc đau đầu, đau mỏi nhiều, không quá 4 viên mỗi ngày; uống đủ nước, ăn lỏng dễ tiêu, nghỉ ngơi</b></div><p class="why">WHO 2023 mục 3.6 (tr. 36): hạ sốt giảm đau, dinh dưỡng và bù nước phù hợp. Liều paracetamol, ngưỡng 38,5 °C, bù nước điện giải: QĐ 4235/2012 bài Viêm phổi bệnh viện mục 3.4 (QĐ 2671 không nêu liều). Lượng nước cụ thể: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không kê thuốc kháng virus (nirmatrelvir/ritonavir, molnupiravir, remdesivir)</b></div><p class="why">QĐ 2671 Bảng 7 (tr. 37–39): chỉ cho người nhẹ/trung bình có ≥ 1 yếu tố nguy cơ (Bảng 5 tr. 34); chị không có (48 tuổi, BMI 23,4, không bệnh nền, không thuốc lá, đã tiêm 3 mũi, không có thai). EPIC-SR (NEJM 2024, TL-0163, Abstract): người nguy cơ chuẩn hết triệu chứng trung vị 12 so với 13 ngày (P = 0,60), nhập viện hoặc tử vong 0,8% so với 1,6%.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê kháng virus cho nhanh khỏi</b></div><p class="why">Không có chỉ định (Bảng 7). Ritonavir ức chế CYP3A4, phải rà thuốc (Bảng 7 tr. 37–38) mà tuýp thuốc bôi không nhãn không rà được; molnupiravir phải loại trừ thai (Bảng 7 tr. 38). EPIC-SR không cho thấy lợi ích ở nguy cơ chuẩn.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê thêm hoặc đổi kháng sinh &#x27;cho chắc&#x27; (azithromycin, levofloxacin, ceftriaxon…)</b></div><p class="why">QĐ 2671 mục 6.8.1a; WHO 2023 mục 3.6 (tr. 36): khuyến cáo không dùng; lạm dụng làm tăng kháng thuốc. Chị đã tiêu lỏng sau 2 kháng sinh.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Corticoid (dexamethason, prednisolon) &#x27;cho đỡ ho, đỡ mệt&#x27;</b></div><p class="why">QĐ 2671 Bảng 6 (tr. 35): mức nhẹ không dùng corticoid; chỉ dexamethason 6–12 mg cho mức nặng, nguy kịch.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Ho nhiều gây mệt: xi rô bổ phế; không dùng thuốc ức chế ho có codein</b></div><p class="why">QĐ 4235/2012 bài Ho kéo dài mục 3.1 (bảng điều trị triệu chứng: ho do viêm phế quản cấp do virus dùng thuốc bổ phế dạng xi rô) và mục 3.2 (không nên dùng thuốc giảm ho khi nhiễm trùng đường hô hấp dưới). Chưa có đoạn riêng cho COVID-19; liều xi rô: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Cách ly: cách ly ít nhất 5 ngày kể từ khi có triệu chứng và đeo khẩu trang đến hết ngày 10, hoặc cách ly 10 ngày; ở phòng riêng, không đứng bếp hay phục vụ quán, tránh tiếp xúc mẹ 76 tuổi</b></div><p class="why">QĐ 2671 mục 7.1 (tr. 74): ≥ 5 ngày từ khi có triệu chứng, khẩu trang hết ngày 10; WHO 2023 mục 3.2 (tr. 18): 10 ngày (mục sổ mâu thuẫn &#x27;Thời gian cách ly&#x27;). Chị đang ngày 5 còn sốt nên cả hai đều dẫn tới mốc hết ngày 10. Quy định riêng cho người chế biến thực phẩm: không có trong tài liệu đã tải; lời khuyên ngừng nấu bán là cách làm thông thường.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Mẹ 76 tuổi (từng nhồi máu não) và chồng: đeo khẩu trang, mẹ ở phòng riêng, theo dõi triệu chứng; mẹ có triệu chứng thì đến khám sớm</b></div><p class="why">Tuổi &gt; 60 và tiền sử đột quỵ là yếu tố nguy cơ (QĐ 2671 Bảng 5, tr. 34); kháng virus dùng trong 5 ngày từ khởi phát (Bảng 7, tr. 37–38). WHO 2023 mục 3.6 Remark 2 (tr. 36): người dễ tổn thương trong nhà ảnh hưởng nơi cách ly.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi chị lo điều gì nhất; nói riêng về nỗi sợ đột quỵ: khám thần kinh bình thường, đau đầu là triệu chứng COVID-19, nói dấu hiệu đột quỵ thật cần đi ngay; hỗ trợ tâm lý</b></div><p class="why">QĐ 2671 mục 6.13.1 (tr. 68): hỗ trợ tâm lý xã hội, đặc biệt lo lắng khi biết nhiễm bệnh; WHO 2023 mục 3.15 (tr. 93): hỗ trợ tâm lý cơ bản bằng cách hỏi nhu cầu và nỗi lo. Dấu hiệu đột quỵ: yếu tay chân hoặc mặt, mất cảm giác, nói khó, nhìn mờ, loạng choạng, lú lẫn (WHO mục 3.15 tr. 93; QĐ 2671 mục 3.2.4).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn dấu hiệu cần đến ngay: khó thở, tức ngực, môi tím, lú lẫn, sốt cao không hạ với paracetamol, uống không được; kèm hẹn tái khám sau 3–4 ngày</b></div><p class="why">WHO 2023 mục 3.6 (tr. 36): tư vấn dấu hiệu biến chứng cần cấp cứu; QĐ 2671 Bảng 4 (tr. 33): cảnh báo SpO₂, sốt cao liên tục. Lịch tái khám 3–4 ngày là ca tự đề ra vì không có lịch cụ thể trong tài liệu đã tải; mốc tham chiếu: hết sốt sau 7–10 ngày (QĐ 2671 mục 3.3, tr. 22).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích: cơ sở không có xét nghiệm, chẩn đoán dựa vào hỏi, khám, dịch tễ; không lặp lại việc đã làm ở ba nơi</b></div><p class="why">Tái lập niềm tin của người bệnh đã đi ba nơi. WHO 2023 mục 3.2 Remark 4 (tr. 18): không có test thì vẫn xử trí ca có khả năng theo đường chăm sóc COVID-19.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Giới thiệu làm test nhanh hoặc PCR ở bệnh viện huyện nếu chị cần giấy xác nhận</b></div><p class="why">Ca xác định cần test dương tính (QĐ 2671 mục 2.2); WHO 2023 mục 3.5 (tr. 33) khuyến cáo lấy mẫu NAAT cho ca nghi ngờ. Kết quả không đổi xử trí ở thể nhẹ không nguy cơ.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Aspirin hoặc thuốc hạ sốt chứa aspirin</b></div><p class="why">Chưa loại trừ chắc cúm: QĐ 1840/2025 mục III.2.2 (tr. 10) không dùng aspirin ở người bệnh cúm vì hội chứng Reye. (NSAID khác: WHO 2023 mục 3.6 không thấy bằng chứng gây biến cố nặng ở COVID-19.)</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho mở quán lại ngay khi hết sốt, không cần cách ly</b></div><p class="why">Phát tán virus khoảng 8 ngày từ khi có triệu chứng và có thể lây từ 2 ngày trước (QĐ 2671 mục I, tr. 17); cách ly theo mục 7.1.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Chị Mận thở 20 l/p, SpO₂ 97% cả khi đi bộ, không khó thở, tỉnh táo, không yếu tố nguy cơ bệnh nặng: COVID-19 mức nhẹ điều trị tại nhà (QĐ 2671/2023 mục 5.2.1, Bảng 4 tr. 32–33, Bảng 5 tr. 34). Nằm viện huyện cách 14 km làm chị đóng quán nhiều ngày, tốn tiền, xa mẹ già, mà thể nhẹ không có thuốc đặc hiệu nào cần dùng (Bảng 6 tr. 35–36). Chị vốn đã mất niềm tin sau ba nơi, nghe &#x27;phải nằm viện&#x27; sẽ nghĩ mình rất nặng và nỗi lo thầm kín càng tăng.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Đưa chị lên bệnh viện huyện chỉ để chụp phim, thử máu &#x27;cho chắc&#x27; là chưa cần: thể nhẹ X-quang bình thường hoặc tổn thương ít (QĐ 2671 mục 5.2.1b), và kết quả không đổi hướng xử trí khi chị không có dấu hiệu viêm phổi hay yếu tố nguy cơ. Chị mất nửa ngày, đi lại giữa nơi đông bệnh nhân khi còn sốt và còn lây (QĐ 2671 mục 7.1), lần thứ tư lại có thể bị kê kháng sinh. Chị sẽ cảm thấy bị đẩy đi như ba nơi trước.</p></div><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Giữ chị ở phòng khám vài giờ rồi cho về không thêm được thông tin nào vì nơi đây không có xét nghiệm để chờ kết quả. Điều cần theo dõi là sốt, thở, SpO₂ và triệu chứng trong những ngày sau, đi kèm mốc tái khám và dấu hiệu phải đi ngay (WHO 2023 mục 3.6, tr. 36; QĐ 2671 mục 6.13.1, tr. 68). Chị đang cần nghỉ ở nhà để khỏi lây cho mẹ và nhân viên, ngồi chờ ở phòng khám là bất tiện vô ích.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>COVID-19 mức nhẹ, ngày bệnh thứ 5, chẩn đoán lâm sàng – dịch tễ, chưa có xét nghiệm xác nhận (QĐ 2671 mục 2.1a, 5.2.1; ICD-10 U07.2)</li><li>Không có yếu tố nguy cơ bệnh nặng (Bảng 5): 48 tuổi, BMI 23,4, không bệnh nền, không hút thuốc, đã tiêm 3 mũi, không có thai</li><li>Đã dùng kháng sinh không cần thiết ở ba nơi, kèm tiêu chảy có thể do kháng sinh hoặc COVID-19 (mục 3.2.5)</li><li>Lo âu sợ đột quỵ; đau đầu thuộc triệu chứng COVID-19; khám thần kinh bình thường, HA 138/86 một lần đo lúc đang sốt</li><li>Chưa nghĩ tới hoặc đã loại trừ trên lâm sàng: viêm phổi vi khuẩn, giảm oxy máu thầm lặng, đột quỵ; cúm mùa không loại trừ chắc nhưng xử trí như nhau</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Vì sao nghĩ COVID-19: ca nghi ngờ theo QĐ 2671 mục 2.1a (tr. 18) cần yếu tố dịch tễ và ≥ 3 triệu chứng. Dịch tễ: hai nhân viên cùng quán ho sốt (một người mất mùi), chồng ho; chị sốt, ho, đau người, ớn lạnh, đau đầu, đau họng, tiêu lỏng, mất mùi vị. Mất khứu giác, vị giác gặp ở COVID-19 (mục 3.1; WHO 2023 Bảng 6.1). Chị nêm nước lèo mỗi ngày nên phát hiện sớm: phải hỏi theo việc làm.</li><li>Vì sao chưa là ca xác định: ca xác định cần RT-PCR hoặc kháng nguyên dương tính kèm lâm sàng (mục 2.2). Test tự làm ngày 2 âm tính, làm rất sớm và một lần: một mẫu âm không loại trừ chẩn đoán (WHO 2023 mục 3.5 Remark 3). Không có test thì ca là &#x27;có khả năng&#x27; và vẫn đi theo đường chăm sóc COVID-19 (WHO mục 3.2 Remark 4).</li><li>Mức nhẹ: không khó thở, thở 20 l/p, SpO₂ 97%, đi bộ 40 m SpO₂ 96%, tỉnh, tự phục vụ (QĐ 2671 mục 5.2.1; Bảng 4). Đo SpO₂ nghỉ và gắng sức vì 5–10% giảm oxy thầm lặng (mục 3.2.1).</li><li>Loại trừ viêm phổi vi khuẩn: không rét run, đờm mủ, đau ngực màng phổi; phổi không ran (QĐ 2147/2026 mục 3.1.1). CURB-65 tối đa 1 điểm, nhóm 0–1 (mục 3.2.1). Không có phim, máu nên chưa loại trừ tuyệt đối: theo dõi có mốc.</li><li>Cúm mùa: khởi phát đột ngột, sốt 3–5 ngày (QĐ 1840/2025 mục II.1.1). Hai bệnh không phân biệt chắc bằng lâm sàng nhưng ở thể nhẹ không nguy cơ xử trí như nhau: hỗ trợ, không kháng sinh, kháng virus chỉ cho người có yếu tố nguy cơ (QĐ 1840 mục III.2.2; WHO 2024, TL-0133, phần Recommendations).</li><li>Nỗi sợ thật: sợ đột quỵ vì mẹ từng bị, đau đầu, HA 150/95 ở tiệm thuốc và tin đồn xóm. QĐ 2671 mục 3.2.4: nhồi máu não khởi phát đột ngột, hay ở người có yếu tố nguy cơ (tuổi cao, đái tháo đường, rối loạn lipid, thuốc lá, béo phì); chị không có dấu thần kinh và gần như không có các yếu tố đó (lipid chưa biết).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Hướng đúng là cho về điều trị và cách ly tại nhà: mức nhẹ, SpO₂ ≥ 96%, thở &lt; 22, tỉnh, chưa dấu cảnh báo (QĐ 2671 Bảng 4 tr. 32–33). Cách này kèm hỗ trợ triệu chứng, bù nước, dinh dưỡng (WHO 2023 mục 3.6).</li><li>Không dùng kháng sinh: ngừng amoxicillin và cefuroxim (QĐ 2671 mục 6.8.1a; WHO mục 3.6). Không kê kháng virus vì không có yếu tố nguy cơ (Bảng 7); EPIC-SR không lợi ích ở nguy cơ chuẩn. Không corticoid ở mức nhẹ (Bảng 6).</li><li>Cách ly và bảo vệ người nhà: ít nhất 5 ngày kể từ khi có triệu chứng và khẩu trang hết ngày 10 (QĐ 2671 mục 7.1), hoặc 10 ngày (WHO mục 3.2). Mẹ 76 tuổi, tiền sử nhồi máu não là nhóm nguy cơ cao (Bảng 5): tách riêng, khẩu trang, đến khám sớm nếu có triệu chứng.</li><li>Xử lý nỗi sợ: hỏi &#x27;chị lo điều gì nhất&#x27;, khám thần kinh, đo lại huyết áp, giải thích đau đầu do bệnh, dặn dấu hiệu đột quỵ thật cần đi ngay (QĐ 2671 mục 6.13.1, 3.2.4; WHO mục 3.15). Nói rõ nơi đây không có xét nghiệm và vì sao không cần lặp lại việc đã làm ở ba nơi.</li><li>Theo dõi thay cho xét nghiệm: tái khám sau 3–4 ngày (mốc tự đề ra) hoặc ngay khi có dấu hiệu nặng; sốt thường hết sau 7–10 ngày (QĐ 2671 mục 3.3).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Paracetamol</b><div class="sub">Viên 0,5 g</div></td><td data-l="Liều">1 viên mỗi lần<div class="sub">Uống · Khi nhiệt độ &gt; 38,5 °C hoặc đau đầu, đau mỏi nhiều</div></td><td data-l="Thời gian">Khi cần; không quá 4 viên mỗi ngày</td><td class="gc" data-l="Ghi chú">QĐ 4235/2012 bài Viêm phổi bệnh viện mục 3.4 (liều, ngưỡng 38,5 °C); WHO 2023 mục 3.6 (hạ sốt, giảm đau). QĐ 2671 không nêu liều. Bỏ các viên hạ sốt khác để khỏi cộng dồn; không dùng thuốc chứa aspirin (QĐ 1840 mục III.2.2).</td></tr><tr><td><b>Xi rô bổ phế (nếu ho nhiều gây mất ngủ)</b><div class="sub">Theo nhãn thuốc</div></td><td data-l="Liều">Không có trong tài liệu đã tải<div class="sub">Uống · Khi ho nhiều</div></td><td data-l="Thời gian">Vài ngày</td><td class="gc" data-l="Ghi chú">QĐ 4235/2012 bài Ho kéo dài mục 3.1 (ho do viêm phế quản cấp do virus). Tùy chọn; không dùng thuốc ức chế ho có codein (mục 3.2).</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Bệnh của chị nhiều khả năng là COVID-19 thể nhẹ. Nơi đây không có xét nghiệm, bác sĩ kết luận qua hỏi bệnh, khám, bối cảnh quán và người nhà; không cần thử lại, không cần phim ngay (QĐ 2671 mục 5.2.1; WHO 2023 mục 3.2).</li><li>Ngừng amoxicillin, cefuroxim và siro ho đã mua; mang tuýp thuốc bôi tay và vỏ thuốc đến lần sau để bác sĩ xem. Uống nước đều, ăn cháo, súp dễ tiêu, nghỉ ngơi.</li><li>Ở phòng riêng, đeo khẩu trang khi ra khỏi phòng, ngừng đứng bếp và phục vụ quán đến hết ngày bệnh thứ 10; tránh nấu ăn, đưa cơm tận tay cho mẹ (QĐ 2671 mục 7.1; WHO mục 3.2).</li><li>Đến ngay cơ sở y tế gần nhất khi khó thở, tức ngực, môi tím, lú lẫn, sốt cao không hạ, uống không được. Đột quỵ thì đến cấp cứu ngay khi yếu hoặc tê tay chân hay mặt một bên, nói khó, nhìn mờ, loạng choạng, lơ mơ (WHO mục 3.6, 3.15; QĐ 2671 mục 3.2.4).</li><li>Tái khám sau 3–4 ngày hoặc sớm hơn nếu nặng lên. Huyết áp: đo lại khi hết sốt, ngồi nghỉ 5 phút; ngưỡng chẩn đoán tăng huyết áp: không có trong tài liệu đã tải.</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-2">
+ <h2 id="h-luot-2"><span class="ln">Lượt 2/2</span> </h2>
+ <div class="card intro"><h3 id="m-8">Tiếp đón</h3><p>Chị Mận tái khám đúng hẹn, ngày bệnh thứ 9, nói đã làm theo dặn mà vẫn ho, mệt, chiều còn sốt nhẹ, ngủ kém. Sinh hiệu: nhiệt độ 37,8 °C, mạch 84 l/p, HA 124/78 mmHg, nhịp thở 18 l/p, SpO₂ 97% khí trời.</p>
+  <blockquote>“Bác sĩ ơi, tôi làm đúng như dặn rồi mà vẫn ho, vẫn mệt, chiều còn sốt. Hay là bác sĩ bỏ sót cái gì, vì không chụp phim, không thử máu?”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>84</b><small>l/p</small></div><div class="vs"><span>HA</span><b>124/78</b><small>mmHg</small></div><div class="vs warn"><span>Nhiệt</span><b>37,8</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>18</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>97</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-9">Hỏi bệnh <small>7 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám</b><span class="tag t-g">Tự kể</span></div><p>Hẹn tái khám, ngày bệnh thứ 9: vẫn ho nhiều, mệt, chiều còn sốt nhẹ, ngủ kém. Làm theo dặn mà không đỡ.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Diễn tiến, dấu hiệu nặng và bội nhiễm</b><span class="tag t-b">Khi được hỏi</span></div><p>Sốt cao nhất ngày 5. Từ ngày 7 chỉ sốt nhẹ buổi chiều 37,6–38,0 °C (đo ở nhà), hạ sau paracetamol. Ho khan nhiều về đêm, từ hôm qua có chút đờm trắng loãng, không vàng xanh, không máu. Không khó thở, đi lại trong nhà bình thường, không đau ngực khi hít sâu. Vị giác mới trở lại chút ít. Tiêu lỏng hết sau 2 ngày bỏ kháng sinh.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tuân thủ, thuốc đang dùng</b><span class="tag t-b">Khi được hỏi</span></div><p>Đã bỏ amoxicillin, cefuroxim, siro ho từ hôm khám. Chỉ uống paracetamol 0,5 g 3–4 viên mỗi ngày, uống nước nhiều. Vẫn bôi tuýp thuốc tay mỗi tối.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Không tuân thủ cách ly, gắng sức sớm</b><span class="tag t-r">Giấu</span></div><p>Ngày 7–8, thấy nhân viên nghỉ nhiều, chị ra đứng bếp hai buổi sáng, đeo khẩu trang vải. Ngày 9 mệt hơn nên nghỉ lại. Chị ngại nói vì sợ bị trách.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi chị đã nghỉ thật chưa, quán mở lại chưa, ai nấu nước lèo mấy hôm nay.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tức ngực thoáng qua (loại trừ biến chứng tim, huyết khối)</b><span class="tag t-b">Khi được hỏi</span></div><p>Hai lần trong tuần qua tức nhẹ ngực trái 5–10 phút, lúc nằm nghĩ ngợi ban đêm, không lan, không liên quan đi lại, không vã mồ hôi, tự hết. Không khó thở, không ho ra máu, bắp chân không sưng đau.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Mất ngủ, lo âu, đau đầu, huyết áp tại nhà</b><span class="tag t-b">Khi được hỏi</span></div><p>Ngủ 3–4 giờ mỗi đêm vì ho và nghĩ ngợi. Chị vẫn sợ đột quỵ, giờ lo thêm &#x27;ho mãi thành viêm phổi&#x27;. Huyết áp đo ở nhà (máy chồng mua) 126–134/80–86 mmHg. Đau đầu nhẹ, ngày 1–2 lần.</p></div><div class="fact"><div class="fh"><b>nguoi_nha</b><span class="tag t-b">Khi được hỏi</span></div><p>Chồng ho nhẹ 3 ngày nay đã đỡ. Mẹ chị không triệu chứng, ở phòng riêng, chị đưa cơm đeo khẩu trang. Hai nhân viên đã đi làm lại.</p></div></details>
+ <details class="card"><summary><h3 id="m-10">Khám <small>8 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, hơi mệt, nói câu dài trọn. Môi ẩm, da niêm hồng, không tím.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b></div><p><span class="lbl">Kết quả:</span> Họng đỏ nhẹ, không mủ, không hạch cổ. Mũi thông.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nhịp thở 18 l/p, đều, không co kéo. Rung thanh đều, gõ trong hai phổi.</p><p><span class="lbl">Kết quả:</span> Thở 18 l/p, đều, không co kéo. Rung thanh đều, gõ trong. Rì rào phế nang êm dịu hai phế trường, không ran, không tiếng cọ màng phổi.</p><div class="media"><figure class="aud"><figcaption><b>Hai đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 84 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều, 84 l/p, T1 T2 rõ, không âm thổi, không tiếng cọ.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><span class="key">★</span><b>Thần kinh</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, nói rõ, mặt cân, sức cơ 5/5 bốn chi, cảm giác bình thường, đi vững. Không dấu màng não.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b></div><p><span class="lbl">Kết quả:</span> Không phù, hai bắp chân mềm, không đau khi bóp, chu vi hai bên bằng nhau.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Khám tâm thần (dáng vẻ, khí sắc, tư duy, nhận thức, ý tưởng tự hại)</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, hợp tác, khí sắc lo âu, kể dồn dập, tư duy mạch lạc, không ý tưởng tự hại. Ngủ 3–4 giờ mỗi đêm. Không hoảng loạn nặng.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Nghiệm pháp đi bộ đo SpO₂</b></div><p><span class="lbl">Kết quả:</span> Đi bộ 40 m không phải dừng. SpO₂ 97% → 96%, nhịp thở 20 l/p, mạch 94, về 97% sau 1 phút. Không khó thở.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-11">Cận lâm sàng <small>1 mục</small></h3></summary><div class="row"><div class="rh"><b>Điện tâm đồ 12 chuyển đạo</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Nhịp xoang 84 l/p, trục trung gian, không biến đổi ST–T, không block, không dấu tâm phế cấp.</p><p class="why">Có tức ngực thoáng qua: ECG bình thường cùng mạch 84, SpO₂ 97%, bắp chân không sưng giúp yên tâm hơn về viêm cơ tim, thuyên tắc, hội chứng vành là biến chứng có thể gặp ở COVID-19 (QĐ 2671 mục 3.2.2, tr. 19–20; triệu chứng không đặc hiệu: đau ngực, mệt, khó thở).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-12">Đáp án lượt 2 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>COVID-19 mức nhẹ, ngày 9, hồi phục chậm đúng quỹ đạo thường gặp (không thất bại điều trị)</b></div><p class="why">Sau 7–10 ngày người bệnh nhẹ, trung bình hết sốt, toàn trạng khá lên, có thể mệt kéo dài (QĐ 2671 mục 3.3, tr. 22). Khoảng 1/3 người có triệu chứng điều trị ngoại trú chưa trở lại bình thường sau 2–3 tuần (WHO 2023 mục 3.22, tr. 108). Vẫn mức nhẹ: SpO₂ 97%, thở 18, tỉnh (mục 5.2.1; Bảng 4). Chị không đỡ chủ yếu do gắng sức sớm (đứng bếp), thiếu ngủ, lo âu.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Bội nhiễm vi khuẩn / viêm phổi, thất bại điều trị muộn</b></div><p class="why">Thất bại muộn: sốt dai dẳng hoặc tái phát kèm xấu đi về triệu chứng, huyết động, hô hấp (SpO₂ &lt; 90% khí trời) sau 72 giờ (QĐ 2147/2026 mục 5.5.1b, tr. 44). Chị sốt thấp 37,8, đờm trắng ít, không đau ngực màng phổi, thở 18, SpO₂ 97%, phổi sạch: chưa có bằng chứng nhiễm khuẩn (QĐ 2671 mục 6.8.1a). Chẩn đoán bội nhiễm cần công thức máu, CRP, X-quang (mục 6.8.2, tr. 53): ở đây không có nên dùng mốc theo dõi và chuyển tuyến.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm cơ tim, thuyên tắc phổi, hội chứng vành cấp</b></div><p class="why">Tức ngực thoáng qua khi lo nghĩ, không liên quan gắng sức, mạch 84, SpO₂ 97% cả khi đi bộ, bắp chân không sưng, ECG bình thường (QĐ 2671 mục 3.2.2). Dặn đi ngay nếu tức ngực kéo dài, khó thở, ngất.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Đột quỵ / biến chứng thần kinh</b></div><p class="why">Không dấu thần kinh khu trú, đau đầu nhẹ giảm dần, HA đo tại phòng khám 124/78 và tại nhà 126–134/80–86 (QĐ 2671 mục 3.2.4: nhồi máu não khởi phát đột ngột). Không cần chụp CT não (ở đây cũng không có).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Lo âu, mất ngủ liên quan bệnh</b></div><p class="why">Ngủ 3–4 giờ, lo đột quỵ và lo bị sót bệnh. Hỗ trợ tâm lý xã hội, lắng nghe, nói rõ mốc theo dõi (QĐ 2671 mục 6.13.1, tr. 68; WHO 2023 mục 3.15, tr. 93).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Cúm mùa</b></div><p class="why">Đã bàn ở lượt trước; ngày 9 vẫn sốt thấp, ho, mệt, vị giác trở lại chậm gợi COVID-19 hơn cúm (cúm thường sốt 3–5 ngày: QĐ 1840/2025 mục II.1.1). Xử trí không đổi.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Cho về điều trị và cách ly tiếp tại nhà; chưa nhập viện, chưa chuyển tuyến</b></div><p class="why">Mức nhẹ, không dấu cảnh báo (QĐ 2671 Bảng 4 tr. 32–33); sốt thấp, ho, mệt trong quỹ đạo thường gặp (mục 3.3 tr. 22; WHO mục 3.22 tr. 108). Chị khám lại thấy ổn định, không có điều gì mới.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không kê kháng sinh vì ho, sốt thấp kéo dài</b></div><p class="why">QĐ 2671 mục 6.8.1a (tr. 52): mức nhẹ không kháng sinh nếu không có bằng chứng nhiễm khuẩn; WHO 2023 mục 3.6 (tr. 36). Thất bại muộn (QĐ 2147 mục 5.5.1b) chưa đủ tiêu chuẩn.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Soát lý do không đỡ: tuân thủ thuốc, đã đứng bếp hai buổi sáng, thiếu ngủ, uống ít nước, lo âu; dặn nghỉ hẳn đến hết ngày 10</b></div><p class="why">Thất bại điều trị cần đánh giá chủ yếu dựa vào đáp ứng lâm sàng, yếu tố cơ địa và đánh giá lại chẩn đoán (QĐ 2147 mục 5.5.1c, tr. 44); cách ly theo QĐ 2671 mục 7.1 (≥ 5 ngày, khẩu trang hết ngày 10) hoặc WHO mục 3.2 (10 ngày): ngày 9 còn gần mốc hết ngày 10.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Tiếp tục paracetamol 0,5 g khi sốt &gt; 38,5 °C hoặc đau đầu (≤ 4 viên mỗi ngày), uống đủ nước, ăn đủ, nghỉ ngơi; không thuốc ức chế ho codein</b></div><p class="why">QĐ 4235/2012 bài Viêm phổi bệnh viện mục 3.4 (liều); WHO 2023 mục 3.6 (tr. 36); QĐ 4235 bài Ho kéo dài mục 3.2.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Khám phổi, thần kinh, đi bộ đo SpO₂ và ECG; giải thích kết quả bình thường để yên tâm</b></div><p class="why">QĐ 2671 mục 3.2.2 (tức ngực, mệt, khó thở không đặc hiệu ở biến chứng tim, huyết khối), mục 3.2.4 (đột quỵ khởi phát đột ngột). Nơi đây không có xét nghiệm, quyết định bằng lâm sàng và ECG.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỗ trợ tâm lý: lắng nghe, nói điều chị lo; hướng dẫn thói quen ngủ</b></div><p class="why">QĐ 2671 mục 6.13.1 (tr. 68); WHO 2023 mục 3.15 (tr. 93). Chi tiết hướng dẫn giấc ngủ: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn mốc: tái khám sau 4–5 ngày; đi bệnh viện huyện làm X-quang, công thức máu, CRP ngay khi sốt ≥ 38,5 °C, đờm vàng xanh hoặc có máu, đau ngực khi hít sâu, khó thở, SpO₂ &lt; 96%, hoặc còn sốt sau ngày 12</b></div><p class="why">Chẩn đoán bội nhiễm cần xét nghiệm và X-quang (QĐ 2671 mục 6.8.2, tr. 53; QĐ 2147 mục 3.1.1 triệu chứng viêm phổi); SpO₂ &lt; 96% kèm khó thở là cảnh báo (Bảng 4 tr. 33). Mốc ngày 12 là ca tự đề ra, vì hết sốt trong 7–10 ngày (mục 3.3); lịch tái khám 4–5 ngày không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn dấu hiệu đột quỵ và biến chứng cần đi ngay; nhắc mẹ 76 tuổi và chồng theo dõi triệu chứng</b></div><p class="why">WHO 2023 mục 3.22 (tr. 108), 3.15 (tr. 93): tư vấn biến chứng nguy hiểm (thuyên tắc phổi, nhồi máu cơ tim, rối loạn nhịp, đột quỵ) cần cấp cứu; QĐ 2671 Bảng 5 (tr. 34): tuổi &gt; 60, tiền sử đột quỵ là yếu tố nguy cơ.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê kháng sinh &#x27;cho chắc&#x27; vì ho kéo dài và chưa có phim</b></div><p class="why">QĐ 2671 mục 6.8.1a; WHO 2023 mục 3.6: không kê. Chị đã tiêu lỏng khi dùng kháng sinh lượt trước.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Corticoid để hết ho, hết mệt</b></div><p class="why">QĐ 2671 Bảng 6 (tr. 35): mức nhẹ không dùng corticoid.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho mở quán lại ngay vì đã qua ngày 7</b></div><p class="why">Cách ly theo mục 7.1 (khẩu trang hết ngày 10) hoặc WHO 10 ngày; còn sốt nhẹ nên còn nguy cơ lây (QĐ 2671 mục I tr. 17: phát tán khoảng 8 ngày, có thể dài hơn).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Chị Mận thở 18 l/p, SpO₂ 97% cả khi đi bộ, tỉnh, phổi sạch, sốt thấp: vẫn là mức nhẹ điều trị tại nhà (QĐ 2671/2023 mục 5.2.1, Bảng 4 tr. 32–33); sốt đến 7–10 ngày và mệt kéo dài là diễn tiến thường gặp (mục 3.3, tr. 22). Nhập viện sẽ đóng quán thêm nhiều ngày, tốn tiền, xa mẹ già, và chị sẽ hiểu rằng mình &#x27;bị sót bệnh nặng&#x27; dù không có gì mới. Giường bệnh chiếm bởi một ca nhẹ.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Đưa chị lên bệnh viện huyện ngay hôm nay để chụp phim, thử máu khi chưa có dấu hiệu nặng lên thì thường chỉ thấy tổn thương ít hoặc không, và dễ dẫn tới kháng sinh không cần (QĐ 2671 mục 5.2.1b, 6.8.1a, tr. 52). Chị đi lại khi còn sốt thấp, có thể còn lây (WHO 2023 mục 3.2, tr. 18), mất thêm tiền và nửa ngày. Điều chị cần là được giải thích vì sao chưa khỏi và mốc nào thì phải đi, không phải chuyến đi thêm.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển cấp cứu</span></div><p>Gọi cấp cứu hoặc đưa chị đi cấp cứu vì tức ngực thoáng qua và lo đột quỵ là quá tay: khám thần kinh bình thường, mạch 84, ECG nhịp xoang, SpO₂ 97% (QĐ 2671 mục 3.2.2, 3.2.4, tr. 19–21). Chị sẽ hiểu bệnh nặng hơn thực tế, càng mất ngủ, lo lắng và sợ khám lại.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>COVID-19 mức nhẹ, ngày bệnh thứ 9, đang hồi phục chậm, không thất bại điều trị (QĐ 2671 mục 3.3, 5.2.1)</li><li>Mệt và ngủ kém do gắng sức sớm (đứng bếp), thiếu ngủ, lo âu; không có dấu hiệu bội nhiễm, tim mạch hay thần kinh</li><li>Đã loại trừ trên lâm sàng và ECG: viêm phổi bội nhiễm, viêm cơ tim, thuyên tắc phổi, đột quỵ; cúm mùa xử trí như nhau</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Vì sao &#x27;không đỡ&#x27; vẫn là diễn tiến thường gặp: ở người nhẹ, trung bình, sau 7–10 ngày hết sốt, mệt có thể kéo dài (QĐ 2671 mục 3.3). Khoảng 1/3 người có triệu chứng điều trị ngoại trú chưa trở lại bình thường sau 2–3 tuần (WHO 2023 mục 3.22). Chị vẫn đo SpO₂ 97% (96% sau đi bộ), thở 18, tỉnh, phổi sạch.</li><li>Quy trình khi không đỡ (QĐ 2147/2026 mục 5.5.1c): đánh giá bằng đáp ứng lâm sàng: tuân thủ thuốc, nguyên nhân mới, chẩn đoán sai. Chị đã bỏ kháng sinh; đứng bếp hai buổi sáng; mất ngủ. Không có yếu tố nào cần đổi chẩn đoán hay thêm thuốc.</li><li>Bội nhiễm vi khuẩn: chưa có bằng chứng (sốt thấp, đờm trắng, không đau ngực màng phổi, phổi sạch, SpO₂ 97%). Muốn chẩn đoán cần công thức máu, CRP, X-quang (QĐ 2671 mục 6.8.2): nơi đây không có nên dùng mốc theo dõi và chuyển tuyến.</li><li>Tức ngực thoáng qua khi lo nghĩ: ECG nhịp xoang, mạch 84, SpO₂ 97% khi gắng sức, bắp chân không sưng, không khó thở khiến viêm cơ tim, thuyên tắc, hội chứng vành ít khả năng (QĐ 2671 mục 3.2.2). Đột quỵ: không dấu thần kinh, khởi phát không đột ngột (mục 3.2.4).</li><li>Lo âu và mất ngủ làm triệu chứng nặng thêm. Chị bớt gắt vì lần trước được hỏi chị lo gì; hôm nay chị lo &#x27;bị sót&#x27; vì không có phim, xét nghiệm: phải nói rõ lý do và mốc chuyển tuyến.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Hướng đúng vẫn là cho về điều trị và cách ly tại nhà (QĐ 2671 Bảng 4). Không nhập viện, không chuyển tuyến lúc này vì chưa có dấu hiệu nặng lên.</li><li>Không kháng sinh, không corticoid: QĐ 2671 mục 6.8.1a, Bảng 6; WHO 2023 mục 3.6. Thuốc chỉ là paracetamol khi cần, nước, ăn đủ.</li><li>Dặn nghỉ hẳn đến hết ngày 10 (QĐ 2671 mục 7.1 hoặc WHO mục 3.2), không đứng bếp; hỗ trợ tâm lý (QĐ 2671 mục 6.13.1).</li><li>Mốc chuyển tuyến để có X-quang, xét nghiệm: sốt ≥ 38,5 °C, đờm vàng xanh hoặc có máu, đau ngực khi hít sâu, khó thở, SpO₂ &lt; 96%, còn sốt sau ngày 12 (mốc ca tự đề ra; QĐ 2671 mục 3.3 hết sốt sau 7–10 ngày). Không nhập viện ngay chỉ để &#x27;chắc&#x27;.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Paracetamol</b><div class="sub">Viên 0,5 g</div></td><td data-l="Liều">1 viên mỗi lần<div class="sub">Uống · Khi nhiệt độ &gt; 38,5 °C hoặc đau đầu, đau mỏi nhiều</div></td><td data-l="Thời gian">Khi cần; không quá 4 viên mỗi ngày</td><td class="gc" data-l="Ghi chú">QĐ 4235/2012 bài Viêm phổi bệnh viện mục 3.4; WHO 2023 mục 3.6. Không dùng thuốc chứa aspirin (QĐ 1840 mục III.2.2). Không kê kháng sinh, corticoid.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Chị chưa khỏi hẳn nhưng không có gì nặng thêm: sốt nhẹ, ho, mệt có thể kéo thêm vài ngày, mệt có thể vài tuần (QĐ 2671 mục 3.3; WHO mục 3.22). Phổi, tim, thần kinh, điện tim bình thường.</li><li>Nghỉ hẳn, không đứng bếp, ở phòng riêng đến hết ngày 10, sau đó đeo khẩu trang; ngủ sớm, uống nước đều, ăn cháo súp, paracetamol khi cần (QĐ 2671 mục 7.1).</li><li>Đi bệnh viện huyện để chụp phim, thử máu ngay khi sốt ≥ 38,5 °C, đờm vàng xanh hoặc có máu, đau ngực khi hít sâu, khó thở, tức ngực kéo dài, sốt còn sau ngày 12 (mốc ca tự đề ra).</li><li>Đến cấp cứu ngay khi yếu hoặc tê tay chân hay mặt một bên, nói khó, nhìn mờ, loạng choạng, lơ mơ, ngất (WHO mục 3.15, 3.22). Huyết áp đo ở nhà đang bình thường, đo lại sau khi hết bệnh.</li><li>Tái khám sau 4–5 ngày hoặc sớm hơn nếu có dấu hiệu trên. Nhắc mẹ và chồng theo dõi triệu chứng; mẹ có triệu chứng thì đến khám sớm (QĐ 2671 Bảng 5, Bảng 7).</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-13">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>COVID-19</b></div>
+<p class="note">Phải loại trừ: Cúm mùa, Viêm phổi vi khuẩn</p><p>Chị Mận nghỉ ở nhà đúng dặn từ sau lượt 2. Sốt hết vào ngày 10, ho giảm dần, hết hẳn khoảng ngày 20; vị giác trở lại dần sau 3 tuần; mệt còn vài tuần rồi hồi phục. Không phải đi bệnh viện, không dùng kháng sinh thêm. Mẹ chị không có triệu chứng; chồng khỏi sau 5 ngày. Chị mở quán lại và nhờ chồng dán bảng &#x27;Nhân viên đeo khẩu trang khi có ho sốt&#x27;. Chị nói bác sĩ là người đầu tiên hỏi chị lo điều gì. Mọi quyết định ở phòng khám đều đúng với dữ kiện lúc đó (không kháng sinh, không kháng virus, cách ly, mốc theo dõi). Hết sốt sau 7–10 ngày và mệt kéo dài là diễn tiến thường gặp (QĐ 2671/2023 mục 3.3).</p></details>
+<details class="card" id="bai"><summary><h3 id="m-14">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Ba nơi khám, hai kháng sinh uống chồng nhau, thuốc ho: tưởng ba lần khám là ba lần được thử bệnh, thực ra không ai làm xét nghiệm hay hỏi dịch tễ; kháng sinh không có chỉ định ở COVID-19 nhẹ (QĐ 2671/2023 mục 6.8.1a; WHO 2023 mục 3.6) và chị tiêu lỏng sau khi dùng (QĐ 2671 mục 3.2.5).</li><li>Test nhanh âm tính ngày 2: một mẫu, làm rất sớm, không loại trừ chẩn đoán (WHO 2023 mục 3.5 Remark 3).</li><li>HA 150/95 ở tiệm thuốc đo khi đang sốt, lo: không chẩn đoán tăng huyết áp từ một lần đo; HA 138/86 rồi 124/78 tại phòng khám.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Không có xét nghiệm vẫn chẩn đoán và xử trí được: dịch tễ + triệu chứng (QĐ 2671 mục 2.1a), đo SpO₂ nghỉ và gắng sức, phân độ (mục 5.2.1; Bảng 4); ca &#x27;có khả năng&#x27; vẫn theo đường chăm sóc COVID-19 (WHO 2023 mục 3.2 Remark 4).</li><li>Mất mùi vị là chi tiết then chốt nhưng người bệnh không kể nếu chỉ hỏi chung. Hỏi theo việc làm của chị: nêm nước lèo.</li><li>Người đã đi ba nơi mất niềm tin: nói rõ cái gì sẽ không làm lại và vì sao, chỉ ra cái chị cần (kháng sinh không cần, mốc theo dõi cụ thể).</li><li>Lý do thật đi khám là sợ đột quỵ. Hỏi &#x27;chị lo điều gì nhất&#x27; mở ra nỗi sợ; khám thần kinh, đo huyết áp lại, giải thích triệu chứng thật cần đi cấp cứu (QĐ 2671 mục 3.2.4; WHO mục 3.15).</li><li>Ca &#x27;không đỡ&#x27;: trước khi thêm thuốc hay chuyển tuyến, soát lại tuân thủ, gắng sức sớm, sai chẩn đoán, dấu hiệu nặng lên; nhiều khi đó chỉ là diễn tiến chậm (QĐ 2671 mục 3.3; QĐ 2147/2026 mục 5.5.1c).</li><li>Người bán đồ ăn bị bệnh lây phải nghỉ làm: nói mốc cụ thể (hết ngày 10) và bàn việc người nhà có nguy cơ cao ở chung (mẹ 76 tuổi, tiền sử nhồi máu não; QĐ 2671 Bảng 5).</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>COVID-19 nhẹ: không khó thở, SpO₂ ≥ 96%, thở 12–21 l/p, tỉnh; điều trị tại nhà (QĐ 2671 mục 5.2.1; Bảng 4 tr. 32–33). Cảnh báo: SpO₂ có lúc &lt; 96%, &lt; 96% kèm khó thở khi vận động, sốt cao liên tục không giảm với paracetamol, có yếu tố nguy cơ (Bảng 4; Bảng 5).</li><li>Không kháng sinh ở mức nhẹ nếu không có bằng chứng nhiễm khuẩn (QĐ 2671 mục 6.8.1a); kháng virus (nirmatrelvir/ritonavir, molnupiravir, remdesivir) chỉ cho người có yếu tố nguy cơ (Bảng 6, 7); EPIC-SR không lợi ích ở nguy cơ chuẩn (NEJM 2024).</li><li>Cách ly: ≥ 5 ngày kể từ khi có triệu chứng và khẩu trang hết ngày 10 (QĐ 2671 mục 7.1) hoặc 10 ngày (WHO 2023 mục 3.2) – mục sổ mâu thuẫn &#x27;Thời gian cách ly&#x27;.</li><li>Hết sốt sau 7–10 ngày, mệt có thể kéo dài (QĐ 2671 mục 3.3); bội nhiễm cần xét nghiệm và X-quang để chẩn đoán (mục 6.8.2) – không có thì dùng mốc theo dõi và chuyển tuyến.</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-15">Nguồn tài liệu <small>10</small></h3></summary><ul class=""><li>TL-0124 · QĐ 2671/QĐ-BYT 2023 – COVID-19 – mục I (tr. 17), 2.1–2.2 (tr. 18), 3.1 (tr. 19), 3.2.1–3.2.5 (tr. 19–21), 3.3 (tr. 22), 5.2.1–5.2.2 (tr. 31), Bảng 4 (tr. 32–33), Bảng 5 (tr. 34), Bảng 6 (tr. 35–36), Bảng 7 (tr. 37–39), 6.8.1–6.8.2 (tr. 52–53), 6.13.1 (tr. 68), 7.1 (tr. 74)</li><li>TL-0135 · WHO 2023 – Clinical management of COVID-19: living guideline, 18/08/2023 – mục 3.1 (tr. 17), 3.2 Remark 1–4 và khuyến cáo cách ly (tr. 18), Bảng 6.1 (tr. 29), 3.5 Remark 3 (tr. 33–35), 3.6 (tr. 36), 3.15 Stroke và MHPSS (tr. 93), 3.22 (tr. 108)</li><li>TL-0163 · NEJM 2024;390:1186 – EPIC-SR nirmatrelvir – Abstract (tiêu chí chính, nhập viện/tử vong)</li><li>TL-0121 · QĐ 2147/QĐ-BYT 2026 – Viêm phổi mắc phải cộng đồng người lớn – mục 3.1.1 (tr. 15), 3.2.1 (tr. 18), 5.5.1 (tr. 44)</li><li>TL-0122 · QĐ 1840/QĐ-BYT 2025 – Cúm mùa – mục II.1.1 (tr. 6), II.2.4 (tr. 8), III.2.2 (tr. 9–10)</li><li>TL-0133 · WHO 2024 – Clinical practice guidelines for influenza (tóm tắt BMJ 2026;392:e087397) – phần Recommendations (không kháng sinh ở cúm không nặng; kháng virus theo nguy cơ)</li><li>TL-0131 · QĐ 4235/QĐ-BYT 2012 – Bệnh hô hấp – bài Viêm phổi bệnh viện mục 3.4 (paracetamol 0,5 g, ≤ 4 viên/ngày; bù nước điện giải); bài Ho kéo dài mục 3.1–3.2</li><li>TL-0146 · NICE NG237 – chỉ tham khảo, không áp dụng cho COVID-19 đã biết (phần Recommendations): không dùng</li><li>TL-0001 · TT 06/2026/TT-BYT – ICD-10 – Phụ lục, mã U07.1/U07.2</li><li>Không có trong tài liệu đã tải: lịch tái khám cụ thể cho COVID-19 nhẹ (mốc 3–4 ngày, 4–5 ngày và ngày 12 là ca tự đề ra); ngưỡng chẩn đoán tăng huyết áp; liều xi rô bổ phế; lượng nước uống mỗi ngày; quy định cách ly riêng cho người chế biến thực phẩm; hướng dẫn giấc ngủ; tương tác thuốc bôi không rõ với ritonavir</li></ul></details>
+<details class="card"><summary><h3 id="m-16">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Hô hấp cấp tính</dd><dt>chan_doan_dich</dt><dd>COVID-19</dd><dt>chan_doan_phai_loai_tru</dt><dd>Cúm mùa; Viêm phổi vi khuẩn</dd><dt>nhom_tuoi</dt><dd>Trung niên (40–59 tuổi)</dd><dt>do_kho</dt><dd>Điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>dien_tien_tai_kham</dt><dd>Không đỡ</dd><dt>nhieu_benh_nhan</dt><dd>Từng khám 3 nơi không khỏi</dd><dt>rang_buoc_nguon_luc</dt><dd>Không có xét nghiệm nào</dd><dt>loai_ket_cuc</dt><dd>Ổn định, khỏi bệnh</dd><dt>gioi</dt><dd>Nữ</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>2</dd><dt>nghe_nghiep</dt><dd>Chủ quán ăn</dd><dt>yeu_to_khoi_phat</dt><dd>Sau tự uống kháng sinh</dd><dt>thuoc_dang_dung</dt><dd>Thuốc bôi ngoài da không rõ</dd><dt>ly_do_that_su_den_kham</dt><dd>Sợ đột quỵ</dd></dl><ul class=""><li>Viết 26/10/2026. Đã đọc: TL-0124 (mục I, 2, 3, 5, 6.1–6.2, 6.8, 6.13, 7.1; Bảng 4 xem ảnh trang PDF), TL-0135 (3.1, 3.2, 3.5, 3.6, 3.15, 3.22, Bảng 6.1), TL-0121 (3.1.1, 3.2.1, 5.5.1), TL-0122 (II, III.2.2), TL-0133, TL-0163 (Abstract), TL-0131 (bài Ho, Viêm phổi bệnh viện 3.4), TL-0146.</li><li>Mâu thuẫn: cách ly (đã có trong sổ, mục &#x27;Thời gian cách ly người COVID-19 có triệu chứng&#x27;, HH-1262): ghi cả hai cách trong một mục c. Không có mâu thuẫn mới. Ghi nhận: QĐ 2671 ghi ngưỡng trung bình là SpO₂ 94–96% (mục 3.2.1) và &gt; 94% (mục 5.2.2); ca dùng SpO₂ 97% nên không phụ thuộc.</li><li>Ràng buộc nguồn lực: khoa_cls khóa xn và sieu_am (kéo theo X-quang, CT, nội soi); còn ECG, SpO₂, đi bộ SpO₂. Test nhanh COVID-19/cúm (flu) và PCR bị khóa; ca ghi test nhanh tự làm ngày 2 âm tính trong su_that.</li><li>Không có ảnh da (da k:0; bàn tay chàm nhẹ chỉ mô tả bằng chữ, người bệnh không nhờ xem). Không đề xuất mục danh mục mới. Âm thanh: AT-PHOI-BT-NL-01 và AT-TIM-BT-NL-01 (mạch 84–88 nên không dùng tệp nhanh; chữ trong ca ghi tần số theo mạch).</li><li>Ca diễn tiến: lượt 2 tiếp từ xử trí đúng lượt 1 (về nhà, bỏ kháng sinh, cách ly, hẹn 3–4 ngày). Chi tiết mất mùi vị, người nhà nguy cơ cao, nỗi sợ đột quỵ, ba nơi khám, tuýp thuốc bôi không nhãn (không rà tương tác được) là thiết kế của ca; số liệu khám và tên nhân vật do ca tự đặt.</li></ul></details>
+<p class="chan-trang">Ca HH-1255 · phiên bản ca 1 – soạn 26/10/2026 · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

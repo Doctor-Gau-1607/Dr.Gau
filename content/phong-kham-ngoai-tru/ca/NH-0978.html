@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NH-0978 · Hen phế quản trẻ em</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · NH-0978</div>
+   <h1>Bé ho, khò khè từ chiều qua, đêm thức giấc nhiều lần</h1>
+   <p class="dich-gia">Lê Hoàng Phúc · Nam · 4 tuổi · 17 kg</p>
+   <div class="chips"><span class="chip">Nhi ngoại trú</span><span class="chip">Điển hình</span><span class="chip">2 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Trẻ mẫu giáo (lớp mầm)</dd><dt>Chiều cao, cân nặng</dt><dd>104 cm · 17 kg</dd>
+<dt>Xưng hô</dt><dd>Bé 4 tuổi, tự xưng &#x27;con&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;, nói rất ngắn, thở khò khè giữa các câu. Mẹ là người kể bệnh chính: bác sĩ gọi mẹ là &#x27;chị&#x27;, mẹ xưng &#x27;em&#x27; với bác sĩ.</dd><dt>Tính cách</dt><dd>Mẹ 30 tuổi, may gia công tại nhà, hiền, kiệm lời, hay tự trách. Chồng làm công nhân, bà nội ở cùng hay nói nặng. Mẹ sợ thuốc &quot;hóc-môn&quot; cho con. Bé ngoan, bám mẹ, hay ngồi im khi mệt.</dd><dt>Người nhà</dt><dd>Mẹ bé (chị Hà) – Mẹ bé, chị Hà, 30 tuổi, đi cùng. Hầu hết câu hỏi do mẹ trả lời (nguoi_noi = nguoi_nha). Khi bác sĩ hỏi thẳng bé, bé trả lời từng từ (nguoi_noi = benh_nhan).</dd></dl></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/2</span> </h2>
+ <div class="card intro"><h3 id="m-2">Tiếp đón</h3><p>Bé trai 4 tuổi, 17 kg, mẹ đưa đến vì ho và khò khè từ chiều qua, đêm bé thức giấc nhiều lần. Sinh hiệu: nhiệt 37,4 °C, mạch 118 l/p, nhịp thở 34 l/p, SpO₂ 96%. Bé tỉnh, hơi mệt, nói được cả câu nhưng phải ngừng lấy hơi.</p>
+  <blockquote>“Bác sĩ ơi, cháu ho với khè khè từ chiều qua, đêm cháu thức mấy lần. Bác sĩ khám giúp em, mà xét nghiệm gì thì bác sĩ chọn cái nào cần nhất giúp em nha, nhà em dạo này hơi ngặt.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>118</b><small>l/p</small></div><div class="vs"><span>HA</span><b>Không đo</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>37,4</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>34</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>96</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-3">Hỏi bệnh <small>13 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám</b><span class="tag t-g">Tự kể</span></div><p>Ho và khò khè từ chiều hôm qua, đêm qua bé thức giấc 3 lần vì khò khè. Mẹ nhờ bác sĩ cho xét nghiệm &quot;cái nào cần nhất&quot; vì nhà đang ngặt tiền.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khởi phát sau phơi nắng và gắng sức</b><span class="tag t-b">Khi được hỏi</span></div><p>Trưa hôm kia lớp mẫu giáo tổ chức chơi hội thao ngoài sân hơn 3 giờ giữa nắng gắt, bé chạy nhảy nhiều, về nhà đỏ bừng, mệt. Chiều hôm sau bắt đầu ho và khò khè. Thời tiết mấy hôm nay nắng nóng, nhà mái tôn không có điều hòa.</p></div><div class="fact"><div class="fh"><b>Nhiễm virus kèm theo</b><span class="tag t-b">Khi được hỏi</span></div><p>Không sốt cao, không sổ mũi nhiều; chỉ hơi chảy mũi trong từ sáng nay. Lớp có vài bạn ho nhẹ.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khò khè tái diễn ≥ 2 đợt trong 12 tháng</b><span class="tag t-b">Khi được hỏi</span></div><p>Trong 12 tháng qua bé có 2 đợt &quot;viêm phế quản&quot; mỗi đợt 5–7 ngày, có tiếng khè khè; đợt gần nhất cách đây 4 tháng, đợt đó bé được phun khí dung ở phòng khám khác một lần rồi đỡ, không ai nói là bệnh gì.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Triệu chứng giữa các đợt (đêm, gắng sức)</b><span class="tag t-r">Giấu</span></div><p>Ngoài các đợt, bé hay ho về đêm 1–2 đêm một tuần, và ho, thở khè khè sau khi chạy nhảy ở sân. Mẹ tưởng &quot;con nít ho vặt&quot;.</p><div class="cond">Điều kiện nói ra: Mẹ không tự kể. Chỉ nói khi bác sĩ hỏi về ho ban đêm, ho khi chạy nhảy, cười, khóc.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Cơ địa dị ứng (viêm mũi dị ứng), tiền sử gia đình</b><span class="tag t-b">Khi được hỏi</span></div><p>Bé hay hắt hơi, ngứa mũi buổi sáng, chảy mũi trong quanh năm, mẹ nghĩ là &quot;dị ứng thời tiết&quot;. Không chàm. Mẹ của bé bị viêm mũi dị ứng; bố khỏe, không hen.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khói thuốc lá trong nhà</b><span class="tag t-r">Giấu</span></div><p>Bố bé hút thuốc lá, thường hút ở hiên nhà ngay cửa ra vào; mẹ không dám nói vì sợ bị nói là &quot;trách chồng&quot;.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi có ai hút thuốc trong nhà không và hỏi nhẹ nhàng, không phán xét.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Loại trừ dị vật đường thở</b><span class="tag t-b">Khi được hỏi</span></div><p>Không có chuyện bé đang ăn hay chơi đồ nhỏ thì sặc, ho sặc sụa đột ngột; không có đồ chơi nhỏ bị mất. Tiếng khè nghe đều hai bên.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dấu hiệu nguy hiểm toàn thân</b><span class="tag t-b">Khi được hỏi</span></div><p>Bé uống được nước, không nôn tất cả mọi thứ, không co giật, không li bì, tiểu bình thường. Chưa tím môi.</p></div><div class="fact"><div class="fh"><b>Thuốc đang dùng (mẹ uống thuốc tránh thai)</b><span class="tag t-b">Khi được hỏi</span></div><p>Mẹ chỉ cho bé uống paracetamol một lần hôm qua. Chưa dùng thuốc khí dung hay thuốc xịt nào. Trong túi mẹ mang theo có vỉ thuốc tránh thai của chính mẹ, để chung túi thuốc với đồ của bé.</p></div><div class="fact"><div class="fh"><b>Tiền sử sinh, tiêm chủng, nhập viện</b><span class="tag t-b">Khi được hỏi</span></div><p>Bé tiêm chủng theo lịch, không bệnh nền khác, sinh đủ tháng, không từng nằm viện.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật đến khám: tự trách, sợ thuốc corticoid, bị đổ lỗi</b><span class="tag t-r">Giấu</span></div><p>Bà nội ở cùng nhà hay nói &quot;tại mẹ cho cháu đi chơi nắng nên cháu mới khè&quot; và &quot;thuốc xịt, thuốc hóc-môn cho con nít là hại&quot;. Mẹ mất ngủ, hay khóc một mình, tự trách. Mẹ sợ thuốc &quot;hóc-môn&quot; vì từng thấy mình uống viên tránh thai bị lên cân, nên nghĩ thuốc corticoid cũng như thế. Mẹ đến khám còn vì muốn nghe bác sĩ nói bé khè có phải lỗi của mẹ không.</p><div class="cond">Điều kiện nói ra: Mẹ không tự kể. Chỉ nói khi bác sĩ hỏi nhẹ nhàng về ai chăm bé, gia đình nói gì, mẹ lo điều gì nhất, hoặc khi bác sĩ nhắc đến thuốc có corticoid.</div></div><div class="fact"><div class="fh"><b>Hoàn cảnh kinh tế</b><span class="tag t-b">Khi được hỏi</span></div><p>Bố làm công nhân ca ở khu công nghiệp, tháng này bị cắt giờ làm nên tiền ít. Mẹ may gia công tại nhà. Mẹ lo xét nghiệm và thuốc tốn kém, nếu bác sĩ nói tốn thì mẹ sẽ tự hỏi &quot;có thể bỏ cái nào&quot;.</p></div></details>
+ <details class="card"><summary><h3 id="m-4">Khám <small>8 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, chơi được ít, mệt nhẹ, nói được cả câu nhưng ngừng lấy hơi. Môi hồng, niêm mạc ẩm, mắt không trũng, khóc có nước mắt, thời gian đổ đầy mao mạch dưới 2 giây: không mất nước, không tím.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Họng, tai, mũi</b></div><p><span class="lbl">Kết quả:</span> Niêm mạc mũi nhợt, phù, dịch trong. Họng đỏ nhẹ, amidan không to, không giả mạc. Màng nhĩ hai bên bình thường.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nhịp thở 34 l/p. Bé thở hơi gắng nhưng không rút lõm ngực.</p><p><span class="lbl">Kết quả:</span> Nhịp thở 34 l/p, thở ra kéo dài, không rút lõm. Ran rít thì thở ra lan tỏa hai phế trường, thông khí vào hai bên đều, không ran nổ, không phổi câm.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Ran rít thì thở ra, nghe cả hai bên.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-RAN-RIT-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Ran rít thì thở ra, nghe cả hai bên.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-RAN-RIT-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 118 l/p.</p><p><span class="lbl">Kết quả:</span> Tim nhanh đều 118 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – Tim nhanh đều, T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-NHANH-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b></div><p><span class="lbl">Kết quả:</span> Da hồng, hơi đỏ do nóng, không chàm, không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Hạch cổ vài hạch nhỏ, di động, không đau. Cổ không sưng.</p></div><div class="row"><div class="rh"><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm, gan lách không to.</p></div><div class="row"><div class="rh"><b>Nhân trắc trẻ em (cân nặng, chiều dài/chiều cao, MUAC, vòng đầu)</b></div><p><span class="lbl">Kết quả:</span> Cân nặng 17 kg, chiều cao 104 cm: tăng trưởng bình thường, không ngón tay dùi trống.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-5">Cận lâm sàng <small>5 mục</small></h3></summary><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-r">Không cần</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Số lượng bạch cầu (WBC)</td><td class="num">9,6</td><td>G/L</td><td class="ref">4,0–10,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu trung tính (NEU%)</td><td class="num">48,0</td><td>%</td><td class="ref">45–75</td></tr><tr class=""><td>Số lượng bạch cầu trung tính (NEU#)</td><td class="num">4,61</td><td>G/L</td><td class="ref">2,0–7,5</td></tr><tr class=""><td>Tỷ lệ bạch cầu lympho (LYM%)</td><td class="num">36,0</td><td>%</td><td class="ref">20–40</td></tr><tr class=""><td>Số lượng bạch cầu lympho (LYM#)</td><td class="num">3,46</td><td>G/L</td><td class="ref">1,0–4,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu mono (MONO%)</td><td class="num">8,0</td><td>%</td><td class="ref">2–10</td></tr><tr class=""><td>Số lượng bạch cầu mono (MONO#)</td><td class="num">0,77</td><td>G/L</td><td class="ref">0,2–1,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa acid (EOS%)</td><td class="num">6,0</td><td>%</td><td class="ref">0–7</td></tr><tr class="hi"><td>Số lượng bạch cầu ưa acid (EOS#)</td><td class="num">0,58 ↑</td><td>G/L</td><td class="ref">0–0,5</td></tr><tr class="hi"><td>Tỷ lệ bạch cầu ưa base (BASO%)</td><td class="num">2,0 ↑</td><td>%</td><td class="ref">0–1</td></tr><tr class="hi"><td>Số lượng bạch cầu ưa base (BASO#)</td><td class="num">0,19 ↑</td><td>G/L</td><td class="ref">0–0,1</td></tr><tr class="lo"><td>Lượng huyết sắc tố (HGB)</td><td class="num">122 ↓</td><td>g/L</td><td class="ref">130–170</td></tr><tr class=""><td>Số lượng tiểu cầu (PLT)</td><td class="num">295</td><td>G/L</td><td class="ref">150–400</td></tr></tbody></table><p class="why">Không cần để chẩn đoán hen (QĐ 3312, Hen mục 2.4: xét nghiệm không cần thiết cho chẩn đoán; GINA 2026 Box 10-2: thường không cần hình ảnh hay xét nghiệm). Bạch cầu ái toan ≥ 4% chỉ là tiêu chuẩn phụ về nguy cơ (QĐ 3312 mục 1). Nhà đang ngặt tiền nên nên bỏ.</p></div><div class="row"><div class="rh"><b>CRP</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> CRP 5 mg/L</p><p class="why">Không cần: không sốt cao, không dấu hiệu viêm phổi (WHO 2013 mục 4.5, tr. 92). Không có ngưỡng CRP dành riêng cho hen trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><b>X-quang ngực thẳng</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Phổi hai bên sáng hơn nhẹ, rốn phổi đậm nhẹ, không đông đặc, không xẹp, không khí bẫy một bên, tim bóng bình thường.</p><p class="why">Không cần: không hội chứng xâm nhập, khò khè hai bên, đáp ứng dãn phế quản (GINA 2026 Box 10-2). QĐ 3312 (Hen mục 2.4) liệt X-quang là hữu ích để loại trừ dị vật; chấp nhận nhưng không bắt buộc, và có thể bỏ khi nhà ngặt tiền.</p></div><div class="row"><div class="rh"><b>Đo lưu lượng đỉnh (PEF) bằng lưu lượng kế</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Bé 4 tuổi không thổi đúng kỹ thuật, không đo được.</p><p class="why">Đo chức năng hô hấp chỉ ở trẻ ≥ 5 tuổi và hợp tác (QĐ 3312 Hen mục 2.5). Hen ở trẻ ≤ 5 tuổi chẩn đoán dựa vào tiền sử, khám và đáp ứng thuốc (GINA 2026 Box 10-2).</p></div><div class="row"><div class="rh"><b>IgE toàn phần huyết thanh</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> IgE tổng 180 kU/L</p><p class="why">QĐ 3312 (Hen mục 2.4): đo IgE có thể hữu ích để bắt đầu điều trị, không bắt buộc; không đổi quyết định hôm nay, bỏ để tiết kiệm.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-6">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Hen phế quản ở trẻ 4 tuổi, đợt cấp mức nhẹ, khởi phát sau phơi nắng nóng và gắng sức; đáp ứng salbutamol</b></div><p class="why">Đủ 3 tiêu chí GINA 2026 Box 10-2 (tr. 195): ≥ 2 đợt khò khè cấp trong 12 tháng + triệu chứng giữa đợt, không có chẩn đoán khác, đáp ứng SABA. QĐ 3312 (Hen mục 3): 5 tiêu chuẩn tương tự. Mức nhẹ: SpO₂ 96% (≥ 94%), nói cả câu, thở 34 l/p (≤ 40), không rút lõm (GINA 2026 Box 12-1, tr. 217); QĐ 3312 Bảng 1: SaO₂ &gt; 95%, khó thở khi gắng sức: nhẹ. Nắng nóng cực đoan là yếu tố khởi phát (GINA 2026 tr. 138–139).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm tiểu phế quản</b></div><p class="why">Bệnh của trẻ còn bú, thể nặng ở &lt; 6 tháng (QĐ 3312 Viêm tiểu phế quản mục 1.2); NICE NG9 2021 viết cho trẻ &lt; 2 tuổi. Bé 4 tuổi, đã 2 đợt khò khè, khò khè có triệu chứng giữa đợt và đáp ứng salbutamol.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Dị vật đường thở</b></div><p class="why">Không hội chứng xâm nhập, khò khè hai bên, đáp ứng dãn phế quản (QĐ 3312 Dị vật đường thở mục 3.1–3.2; GINA 2026 Box 10-4). X-quang bình thường không loại trừ hoàn toàn nhưng bệnh sử và đáp ứng thuốc đủ.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm phổi</b></div><p class="why">Không sốt cao, thở 34 l/p ≤ 40 l/p (GINA 2026 Box 12-1), không ran nổ, không sốt cao (WHO 2013 mục 4.5, tr. 92).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Salbutamol 100 mcg/nhát xịt qua buồng đệm (mặt nạ nếu cần), từng nhát một, 5–6 nhịp thở sau mỗi nhát; đánh giá lại sau 20 phút</b></div><p class="why">GINA 2026 tr. 220, 224: đợt nhẹ 4 nhát, đánh giá lại, lặp lại một lần sau 30–60 phút; HOẶC QĐ 3312 (cơn nhẹ): 6 nhát cho trẻ &lt; 6 tuổi, khám lại và nhắc lại sau mỗi 20 phút (WHO 2013 tr. 98: 2 nhát mỗi lần đến đủ 6 nhát). GINA 2026 thận trọng liều hơn vì nguy cơ độc tính SABA (tr. 224). Xem sổ mâu thuẫn (NH-0958).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Đánh giá lại sau SABA (nhịp thở, SpO₂, rút lõm, nói câu, nghe phổi); chỉ cho về khi còn đủ đặc điểm mức nhẹ</b></div><p class="why">GINA 2026 Box 12-5 (tr. 221): đánh giá sau liều đầu và ở 1 giờ; cho về khi đủ mọi đặc điểm mức nhẹ (Box 12-1: SpO₂ ≥ 94%, nói cả câu, thở ≤ 40 l/p, không rút lõm). QĐ 3312: khám lại ít nhất 20 phút sau liều SABA cuối. Hai mốc thời gian khác nhau.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Prednisolon uống 1 mg/kg (17 mg) mỗi ngày trong 3 ngày cho đợt nhẹ</b></div><p class="why">QĐ 3312 (xử trí cơn nhẹ): xem xét prednisolon 1 mg/kg (tối đa 60 mg/ngày); Hen mục 4.3: 3–5 ngày ở trẻ &lt; 5 tuổi. GINA 2026 Box 12-4, 12-6 chỉ nêu corticoid uống cho mức trung bình–nặng (prednisolon 1–2 mg/kg, tối đa 30 mg cho 2–5 tuổi, 3–5 ngày hoặc dexamethason 0,3–0,6 mg/kg 1–2 ngày). Không nguồn nào nói có hại nên chấp nhận, không bắt buộc.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Khởi trị kiểm soát hằng ngày ngay hôm nay: budesonid khí dung 0,5 mg/ngày, ít nhất 2–3 tháng rồi đánh giá lại</b></div><p class="why">GINA 2026 Box 12-6 (tr. 223): có triệu chứng giữa đợt (≥ 2 ngày/tuần hoặc đợt trung bình–nặng) thì khởi ICS trước khi về; tr. 208–209: ICS liều thấp khi ≥ 1 đợt trong 12 tháng phải khám cấp cứu/dùng OCS hoặc triệu chứng chưa kiểm soát. Liều thấp budesonid khí dung 500 mcg/ngày từ 1 tuổi (Box 11-3, tr. 208). Thời gian thử: ≥ 2–3 tháng (GINA tr. 209), 8–12 tuần (NICE NG245 mục 1.9.1), ít nhất 3 tháng (QĐ 3312 mục 4.3).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Salbutamol 2 nhát qua buồng đệm khi có triệu chứng, không dùng đều đặn; đến cơ sở y tế nếu cần lại trong vòng 4 giờ</b></div><p class="why">GINA 2026 Box 12-5 (tr. 221), Box 12-6 (tr. 223): dùng khi cần, dùng đều có thể che lấp bệnh nặng lên; cần lại trong 4 giờ thì đến cơ sở cấp cứu.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi và giải đáp nỗi sợ thuốc &quot;hóc-môn&quot;: corticoid hít liều thấp khác thuốc tránh thai; giải thích ảnh hưởng tăng trưởng nhỏ, không cộng dồn, và hen kiểm soát kém cũng ảnh hưởng chiều cao</b></div><p class="why">QĐ 3312 (Hen mục 4.6): phát hiện ra quan tâm của gia đình và làm dịu nỗi sợ hãi; GINA 2026 tr. 208–209: cần bàn bạc với cha mẹ lợi ích và nguy cơ của thuốc; ảnh hưởng ICS lên tốc độ tăng trưởng chủ yếu trong 1–2 năm đầu, không cộng dồn, chênh chiều cao trưởng thành 0,7%; hen kiểm soát kém cũng ảnh hưởng chiều cao. Thuốc tránh thai uống có tác dụng gì với cân nặng: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Nói rõ với mẹ: khò khè là do hen kích hoạt bởi nắng nóng, gắng sức, khói thuốc; không phải lỗi của mẹ; hướng dẫn tránh nắng giữa trưa, nghỉ chỗ mát, bố hút thuốc xa nhà</b></div><p class="why">GINA 2026 tr. 138–139: nắng nóng cực đoan làm tăng cấp cứu hen, ở chỗ mát có điều hòa là biện pháp thực tế; Box 12-6 (tr. 223): xác định yếu tố khởi phát (nhiễm virus, khói thuốc, ô nhiễm) và xử lý; QĐ 3312 mục 1: khói thuốc, gắng sức là tác nhân. Hạn chế ở trường: trao đổi với thầy cô (QĐ 3312 mục 4.6).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hướng dẫn mẹ kỹ thuật dùng bình xịt và buồng đệm, cho mẹ làm lại; đưa kế hoạch hành động bằng văn bản; trao đổi với cô giáo</b></div><p class="why">GINA 2026 Box 12-4 (tr. 220), Box 12-6 (tr. 223): kiểm tra kỹ thuật, kế hoạch hành động; NICE NG245 mục 1.14.3; QĐ 3312 mục 4.6: kỹ thuật sai là một trong 5 lý do thất bại điều trị, trao đổi với thầy cô.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chọn xét nghiệm theo tiền: bỏ công thức máu, CRP, IgE; chỉ làm X-quang ngực nếu nghi dị vật</b></div><p class="why">Cận lâm sàng không cần cho chẩn đoán hen (QĐ 3312 mục 2.4; GINA Box 10-2). Chi phí là một yếu tố ảnh hưởng tuân thủ (QĐ 3312 mục 4.6). Giá thuốc ở Việt Nam: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không kê kháng sinh; không truyền dịch</b></div><p class="why">WHO 2013 mục 4.5.2 (tr. 100): không kháng sinh thường quy trong hen. Bé uống được, không mất nước; truyền dịch không có trong xử trí cơn hen trung bình ở cơ sở ban đầu (GINA Box 12-4/12-5; QĐ 3312).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê kháng sinh uống vì &quot;ho khè hai ngày&quot;</b></div><p class="why">WHO 2013 mục 4.5.2 (tr. 100): không dùng kháng sinh thường quy trong hen; chỉ khi sốt kéo dài và dấu hiệu viêm phổi. Bé không đủ. Tác hại cụ thể: không có trong tài liệu đã tải.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Montelukast uống hằng ngày thay cho thuốc hít kiểm soát để mẹ đỡ sợ</b></div><p class="why">GINA 2026 tr. 210 và QĐ 3312 mục 4.3: LTRA đáp ứng kém hơn ICS; bé có cơ địa dị ứng thì ICS liều thấp là điều trị ban đầu. Chấp nhận nếu mẹ từ chối ICS sau khi giải thích, kèm dặn nguy cơ giấc ngủ và hành vi.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn tái khám sau 1–3 ngày (sớm nếu cần xịt lại &lt; 4 giờ, thở mệt, nói ngắt quãng), sau 2 tuần, sau 2–3 tháng</b></div><p class="why">GINA 2026 Box 12-6 (tr. 223): tái khám 1–3 ngày xem diễn tiến, kỹ thuật, tuân thủ; lại sau 2–3 tháng; QĐ 3312 (theo dõi sau cơn): sau 2 tuần. Hai mốc cho hai mục đích, nêu cả hai.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Gửi bé Phúc nhập viện ngay khi bé còn đáp ứng salbutamol là quá tay: bé nói được cả câu, thở 34 l/p, SpO₂ 96%, không rút lõm là đủ đặc điểm mức nhẹ để về (GINA 2026 Box 12-5, tr. 221). Gia đình đang ngặt tiền, chi phí nằm viện và ngày công bị mất thêm lo âu, nỗi sợ &quot;bệnh nặng lắm&quot; càng đậm, trong khi điều bé cần là thuốc kiểm soát hằng ngày, kế hoạch hành động và hẹn tái khám 1–3 ngày (Box 12-6, tr. 223). Thuốc kiểm soát có thể bị bỏ quên vì cả nhà tập trung vào đợt nằm viện.</p></div><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Giữ bé ở lại phòng khám thêm nhiều giờ chỉ để &quot;xem còn khè không&quot; mà không khởi thuốc kiểm soát thì bé về nhà vẫn với 2 đợt khò khè trong 12 tháng chưa ai điều trị nền, nguy cơ có đợt tiếp theo cao (GINA 2026 tr. 208, Box 12-6, tr. 223). Chị Hà tốn thêm nửa ngày công, tiền gửi xe, và nghe thêm lời trách của bà nội &quot;để cháu lên phòng khám cả buổi&quot;. Điều cần là đánh giá lại sau liều salbutamol rồi cho về với đơn đầy đủ.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Hen phế quản ở trẻ 4 tuổi, đủ 3 tiêu chí chẩn đoán cho trẻ ≤ 5 tuổi (GINA 2026 Box 10-2)</li><li>Đợt cấp mức nhẹ (GINA 2026 Box 12-1: SpO₂ 96%, nói cả câu, thở 34 l/p, không rút lõm), đáp ứng salbutamol; khởi phát sau phơi nắng nóng và gắng sức</li><li>Hen chưa kiểm soát: 2 đợt khò khè trong 12 tháng, ho đêm 1–2 đêm/tuần và ho sau gắng sức giữa các đợt</li><li>Cơ địa dị ứng (viêm mũi dị ứng, mẹ cũng bị) và khói thuốc lá trong nhà</li><li>Đã loại trừ viêm tiểu phế quản, dị vật đường thở, viêm phổi; không mất nước, không dấu hiệu nguy hiểm</li><li>Bối cảnh tâm lý: mẹ tự trách, sợ corticoid, bị bà nội trách; nhà ngặt tiền</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự hỏi: lý do khám và diễn tiến; yếu tố khởi phát (nắng, gắng sức, virus); các đợt khò khè trước và triệu chứng giữa đợt (mẹ không tự kể); dị ứng, tiền sử gia đình, khói thuốc; hội chứng xâm nhập; dấu hiệu nguy hiểm, nước uống; thuốc đã dùng; hỏi nhẹ nhàng ai chăm bé, gia đình nói gì, mẹ lo điều gì.</li><li>Vì sao là hen: GINA 2026 Box 10-2 (tr. 195) cần cả 3 tiêu chí: (1) ≥ 2 đợt khò khè cấp trong 12 tháng (bé có 2) kèm triệu chứng giữa đợt, (2) không có chẩn đoán khác, (3) đáp ứng SABA. QĐ 3312 (Hen mục 3): 5 tiêu chuẩn tương tự, viêm mũi dị ứng là tiêu chuẩn phụ (mục 1).</li><li>Vì sao không phải viêm tiểu phế quản: bệnh của trẻ còn bú (QĐ 3312 Viêm tiểu phế quản mục 1.2), NICE NG9 2021 cho trẻ &lt; 2 tuổi; bé 4 tuổi, tái diễn, đáp ứng salbutamol. Vì sao không phải dị vật: không hội chứng xâm nhập, khò khè hai bên, đáp ứng dãn phế quản (QĐ 3312 Dị vật mục 3.1–3.2; GINA Box 10-4).</li><li>Vì sao mức nhẹ: SpO₂ 96% (≥ 94%), nói cả câu, thở 34 l/p (≤ 40), không rút lõm (GINA 2026 Box 12-1); QĐ 3312 Bảng 1: SaO₂ &gt; 95%, khó thở khi gắng sức. Cả hai nguồn cùng xếp nhẹ nên cho về được sau khi đáp ứng salbutamol (GINA Box 12-5; QĐ 3312 cơn nhẹ: điều trị tại phòng khám).</li><li>Vì sao cận lâm sàng không cần: chẩn đoán hen dựa lâm sàng (QĐ 3312 mục 2.4; GINA Box 10-2). Nhà ngặt tiền nên bỏ công thức máu, CRP, IgE; X-quang chỉ chấp nhận (QĐ 3312 mục 2.4 nói hữu ích để loại trừ dị vật).</li><li>Vì sao phải hỏi tâm lý: GINA 2026 Box 12-6 (tr. 223) nêu vấn đề tâm lý hay kinh tế của gia đình là yếu tố góp phần đợt cấp; QĐ 3312 mục 4.6: chi phí và mối quan tâm của gia đình ảnh hưởng đáp ứng điều trị. Nỗi sợ &quot;hóc-môn&quot; của mẹ không nói ra sẽ khiến thuốc kiểm soát bị bỏ.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Cắt cơn: salbutamol qua buồng đệm, đánh giá lại. 4 nhát, lặp lại một lần sau 30–60 phút (GINA 2026 tr. 220, 224) hoặc 6 nhát, nhắc lại sau 20 phút nếu cần (QĐ 3312 cơn nhẹ); GINA liều thấp hơn vì nguy cơ độc tính SABA. Cả hai cách đều đúng. Bé sau liều: thở 28 l/p, SpO₂ 98%, nói cả câu, còn ít ran rít: giữ được mức nhẹ để về (GINA Box 12-5, tr. 221).</li><li>Corticoid uống ở đợt nhẹ không bắt buộc: QĐ 3312 (cơn nhẹ) &quot;xem xét&quot; prednisolon 1 mg/kg; GINA chỉ nêu cho mức trung bình–nặng (Box 12-4, 12-6); WHO chỉ cho cơn nặng. Nếu dùng: prednisolon 17 mg/ngày 3 ngày (1 mg/kg). Không nguồn nào nói có hại, nên chấp nhận.</li><li>Thuốc kiểm soát: bé từng có đợt phải khám cấp cứu trong 12 tháng và ho đêm, ho gắng sức giữa đợt nên khởi ICS liều thấp trước khi về (GINA tr. 208–209, Box 12-6): budesonid khí dung 0,5 mg/ngày (Box 11-3), ≥ 2–3 tháng (GINA), 8–12 tuần (NICE NG245 mục 1.9.1), ≥ 3 tháng (QĐ 3312 mục 4.3). Giải thích đây không phải hóc-môn sinh dục; ảnh hưởng tăng trưởng nhỏ, không cộng dồn (GINA tr. 208–209).</li><li>Không kháng sinh (WHO 2013 mục 4.5.2), không truyền dịch. Montelukast chỉ chấp nhận nếu mẹ từ chối ICS (GINA tr. 210).</li><li>Môi trường: tránh nắng nóng giữa trưa, nghỉ chỗ mát, uống nước; bố hút thuốc xa nhà, không trong nhà (GINA tr. 138–139, Box 12-6; QĐ 3312 mục 1).</li><li>Lưới an toàn: hẹn 1–3 ngày, kế hoạch hành động viết sẵn, quay lại ngay nếu cần xịt lại &lt; 4 giờ, nói ngắt quãng, môi tím, không uống được (GINA Box 12-3, 12-5, 12-6).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Salbutamol bình xịt định liều</b><div class="sub">100 mcg/nhát</div></td><td data-l="Liều">Tại phòng khám: 4 nhát từng nhát một, lặp lại một lần sau 30–60 phút (GINA) hoặc 6 nhát, nhắc lại sau 20 phút nếu cần (QĐ 3312). Tại nhà: 2 nhát mỗi lần khi có triệu chứng<div class="sub">Xịt qua buồng đệm có mặt nạ, mỗi nhát thở 5–6 nhịp · Chỉ khi có triệu chứng, không dùng đều</div></td><td data-l="Thời gian">Theo nhu cầu; cần lại trong 4 giờ thì đến cơ sở y tế</td><td class="gc" data-l="Ghi chú">GINA 2026 tr. 220, 224, Box 12-5 (tr. 221), 12-6 (tr. 223); QĐ 3312 (cơn nhẹ). Số nhát tối đa mỗi ngày tại nhà: không có trong tài liệu đã tải.</td></tr><tr><td><b>Prednisolon dung dịch uống (không bắt buộc ở đợt nhẹ)</b><div class="sub">5 mg/5 ml</div></td><td data-l="Liều">17 mg (17 ml) mỗi ngày, một lần<div class="sub">Uống · Buổi sáng sau ăn</div></td><td data-l="Thời gian">3 ngày</td><td class="gc" data-l="Ghi chú">QĐ 3312 (cơn nhẹ: xem xét prednisolon 1 mg/kg, tối đa 60 mg/ngày; mục 4.3: 3–5 ngày); GINA 2026 Box 12-4, 12-6 chỉ nêu cho mức trung bình–nặng.</td></tr><tr><td><b>Budesonid hỗn dịch khí dung</b><div class="sub">0,5 mg/2 ml</div></td><td data-l="Liều">1 ống (0,5 mg) mỗi ngày<div class="sub">Khí dung bằng máy có mặt nạ ôm kín · Hằng ngày đều đặn, kể cả khi không khò khè</div></td><td data-l="Thời gian">Ít nhất 2–3 tháng rồi tái khám đánh giá</td><td class="gc" data-l="Ghi chú">GINA 2026 Box 11-3 (tr. 208): 500 mcg/ngày từ 1 tuổi; thời gian: GINA tr. 209, NICE NG245 mục 1.9.1, QĐ 3312 mục 4.3. Máy khí dung và cách chia liều trong ngày: không có trong tài liệu đã tải.</td></tr><tr><td><b>Buồng đệm có mặt nạ cỡ trẻ nhỏ</b><div class="sub">Dụng cụ</div></td><td data-l="Liều">1 bộ<div class="sub">Gắn với bình xịt · Mỗi lần xịt</div></td><td data-l="Thời gian">Dùng lâu dài</td><td class="gc" data-l="Ghi chú">Trẻ &lt; 6 tuổi dùng bình xịt định liều kèm buồng đệm (QĐ 3312; GINA 2026 Box 12-4).</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Thuốc salbutamol là thuốc cắt cơn, dùng khi khè, không dùng đều; xịt lại trong vòng 4 giờ thì đưa bé đến phòng khám ngay (GINA 2026 Box 12-5, tr. 221).</li><li>Budesonid là thuốc kiểm soát, dùng mỗi ngày, không phải hóc-môn như thuốc tránh thai; dùng liều thấp, súc miệng/lau mặt sau khi khí dung.</li><li>Tránh nắng gắt giữa trưa, cho bé nghỉ chỗ mát, uống nước; báo cô giáo để bé không chơi gắng sức dưới nắng; bố hút thuốc xa nhà.</li><li>Đây không phải lỗi của mẹ: hen bị kích hoạt bởi nắng nóng, gắng sức, khói thuốc.</li><li>Quay lại ngay nếu bé nói không ra câu, thở rút lõm, môi tím, không uống được, hoặc cần xịt lại &lt; 4 giờ (GINA 2026 Box 12-3, 12-5). Tái khám sau 1–3 ngày (GINA Box 12-6), 2 tuần (QĐ 3312), 2–3 tháng (GINA).</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-2">
+ <h2 id="h-luot-2"><span class="ln">Lượt 2/2</span> (tái khám sau 2 ngày)</h2>
+ <div class="card intro"><h3 id="m-7">Tiếp đón</h3><p>Tái khám theo hẹn, mẹ đưa bé đến sớm. Đêm qua bé khò khè nhiều hơn, mẹ phải xịt salbutamol nhiều lần; sáng nay bé mệt, ít chơi, nói từng từ. Sinh hiệu: nhiệt 37,8 °C, mạch 142 l/p, nhịp thở 48 l/p, SpO₂ 89%.</p>
+  <blockquote>“Bác sĩ ơi, đêm qua cháu khè nhiều lắm, em xịt đúng như bác sĩ dặn mà bé cứ đỡ một chút rồi lại khè. Sáng nay cháu mệt, nói không ra hơi. Em thương con quá mà nhà em hết tiền rồi, bác sĩ cho thuốc về nhà được không?”</blockquote>
+  <div class="vitals"><div class="vs warn"><span>Mạch</span><b>142</b><small>l/p</small></div><div class="vs"><span>HA</span><b>Không đo</b><small>mmHg</small></div><div class="vs warn"><span>Nhiệt</span><b>37,8</b><small>°C</small></div><div class="vs warn"><span>Nhịp thở</span><b>48</b><small>l/p</small></div><div class="vs warn"><span>SpO₂</span><b>89</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-8">Hỏi bệnh <small>7 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám</b><span class="tag t-g">Tự kể</span></div><p>Bé khò khè nặng hơn từ đêm qua, mẹ xịt salbutamol 2 nhát mỗi lần nhiều lần, cứ 2–3 giờ phải xịt lại; sáng nay mệt, nói từng từ, ăn uống ít. Mẹ xin cho thuốc về nhà vì hết tiền.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tuân thủ và kỹ thuật dùng thuốc</b><span class="tag t-b">Khi được hỏi</span></div><p>Mẹ cho prednisolon 17 mg đủ 2 ngày, khí dung budesonid mỗi ngày từ sau buổi khám trước, xịt salbutamol qua buồng đệm đúng cách (mẹ làm lại trước bác sĩ không sai). Còn nhiều thuốc, chưa hết.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Yếu tố khởi phát mới (nắng nóng kéo dài, nhiễm virus)</b><span class="tag t-b">Khi được hỏi</span></div><p>Hai ngày nay nắng nóng không giảm, nhà mái tôn rất nóng; từ tối qua bé sốt nhẹ, sổ mũi, bé ngồi cùng cháu hàng xóm đang ho.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dấu hiệu nguy hiểm</b><span class="tag t-b">Khi được hỏi</span></div><p>Bé còn uống được từng ngụm nhỏ, không nôn tất cả, không co giật, chưa li bì, nhưng môi hơi xám khi khóc. Tiểu ít hơn bình thường.</p></div><div class="fact"><div class="fh"><b>Hoàn cảnh kinh tế</b><span class="tag t-b">Khi được hỏi</span></div><p>Mẹ chỉ còn ít tiền, sợ nhập viện không có tiền đóng. Mẹ nói nếu bác sĩ nói &quot;phải nhập viện&quot; thì mẹ hiểu, nhưng cầu xin giúp mẹ cách nào đỡ tốn nhất.</p></div><div class="fact"><div class="fh"><b>Tâm lý của mẹ lượt 2</b><span class="tag t-r">Giấu</span></div><p>Mẹ khóc, nói &quot;chắc tại em không cho con truyền nước, tại em cho con uống thuốc hóc-môn mà con nặng thêm&quot;. Bà nội gọi điện trách mẹ.</p><div class="cond">Điều kiện nói ra: Mẹ chỉ nói ra khi bác sĩ hỏi mẹ cảm thấy thế nào hoặc khi bác sĩ giải thích lý do bé nặng hơn.</div></div><div class="fact"><div class="fh"><b>Vẫn không nghĩ dị vật</b><span class="tag t-b">Khi được hỏi</span></div><p>Vẫn không có chuyện sặc, không có đồ vật nhỏ bị mất.</p></div></details>
+ <details class="card"><summary><h3 id="m-9">Khám <small>5 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh nhưng mệt, ngồi chồm người ra trước, nói từng từ, môi hơi xám khi khóc. Niêm mạc hơi khô, thời gian đổ đầy mao mạch khoảng 2 giây.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nhịp thở 48 l/p, rút lõm rõ ở hõm ức và khoang liên sườn, bé nói từng từ.</p><p><span class="lbl">Kết quả:</span> Nhịp thở 48 l/p, rút lõm rõ hõm ức và liên sườn, thở ra kéo dài. Ran rít thì thở ra lan tỏa, thông khí giảm ở hai đáy, chưa phải phổi câm.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Ran rít thì thở ra, nghe cả hai bên.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-RAN-RIT-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Ran rít thì thở ra, nghe cả hai bên.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-RAN-RIT-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 142 l/p.</p><p><span class="lbl">Kết quả:</span> Tim nhanh đều 142 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – Tim nhanh đều, T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-NHANH-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b></div><p><span class="lbl">Kết quả:</span> Chảy mũi trong nhiều, họng đỏ nhẹ, không giả mạc, màng nhĩ bình thường.</p></div><div class="row"><div class="rh"><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm, gan lách không to.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-10">Cận lâm sàng <small>2 mục</small></h3></summary><div class="row"><div class="rh"><b>X-quang ngực thẳng</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Phổi sáng hơn hai bên, không đông đặc, không tràn khí màng phổi.</p><p class="why">Không làm ở phòng khám lúc này: không đổi quyết định chuyển ngay và không được làm chậm (GINA 2026 Box 12-3). Bệnh viện làm khi cần.</p></div><div class="row"><div class="rh"><b>CRP</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> CRP 6 mg/L</p><p class="why">Không cần để quyết định chuyển; không có ngưỡng CRP riêng cho hen trong tài liệu đã tải.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-11">Đáp án lượt 2 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Nhập viện</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Đợt cấp hen phế quản mức nặng ở trẻ 4 tuổi (SpO₂ &lt; 92%, thở &gt; 40 l/p, nói từng từ), không đáp ứng điều trị tại nhà; yếu tố: nắng nóng kéo dài và nhiễm virus hô hấp</b></div><p class="why">GINA 2026 Box 12-1 (tr. 217): SpO₂ &lt; 92%, nói từng từ, thở &gt; 40 l/p, rút lõm: nặng. QĐ 3312 Bảng 1: SaO₂ &lt; 90%, thở nhanh, nói từng từ: nặng. Soát 5 câu hỏi của QĐ 3312 mục 4.6: đúng hen, kỹ thuật đúng, đủ thuốc, tuân thủ, yếu tố khởi phát mới (nắng nóng + virus): đây là diễn tiến của đợt cấp, không phải thất bại do mẹ.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm phổi</b></div><p class="why">Sốt nhẹ, CRP 6 mg/L, không ran nổ, rút lõm do tắc nghẽn; vẫn cần bệnh viện đánh giá, nhưng không đổi hướng xử trí (WHO 2013 mục 4.5.2).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Dị vật đường thở</b></div><p class="why">Không hội chứng xâm nhập, khò khè hai bên, từng đáp ứng salbutamol (QĐ 3312 Dị vật mục 3.1–3.2).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Cho oxy qua gọng mũi hoặc mặt nạ ngay, theo dõi SpO₂ liên tục</b></div><p class="why">GINA 2026 Box 12-4 (tr. 220): oxy để giữ SpO₂ ≥ 92%; QĐ 3312 (cơn nặng): oxy có kiểm soát giữ 94–98%; WHO 2013 tr. 98: &gt; 95% khi tím hoặc khó thở nặng. 92% là giới hạn thấp nhất của các nguồn.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Salbutamol xịt qua buồng đệm 4–6 nhát (từng nhát một) mỗi 20 phút, tối đa 3 lần, rồi đánh giá lại; tiếp tục trong lúc chuyển</b></div><p class="why">GINA 2026 Box 12-4 (tr. 220) và Box 12-3 (tr. 219): 4–6 nhát, tối đa 3 lần cách 20–30 phút; QĐ 3312 (cơn nặng): 6 nhát cho trẻ &lt; 6 tuổi, nhắc lại sau 20 phút thêm 2 lần, rồi mỗi 1–4 giờ.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Ipratropium xịt 20 mcg kèm salbutamol nếu cơ sở có</b></div><p class="why">GINA 2026 Box 12-4 (tr. 220): 4 nhát 20 mcg hoặc 0,25 mg khí dung, tối đa 3 lần; QĐ 3312 (bảng cơn nặng): 2 nhát cho trẻ &lt; 6 tuổi mỗi 20 phút × 3 lần trong giờ đầu. Khác liều xịt; phòng khám có thể không có thuốc nên chấp nhận.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Corticoid toàn thân ngay trước khi chuyển: prednisolon 17 mg (1 mg/kg) nếu hôm nay chưa uống, HOẶC dexamethason 0,3–0,6 mg/kg (≈ 5–10 mg)</b></div><p class="why">GINA 2026 Box 12-4 (tr. 220): prednisolon 1–2 mg/kg tối đa 30 mg hoặc dexamethason 0,3–0,6 mg/kg (tối đa 12 mg); QĐ 3312: 1 mg/kg/ngày (tối đa 60 mg); WHO 2013 tr. 99: tối đa 20 mg cho 2–5 tuổi. Giao nhau ở 17 mg. Nếu bé đã uống liều hôm nay, ghi vào giấy chuyển. Thực hiện tại chỗ chỉ khi không làm chậm chuyển.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chuyển ngay bệnh viện Nhi để nhập viện bằng xe có oxy, có nhân viên y tế và mẹ đi cùng; tiếp tục salbutamol, oxy trên đường</b></div><p class="why">GINA 2026 Box 12-3 (tr. 219): chuyển ngay khi SpO₂ &lt; 92%, thở &gt; 40 l/p, không nói/uống được, hoặc cơn nặng tái phát; QĐ 3312 mục 4.4: nhập viện khi không đáp ứng cường beta, khó thở với co kéo, nói chuyện khó. Báo trước nơi nhận, giấy chuyển: thông lệ, không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Nói thật với mẹ: bé đang nặng, không phải lỗi của mẹ; quyết định hôm trước đúng; hỏi về chi phí và gợi ý nhờ nhân viên xã hội của bệnh viện hỗ trợ</b></div><p class="why">GINA 2026 Box 12-6 (tr. 223): vấn đề tâm lý/kinh tế là yếu tố nguy cơ đợt cấp; QĐ 3312 mục 4.6: làm dịu nỗi sợ hãi của gia đình. Quyết định lượt 1 đúng theo GINA tr. 221–223; đánh giá theo kết cục là sai lệch. Chính sách miễn giảm viện phí và bảo hiểm cho trẻ: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Soát 5 câu hỏi khi không đáp ứng: đúng hen không, bệnh khác, dung nạp thuốc, kỹ thuật, hết thuốc, yếu tố khởi phát; ghi vào giấy chuyển cả thuốc kiểm soát đang dùng</b></div><p class="why">QĐ 3312 (Hen mục 4.6); GINA 2026 Box 10-5 (tr. 199). Ghi thuốc kiểm soát (ICS) để bệnh viện tiếp tục sau đợt cấp (GINA tr. 225).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho bé về nhà với thêm thuốc xịt vì nhà không có tiền</b></div><p class="why">GINA 2026 Box 12-3 (tr. 219): SpO₂ &lt; 92% và thở &gt; 40 l/p là chỉ định chuyển ngay. Tác hại cụ thể bằng số liệu: không có trong tài liệu đã tải; chấm w vì trái chỉ định chuyển ngay (suy luận).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Giữ bé ở phòng khám vài giờ để xem còn đỡ không</b></div><p class="why">GINA 2026 Box 12-3 (tr. 219): cơn nặng tái phát trong 48 giờ cũng là chỉ định chuyển; phòng khám ngoại trú không theo dõi liên tục (suy luận).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê kháng sinh thêm vì sốt nhẹ và khò khè kéo dài</b></div><p class="why">WHO 2013 mục 4.5.2 (tr. 100): không kháng sinh thường quy trong hen; chỉ khi sốt kéo dài kèm dấu hiệu viêm phổi. CRP 6 mg/L.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Cho về, hẹn tái khám</span></div><p>Cho bé Phúc về nhà với thêm thuốc xịt vì nhà ngặt tiền là bỏ sót đợt hen nặng: SpO₂ 89% (&lt; 92%), thở 48 l/p (&gt; 40), nói từng từ là chỉ định chuyển ngay (GINA 2026 Box 12-3, tr. 219; QĐ 3312 Bảng 1: SaO₂ &lt; 90% là nặng). Đêm đó bé có thể mệt lả, tím môi, phổi ít rì rào và phải cấp cứu muộn bằng xe 115 trong đêm, tốn kém gấp nhiều lần và mẹ sẽ mang cảm giác &quot;do em không cho đi viện kịp&quot;.</p></div><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Giữ bé ở phòng khám vài giờ xem còn đỡ không làm mất thời gian vàng: GINA 2026 Box 12-3 (tr. 219) đã đủ chỉ định chuyển ngay (SpO₂ &lt; 92%, thở &gt; 40 l/p), cơn nặng tái phát trong 48 giờ cũng là chỉ định chuyển. Phòng khám ngoại trú không có giường theo dõi liên tục, bé có thể xấu đi ngoài tầm theo dõi trước khi nhận ra.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Đợt cấp hen phế quản mức nặng ở trẻ 4 tuổi, không đáp ứng điều trị tại nhà (GINA 2026 Box 12-1: SpO₂ 89%, thở 48 l/p, nói từng từ)</li><li>Yếu tố làm nặng: nắng nóng kéo dài (hiệu ứng nóng kéo dài khoảng một tuần, GINA tr. 138–139) và nhiễm virus hô hấp mới</li><li>Tuân thủ và kỹ thuật dùng thuốc đúng: không phải thất bại do mẹ</li><li>Chỉ định nhập viện ngay (GINA Box 12-3); cần oxy</li><li>Bối cảnh: nhà hết tiền, mẹ tự trách</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự hỏi: diễn tiến từ lần trước; số lần xịt salbutamol và khoảng cách; có dùng prednisolon, budesonid đủ; kỹ thuật xịt; sốt và yếu tố mới; dấu hiệu nguy hiểm, uống, tiểu; tâm trạng của mẹ.</li><li>Vì sao là nặng: SpO₂ 89% (&lt; 92%), thở 48 l/p (&gt; 40), nói từng từ, rút lõm (GINA 2026 Box 12-1, Box 12-3); QĐ 3312 Bảng 1: SaO₂ &lt; 90%, thở nhanh, nói từng từ. Hai nguồn khác ngưỡng SpO₂ (92% và 90%) nhưng bé dưới cả hai.</li><li>Vì sao không phải thất bại do điều trị sai: mẹ dùng đúng thuốc và đúng kỹ thuật; yếu tố mới: nắng nóng kéo dài (đợt nóng làm tăng nhập viện, tác dụng kéo dài khoảng một tuần, GINA tr. 138–139) và nhiễm virus (GINA Box 12-6). Quyết định lượt 1 đúng nhưng đợt cấp vẫn nặng lên (GINA Box 12-5: hẹn 1–3 ngày để phát hiện đúng tình huống này).</li><li>Dị vật vẫn không nghĩ: không hội chứng xâm nhập, từng đáp ứng thuốc (QĐ 3312 Dị vật mục 3.1–3.2).</li><li>Xét nghiệm: không làm chậm chuyển; X-quang, CRP và khí máu làm ở bệnh viện khi cần.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Oxy giữ SpO₂ ≥ 92% (GINA) hoặc 94–98% (QĐ 3312); salbutamol 4–6 nhát (GINA) hoặc 6 nhát (QĐ 3312) mỗi 20 phút tối đa 3 lần; ipratropium nếu có; corticoid uống ngay (GINA Box 12-4; QĐ 3312).</li><li>Chuyển ngay: có ba tiêu chí (SpO₂ &lt; 92%, thở &gt; 40, nói từng từ) trong Box 12-3; không chờ xét nghiệm; tiếp tục thuốc trên đường.</li><li>Về chi phí: cần nói thật và nhắm đúng nơi; truyền dịch hay kháng sinh tại phòng khám không có trong xử trí cơn hen nặng ở cơ sở ban đầu (GINA Box 12-4/12-5; QĐ 3312).</li><li>Lời nói với mẹ: &quot;Hôm qua em làm đúng, thuốc em cho bé uống không làm bé nặng thêm; đợt cấp này nặng vì nắng nóng kéo dài và virus&quot;; không đánh giá quyết định theo kết cục.</li><li>Thuốc kiểm soát (ICS): tiếp tục trong và sau đợt cấp (GINA tr. 225).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Oxy</b><div class="sub">Qua gọng mũi hoặc mặt nạ</div></td><td data-l="Liều">Tăng lưu lượng để SpO₂ ≥ 92% (hoặc 94–98%)<div class="sub">Hít · Ngay, giữ suốt đường chuyển</div></td><td data-l="Thời gian">Đến khi bệnh viện tiếp nhận</td><td class="gc" data-l="Ghi chú">GINA 2026 Box 12-4 (tr. 220); QĐ 3312 (cơn nặng). Lưu lượng lít/phút: không có trong tài liệu đã tải.</td></tr><tr><td><b>Salbutamol bình xịt 100 mcg/nhát</b><div class="sub">100 mcg/nhát</div></td><td data-l="Liều">4–6 nhát mỗi 20 phút tối đa 3 lần (GINA) hoặc 6 nhát, nhắc lại sau 20 phút thêm 2 lần (QĐ 3312)<div class="sub">Xịt qua buồng đệm có mặt nạ, từng nhát một · Liều đầu ngay, tiếp tục trên đường chuyển</div></td><td data-l="Thời gian">Đến khi bệnh viện tiếp nhận</td><td class="gc" data-l="Ghi chú">GINA 2026 Box 12-4 (tr. 220), 12-3 (tr. 219); QĐ 3312; WHO 2013 tr. 98.</td></tr><tr><td><b>Ipratropium bromid bình xịt 20 mcg/nhát (nếu có)</b><div class="sub">20 mcg/nhát</div></td><td data-l="Liều">4 nhát cùng mỗi đợt salbutamol, tối đa 3 lần (GINA) hoặc 2 nhát mỗi 20 phút × 3 lần (QĐ 3312)<div class="sub">Xịt qua buồng đệm · Cùng salbutamol trong giờ đầu</div></td><td data-l="Thời gian">Chỉ giờ đầu 1–2 giờ</td><td class="gc" data-l="Ghi chú">GINA 2026 Box 12-4, Box 12-6 (ngưng sau 1–2 giờ đầu); QĐ 3312 bảng cơn nặng.</td></tr><tr><td><b>Prednisolon dung dịch uống 5 mg/5 ml</b><div class="sub">5 mg/5 ml</div></td><td data-l="Liều">17 mg (1 mg/kg) nếu hôm nay chưa uống; hoặc dexamethason 0,3–0,6 mg/kg<div class="sub">Uống (cho uống lại nếu nôn sớm) · Trước khi chuyển</div></td><td data-l="Thời gian">3–5 ngày tổng cộng (bệnh viện quyết)</td><td class="gc" data-l="Ghi chú">GINA 2026 Box 12-4, 12-6; QĐ 3312 mục 4.3; WHO 2013 tr. 99.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Đi bệnh viện Nhi ngay bằng xe có oxy, mẹ đi cùng, mang theo toàn bộ thuốc đang dùng (budesonid, salbutamol, prednisolon), giấy chuyển.</li><li>Trên đường: ngồi ôm bé tư thế đầu cao, bé uống từng ngụm nhỏ, tiếp tục xịt khi cần theo nhân viên y tế.</li><li>Mẹ không có lỗi trong đợt này; hỏi bệnh viện về hỗ trợ chi phí và bảo hiểm.</li><li>Sau xuất viện: tiếp tục budesonid hằng ngày (GINA 2026 tr. 225), kế hoạch hành động, tránh nắng nóng, khói thuốc; hẹn tái khám sau ra viện (khoảng cách cụ thể: không có trong tài liệu đã tải; QĐ 3312 theo dõi sau cơn: 2 tuần).</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-12">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Hen phế quản trẻ em</b></div>
+<p class="note">Phải loại trừ: Viêm tiểu phế quản, Dị vật đường thở</p><p>Bé Phúc được chuyển đến bệnh viện Nhi trong 40 phút, SpO₂ trên đường giữ 93–95% nhờ oxy. Tại bệnh viện bé được tiếp tục salbutamol, ipratropium và corticoid, thở oxy 2 ngày, nằm viện 5 ngày, không phải vào hồi sức. Ra viện với budesonid khí dung hằng ngày, salbutamol qua buồng đệm khi cần và kế hoạch hành động bằng văn bản. Mẹ biết bệnh viện hỗ trợ giảm chi phí qua nhân viên xã hội (chi tiết chính sách: không có trong tài liệu đã tải). Mẹ nói: &quot;Em tưởng tại em cho con uống thuốc hóc-môn, giờ mới hiểu cơn hen thật là gì.&quot; Quyết định lượt 1 vẫn đúng; kết cục xấu đến từ diễn tiến của đợt cấp dưới nắng nóng kéo dài và virus mới.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-13">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Không đủ tiền xét nghiệm: là nhiễu chính; ca dạy bỏ công thức máu, CRP, IgE vì không đổi quyết định (QĐ 3312 mục 2.4; GINA Box 10-2). X-quang chỉ chấp nhận, không bắt buộc.</li><li>Thuốc tránh thai của mẹ để chung túi thuốc: không liên quan đến bệnh của bé nhưng là gốc nỗi sợ &quot;hóc-môn&quot; của mẹ; cần phân biệt thuốc hít corticoid với thuốc tránh thai.</li><li>Bà nội đổ lỗi và nói thuốc xịt, thuốc hóc-môn hại: làm mẹ tự trách và dễ bỏ thuốc kiểm soát.</li><li>Bố hút thuốc ở hiên nhà: chỉ nói khi được hỏi nhẹ nhàng.</li><li>Triệu chứng giữa đợt (ho đêm, ho khi chạy): mẹ coi là &quot;ho vặt&quot;, không tự kể.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Hen ở trẻ ≤ 5 tuổi chẩn đoán bằng tiêu chí (khò khè tái diễn, không có chẩn đoán khác, đáp ứng điều trị), không cần X-quang, IgE, công thức máu (GINA 2026 Box 10-2; QĐ 3312 mục 2.4). Hỏi triệu chứng giữa các đợt và khởi phát.</li><li>Nhà ngặt tiền: xếp ưu tiên bằng &quot;xét nghiệm nào đổi được quyết định hôm nay&quot;; bỏ được thì nói rõ vì sao bỏ, tránh để mẹ tự bỏ thuốc.</li><li>Lý do thật đến khám là tâm lý: hỏi nhẹ nhàng gia đình nói gì, mẹ lo điều gì; giải đáp nỗi sợ corticoid bằng số liệu (GINA tr. 208–209) và nói &quot;không phải lỗi của mẹ&quot; (QĐ 3312 mục 4.6).</li><li>Xử trí đúng không bảo đảm kết cục tốt: cho về với thuốc, kế hoạch hành động, hẹn 1–3 ngày chính là lưới an toàn. Đừng đánh giá quyết định theo kết cục (outcome bias).</li><li>Chỉ định chuyển ngay ở trẻ ≤ 5 tuổi: SpO₂ &lt; 92%, thở &gt; 40 l/p, nói/uống không được, tím, không đáp ứng 3 lần salbutamol (GINA 2026 Box 12-3).</li><li>Nắng nóng kéo dài làm tăng cấp cứu hen, tác dụng kéo dài khoảng một tuần (GINA 2026 tr. 138–139): tránh nắng giữa trưa, nghỉ chỗ mát.</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Đợt nhẹ ở trẻ ≤ 5 tuổi: SpO₂ ≥ 94%, nói cả câu, thở ≤ 40 l/p, không rút lõm → salbutamol qua buồng đệm, đánh giá lại, cho về nếu giữ được mức nhẹ; có triệu chứng giữa đợt thì khởi ICS trước khi về (GINA 2026 Box 12-1, 12-5, 12-6).</li><li>ICS liều thấp: budesonid khí dung 500 mcg/ngày từ 1 tuổi (GINA 2026 Box 11-3); thử ≥ 2–3 tháng (GINA), 8–12 tuần (NICE NG245 mục 1.9.1), ≥ 3 tháng (QĐ 3312 mục 4.3).</li><li>Mức nặng: oxy, salbutamol 4–6 nhát × 3, ipratropium, corticoid uống, chuyển ngay (GINA Box 12-3, 12-4).</li><li>Ảnh hưởng ICS lên tăng trưởng nhỏ, không cộng dồn; hen kiểm soát kém cũng ảnh hưởng chiều cao (GINA 2026 tr. 208–209).</li><li>5 câu hỏi khi không đáp ứng điều trị (QĐ 3312 Hen mục 4.6): có phải hen, bệnh khác, dung nạp, kỹ thuật, hết thuốc, yếu tố khởi phát.</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-14">Nguồn tài liệu <small>6</small></h3></summary><ul class=""><li>QĐ 3312/QĐ-BYT 2015, Hướng dẫn chẩn đoán và điều trị một số bệnh thường gặp ở trẻ em – TL-0037 – ĐÃ ĐỌC: Hen phế quản trẻ em (mục 1–4.6, Bảng 1–3); Xử trí cơn hen phế quản cấp ở trẻ em; Viêm tiểu phế quản cấp (mục 1.2); Dị vật đường thở (mục 3)</li><li>GINA 2026 Strategy Report – TL-0137 – ĐÃ ĐỌC: Box 10-2 (tr. 195), Box 10-4/10-5 (tr. 199), Box 11-3 (tr. 208), tr. 208–210 (ICS), Box 12-1 (tr. 217), 12-3 (tr. 219), 12-4 (tr. 220), 12-5 (tr. 221), 12-6 (tr. 223), mục Extreme weather and asthma (tr. 138–139)</li><li>WHO 2013, Pocket book of hospital care for children (2nd ed.) – TL-0250 – ĐÃ ĐỌC: mục 4.5, 4.5.2 (tr. 92–100)</li><li>NICE/BTS/SIGN NG245 2024 – TL-0254 – ĐÃ ĐỌC: mục 1.9 (điều trị trẻ &lt; 5 tuổi), 1.14.3</li><li>NICE NG9 2021 Bronchiolitis – TL-0260 – chỉ dùng phạm vi trẻ &lt; 2 tuổi</li><li>Không dùng CARE (Lancet 2025, TL-0275): nhóm 5–15 tuổi, không áp dụng cho bé 4 tuổi</li></ul></details>
+<details class="card"><summary><h3 id="m-15">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Nhi ngoại trú</dd><dt>chan_doan_dich</dt><dd>Hen phế quản trẻ em</dd><dt>chan_doan_phai_loai_tru</dt><dd>Viêm tiểu phế quản; Dị vật đường thở</dd><dt>nhom_tuoi</dt><dd>Mẫu giáo (1–5 tuổi)</dd><dt>do_kho</dt><dd>Điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>dien_tien_tai_kham</dt><dd>Không đỡ</dd><dt>nhieu_benh_nhan</dt><dd>Không đủ tiền xét nghiệm</dd><dt>rang_buoc_nguon_luc</dt><dd>Nguồn lực đầy đủ</dd><dt>loai_ket_cuc</dt><dd>Xử trí đúng nhưng diễn tiến xấu</dd><dt>gioi</dt><dd>Nam</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>2</dd><dt>nghe_nghiep</dt><dd>Trẻ mẫu giáo</dd><dt>yeu_to_khoi_phat</dt><dd>Phơi nắng lâu</dd><dt>thuoc_dang_dung</dt><dd>Thuốc tránh thai đang dùng (của mẹ, để chung túi thuốc với đồ của bé)</dd><dt>ly_do_that_su_den_kham</dt><dd>Vấn đề tâm lý giấu sau triệu chứng (mẹ tự trách, sợ bị đổ lỗi)</dd></dl><ul class=""><li>2026-11-08: bản 1, viết theo tài liệu đã tải. Đặc tả sổ cái: Hen phế quản trẻ em, 2 lượt, &quot;không đỡ&quot;, nhiễu &quot;không đủ tiền xét nghiệm&quot;, nguồn lực đầy đủ (khoa_cls = null), kết cục &quot;xử trí đúng nhưng diễn tiến xấu&quot;, khởi phát &quot;phơi nắng lâu&quot;, thuốc &quot;tránh thai đang dùng&quot;, lý do thật &quot;tâm lý giấu sau triệu chứng&quot;.</li><li>Thuốc tránh thai: bé 4 tuổi không dùng; thiết kế thành thuốc của mẹ để chung túi thuốc, là gốc nỗi sợ corticoid của mẹ. Nếu muốn đổi cách đặt, sửa su_that &quot;thuoc_da_dung&quot; và &quot;tam_ly_me&quot;.</li><li>Hai nguồn (GINA 2026 và QĐ 3312) khác liều SABA, OCS, SpO₂ đích: ghi cả hai theo mục sổ mâu thuẫn (NH-0958, HH-1113); không có mâu thuẫn mới.</li><li>Tài liệu đã đọc: TL-0037 (QĐ 3312 Hen, Xử trí cơn hen cấp), TL-0137 (GINA 2026 các Box trên), TL-0250 (WHO 2013), TL-0254 (NICE NG245 mục 1.9, 1.14.3). Thiếu: liều salbutamol tối đa mỗi ngày tại nhà, chính sách miễn giảm viện phí/bảo hiểm trẻ em, lưu lượng oxy: không có trong tài liệu đã tải.</li></ul></details>
+<p class="chan-trang">Ca NH-0978 · phiên bản ca 1 · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

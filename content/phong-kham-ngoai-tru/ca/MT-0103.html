@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MT-0103 · Tăng huyết áp nguyên phát (theo dõi)</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · MT-0103</div>
+   <h1>Nặng đầu, nghẹt mũi hơn 3 tuần, xin thuốc kháng sinh</h1>
+   <p class="dich-gia">Trịnh Hữu Nghĩa · Nam · 47 tuổi · 78 kg</p>
+   <div class="chips"><span class="chip">Bệnh mạn tính người lớn</span><span class="chip">Ca bẫy</span><span class="chip">Sai lầm của người đi trước</span><span class="chip">1 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Chuyên viên tín dụng ngân hàng</dd><dt>Chiều cao, cân nặng</dt><dd>168 cm · 78 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi ông là &#x27;anh&#x27;. Ông tự xưng &#x27;tôi&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;.</dd><dt>Tính cách</dt><dd>Chỉn chu, nói năng lịch sự, quen làm việc với số liệu và hồ sơ nên thích có căn cứ. Hay tra mạng, ghi chú vào điện thoại. Đang vào đợt chốt sổ cuối quý, không muốn nghỉ ngày nào. Không cãi to nhưng bám chắc ý mình; dễ chấp nhận nếu bác sĩ nghe hết, công nhận phần anh nói đúng rồi giải thích bằng số liệu; dễ cứng lại nếu bị bảo &#x27;đừng tự chẩn đoán&#x27;.</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Cơ sở không có máy X-quang.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/1</span> </h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Nam 47 tuổi, chuyên viên tín dụng ngân hàng, đến khám vì nặng đầu và nghẹt mũi hơn 3 tuần nay. Anh tự tra mạng, cho rằng mình bị viêm xoang mạn và xin thuốc kháng sinh dài ngày. Anh mang theo đơn của một phòng khám tư cách đây 12 ngày. Sinh hiệu lúc tiếp đón: HA 158/98 mmHg, mạch 84 l/p, SpO₂ 98%.</p>
+  <blockquote>“Chào bác sĩ. Tôi bị viêm xoang mạn, nặng đầu với nghẹt mũi hơn ba tuần rồi. Tôi tra mạng thì triệu chứng giống y chang. Đợt trước uống kháng sinh bảy ngày chưa dứt, nhờ bác sĩ kê đợt dài hơn cho dứt điểm, đợt này tôi bận lắm.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>84</b><small>l/p</small></div><div class="vs warn"><span>HA</span><b>158/98</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,8</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>16</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>15 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do đến khám và chẩn đoán tự tra</b><span class="tag t-g">Tự kể</span></div><p>Nặng đầu và nghẹt mũi hơn 3 tuần. Tự tra mạng thấy giống &#x27;viêm xoang mạn&#x27; nên muốn xin kháng sinh uống dài ngày.</p></div><div class="fact"><div class="fh"><b>tra_mang</b><span class="tag t-g">Tự kể</span></div><p>Mở điện thoại cho bác sĩ xem bài viết: &#x27;Viêm xoang mạn: đau đầu, nghẹt mũi kéo dài, cần kháng sinh 2–3 tuần&#x27;. Anh đã gạch chân các dòng &#x27;nặng đầu&#x27;, &#x27;nghẹt mũi&#x27;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đơn thuốc và kết luận của lần khám trước, HA ghi trên đơn</b><span class="tag t-b">Khi được hỏi</span></div><p>Cách đây 12 ngày đi phòng khám tư gần cơ quan. Bác sĩ ghi &#x27;viêm xoang cấp&#x27;, cho amoxicillin-clavulanat 7 ngày và viên thuốc dị ứng. Anh uống đủ 7 ngày. Trên đơn có ghi tay HA 156/98 mmHg; anh nhớ bác sĩ bảo &#x27;do đau đầu và lo lắng, hết xoang là hết&#x27;. Không ai dặn đo lại.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Yếu tố khởi phát: stress công việc, thiếu ngủ, cà phê</b><span class="tag t-b">Khi được hỏi</span></div><p>Nặng đầu bắt đầu cuối tháng trước khi chốt sổ cuối quý: ngủ 5 giờ mỗi đêm, ngồi máy lạnh cả ngày, ngày 4 ly cà phê. Anh tự thấy &#x27;kiệt sức vì công việc&#x27;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đặc điểm triệu chứng mũi (không mủ, không đau mặt, kiểu dị ứng)</b><span class="tag t-b">Khi được hỏi</span></div><p>Hắt hơi từng tràng buổi sáng, ngứa mũi, chảy nước mũi trong, nghẹt mũi luân phiên hai bên. Không chảy dịch vàng hay xanh, không đau vùng má hay trán khi cúi, ngửi bình thường, không sốt. Từ nhỏ hay hắt hơi khi đổi thời tiết hoặc vào chỗ bụi. Uống hết kháng sinh mà mũi vẫn y như cũ.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đặc điểm đau đầu, loại trừ cờ đỏ thần kinh</b><span class="tag t-b">Khi được hỏi</span></div><p>Nặng đầu vùng gáy lan hai bên thái dương, nặng nhất lúc mới ngủ dậy và những ngày căng thẳng. Không đau dữ dội, không đột ngột, không buồn nôn, không sợ ánh sáng, không nhìn mờ, không yếu hay tê tay chân. Uống kháng sinh xong đỡ hai ngày rồi lại như cũ.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc tự mua chứa pseudoephedrin làm tăng huyết áp</b><span class="tag t-r">Giấu</span></div><p>Từ hơn 3 tuần nay mỗi ngày uống 2 viên &#x27;thuốc dị ứng&#x27; mua ở nhà thuốc (sáng một viên, tối một viên) vì uống vào thấy thông mũi liền. Vỉ thuốc còn trong túi xách; trên vỉ ghi thành phần cetirizin và pseudoephedrin. Đơn phòng khám tư cũng có loại thuốc này nên anh yên tâm uống đều.</p><div class="cond">Điều kiện nói ra: Hỏi chung &#x27;đang uống thuốc gì&#x27; thì chỉ nhắc kháng sinh đã uống hết. Chỉ kể và đưa vỉ thuốc khi bác sĩ hỏi cụ thể thuốc tự mua, thuốc dị ứng, thuốc thông mũi, hoặc hỏi lần thứ hai &#x27;còn uống thêm viên nào không&#x27;.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiền sử HA cao trước khi dùng thuốc</b><span class="tag t-b">Khi được hỏi</span></div><p>Khám sức khỏe định kỳ của ngân hàng hai năm trước ghi HA 146/92 mmHg, bác sĩ dặn &#x27;hơi cao, theo dõi&#x27;. Anh không làm gì, năm ngoái bỏ khám vì bận. Chưa bao giờ đo HA ở nhà.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiền sử gia đình</b><span class="tag t-b">Khi được hỏi</span></div><p>Bố bị cao huyết áp, mất vì đột quỵ năm 66 tuổi. Mẹ bị tiểu đường típ 2.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Muối, cân nặng, vận động, cà phê, rượu bia</b><span class="tag t-b">Khi được hỏi</span></div><p>Ăn trưa suất cơm văn phòng đặt sẵn, ăn mặn, hay húp hết nước canh; tối ăn ngoài nhiều. Không tập thể dục, tăng khoảng 6 kg trong 2 năm. Không hút thuốc. Bia 2 lon mỗi cuối tuần. Cà phê 3–4 ly mỗi ngày.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Sàng lọc ngưng thở khi ngủ, thiếu ngủ</b><span class="tag t-b">Khi được hỏi</span></div><p>Vợ nói thỉnh thoảng anh ngáy khi mệt, không thấy ngưng thở. Ban ngày không buồn ngủ quá mức. Ngủ 5–6 giờ mỗi đêm vì làm việc khuya.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Sàng lọc gợi ý THA thứ phát và thuốc làm tăng HA khác</b><span class="tag t-b">Khi được hỏi</span></div><p>Không có cơn đau đầu kèm vã mồ hôi, hồi hộp từng đợt. Không yếu cơ, không chuột rút, không khát nhiều, không tiểu đêm nhiều. Không phù. Không dùng thuốc giảm đau, corticoid, thuốc bắc, cam thảo.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Sàng lọc cờ đỏ, tổn thương cơ quan đích</b><span class="tag t-b">Khi được hỏi</span></div><p>Không đau ngực, không khó thở, không nhìn mờ, không nói khó, không yếu hay tê tay chân, không đau đầu đột ngột dữ dội.</p></div><div class="fact"><div class="fh"><b>benh_nen</b><span class="tag t-b">Khi được hỏi</span></div><p>Chưa xét nghiệm đường huyết hay mỡ máu bao giờ. Không biết có bệnh thận. Không hen, không dị ứng thuốc.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Động cơ thật: muốn được kê kháng sinh vì sợ kéo dài ảnh hưởng công việc</b><span class="tag t-r">Giấu</span></div><p>Anh xin kháng sinh vì lần trước &#x27;uống vào thấy đỡ đau đầu hai hôm&#x27;, và vì sợ ốm kéo dài đúng đợt chốt sổ, không dám nghỉ. Anh nghĩ kháng sinh là cách &#x27;chắc ăn nhất, khỏi lằng nhằng&#x27;.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi vì sao anh nghĩ cần kháng sinh, điều gì khiến anh lo nhất về việc này, hoặc điều gì sẽ xảy ra nếu bệnh kéo dài thêm.</div></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>13 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Đo lại huyết áp hai tay</b></div><p><span class="lbl">Kết quả:</span> Ngồi nghỉ 5 phút, băng quấn đúng cỡ. Tay phải: 166/106, 162/104, 164/104 mmHg (trung bình hai lần cuối 163/104). Tay trái: 160/102 mmHg. Hai tay chênh dưới 10 mmHg.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, hơi mệt. Cân nặng 78 kg, cao 168 cm, BMI 27,6 kg/m². Vòng eo 96 cm. Da niêm hồng, không mặt tròn, không rạn da tím.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Họng, tai, mũi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Soi mũi trước: cuốn mũi dưới hai bên phù nề, niêm mạc nhợt màu, có dịch loãng trong. Ấn vùng má, trán không đau. Họng không đỏ. Màng nhĩ hai bên bình thường.</p><p><span class="lbl">Kết quả:</span> Soi mũi trước: niêm mạc nhợt, cuốn mũi dưới hai bên phù nề, dịch loãng trong, không mủ ở khe giữa. Ấn vùng má, trán và gõ vùng xoang không đau. Họng không đỏ, hậu họng không dịch mủ. Màng nhĩ hai bên bình thường.</p></div><div class="row"><div class="rh"><b>Nội soi mũi xoang (ống mềm hoặc ống cứng: khe giữa, khe trên, vách ngăn, cuốn, polyp, mủ, khối, vòm họng)</b></div><p><span class="lbl">Kết quả:</span> Khe giữa hai bên thông, không mủ, không polyp. Cuốn giữa phù nhẹ, niêm mạc nhợt. Vòm họng không khối.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 84 l/p. Mỏm tim khoang liên sườn V đường trung đòn trái.</p><p><span class="lbl">Kết quả:</span> Tim đều 84 l/p. Mỏm tim khoang liên sườn V đường trung đòn trái. T1, T2 rõ, không âm thổi, không T3.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi, không T3.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Lồng ngực cân đối, rung thanh đều, gõ trong hai bên. Nhịp thở 16 l/p.</p><p><span class="lbl">Kết quả:</span> Nhịp thở 16 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><span class="key">★</span><b>Mạch ngoại biên, âm thổi động mạch</b></div><p><span class="lbl">Kết quả:</span> Mạch quay, mạch đùi, mạch mu chân đều hai bên, không trễ. Không âm thổi động mạch cảnh, không âm thổi cạnh rốn.</p></div><div class="row"><div class="rh"><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm, không âm thổi cạnh rốn, không sờ thấy thận to hay khối.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b></div><p><span class="lbl">Kết quả:</span> Không phù.</p></div><div class="row"><div class="rh"><b>Thần kinh</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, cổ mềm, không dấu thần kinh khu trú, thị trường bình thường.</p></div><div class="row"><div class="rh"><b>Soi đáy mắt</b></div><p><span class="lbl">Kết quả:</span> Động mạch võng mạc hẹp nhẹ. Không xuất huyết, không xuất tiết, không phù gai thị.</p></div><div class="row"><div class="rh"><b>Đo huyết áp tư thế nằm – đứng</b></div><p><span class="lbl">Kết quả:</span> HA đứng sau 1 phút giảm 4/2 mmHg, không chóng mặt.</p></div><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Tuyến giáp không to. Tĩnh mạch cổ không nổi. Không đau cạnh cột sống cổ.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>22 mục</small></h3></summary><div class="row"><div class="rh"><b>Ure, creatinin, eGFR</b><span class="tag t-g">Cần làm</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Ure</td><td class="num">5,2</td><td>mmol/L</td><td class="ref">2,5–7,5</td></tr><tr class=""><td>Creatinin</td><td class="num">88</td><td>µmol/L</td><td class="ref">62–120</td></tr><tr class=""><td>eGFR (CKD-EPI 2021)</td><td class="num">94</td><td>mL/ph/1,73m²</td><td class="ref">≥ 90</td></tr></tbody></table><p class="why">Creatinin, điện giải là xét nghiệm nền trước khi dùng ức chế men chuyển (QĐ 5904 Phần 1 Bước 2; Phần 3 mục G).</p></div><div class="row"><div class="rh"><b>Điện giải đồ (Na, K, Cl)</b><span class="tag t-g">Cần làm</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Natri (Na⁺)</td><td class="num">140</td><td>mmol/L</td><td class="ref">135–145</td></tr><tr class=""><td>Kali (K⁺)</td><td class="num">4,1</td><td>mmol/L</td><td class="ref">3,5–5,0</td></tr><tr class=""><td>Clo (Cl⁻)</td><td class="num">103</td><td>mmol/L</td><td class="ref">98–106</td></tr></tbody></table><p class="why">K bình thường, không gợi ý cường aldosteron nguyên phát (VSH/VNHA 2024 Bảng 9: tiền sử hạ kali).</p></div><div class="row"><div class="rh"><b>Glucose máu đói</b><span class="tag t-g">Cần làm</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Glucose</td><td class="num">5,8</td><td>mmol/L</td><td class="ref">3,9–6,4</td></tr></tbody></table><p class="why">Rối loạn glucose máu lúc đói 5,6–6,9 mmol/L (QĐ 5904 Phần 2 Bước 3B); cần nhắc lại (cùng yếu tố nguy cơ tim mạch).</p></div><div class="row"><div class="rh"><b>HbA1c</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> 5,7%</p><p class="why">Tăng HbA1c 5,7–6,4% (QĐ 5904 Phần 2 Bước 3B). ESC 2024 Bảng 8: làm HbA1c khi glucose đói tăng.</p></div><div class="row"><div class="rh"><b>Bộ mỡ máu</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Cholesterol TP 5,8 · LDL-C 3,5 · HDL-C 1,0 · TG 2,3 mmol/L</p><p class="why">Đánh giá nguy cơ tim mạch (QĐ 5904 Phần 1 Bước 2; ESC 2024 Bảng 8).</p></div><div class="row"><div class="rh"><b>Điện tâm đồ 12 chuyển đạo</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Nhịp xoang 82 l/p. Sokolow-Lyon 29 mm. Không ST chênh, không sóng Q, không dày thất trái.</p><p class="why">Sokolow-Lyon ≤ 35 mm: chưa có dày thất trái (VSH/VNHA 2024 Bảng 11). ECG là xét nghiệm nền (QĐ 5904 Phần 1 Bước 2).</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-b">Hữu ích</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Số lượng bạch cầu (WBC)</td><td class="num">7,2</td><td>G/L</td><td class="ref">4,0–10,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu trung tính (NEU%)</td><td class="num">56,0</td><td>%</td><td class="ref">45–75</td></tr><tr class=""><td>Số lượng bạch cầu trung tính (NEU#)</td><td class="num">4,03</td><td>G/L</td><td class="ref">2,0–7,5</td></tr><tr class=""><td>Tỷ lệ bạch cầu lympho (LYM%)</td><td class="num">30,0</td><td>%</td><td class="ref">20–40</td></tr><tr class=""><td>Số lượng bạch cầu lympho (LYM#)</td><td class="num">2,16</td><td>G/L</td><td class="ref">1,0–4,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu mono (MONO%)</td><td class="num">9,0</td><td>%</td><td class="ref">2–10</td></tr><tr class=""><td>Số lượng bạch cầu mono (MONO#)</td><td class="num">0,65</td><td>G/L</td><td class="ref">0,2–1,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa acid (EOS%)</td><td class="num">5,0</td><td>%</td><td class="ref">0–7</td></tr><tr class=""><td>Số lượng bạch cầu ưa acid (EOS#)</td><td class="num">0,36</td><td>G/L</td><td class="ref">0–0,5</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa base (BASO%)</td><td class="num">0,0</td><td>%</td><td class="ref">0–1</td></tr><tr class=""><td>Số lượng bạch cầu ưa base (BASO#)</td><td class="num">0,0</td><td>G/L</td><td class="ref">0–0,1</td></tr><tr class=""><td>Số lượng hồng cầu (RBC)</td><td class="num">4,9</td><td>T/L</td><td class="ref">4,2–5,4</td></tr><tr class=""><td>Lượng huyết sắc tố (HGB)</td><td class="num">148</td><td>g/L</td><td class="ref">130–170</td></tr><tr class=""><td>Thể tích khối hồng cầu (HCT)</td><td class="num">0,44</td><td>L/L</td><td class="ref">0,4–0,5</td></tr><tr class=""><td>Thể tích trung bình hồng cầu (MCV)</td><td class="num">89,8</td><td>fL</td><td class="ref">80–100</td></tr><tr class=""><td>Lượng HST trung bình hồng cầu (MCH)</td><td class="num">30,2</td><td>pg</td><td class="ref">27–32</td></tr><tr class=""><td>Nồng độ HST trung bình hồng cầu (MCHC)</td><td class="num">336</td><td>g/L</td><td class="ref">320–360</td></tr><tr class=""><td>Dải phân bố kích thước hồng cầu (RDW-CV)</td><td class="num">13,1</td><td>%</td><td class="ref">11,5–14,5</td></tr><tr class=""><td>Số lượng tiểu cầu (PLT)</td><td class="num">262</td><td>G/L</td><td class="ref">150–400</td></tr></tbody></table><p class="why">Không tăng bạch cầu trung tính, không gợi ý nhiễm khuẩn. Hb 148 g/L loại đa hồng cầu (ESC 2024 Bảng 8).</p></div><div class="row"><div class="rh"><b>Tổng phân tích nước tiểu</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Không protein · Không glucose · Không hồng cầu · Không bạch cầu</p></div><div class="row"><div class="rh"><b>Tỷ số albumin/creatinin niệu (UACR)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> 14 mg/g</p><p class="why">Dưới 30 mg/g: chưa có albumin niệu (VSH/VNHA 2024 Bảng 11); xét nghiệm nền theo ESC 2024 Bảng 8.</p></div><div class="row"><div class="rh"><b>AST, ALT</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> AST 28 · ALT 36 U/L</p><p class="why">QĐ 5904 Phần 1 Bước 2 mục 8 (SGOT/SGPT).</p></div><div class="row"><div class="rh"><b>Acid uric máu</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> 402 µmol/L</p><p class="why">QĐ 5904 Phần 1 Bước 2 mục 7.</p></div><div class="row"><div class="rh"><b>Siêu âm tim</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Thất trái không dày (IVSd 10 mm, LVM/BSA 98 g/m²), EF 66%, van tim bình thường.</p><p class="why">Không bắt buộc: ECG không dày thất, khám tim bình thường (ESC 2024 Bảng khuyến cáo 9). LVM/BSA ≤ 115 g/m² ở nam là bình thường (VSH/VNHA 2024 Bảng 11).</p></div><div class="row"><div class="rh"><b>Đo HA lưu động 24 giờ</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> HA trung bình 24 giờ 146/92 mmHg; ban ngày 150/95; ban đêm 133/82 mmHg (giảm 11% so với ban ngày).</p><p class="why">Chấp nhận thay cho HA nhà: 24 giờ ≥ 130/80 mmHg là THA (VSH/VNHA 2024 Đ1.1). Đo trong 24 giờ sau liều cuối pseudoephedrin nên chưa loại được phần HA tăng do thuốc.</p></div><div class="row"><div class="rh"><b>TSH, FT4</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> TSH 1,9 mIU/L</p><p class="why">ESC 2024 Bảng 8 xếp TSH là xét nghiệm nền; QĐ 5904 Phần 1 Bước 2 không liệt kê. Làm hay không đều không trừ điểm.</p></div><div class="row"><div class="rh"><b>Aldosteron, renin huyết tương (tỷ ARR)</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Aldosteron 9 ng/dL · Hoạt tính renin 1,8 ng/mL/giờ · ARR 5,0 (dưới ngưỡng sàng lọc)</p><p class="why">ESC 2024 Bảng khuyến cáo 13 (IIa): cân nhắc cho người THA; AHA/ACC 2025 mục 3.2.3.1: bắt buộc khi kháng trị, hạ kali. Không có gợi ý nên không bắt buộc (sổ mâu thuẫn: chấm a).</p></div><div class="row"><div class="rh"><b>X-quang xoang (tư thế Blondeau, Hirtz)</b><span class="tag t-r">Không cần</span></div><p class="why">Cơ sở không có X-quang, và cũng không cần: không chụp hình ảnh khi chưa nghi biến chứng (AAO-HNSF 2015 Statement 1B).</p></div><div class="row"><div class="rh"><b>CT mũi xoang</b><span class="tag t-r">Không cần</span></div><p class="why">Không có chỉ định: không có triệu chứng biến chứng, không mủ, không đau mặt (AAO-HNSF 2015 Statement 1B).</p></div><div class="row"><div class="rh"><b>CRP</b><span class="tag t-r">Không cần</span></div><p class="why">Không sốt, không mủ: CRP không đổi xử trí (EPOS 2020 mục 4.6.3.3.2).</p></div><div class="row"><div class="rh"><b>Test lẩy da (prick test) với dị nguyên</b><span class="tag t-r">Không cần</span></div><p class="why">Viêm mũi dị ứng chẩn đoán chủ yếu bằng lâm sàng; test dị ứng chưa cần ở lượt này (QĐ 5643/2015 Viêm mũi xoang dị ứng mục 3.1.2–3.1.3).</p></div><div class="row"><div class="rh"><b>Đa ký giấc ngủ (polysomnography) hoặc máy đo ngưng thở khi ngủ tại nhà</b><span class="tag t-r">Không cần</span></div><p class="why">Ngáy nhẹ, không ngưng thở chứng kiến, không buồn ngủ ban ngày: chưa có chỉ định (VSH/VNHA 2024 Bảng 9: triệu chứng gợi ý ngưng thở khi ngủ).</p></div><div class="row"><div class="rh"><b>Siêu âm bụng (gan, thận, thượng thận)</b><span class="tag t-r">Không cần</span></div><p class="why">Không có gợi ý THA thận: creatinin, UACR, nước tiểu bình thường (VSH/VNHA 2024 Bảng 9).</p></div><div class="row"><div class="rh"><b>Siêu âm Doppler động mạch thận</b><span class="tag t-r">Không cần</span></div><p class="why">Không có gợi ý hẹp động mạch thận (VSH/VNHA 2024 Bảng 9).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Tăng huyết áp độ 2 (HA 163/104 mmHg), nghi nguyên phát, chưa điều trị, đang bị viên thuốc chứa pseudoephedrin làm tăng thêm; cần xác nhận bằng HA ngoài phòng khám</b></div><p class="why">HA phòng khám đúng quy trình 160–179/100–109 là độ 2 (QĐ 5904 Phần 1 Bước 3A); trước khi dùng thuốc đã có 146/92 mmHg hai năm trước; bố bị THA, đột quỵ; béo bụng. Không có chỉ điểm thứ phát. Số đo hôm nay bị nhiễu bởi thuốc nên xác nhận ngoài phòng khám (ESC 2024 Bảng khuyến cáo 6; VSH/VNHA 2024 Đ1.1).</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Viêm mũi dị ứng</b></div><p class="why">Hắt hơi từng tràng, ngứa mũi, chảy nước trong, cuốn mũi phù nề, nhợt màu, tiền sử hay hắt hơi khi đổi thời tiết (QĐ 5643/2015 Viêm mũi xoang dị ứng mục 3.1.2). Không phải viêm xoang.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tăng huyết áp thứ phát</b></div><p class="why">Không có chỉ điểm ở VSH/VNHA 2024 Bảng 9 (khởi phát &lt; 40 tuổi, hạ kali, kháng trị, cơn vã mồ hôi–đau đầu, âm thổi bụng, ngưng thở khi ngủ rõ): K 4,1 mmol/L, creatinin và UACR bình thường, ARR 5,0 nếu làm. Nghĩ lại nếu HA kháng trị hoặc hạ kali.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Cơn tăng huyết áp cấp cứu</b></div><p class="why">HA &lt; 180/110 mmHg và không có tổn thương cơ quan đích cấp (không đau ngực, không dấu thần kinh, đáy mắt không xuất huyết, creatinin bình thường): ESC 2024 mục 10.1.1; QĐ 5904 Phần 3 mục D.1.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm mũi xoang cấp do vi khuẩn</b></div><p class="why">Cần dịch mủ kèm nghẹt mũi hoặc đau mặt kéo dài ≥ 10 ngày, hoặc xấu đi hai pha (AAO-HNSF 2015 Statement 1A); QĐ 5643/2015 Viêm mũi xoang cấp mục 3.2.1 cũng dựa vào mủ trong hốc mũi. Ở đây dịch trong, không đau mặt, không sốt, khe giữa không mủ.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm mũi xoang mạn tính</b></div><p class="why">Triệu chứng mới 3 tuần, chưa tới 12 tuần; không mủ ở khe giữa, không đau mặt, không giảm ngửi (QĐ 5643/2015 Viêm mũi xoang mạn tính mục 1, 3.1.1). AAO-HNSF 2015 Statement 7B: phải có bằng chứng viêm khách quan (soi mũi, nội soi hoặc CT) mới chẩn đoán, tránh chẩn đoán quá mức chỉ dựa vào triệu chứng tự kể.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>THA áo choàng trắng</b></div><p class="why">Cần HA ngoài phòng khám để loại trừ (QĐ 5904 Phụ lục 1.2; VSH/VNHA 2024 Đ1.1). Ba lần đo ở ba thời điểm khác nhau đều ≥ 140/90 mmHg làm khả năng này thấp.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Đau đầu căng thẳng do thiếu ngủ, cà phê, stress</b></div><p class="why">Nặng đầu hai bên, tăng khi căng thẳng, không cờ đỏ. Mối liên quan giữa đau đầu này và mức HA hiện tại không có trong tài liệu đã tải; không nên quy cho THA hay cho xoang mà bỏ qua.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi và đọc vỉ thuốc dị ứng; ngưng ngay viên chứa pseudoephedrin, giải thích nó làm huyết áp cao thêm</b></div><p class="why">Thuốc thông mũi (phenylephrin, pseudoephedrin): dùng ngắn nhất có thể và tránh khi THA nặng hoặc chưa kiểm soát (AHA/ACC 2025 Bảng 11); thuốc thông mũi làm HA tăng kéo dài, tùy liều (ESH 2023 mục 12.2, Bảng 20); AAO-HNSF 2015 (mục Contraindications): thuốc thông mũi uống cân nhắc trừ khi có chống chỉ định như tăng huyết áp; ARIA 2010 (nêu lại trong ARIA 2024–2025 Phần II, Bảng 5): không dùng đều thuốc thông mũi uống trong viêm mũi dị ứng. Các nguồn không mâu thuẫn nhau với người đang THA.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không kê kháng sinh; giải thích đây là viêm mũi dị ứng, không đủ tiêu chuẩn viêm xoang vi khuẩn; nói rõ lợi ích và tác hại của kháng sinh</b></div><p class="why">Viêm xoang vi khuẩn cần dịch mủ kèm nghẹt mũi hoặc đau mặt ≥ 10 ngày, hoặc xấu đi hai pha (AAO-HNSF 2015 Statement 1A); soi mũi không mủ (QĐ 5643/2015 Viêm mũi xoang cấp mục 3.2.1). Kháng sinh không có lợi cho viêm xoang sau virus ở người lớn (EPOS 2020 mục 4.6.3.3.2); tác dụng phụ kháng sinh gặp 15–40% (AAO-HNSF 2015, Potential Harms). Đã uống đủ 7 ngày mà mũi không đổi.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Thay bằng rửa mũi nước muối sinh lý và xịt mũi corticosteroid</b></div><p class="why">Thay thuốc thông mũi bằng nước muối, corticosteroid tại mũi, kháng histamin (AHA/ACC 2025 Bảng 11); điều trị viêm mũi dị ứng gồm kháng histamin uống và xịt mũi corticosteroid (QĐ 5643/2015 Viêm mũi xoang dị ứng mục 4.3.2); ARIA 2024–2025 Phần II khuyên corticosteroid xịt mũi hơn kháng histamin uống; AAO-HNSF 2015 Statement 2. Liều không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Xác nhận THA ngoài phòng khám trước khi khởi thuốc: tự đo HA tại nhà bằng máy bắp tay sau khi ngưng viên thông mũi, mang sổ khi tái khám sau 1 tuần; chưa kê thuốc hạ áp hôm nay; không quá 1 tháng</b></div><p class="why">Số đo hôm nay bị nhiễu bởi thuốc co mạch. HA 160–179/100–109 mmHg cần xác nhận sớm (ví dụ trong 1 tháng), ưu tiên HA nhà hoặc lưu động (ESC 2024 Bảng khuyến cáo 6); HA nhà ≥ 135/85 mmHg là THA, đo sáng tối ít nhất 3 ngày, lý tưởng 7 ngày, mỗi lần 2 lượt cách 1–2 phút (VSH/VNHA 2024 Đ1.1, Hình 10, Bảng 8); QĐ 5904 Phụ lục 1.2. Mốc 1 tuần là lựa chọn của ca (sổ mâu thuẫn, ca MT-0756).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Khởi phối hợp 2 thuốc hạ áp ngay hôm nay (perindopril 5 mg + amlodipin 5 mg)</b></div><p class="why">Chấp nhận: THA độ 2 bắt đầu từ phối hợp 2 thuốc (QĐ 5904 Phần 1 Bước 5 mục C; VSH/VNHA 2024 Bảng 4, I-A: THA đã xác nhận ≥ 140/90 mmHg thì khởi ngay). Ca coi xác nhận trước là c, khởi ngay là a vì số đo hôm nay bị nhiễu bởi pseudoephedrin và chưa có HA ngoài phòng khám; có HA 146/92 mmHg hai năm trước nên nếu chọn khởi ngay vẫn hợp lý.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Làm xét nghiệm nền: glucose, mỡ máu, creatinin, điện giải, nước tiểu, ECG</b></div><p class="why">Lần đầu phát hiện THA cần khám toàn diện và làm xét nghiệm cơ bản, hoàn thành trong 3 tháng đầu (QĐ 5904 Phần 1 Bước 2); ESC 2024 Bảng 8 và Bảng khuyến cáo 9 (ECG cho mọi người THA, I-B). Làm hôm nay vì cơ sở làm được và cần creatinin, kali trước khi dùng ức chế men chuyển (QĐ 5904 Phần 3 mục G).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi vì sao anh muốn kháng sinh, nhận phần anh đúng (mũi có viêm thật), nói không mỉa mai về việc tra mạng và về đơn thuốc cũ</b></div><p class="why">Giữ lòng tin và hợp tác lâu dài để anh chịu đo HA và tái khám. Lời mẫu có trong phiếu nhận xét. Hành vi giao tiếp, không cần nguồn.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Tư vấn lối sống theo nghề: giảm muối còn dưới 5 g/ngày (suất cơm văn phòng), giảm cà phê, vận động, giảm cân và vòng eo, ngủ đủ</b></div><p class="why">Natri khoảng 2 g/ngày tương đương khoảng 5 g muối (ESC 2024 Bảng khuyến cáo 15, I-A); cơm suất văn phòng có 5,15 g muối (QĐ 5904 Phụ lục 3.2); vận động ≥ 150 phút/tuần, vòng bụng &lt; 90 cm ở nam (QĐ 5904 Phần 1 mục D.1) hoặc &lt; 94 cm (ESC 2024 Bảng khuyến cáo 15); cà phê dưới 300 mg/ngày (AHA/ACC 2025 Bảng 11). Anh vượt cả hai ngưỡng vòng eo nên không cần chọn.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn tái khám sau 1 tuần với sổ HA tại nhà; nếu HA nhà ≥ 135/85 mmHg thì khởi perindopril + amlodipin, kiểm tra kali, creatinin sau 2–4 tuần</b></div><p class="why">QĐ 5904 Phần 1 mục C: bắt đầu bước 1–2, tái khám sau 4 tuần; VSH/VNHA 2024 Đ4.1: tái khám 2–4 tuần/lần trong 2–3 tháng đầu; AHA/ACC 2025 mục 5.2.8–5.2.9: điện giải và eGFR 2–4 tuần sau khi bắt đầu ức chế men chuyển. Nếu HA tâm thu &lt; 110 mmHg trong 2 lần khám thì chuyển phác đồ nhẹ hơn (QĐ 5904 Phần 1 mục C).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn dấu hiệu phải quay lại ngay: đau ngực, khó thở, đau đầu dữ dội đột ngột, nhìn mờ, yếu tê, nói khó</b></div><p class="why">QĐ 5904 Phần 3 mục D.1 (đau thắt ngực, đau đầu dữ dội, nhìn mờ, dấu thần kinh khu trú, suy tim); ESC 2024 mục 10.1.1.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê tiếp kháng sinh dài 2–3 tuần theo bài trên mạng &#x27;viêm xoang mạn&#x27;</b></div><p class="why">Viêm xoang mạn cần triệu chứng trên 12 tuần và bằng chứng viêm khách quan (QĐ 5643/2015 Viêm mũi xoang mạn tính mục 1, 3.1.1; AAO-HNSF 2015 Statement 7B); anh mới 3 tuần, không mủ. Mục kháng sinh 2–3 tuần của QĐ 5643 (mục 4.3.1) chỉ áp dụng khi đã chẩn đoán đúng viêm xoang mạn, khác EPOS 2020 (sổ mâu thuẫn: kháng sinh trong viêm xoang mạn).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Đổi sang kháng sinh mạnh hơn (quinolon) vì &#x27;đợt trước không khỏi&#x27;</b></div><p class="why">Không có nhiễm khuẩn; tác dụng phụ nặng của fluoroquinolon thường lớn hơn lợi ích ở viêm xoang (AAO-HNSF 2015, kèm cảnh báo FDA 12/5/2016; sổ mâu thuẫn mục quinolon cho viêm xoang).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Cho tiếp viên dị ứng có pseudoephedrin vì &#x27;anh thấy thông mũi&#x27;</b></div><p class="why">AHA/ACC 2025 Bảng 11: tránh thuốc thông mũi khi THA chưa kiểm soát; ESH 2023 Bảng 20.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Chụp X-quang, CT xoang hoặc chuyển tuyến để &#x27;xác định xoang&#x27;</b></div><p class="why">Không chụp hình ảnh khi chưa nghi biến chứng (AAO-HNSF 2015 Statement 1B); cơ sở không có X-quang.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Coi HA 163/104 mmHg là do đau đầu và lo lắng, không đo lại, không dặn</b></div><p class="why">HA ≥ 160/100 mmHg cần xác nhận sớm (ESC 2024 Bảng khuyến cáo 6); HA phòng khám ≥ 140/90 mmHg kèm HA ngoài phòng khám cao mới là THA, ngược lại là áo choàng trắng (QĐ 5904 Phụ lục 1.2). Bỏ qua con số này là điểm mấu chốt của lượt khám trước.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Chỉ thay đổi lối sống 3 tháng rồi mới đo lại HA, không đo HA nhà</b></div><p class="why">THA độ 2 không được chờ 3 tháng không xác nhận; xác nhận trong khoảng 1 tháng (ESC 2024 Bảng khuyến cáo 6); VSH/VNHA 2024 Bảng 4 (I-A) khuyên khởi thuốc ngay khi đã xác nhận.</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Cho nifedipin tác dụng nhanh uống hoặc ngậm dưới lưỡi để hạ áp ngay</b></div><p class="why">QĐ 5904 Phần 3 mục D.1: tránh nifedipin tác dụng nhanh vì hạ HA mạnh, khó kiểm soát. HA 163/104 mmHg không cần hạ nhanh (AHA/ACC 2025 mục 6.2).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Nhập viện hoặc chuyển cấp cứu điều trị cơn tăng huyết áp</b></div><p class="why">Không đủ tiêu chuẩn: HA &lt; 180/110 mmHg, không tổn thương cơ quan đích cấp (ESC 2024 mục 10.1.1; QĐ 5904 Phần 3 mục D.1).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Anh Nghĩa bị giữ lại nhập viện &#x27;để hạ huyết áp&#x27; dù HA 163/104 mmHg, không đau ngực, không dấu thần kinh, không tổn thương cơ quan đích cấp: chưa đủ tiêu chuẩn cấp cứu hay nhập viện (QĐ 5904 Phần 3 mục D.1; ESC 2024 mục 10.1.1). Anh mất vài ngày công đúng đợt chốt sổ, tốn viện phí, bị hạ áp bằng thuốc khi con số còn bị nhiễu bởi viên thông mũi, và vẫn mang viên thuốc đó về nhà vì không ai nhắc.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển cấp cứu</span></div><p>Anh Nghĩa được chuyển cấp cứu như một cơn tăng huyết áp. HA 163/104 mmHg dưới 180/110 và không có tổn thương cơ quan đích cấp nên không phải cấp cứu (ESC 2024 mục 10.1.1; AHA/ACC 2025 mục 6.2: không hạ áp mạnh, không dùng thuốc tiêm khi chưa có tổn thương cấp). Anh tốn một đêm ở cấp cứu, lo sợ hơn, và ra về vẫn chưa ai nói tới viên thuốc dị ứng chứa pseudoephedrin.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Anh Nghĩa được gửi lên tuyến trên khám tai mũi họng để chụp CT xoang vì &#x27;viêm xoang mạn&#x27;. Anh chưa đủ tiêu chuẩn chẩn đoán xoang: triệu chứng chưa tới 12 tuần, không có mủ, không đau mặt (QĐ 5643/2015 Viêm mũi xoang mạn tính mục 1, 3.1.1; AAO-HNSF 2015 Statement 1B không chụp hình ảnh khi chưa nghi biến chứng). Anh tốn tiền và ngày công, bị chiếu tia không cần, huyết áp vẫn không ai đo lại và điều trị.</p></div><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Anh Nghĩa được giữ lại phòng khám cả buổi, cho thuốc hạ áp tác dụng nhanh &#x27;cho xuống ngay&#x27;. THA mức này không cần hạ nhanh; thuốc nifedipin tác dụng nhanh uống hoặc ngậm dưới lưỡi nên tránh vì hạ áp mạnh, khó kiểm soát (QĐ 5904 Phần 3 mục D.1). Anh có nguy cơ chóng mặt, tụt áp, rồi vẫn về nhà với viên thông mũi và chưa biết HA thật của mình ở nhà.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Tăng huyết áp độ 2 mới phát hiện, HA phòng khám 163/104 mmHg, nghi nguyên phát; cần xác nhận bằng HA ngoài phòng khám</li><li>Yếu tố làm tăng HA thêm: viên thuốc dị ứng chứa pseudoephedrin tự mua, thiếu ngủ, cà phê, ăn mặn, stress công việc</li><li>Yếu tố nguy cơ tim mạch kèm: thừa cân (BMI 27,6), vòng eo 96 cm, rối loạn glucose đói và HbA1c 5,7%, LDL-C 3,5 mmol/L, bố bị THA và đột quỵ</li><li>Chưa có tổn thương cơ quan đích: ECG không dày thất, siêu âm tim bình thường, creatinin và UACR bình thường</li><li>Viêm mũi dị ứng; không phải viêm mũi xoang vi khuẩn hay mạn tính</li><li>Không phải cơn THA cấp cứu; chưa có chỉ điểm THA thứ phát</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Bẫy của ca là sai lầm người đi trước kèm tự tra mạng. Anh đến với nhãn &#x27;viêm xoang&#x27;; trên đơn cũ có HA 156/98 mmHg bị gạt đi vì &#x27;đau đầu, lo lắng&#x27; (HA phòng khám ≥ 140/90 mmHg là điều cần xác nhận, không bỏ qua: QĐ 5904 Phụ lục 1.2), và viên thuốc dị ứng trong đơn chứa pseudoephedrin. Nhìn lướt chỉ thấy chuyện mũi; HA và vỉ thuốc chỉ lộ ra khi hỏi thuốc tự mua và đọc đơn.</li><li>Vì sao không phải viêm xoang vi khuẩn: cần dịch mủ kèm nghẹt mũi hoặc đau mặt ≥ 10 ngày, hoặc xấu đi hai pha (AAO-HNSF 2015 Statement 1A); anh chảy nước trong, không đau mặt, không sốt, khe giữa không mủ. Vì sao không phải xoang mạn: mới 3 tuần, chưa tới 12 tuần (QĐ 5643/2015 Viêm mũi xoang mạn tính mục 1); chẩn đoán xoang mạn cần bằng chứng viêm khách quan (AAO-HNSF 2015 Statement 7B).</li><li>Vì sao là viêm mũi dị ứng: hắt hơi từng tràng, ngứa mũi, nước mũi trong, cuốn dưới phù nề, nhợt màu, hay hắt hơi khi đổi thời tiết (QĐ 5643/2015 Viêm mũi xoang dị ứng mục 3.1.2). Anh nói đúng một nửa: mũi anh có viêm thật, chỉ khác tên và cách chữa.</li><li>Vì sao là THA độ 2: HA phòng khám đo đúng quy trình trung bình 163/104 mmHg, độ 2 là 160–179 và/hoặc 100–109 mmHg (QĐ 5904 Phần 1 Bước 3A; Phụ lục 1.1). Số đo hôm nay bị nhiễu bởi pseudoephedrin (ESH 2023 Bảng 20), nhưng trước khi dùng thuốc đã có 146/92 mmHg hai năm trước, cộng bố bị THA, thừa cân, ăn mặn: nghiêng về THA nguyên phát. Cần HA tại nhà ≥ 135/85 mmHg hoặc 24 giờ ≥ 130/80 mmHg để xác nhận (VSH/VNHA 2024 Đ1.1; QĐ 5904 Phụ lục 1.2).</li><li>Vì sao chưa nghĩ THA thứ phát: tuổi khởi phát trên 40, K 4,1 mmol/L, creatinin, UACR bình thường, không cơn vã mồ hôi–đau đầu, không âm thổi bụng, không ngưng thở khi ngủ rõ (VSH/VNHA 2024 Bảng 9). Nghĩ lại nếu kháng trị hoặc hạ kali.</li><li>Vì sao không phải cấp cứu: HA &lt; 180/110 mmHg, không đau ngực, không dấu thần kinh, đáy mắt và creatinin bình thường (ESC 2024 mục 10.1.1; QĐ 5904 Phần 3 mục D.1).</li><li>Không X-quang: không ảnh hưởng quyết định, vì hình ảnh xoang không cần khi chưa nghi biến chứng (AAO-HNSF 2015 Statement 1B).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Gỡ nguyên nhân trước: ngưng ngay viên chứa pseudoephedrin (AHA/ACC 2025 Bảng 11; ESH 2023 Bảng 20). Nói với anh rằng đây không phải lỗi của anh: viên thuốc có trên đơn cũ và nhiều người coi là &#x27;thuốc dị ứng&#x27;. Không nói ai sai; chỉ nêu việc cần làm lúc này.</li><li>Không kê kháng sinh và không để anh về tay không: nước muối rửa mũi, xịt mũi corticosteroid cho viêm mũi dị ứng (QĐ 5643/2015 Viêm mũi xoang dị ứng mục 4.3.2; AAO-HNSF 2015 Statement 2; ARIA 2024–2025 Phần II). Lời mẫu: &#x27;Anh nói đúng là mũi anh đang viêm, nhưng viêm do dị ứng nên kháng sinh không tác dụng, chỉ thêm tiêu chảy. Tôi sẽ làm hai việc cho anh bớt nghẹt mũi mà không làm tăng huyết áp.&#x27; (cách nói: nhận phần đúng).</li><li>Huyết áp: xác nhận ngoài phòng khám trước khi khởi thuốc vì số đo bị nhiễu (ESC 2024 Bảng khuyến cáo 6: trong vòng 1 tháng, ưu tiên HA nhà; VSH/VNHA 2024 Hình 10: đo sáng tối, ít nhất 3 ngày, lý tưởng 7 ngày). Hẹn 1 tuần để không chậm. Khởi 2 thuốc ngay cũng đúng (QĐ 5904 Phần 1 mục C: THA độ 2 bắt đầu từ bước 2; VSH/VNHA 2024 Bảng 4, I-A); hai cách khác nhau ở tốc độ khởi thuốc, nguồn nào cũng không nói cách kia gây hại.</li><li>Thuốc dự kiến nếu HA nhà vẫn cao: perindopril 5 mg + amlodipin 5 mg, ưu tiên viên phối hợp cố định, uống 1 lần/ngày (QĐ 5904 Phần 1 mục C; Phần 3 mục G); ESC 2024 Bảng khuyến cáo 16 (I-B) khuyên phối hợp ức chế men chuyển hoặc chẹn thụ thể với chẹn kênh canxi hoặc lợi tiểu. Mục tiêu HA tâm thu 120 đến dưới 130 mmHg, tâm trương 70 đến dưới 80 mmHg ở người dưới 65 tuổi (QĐ 5904 Phần 1 Bước 5 mục A.2), hoặc dưới 130/80 mmHg nếu dung nạp (VSH/VNHA 2024 Bảng 4); đạt trong 1–3 tháng.</li><li>Lối sống cụ thể theo nghề: suất cơm văn phòng đã có khoảng 5 g muối (QĐ 5904 Phụ lục 3.2) nên chỉ nên ăn một nửa phần canh, bỏ chấm nước mắm; cà phê dưới 300 mg/ngày, tức khoảng 2 ly (AHA/ACC 2025 Bảng 11); vận động ≥ 150 phút/tuần (QĐ 5904 Phần 1 mục D.1e); bia ≤ 2 cốc/ngày (QĐ 5904 Phần 1 mục D.1c); ngủ đủ, tránh căng thẳng (QĐ 5904 Phần 1 mục D.1f).</li><li>Xét nghiệm nền làm hôm nay vì cơ sở làm được (QĐ 5904 Phần 1 Bước 2; ESC 2024 Bảng 8): glucose đói 5,8 mmol/L và HbA1c 5,7% là tiền đái tháo đường (QĐ 5904 Phần 2 Bước 3B), LDL-C 3,5 mmol/L. Chưa có chỉ định thuốc hạ mỡ hay hạ đường; nhắc lại sau khi đổi lối sống. Tài liệu đã tải không có công cụ tính nguy cơ PREVENT.</li><li>Không nên làm: nifedipin tác dụng nhanh (QĐ 5904 Phần 3 mục D.1), chuyển cấp cứu, nhập viện, chụp xoang, kháng sinh. Đau đầu: tránh NSAID toàn thân, nếu cần dùng paracetamol (AHA/ACC 2025 Bảng 11).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Natri clorid 0,9% rửa hoặc xịt mũi</b><div class="sub">0,9%</div></td><td data-l="Liều">Rửa hoặc xịt mỗi bên mũi, ngày 2 lần và khi nghẹt mũi; số lần cụ thể không có trong tài liệu đã tải, đây là lựa chọn của ca<div class="sub">Nhỏ, xịt hoặc rửa mũi · Sáng, tối và khi nghẹt mũi</div></td><td data-l="Thời gian">Dùng đến khi hết nghẹt mũi</td><td class="gc" data-l="Ghi chú">Thay thuốc thông mũi (AHA/ACC 2025 Bảng 11); giảm triệu chứng viêm mũi (AAO-HNSF 2015 Statement 2; QĐ 5643/2015 Viêm mũi xoang mạn tính mục 4.3.1 có rửa mũi bằng nước muối sinh lý).</td></tr><tr><td><b>Corticosteroid xịt mũi (fluticason hoặc budesonid, tùy loại có sẵn)</b><div class="sub">Theo nhãn thuốc; hàm lượng và liều không có trong tài liệu đã tải</div></td><td data-l="Liều">Theo nhãn thuốc, đều mỗi ngày; số nhát không có trong tài liệu đã tải<div class="sub">Xịt mũi · Buổi sáng, sau khi rửa mũi</div></td><td data-l="Thời gian">Dùng đều 2–4 tuần rồi đánh giá lại tại lần tái khám (mốc đánh giá lại là lựa chọn của ca)</td><td class="gc" data-l="Ghi chú">QĐ 5643/2015 Viêm mũi xoang dị ứng mục 4.3.2; ARIA 2024–2025 Phần II khuyên corticosteroid xịt mũi hơn kháng histamin uống; Phần I Bảng 1: fluticason hiệu quả nhất, nơi nguồn lực hạn chế có thể dùng loại khác như budesonid (có trong danh mục thuốc thiết yếu của WHO).</td></tr><tr><td><b>Paracetamol</b><div class="sub">Viên 500 mg</div></td><td data-l="Liều">1 viên mỗi lần khi đau đầu, cách nhau ít nhất 6 giờ, tối đa 4 viên (2 g) mỗi ngày<div class="sub">Uống · Khi đau, sau ăn</div></td><td data-l="Thời gian">Ngắn ngày, khi cần</td><td class="gc" data-l="Ghi chú">AHA/ACC 2025 Bảng 11: tránh NSAID toàn thân; paracetamol dưới 4 g/ngày. Tối đa 2 g/ngày ở ca này là mức thận trọng hơn do ca chọn.</td></tr><tr><td><b>Perindopril + amlodipin (dự kiến, chưa kê hôm nay)</b><div class="sub">Perindopril 5 mg; amlodipin 5 mg (có viên phối hợp thì dùng một viên; hàm lượng viên phối hợp tại Việt Nam không có trong tài liệu đã tải)</div></td><td data-l="Liều">Mỗi thuốc 5 mg × 1 lần/ngày, chỉ khi HA nhà ≥ 135/85 mmHg ở lần tái khám sau 1 tuần<div class="sub">Uống · Một giờ cố định mỗi ngày, ví dụ sau bữa sáng</div></td><td data-l="Thời gian">Chưa kê hôm nay; nếu khởi thì dùng lâu dài, tái khám sau 2–4 tuần</td><td class="gc" data-l="Ghi chú">QĐ 5904 Phần 1 mục C (sơ đồ): amlodipin 5 mg, perindopril 5 mg; Phần 3 mục G: perindopril khởi đầu 5 mg, duy trì 5–10 mg, kiểm tra creatinin và kali trước khi dùng, chống chỉ định có thai và tiền sử phù mạch, tác dụng phụ ho, tăng kali; amlodipin khởi đầu 5 mg, duy trì 5–10 mg, tác dụng phụ phù mắt cá, đỏ mặt, đánh trống ngực.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Ngưng hẳn viên thuốc dị ứng có pseudoephedrin. Khi mua thuốc cảm, thuốc nghẹt mũi, hãy hỏi dược sĩ thuốc có &#x27;pseudoephedrin&#x27; hoặc &#x27;phenylephrin&#x27; không và tránh (AHA/ACC 2025 Bảng 11).</li><li>Đo HA tại nhà bằng máy bắp tay: ngồi nghỉ 5 phút, không cà phê hay gắng sức trong 30 phút trước, đo sáng (sau ngủ dậy, trước ăn) và tối, mỗi lần 2 lượt cách 1–2 phút, ít nhất 3 ngày, tốt nhất 7 ngày, ghi sổ mang theo (VSH/VNHA 2024 Hình 10; QĐ 5904 Phụ lục 1.1).</li><li>Giảm muối dưới 5 g/ngày: bỏ chấm nước mắm, chỉ ăn một nửa phần canh của suất cơm văn phòng (QĐ 5904 Phụ lục 3.2); cà phê tối đa 2 ly/ngày (AHA/ACC 2025 Bảng 11).</li><li>Vận động mức vừa ít nhất 150 phút mỗi tuần, ví dụ đi bộ nhanh 30 phút, 5 ngày (QĐ 5904 Phần 1 mục D.1e); giảm cân để vòng eo dưới 90 cm (QĐ 5904 Phần 1 mục D.1b).</li><li>Ngủ đủ, nghỉ giải lao khi chốt sổ (QĐ 5904 Phần 1 mục D.1f).</li><li>Mũi: rửa nước muối sáng tối, xịt thuốc đều mỗi ngày; hắt hơi nhiều thì tránh bụi, giặt chăn ga, tránh chỗ có chất kích thích (QĐ 5643/2015 Viêm mũi xoang dị ứng mục 6).</li><li>Không tự mua thuốc giảm đau nhóm NSAID; đau đầu dùng paracetamol (AHA/ACC 2025 Bảng 11).</li><li>Đến cấp cứu ngay nếu đau ngực, khó thở, đau đầu dữ dội đột ngột, nhìn mờ, yếu hoặc tê nửa người, méo miệng, nói khó (QĐ 5904 Phần 3 mục D.1).</li><li>Tái khám sau 1 tuần, mang sổ HA và vỉ thuốc cũ; đến sớm hơn nếu HA nhà ≥ 180/110 mmHg hoặc có triệu chứng (ESC 2024 mục 10.1.1).</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-8">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Tăng huyết áp nguyên phát (theo dõi)</b></div>
+<p class="note">Phải loại trừ: THA thứ phát, Cơn THA cấp cứu</p><p>Anh Nghĩa ngưng viên thông mũi, đo HA nhà một tuần cho trung bình 148/94 mmHg. Ở lần tái khám anh bắt đầu perindopril + amlodipin, xịt mũi và rửa mũi đều. Sau 2 tháng HA nhà về 126/80 mmHg, đau đầu và nghẹt mũi hết, công việc không bị gián đoạn. Trọng tâm bài học nằm ở quy trình: đọc lại đơn cũ, đo lại huyết áp, nói chuyện với người bệnh.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-9">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Bài viết trên mạng về &#x27;viêm xoang mạn&#x27;: anh hiểu nhầm thời gian và đòi kháng sinh. Phần đúng là mũi có viêm thật (dị ứng), phần sai là gọi tên và cách chữa.</li><li>Đơn thuốc phòng khám trước ghi &#x27;viêm xoang cấp&#x27;: chẩn đoán dựa trên triệu chứng nghẹt mũi, nặng đầu, có thể hợp lý với dữ kiện lúc đó. Cái bị bỏ sót là con số HA 156/98 mmHg và viên thuốc dị ứng chứa pseudoephedrin.</li><li>Kháng sinh đã uống 7 ngày mà mũi không đổi: không phải bằng chứng cần kháng sinh mạnh hơn mà là bằng chứng không phải nhiễm khuẩn (EPOS 2020 mục 4.6.3.3.2).</li><li>Đau đầu hai thái dương, nặng gáy buổi sáng: dễ gán cho xoang; mối liên quan với mức HA này không có trong tài liệu đã tải.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Sai lầm của người đi trước: đừng neo vào nhãn &#x27;viêm xoang&#x27; của đơn cũ. Xây lại từ đầu: hỏi triệu chứng mũi cụ thể (mủ, đau mặt, thời gian), đọc đơn cũ từng dòng, đo lại HA. Nói về đồng nghiệp trung tính: &#x27;đơn cũ viết theo dữ kiện lúc đó; hôm nay mình có thêm một con số cần xem lại&#x27;.</li><li>Chẩn đoán tự tra trên mạng: công nhận phần đúng (mũi có viêm), tách &#x27;viêm mũi&#x27; khỏi &#x27;viêm xoang vi khuẩn&#x27;, không bảo &#x27;đừng tự tra&#x27;. Người thích số liệu dễ nghe khi được giải thích bằng tiêu chuẩn cụ thể.</li><li>Thuốc tự mua là nguồn bỏ sót lớn: hỏi &#x27;thuốc dị ứng, thuốc thông mũi, thuốc cảm&#x27; và xin xem vỉ thuốc. Thuốc thông mũi làm HA tăng tùy liều (ESH 2023 Bảng 20).</li><li>Lý do thật là xin kháng sinh vì sợ ốm kéo dài đúng đợt chốt sổ: hỏi &#x27;điều gì khiến anh lo nhất&#x27;; đáp ứng mối lo (không mất ngày công) thì người bệnh dễ rời yêu cầu kháng sinh.</li><li>Không có X-quang không phải thiếu sót. Quyết định quan trọng hôm nay là HA ngoài phòng khám, không phải hình ảnh xoang.</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Viêm xoang cấp vi khuẩn cần mủ kèm nghẹt mũi hoặc đau mặt ≥ 10 ngày, hoặc xấu đi hai pha (AAO-HNSF 2015 Statement 1A); viêm xoang mạn cần &gt; 12 tuần và bằng chứng viêm khách quan (QĐ 5643/2015; AAO-HNSF 2015 Statement 7B).</li><li>Không chụp hình ảnh xoang khi chưa nghi biến chứng (AAO-HNSF 2015 Statement 1B); kháng sinh không có lợi cho viêm xoang sau virus ở người lớn (EPOS 2020 mục 4.6.3.3.2).</li><li>Thuốc thông mũi tránh khi THA chưa kiểm soát (AHA/ACC 2025 Bảng 11); thay bằng nước muối, corticosteroid xịt mũi hoặc kháng histamin.</li><li>HA phòng khám 160–179/100–109 mmHg: xác nhận sớm, trong vòng 1 tháng, ưu tiên HA nhà (ESC 2024 Bảng khuyến cáo 6); khởi thuốc ngay hoặc sau xác nhận ngắn đều được ghi nhận (QĐ 5904 Phần 1 mục C; VSH/VNHA 2024 Bảng 4).</li><li>Chẩn đoán THA theo VSH/VNHA 2024: HA phòng khám ≥ 140/90, HA nhà ≥ 135/85 hoặc HA 24 giờ ≥ 130/80 mmHg (Đ1.1); AHA/ACC 2025 dùng ngưỡng 130/80 (mục 2.1) nhưng không đổi quyết định ở người này.</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-10">Nguồn tài liệu <small>9</small></h3></summary><ul class=""><li>BYT – QĐ 5904/QĐ-BYT 2019, Quản lý bệnh không lây nhiễm tại trạm y tế xã – TL-0284 – Phần 1 (Bước 1, 2, 3A, 3B; Bước 5 mục A.2, A.5, C – sơ đồ tr. 5, D.1; Phụ lục 1.1, 1.2, 1.3); Phần 2 Bước 3B; Phần 3 mục D.1, G; Phụ lục 3.2.</li><li>VSH/VNHA 2024 – Chiến lược quản lý THA tại Việt Nam – TL-0288 – Bảng 3, 4; Đ1.1; Hình 10; Bảng 8, 9, 11; Đ4.1.</li><li>ESC 2024 Guidelines for elevated BP and hypertension – TL-0305 – Bảng khuyến cáo 6, 9, 13, 15, 16; Bảng 8; mục 10.1.1.</li><li>ESH 2023 Guidelines for arterial hypertension – TL-0312 – mục 12.2, Bảng 20 (thuốc thông mũi).</li><li>2025 AHA/ACC Guideline for High BP in Adults – TL-0297 – Bảng 11; mục 3.2.3.1; 5.2.8; 5.2.9; 6.2.</li><li>AAO-HNSF 2015 Clinical practice guideline (update): adult sinusitis – TL-0157 – Statement 1A, 1B, 2, 7B; mục Potential Harms; mục Contraindications.</li><li>EPOS 2020 European position paper on rhinosinusitis – TL-0087 – mục 4.6.3.3.2.</li><li>BYT – QĐ 5643/QĐ-BYT 2015, Bệnh tai mũi họng – TL-0130 – Viêm mũi xoang cấp tính (mục 3.1.1, 3.1.2, 3.2.1); Viêm mũi xoang mạn tính (mục 1, 3.1.1, 3.1.2, 4.3.1); Viêm mũi xoang dị ứng (mục 3.1.2, 4.3.2, 6).</li><li>ARIA-EAACI 2024–2025 Allergic rhinitis, Phần I (Bảng 1) và Phần II (Bảng 5 – ARIA 2010; thảo luận thuốc xịt mũi và uống) – kho cũ tltk-10000-ca, thư mục 09 Tai mũi họng + Mắt.</li></ul></details>
+<details class="card"><summary><h3 id="m-11">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Bệnh mạn tính người lớn</dd><dt>chan_doan_dich</dt><dd>Tăng huyết áp nguyên phát (theo dõi)</dd><dt>chan_doan_phai_loai_tru</dt><dd>THA thứ phát; Cơn THA cấp cứu</dd><dt>nhom_tuoi</dt><dd>Trung niên (40–59 tuổi)</dd><dt>do_kho</dt><dd>Ca bẫy</dd><dt>loai_bay</dt><dd>Sai lầm của người đi trước</dd><dt>dien_tien_tai_kham</dt><dd>Không áp dụng (ca 1 lượt khám)</dd><dt>nhieu_benh_nhan</dt><dd>Mang chẩn đoán tự tra trên mạng</dd><dt>rang_buoc_nguon_luc</dt><dd>Không có X-quang</dd><dt>loai_ket_cuc</dt><dd>Ổn định, khỏi bệnh</dd><dt>gioi</dt><dd>Nam</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>1</dd><dt>nghe_nghiep</dt><dd>Nhân viên ngân hàng</dd><dt>yeu_to_khoi_phat</dt><dd>Sau stress công việc</dd><dt>thuoc_dang_dung</dt><dd>Thuốc dị ứng tự mua</dd><dt>ly_do_that_su_den_kham</dt><dd>Muốn được kê kháng sinh</dd></dl><ul class=""><li>Bản 1 (2026-11-07): viết mới. Tài liệu đã đọc: TL-0284 (Phần 1–3, sơ đồ mục C và Phụ lục 1.2, 1.3 xem trên PDF), TL-0288 (Bảng 3, 4, 8, 9, 11; Đ1.1; Hình 10; Đ4.1), TL-0305 (Bảng khuyến cáo 6, 9, 15, 16; Bảng 8; mục 10.1.1), TL-0312 (Bảng 20), TL-0297 (Bảng 11; mục 5.2.8, 5.2.9, 6.2), TL-0157, TL-0087 (4.6.3.3.2), TL-0130 (các bài viêm mũi xoang), ARIA-EAACI 2024–2025.</li><li>Sổ mâu thuẫn: ghi theo mục có sẵn &#x27;Khởi thuốc hạ áp ngay hay xác nhận bằng HA ngoài phòng khám trước&#x27; và tiền lệ MT-0756 (số đo bị nhiễu bởi thuốc co mạch: xác nhận trước c, khởi ngay a). Mục &#x27;Kháng sinh trong viêm xoang mạn&#x27; (QĐ 5643 mục 4.3.1 và EPOS) có liên quan nhưng không kích hoạt vì anh chưa đủ tiêu chuẩn viêm xoang mạn. Ngưỡng cấp cứu: QĐ 5904 và ESC đều không bị chạm (HA &lt; 180/110).</li><li>Chỗ không có trong tài liệu đã tải: liều và số nhát corticosteroid xịt mũi, số lần rửa mũi, hàm lượng viên phối hợp perindopril/amlodipin tại Việt Nam, công cụ PREVENT, mối liên quan giữa đau đầu và mức HA này. Liều paracetamol 2 g/ngày và mốc tái khám 1 tuần là lựa chọn của ca. Siêu âm tim làm được nên không khóa nhóm siêu âm; X-quang khóa theo sổ cái.</li><li>Biến sổ cái: ca bẫy – sai lầm của người đi trước (đơn cũ &#x27;viêm xoang cấp&#x27; kèm viên thuốc pseudoephedrin, HA 156/98 mmHg bị bỏ qua); nhiễu = tự tra mạng &#x27;viêm xoang mạn&#x27;; lý do thật = xin kháng sinh; yếu tố khởi phát = stress chốt sổ; không X-quang; kết cục ổn định; không có cờ đỏ; 1 lượt. Điều dưỡng Linh do app lo.</li></ul></details>
+<p class="chan-trang">Ca MT-0103 · phiên bản ca 1 – viết mới (2026-11-07) · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

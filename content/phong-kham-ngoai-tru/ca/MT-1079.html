@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MT-1079 · ĐTĐ biến chứng thần kinh ngoại biên</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · MT-1079</div>
+   <h1>Mỏi chân, tê tê, hay chuột rút</h1>
+   <p class="dich-gia">Đỗ Thị Kim Chi · Nữ · 52 tuổi · 57 kg</p>
+   <div class="chips"><span class="chip">Bệnh mạn tính người lớn</span><span class="chip">Không điển hình</span><span class="chip">2 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Quân nhân chuyên nghiệp (thượng úy), kế toán quân lương ở đơn vị hậu cần</dd><dt>Chiều cao, cân nặng</dt><dd>157 cm · 57 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi chị là &#x27;chị&#x27;. Chị tự xưng &#x27;tôi&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;; khi căng thẳng nói gọn kiểu quân đội (&#x27;báo cáo bác sĩ&#x27;).</dd><dt>Tính cách</dt><dd>Quân nhân chuyên nghiệp 28 năm quân ngũ, nghiêm, gọn, quen chịu đựng và không kêu ca. Tự ái nghề: sợ bị coi là yếu, sợ hồ sơ sức khỏe tới tai chỉ huy hoặc đồng đội. Đi khám ngoài vào ngày nghỉ, không dùng thẻ BHYT quân đội ở bệnh xá đơn vị. Giữ kín chuyện bệnh, kể cả với người nhà. Trả lời ngắn, không than, chỉ mở lòng khi thấy được tôn trọng và được giữ kín.</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Phòng khám không có máy CT và MRI (chụp ở bệnh viện tỉnh, cách 40 km). Có xét nghiệm máu, nước tiểu, điện tim, máy thử đường huyết mao mạch.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/2</span> · khám lần đầu</h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Nữ 52 tuổi, quân nhân chuyên nghiệp, đến khám một mình vào ngày nghỉ vì mỏi chân, tê tê, hay chuột rút; muốn xin thuốc bổ thần kinh. Sinh hiệu lúc tiếp đón: HA 128/80 mmHg, mạch 76 l/p, nhiệt 36,6 °C, nhịp thở 16 l/p, SpO₂ 98%. Cân nặng 57 kg, cao 157 cm.</p>
+  <blockquote>“Chào bác sĩ. Báo cáo, tôi chỉ hơi mỏi chân, tê tê, đêm hay bị chuột rút. Bác sĩ cho tôi ít thuốc bổ thần kinh, vitamin B gì đó là được. Tôi không rảnh lâu đâu.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>76</b><small>l/p</small></div><div class="vs"><span>HA</span><b>128/80</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,6</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>16</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>15 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khai ban đầu (chưa phải lý do thật)</b><span class="tag t-g">Tự kể</span></div><p>Chị Chi chỉ nói mỏi chân, tê tê, đêm hay chuột rút, xin thuốc bổ thần kinh (vitamin B). Đi khám ngoài vào ngày nghỉ, đi một mình, tự trả tiền.</p></div><div class="fact"><div class="fh"><b>Nhiễu: không đủ tiền xét nghiệm (ngân sách khoảng 400.000 đồng, còn tiền thuốc)</b><span class="tag t-g">Tự kể</span></div><p>Chị nói ngay: &quot;Tôi chỉ mang bốn trăm nghìn, còn để dành tiền thuốc và tiền xe&quot;. Thẻ BHYT quân đội đăng ký ở bệnh xá đơn vị nên khám ngoài phải trả tiền. Chị hỏi giá từng xét nghiệm và &quot;làm cái này có đổi cách chữa không?&quot;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khởi phát âm thầm, từ từ, đối xứng hai bàn chân (kiểu mang vớ)</b><span class="tag t-b">Khi được hỏi</span></div><p>Khoảng 10 tháng nay tê gót chân hai bên, nhẹ, nặng dần, lan ra lòng bàn chân, các ngón rồi lên cổ chân; chị tả &quot;như đi trên tất dày, trên bông&quot;. Hai chân như nhau, không đợt nặng lên đột ngột, không tê hai bàn tay.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Triệu chứng sợi nhỏ (nóng rát đêm) bị giấu</b><span class="tag t-r">Giấu</span></div><p>Ba tháng nay đêm nóng rát lòng bàn chân hai bên, thoáng như kiến bò, điện giật, khoảng 6/10, thức giấc 3–4 đêm mỗi tuần; chị phải thò chân ra khỏi chăn hoặc ngâm chân nước lạnh. Ngủ 4–5 giờ.</p><div class="cond">Điều kiện nói ra: Hỏi chung &quot;có đau không&quot; thì chị gạt &quot;không đau, chỉ mỏi thôi&quot;. Chỉ kể khi hỏi cụ thể về ban đêm: nóng rát, kiến bò, điện giật, giấc ngủ.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Mất cảm giác bảo vệ: vấp ngã, vết thương không đau</b><span class="tag t-r">Giấu</span></div><p>Chị hay vấp ngón chân khi lên bậc thềm, phải nhìn xuống chân khi đi trong tối, hai lần suýt ngã lúc tập buổi sáng, có lần tuột dép mà không biết. Ba tuần trước đi chân đất giẫm mảnh sành mà không thấy đau, tối tắm mới thấy vết trầy dưới gót phải; vết đã liền, không sưng, không mủ.</p><div class="cond">Điều kiện nói ra: Chỉ kể khi hỏi về vấp, ngã, đi trong tối, vết thương ở chân, đi chân đất. Hỏi chung &quot;có bị ngã không&quot; thì chị nói &quot;không&quot;.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiền sử đái tháo đường típ 2 6 năm, tự ngưng metformin 8 tháng</b><span class="tag t-r">Giấu</span></div><p>Sáu năm trước khám sức khỏe định kỳ ở đơn vị, chị được báo đường huyết cao, bệnh xá cho metformin 500 mg × 2 lần/ngày. Chị uống đều khoảng bốn năm rồi thưa dần; tám tháng nay hoàn toàn không uống, không đo đường, không tái khám vì không muốn lên bệnh xá lấy thuốc để ai cũng biết. Chị coi tiểu đường là chuyện xấu hổ trong đơn vị.</p><div class="cond">Điều kiện nói ra: Hỏi &quot;có bệnh nền không&quot; thì chị nói &quot;không&quot;. Chỉ kể khi hỏi thẳng về đường huyết, tiểu đường, thuốc uống thường xuyên trước đây; mở lòng hơn nếu bác sĩ cam kết giữ kín bệnh án.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc tự mua (amoxicillin); không dùng thuốc dạ dày (yếu tố nguy cơ thiếu B12)</b><span class="tag t-b">Khi được hỏi</span></div><p>Hai tuần trước chị tự mua amoxicillin 500 mg, uống 3 viên mỗi ngày × 5 ngày vì sợ vết trầy ở gót nhiễm trùng; không sốt, vết không mủ. Tê chân không đỡ, tiêu chảy nhẹ hai ngày rồi hết. Không dị ứng thuốc. Không dùng thuốc dạ dày, thuốc giảm đau, thuốc nam, vitamin B.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Rượu bia (loại trừ bệnh thần kinh do rượu)</b><span class="tag t-b">Khi được hỏi</span></div><p>Chỉ uống ở liên hoan đơn vị, 2–3 lần mỗi tháng, mỗi lần 2–3 chén nhỏ rượu hoặc 1–2 lon bia; không uống một mình. Không hút thuốc.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dinh dưỡng, hấp thu (yếu tố nguy cơ thiếu B12)</b><span class="tag t-b">Khi được hỏi</span></div><p>Ăn cơm bếp ăn tập thể, có thịt, cá, trứng, rau; không ăn chay. Không mổ dạ dày – ruột, không tiêu chảy kéo dài. Cân nặng 5 năm nay ổn định.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Sàng lọc thần kinh tự chủ</b><span class="tag t-b">Khi được hỏi</span></div><p>Không chóng mặt khi đứng dậy, không ngất, đại tiện đều, tiểu bình thường. Không khát nhiều, tiểu nhiều, không sút cân, không sốt.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đau lưng cơ học, không lan: loại trừ chèn ép rễ thắt lưng</b><span class="tag t-b">Khi được hỏi</span></div><p>Hai tuần nay hơi đau ê thắt lưng sau khi khuân thùng hồ sơ, đau khi cúi, hết khi nghỉ. Không lan xuống chân, không tê vùng yên ngựa, không yếu chân, không bí tiểu.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khí sắc và giấc ngủ (cần đánh giá khi có đau thần kinh)</b><span class="tag t-b">Khi được hỏi</span></div><p>Mất ngủ làm chị dễ cáu và buồn ngủ ban ngày, nhưng vẫn làm việc đủ. Không buồn chán kéo dài, không có ý nghĩ tự làm hại mình.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Nghề: giày bốt, tập luyện, lái xe, nỗi sợ xếp loại sức khỏe</b><span class="tag t-b">Khi được hỏi</span></div><p>Ngồi bàn là chính, mỗi sáng tập thể lực khoảng 3 km, đi giày bốt quân dụng cả ngày. Hằng năm có kiểm tra thể lực và khám sức khỏe. Thỉnh thoảng trực đêm và tự lái xe con đi công tác. Chị sợ tê chân làm hỏng kỳ kiểm tra và sợ bị chuyển công tác.</p></div><div class="fact"><div class="fh"><b>gia_dinh</b><span class="tag t-b">Khi được hỏi</span></div><p>Mẹ bị tiểu đường, mất cách đây 8 năm sau khi bị cắt một ngón chân vì nhiễm trùng. Chị đã mãn kinh 2 năm, chưa từng khám mắt.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật: sợ mất chân như mẹ và sợ lộ bệnh với chỉ huy; giấu triệu chứng vì ngại</b><span class="tag t-r">Giấu</span></div><p>Lý do thật chị đi khám ngoài: chị biết chân mình &quot;không còn cảm giác&quot; và nhớ mẹ bị cắt ngón chân; sợ nhiễm trùng rồi mất chân, và sợ chỉ huy biết rồi xếp loại sức khỏe kém, chuyển đi. Chị muốn chữa lặng lẽ, không để lại dấu vết ở bệnh xá.</p><div class="cond">Điều kiện nói ra: Ban đầu chỉ nói &quot;mỏi chân, xin thuốc bổ&quot;. Chỉ nói khi hỏi điều chị lo nhất, vì sao chọn khám ngoài, hoặc sau khi bác sĩ nói rõ bệnh án được giữ kín. Bị hỏi dồn &quot;sao bỏ thuốc?&quot; thì chị im lặng và đòi về.</div></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>10 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, tiếp xúc tốt. Cân nặng 57 kg, cao 157 cm, BMI 23,1. Da niêm hồng, không vàng da, không sao mạch, không phù. Hơi thở không mùi rượu.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đo huyết áp tư thế nằm – đứng</b></div><p><span class="lbl">Kết quả:</span> Nằm 128/80 mmHg, mạch 76 l/p. Đứng 1 phút 126/80, mạch 80 l/p; đứng 3 phút 124/78, mạch 82 l/p. Không chóng mặt. Không hạ huyết áp tư thế.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 76 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 76 l/p, T1, T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Lồng ngực cân đối, rung thanh đều, gõ trong hai bên.</p><p><span class="lbl">Kết quả:</span> Rì rào phế nang êm dịu hai bên, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><span class="key">★</span><b>Mạch ngoại biên, âm thổi động mạch</b></div><p><span class="lbl">Kết quả:</span> Mạch mu chân và mạch chày sau bắt rõ, đều hai bên. Thời gian đổ đầy mao mạch ngón chân dưới 2 giây. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b></div><p><span class="lbl">Kết quả:</span> Không phù. Hai bàn chân ấm, da khô, nứt gót nhẹ hai bên, chai mỏng ở gót; lông mu chân thưa. Không biến dạng, không loét, không nứt kẽ ngón, không đỏ sưng. Dưới gót phải có sẹo nhỏ 3 mm đã liền. Monofilament 10 g (3 vị trí mỗi bàn chân: ngón cái, đầu xương bàn I, đầu xương bàn V; 2 lần thật, 1 lần giả): không cảm nhận được cả 3 vị trí ở hai bàn chân. Sờ nông Ipswich: không cảm nhận 6/6 điểm. Mất cảm giác bảo vệ hai bàn chân.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thần kinh</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, thần kinh sọ bình thường. Phản xạ gân gối còn, hơi giảm hai bên; phản xạ gân gót mất hai bên. Rung âm thoa 128 Hz: mất ở ngón cái hai bên (0/3 lần), còn ở mắt cá trong. Kim châm: cảm giác nhói giảm dần từ cổ chân trở xuống, bắt đầu rõ ở khoảng 8 cm trên mắt cá, hai bên như nhau. Romberg dương tính nhẹ. Không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Sức cơ: gốc chi, ngọn chi, gập cổ, ngồi xổm – đứng dậy</b></div><p><span class="lbl">Kết quả:</span> Sức cơ gốc chi 5/5. Ngọn chi: gập mu bàn chân và duỗi ngón cái 5-/5 hai bên, đi bằng gót hơi khó. Không teo cơ.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Dáng đi, quay người, nghiệm pháp kéo</b></div><p><span class="lbl">Kết quả:</span> Đi thẳng, bước dang rộng hơn bình thường, đặt gót nặng; đi nối gót loạng choạng; quay người ổn. Nghiệm pháp kéo bình thường.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Cơ xương khớp, cột sống</b></div><p><span class="lbl">Kết quả:</span> Cột sống thắt lưng không điểm đau chói, co cứng cơ cạnh sống nhẹ hai bên, cúi gần hết tầm. Lasègue âm tính hai bên. Không tê vùng yên ngựa.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>6 mục</small></h3></summary><div class="row"><div class="rh"><b>Đường huyết mao mạch (máy thử tại giường)</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> 11,8 mmol/L (khoảng 2 giờ sau bữa trưa)</p><p class="why">Xác nhận đường huyết cao sau 8 tháng không dùng thuốc; mục tiêu sau ăn 1–2 giờ &lt; 10 mmol/L (QĐ 5481 Phần 4 Bảng 4). Rẻ (20.000 đồng), có kết quả ngay.</p></div><div class="row"><div class="rh"><b>HbA1c</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> 8,2%</p><p class="why">Mục tiêu &lt; 7% (QĐ 5481 Phần 4 Bảng 4; ADA 2026 KC 6.3a), đang cao hơn 1,2%. Dưới ngưỡng cân nhắc insulin (≥ 9%: QĐ 5481 Phần 4 mục 4.2f; &gt; 10%: ADA 2026 KC 9.20) và cao hơn mục tiêu dưới 1,5% (ADA 2026 mục 9). Đổi quyết định: chọn mức điều trị.</p></div><div class="row"><div class="rh"><b>Ure, creatinin, eGFR</b><span class="tag t-g">Cần làm</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Ure</td><td class="num">4,6</td><td>mmol/L</td><td class="ref">2,5–7,5</td></tr><tr class=""><td>Creatinin</td><td class="num">66</td><td>µmol/L</td><td class="ref">53–100</td></tr><tr class=""><td>eGFR (CKD-EPI 2021)</td><td class="num">98</td><td>mL/ph/1,73m²</td><td class="ref">≥ 90</td></tr></tbody></table><p class="why">Cần để dùng lại metformin (chống chỉ định eGFR &lt; 30: QĐ 5481 PL01 mục 2) và chỉnh liều thuốc giảm đau (QĐ 3510/2025 mục 3.3.3.1); bệnh thận mạn cũng là một nguyên nhân khác (mục 3.2.4).</p></div><div class="row"><div class="rh"><b>Vitamin B12 huyết thanh (cobalamin toàn phần)</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Vitamin B12 480 ng/L (354 pmol/L)</p><p class="why">Có triệu chứng thần kinh ngoại biên (NICE NG239 Hộp 1) và dùng metformin khoảng 4 năm (Hộp 2): khuyến cáo 1.2.5 mời làm xét nghiệm; ADA 2026 mục 3 và Bảng 4.1 khuyên đo B12 định kỳ ở người dùng metformin lâu dài. Trên 350 ng/L (258 pmol/L): khả năng thiếu thấp (NICE NG239 khuyến cáo 1.3.9, Bảng 1).</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-b">Hữu ích</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Số lượng bạch cầu (WBC)</td><td class="num">6,4</td><td>G/L</td><td class="ref">4,0–10,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu trung tính (NEU%)</td><td class="num">58</td><td>%</td><td class="ref">45–75</td></tr><tr class=""><td>Tỷ lệ bạch cầu lympho (LYM%)</td><td class="num">32</td><td>%</td><td class="ref">20–40</td></tr><tr class=""><td>Tỷ lệ bạch cầu mono (MONO%)</td><td class="num">7</td><td>%</td><td class="ref">2–10</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa acid (EOS%)</td><td class="num">2</td><td>%</td><td class="ref">0–7</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa base (BASO%)</td><td class="num">1</td><td>%</td><td class="ref">0–1</td></tr><tr class=""><td>Số lượng hồng cầu (RBC)</td><td class="num">4,31</td><td>T/L</td><td class="ref">3,8–4,8</td></tr><tr class=""><td>Lượng huyết sắc tố (HGB)</td><td class="num">129</td><td>g/L</td><td class="ref">120–150</td></tr><tr class=""><td>Thể tích khối hồng cầu (HCT)</td><td class="num">0,395</td><td>L/L</td><td class="ref">0,36–0,46</td></tr><tr class=""><td>Thể tích trung bình hồng cầu (MCV)</td><td class="num">92</td><td>fL</td><td class="ref">80–100</td></tr><tr class=""><td>Lượng HST trung bình hồng cầu (MCH)</td><td class="num">29,9</td><td>pg</td><td class="ref">27–32</td></tr><tr class=""><td>Nồng độ HST trung bình hồng cầu (MCHC)</td><td class="num">326</td><td>g/L</td><td class="ref">320–360</td></tr><tr class=""><td>Dải phân bố kích thước hồng cầu (RDW-CV)</td><td class="num">13,1</td><td>%</td><td class="ref">11,5–14,5</td></tr><tr class=""><td>Số lượng tiểu cầu (PLT)</td><td class="num">248</td><td>G/L</td><td class="ref">150–400</td></tr></tbody></table><p class="why">Không thiếu máu, MCV bình thường: không gợi ý thiếu B12 (NICE NG239 Hộp 1). Có thể bỏ nếu ngân sách chặt vì B12 đã đo.</p></div><div class="row"><div class="rh"><b>Bộ mỡ máu</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Cholesterol TP 5,2 · LDL-C 3,1 · HDL-C 1,3 · TG 1,8 mmol/L</p><p class="why">Không đổi hướng xử trí hôm nay; hoãn theo ngân sách (ADA 2026 KC 10.17).</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Đái tháo đường típ 2 kiểm soát chưa đạt (HbA1c 8,2%), biến chứng bệnh đa dây thần kinh ngoại biên đối xứng (sợi lớn nổi trội, có nóng rát đêm), mất cảm giác bảo vệ hai bàn chân; nguy cơ loét IWGDF nhóm 1</b></div><p class="why">Đã biết đái tháo đường 6 năm, ngưng thuốc 8 tháng; tê và nóng rát kiểu mang vớ, đối xứng, tiến triển chậm; monofilament mất cả hai bàn chân kèm mất rung, mất phản xạ gót, giảm kim châm (ADA 2026 mục 12: monofilament mất cộng một test bất thường khác xác nhận mất cảm giác bảo vệ; QĐ 3510/2025 mục 3.2.2, PL01–PL05). IWGDF 2023 Bảng 1: mất cảm giác bảo vệ, không bệnh động mạch, không biến dạng = nhóm 1.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Thiếu vitamin B12 (do metformin)</b></div><p class="why">B12 480 ng/L, trên ngưỡng 350 ng/L (NICE NG239 khuyến cáo 1.3.9, Bảng 1), Hb 129 g/L, MCV 92 fL. Vẫn đo lại định kỳ vì dùng metformin (ADA 2026 mục 3, Bảng 4.1).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Bệnh thần kinh do rượu</b></div><p class="why">Chỉ uống 2–3 chén nhỏ, 2–3 lần mỗi tháng; không dấu hiệu bệnh gan; MCV bình thường. Ngưỡng lượng rượu gây bệnh thần kinh: không có trong tài liệu đã tải. Rượu là nguyên nhân cần xét (QĐ 3510/2025 mục 3.2.4; ADA 2026 mục 12).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Chèn ép rễ thần kinh thắt lưng – cùng, hẹp ống sống</b></div><p class="why">Tê đối xứng hai bàn chân kiểu vớ, không đau lan dọc chân, Lasègue âm tính, phản xạ gối còn; không có dấu hiệu không điển hình cần hình ảnh (ADA 2026 mục 12). Phòng khám không có CT, MRI.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Bệnh động mạch chi dưới</b></div><p class="why">Mạch mu chân, chày sau rõ, bàn chân ấm, đổ đầy mao mạch &lt; 2 giây, không đau cách hồi (ADA 2026 KC 12.27).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Suy giáp hoặc bệnh thận mạn</b></div><p class="why">eGFR 98 mL/ph/1,73m²; không triệu chứng suy giáp (QĐ 3510/2025 mục 3.2.4).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Nhiễm trùng bàn chân (lý do chị tự dùng amoxicillin)</b></div><p class="why">Không sốt, bàn chân không đỏ nóng sưng, vết trầy đã liền; không có chỉ định kháng sinh (IWGDF 2023 nhiễm trùng, khuyến cáo 11: không dùng kháng sinh cho tổn thương chưa nhiễm trùng; áp dụng suy rộng cho vết đã liền).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Bệnh thần kinh tự chủ tim mạch</b></div><p class="why">Không hạ huyết áp tư thế, mạch nghỉ không nhanh, không chóng mặt khi đứng (QĐ 3510/2025 mục 2.2.1).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi riêng, không phán xét về đường huyết, thuốc đã ngưng, rượu; cam kết giữ kín bệnh án tại phòng khám; hỏi điều chị lo nhất</b></div><p class="why">Giao tiếp, không có con số cần nguồn; lòng tin quyết định chị có uống thuốc và quay lại.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Khám cảm giác bàn chân: monofilament 10 g (hoặc Ipswich) cộng ít nhất một công cụ khác (rung 128 Hz, kim châm, phản xạ gót), hoặc một công cụ đơn giản</b></div><p class="why">Hai cách: QĐ 3510/2025 mục 3.2.2 cho dùng một trong các công cụ; ADA 2026 KC 12.18 và 12.24 yêu cầu monofilament hoặc Ipswich cộng ít nhất một đánh giá khác (mục sổ TK-0422).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chọn xét nghiệm theo ngân sách 400.000 đồng: đường huyết mao mạch, HbA1c, creatinin–eGFR, B12 (công thức máu nếu còn tiền); hoãn lipid, UACR, TSH</b></div><p class="why">Mỗi xét nghiệm phải đổi quyết định: HbA1c chọn mức điều trị, eGFR chọn liều thuốc, B12 loại nguyên nhân điều trị được (ADA 2026 mục 3, Bảng 4.1; NICE NG239 khuyến cáo 1.2.5). UACR (ADA 2026 KC 11.1a) và lipid (KC 10.17) hoãn được.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dùng lại metformin sau ăn, khởi liều thấp rồi tăng dần: 500 mg/ngày sau ăn tối, sau 4 tuần 500 mg × 2 lần/ngày, hoặc tăng mỗi 5–7 ngày trong khoảng 500–2000 mg/ngày</b></div><p class="why">Metformin là lựa chọn đầu tiên (QĐ 5481 Phần 4 mục 4.2a; QĐ 5904 Phần 3 Bước 5). Tốc độ tăng liều khác nhau: QĐ 5904 mục E và QĐ 5481 PL01 mục 2; ghi cả hai (mục sổ MT-0741). eGFR 98 nên không chống chỉ định.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Khởi một thuốc giảm đau thần kinh bước 1 cho nóng rát đêm, chọn theo bệnh kèm, giá và nghề: amitriptylin 12,5–25 mg buổi tối, hoặc pregabalin, gabapentin, duloxetin 60 mg/ngày</b></div><p class="why">QĐ 3510/2025 mục 3.4: bước 1 gồm gabapentinoid, SNRI, TCA; ADA 2026 KC 12.22 và AAN 2022 khuyến cáo 4, 6a: hiệu quả tương đương, chọn theo tác dụng phụ, bệnh kèm, chi phí. Amitriptylin phù hợp chị (QĐ 3510/2025 Bảng 3: TCA có lợi cho mất ngủ). Beers 2023 chỉ từ 65 tuổi (mục sổ TK-0512).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích mục tiêu giảm đau chứ không hết hẳn; đánh giá đáp ứng sau 2–4 tuần; tê bì hồi phục chậm</b></div><p class="why">QĐ 3510/2025 mục 3.3.3: đánh giá sau 2–4 tuần, giảm 30–49% có ý nghĩa; AAN 2022 khuyến cáo 2; ADA 2026 mục 12, đoạn Treatment.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn bảo vệ bàn chân: kiểm tra mỗi ngày, không đi chân trần, giày vừa chân, vớ không đường may, rửa chân nước dưới 37 °C, không dùng bình nước nóng sưởi chân, không tự cắt chai</b></div><p class="why">QĐ 3510/2025 mục 3.5; IWGDF 2023 khuyến cáo 3–6; ADA 2026 KC 12.30, 12.25.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn tái khám 4–6 tuần; HbA1c lặp lại sau 3 tháng; lên lịch lipid, UACR, khám mắt có giãn đồng tử khi có tiền</b></div><p class="why">QĐ 5481 Phần 3 mục 2.3 và Bảng 2; ADA 2026 KC 6.2; khám mắt: QĐ 5481 Phần 4 mục 9, ADA 2026 KC 12.4, 12.5.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Thêm acid alpha-lipoic 600 mg/ngày trước ăn sáng 30 phút (hoặc benfotiamine 300–450 mg/ngày)</b></div><p class="why">QĐ 3510/2025 mục 3.3.2.1–3.3.2.2; ADA 2026 và AAN 2022 không nêu; chấm a theo mục sổ TK-0422.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Dùng thuốc chẹn kênh natri (carbamazepin, oxcarbazepin, lamotrigin) để giảm đau</b></div><p class="why">QĐ 3510/2025 mục 3.3.3.3 không khuyến cáo; ADA 2026 KC 12.22 và AAN 2022 khuyến cáo 4 cho phép; chấm a (mục sổ đề xuất mới).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Bắt đầu insulin ngay</b></div><p class="why">HbA1c 8,2% dưới ngưỡng ≥ 9% (QĐ 5481 Phần 4 mục 4.2f) và &gt; 10% (ADA 2026 KC 9.20); không dị hóa.</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Kê tramadol, tapentadol hoặc opioid để đỡ đau đêm</b></div><p class="why">QĐ 3510/2025 mục 3.3.3.3 và 3.4; ADA 2026 KC 12.22; AAN 2022 khuyến cáo 8 (mục sổ TK-0512).</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Dặn ngâm chân nước nóng hoặc dùng bình nước nóng sưởi chân cho đỡ tê</b></div><p class="why">Chân mất cảm giác bảo vệ dễ bỏng mà không biết; nước rửa chân dưới 37 °C (QĐ 3510/2025 mục 3.5; IWGDF 2023).</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chị Chi bị gửi lên bệnh viện tỉnh làm điện cơ và MRI cột sống vì nghi chèn ép rễ, trong khi tê đối xứng kiểu vớ, khởi phát từ từ, không yếu cơ đã đủ chẩn đoán lâm sàng; điện sinh lý và MRI cột sống hiếm khi cần, chỉ khi biểu hiện không điển hình (ADA 2026 mục 12). Chị tốn hàng triệu đồng (MRI cột sống khoảng 2.500.000 đồng) và hai ngày nghỉ, đơn vị có thể biết chị đi khám chuyên khoa, mà vẫn chưa có thuốc hạ đường huyết hay thuốc giảm đau; nhiều khả năng chị bỏ luôn việc điều trị.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Chị Chi nhập viện nội trú truyền acid alpha-lipoic tĩnh mạch và dùng insulin dù HbA1c 8,2% dưới ngưỡng cân nhắc insulin (≥ 9%: QĐ 5481 Phần 4 mục 4.2f; &gt; 10%: ADA 2026 KC 9.20) và không có triệu chứng tăng đường huyết cấp. Truyền ALA 5 ngày đến 2–4 tuần chỉ là tùy chọn để hiệu quả nhanh hơn, sau đó vẫn chuyển sang viên uống (QĐ 3510/2025 mục 3.3.2.1). Chị nghỉ nhiều ngày, hồ sơ nằm viện dễ về tới đơn vị, đúng điều chị sợ nhất, và ra viện rồi nhiều khả năng lại bỏ thuốc.</p></div><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Chị Chi chỉ được &#x27;theo dõi thêm&#x27; và cho vitamin B bổ thần kinh, không khởi lại metformin, không có thuốc giảm đau, không có lịch tái khám. Đường huyết tiếp tục cao, bệnh thần kinh tiến triển và mất cảm giác bảo vệ ở hai bàn chân có thể dẫn tới loét: bệnh thần kinh ngoại biên là nguyên nhân góp phần ở 78% người đái tháo đường có loét bàn chân (ADA 2026 mục 12). Chị vẫn mất ngủ vì đau đêm và vẫn giấu bệnh.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Đái tháo đường típ 2 (chẩn đoán 6 năm), kiểm soát chưa đạt: HbA1c 8,2% (mục tiêu &lt; 7%), tự ngưng metformin 8 tháng.</li><li>Biến chứng thần kinh ngoại biên: bệnh đa dây thần kinh đái tháo đường đối xứng ngọn chi (sợi lớn nổi trội, kèm nóng rát đêm do sợi nhỏ), đã mất cảm giác bảo vệ hai bàn chân.</li><li>Nguy cơ loét bàn chân: IWGDF nhóm 1 (mất cảm giác bảo vệ, không bệnh động mạch, không biến dạng).</li><li>Đã loại trừ ở mức có thể: thiếu B12 (480 ng/L), bệnh thần kinh do rượu, chèn ép rễ thắt lưng, bệnh động mạch chi dưới, suy giáp và bệnh thận (eGFR 98).</li><li>Chưa có biến chứng thần kinh tự chủ; chưa khám mắt giãn đồng tử, chưa đo UACR, lipid.</li><li>Mất ngủ do đau đêm; tâm lý ngại, sợ lộ bệnh với đơn vị.</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự hỏi: hỏi cụ thể ban đêm, vấp ngã, đi trong tối vì hỏi chung chị đều trả lời &quot;không&quot;; hỏi thẳng đường huyết, thuốc dài hạn, rượu, ăn uống, thuốc tự mua, thuốc dạ dày (NICE NG239 Hộp 2). Rồi khám bàn chân, thần kinh, mạch, huyết áp tư thế, cột sống; xét nghiệm ít mà đổi quyết định.</li><li>Vì sao là bệnh đa dây thần kinh đái tháo đường: tê, mất cảm giác kiểu mang vớ đối xứng, tiến triển 10 tháng; đái tháo đường 6 năm, HbA1c 8,2%; monofilament mất cả hai bàn chân kèm mất rung ngón cái, mất phản xạ gót, giảm kim châm từ cổ chân (QĐ 3510/2025 mục 3, 3.2.2, PL01–PL05). Monofilament mất cộng một test bất thường khác xác nhận mất cảm giác bảo vệ (ADA 2026 mục 12).</li><li>Điểm không điển hình: triệu chứng nhẹ so với dấu hiệu nặng (chị chỉ nói &quot;mỏi chân&quot;); tới 50% bệnh thần kinh ngoại biên đái tháo đường không có triệu chứng (ADA 2026 mục 12) nên phải khám bàn chân kể cả khi chỉ than mỏi.</li><li>Bệnh thần kinh đái tháo đường là chẩn đoán loại trừ (ADA 2026 mục 12; QĐ 3510/2025 mục 3.2.4). B12 480 ng/L trên 350 ng/L (NICE NG239 Bảng 1) nên khả năng thiếu thấp, vẫn đo lại định kỳ vì dùng metformin (ADA 2026 mục 3). Rượu: lượng rất ít; ngưỡng gây bệnh thần kinh không có trong tài liệu đã tải. Rễ thắt lưng: Lasègue âm tính, tê đối xứng nên không cần hình ảnh (ADA 2026 mục 12).</li><li>Ngân sách 400.000 đồng: đường huyết mao mạch 20.000, HbA1c 120.000, creatinin 50.000, B12 120.000, công thức máu 50.000 (tổng 360.000 đồng) đều đổi quyết định; lipid, UACR, TSH, điện tim, ABI hoãn được. Không có CT, MRI: chẩn đoán bằng khám lâm sàng, điện cơ và MRI không cần vì biểu hiện điển hình (ADA 2026 mục 12).</li><li>Nguy cơ: mất cảm giác bảo vệ làm tăng nguy cơ loét và cắt cụt; bệnh thần kinh là nguyên nhân góp phần ở 78% người có loét (ADA 2026 mục 12). IWGDF 2023 Bảng 1: nhóm 1 kiểm tra chân mỗi 6–12 tháng; có mất cảm giác thì kiểm tra chân mỗi lần khám (ADA 2026 KC 12.25).</li><li>Lý do thật: sợ mất chân như mẹ và sợ lộ bệnh với chỉ huy. Mở được bằng câu hỏi mở &quot;điều gì làm chị lo nhất?&quot; và cam kết giữ kín bệnh án.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Nền tảng là kiểm soát đường huyết: làm chậm tiến triển nhưng không đảo ngược tổn thương đã có (QĐ 3510/2025 mục 3.3.1; ADA 2026 KC 12.20 và mục 12, đoạn Treatment). Chưa có chỉ định insulin (&lt; 9%: QĐ 5481 mục 4.2f; &lt; 10%: ADA 2026 KC 9.20).</li><li>Chọn amitriptylin vì mất ngủ cần thuốc buổi tối, giá thấp, không bệnh tim hay thần kinh tự chủ; pregabalin gây chóng mặt, ngủ gà, mất điều vận ≥ 10% (QĐ 3510/2025 mục 3.3.3.1) nên không lợi cho người đã mất thăng bằng. Tiêu chuẩn nhập viện hay chuyển tuyến cho bệnh đa dây thần kinh đái tháo đường không loét: không có trong tài liệu đã tải; loét hoặc bàn chân đỏ, nóng, sưng không giải thích được thì chuyển khẩn (ADA 2026 mục 12).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Metformin</b><div class="sub">500 mg</div></td><td data-l="Liều">500 mg × 1 lần/ngày trong 4 tuần đầu, sau đó 500 mg × 2 lần/ngày (QĐ 5904); hoặc tăng mỗi 5–7 ngày tới liều dung nạp trong 500–2000 mg/ngày (QĐ 5481)<div class="sub">Uống · Ngay sau bữa tối (4 tuần đầu); sau đó ngay sau bữa sáng và bữa tối</div></td><td data-l="Thời gian">Dùng lâu dài; tái khám sau 4–6 tuần</td><td class="gc" data-l="Ghi chú">QĐ 5904/2019 Phần 3 Bước 5: 500 mg/ngày sau ăn tối, sau 4 tuần 500 mg × 2, tối đa 2000 mg/ngày; QĐ 5481/2020 PL01 mục 2: tăng mỗi 5–7 ngày để giảm buồn nôn, đau bụng, tiêu chảy; chống chỉ định eGFR &lt; 30, thận trọng khi nghiện rượu mạn. Đo B12 định kỳ khi dùng lâu (ADA 2026 mục 3).</td></tr><tr><td><b>Amitriptylin</b><div class="sub">Viên 25 mg (hàm lượng viên lưu hành: không có trong tài liệu đã tải; liều tính theo mg)</div></td><td data-l="Liều">12,5 mg (nửa viên) mỗi tối trong 3–7 ngày; nếu dung nạp tăng lên 25 mg mỗi tối; sau 2–4 tuần đánh giá, có thể thêm 12,5–25 mg sau mỗi 3–7 ngày tới 25–75 mg/ngày<div class="sub">Uống · Trước khi ngủ</div></td><td data-l="Thời gian">Ít nhất 2–4 tuần để đánh giá; chỉ kết luận không hiệu quả sau khoảng 12 tuần ở liều tối ưu</td><td class="gc" data-l="Ghi chú">QĐ 3510/2025 mục 3.3.3.3, Bảng 2: khởi 12,5–25 mg buổi tối, duy trì 25–75 mg/ngày, tối đa 150 mg (thận trọng khi trên 100 mg); tác dụng phụ: an thần, khô miệng, táo bón, chóng mặt, hạ huyết áp tư thế, nhịp nhanh, blốc nhĩ thất. AAN 2022 Bảng 1: 75–150 mg/ngày trong thử nghiệm. Đổi nhóm nếu không dung nạp (QĐ 3510/2025 mục 3.4).</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Uống metformin ngay sau ăn, đều mỗi ngày kể cả khi thấy khỏe; nếu buồn nôn, đầy bụng thì báo lại, không tự ngưng (QĐ 5481 PL01 mục 2).</li><li>Amitriptylin uống buổi tối trước khi ngủ, bắt đầu nửa viên; sáng dậy buồn ngủ, khô miệng, chóng mặt thì báo lại, không lái xe khi còn buồn ngủ; tác dụng thường sau 2–4 tuần (QĐ 3510/2025 mục 3.3.3.3).</li><li>Mục tiêu là giảm đau khoảng 30–50%, không phải hết hẳn; tê bì hồi phục rất chậm hoặc không hết nên bảo vệ bàn chân là việc chính (QĐ 3510/2025 mục 3.3.3; ADA 2026 mục 12).</li><li>Mỗi tối nhìn kỹ hai bàn chân, kể cả kẽ ngón; không đi chân trần; vớ không đường may, giày vừa chân, sờ trong giày trước khi mang; rửa chân nước dưới 37 °C, lau khô kẽ ngón; không dùng bình nước nóng sưởi chân; bôi kem gót, không bôi kẽ ngón; có vết xước, phồng nước, đỏ, sưng, nóng thì đến khám ngay (QĐ 3510/2025 mục 3.5; IWGDF 2023 khuyến cáo 3–5).</li><li>Nếu có máy thử: đo lúc đói và sau ăn 1–2 giờ, ghi sổ; mục tiêu 4,4–7,2 mmol/L trước ăn và dưới 10 mmol/L sau ăn (QĐ 5481 Phần 4 Bảng 4). Hạn chế rượu bia (QĐ 5481 Phần 4 mục 1e); không tự mua kháng sinh; vitamin B không thay thuốc đường huyết và thuốc giảm đau.</li><li>Bệnh án giữ kín tại phòng khám. Tái khám sau 4–6 tuần, mang sổ và thuốc còn lại; đến sớm nếu có vết thương ở chân, tê lan lên đùi hoặc hai tay, yếu chân, tiểu khó, sốt (ADA 2026 mục 12).</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-2">
+ <h2 id="h-luot-2"><span class="ln">Lượt 2/2</span> · sau 6 tuần</h2>
+ <div class="card intro"><h3 id="m-8">Tiếp đón</h3><p>Tái khám sau 6 tuần theo hẹn, đi một mình vào ngày nghỉ, đang dùng metformin và amitriptylin theo đơn lượt trước. Chị nói thuốc &quot;đỡ một phần&quot;, hỏi còn phải uống bao lâu. Mang theo 300.000 đồng. Sinh hiệu lúc tiếp đón: HA 124/78 mmHg, mạch 74 l/p, nhiệt 36,6 °C, nhịp thở 16 l/p, SpO₂ 98%, cân nặng 57 kg.</p>
+  <blockquote>“Chào bác sĩ. Thuốc đỡ được một phần, đêm bớt rát rồi nhưng chân vẫn tê như cũ. Bác sĩ cho tôi thuốc mạnh hơn cho khỏi hẳn được không? Hôm nay tôi chỉ mang ba trăm nghìn.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>74</b><small>l/p</small></div><div class="vs"><span>HA</span><b>124/78</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,6</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>16</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-9">Hỏi bệnh <small>10 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do tái khám và kỳ vọng &quot;khỏi hẳn&quot;</b><span class="tag t-g">Tự kể</span></div><p>Chị tái khám theo hẹn, nói đêm đỡ rát hơn trước nhưng tê chân vẫn y như cũ; muốn thuốc mạnh hơn để khỏi hẳn và hỏi phải uống bao lâu. Đi một mình, tự trả tiền.</p></div><div class="fact"><div class="fh"><b>Nhiễu: không đủ tiền xét nghiệm (ngân sách 300.000 đồng)</b><span class="tag t-g">Tự kể</span></div><p>Chị mang 300.000 đồng, đã tốn tiền mua thuốc, giày mới và máy đo đường huyết, nên hỏi giá từng xét nghiệm và &quot;cái nào thật cần&quot;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dung nạp metformin và đường huyết tự đo</b><span class="tag t-b">Khi được hỏi</span></div><p>Uống metformin sau ăn tối từ đầu, sau 4 tuần uống sáng và tối (500 mg × 2). Tuần đầu hơi đầy bụng rồi hết. Sổ đường huyết: lúc đói 6,8–8,2 mmol/L, sau ăn 2 giờ 8,5–10,8 mmol/L; chưa có cơn hạ đường huyết.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đáp ứng một phần: đau giảm khoảng 40%, tê không đổi</b><span class="tag t-b">Khi được hỏi</span></div><p>Nóng rát đêm giảm từ khoảng 6/10 xuống 3–4/10 (giảm khoảng 40%), thức giấc 1–2 đêm mỗi tuần thay vì 3–4, ngủ được 6 giờ. Tê bì bàn chân và cảm giác đi trên bông không đổi; vẫn vấp ngón khi lên bậc nhưng không ngã thêm.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tuân thủ amitriptylin thực tế: bỏ khoảng 8 đêm</b><span class="tag t-r">Giấu</span></div><p>Chị quên hoặc bỏ amitriptylin khoảng 8 đêm trong 6 tuần, chủ yếu những đêm trực vì sợ ngủ gật, và 3 đêm khác vì sáng dậy nặng đầu. Chị ngại nói vì sợ bị coi là kém kỷ luật.</p><div class="cond">Điều kiện nói ra: Hỏi chung &quot;uống thuốc đều chứ?&quot; thì chị khẳng định &quot;đều ạ&quot;. Chỉ thừa nhận khi bác sĩ hỏi đếm số viên còn lại, hoặc hỏi cụ thể những đêm trực, đêm nào không uống, sáng dậy cảm thấy thế nào.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tác dụng phụ amitriptylin</b><span class="tag t-b">Khi được hỏi</span></div><p>Từ khi tăng lên 25 mg: khô miệng nhẹ, sáng dậy buồn ngủ khoảng 1–2 giờ; không táo bón, không bí tiểu, không hồi hộp, không chóng mặt khi đứng, không ngất.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Không có dấu hiệu bất thường cần tìm nguyên nhân khác hay chuyển tuyến</b><span class="tag t-b">Khi được hỏi</span></div><p>Tê không lan lên đùi hay sang hai bàn tay, không yếu chân mới, không teo cơ, không sút cân, không tiểu khó, không đau lưng lan xuống chân.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Chăm sóc bàn chân hằng ngày</b><span class="tag t-b">Khi được hỏi</span></div><p>Chị đã đổi giày bốt rộng hơn kèm lót mềm, mang vớ không đường may, tối nào cũng soi chân và bôi kem gót; không đi chân đất; không vết xước hay phồng nước mới. Đã ngưng amoxicillin.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Chưa khám mắt có giãn đồng tử</b><span class="tag t-b">Khi được hỏi</span></div><p>Chưa đi khám mắt vì phải xin ra ngoài và tốn tiền. Nhìn rõ, không nhìn mờ, không ruồi bay.</p></div><div class="fact"><div class="fh"><b>kiem_tra</b><span class="tag t-b">Khi được hỏi</span></div><p>Cuối năm đơn vị kiểm tra thể lực và khám sức khỏe; chị lo vì chân còn tê và hỏi &quot;có giấy gì không&quot;. Chị vẫn chưa muốn đơn vị biết bệnh.</p></div></details>
+ <details class="card"><summary><h3 id="m-10">Khám <small>6 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Đo huyết áp tư thế nằm – đứng</b></div><p><span class="lbl">Kết quả:</span> Nằm 124/78 mmHg, mạch 74 l/p. Đứng 1 phút 122/78, mạch 80 l/p; đứng 3 phút 120/76. Không chóng mặt. Không hạ huyết áp tư thế khi đang dùng amitriptylin.</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 74 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 74 l/p, T1, T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><span class="key">★</span><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b></div><p><span class="lbl">Kết quả:</span> Không phù. Da gót mềm hơn, vết nứt gót đã khô; không loét, không chai mới, không phồng nước, không đỏ sưng. Mạch mu chân và chày sau bắt rõ. Monofilament 10 g (3 vị trí mỗi bàn chân): vẫn không cảm nhận được cả 3 vị trí hai bàn chân, không đổi so với lượt 1.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thần kinh</b></div><p><span class="lbl">Kết quả:</span> Phản xạ gót mất hai bên, phản xạ gối còn. Rung âm thoa 128 Hz: vẫn mất ở ngón cái, còn ở mắt cá trong. Kim châm: ranh giới giảm cảm giác vẫn ở khoảng 8 cm trên mắt cá, không lan cao hơn. Romberg dương tính nhẹ như trước. Không dấu thần kinh khu trú.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Sức cơ: gốc chi, ngọn chi, gập cổ, ngồi xổm – đứng dậy</b></div><p><span class="lbl">Kết quả:</span> Sức cơ ngọn chi 5-/5 hai bên như lượt trước, không teo cơ, không yếu mới.</p></div><div class="row"><div class="rh"><b>Dáng đi, quay người, nghiệm pháp kéo</b></div><p><span class="lbl">Kết quả:</span> Đi nối gót còn lệch nhẹ, như lượt trước. Quay người ổn.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Tổng trạng, da niêm, vòng eo</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, tiếp xúc tốt. Da niêm hồng. Không vàng da.</p></div><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 16 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-11">Cận lâm sàng <small>6 mục</small></h3></summary><div class="row"><div class="rh"><b>Đường huyết mao mạch (máy thử tại giường)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> 7,6 mmol/L (sáng, chưa ăn)</p><p class="why">Mục tiêu trước ăn 4,4–7,2 mmol/L (QĐ 5481 Phần 4 Bảng 4): gần đạt, cùng hướng với sổ đường huyết tại nhà. Rẻ (20.000 đồng), có kết quả ngay.</p></div><div class="row"><div class="rh"><b>Tỷ số albumin/creatinin niệu (UACR)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> UACR 18 mg/g, không tăng</p><p class="why">Chưa từng làm; ít nhất hằng năm ở mọi người đái tháo đường típ 2 (ADA 2026 KC 11.1a).</p></div><div class="row"><div class="rh"><b>Bộ mỡ máu</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Cholesterol TP 5,2 · LDL-C 3,1 · HDL-C 1,3 · TG 1,8 mmol/L</p><p class="why">Chưa từng làm; lấy lúc khởi trị và định kỳ (ADA 2026 KC 10.17); mục tiêu LDL-C &lt; 2,6 mmol/L khi chưa có bệnh tim mạch (QĐ 5481 Phần 4 Bảng 4); quyết định statin bàn ở lần sau (ADA 2026 mục 10).</p></div><div class="row"><div class="rh"><b>HbA1c</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> 7,6%</p><p class="why">Mới 6 tuần: HbA1c phản ánh khoảng 3 tháng nên chưa đủ để đánh giá (QĐ 5481 Phần 3 mục 2.4, Bảng 2: mỗi 3 tháng; ADA 2026 KC 6.2). Làm cũng chấp nhận nhưng tốn 120.000 đồng trong ngân sách 300.000 đồng và không đổi quyết định hôm nay.</p></div><div class="row"><div class="rh"><b>Điện tâm đồ 12 chuyển đạo</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Nhịp xoang 74 l/p, PR 0,16 giây, QRS 0,08 giây, không biến đổi ST–T</p><p class="why">Đang tăng liều amitriptylin; tài liệu đã tải không yêu cầu điện tim (QĐ 3510/2025 mục 3.3.3.3 chỉ nêu tác dụng phụ blốc nhĩ thất, blốc nhánh). Làm cũng chấp nhận.</p></div><div class="row"><div class="rh"><b>Vitamin B12 huyết thanh (cobalamin toàn phần)</b><span class="tag t-r">Không cần</span></div><p class="why">Đã 480 ng/L cách 6 tuần (NICE NG239 Bảng 1: trên 350 ng/L khả năng thiếu thấp); không đổi quyết định. Đo lại định kỳ hằng năm vì dùng metformin (ADA 2026 mục 3), không phải hôm nay.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-12">Đáp án lượt 2 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Bệnh đa dây thần kinh đái tháo đường đáp ứng một phần sau 6 tuần (đau đêm giảm khoảng 40%, tê bì chưa đổi), tuân thủ amitriptylin chưa đều; đường huyết đang cải thiện</b></div><p class="why">Đau đêm 6/10 xuống 3–4/10; giảm 30–49% có ý nghĩa lâm sàng (QĐ 3510/2025 mục 3.3.3). Tê bì và mất cảm giác không đổi, phù hợp vì kiểm soát đường huyết chỉ làm chậm tiến triển, không đảo ngược tổn thương (ADA 2026 mục 12, đoạn Treatment). Đường huyết đói 7,6 mmol/L, gần mục tiêu 4,4–7,2 (QĐ 5481 Phần 4 Bảng 4).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Thất bại điều trị giảm đau thần kinh, cần đổi thuốc ngay</b></div><p class="why">Thất bại khi đã chỉnh tới liều tối ưu khoảng 12 tuần mà không giảm đau có ý nghĩa, hoặc tác dụng phụ lớn hơn lợi ích (QĐ 3510/2025 mục 3.4; AAN 2022 khuyến cáo 7b). Mới 6 tuần, đã giảm khoảng 40%, liều còn thấp, bỏ thuốc khoảng 8 đêm: chưa phải thất bại.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Nguyên nhân thần kinh khác bị bỏ sót (thiếu B12, rượu, chèn ép rễ, bệnh mạch máu)</b></div><p class="why">B12 bình thường ở lượt 1; không có dấu hiệu mới (tê không lan, không yếu, không bất đối xứng, không sút cân); ADA 2026 mục 12 chỉ làm điện sinh lý, MRI hoặc chuyển thần kinh khi biểu hiện không điển hình.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tác dụng phụ nặng của amitriptylin (hạ huyết áp tư thế, bí tiểu, rối loạn nhịp)</b></div><p class="why">Huyết áp tư thế bình thường, chỉ khô miệng nhẹ và buồn ngủ buổi sáng ngắn (QĐ 3510/2025 mục 3.3.3.3, Bảng 3).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Biến chứng bàn chân mới (loét, nhiễm trùng, bàn chân Charcot)</b></div><p class="why">Không vết thương, bàn chân không đỏ nóng sưng; bàn chân đỏ nóng sưng không loét mới cần nghĩ Charcot (ADA 2026 mục 12).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Nhận định đáp ứng một phần ở tuần 6 là diễn tiến thường gặp, chưa đổi thuốc: giảm đau khoảng 40% đã có ý nghĩa, tê bì không hết nhanh</b></div><p class="why">QĐ 3510/2025 mục 3.3.3 (30–49% có ý nghĩa), mục 3.4 (thất bại sau khoảng 12 tuần ở liều tối ưu); AAN 2022 khuyến cáo 2, 7b; ADA 2026 mục 12, đoạn Treatment.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi cụ thể tuân thủ amitriptylin (đêm trực, đếm viên) và tác dụng phụ buổi sáng; sửa tuân thủ trước khi tăng liều</b></div><p class="why">Hỏi chung chị trả lời &quot;đều ạ&quot;; chưa biết đáp ứng thật khi bỏ khoảng 8 đêm (AAN 2022 khuyến cáo 7b).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Tăng liều amitriptylin từng bước (thêm 12,5–25 mg sau mỗi 3–7 ngày, tới 25–75 mg/ngày tùy dung nạp), hoặc nếu chỉ đỡ một phần hay không tăng được liều do tác dụng phụ thì thêm một thuốc nhóm khác (pregabalin, gabapentin, duloxetin)</b></div><p class="why">QĐ 3510/2025 mục 3.3.3.3, 3.4 bước 2; AAN 2022 khuyến cáo 7d. Khoảng liều: 25–75 mg/ngày (QĐ 3510/2025 Bảng 2) hoặc 75–150 mg/ngày (AAN 2022 Bảng 1); ghi cả hai.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giữ metformin 500 mg × 2 lần/ngày, tăng dần tới liều dung nạp trong 500–2000 mg/ngày; đo đường huyết tại nhà; HbA1c khi đủ 3 tháng; chưa đạt mục tiêu &lt; 7% thì thêm thuốc thứ hai</b></div><p class="why">QĐ 5904 Phần 3 Bước 5; QĐ 5481 PL01 mục 2, Phần 4 mục 4.2e, Bảng 2, Bảng 4; ADA 2026 KC 6.2, 6.3a, 9.6.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích kỳ vọng thực tế: đau giảm dần, tê bì hồi phục chậm hoặc không hết; củng cố chăm sóc bàn chân, kiểm tra chân mỗi lần khám, kiểm tra nguy cơ chân định kỳ 6–12 tháng (IWGDF nhóm 1)</b></div><p class="why">ADA 2026 mục 12, đoạn Treatment; QĐ 3510/2025 mục 3.3.3; AAN 2022 khuyến cáo 2. Chân: ADA 2026 KC 12.25, 12.30, Bảng 12.1; IWGDF 2023 Bảng 1; QĐ 3510/2025 mục 3.5.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Làm đường huyết mao mạch, UACR, lipid hôm nay hoặc lần sau theo tiền; hẹn khám mắt có giãn đồng tử trong 3 tháng; bàn statin sau khi có lipid</b></div><p class="why">ADA 2026 KC 11.1a, 10.17, mục 10; khám mắt: QĐ 5481 Phần 4 mục 9, ADA 2026 KC 12.4, 12.5.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn tái khám sau 4–6 tuần để đủ khoảng 12 tuần điều trị rồi làm HbA1c; đến sớm khi có vết thương ở chân, tê lan, yếu chân</b></div><p class="why">QĐ 3510/2025 mục 3.4; QĐ 5481 Phần 3 Bảng 2; ADA 2026 mục 12.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Thêm acid alpha-lipoic 600 mg/ngày hoặc benfotiamine 300–450 mg/ngày</b></div><p class="why">QĐ 3510/2025 mục 3.3.2.1–3.3.2.2; chấm a theo mục sổ TK-0422.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Ngưng amitriptylin, đổi sang pregabalin hoặc duloxetin ngay vì chưa đỡ hẳn</b></div><p class="why">Đã giảm khoảng 40%, liều thấp, bỏ nhiều đêm: đổi nhóm khi không giảm đau có ý nghĩa hoặc không dung nạp, thường sau khoảng 12 tuần (QĐ 3510/2025 mục 3.4; AAN 2022 khuyến cáo 7b, 7c).</p></div><div class="row xt-r"><div class="rh"><span class="tag t-r">Có hại</span><b>Thêm tramadol hoặc opioid để đỡ đau hơn</b></div><p class="why">QĐ 3510/2025 mục 3.3.3.3 và 3.4; ADA 2026 KC 12.22; AAN 2022 khuyến cáo 8.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chị Chi bị chuyển lên thần kinh bệnh viện tỉnh để làm điện cơ và MRI vì &quot;điều trị 6 tuần chưa khỏi&quot;. Đau đêm giảm khoảng 40% còn tê bì hồi phục chậm là diễn tiến thường gặp; điện sinh lý và MRI chỉ cần khi biểu hiện không điển hình (khởi phát cấp hoặc bán cấp, bất đối xứng, tổn thương vận động, chẩn đoán không rõ: ADA 2026 mục 12), chị không có. Chị tốn tiền, nghỉ việc, đơn vị có thể biết, trong khi thuốc chưa chỉnh tới liều tối ưu, chưa khám mắt, chưa làm UACR.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Chị Chi nhập viện để truyền acid alpha-lipoic tĩnh mạch và &quot;đổi thuốc mạnh hơn&quot; vì chưa đỡ hẳn. Truyền ALA 5 ngày đến 2–4 tuần chỉ là tùy chọn để hiệu quả nhanh hơn (QĐ 3510/2025 mục 3.3.2.1), không thay việc chỉnh liều thuốc giảm đau và kiểm soát đường huyết; tiêu chuẩn nhập viện cho bệnh này khi không loét: không có trong tài liệu đã tải. Chị nghỉ nhiều ngày, hồ sơ nằm viện có thể về đơn vị, và đổi thuốc quá sớm khi chưa đủ khoảng 12 tuần ở liều tối ưu (QĐ 3510/2025 mục 3.4; AAN 2022 khuyến cáo 7b) làm chị mất cơ hội biết thuốc cũ có đủ hiệu quả hay không.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Bệnh đa dây thần kinh đái tháo đường (sợi lớn nổi trội, nóng rát đêm), đáp ứng một phần sau 6 tuần: đau đêm giảm khoảng 40%, tê bì và mất cảm giác bảo vệ chưa đổi.</li><li>Đái tháo đường típ 2 đang cải thiện kiểm soát (đường huyết đói 7,6 mmol/L; HbA1c cần đủ 3 tháng).</li><li>Tuân thủ amitriptylin chưa đều (bỏ khoảng 8 đêm), tác dụng phụ nhẹ.</li><li>Nguy cơ loét IWGDF nhóm 1, hiện chưa loét.</li><li>Chưa khám mắt, chưa có UACR và lipid.</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự hỏi: hỏi đau đêm, giấc ngủ, tê so với lượt trước; hỏi tuân thủ bằng cách đếm viên và hỏi đêm trực; tác dụng phụ; dấu hiệu mới (lan, yếu, sụt cân); chăm sóc chân. Khám huyết áp tư thế, bàn chân, monofilament, phản xạ, sức cơ; xét nghiệm tối thiểu.</li><li>Đáp ứng một phần: đau giảm khoảng 40% (30–49% có ý nghĩa: QĐ 3510/2025 mục 3.3.3; AAN 2022 khuyến cáo 2). Tê bì không đổi sau 6 tuần là bình thường: kiểm soát đường huyết làm chậm tiến triển chứ không đảo ngược (ADA 2026 mục 12, đoạn Treatment). Chưa phải thất bại: định nghĩa khoảng 12 tuần ở liều tối ưu (QĐ 3510/2025 mục 3.4; AAN 2022 khuyến cáo 7b); chị mới 6 tuần, liều thấp, bỏ khoảng 8 đêm.</li><li>Dấu hiệu cảnh báo cần tìm nguyên nhân khác hoặc chuyển tuyến: khởi phát cấp/bán cấp, bất đối xứng, tổn thương vận động (ADA 2026 mục 12); chị không có. Thiếu B12 đã loại ở lượt 1 (NICE NG239 Bảng 1).</li><li>Bàn chân không loét; IWGDF nhóm 1 kiểm tra mỗi 6–12 tháng (IWGDF 2023 Bảng 1; ADA 2026 Bảng 12.1); có mất cảm giác thì kiểm tra chân mỗi lần khám (ADA 2026 KC 12.25).</li><li>Ngân sách 300.000 đồng: đường huyết mao mạch 20.000 đồng; UACR 120.000 và lipid 120.000 đồng nên làm trong năm; HbA1c 120.000 đồng chưa đổi quyết định lúc này; B12 không lặp lại.</li><li>Khỏi chậm hơn dự kiến: chị kỳ vọng &quot;khỏi hẳn&quot; sau vài tuần, thực tế đau giảm dần còn tê bì hồi phục rất chậm. Cần nói rõ để chị không bỏ thuốc vì thất vọng.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Không đổi thuốc ở tuần 6, kiểm tra tuân thủ trước (bỏ khoảng 8 đêm). Đêm trực: tài liệu đã tải không hướng dẫn riêng; hướng thực tế là uống sau khi hết ca hoặc nhờ đổi ca, nếu buồn ngủ ban ngày là giới hạn thì đổi nhóm khác (QĐ 3510/2025 mục 3.4 bước 2).</li><li>Không chuyển tuyến, không MRI, điện cơ (ADA 2026 mục 12). Giấy xác nhận cho kỳ kiểm tra thể lực: quy định đơn vị không có trong tài liệu đã tải.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Amitriptylin</b><div class="sub">Viên 25 mg (hàm lượng viên lưu hành: không có trong tài liệu đã tải; liều tính theo mg)</div></td><td data-l="Liều">Giữ 25 mg mỗi tối, uống đều kể cả đêm trực nếu không phải thức; sau 1–2 tuần dùng đều, nếu còn đau và dung nạp tốt thì thêm 12,5–25 mg (37,5–50 mg mỗi tối), mỗi bậc cách 3–7 ngày; liều duy trì thường 25–75 mg/ngày<div class="sub">Uống · Trước khi ngủ</div></td><td data-l="Thời gian">Tiếp tục; đánh giá lại sau 4–6 tuần (đủ khoảng 12 tuần)</td><td class="gc" data-l="Ghi chú">QĐ 3510/2025 mục 3.3.3.3, Bảng 2: tăng 12,5–25 mg sau mỗi 3–7 ngày, duy trì 25–75 mg/ngày, tối đa 150 mg (thận trọng khi trên 100 mg). AAN 2022 Bảng 1: 75–150 mg/ngày trong thử nghiệm. Không lái xe khi còn buồn ngủ.</td></tr><tr><td><b>Metformin</b><div class="sub">500 mg</div></td><td data-l="Liều">500 mg × 2 lần/ngày; nếu dung nạp tăng dần theo sổ đường huyết, tối đa 2000 mg/ngày chia 2 lần (QĐ 5904) hoặc mỗi 5–7 ngày trong 500–2000 mg/ngày (QĐ 5481)<div class="sub">Uống · Ngay sau bữa sáng và bữa tối</div></td><td data-l="Thời gian">Dùng lâu dài; tái khám 4–6 tuần</td><td class="gc" data-l="Ghi chú">QĐ 5904/2019 Phần 3 Bước 5; QĐ 5481/2020 PL01 mục 2. eGFR 98 nên không chống chỉ định. Đo B12 định kỳ hằng năm khi dùng metformin lâu dài (ADA 2026 mục 3).</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Đau giảm dần chứ không hết hẳn; tê bì hồi phục rất chậm hoặc không hết; thuốc mạnh hơn không làm hết tê (QĐ 3510/2025 mục 3.3.3; ADA 2026 mục 12).</li><li>Uống amitriptylin mỗi tối; đêm trực nên uống sau khi hết ca hoặc báo để đổi ca. Không tự tăng giảm liều; sáng dậy buồn ngủ nặng thì báo lại, đừng tự bỏ thuốc (QĐ 3510/2025 mục 3.3.3.3).</li><li>Ghi sổ đường huyết lúc đói và sau ăn 1–2 giờ (mục tiêu QĐ 5481 Phần 4 Bảng 4), mang sổ và vỉ thuốc đến lần sau. Tiếp tục soi chân mỗi tối, giày vừa chân, không đi chân trần (QĐ 3510/2025 mục 3.5; IWGDF 2023 khuyến cáo 3–6).</li><li>Khám mắt có giãn đồng tử trong vài tháng tới (QĐ 5481 Phần 4 mục 9); UACR, lipid khi có tiền (ADA 2026 KC 11.1a, 10.17).</li><li>Đến sớm nếu có vết xước, phồng nước, bàn chân đỏ nóng sưng, sốt, tê lan lên đùi hoặc hai tay, yếu chân, tiểu khó (ADA 2026 mục 12). Tái khám sau 4–6 tuần, HbA1c khi đủ 3 tháng (QĐ 5481 Phần 3 Bảng 2). Bệnh án giữ kín.</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-13">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>ĐTĐ biến chứng thần kinh ngoại biên</b></div>
+<p class="note">Phải loại trừ: Thiếu B12, Bệnh TK do rượu</p><p>Sau 3 tháng điều trị, HbA1c về 7,1%; đau đêm giảm khoảng 60% khi chị uống amitriptylin đều (37,5 mg mỗi tối), ngủ 6–7 giờ. Tê bì và mất cảm giác bảo vệ gần như không đổi, nên chị vẫn thuộc nhóm nguy cơ loét IWGDF 1 và duy trì kiểm tra chân. Chị không loét, đi giày vừa chân, tái khám đều, đi khám mắt, và đủ tin phòng khám để hỏi cách nói chuyện bệnh với đơn vị. Hồi phục chậm hơn kỳ vọng &quot;khỏi hẳn&quot; ban đầu nhưng đúng quỹ đạo, không phải thất bại điều trị.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-14">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Amoxicillin tự mua: chị sợ vết trầy ở gót nhiễm trùng. Không có nhiễm trùng, kháng sinh không giúp tê chân và không có chỉ định.</li><li>Đau lưng cơ học sau khi khuân thùng hồ sơ: dễ làm nghĩ tới chèn ép rễ thắt lưng và đòi chụp hình, nhưng tê đối xứng kiểu vớ, đau không lan, Lasègue âm tính.</li><li>Uống rượu ở liên hoan đơn vị: lượng rất ít, không đủ gợi ý bệnh thần kinh do rượu.</li><li>Xin &quot;thuốc bổ thần kinh, vitamin B&quot;: B12 bình thường, vitamin B không thay điều trị đường huyết và thuốc giảm đau.</li><li>Ngân sách chỉ 400.000 đồng ở lượt 1 và 300.000 đồng ở lượt 2: buộc xếp ưu tiên xét nghiệm.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Không điển hình: dấu hiệu nặng hơn lời kể. Chị nói &quot;mỏi chân&quot; trong khi monofilament mất hoàn toàn hai bàn chân; luôn khám bàn chân kể cả khi chỉ than mỏi, vì tới 50% bệnh thần kinh ngoại biên đái tháo đường không có triệu chứng (ADA 2026 mục 12).</li><li>Giấu triệu chứng vì ngại: hỏi chung nhận &quot;không&quot;, hỏi cụ thể (ban đêm, vấp ngã, thuốc dài hạn, đường huyết) nhận &quot;có&quot;. Cam kết giữ kín và hỏi điều lo nhất mở được nút thắt.</li><li>Không đủ tiền: mỗi xét nghiệm phải đổi được một quyết định. HbA1c, eGFR, B12 đổi mức điều trị, liều thuốc và nguyên nhân điều trị được; lipid, UACR, TSH hoãn có kế hoạch.</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Tầm soát bệnh thần kinh đái tháo đường: khi chẩn đoán típ 2 và ít nhất mỗi năm (QĐ 3510/2025 mục 3.1; ADA 2026 KC 12.17).</li><li>Bệnh thần kinh đái tháo đường là chẩn đoán loại trừ: B12 (nhất là dùng metformin lâu), rượu, suy giáp, bệnh thận (ADA 2026 mục 12; QĐ 3510/2025 mục 3.2.4; NICE NG239 khuyến cáo 1.2.5).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-15">Nguồn tài liệu <small>7</small></h3></summary><ul class=""><li>BYT – QĐ 3510/QĐ-BYT 2025, Hướng dẫn chẩn đoán và điều trị bệnh thần kinh đái tháo đường – TL-0279 – mục 2.2.1, 3, 3.1, 3.2.1–3.2.4, Bảng 1, 3.3.1, 3.3.2.1–3.3.2.2, 3.3.3, 3.3.3.1–3.3.3.3, Bảng 2–3, 3.4, 3.5, PL01–PL05.</li><li>ADA Standards of Care 2026 mục 12 (Retinopathy, Neuropathy, and Foot Care) – TL-0446 – KC 12.4, 12.5, 12.17–12.31, đoạn Screening/Diagnosis, Treatment, Neuropathic Pain Management, Evaluation for Loss of Protective Sensation, Bảng 12.1; mục 3 và Bảng 4.1 (metformin và vitamin B12) – TL-0296; mục 6 KC 6.2, 6.3a; mục 9 KC 9.6, 9.20; mục 10 KC 10.17; mục 11 KC 11.1a.</li><li>AAN 2022, Practice guideline update: oral and topical treatment of painful diabetic polyneuropathy – TL-0317 – khuyến cáo 2, 3, 4, 6a, 7b, 7c, 7d, 8; Bảng 1.</li><li>NICE NG239 2024, Vitamin B12 deficiency in over 16s – TL-0462 – khuyến cáo 1.2.5, Hộp 1–2, 1.3.9, Bảng 1, 1.3.16.</li><li>BYT – QĐ 5481/QĐ-BYT 2020, Hướng dẫn chẩn đoán và điều trị đái tháo đường típ 2 – TL-0031 – Phần 3 mục 2.3 (Bảng 2), 2.4 (Bảng 3); Phần 4 mục 1e, mục 2 (Bảng 4), 4.2a–f, mục 9; PL01 mục 2; Bảng 14.</li><li>BYT – QĐ 5904/QĐ-BYT 2019 – TL-0284 – Phần 3 Bước 5 (metformin).</li><li>IWGDF 2023, Practical guidelines on the prevention and management of diabetes-related foot disease (kho cũ tltk-10000-ca) – mục 3.1, Bảng 1, khuyến cáo 2–6 (phòng ngừa), khuyến cáo 11 (nhiễm trùng).</li></ul></details>
+<details class="card"><summary><h3 id="m-16">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Bệnh mạn tính người lớn</dd><dt>chan_doan_dich</dt><dd>ĐTĐ biến chứng thần kinh ngoại biên</dd><dt>chan_doan_phai_loai_tru</dt><dd>Thiếu B12; Bệnh TK do rượu</dd><dt>nhom_tuoi</dt><dd>Trung niên (40–59 tuổi)</dd><dt>do_kho</dt><dd>Không điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>dien_tien_tai_kham</dt><dd>Đỡ một phần</dd><dt>nhieu_benh_nhan</dt><dd>Không đủ tiền xét nghiệm</dd><dt>rang_buoc_nguon_luc</dt><dd>Không có CT</dd><dt>loai_ket_cuc</dt><dd>Khỏi chậm hơn dự kiến</dd><dt>gioi</dt><dd>Nữ</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>2</dd><dt>nghe_nghiep</dt><dd>Bộ đội (quân nhân chuyên nghiệp, kế toán quân lương ở đơn vị hậu cần)</dd><dt>yeu_to_khoi_phat</dt><dd>Khởi phát âm thầm, từ từ (tê gót chân hai bên khoảng 10 tháng trước)</dd><dt>thuoc_dang_dung</dt><dd>Tự mua amoxicillin (500 mg × 3 lần/ngày × 5 ngày, hai tuần trước)</dd><dt>ly_do_that_su_den_kham</dt><dd>Giấu triệu chứng thật vì ngại ngùng (sợ lộ bệnh với đơn vị, sợ mất chân như mẹ)</dd></dl><ul class=""><li>2026-10-25: viết bản 1. Ca 2 lượt: lượt 1 chẩn đoán bệnh đa dây thần kinh đái tháo đường (giấu bệnh, ngân sách 400.000 đồng), ve_hen; lượt 2 sau 6 tuần đáp ứng một phần (đau giảm khoảng 40%, bỏ khoảng 8 đêm thuốc), ve_hen.</li><li>Tài liệu đã đọc: QĐ 3510/2025 (TL-0279) mục 1–5, PL01–PL07; ADA 2026 mục 12 (TL-0446) KC 12.17–12.31, mục 9, 3 (B12), Bảng 4.1, mục 6, mục 11; AAN 2022 (TL-0317) khuyến cáo 1–8, Bảng 1; NICE NG239 (TL-0462); QĐ 5481/2020 (TL-0031); QĐ 5904/2019 (TL-0284) Bước 5; IWGDF 2023 Bảng 1, khuyến cáo 2–6, 11. Đã đối chiếu: số 78% (ADA 2026 mục 12) và khuyến cáo IWGDF đúng bản chữ.</li><li>Mâu thuẫn áp dụng theo sổ: TK-0422, TK-0512, MT-0741, ngưỡng insulin QĐ 5481 so với ADA. Đề xuất mới: chẹn kênh natri; khoảng liều amitriptylin (MT-1079_mau_thuan.md).</li><li>Không có trong tài liệu đã tải: ngưỡng rượu/GGT gây bệnh thần kinh; tiêu chuẩn nhập viện/chuyển tuyến bệnh đa dây thần kinh đái tháo đường không loét; hướng dẫn thuốc an thần cho người trực đêm; hàm lượng viên amitriptylin; quy định giấy xác nhận sức khỏe quân đội. Không dùng ảnh da (da khô, nứt gót nhẹ không phải khám then chốt).</li></ul></details>
+<p class="chan-trang">Ca MT-1079 · phiên bản ca 1 · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

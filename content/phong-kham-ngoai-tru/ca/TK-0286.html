@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TK-0286 · Rối loạn tiền đình ngoại biên (viêm TK tiền đình)</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · TK-0286</div>
+   <h1>Chóng mặt quay cuồng, nôn từ sáng hôm kia sau bữa ốc ghẹ; anh nghĩ ngộ độc và xin truyền nước giải độc</h1>
+   <p class="dich-gia">Trần Minh Khôi · Nam · 27 tuổi · 62 kg</p>
+   <div class="chips"><span class="chip">Thần kinh - tiền đình - giấc ngủ</span><span class="chip">Điển hình</span><span class="chip">1 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Pha chế đồ uống</dd><dt>Chiều cao, cân nặng</dt><dd>171 cm · 62 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi anh là &#x27;anh&#x27;. Anh xưng &#x27;em&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;. Bạn cùng phòng Hải gọi anh là &#x27;ông&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;.</dd><dt>Tính cách</dt><dd>Hiền, nói nhỏ, hay xin lỗi vì làm phiền, hay nói giảm &quot;em ổn mà&quot;. Tự ái nhẹ về chuyện uống rượu nên né, ngại nói về tiền.</dd><dt>Người nhà</dt><dd>Lê Quốc Hải – Bạn cùng phòng</dd></dl></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/1</span> · khám lần đầu</h2>
+ <div class="card intro"><h3 id="m-2">Tiếp đón</h3><p>Nam 27 tuổi, pha chế ở quán bar, bạn cùng phòng chở đến bằng xe máy; anh ngồi gục trên ghế, mắt nhắm, một tay giữ túi ni lông. Chóng mặt quay cuồng và nôn từ sáng hôm kia. Sinh hiệu lúc tiếp đón (nằm): mạch 80 l/p, HA 118/74 mmHg, nhiệt 36,9 °C, nhịp thở 18, SpO₂ 99%.</p>
+  <blockquote>“Dạ bác sĩ, em chóng mặt quay quay hai bữa nay, nôn mấy lần rồi. Chắc tại tối hôm trước em ăn ốc với ghẹ nên bị độc, bác sĩ truyền cho em chai nước giải độc nghen. À mà... không cần làm xét nghiệm gì nhiều đâu bác sĩ, em ổn mà.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>80</b><small>l/p</small></div><div class="vs"><span>HA</span><b>118/74</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,9</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>18</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>99</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-3">Hỏi bệnh <small>15 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do đến khám</b><span class="tag t-g">Tự kể</span></div><p>Chóng mặt quay cuồng và nôn từ sáng hôm kia, nay là ngày thứ hai. Anh Khôi đi một mình, bạn cùng phòng là Hải chở đến và ngồi chờ ngoài sảnh.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khởi phát cấp, vertigo liên tục trên 24 giờ, không theo cơn ngắn</b><span class="tag t-b">Khi được hỏi</span></div><p>Sáng hôm kia khoảng 9 giờ thức dậy, vừa ngồi dậy thì căn phòng quay vòng vòng, phải bám thành giường. Từ đó quay liên tục, nằm yên nhắm mắt cũng quay, quay đầu thì quay mạnh hơn, nằm nghiêng phải thì đỡ chút. Chưa lúc nào hết hẳn. Nôn khoảng năm lần hôm qua, sáng nay nôn hai lần, uống nước vào là buồn nôn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Yếu tố khởi phát theo biến: sau ăn hải sản; phân biệt ngộ độc/dị ứng thực phẩm</b><span class="tag t-b">Khi được hỏi</span></div><p>Tối hôm kia trước hôm bị, anh ăn ốc và ghẹ hấp với mấy người bạn trong quán. Không ai khác bị gì. Anh không đau bụng, không tiêu chảy, không nổi mẩn, không ngứa, không sưng môi, không khó thở; chỉ nôn vì quay. Anh tin mình &quot;dính độc ghẹ&quot; nên mới chóng mặt.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Sàng lọc triệu chứng thần kinh trung ương (Bárány AUVP 2022, ghi chú 13)</b><span class="tag t-b">Khi được hỏi</span></div><p>Không đau đầu, không yếu hay tê tay chân, không méo miệng, không nói khó, không nhìn đôi, không mờ mắt, không nuốt vướng, không ngất, không co giật.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tai: không giảm nghe, không ù (loại viêm mê nhĩ, Ménière, nhồi máu AICA)</b><span class="tag t-b">Khi được hỏi</span></div><p>Không ù tai, không nặng tai, không đau tai, không chảy dịch. Nghe hai tai như bình thường.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Chấn thương cổ, bóc tách động mạch đốt sống (GRACE-3 2023, thảo luận khuyến cáo 4–7)</b><span class="tag t-b">Khi được hỏi</span></div><p>Không té ngã, không va đầu, không ai vặn cổ. Cổ không đau; bưng khay ly đứng quầy cả tối nên chỉ mỏi vai như mọi ngày.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Phân biệt BPPV (cơn ngắn theo tư thế)</b><span class="tag t-b">Khi được hỏi</span></div><p>Chưa từng có cơn chóng mặt ngắn vài chục giây khi nằm xuống hay ngửa đầu. Chỉ có một cơn quay liên tục từ sáng hôm kia; trước đó chưa bao giờ chóng mặt kiểu này.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiền sử, yếu tố nguy cơ mạch máu, đau nửa đầu</b><span class="tag t-b">Khi được hỏi</span></div><p>Khỏe mạnh, chưa bệnh mạn tính, chưa từng đau nửa đầu, chưa đột quỵ, không tiểu đường. Không hút thuốc. Khi hỏi thẳng về rượu bia anh nói &quot;thỉnh thoảng&quot;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiền sử bị giấu: nhiễm virus hô hấp trên gần đây (gợi ý nguyên nhân virus)</b><span class="tag t-r">Giấu</span></div><p>Nhưng khi bác sĩ hỏi lại gần đây có bệnh gì không: khoảng mười ngày trước anh bị sổ mũi, đau họng, hơi sốt hai ba ngày, tự uống thuốc cảm rồi hết. Anh nghĩ chuyện đó &quot;chẳng liên quan&quot; nên không kể.</p><div class="cond">Điều kiện nói ra: Chỉ kể khi bác sĩ hỏi lại về bệnh/sốt/cảm gần đây trước khi chóng mặt, hoặc hỏi &quot;có bị sổ mũi, đau họng trong vài tuần qua&quot;; hỏi chung chung &quot;có bệnh gì không&quot; thì anh nói không.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiền sử bị giấu: rượu hằng ngày do nghề; loại ngộ độc/say rượu, cai rượu</b><span class="tag t-r">Giấu</span></div><p>Anh là người pha chế nên tối nào cũng nếm thử rượu để cân vị, mỗi tối vài ngụm đến vài ly nhỏ; tối trước hôm bị thì uống thêm khi tụ tập sau ca, khoảng bốn năm ly. Hai hôm nay không uống. Anh sợ bác sĩ cho là nghiện rượu hay đổ lỗi cho rượu nên nói &quot;thỉnh thoảng&quot;.</p><div class="cond">Điều kiện nói ra: Chỉ kể khi bác sĩ hỏi cụ thể lượng rượu mỗi tuần, nghề pha chế có uống thử không, hoặc hỏi không phán xét (&quot;anh uống mấy ly một đêm&quot;); hỏi trống không thì anh nói &quot;thỉnh thoảng&quot;.</div></div><div class="fact"><div class="fh"><b>Rà thuốc gây chóng mặt, độc tai</b><span class="tag t-b">Khi được hỏi</span></div><p>Anh không uống thuốc thường xuyên, không dùng kháng sinh, thuốc lợi tiểu, thuốc ngủ hay an thần. Hai hôm nay chỉ uống một gói điện giải rồi nôn ra.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Mức mất nước nhẹ cần bù</b><span class="tag t-b">Khi được hỏi</span></div><p>Hai hôm nay nôn nhiều, ăn ít, uống ít nước, đi tiểu ít và sẫm. Không tiêu chảy, không sốt lúc này.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Kiểu nhiễu: tự chẩn đoán ngộ độc hải sản, xin truyền nước</b><span class="tag t-g">Tự kể</span></div><p>Anh nghĩ mình ngộ độc hải sản. Trên mạng người ta bảo nếu do ăn hải sản thì phải truyền dịch giải độc, nên anh định xin truyền nước. Anh nói nhẹ nhàng, hay xin lỗi vì làm phiền, nghe giải thích có lý thì đồng ý ngay.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Công việc, ràng buộc nghỉ, nguy cơ ngã/làm vỡ ly</b><span class="tag t-b">Khi được hỏi</span></div><p>Anh làm ca tối ở một quán bar, đứng quầy sáu bảy tiếng, bưng khay ly thủy tinh, bê thùng đá. Quản lý cho nghỉ nếu có giấy bác sĩ, không giấy thì bị trừ công và có thể mất việc thử việc.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật: khó khăn tài chính, ngại xét nghiệm; cần giấy nghỉ</b><span class="tag t-r">Giấu</span></div><p>Thật ra anh đến vì tiền. Anh đang thử việc, chưa có bảo hiểm y tế, lương tháng đầu chỉ vừa đủ tiền trọ. Anh sợ bác sĩ bắt chụp MRI hoặc làm cả chục xét nghiệm nên chần chừ hai ngày mới đi, và chỉ muốn nghe bác sĩ nói có thật sự cần chụp không. Anh cũng cần tờ giấy nghỉ vài ngày.</p><div class="cond">Điều kiện nói ra: Chỉ kể khi bác sĩ hỏi về chi phí/bảo hiểm/vì sao đến muộn hai ngày, hoặc nói rõ từng xét nghiệm kèm giá; hỏi chung chung thì anh nói &quot;em ngại phiền thôi&quot;.</div></div></details>
+ <details class="card"><summary><h3 id="m-4">Khám <small>12 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Anh nằm nghiêng phải, mắt nhắm, tỉnh. Môi hơi khô. Không phát ban.</p><p><span class="lbl">Kết quả:</span> Anh tỉnh, tiếp xúc tốt, nằm nghiêng phải, mắt nhắm, nôn khan khi mở mắt hay quay đầu. Da ấm, môi hơi khô, véo da mất nhanh. Cân nặng 62 kg. Hơi thở không có mùi rượu. Không phát ban, không phù môi mặt.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đo huyết áp tư thế nằm – đứng</b></div><p><span class="lbl">Kết quả:</span> Nằm 5 phút: 118/74 mmHg, mạch 80. Ngồi dậy 1 phút: 116/74 mmHg, mạch 88, quay nhiều và buồn nôn nhưng không choáng kiểu sắp ngất. HA không giảm: không có hạ huyết áp tư thế (GRACE-3 2023, Hình 1 chú thích: hạ huyết áp tư thế là nguyên nhân tiền đình tạm thời).</p></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 80 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 80 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi, không T3.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><span class="key">★</span><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm, không điểm đau, nhu động bình thường, không chướng. Không gan lách to. Không dấu hiệu viêm dạ dày ruột hay ngộ độc thực phẩm.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Cổ mềm, không cứng gáy, không đau dọc cơ ức đòn chũm, cột sống cổ không điểm đau, không âm thổi động mạch cổ. Hạch cổ nhỏ, không đau (sau nhiễm virus hô hấp trên).</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Họng, tai, mũi</b></div><p><span class="lbl">Kết quả:</span> Ống tai ngoài hai bên sạch, màng nhĩ hai bên bình thường, không mụn nước ở vành tai hay ống tai (không gợi ý Ramsay Hunt), không chảy dịch. Họng hơi đỏ nhẹ, không mủ.</p></div><div class="row"><div class="rh"><b>Âm thoa (Weber, Rinne)</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Weber ở giữa, Rinne hai bên bình thường.</p><p><span class="lbl">Kết quả:</span> Weber không lệch, Rinne dương tính hai bên: không giảm nghe dẫn truyền hay tiếp nhận (Bárány AUVP 2022, mục 4.3.4: dùng Rinne, Weber phân loại giảm nghe).</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Nghiệm pháp thì thầm / cọ ngón tay (đánh giá thô khả năng nghe từng tai)</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nghe cọ ngón tay hai bên như nhau.</p><p><span class="lbl">Kết quả:</span> Cọ ngón tay sát tai: nghe như nhau hai bên, rõ cả hai. Không có giảm nghe một bên mới xuất hiện (HINTS plus, GRACE-3 2023 Bảng 4, tr. 460; Bárány AUVP 2022, mục 4.3.4).</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thần kinh</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, định hướng đủ, nói rõ. Thần kinh sọ: thị trường bình thường, đồng tử đều phản xạ tốt, vận nhãn đủ các hướng không liệt, cảm giác mặt đều, không méo mặt, lưỡi giữa, nuốt bình thường. Sức cơ 5/5 bốn chi, cảm giác nông bình thường, phản xạ gân xương đều, Babinski âm tính. Ngón–mũi và gót–gối chính xác, không loạn nhịp luân phiên, không thất điều chi. Không run tay, không tăng phản xạ (không gợi ý cai rượu).</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Khám vận nhãn: rung giật nhãn cầu, nghiệm pháp đẩy đầu, che mắt luân phiên (HINTS)</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nhìn thẳng: nhãn cầu giật liên tục sang phải, nhìn sang trái thì yếu đi nhưng vẫn giật sang phải, nhìn cố định ngón tay thì giảm. Đẩy đầu nhanh sang trái: mắt trượt khỏi mục tiêu rồi giật bắt kịp; sang phải: giữ được mục tiêu. Che mắt luân phiên: mắt không dịch chuyển dọc.</p><p><span class="lbl">Kết quả:</span> Nhìn thẳng: rung giật nhãn cầu ngang kèm thành phần xoay nhẹ, pha nhanh sang phải, một chiều ở mọi hướng nhìn; mạnh hơn khi nhìn sang phải, yếu đi khi nhìn sang trái nhưng không đổi chiều; giảm khi nhìn cố định ngón tay và rõ hơn khi che mắt (Bárány AUVP 2022, ghi chú 7: tuân theo định luật Alexander, giảm khi nhìn cố định). Đẩy đầu nhanh: quay sang trái mắt trượt khỏi mục tiêu và có cú giật bắt kịp biên độ lớn; sang phải mắt giữ được mục tiêu. Che mắt luân phiên: không lệch dọc. Không nhìn đôi. Cả ba thành phần ngoại biên, nghe không giảm mới: HINTS plus ngoại biên (GRACE-3 2023, Bảng 4, tr. 460), phù hợp tổn thương tiền đình trái (Bárány AUVP 2022, mục 3.1 tiêu chí B, C).</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Dáng đi, quay người, nghiệm pháp kéo</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Ngồi tự giữ thân. Đứng không cần đỡ, dang chân rộng, nghiêng trái. Đi vài bước một mình, lệch trái, phải chạm tường.</p><p><span class="lbl">Kết quả:</span> Ngồi tự giữ thân. Đứng được không cần đỡ nhưng dang chân rộng và nghiêng trái; đi thẳng được vài bước một mình, lệch dần sang trái, phải đưa tay chạm tường; không đi nối gót được; Romberg nhắm mắt ngả sang trái. Mất vững mức 1: đi độc lập (GRACE-3 2023, Bảng 3, tr. 458). Ngả về bên tổn thương, theo hướng pha chậm (Bárány AUVP 2022, mục 4.2c, 4.3.6).</p></div><div class="row"><div class="rh"><b>Nghiệm pháp Dix–Hallpike (và nghiệm pháp lăn ngang)</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Anh nằm ngửa đầu lệch: quay nhiều hơn, nôn khan, mắt vẫn giật sang phải như lúc ngồi.</p><p><span class="lbl">Kết quả:</span> Không phải nghiệm pháp để làm lúc này: anh đang có rung giật tự phát liên tục khi ngồi. Nếu làm, anh quay mạnh hơn và nôn, chỉ thấy rung giật tự phát sẵn có chứ không có rung giật xoay–lên khởi phát muộn, ngắn, tự hết như BPPV. Dix–Hallpike dành cho hội chứng theo cơn khởi phát bởi tư thế (GRACE-3 2023, khuyến cáo 11, tr. 447; TL-0451 Bảng 1).</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 18 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-5">Cận lâm sàng <small>10 mục</small></h3></summary><div class="row"><div class="rh"><b>Đường huyết mao mạch (máy thử tại giường)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Đường huyết mao mạch 4,9 mmol/L.</p><p class="why">Hạ đường huyết nằm trong bệnh dễ nhầm với đột quỵ (QĐ 5331/2020, Chương 2 mục I.4); anh ăn rất ít hai ngày nay. Rẻ, nhanh, nên làm; bình thường thì không đổi hướng xử trí.</p></div><div class="row"><div class="rh"><b>Điện tâm đồ 12 chuyển đạo</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Nhịp xoang 78 l/p, đều, không ST–T bất thường.</p><p class="why">Không cần để chẩn đoán viêm thần kinh tiền đình; chấp nhận được nếu muốn loại rối loạn nhịp (GRACE-3 2023, Hình 1 chú thích). Với người ngại chi phí, không làm cũng không sai.</p></div><div class="row"><div class="rh"><b>Que thử nước tiểu 10 thông số (tại giường)</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Tỷ trọng 1,028 · ceton +  · không bạch cầu, nitrit, protein, hồng cầu.</p><p class="why">Cho biết cô đặc nhẹ do nôn và uống ít; không đổi xử trí. Không bắt buộc.</p></div><div class="row"><div class="rh"><b>Điện giải đồ (Na, K, Cl)</b><span class="tag t-y">Chấp nhận</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Natri (Na⁺)</td><td class="num">138</td><td>mmol/L</td><td class="ref">135–145</td></tr><tr class=""><td>Kali (K⁺)</td><td class="num">3,6</td><td>mmol/L</td><td class="ref">3,5–5,0</td></tr><tr class=""><td>Clo (Cl⁻)</td><td class="num">101</td><td>mmol/L</td><td class="ref">98–106</td></tr></tbody></table><p class="why">Anh nôn nhiều nhưng uống được sau liều chống nôn; điện giải bình thường. Không cần thường quy ở người trẻ uống được; làm cũng không sai.</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Không cần làm. Nếu làm: BC 7,4 G/L, Hb 149 g/L, TC 241 G/L.</p><p class="why">Không có nhiễm khuẩn. Công thức máu không giúp chẩn đoán viêm thần kinh tiền đình (không nằm trong xét nghiệm cần thiết, Bárány AUVP 2022, mục 4.4) và không dùng để quyết định kháng sinh.</p></div><div class="row"><div class="rh"><b>CRP</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Không cần làm. Nếu làm: CRP 4 mg/L.</p><p class="why">Nguyên nhân giả định là virus (Bárány AUVP 2022, mục 4.8; QĐ 5643/2015, Chóng mặt, mục 2.2); CRP không cần cho chẩn đoán.</p></div><div class="row"><div class="rh"><b>CT sọ não không cản quang</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Không có chỉ định.</p><p class="why">GRACE-3 2023 khuyến cáo 5 (tr. 447): mạnh không dùng CT sọ hay CTA để phân biệt đột quỵ với viêm thần kinh tiền đình trong hội chứng tiền đình cấp; HINTS plus ngoại biên thì không cần hình ảnh (tóm tắt, tr. 444). Tiết kiệm chi phí cho người không có bảo hiểm.</p></div><div class="row"><div class="rh"><b>MRI sọ não (kèm ống tai trong, góc cầu tiểu não khi cần), có thuốc đối quang từ</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Không có chỉ định ở lượt này.</p><p class="why">GRACE-3 2023 khuyến cáo 6 và 7 (tr. 447): không dùng MRI làm xét nghiệm đầu tiên khi có người khám được HINTS; chỉ cần khi HINTS trung ương hoặc chưa rõ. Ở anh HINTS plus ngoại biên rõ và không có yếu tố nguy cơ mạch máu; nỗi sợ chi phí của anh có cơ sở y khoa để được yên tâm.</p></div><div class="row"><div class="rh"><b>Thính lực đồ (đơn âm, nhận biết lời)</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Thính lực đồ đơn âm: ngưỡng nghe hai tai bình thường, đối xứng.</p><p class="why">Không cần ở lượt cấp tính khi cọ ngón tay và âm thoa bình thường. Bárány AUVP 2022 mục 4.5.3: làm thính lực để tìm tổn thương tai trong kèm theo khi nghi; hẹn sau nếu có triệu chứng tai.</p></div><div class="row"><div class="rh"><b>Điện não đồ</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Không có chỉ định.</p><p class="why">Điện não không có vai trò trong hội chứng tiền đình cấp ngoại biên; không có trong tài liệu đã tải là xét nghiệm cho viêm thần kinh tiền đình.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-6">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Viêm thần kinh tiền đình bên trái (hội chứng tiền đình cấp ngoại biên một bên), ngày thứ hai; mất nước nhẹ do nôn</b></div><p class="why">Bárány AUVP 2022, mục 3.1: khởi phát cấp, vertigo liên tục từ 24 giờ, rung giật ngoại biên một chiều, giảm VOR bên đối diện, không dấu trung ương, không nguyên nhân khác; anh đủ cả. Nguyên nhân virus có khả năng nhưng chưa chứng minh (mục 4.8; QĐ 5643/2015, Chóng mặt, mục 2.2); tiền sử cảm 10 ngày trước phù hợp nhưng không đủ làm bằng chứng. Hải sản không là nguyên nhân: Bárány mục 4.2 không ghi yếu tố khởi phát đi trước.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Đột quỵ tuần hoàn sau (tiểu não, thân não, nhồi máu mê nhĩ/AICA)</b></div><p class="why">Loại trừ lâm sàng, không cần hình ảnh. Ba thành phần HINTS ngoại biên, không lệch dọc, nghe không giảm mới, không dấu thần kinh khu trú, mất vững mức 1 (nguy cơ đột quỵ 7% ở nhóm này, GRACE-3 2023 Bảng 3, tr. 458). Anh 27 tuổi, không hút thuốc, không tăng huyết áp hay tiểu đường; GRACE-3 2023 (thảo luận khuyến cáo 4–7) lưu ý bóc tách động mạch đốt sống thường không có yếu tố nguy cơ, nên đã hỏi chấn thương cổ và khám cổ. HINTS chỉ tin cậy khi người khám được huấn luyện (khuyến cáo 1, tr. 447).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>BPPV (chóng mặt kịch phát tư thế lành tính)</b></div><p class="why">Loại trừ: vertigo liên tục hơn 24 giờ kể cả nằm yên, có rung giật tự phát, không cơn ngắn theo tư thế. Dix–Hallpike chỉ dành cho hội chứng theo cơn (GRACE-3 2023, khuyến cáo 11; TL-0451 Bảng 1).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ngộ độc hải sản hoặc dị ứng thực phẩm</b></div><p class="why">Không đau bụng, không tiêu chảy, không mẩn ngứa, không phù môi, bụng mềm, không ai cùng ăn bị bệnh; rung giật một chiều và HIT bất thường không giải thích được bằng ngộ độc thực phẩm. Tài liệu đã tải không nêu hải sản là nguyên nhân viêm thần kinh tiền đình; thông tin về độc tố hải sản gây chóng mặt: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Bệnh Ménière, viêm mê nhĩ hay viêm tai giữa gây chóng mặt</b></div><p class="why">Không ù tai, không nghe kém, không đau tai, màng nhĩ bình thường, không mụn nước (Bárány AUVP 2022, ghi chú 13, mục 4.3.4). Viêm tai trong có mủ mới cần kháng sinh liều cao (QĐ 5643/2015, Chóng mặt, mục 4.1c); anh không chảy mủ tai, không sốt.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Say rượu, cai rượu hoặc đau nửa đầu tiền đình/chóng mặt do thuốc</b></div><p class="why">Không có mùi rượu, không run, mạch 80, hai ngày không uống mà không có run hay kích động nên không giống cai rượu; chưa từng đau nửa đầu, không đau đầu, không dùng thuốc độc tai (Bárány AUVP 2022, mục 4.6 chẩn đoán phân biệt). Chẩn đoán cai rượu và liều thuốc: không có trong tài liệu đã tải.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Khám vận nhãn HINTS plus (rung giật, đẩy đầu, che mắt luân phiên, nghe) và dáng đi trước khi kết luận ngoại biên</b></div><p class="why">GRACE-3 2023 khuyến cáo 2, 3 (tr. 447): HINTS ba thành phần cộng cọ ngón tay cho người được huấn luyện; Bảng 4 (tr. 460).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không chụp CT sọ; không chụp MRI vì HINTS plus ngoại biên</b></div><p class="why">GRACE-3 2023 khuyến cáo 5 và 6 (tr. 447) và tóm tắt (tr. 444): khám xác nhận ngoại biên thì xử trí tương ứng, không cần hình ảnh. Giữ xét nghiệm tối thiểu (đường huyết mao mạch) cũng đáp ứng nỗi lo chi phí của anh.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích: viêm dây thần kinh tiền đình nghi do virus, không do hải sản, không cần kháng sinh, không cần truyền dịch giải độc</b></div><p class="why">Bárány AUVP 2022, mục 4.8: nguyên nhân virus có khả năng; QĐ 5643/2015, Chóng mặt, mục 2.2. Điều trị trong TL-0451 (HNO 2025, Bảng 3, tr. S366) không có kháng sinh. Hải sản không nằm trong các yếu tố nêu ở mục 4.2. Truyền dịch chỉ khi không uống được (xem mục dưới).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Thuốc chống nôn ngắn ngày: domperidon, ondansetron hoặc metoclopramid, tối đa 2–3 ngày hoặc không quá 3–5 ngày</b></div><p class="why">TL-0451 (HNO 2025, Bảng 3 tr. S366; tr. S363): domperidon, metoclopramid, ondansetron tối đa 2–3 ngày để không cản bù trừ. GRACE-3 2023 (tóm tắt tr. 444): nếu cần thì ngắn hạn, không quá 3–5 ngày. Liều: không có trong tài liệu đã tải. Anh 27 tuổi nên không áp dụng hạn chế của AGS Beers 2023 (≥ 65 tuổi).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Uống điện giải/nước từng ngụm sau thuốc chống nôn, ăn nhẹ khi hết nôn; chỉ truyền tĩnh mạch nếu không uống được</b></div><p class="why">Mất nước nhẹ, uống được sau liều đầu nên không cần truyền. Mức bù nước theo QĐ 5642/2015 không áp dụng vì không tiêu chảy; lượng nước cụ thể: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Khuyến khích đi lại sớm và tập phục hồi tiền đình tại nhà (tờ hướng dẫn, video), không nằm bất động kéo dài</b></div><p class="why">GRACE-3 2023 (tóm tắt tr. 444): chuyển mọi người viêm thần kinh tiền đình đi phục hồi tiền đình dù có dùng steroid hay không. TL-0451 (Bảng 3): tập tại nhà bằng tờ hướng dẫn, video, ứng dụng, phù hợp người ngại chi phí.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn tái khám 2–4 tuần; về ngay khi có dấu hiệu cảnh báo</b></div><p class="why">TL-0451 (Bảng 3): tái khám sau 2–4 tuần; chuyển cấp cứu hoặc chuyên khoa khi nặng hay nghi trung ương. Bárány AUVP 2022, ghi chú 13, 16: dấu thần kinh hay triệu chứng tai mới thì xét lại chẩn đoán. Dấu hiệu gọi cấp cứu: QĐ 5331/2020, Chương 5 mục I.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Cấp giấy nghỉ việc đủ để đi vững; dặn không đứng quầy bưng ly, không bê thùng đá, không lái xe cho đến khi đi vững; tạm không uống rượu kể cả nếm thử</b></div><p class="why">Số ngày nghỉ, hạn chế công việc, lời khuyên về rượu: không có trong tài liệu đã tải; chọn theo mất vững mức 1 (GRACE-3 2023 Bảng 3) và nguy cơ ngã. Đây là lý do thật của chuyến khám: đáp ứng nhu cầu nghỉ chính đáng giữ được lòng tin.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Corticoid uống ngắn ngày sau khi thảo luận lợi và hại với bệnh nhân (đến trong 3 ngày)</b></div><p class="why">GRACE-3 2023 khuyến cáo 14 (tr. 447, thảo luận tr. 472–473): quyết định chung cho người đến trong 3 ngày, bằng chứng rất thấp; không có lợi ích triệu chứng ở 24 giờ và 1 tháng nhưng tăng hồi phục chức năng tiền đình khi thử nhiệt. Hại: xuất huyết tiêu hóa, tăng đường huyết. TL-0451 Bảng 3: cân nhắc steroid. Anh khỏe, dùng hay không đều đúng. Liều: không có trong tài liệu đã tải.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Cinnarizin ± dimenhydrinat tối đa 2–3 ngày, hoặc huyết thanh ngọt ưu trương/diazepam ngắn ngày theo QĐ 5643</b></div><p class="why">TL-0451 (tr. S363, Bảng 3): cinnarizin ± dimenhydrinat tối đa 2–3 ngày. QĐ 5643/2015 (Chóng mặt, mục 4.1a): huyết thanh ngọt ưu trương, chống nôn, tanganil, seduxen. GRACE-3 2023 (tr. 474): ức chế tiền đình ngắn ngày hợp lý; dùng dài làm chậm bù trừ.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê hoặc tiêm kháng sinh để &quot;giải độc hải sản&quot; hay &quot;cho nhanh hết&quot;</b></div><p class="why">Không có kháng sinh trong điều trị viêm thần kinh tiền đình theo TL-0451 Bảng 3 hay GRACE-3 2023 khuyến cáo 14; bệnh không do vi khuẩn (Bárány AUVP 2022, mục 4.8). Kháng sinh liều cao chỉ cho viêm tai trong có mủ (QĐ 5643/2015, mục 4.1c).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Dùng thuốc chống chóng mặt/ức chế tiền đình dài ngày (nhiều tuần) hoặc nằm bất động chờ hết quay</b></div><p class="why">GRACE-3 2023 (tr. 474): dùng kéo dài hơn vài ngày bị khuyên không nên vì cản bù trừ sinh lý và có tác dụng phụ; TL-0451 (tr. S363): tối đa 2–3 ngày.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>HINTS plus ngoại biên, anh đi độc lập và uống được sau liều chống nôn nên nhập viện không thêm xét nghiệm hay điều trị nào đổi được xử trí (GRACE-3 2023, tóm tắt tr. 444). Anh đang thử việc, không bảo hiểm: nằm viện vài ngày tốn viện phí bằng cả tháng tiền trọ, mất công và có thể mất việc; nằm giường lâu còn dễ bị truyền dịch, thuốc ức chế tiền đình kéo dài làm chậm bù trừ (GRACE-3 2023, tr. 474).</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển lên tuyến trên chụp CT hay MRI khi khám vận nhãn đã cho kiểu ngoại biên: CT không phân biệt được đột quỵ hố sau với viêm thần kinh tiền đình, GRACE-3 2023 khuyến cáo mạnh không dùng (khuyến cáo 5, tr. 447); MRI không phải xét nghiệm đầu tiên khi có người khám được HINTS (khuyến cáo 6). Anh ngồi xe hàng giờ khi còn nôn và quay, trả chi phí chụp tự túc, và càng ngại đi khám lại lần sau.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển cấp cứu</span></div><p>Kích hoạt đường dây đột quỵ hay gọi cấp cứu là quá mức: không có dấu thần kinh khu trú, không giảm nghe mới, ba thành phần HINTS ngoại biên (GRACE-3 2023, Bảng 4, tr. 460). Anh đi xe cấp cứu, chờ nhiều giờ, nhận hóa đơn mà vẫn nhận hướng xử trí như đã có ở phòng khám.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Hội chứng tiền đình cấp ngoại biên một bên, thứ nhất là viêm thần kinh tiền đình bên trái (AUVP) ngày thứ hai, HINTS plus ngoại biên (Bárány AUVP 2022, mục 3.1; GRACE-3 2023, Bảng 4)</li><li>Mất vững mức 1: đi độc lập nhưng lệch trái, nguy cơ ngã khi đứng quầy bưng ly thủy tinh (GRACE-3 2023, Bảng 3)</li><li>Mất nước nhẹ do nôn hai ngày, uống được sau chống nôn; đường huyết 4,9 mmol/L</li><li>Nhiễu: tin mình ngộ độc hải sản, xin truyền nước; giấu tiền sử cảm 10 ngày trước và rượu hằng ngày do nghề</li><li>Lý do thật: khó khăn tài chính, ngại xét nghiệm, cần giấy nghỉ</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự đúng: hỏi bệnh (liên tục trên 24 giờ, không theo cơn, không dấu thần kinh khu trú, không ù tai, không chấn thương cổ; hỏi lại tiền sử cảm và rượu không phán xét) → sinh hiệu, tư thế → khám vận nhãn (HINTS plus), dáng đi → CLS tối thiểu (đường huyết mao mạch) → chẩn đoán → xử trí (GRACE-3 2023, TL-0072, tr. 444).</li><li>Nhiễu: &quot;ngộ độc hải sản&quot; là cách giải thích dễ hiểu vì nôn và có ăn hải sản. Nhưng không đau bụng, tiêu chảy, mẩn ngứa; bụng mềm; rung giật một chiều và HIT bất thường chỉ gặp ở tổn thương tiền đình. Ăn hải sản chỉ là hoàn cảnh; Bárány AUVP 2022 mục 4.2 không ghi yếu tố khởi phát nào đi trước.</li><li>Tiền sử bị giấu: cảm 10 ngày trước phù hợp giả thuyết virus (Bárány AUVP 2022, mục 4.8: nguyên nhân virus có khả năng nhưng chưa chứng minh). Rượu hằng ngày do nghề cần hỏi để loại say rượu/cai rượu; kỹ thuật hỏi lại không phán xét làm anh dám kể.</li><li>Anh có đủ ba thành phần ngoại biên cộng nghe không giảm mới (GRACE-3 2023, Bảng 4, tr. 460); Bárány AUVP 2022 mục 3.1 đạt đủ tiêu chí. Trẻ tuổi không loại trừ đột quỵ (GRACE-3 2023, thảo luận khuyến cáo 4–7: bóc tách động mạch đốt sống), nên phải khám vận nhãn thay vì dựa vào tuổi. Giới hạn: HINTS chỉ đáng tin khi người khám được huấn luyện (khuyến cáo 1); tuổi khởi phát điển hình 30–60 (Bárány AUVP 2022, mục 4.1), anh 27 tuổi hơi trẻ nhưng vẫn gặp.</li><li>Nguồn lực đầy đủ nhưng không cần CT/MRI/công thức máu/CRP; biện luận vì sao không chỉ định giúp anh yên tâm về chi phí. Video-HIT và thử nhiệt (Bárány AUVP 2022, ghi chú 10–12) không có sẵn ở phòng khám ngoại trú và không cần cho quyết định xử trí.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Cho về và hẹn tái khám: viêm thần kinh tiền đình chẩn đoán lâm sàng, xử trí không cần hình ảnh (GRACE-3 2023, tr. 444). Anh đi độc lập (mức 1), uống được sau liều chống nôn đầu, không dấu trung ương nên không cần nhập viện hay chuyển tuyến (TL-0451 Bảng 3: chuyển cấp cứu khi nặng hoặc nghi trung ương). Giữ tại phòng khám đến khi uống được và đi được.</li><li>Thuốc chống nôn và chống chóng mặt chỉ vài ngày: TL-0451 nêu 2–3 ngày, GRACE-3 2023 nêu không quá 3–5 ngày; cả hai đúng, ghi cả hai. Anh trẻ nên metoclopramid dùng được, khác người ≥ 65 tuổi (AGS Beers 2023).</li><li>Corticoid: lựa chọn sau thảo luận, bằng chứng rất thấp, đến trong 3 ngày; anh đang ngày thứ hai nên còn trong cửa sổ (GRACE-3 2023 khuyến cáo 14). Dùng hay không đều đúng. Liều: không có trong tài liệu đã tải.</li><li>Từ chối kháng sinh và truyền &quot;giải độc&quot; bằng lý do cụ thể, không bác bỏ: &quot;Anh không bị ngộ độc; dây thần kinh thăng bằng bên trái bị viêm, thường nghĩ do virus sau cảm; kháng sinh không giúp, tiêm truyền cũng không cần vì anh uống được&quot; (nhận xét thực hành; lời thoại mẫu không có trong tài liệu đã tải). Nêu rõ không cần chụp giúp anh bớt lo tiền.</li><li>Công việc: mất vững mức 1 nên đứng quầy, bưng khay ly thủy tinh, bê thùng đá là nguy cơ ngã; thời gian nghỉ cụ thể không có trong tài liệu đã tải. Phục hồi tiền đình sớm (GRACE-3 2023 tr. 444; TL-0451 Bảng 3) vì thiếu hụt tĩnh giảm sau vài tuần nhưng thiếu hụt động không phục hồi hết (Bárány AUVP 2022, mục 4.7.1, 4.7.2).</li><li>Bài học near miss: nếu xử trí ẩu (không khám vận nhãn, cho thuốc chống chóng mặt kéo dài hoặc truyền &quot;giải độc&quot;) mà anh vẫn khỏi dần thì đó là may mắn, vì viêm thần kinh tiền đình tự bù trừ; kết cục tốt không hợp thức hóa quy trình thiếu loại trừ đột quỵ (GRACE-3 2023, khuyến cáo 1–3).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Domperidon (hoặc ondansetron, metoclopramid)</b><div class="sub">Không có trong tài liệu đã tải</div></td><td data-l="Liều">Không có trong tài liệu đã tải (theo tờ hướng dẫn thuốc)<div class="sub">Uống (ondansetron có thể tiêm) · Khi buồn nôn; liều đầu tại phòng khám</div></td><td data-l="Thời gian">Tối đa 2–3 ngày (TL-0451) hoặc không quá 3–5 ngày (GRACE-3 2023)</td><td class="gc" data-l="Ghi chú">TL-0451 HNO 2025, Bảng 3 (tr. S366), tr. S363; GRACE-3 2023 tóm tắt tr. 444.</td></tr><tr><td><b>Điện giải uống (oresol)</b><div class="sub">Gói pha theo hướng dẫn trên gói</div></td><td data-l="Liều">Từng ngụm nhỏ sau thuốc chống nôn, theo khát (số ml: không có trong tài liệu đã tải)<div class="sub">Uống · Sau liều chống nôn, rải đều trong ngày</div></td><td data-l="Thời gian">1–2 ngày hoặc đến khi ăn uống lại</td><td class="gc" data-l="Ghi chú">Nhận xét theo mất nước nhẹ; mức bù theo QĐ 5642/2015 không áp dụng vì không tiêu chảy; liều: không có trong tài liệu đã tải.</td></tr><tr><td><b>Cinnarizin ± dimenhydrinat (tùy chọn)</b><div class="sub">Không có trong tài liệu đã tải</div></td><td data-l="Liều">Không có trong tài liệu đã tải<div class="sub">Uống · Khi còn quay nhiều</div></td><td data-l="Thời gian">Tối đa 2–3 ngày</td><td class="gc" data-l="Ghi chú">TL-0451 tr. S363 và Bảng 3; GRACE-3 2023 tr. 474 (không dùng kéo dài).</td></tr><tr><td><b>Corticoid uống (tùy chọn sau thảo luận)</b><div class="sub">Không có trong tài liệu đã tải</div></td><td data-l="Liều">Không có trong tài liệu đã tải (GRACE-3 2023 tr. 473: các thử nghiệm dùng phác đồ khác nhau)<div class="sub">Uống · Bắt đầu trong 3 ngày kể từ khởi phát</div></td><td data-l="Thời gian">Ngắn ngày; số ngày: không có trong tài liệu đã tải</td><td class="gc" data-l="Ghi chú">GRACE-3 2023 khuyến cáo 14 (tr. 447, 472–473): quyết định chung; hại xuất huyết tiêu hóa, tăng đường huyết. TL-0451 Bảng 3.</td></tr><tr><td><b>Không kê kháng sinh, không truyền dịch &quot;giải độc&quot;</b><div class="sub">Không áp dụng</div></td><td data-l="Liều">Không áp dụng<div class="sub">Không áp dụng · Không áp dụng</div></td><td data-l="Thời gian">Không áp dụng</td><td class="gc" data-l="Ghi chú">Không có trong điều trị viêm thần kinh tiền đình (TL-0451 Bảng 3; GRACE-3 2023 khuyến cáo 14); Bárány AUVP 2022 mục 4.8: nghi nguyên nhân virus.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Anh bị viêm thần kinh tiền đình bên trái: dây thần kinh thăng bằng của tai bị viêm, nghi do virus sau cảm (QĐ 5643/2015, Chóng mặt, mục 2.2; Bárány AUVP 2022, mục 4.8). Không phải ngộ độc hải sản, không phải nhiễm trùng tai nên không cần kháng sinh hay truyền &quot;giải độc&quot;.</li><li>Anh không cần chụp CT/MRI lúc này vì khám mắt và đi đứng cho thấy bệnh ở tai trong chứ không phải não (GRACE-3 2023, tr. 444). Nếu có dấu hiệu mới thì mới cần chụp.</li><li>Chống nôn chỉ vài ngày, không dùng kéo dài. Ăn uống lại từng chút, uống nước đủ. Tạm không uống rượu kể cả nếm thử cho đến khi hết chóng mặt (nhận xét thực hành, không có trong tài liệu đã tải).</li><li>Không nằm im cả ngày: khi hết nôn, tập nhìn và xoay đầu nhẹ theo tờ hướng dẫn mỗi ngày, có người ở cạnh; đi vệ sinh chậm, bám tay vịn (GRACE-3 2023, tr. 444; TL-0451 Bảng 3). Tập tại nhà không tốn tiền.</li><li>Giấy nghỉ việc được cấp. Không đứng quầy bưng ly, không bê thùng đá, không lái xe cho đến khi đi vững và quay đầu không còn choáng; số ngày nghỉ cụ thể: không có trong tài liệu đã tải.</li><li>Gọi Hải đưa anh đi cấp cứu ngay nếu yếu liệt tay chân, méo miệng, nói khó, nhìn đôi, tê, lơ mơ, đau đầu dữ dội, đi không vững hơn, mất thính lực hay ù tai mới (QĐ 5331/2020, Chương 5 mục I; Bárány AUVP 2022, ghi chú 13 và 16).</li><li>Tái khám sau 2–4 tuần (TL-0451 Bảng 3), sớm hơn nếu còn quay nhiều hoặc có cơn quay ngắn khi trở mình. Nếu khó khăn chi phí, hỏi về bảo hiểm y tế hoặc nơi khám có giá thấp (nhận xét, không có trong tài liệu đã tải).</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-7">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Rối loạn tiền đình ngoại biên (viêm TK tiền đình)</b></div>
+<p class="note">Phải loại trừ: Đột quỵ, BPPV</p><p>Anh Khôi được xử trí đúng hướng: HINTS plus ngoại biên, chống nôn vài ngày, tập phục hồi tiền đình, giấy nghỉ. Kết cục theo biến sổ cái là xử trí ẩu nhưng may mắn: nếu một phòng khám khác chỉ nghe &quot;ăn hải sản&quot;, truyền một chai nước, kê thuốc chống chóng mặt hai tuần mà không khám vận nhãn, anh vẫn đỡ dần sau 5–7 ngày vì viêm thần kinh tiền đình tự bù trừ, và người ta sẽ tưởng &quot;truyền giải độc có tác dụng&quot;. Đó là may: nếu cùng triệu chứng mà là nhồi máu tiểu não (GRACE-3 2023, Bảng 3: mất vững mức 1 vẫn có nguy cơ đột quỵ 7%), cách xử trí ấy bỏ sót chẩn đoán, và thuốc dùng kéo dài làm chậm bù trừ (GRACE-3 2023, tr. 474). Kết cục tốt không hợp thức hóa quy trình sai (near miss).</p></details>
+<details class="card" id="bai"><summary><h3 id="m-8">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Tự chẩn đoán &quot;ngộ độc hải sản&quot;, xin truyền nước giải độc: bác bỏ thẳng dễ mất lòng tin; cần giải thích nguyên nhân thật và bỏ qua truyền khi anh uống được.</li><li>Hai mảnh tiền sử bị giấu (cảm mười ngày trước, rượu hằng ngày do nghề) chỉ lộ khi hỏi cụ thể và không phán xét.</li><li>Lý do thật là chi phí: anh chần chừ hai ngày vì sợ MRI và xét nghiệm; biện luận vì sao không cần chụp là chính điều anh cần nghe.</li><li>Hải sản là hoàn cảnh trùng hợp về thời gian, không phải nguyên nhân (Bárány AUVP 2022, mục 4.2).</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Hội chứng tiền đình cấp: khám vận nhãn HINTS plus bởi người được huấn luyện thay cho CT; ngoại biên thì không cần hình ảnh (GRACE-3 2023 khuyến cáo 2, 3, 5, 6).</li><li>Viêm thần kinh tiền đình không dùng kháng sinh: nghi do virus (Bárány AUVP 2022, mục 4.8); điều trị gồm chống nôn ngắn ngày, phục hồi tiền đình, steroid sau thảo luận (GRACE-3 2023 khuyến cáo 14; TL-0451 Bảng 3).</li><li>Hỏi lại không phán xét để lấy tiền sử bị giấu (cảm gần đây, rượu).</li><li>Biện luận vì sao KHÔNG chỉ định CT/MRI là cách tôn trọng chi phí của người bệnh khi nguồn lực đầy đủ.</li><li>Near miss: bệnh tự khỏi không có nghĩa xử trí sai là đúng.</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Viêm thần kinh tiền đình (Bárány 2022, mục 3.1): vertigo liên tục ≥ 24 giờ, rung giật ngoại biên một chiều, giảm VOR bên đối diện, không dấu trung ương, không triệu chứng tai.</li><li>HINTS plus ngoại biên: rung giật một chiều, HIT có cú giật bắt kịp, không lệch dọc, không giảm nghe mới (GRACE-3 2023 Bảng 4). Không CT sọ để loại đột quỵ (khuyến cáo 5).</li><li>Chống nôn, ức chế tiền đình tối đa 2–3 ngày (TL-0451) hoặc không quá 3–5 ngày (GRACE-3); steroid trong 3 ngày sau thảo luận (khuyến cáo 14); mọi người viêm thần kinh tiền đình đi phục hồi tiền đình.</li><li>Mất vững mức 1 đi độc lập: nguy cơ đột quỵ 7% (3/42), mức 2: 28%, mức 3: 100% (GRACE-3 2023 Bảng 3).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-9">Nguồn tài liệu <small>7</small></h3></summary><ul class=""><li>GRACE-3 2023 – Edlow JA và cs., Guidelines for reasonable and appropriate care in the emergency department 3: acute dizziness and vertigo. Acad Emerg Med 2023;30:442-486 – TL-0072 – tóm tắt tr. 444, khuyến cáo 1–15 (tr. 447), Bảng 3 (tr. 458), Bảng 4 (tr. 460), thảo luận khuyến cáo 4–7, corticoid (tr. 472–473), thuốc ức chế tiền đình (tr. 474).</li><li>Bárány Society 2022 – Strupp M và cs., Acute unilateral vestibulopathy/vestibular neuritis: diagnostic criteria. J Vestib Res 2022;32:389-406 – TL-0465 – mục 3.1, ghi chú 7, 10–13, 16; mục 4.1, 4.2, 4.3, 4.4, 4.5.3, 4.6, 4.7.1, 4.7.2, 4.8.</li><li>TL-0451 – Tarnutzer và cs., Diagnosis and treatment of vertigo and dizziness: interdisciplinary guidance paper. HNO 2025;73(Suppl 3):357-369 – Bảng 1, tr. S363, Bảng 3 (tr. S366).</li><li>BYT – QĐ 5643/QĐ-BYT 2015, Hướng dẫn chẩn đoán và điều trị một số bệnh tai mũi họng – TL-0130 – bài Chóng mặt, mục 2.2, 4.1a, 4.1c.</li><li>BYT – QĐ 5331/QĐ-BYT 2020, Hướng dẫn chẩn đoán và xử trí đột quỵ não – TL-0030 – Chương 2 mục I.4, Chương 5 mục I.</li><li>BYT – QĐ 5642/QĐ-BYT 2015, bệnh tiêu chảy do vi khuẩn – TL-0038 – mục 4.2.3a (chỉ để nói không áp dụng).</li><li>AGS Beers 2023 (chỉ để nói không áp dụng với người dưới 65 tuổi).</li></ul></details>
+<details class="card"><summary><h3 id="m-10">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Thần kinh - tiền đình - giấc ngủ</dd><dt>chan_doan_dich</dt><dd>Rối loạn tiền đình ngoại biên (viêm TK tiền đình)</dd><dt>chan_doan_phai_loai_tru</dt><dd>Đột quỵ; BPPV</dd><dt>nhom_tuoi</dt><dd>Thanh niên (16–39 tuổi)</dd><dt>do_kho</dt><dd>Điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>dien_tien_tai_kham</dt><dd>Không áp dụng (ca 1 lượt khám)</dd><dt>nhieu_benh_nhan</dt><dd>Giấu tiền sử</dd><dt>rang_buoc_nguon_luc</dt><dd>Nguồn lực đầy đủ</dd><dt>loai_ket_cuc</dt><dd>Xử trí ẩu nhưng may mắn không sao</dd><dt>gioi</dt><dd>Nam</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>1</dd><dt>nghe_nghiep</dt><dd>Pha chế đồ uống (đứng quầy bar, bưng khay ly thủy tinh, ca tối)</dd><dt>yeu_to_khoi_phat</dt><dd>Sau ăn hải sản (ốc, ghẹ hấp tối hai hôm trước; không ai cùng ăn bị bệnh)</dd><dt>thuoc_dang_dung</dt><dd>Không dùng thuốc thường xuyên</dd><dt>ly_do_that_su_den_kham</dt><dd>Khó khăn tài chính, ngại làm xét nghiệm: đang thử việc, chưa có bảo hiểm y tế, sợ bị bắt chụp MRI/làm nhiều xét nghiệm tốn tiền; muốn biết có cần chụp không và xin giấy nghỉ ngắn</dd></dl><ul class=""><li>Viết 2026-10-16. Tài liệu đã đọc: TL-0072 GRACE-3 (khuyến cáo, Bảng 3–4, tóm tắt, thảo luận 4–7, 14, thuốc ức chế tiền đình); TL-0465 Bárány AUVP (mục 3, 4.1–4.8); TL-0451 (Bảng 1, tr. S363, Bảng 3); TL-0130 QĐ 5643/2015 bài Chóng mặt; TL-0030 QĐ 5331/2020. Dựa cấu trúc ca TK-0262 cùng chẩn đoán nhưng viết lại hoàn toàn tình huống.</li><li>Thiếu tài liệu: (1) liều domperidon, ondansetron, metoclopramid, cinnarizin, dimenhydrinat, corticoid; (2) thời gian nghỉ việc, hạn chế đứng quầy, lời khuyên về rượu; (3) lời thoại từ chối kháng sinh; (4) lượng nước bù; (5) hải sản/độc tố gây chóng mặt; (6) cai rượu; (7) bảo hiểm y tế.</li><li>Mâu thuẫn: thời gian chống nôn 2–3 ngày (TL-0451) hoặc 3–5 ngày (GRACE-3) đã có trong sổ; ghi cả hai. Không có mâu thuẫn mới.</li><li>Biến &#x27;sau ăn hải sản&#x27; xử lý là hoàn cảnh trùng hợp, không nguyên nhân; biến &#x27;giấu tiền sử&#x27; là cảm 10 ngày trước và rượu do nghề; &#x27;xử trí ẩu may mắn&#x27; mô tả ở ket_cuc.</li><li>Không có mục danh mục mới; không có ảnh da. Tim dùng tệp bình thường (mạch 80).</li></ul></details>
+<p class="chan-trang">Ca TK-0286 · phiên bản ca 1 – viết theo tài liệu đã tải (2026-10-16) · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

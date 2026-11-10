@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HH-1057 · Viêm thanh quản cấp</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · HH-1057</div>
+   <h1>Khàn tiếng, ho khan 6 ngày, đã khám ba nơi uống thuốc không hết</h1>
+   <p class="dich-gia">Lâm Thị Kim Phượng · Nữ · 51 tuổi · 58 kg</p>
+   <div class="chips"><span class="chip">Hô hấp cấp tính</span><span class="chip">Điển hình</span><span class="chip">3 lượt khám</span><span class="chip">Có cờ đỏ</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Chủ quán cơm bình dân ở thị trấn, dậy 4 giờ nấu nước lèo, đứng bếp và bán đến 21 giờ</dd><dt>Chiều cao, cân nặng</dt><dd>155 cm · 58 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi chị là &#x27;chị&#x27;; chị xưng &#x27;tôi&#x27; (có lúc &#x27;tui&#x27;), gọi bác sĩ là &#x27;bác sĩ&#x27;. Chồng gọi chị là &#x27;bả&#x27;, xưng &#x27;tui&#x27; với bác sĩ.</dd><dt>Tính cách</dt><dd>Nói nhanh, sắc sảo, quen quản lý cả quán; hay ngắt lời, nói &#x27;đi ba chỗ rồi mà hổng hết&#x27;; nghi ngờ kiểu &#x27;bác sĩ nào cũng cho thuốc cho có&#x27;. Bên ngoài cứng cỏi nhưng bên trong rất sợ bệnh nặng, nhất là từ khi anh ruột bị đột quỵ.</dd><dt>Người nhà</dt><dd>Anh Thành (chồng) – Chồng, anh Thành, 54 tuổi, phụ bếp và chạy xe giao hàng, chở vợ đi khám. Ít nói, hay chen câu &#x27;bả nói nhiều lắm bác sĩ, tối nào cũng la khách&#x27;, biết chuyện anh Hai của vợ bị đột quỵ nhưng không biết vợ đang sợ.</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Cơ sở không có xét nghiệm nào (không công thức máu, CRP, cấy họng...), không có X-quang, siêu âm (kéo theo không CT, nội soi). Chỉ có khám lâm sàng, máy đo SpO₂, đèn soi tai mũi họng và gương soi thanh quản.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/3</span> </h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Chị Lâm Thị Kim Phượng, 51 tuổi, chủ quán cơm, chồng chở đến vì khàn tiếng, ho khan 6 ngày, đã khám ba nơi uống thuốc không hết, mang theo một túi nilon thuốc. Sinh hiệu: nhiệt độ 37,3 °C, mạch 84 l/p, HA 128/78 mmHg, nhịp thở 18 l/p, SpO₂ 97% khí trời, cân nặng 58 kg.</p>
+  <blockquote>“Bác sĩ ơi, tôi đi ba chỗ rồi mà hổng hết, nói không ra tiếng, ho khan hoài. Bác sĩ coi giùm, đừng kê thuốc giống mấy chỗ kia nha.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>84</b><small>l/p</small></div><div class="vs"><span>HA</span><b>128/78</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>37,3</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>18</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>97</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>11 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám</b><span class="tag t-g">Tự kể</span></div><p>Khàn tiếng, nói không ra hơi, ho khan 6 ngày, đã khám ba nơi uống thuốc mà không hết.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Diễn tiến: viêm đường hô hấp trên rồi khàn tiếng</b><span class="tag t-b">Khi được hỏi</span></div><p>Ngày 1: rát họng, sổ mũi trong, hắt hơi. Ngày 2: sốt nhẹ khoảng một ngày. Ngày 3: giọng khàn dần, ho khan, nay nói thều thào. Không đau khi nuốt, không chảy nước dãi, ăn uống bình thường, không ho ra đờm hay ra máu.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tự uống kháng sinh trước khi khàn (yếu tố khởi phát, neo &#x27;do thuốc&#x27;)</b><span class="tag t-b">Khi được hỏi</span></div><p>Ngày 2, thấy rát họng, chị tự uống amoxicillin 500 mg còn thừa trong tủ (1 viên x 3 lần/ngày, 5 viên). Chị tin giọng khàn ra ngay sau khi uống thuốc này nên cho là do thuốc.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi trước khi đi khám chị đã tự uống gì, hoặc hỏi khàn bắt đầu từ lúc nào so với việc uống thuốc.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đã dùng 2 kháng sinh chồng nhau không đáp ứng; nhiễu &#x27;đi 3 nơi không khỏi&#x27;</b><span class="tag t-b">Khi được hỏi</span></div><p>Nơi 1 (ngày 3, phòng khám tư gần chợ): cephalexin 500 mg x 4 viên/ngày kê 5 ngày (chị uống 3 ngày rồi bỏ, còn 8 viên), siro ho. Nơi 2 (ngày 4, phòng khám tư khác): azithromycin 500 mg 1 viên/ngày x 3 ngày (viên cuối sáng nay) và gói men tiêu viêm. Nơi 3 (ngày 5, quầy thuốc đầu chợ và bà lang): gói thuốc nam, siro ho thảo dược, một tuýp thuốc mỡ. Không nơi nào soi họng bằng gương, không nơi nào làm xét nghiệm, không ai dặn kiêng nói.</p><div class="cond">Điều kiện nói ra: Chỉ kể đầy đủ khi bác sĩ hỏi từng nơi: khám ngày nào, cho thuốc gì, mấy viên mấy lần, hoặc xin xem túi thuốc. Hỏi chung &#x27;có uống thuốc gì không&#x27; chị đáp &#x27;thuốc ba chỗ chứ gì&#x27;.</div></div><div class="fact"><div class="fh"><b>Thuốc bôi ngoài da không rõ (nhiễu, kích ứng da)</b><span class="tag t-b">Khi được hỏi</span></div><p>Tuýp thuốc mỡ không nhãn, màu trắng đục, mùi hắc, bà lang đưa; chị bôi lên cổ và ngực 3 lần/ngày trong 2 ngày, thấy da hơi đỏ và ngứa nên ngưng hôm qua. Không biết là thuốc gì, tuýp còn trong túi.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi có bôi, xoa, dán thứ gì lên cổ hoặc da không, hoặc khám thấy da cổ đỏ.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Cờ đỏ: khó thở khi gắng sức (khó thở thanh quản độ I)</b><span class="tag t-b">Khi được hỏi</span></div><p>Từ ngày 4–5, nhấc nồi nước lèo từ bếp ra quầy hoặc leo lên gác thì hụt hơi, nghe tiếng khò khè ở cổ khi hít mạnh; nghỉ vài phút là hết. Lúc nằm, ngồi, nói chuyện không khó thở, không thức giấc vì khó thở, nằm đầu bằng ngủ được.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi có khó thở, hụt hơi, khò khè, nhất là khi làm việc nặng hoặc lên cầu thang, và khi nghỉ thì thế nào.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Không hội chứng xâm nhập (loại trừ dị vật)</b><span class="tag t-b">Khi được hỏi</span></div><p>Không bị hóc, nghẹn, sặc xương cá hay hạt gì; không có cơn ho sặc sụa, tím tái nào. Ăn cơm cá bình thường.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dịch tễ bạch hầu âm tính</b><span class="tag t-b">Khi được hỏi</span></div><p>Không đi xa, không ai ở thị trấn hay trong quán bị đau họng có màng trắng. Vài khách quen ho cảm. Tiêm ngừa uốn ván–bạch hầu lúc lớn thì chị không nhớ.</p></div><div class="fact"><div class="fh"><b>Dùng giọng gắng sức, khói bếp (QĐ 5643 mục 2.2)</b><span class="tag t-b">Khi được hỏi</span></div><p>Dậy 4 giờ nấu nước lèo, đứng bếp chiên xào trong khói dầu mỡ, bán đến 21 giờ. Quán ồn quạt và loa, chị phải la gọi khách; ba nơi khám chị vẫn bán, không nghỉ ngày nào. Không hút thuốc, không uống rượu bia.</p></div><div class="fact"><div class="fh"><b>Trào ngược có thể góp phần (QĐ 5643 mục 2.2); chi tiết nền cho lượt sau</b><span class="tag t-b">Khi được hỏi</span></div><p>Vài tháng nay thỉnh thoảng ợ chua, thường sau bữa cơm khuya; dọn quán xong khoảng 22 giờ ăn cơm với chồng rồi đi ngủ ngay, sáng hay tằng hắng.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi ợ chua, ợ nóng, giờ ăn tối hoặc tằng hắng buổi sáng.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật: sợ đột quỵ</b><span class="tag t-r">Giấu</span></div><p>Tháng trước anh Hai của chị (58 tuổi) bị đột quỵ, mất tiếng, méo miệng, đang nằm bệnh viện. Thấy giọng mình đổi và đêm qua tê ngón út tay trái vài phút khi gối đầu lên tay, chị sợ mình sắp bị giống anh Hai. Không dám nói ai, chỉ lo đi khám nhiều nơi.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi chị lo nhất điều gì, trong nhà có ai bệnh nặng không, hoặc hỏi có tê, yếu tay chân, méo miệng hay triệu chứng nào khác ngoài khàn tiếng.</div></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>9 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, tiếp xúc tốt, nói khàn thều thào, nói được câu 6–8 từ rồi ngắt lấy hơi. Da niêm hồng, không tím. BMI 24,1.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Không sờ thấy hạch cổ. Vùng trước thanh quản không sưng, ấn không đau. Khí quản ở giữa, tuyến giáp không to.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Họng, tai, mũi</b></div><p><span class="lbl">Kết quả:</span> Niêm mạc họng đỏ nhẹ, thành sau họng có ít nhầy. Amidan nhỏ, không sưng, không giả mạc, không loét. Lưỡi gà ở giữa. Mũi: niêm mạc phù nhẹ, ít dịch trong. Màng nhĩ hai bên bình thường.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Soi thanh quản (gương hoặc nội soi ống mềm: niêm mạc, dây thanh, khe thanh môn)</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Soi thanh quản bằng gương: dây thanh đỏ, phù nề, khép không kín khi phát âm, có nhầy ở mép trước.</p><p><span class="lbl">Kết quả:</span> Soi gương: niêm mạc thanh môn và tiền đình thanh quản đỏ, phù nhẹ. Hai dây thanh sung huyết đỏ, phù nề, khép không kín khi phát âm, có ít nhầy ở mép trước. Dây thanh di động đối xứng. Nắp thanh môn mỏng, không phù. Khe thanh môn còn rộng. Không u, không loét, không giả mạc, không thấy dị vật.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nhịp thở 18 l/p, thở êm, không co kéo. Rung thanh, gõ hai bên bình thường.</p><p><span class="lbl">Kết quả:</span> Nhịp thở 18 l/p, thở êm, không co kéo cơ hô hấp phụ, không rút lõm. Rung thanh, gõ bình thường. Rì rào phế nang êm dịu hai bên, không ran, không tiếng rít.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 84 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều, tần số 84 l/p, T1 T2 rõ, không âm thổi.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Nghiệm pháp đi bộ đo SpO₂</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Đi bộ nhanh 3 phút: nhịp thở 22 l/p, SpO₂ 96%, hồi phục sau 2 phút nghỉ.</p><p><span class="lbl">Kết quả:</span> Đi bộ nhanh 3 phút quanh phòng: nói khàn, thở nhanh nhẹ 22 l/p, SpO₂ 97% xuống 96%, nghe vùng cổ không tiếng rít, không rút lõm; nghỉ 2 phút trở lại 18 l/p.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thần kinh</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, định hướng đủ. Mặt cân đối, nhe răng, nhắm mắt chặt hai bên đều. Giơ hai tay không rơi, sức cơ 5/5 bốn chi, cảm giác ngón tay bình thường, đi thẳng. Nói rõ chữ, không ngọng, chỉ khàn giọng. Nuốt nước bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b></div><p><span class="lbl">Kết quả:</span> Da cổ trước và ngực trên có vệt đỏ nhạt, khô, hơi ngứa theo vùng bôi thuốc; không mụn nước, không loét, không phù, không mề đay ở nơi khác.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>2 mục</small></h3></summary><div class="row"><div class="rh"><b>Phết họng soi, cấy tìm vi khuẩn bạch hầu</b><span class="tag t-r">Không cần</span></div><p class="why">Bạch hầu nghi ngờ khi có giả mạc vùng hầu họng kèm dịch tễ (QĐ 2957/2020, mục 5.1). Chị không giả mạc, không dịch tễ, và cơ sở không có xét nghiệm. Không có chỉ định.</p></div><div class="row"><div class="rh"><b>X-quang ngực thẳng</b><span class="tag t-r">Không cần</span></div><p class="why">X-quang tim phổi nêu để loại trừ bệnh phế quản phổi kèm theo (QĐ 5643/2015, Viêm thanh quản cấp tính, mục 3.2). Chị không sốt cao, phổi sạch, SpO₂ ổn; cơ sở cũng không có X-quang. Không cần ở lượt này.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Viêm thanh quản cấp do virus, ngày 6, người lớn, khó thở thanh quản độ I</b></div><p class="why">Viêm đường hô hấp trên rồi khàn tiếng, ho khan, dây thanh sung huyết đỏ, phù nề, khép không kín (QĐ 5643/2015, Viêm thanh quản cấp tính, mục 3.1, 3.3); virus là tác nhân thường gặp (mục 2.1); dưới 3 tuần (mục 1); dùng giọng gắng sức là điều kiện thuận lợi (mục 2.2). Độ I: chỉ khàn tiếng, khó thở khi gắng sức (Viêm thanh quản cấp tính hạ thanh môn, mục 3.1.2); bài này chủ yếu về trẻ em nhưng cùng văn bản dùng phân độ này ở mục 4.1.2 của Viêm thanh quản cấp tính. Chị khó thở khi bê nồi, nghỉ thì hết, SpO₂ 96–97%.</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Đã dùng hai kháng sinh chồng nhau (cephalexin, azithromycin) cộng amoxicillin tự mua mà không đáp ứng; dùng thuốc bôi không rõ gây kích ứng da</b></div><p class="why">Bệnh do virus nên kháng sinh không giúp (AAO-HNSF 2018, nguồn bổ sung tự tìm; QĐ 5643/2015 vẫn liệt kê kháng sinh ở mục 4.2.1, xem phần xử trí). Thành phần thuốc mỡ: không có trong tài liệu đã tải; da chỉ đỏ nhẹ, không mụn nước.</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Lo sợ đột quỵ (lý do thật đi khám), khám thần kinh bình thường</b></div><p class="why">Mặt cân đối, sức cơ 5/5, nói rõ chữ chỉ khàn, nuốt bình thường: không có dấu thần kinh khu trú. Tê ngón út thoáng qua khi gối đầu lên tay là tư thế. Tiêu chuẩn nhận diện đột quỵ: không có trong tài liệu đã tải cho ca này.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Bạch hầu (thanh quản)</b></div><p class="why">Màng giả trắng, dai, dính, khó thở thanh quản nặng dần, thường bạch hầu họng–thanh quản (QĐ 5643/2015, mục 3.4.1; QĐ 2957/2020, mục 3.3). Chị không giả mạc ở họng và thanh quản, không sốt cao, không hạch cổ bạnh, không dịch tễ (QĐ 2957/2020, mục 5.1).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Dị vật đường thở (thanh quản)</b></div><p class="why">Hội chứng xâm nhập khai thác được ở 93% (QĐ 5643/2015, Dị vật đường thở, mục 3.1.1): chị không có cơn ho sặc, tím tái. Khởi phát từ từ sau viêm mũi họng, nuốt bình thường, soi thanh quản không thấy dị vật. Cũng là chẩn đoán phân biệt ở Viêm thanh quản cấp tính, mục 3.5.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm nắp thanh môn</b></div><p class="why">Nghĩ khi nuốt đau, chảy nhiều nước dãi, cổ ngả về trước, khó thở tăng khi nằm ngửa (QĐ 5643/2015, Viêm thanh quản cấp tính, mục 3.4.1). Chị nuốt bình thường, nằm được, nắp thanh môn mỏng khi soi.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Cho về điều trị ngoại trú, hẹn tái khám sau 5 ngày</b></div><p class="why">Khó thở thanh quản độ I điều trị nội khoa (QĐ 5643/2015, Viêm thanh quản cấp tính, mục 4.1.2); ngoại trú, nghỉ ngơi, hạn chế nói, uống nhiều nước (Viêm thanh quản cấp tính hạ thanh môn, mục 4.2.1). Ở người lớn bệnh hồi phục tốt (mục 5). Mốc 5 ngày: không có trong tài liệu đã tải; lựa chọn của ca.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Kiêng nói (kể cả thì thầm), tránh lạnh, uống nhiều nước ấm; nhờ chồng hoặc người phụ gọi khách, dùng chuông bàn thay la gọi</b></div><p class="why">Quan trọng nhất là kiêng nói, tránh lạnh (QĐ 5643/2015, mục 4.1.1); tránh lạm dụng giọng quá sức ở người lớn (mục 6); nghề bán hàng là yếu tố thuận lợi (Viêm thanh quản mạn tính, mục 2); uống nhiều nước (hạ thanh môn, mục 4.2.1). Cách làm cụ thể ở quán: lựa chọn của ca.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ngưng cephalexin, azithromycin, thuốc nam và thuốc mỡ không nhãn; không kê thêm kháng sinh, hoặc nếu chọn kháng sinh theo QĐ 5643 thì chỉ một loại</b></div><p class="why">Hai cách ghi theo sổ mâu thuẫn: AAO-HNSF 2018 (nguồn bổ sung tự tìm; tóm tắt AAFP 2018) khuyến cáo mạnh không kê kháng sinh cho khàn tiếng vì phần lớn do virus; QĐ 5643/2015 (mục 4.1.1, 4.2.1) liệt kê kháng sinh beta-lactam, macrolid. Khác nhau do năm ban hành và bằng chứng. Dùng hai kháng sinh cùng lúc không có trong hướng dẫn nào đã tải.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Kê một kháng sinh theo QĐ 5643 (beta-lactam hoặc macrolid)</b></div><p class="why">QĐ 5643/2015 mục 4.1.1, 4.2.1 cho phép; chấm a vì AAO-HNSF 2018 khuyến cáo không dùng.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi từng nơi khám, xem túi thuốc, hỏi khó thở khi gắng sức và khi nghỉ, phân độ khó thở thanh quản (độ I)</b></div><p class="why">Phân độ: độ I khàn tiếng, khó thở khi gắng sức; độ IIA khó thở ngay khi nghỉ, thở rít khi nằm yên; độ IIB thêm thở nhanh, rút lõm ngực; độ III thêm vật vã hoặc tím tái (QĐ 5643/2015, hạ thanh môn, mục 3.1.2).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn dấu hiệu nặng phải quay lại hoặc đi cấp cứu ngay: khó thở cả khi nghỉ, thở rít khi nằm yên, nuốt đau, chảy nước dãi, tím tái</b></div><p class="why">Hướng dẫn bệnh nhân dấu hiệu nặng cần đi tái khám ngay (QĐ 5643/2015, hạ thanh môn, mục 4.2.1); độ II trở lên cần mở khí quản cấp cứu hoặc nhập viện (Viêm thanh quản cấp tính, mục 4.1.2; hạ thanh môn, mục 4.2.2–4.2.3).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Corticoid uống ngắn ngày</b></div><p class="why">QĐ 5643/2015 liệt kê corticoid (mục 4.2.2) và dùng thêm khi khó thở độ IIA (hạ thanh môn, mục 4.2.2); chị độ I và AAO-HNSF 2018 không kê corticoid cho khàn tiếng trước khi soi (đã soi), nên chấm a.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Mở khí quản hoặc đặt nội khí quản</b></div><p class="why">Chỉ cho độ II trở lên khi thất bại nội khoa, lơ mơ, kiệt sức (QĐ 5643/2015, mục 4.1.2; hạ thanh môn, mục 4.2.3). Chị độ I, SpO₂ 96–97%.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi nỗi lo, khám thần kinh và giải thích khàn tiếng khác dấu hiệu đột quỵ để trấn an</b></div><p class="why">Nội dung giao tiếp; tiêu chuẩn nhận diện đột quỵ không có trong tài liệu đã tải cho ca này.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Chị Phượng khàn tiếng, hụt hơi khi bê nồi nhưng nghỉ thì thở êm, đi bộ nhanh 3 phút SpO₂ vẫn 96%, không rít, không rút lõm: khó thở thanh quản độ I chỉ cần điều trị nội khoa ngoại trú (QĐ 5643/2015, Viêm thanh quản cấp tính, mục 4.1.2; hạ thanh môn, mục 3.1.2, 4.2.1). Nhập viện dành cho độ IIB, III (hạ thanh môn, mục 4.2.3). Chị đóng quán nhiều ngày mất thu nhập, bị truyền tiêm thuốc không cần, và càng tin mình bệnh nặng, sắp đột quỵ.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển tuyến trên soi ống mềm hay chụp CT cổ là chưa cần: phòng khám đã soi gương thấy dây thanh đỏ, phù, di động đối xứng, không u, không giả mạc. AAO-HNSF 2018 (nguồn bổ sung tự tìm, tóm tắt AAFP 2018) khuyên không chụp CT, MRI trước khi soi, và soi khi khàn không hết sau 4 tuần. Chị mất cả ngày đi xe, chồng bỏ quán, lại nghe thêm một nơi &#x27;đẩy đi chỗ khác&#x27; nên càng mất niềm tin.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Viêm thanh quản cấp do virus, ngày 6, người lớn, khó thở thanh quản độ I (khàn tiếng, khó thở khi gắng sức, không khó thở khi nghỉ)</li><li>Đã dùng kháng sinh chồng nhau không cần thiết (amoxicillin tự mua, cephalexin, azithromycin); kích ứng da nhẹ do thuốc mỡ không rõ</li><li>Đã loại trừ: bạch hầu (không giả mạc, không dịch tễ), dị vật đường thở (không hội chứng xâm nhập, soi không thấy), viêm nắp thanh môn, viêm thanh quản dị ứng</li><li>Lý do thật đi khám: sợ đột quỵ như anh Hai; khám thần kinh bình thường</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự hỏi: diễn tiến theo ngày; hóc, sặc; khó thở, khò khè khi làm việc nặng và khi nghỉ (cờ đỏ); từng nơi khám, thuốc gì, mấy viên mấy ngày; thuốc bôi; nghề, khói, trào ngược; dịch tễ; &#x27;chị lo nhất điều gì&#x27; để lộ nỗi sợ đột quỵ.</li><li>Khám: soi gương thanh quản là bước xác định (dây thanh đỏ, phù, khép không kín, di động đối xứng, không giả mạc; QĐ 5643/2015, mục 3.1, 3.3); đi bộ đo SpO₂ để phân độ khó thở; nghe phổi; khám thần kinh; nhìn da cổ.</li><li>Cơ sở không có xét nghiệm: viêm thanh quản cấp là chẩn đoán lâm sàng (mục 3.3); không cần xét nghiệm để quyết định cho về. Độ I, không phải độ II: chỉ khó thở khi gắng sức, nghỉ thì hết, không rít khi nằm yên, không rút lõm (hạ thanh môn, mục 3.1.2).</li><li>Loại trừ bạch hầu và dị vật: xem phần chẩn đoán phân biệt (QĐ 2957/2020, mục 3.3, 5.1; QĐ 5643/2015, Dị vật đường thở, mục 3.1.1).</li><li>Nhiễu ba nơi không khỏi: không nơi nào soi hay dặn kiêng nói; không khỏi vì bệnh do virus và chị vẫn la gọi khách, không phải do chẩn đoán sai.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Hướng đúng: cho về, hẹn lại 5 ngày; không nhập viện, không chuyển tuyến vì độ I (QĐ 5643/2015, mục 4.1.2, 5).</li><li>Việc quan trọng nhất không phải thuốc mà là kiêng nói, tránh lạnh (mục 4.1.1) và ngưng các thuốc đã dùng chồng nhau.</li><li>Kháng sinh: hai cách ghi. AAO-HNSF 2018 khuyến cáo mạnh không kê kháng sinh cho khàn tiếng; QĐ 5643/2015 (mục 4.1.1, 4.2.1) có liệt kê. Khác nhau vì năm ban hành và bằng chứng.</li><li>Tái lập niềm tin: nói rõ ba nơi trước đã bỏ sót gì (soi thanh quản, dặn kiêng nói), không chê đồng nghiệp; khám thần kinh cho chị thấy rõ để bớt sợ.</li><li>Dặn rõ khi nào quay lại ngay (độ IIA trở lên: khó thở khi nghỉ, thở rít khi nằm yên).</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Cephalexin (còn 8 viên), azithromycin, thuốc nam, siro ho thảo dược</b><div class="sub">Thuốc ba nơi đã kê/mua</div></td><td data-l="Liều">NGƯNG<div class="sub">Uống · Từ hôm nay</div></td><td data-l="Thời gian">0</td><td class="gc" data-l="Ghi chú">Không dùng kháng sinh cho khàn tiếng do virus (AAO-HNSF 2018, nguồn bổ sung tự tìm); QĐ 5643/2015 mục 4.2.1 có liệt kê kháng sinh nhưng không nêu dùng hai loại cùng lúc. Thành phần thuốc nam: không có trong tài liệu đã tải.</td></tr><tr><td><b>Thuốc mỡ không nhãn bôi cổ, ngực</b><div class="sub">Tuýp không rõ thành phần</div></td><td data-l="Liều">NGƯNG; mang tuýp đến khi tái khám<div class="sub">Bôi ngoài da · Từ hôm nay</div></td><td data-l="Thời gian">0</td><td class="gc" data-l="Ghi chú">Da đỏ, ngứa theo vùng bôi; thành phần không có trong tài liệu đã tải. Lựa chọn của ca.</td></tr><tr><td><b>Nước ấm, nước muối ấm xúc họng</b><div class="sub">—</div></td><td data-l="Liều">Uống nhiều nước ấm; xúc họng 3–4 lần/ngày<div class="sub">Uống, xúc họng · Cả ngày</div></td><td data-l="Thời gian">Đến khi hết khàn</td><td class="gc" data-l="Ghi chú">QĐ 5643/2015, hạ thanh môn, mục 4.2.1 (uống nhiều nước); xúc họng mục 4.2.3. Số lần xúc: lựa chọn của ca.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Kiêng nói, thì thầm cũng không nên, giữ ấm cổ, tránh lạnh (QĐ 5643/2015, mục 4.1.1); nhờ chồng hoặc người phụ gọi khách, bấm chuông bàn thay la gọi.</li><li>Khàn tiếng không giống dấu hiệu đột quỵ: chị nói rõ chữ, mặt cân, tay chân khỏe; nhưng nếu méo miệng, yếu liệt tay chân, nói ngọng, đi gọi cấp cứu ngay.</li><li>Quay lại hoặc đi cấp cứu ngay nếu khó thở cả khi nghỉ, thở rít khi nằm yên, thở nhanh, rút lõm ngực, nuốt đau, chảy nước dãi, tím tái (hạ thanh môn, mục 3.1.2, 4.2.1).</li><li>Ngưng toàn bộ thuốc cũ, không mua thêm kháng sinh; mang túi thuốc và tuýp thuốc mỡ khi tái khám.</li><li>Tái khám sau 5 ngày (mốc của ca, không có trong tài liệu đã tải).</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-2">
+ <h2 id="h-luot-2"><span class="ln">Lượt 2/3</span> · sau 5 ngày</h2>
+ <div class="card intro"><h3 id="m-8">Tiếp đón</h3><p>Chị Phượng trở lại sau 5 ngày (ngày 11 của bệnh), nói giọng đỡ hơn nhưng chưa hết, chiều tối khàn lại, vẫn bán quán. Sinh hiệu: nhiệt độ 36,8 °C, mạch 78 l/p, HA 124/76 mmHg, nhịp thở 16 l/p, SpO₂ 98% khí trời.</p>
+  <blockquote>“Bác sĩ ơi, tui đỡ chút xíu thôi à. Sáng nói được, chiều bán xong là khàn lại. Chắc phải thuốc mạnh hơn, hay bác sĩ tiêm cho tui một mũi đi.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>78</b><small>l/p</small></div><div class="vs"><span>HA</span><b>124/76</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,8</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>16</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-9">Hỏi bệnh <small>5 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám: đỡ một phần</b><span class="tag t-g">Tự kể</span></div><p>Đỡ một phần: sáng nói được, chiều tối bán xong khàn lại, muốn thuốc mạnh hơn hoặc tiêm.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Diễn tiến: cải thiện, không có dấu hiệu bội nhiễm hay nặng lên</b><span class="tag t-b">Khi được hỏi</span></div><p>Từ hôm khám trước, hết hụt hơi khi bê nồi từ hôm kia, không còn khò khè khi hít mạnh. Ho ít hơn nhiều. Không sốt, không đau khi nuốt, không đờm vàng xanh, không đau họng nặng hơn.</p></div><div class="fact"><div class="fh"><b>Tuân thủ ngưng thuốc cũ</b><span class="tag t-b">Khi được hỏi</span></div><p>Chị đã ngưng cephalexin (còn 8 viên), azithromycin, thuốc nam và thuốc mỡ ngay từ hôm khám. Chỉ uống nước ấm, xúc nước muối. Tuýp thuốc mỡ chị mang theo; da cổ hết đỏ, hết ngứa.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Vì sao đỡ chậm: vẫn dùng giọng quá sức</b><span class="tag t-b">Khi được hỏi</span></div><p>Hai ngày đầu chồng đứng quầy gọi khách, nhưng quán đông, chị quay lại tự la gọi để át tiếng quạt và loa. Không nghỉ ngày nào. Giọng đỡ vào buổi sáng, khàn lại chiều tối sau khi bán.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi chị có nghỉ nói, ai gọi khách, giọng lúc nào đỡ lúc nào khàn.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật vẫn còn: sợ đột quỵ</b><span class="tag t-r">Giấu</span></div><p>Anh Hai vẫn chưa nói rõ được, chị gái khóc qua điện thoại sáng nay. Chị vẫn hỏi khàn lâu có thành đứt mạch máu não không, mấy đêm nay khó ngủ vì nghĩ chuyện này.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi ngủ có ngon không, còn lo điều gì, hoặc anh Hai ra sao.</div></div></details>
+ <details class="card"><summary><h3 id="m-10">Khám <small>5 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, nói khàn nhẹ, nói câu dài không ngắt hơi. Da niêm hồng.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Họng, tai, mũi</b></div><p><span class="lbl">Kết quả:</span> Họng hết đỏ gần hết, thành sau ít nhầy, amidan nhỏ, không giả mạc.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Soi thanh quản (gương hoặc nội soi ống mềm: niêm mạc, dây thanh, khe thanh môn)</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Soi thanh quản bằng gương: dây thanh hồng nhạt, phù nhẹ, khép gần kín, hở nhẹ khi phát âm.</p><p><span class="lbl">Kết quả:</span> Soi gương: hai dây thanh hồng nhạt, phù nhẹ, khép gần kín nhưng còn hở nhẹ hình thoi ở 1/3 sau khi phát âm, ít nhầy mép trước, di động đối xứng. Không hạt, không polyp, không u, không loét, không giả mạc.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nhịp thở 16 l/p, thở êm, không co kéo.</p><p><span class="lbl">Kết quả:</span> Nhịp thở 16 l/p, thở êm, không co kéo. Rì rào phế nang êm dịu hai bên, không ran, không tiếng rít.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><span class="key">★</span><b>Nghiệm pháp đi bộ đo SpO₂</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Đi bộ nhanh 3 phút: nhịp thở 18 l/p, SpO₂ 98%.</p><p><span class="lbl">Kết quả:</span> Đi bộ nhanh 3 phút: thở 18 l/p, SpO₂ 98% không đổi, không rít, không rút lõm.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Tim</b><span class="tag t-m">Bình thường</span></div><p>Tim đều 78 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-11">Cận lâm sàng <small>0 mục</small></h3></summary><p class=note>Không khai báo.</p></details>
+ <details class="card ans"><summary><h3 id="m-12">Đáp án lượt 2 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Viêm thanh quản cấp do virus, ngày 11, đang hồi phục chậm (đỡ một phần) vì vẫn dùng giọng quá sức</b></div><p class="why">Đang cải thiện: hết khó thở gắng sức, không sốt, dây thanh bớt đỏ phù. Bệnh dưới 3 tuần (QĐ 5643/2015, Viêm thanh quản cấp tính, mục 1); dùng giọng gắng sức là điều kiện thuận lợi (mục 2.2) và nghề bán hàng là yếu tố thuận lợi (Viêm thanh quản mạn tính, mục 2). Mốc hồi phục bình thường là bao nhiêu ngày: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Nỗi sợ đột quỵ còn tồn tại, mất ngủ nhẹ</b></div><p class="why">Lý do thật vẫn còn; khám thần kinh vẫn bình thường.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Thất bại điều trị hoặc bội nhiễm vi khuẩn</b></div><p class="why">Không sốt, không đờm vàng xanh, không đau họng tăng, SpO₂ 98%, dây thanh đã bớt đỏ: đang đỡ, không phải thất bại. Hồi phục chậm vì vẫn la gọi khách, không phải do thiếu kháng sinh (tài liệu không nêu kháng sinh làm hết khàn nhanh hơn: AAO-HNSF 2018, nguồn bổ sung tự tìm).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tổn thương thực thể dây thanh (hạt, polyp, u)</b></div><p class="why">Soi gương không thấy khối, không loét, hai dây thanh di động đối xứng; mới ngày 11. Khàn không hết sau 4 tuần phải soi ống mềm hoặc chuyển chuyên khoa (AAO-HNSF 2018, nguồn bổ sung tự tìm).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm thanh quản mạn tính</b></div><p class="why">Gọi là mạn tính khi kéo dài trên 3 tuần (QĐ 5643/2015, Viêm thanh quản mạn tính, mục 1); chị mới ngày 11.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Bạch hầu, dị vật đường thở</b></div><p class="why">Không giả mạc, không dịch tễ, không hội chứng xâm nhập; bệnh đang đỡ (QĐ 2957/2020, mục 3.3, 5.1; QĐ 5643/2015, Dị vật đường thở, mục 3.1.1).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Cho về, không kê thêm kháng sinh; tái khám sau 1 tuần hoặc sớm nếu nặng lên; nếu khàn quá 3–4 tuần thì soi ống mềm tại chuyên khoa</b></div><p class="why">Đang cải thiện, độ I đã hết (QĐ 5643/2015, mục 4.1.1, 5). Mốc 3 tuần là ranh giới cấp–mạn (Viêm thanh quản mạn tính, mục 1); mốc 4 tuần để soi theo AAO-HNSF 2018 (nguồn b Mốc 3 tuần là ranh giới cấp–mạn (Viêm thanh quản mạn tính, mục 1); mốc 4 tuần để soi (AAO-HNSF 2018, nguồn bổ sung tự tìm). Mốc tái khám 1 tuần: lựa chọn của ca.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích đỡ chậm là bình thường khi vẫn dùng giọng; phân biệt với thất bại điều trị bằng sốt, đờm mủ, khó thở, đau họng tăng</b></div><p class="why">Dựa trên khám: không có dấu hiệu bội nhiễm. Ngưỡng thời gian hồi phục: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Kiêng nói thật sự, nhờ người gọi khách, dùng chuông bàn, tránh lạnh, uống nước ấm</b></div><p class="why">Kiêng nói, tránh lạnh là quan trọng nhất (QĐ 5643/2015, mục 4.1.1); tránh lạm dụng giọng quá sức (mục 6).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không kê kháng sinh (AAO-HNSF 2018), hoặc nếu chọn kháng sinh theo QĐ 5643 thì chỉ một loại, ngắn ngày</b></div><p class="why">Theo mục mâu thuẫn đã ghi: AAO-HNSF 2018 khuyên không dùng kháng sinh cho khàn tiếng; QĐ 5643/2015 mục 4.1.1, 4.2.1 liệt kê kháng sinh. Không nguồn nào nói cách kia gây hại.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Tiêm ceftriaxone hoặc kê kháng sinh mạnh hơn cho nhanh</b></div><p class="why">Ceftriaxone trong QĐ 5643/2015 dành cho độ IIB, III nhập viện (hạ thanh môn, mục 4.2.3). Chị đã độ I rồi hết khó thở; AAO-HNSF 2018 khuyên không dùng kháng sinh.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Chị Phượng đã đỡ: hết hụt hơi, không sốt, không đau nuốt, SpO₂ 98% cả khi đi bộ. Viêm thanh quản cấp ở người lớn hồi phục tốt (QĐ 5643/2015, Viêm thanh quản cấp tính, mục 5); nhập viện chỉ cho độ IIB, III (hạ thanh môn, mục 4.2.3). Chị bị tiêm truyền kháng sinh, corticoid không cần, đóng quán nhiều ngày, và dễ kết luận &#x27;bệnh nặng thật&#x27;.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển lên tuyến trên soi ống mềm ngay là sớm: chị mới ngày 11, dưới 3 tuần là viêm thanh quản cấp (QĐ 5643/2015, mục 1), dây thanh đã bớt đỏ phù, không có tổn thương khu trú. AAO-HNSF 2018 (nguồn bổ sung tự tìm, tóm tắt AAFP 2018) khuyên soi khi khàn không hết sau 4 tuần. Chị mất một ngày đi xe và tiền khám, nghỉ quán nhiều hơn, trong khi vẫn phải sửa thói quen la gọi mới hết khàn.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Viêm thanh quản cấp do virus, ngày 11, đang hồi phục chậm vì vẫn dùng giọng quá sức; hết khó thở thanh quản</li><li>Nỗi sợ đột quỵ còn tồn tại</li><li>Đã loại trừ: thất bại điều trị hoặc bội nhiễm, tổn thương thực thể dây thanh (tạm thời, theo dõi), bạch hầu, dị vật đường thở</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Câu hỏi then chốt của lượt đỡ một phần: đỡ nhanh hay chậm, có sốt, đờm mủ, khó thở, đau họng tăng không; có thực sự kiêng nói; đã ngưng thuốc cũ chưa.</li><li>Khám: soi gương thấy dây thanh đã bớt đỏ phù, khép gần kín; đi bộ đo SpO₂ không đổi. Đây là cơ sở phân biệt hồi phục chậm bình thường với thất bại điều trị: bệnh nhân không nặng thêm, không có dấu bội nhiễm.</li><li>Vì sao chậm: chị vẫn la gọi khách ở quán ồn; dùng giọng gắng sức là điều kiện thuận lợi (QĐ 5643/2015, mục 2.2; Viêm thanh quản mạn tính, mục 2).</li><li>Bệnh còn dưới 3 tuần nên vẫn là cấp; quá 3 tuần gọi là mạn tính (QĐ 5643/2015, Viêm thanh quản cấp tính, mục 1; Viêm thanh quản mạn tính, mục 1).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Hướng đúng: cho về, không đổi chiến lược, không kê kháng sinh mạnh hơn; tăng cường kiêng nói bằng giải pháp thực tế ở quán.</li><li>Hai cách ghi về kháng sinh: AAO-HNSF 2018 không dùng; QĐ 5643/2015 có liệt kê. Không cách nào bắt buộc ở lượt này vì chị không có dấu hiệu nhiễm khuẩn.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Không kê kháng sinh, không corticoid</b><div class="sub">—</div></td><td data-l="Liều">Không<div class="sub">— · —</div></td><td data-l="Thời gian">0</td><td class="gc" data-l="Ghi chú">AAO-HNSF 2018 (nguồn bổ sung tự tìm); QĐ 5643/2015 mục 4.1.1, 4.2.1–4.2.2 cho phép nhưng chị đang đỡ, không có dấu nhiễm khuẩn.</td></tr><tr><td><b>Nước ấm, nước muối ấm xúc họng</b><div class="sub">—</div></td><td data-l="Liều">Uống nhiều nước ấm; xúc họng 3–4 lần/ngày<div class="sub">Uống, xúc họng · Cả ngày</div></td><td data-l="Thời gian">Đến khi hết khàn</td><td class="gc" data-l="Ghi chú">QĐ 5643/2015, hạ thanh môn, mục 4.2.1; Viêm thanh quản cấp tính, mục 4.2.3. Số lần xúc: lựa chọn của ca.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Nói ít hết mức, chiều tối nghỉ giọng; để chồng hoặc người phụ gọi khách, bấm chuông thay la (QĐ 5643/2015, mục 4.1.1, 6).</li><li>Tái khám sau 1 tuần (mốc của ca, không có trong tài liệu đã tải) hoặc quay lại ngay nếu sốt, đờm vàng xanh, khó thở, thở rít, nuốt đau nhiều, chảy nước dãi.</li><li>Nếu khàn tiếng kéo dài quá 3 đến 4 tuần kể từ đầu bệnh, phải đi soi thanh quản ống mềm ở bác sĩ tai mũi họng (QĐ 5643/2015, Viêm thanh quản mạn tính, mục 1; AAO-HNSF 2018).</li><li>Chuyện anh Hai: khàn tiếng của chị không phải dấu hiệu báo trước; nếu méo miệng, yếu liệt tay chân, nói ngọng thì gọi cấp cứu ngay. Ngủ ngon, đo huyết áp định kỳ.</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-3">
+ <h2 id="h-luot-3"><span class="ln">Lượt 3/3</span> · sau 3 tuần</h2>
+ <div class="card intro"><h3 id="m-13">Tiếp đón</h3><p>Chị Phượng trở lại sau 3 tuần (ngày 32), giọng đã hết khàn gần 2 tuần rồi khàn lại 3 ngày nay. Sinh hiệu: nhiệt độ 37,0 °C, mạch 80 l/p, HA 126/80 mmHg, nhịp thở 16 l/p, SpO₂ 98% khí trời.</p>
+  <blockquote>“Bác sĩ ơi, tui lại khàn nữa rồi. Hồi đó hết đàng hoàng mà, giờ lại bị. Có phải thuốc không trị dứt điểm không? Tui sợ cái bệnh này báo trước chuyện gì lớn.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>80</b><small>l/p</small></div><div class="vs"><span>HA</span><b>126/80</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>37,0</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>16</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-14">Hỏi bệnh <small>6 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám: tái phát</b><span class="tag t-g">Tự kể</span></div><p>Khàn tiếng lại 3 ngày sau khi đã hết gần 2 tuần; lo bệnh trị không dứt, và lo đây là điềm báo như anh Hai.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tái phát sau hồi phục; không có cờ đỏ hô hấp như lượt 1</b><span class="tag t-b">Khi được hỏi</span></div><p>Sau lượt trước giọng khá dần, ngày 17 gần bình thường, nói bình thường khoảng 12 ngày. Ngày 29 quán nhận tiệc 150 phần, chị đứng bếp 14 giờ, la gọi, uống nước đá, trời mưa. Chiều đó khàn lại; nay ho khan, rát họng nhẹ. Không sốt, không đau nuốt, không chảy nước dãi, KHÔNG hụt hơi hay khò khè khi làm việc nặng. Chiên xào trong khói dầu mỡ cả ngày, không đeo khẩu trang; không hút thuốc, không rượu bia.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lại tự uống kháng sinh còn thừa</b><span class="tag t-b">Khi được hỏi</span></div><p>Ngày 30, thấy khàn lại, chị tự uống nốt 8 viên cephalexin 500 mg còn thừa (4 viên/ngày, 2 ngày), không đỡ nên ngưng.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi lần này đã tự uống thuốc gì chưa, hoặc hỏi còn thuốc thừa lần trước không.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Nền chưa xử lý: nghi trào ngược họng–thanh quản (QĐ 5643 mục 2.2)</b><span class="tag t-b">Khi được hỏi</span></div><p>Hơn nửa năm nay ợ chua, nóng sau xương ức vài lần mỗi tuần, nhất là sau bữa khuya. Dọn quán xong khoảng 22 giờ ăn cơm hoặc lẩu với chồng, 22 giờ 30 nằm ngủ. Sáng hay tằng hắng, vướng họng. Hôm tiệc ăn lúc 23 giờ rồi ngủ ngay.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi ợ chua, ợ nóng, giờ ăn tối, giờ đi ngủ, tằng hắng buổi sáng.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Nguyên nhân nền: dùng giọng quá sức</b><span class="tag t-b">Khi được hỏi</span></div><p>Sau lượt trước chị dùng chuông bàn được 4 ngày, rồi lại la như cũ khi quán đông. Tiệc 150 phần chị chỉ huy 6 người phụ bằng cách la lớn.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do thật: sợ đột quỵ tái hiện</b><span class="tag t-r">Giấu</span></div><p>Anh Hai đã ra viện, nói được nhưng còn ngọng. Chị thấy giọng mình khàn lại thì nhớ ngay anh Hai, hỏi bác sĩ có cần chụp đầu hay thử máu không.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi chị lo gì khi khàn lại, hoặc hỏi anh Hai.</div></div></details>
+ <details class="card"><summary><h3 id="m-15">Khám <small>7 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, nói khàn vừa, nói câu dài không ngắt hơi. Da niêm hồng.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Họng, tai, mũi</b></div><p><span class="lbl">Kết quả:</span> Họng đỏ nhẹ, thành sau ít nhầy dính, amidan nhỏ, không giả mạc.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Soi thanh quản (gương hoặc nội soi ống mềm: niêm mạc, dây thanh, khe thanh môn)</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Soi thanh quản bằng gương: dây thanh đỏ nhạt, phù nhẹ, khép hở nhẹ khi phát âm; mép sau thanh quản phù hồng nhẹ.</p><p><span class="lbl">Kết quả:</span> Soi gương: hai dây thanh đỏ nhạt, phù nhẹ, khép còn hở hình thoi nhỏ khi phát âm, nhầy ít. Mép sau thanh quản và sụn phễu phù hồng nhẹ. Dây thanh di động đối xứng. Không hạt, không polyp, không u, không loét, không giả mạc.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nhịp thở 16 l/p, thở êm, không co kéo.</p><p><span class="lbl">Kết quả:</span> Nhịp thở 16 l/p, thở êm, không co kéo. Rì rào phế nang êm dịu hai bên, không ran, không tiếng rít.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi phải (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><span class="key">★</span><b>Nghiệm pháp đi bộ đo SpO₂</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Đi bộ nhanh 3 phút: nhịp thở 18 l/p, SpO₂ 98%.</p><p><span class="lbl">Kết quả:</span> Đi bộ nhanh 3 phút: thở 18 l/p, SpO₂ 98% không đổi, không rít.</p></div><div class="row"><div class="rh"><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm, ấn thượng vị không đau, không khối.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Thần kinh</b></div><p><span class="lbl">Kết quả:</span> Mặt cân đối, sức cơ 5/5, cảm giác bình thường, đi thẳng, nói rõ chữ chỉ khàn.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Tim</b><span class="tag t-m">Bình thường</span></div><p>Tim đều 80 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-16">Cận lâm sàng <small>0 mục</small></h3></summary><p class=note>Không khai báo.</p></details>
+ <details class="card ans"><summary><h3 id="m-17">Đáp án lượt 3 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Viêm thanh quản cấp tái phát (đợt 2), người lớn, không khó thở thanh quản</b></div><p class="why">Hết hẳn khoảng 12 ngày rồi khàn lại sau gắng sức giọng và lạnh, dây thanh đỏ nhạt, phù, khép hở nhẹ (QĐ 5643/2015, Viêm thanh quản cấp tính, mục 1, 2.2, 3.3). Không hụt hơi, SpO₂ 98%: không còn khó thở thanh quản. Đợt này mới 3 ngày.</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Yếu tố nền chưa xử lý: dùng giọng quá sức, khói bếp, nghi trào ngược họng–thanh quản; lại tự uống kháng sinh thừa</b></div><p class="why">Lạm dụng giọng ở nghề bán hàng, hít khí kích thích, trào ngược họng–thanh quản đều là yếu tố thuận lợi (QĐ 5643/2015, Viêm thanh quản cấp tính, mục 2.2; Viêm thanh quản mạn tính, mục 2). Soi thanh quản không đủ để chẩn đoán trào ngược (ACG 2022, khuyến cáo ngoài thực quản 5; TL-0212); nghi ngờ do ợ chua và mép sau phù, chưa khẳng định.</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Lo sợ đột quỵ, khám thần kinh bình thường</b></div><p class="why">Mặt cân, sức cơ 5/5, nói rõ chữ chỉ khàn.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tổn thương thực thể dây thanh (hạt, polyp, u) và viêm thanh quản mạn tính</b></div><p class="why">Soi gương không thấy khối, không hạt, hai dây thanh di động đối xứng; đợt này mới 3 ngày nên chưa gọi là mạn tính (kéo dài trên 3 tuần: QĐ 5643/2015, Viêm thanh quản mạn tính, mục 1). Hai đợt trong một tháng ở người dùng giọng nhiều làm tăng ngờ hạt dây thanh; nếu khàn không hết sau 4 tuần phải soi ống mềm (AAO-HNSF 2018, nguồn bổ sung tự tìm).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Bạch hầu thanh quản</b></div><p class="why">Không giả mạc, không sốt, không dịch tễ, không khó thở tiến triển; bạch hầu thanh quản có màng giả dai dính và khó thở nặng dần (QĐ 2957/2020, mục 3.3, 5.1).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Dị vật đường thở</b></div><p class="why">Không hội chứng xâm nhập, nuốt bình thường, soi không thấy; khàn tái phát sau gắng sức giọng (QĐ 5643/2015, Dị vật đường thở, mục 3.1.1).</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Cho về, hẹn tái khám sau 1 tuần; nếu khàn không hết sau 3–4 tuần thì soi ống mềm tại chuyên khoa</b></div><p class="why">Không khó thở, SpO₂ 98%, không nhiễm khuẩn: ngoại trú (QĐ 5643/2015, mục 4.1.1, 5). Mốc 3 tuần là ranh giới cấp–mạn (Viêm thanh quản mạn tính, mục 1); 4 tuần để soi (AAO-HNSF 2018, nguồn bổ sung tự tìm). Mốc tái khám 1 tuần: lựa chọn của ca.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Xử lý yếu tố nền: bớt dùng giọng thật sự, đeo khẩu trang khi chiên xào, không ăn hoặc uống trong 3 giờ trước khi ngủ, tránh đồ chiên mỡ, cà phê, rượu</b></div><p class="why">Tránh lạm dụng giọng (QĐ 5643/2015, Viêm thanh quản cấp tính, mục 6); chế độ ăn và lối sống khi nghi trào ngược: không ăn uống trong 3 giờ trước ngủ, tránh chiên mỡ, caffein, rượu, kê cao đầu giường 10–15 cm (Trào ngược dạ dày thực quản, mục 6.4, tr. 182). Đeo khẩu trang chống khói: không có trong tài liệu đã tải; lựa chọn của ca.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chỉ lối sống và theo dõi, hoặc thử omeprazol 20 mg x 2 lần/ngày khi có ợ chua điển hình</b></div><p class="why">Theo mục mâu thuẫn đã ghi (TM-0248): QĐ 5643/2015 (Trào ngược mục 6.3, 6.4) chọn PPI và đổi lối sống khi nghi LPR; San Diego 2025 (TL-0552) và ACG 2022 (TL-0212, khuyến cáo ngoài thực quản 2–3) đòi bằng chứng khách quan nếu triệu chứng họng đơn độc, nhưng cho thử PPI hai lần/ngày (8–12 tuần theo ACG, 3 tháng theo San Diego) khi có thêm triệu chứng thực quản điển hình như ợ chua. Chị có ợ chua. Không chấm w hay h cho thử PPI.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ngưng cephalexin, không kê kháng sinh mới; hoặc nếu chọn kháng sinh theo QĐ 5643 thì chỉ một loại</b></div><p class="why">Hai cách ghi theo sổ mâu thuẫn: AAO-HNSF 2018 không dùng kháng sinh cho khàn tiếng; QĐ 5643/2015 mục 4.1.1, 4.2.1 liệt kê. Không nguồn nào nói cách kia gây hại.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi nền gây tái phát (giọng, khói, trào ngược, ăn khuya) và hỏi chị lo gì khi khàn lại</b></div><p class="why">QĐ 5643/2015, mục 2.2: các điều kiện thuận lợi gồm dùng giọng gắng sức, sặc chất kích thích, trào ngược họng–thanh quản, dị ứng.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Khám thần kinh, giải thích khàn tiếng khác dấu hiệu đột quỵ; không chụp đầu hay thử máu</b></div><p class="why">Nội dung giao tiếp; không có dấu thần kinh khu trú. Cơ sở không có xét nghiệm. AAO-HNSF 2018: không chụp CT, MRI cho khàn tiếng.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Chị Phượng khàn lại 3 ngày, không sốt, đi bộ nhanh SpO₂ vẫn 98%, nuốt bình thường: không có chỉ định nhập viện (chỉ độ IIB, III; QĐ 5643/2015, hạ thanh môn, mục 4.2.3). Nằm viện không giải quyết nền là la gọi, khói bếp, ăn khuya; chị mất doanh thu mùa cưới, tốn viện phí, ra viện lại về nếp cũ nên lại khàn.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Đi soi ống mềm ngay chưa cần: đợt khàn này mới 3 ngày, dây thanh di động đối xứng, không hạt, polyp hay u khi soi gương. Mốc soi là khàn không hết sau 4 tuần (AAO-HNSF 2018, nguồn bổ sung tự tìm, tóm tắt AAFP 2018). Chị mất một ngày và tiền khám, và tin nguyên nhân nằm ở &#x27;máy móc&#x27; nên tiếp tục bỏ qua việc kiêng nói và ăn khuya.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Viêm thanh quản cấp tái phát (đợt 2), ngày 3 của đợt, không khó thở thanh quản</li><li>Nền chưa xử lý: dùng giọng quá sức, khói bếp, nghi trào ngược họng–thanh quản; lại tự uống kháng sinh còn thừa</li><li>Đã loại trừ (tạm thời, hẹn mốc soi): hạt hay polyp dây thanh, u, viêm thanh quản mạn tính, bạch hầu, dị vật</li><li>Lý do thật: sợ đột quỵ tái hiện</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Khác lượt 1: không hụt hơi, không khò khè, không cờ đỏ hô hấp; chỉ khàn và ho khan, rất khớp viêm thanh quản cấp không biến chứng.</li><li>Cách nghĩ về tái phát: ba khả năng là nguyên nhân nền chưa xử lý, tuân thủ kém, hoặc chẩn đoán sai từ đầu. Ở đây chẩn đoán lượt 1 đúng; tuân thủ kiêng nói kém; nền (giọng, khói, ợ chua ăn khuya) chưa xử lý.</li><li>Khám: soi gương không thấy khối, hạt, polyp; mép sau phù hồng gợi trào ngược nhưng không đủ để chẩn đoán (ACG 2022, khuyến cáo 5).</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Hướng đúng: cho về, không kháng sinh mới, xử lý nền, hẹn lại và đặt mốc soi ống mềm nếu khàn kéo dài.</li><li>Ba trụ cột: bớt dùng giọng, giảm kích thích (khói, rượu, caffein, ăn muộn), điều trị nghi trào ngược theo lối sống hoặc thử PPI nếu muốn (ghi cả hai theo mục mâu thuẫn).</li><li>Kháng sinh: hai cách, như lượt 1 và 2. Không nguồn nào nói kháng sinh gây hại ở đây nhưng AAO-HNSF 2018 khuyên không dùng.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Cephalexin còn thừa</b><div class="sub">Viên 500 mg</div></td><td data-l="Liều">NGƯNG, không uống nốt<div class="sub">Uống · Từ hôm nay</div></td><td data-l="Thời gian">0</td><td class="gc" data-l="Ghi chú">AAO-HNSF 2018 (nguồn bổ sung tự tìm); QĐ 5643/2015 mục 4.2.1 liệt kê kháng sinh nhưng không áp dụng khi đã biết nền chưa xử lý.</td></tr><tr><td><b>Omeprazol (tùy chọn, cách B)</b><div class="sub">Viên 20 mg</div></td><td data-l="Liều">20 mg x 2 lần/ngày, trước ăn sáng và trước ăn tối 30–60 phút<div class="sub">Uống · Trước bữa sáng và bữa tối</div></td><td data-l="Thời gian">8–12 tuần (ACG 2022) hoặc 3 tháng (San Diego 2025)</td><td class="gc" data-l="Ghi chú">Chỉ khi chọn thử PPI: ợ chua kèm triệu chứng họng (ACG 2022, khuyến cáo ngoài thực quản 3; San Diego 2025, TL-0552). Lối sống đơn thuần cũng được (cách A). Thời điểm uống trước bữa: San Diego 2025 mục dược lý.</td></tr><tr><td><b>Nước ấm, nước muối ấm xúc họng</b><div class="sub">—</div></td><td data-l="Liều">Uống nhiều nước ấm; xúc họng 3–4 lần/ngày<div class="sub">Uống, xúc họng · Cả ngày</div></td><td data-l="Thời gian">Đến khi hết khàn</td><td class="gc" data-l="Ghi chú">QĐ 5643/2015, hạ thanh môn, mục 4.2.1; Viêm thanh quản cấp tính, mục 4.2.3. Số lần xúc: lựa chọn của ca.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Bớt dùng giọng thật sự: chuông bàn, bảng số, giao một người phụ gọi khách; trước tiệc lớn phải chia người (QĐ 5643/2015, mục 6).</li><li>Không ăn hoặc uống trong 3 giờ trước khi ngủ, tránh chiên mỡ, cà phê, rượu, kê cao đầu giường 10–15 cm (QĐ 5643/2015, Trào ngược mục 6.4). Đeo khẩu trang khi chiên xào.</li><li>Không dùng lại thuốc thừa; trước khi mua thuốc hỏi bác sĩ.</li><li>Tái khám sau 1 tuần (mốc của ca, không có trong tài liệu đã tải). Nếu khàn quá 3 đến 4 tuần phải soi thanh quản ống mềm (Viêm thanh quản mạn tính, mục 1; AAO-HNSF 2018).</li><li>Quay lại ngay nếu khó thở, thở rít, nuốt đau, chảy nước dãi, ho ra máu; nếu méo miệng, yếu liệt, nói ngọng thì gọi cấp cứu.</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-18">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Viêm thanh quản cấp</b></div>
+<p class="note">Phải loại trừ: Bạch hầu, Dị vật đường thở</p><p>Lượt 1 (ngày 6), chị Phượng khàn tiếng, khó thở thanh quản độ I khi gắng sức, đã uống ba loại kháng sinh vô ích; được soi gương, loại trừ bạch hầu và dị vật, ngưng thuốc cũ, dặn kiêng nói và dấu hiệu nặng, được trấn an về nỗi sợ đột quỵ. Lượt 2 (ngày 11), đỡ một phần vì vẫn la gọi khách; không bội nhiễm nên không đổi chiến lược. Lượt 3 (ngày 32), khàn tái phát sau tiệc lớn; chẩn đoán lượt 1 đúng, nguyên nhân nền chưa xử lý (giọng, khói bếp, ợ chua ăn khuya) và lại tự uống kháng sinh thừa. Kết cục tốt khi bác sĩ xử lý nền và đặt mốc soi ống mềm nếu khàn quá 3–4 tuần; không kết cục nào đòi xét nghiệm.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-19">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Từng khám 3 nơi không khỏi: túi thuốc lẫn lộn, kể sai thứ tự; phải hỏi từng nơi, từng loại, mấy viên mấy ngày mới biết đã uống cephalexin, azithromycin và amoxicillin chồng nhau.</li><li>Neo &#x27;do thuốc&#x27;: chị tin khàn tiếng ra sau khi uống kháng sinh thừa; thực ra khàn là diễn tiến tự nhiên của viêm đường hô hấp trên (khàn ra 2–3 ngày sau, QĐ 5643/2015, hạ thanh môn, mục 3.1.1).</li><li>Cờ đỏ không tự kể: &#x27;hụt hơi khi bê nồi&#x27; chỉ lộ khi hỏi khó thở lúc gắng sức; khám phải đi bộ đo SpO₂ để phân độ.</li><li>Thuốc mỡ không nhãn bôi cổ: chỉ lộ khi hỏi bôi gì hoặc khám thấy da đỏ; thành phần không biết.</li><li>Lý do thật sợ đột quỵ: chỉ lộ khi hỏi chị lo gì, nhà có ai bệnh; hay hỏi vòng vo &#x27;khàn lâu có sao không&#x27;.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Viêm thanh quản cấp người lớn là chẩn đoán lâm sàng; không cần xét nghiệm để quyết định cho về: kiêng nói, tránh lạnh là quan trọng nhất (QĐ 5643/2015, Viêm thanh quản cấp tính, mục 3.3, 4.1.1). Soi gương thanh quản là bước xác định.</li><li>Luôn hỏi và phân độ khó thở thanh quản dù bệnh nhân không kể: độ I ngoại trú, độ II trở lên mở khí quản hoặc nhập viện (mục 4.1.2; hạ thanh môn, mục 3.1.2, 4.2.1–4.2.3).</li><li>Đỡ một phần: phân biệt hồi phục chậm bình thường với thất bại điều trị bằng sốt, đờm mủ, khó thở, đau họng tăng; ở đây chậm vì vẫn la gọi khách.</li><li>Bệnh nhân từng khám nhiều nơi: tái lập niềm tin bằng soi và giải thích, không chê đồng nghiệp, không lặp lại cách đã thất bại, không chạy theo đòi thuốc mạnh.</li><li>Tái phát: tìm nguyên nhân nền (giọng, khói, trào ngược, ăn khuya; QĐ 5643/2015, mục 2.2), tuân thủ, hay chẩn đoán sai từ đầu; khàn quá 3–4 tuần thì soi ống mềm (Viêm thanh quản mạn tính, mục 1; AAO-HNSF 2018).</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Viêm thanh quản cấp: dưới 3 tuần; mạn tính: trên 3 tuần (QĐ 5643/2015, Viêm thanh quản cấp tính, mục 1; Viêm thanh quản mạn tính, mục 1).</li><li>Phân độ khó thở thanh quản: độ I khàn tiếng, khó thở khi gắng sức; độ IIA khó thở khi nghỉ, thở rít khi nằm yên; độ IIB thêm thở nhanh, rút lõm ngực; độ III thêm vật vã hoặc tím tái (hạ thanh môn, mục 3.1.2).</li><li>Độ I điều trị nội khoa; độ II mở khí quản cấp cứu (Viêm thanh quản cấp tính, mục 4.1.2).</li><li>Hội chứng xâm nhập khai thác được ở 93% dị vật đường thở (Dị vật đường thở, mục 3.1.1).</li><li>Bạch hầu thanh quản: màng giả trắng dai dính, khó thở thanh quản nặng dần; nghi ngờ khi có giả mạc và dịch tễ (QĐ 2957/2020, mục 3.3, 5.1).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-20">Nguồn tài liệu <small>5</small></h3></summary><ul class=""><li>TL-0130 · QĐ 5643/QĐ-BYT 2015 · Hướng dẫn chẩn đoán và điều trị một số bệnh về Tai Mũi Họng · Viêm thanh quản cấp tính mục 1, 2.1, 2.2, 3.1–3.5, 4.1.1, 4.1.2, 4.2.1–4.2.4, 5, 6; Viêm thanh quản mạn tính mục 1, 2; Viêm thanh quản cấp tính hạ thanh môn mục 3.1.1, 3.1.2, 4.2.1–4.2.3; Dị vật đường thở mục 3.1.1; Trào ngược dạ dày thực quản mục 3, 6.3, 6.4</li><li>TL-0129 · QĐ 2957/QĐ-BYT 2020 · Hướng dẫn chẩn đoán, điều trị bệnh bạch hầu · mục 1, 3.3, 5.1, 5.3.2</li><li>TL-0552 · San Diego Consensus 2025 · Laryngopharyngeal symptoms and laryngopharyngeal reflux disease (Am J Gastroenterol 2025;121:322–336) · mục điều trị thử PPI (omeprazol 20 mg x 2 lần/ngày, 3 tháng) và lối sống</li><li>TL-0212 · ACG 2022 · Clinical guideline for the diagnosis and management of GERD · khuyến cáo triệu chứng ngoài thực quản 1–3, 5</li><li>Nguồn bổ sung tự tìm: AAO-HNSF 2018, Clinical practice guideline: hoarseness (dysphonia) (update), Stachler và cs., doi 10.1177/0194599817751030; đọc qua tóm tắt AAFP 2018 https://www.aafp.org/pubs/afp/issues/2018/1115/p606.html (không kháng sinh, không corticoid trước khi soi, không CT/MRI trước khi soi, soi nếu khàn không hết sau 4 tuần); chưa mở toàn văn guideline gốc</li></ul></details>
+<details class="card"><summary><h3 id="m-21">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Hô hấp cấp tính</dd><dt>chan_doan_dich</dt><dd>Viêm thanh quản cấp</dd><dt>chan_doan_phai_loai_tru</dt><dd>Bạch hầu; Dị vật đường thở</dd><dt>nhom_tuoi</dt><dd>Trung niên (40–59 tuổi)</dd><dt>do_kho</dt><dd>Điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>dien_tien_tai_kham</dt><dd>Đỡ một phần</dd><dt>nhieu_benh_nhan</dt><dd>Từng khám 3 nơi không khỏi</dd><dt>rang_buoc_nguon_luc</dt><dd>Không có xét nghiệm nào</dd><dt>loai_ket_cuc</dt><dd>Tái phát</dd><dt>gioi</dt><dd>Nữ</dd><dt>co_co_do</dt><dd>Có</dd><dt>so_luot_kham</dt><dd>3</dd><dt>nghe_nghiep</dt><dd>Chủ quán ăn</dd><dt>yeu_to_khoi_phat</dt><dd>Sau khi tự uống kháng sinh</dd><dt>thuoc_dang_dung</dt><dd>Thuốc bôi ngoài da không rõ</dd><dt>ly_do_that_su_den_kham</dt><dd>Sợ đột quỵ</dd></dl><ul class=""><li>2026-10-24 · viết: Sonnet · bản 1, soạn mới theo CLAUDE.md mục 3.</li><li>Tài liệu đã đọc: TL-0130 (Viêm thanh quản cấp tính, hạ thanh môn, mạn tính, Dị vật đường thở, Trào ngược mục 3–6), TL-0129 (mục 1–5), TL-0552 và TL-0212 (đoạn PPI, khuyến cáo ngoài thực quản).</li><li>Chỗ thiếu tài liệu: (1) mốc tái khám 5 ngày, 1 tuần; (2) thời gian hồi phục bình thường; (3) thành phần thuốc nam, thuốc mỡ không nhãn; (4) tiêu chuẩn nhận diện đột quỵ để trấn an; (5) khẩu trang chống khói bếp; (6) AAO-HNSF 2018 chỉ đọc bản tóm tắt AAFP, chưa mở toàn văn.</li><li>Phân độ khó thở thanh quản lấy từ bài hạ thanh môn (mục 3.1.2), chủ yếu về trẻ em; áp dụng cho người lớn là suy từ cùng văn bản (bài Viêm thanh quản cấp tính chỉ dùng độ I–III ở mục 4.1.2).</li><li>Mâu thuẫn: kháng sinh/corticoid trong viêm thanh quản cấp (HH-1045) và trào ngược họng–thanh quản dùng PPI hay chứng cứ khách quan (TM-0248) đã có trong sổ, ca ghi giống. Mốc 3 tuần (QĐ 5643, ranh giới cấp–mạn) và mốc 4 tuần (AAO-HNSF 2018, soi) là hai thông tin khác loại, không phải mâu thuẫn mới.</li><li>Không dùng id danh mục mới; không ảnh da (da cổ chỉ đỏ nhẹ, không then chốt). Tim không gắn âm thanh vì mạch 78–84 không khớp tệp ≈ 60 hay ≈ 115 l/p.</li></ul></details>
+<p class="chan-trang">Ca HH-1057 · phiên bản ca 1 – soạn mới theo quy trình bản 3, nguồn kèm vị trí (2026-10-24) · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

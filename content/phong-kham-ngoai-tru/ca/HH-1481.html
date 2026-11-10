@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HH-1481 · Áp xe phổi</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · HH-1481</div>
+   <h1>Ho gần một tháng, ho cả đêm không ngủ được, xin thuốc ngủ</h1>
+   <p class="dich-gia">Lê Văn Bảy · Nam · 67 tuổi · 57 kg</p>
+   <div class="chips"><span class="chip">Hô hấp cấp tính</span><span class="chip">Ca bẫy</span><span class="chip">Đáp án là chuyển tuyến</span><span class="chip">1 lượt khám</span><span class="chip">Có cờ đỏ</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Bảo vệ ca đêm (19 giờ–7 giờ) ở một khu nhà xưởng, hợp đồng theo tháng</dd><dt>Chiều cao, cân nặng</dt><dd>165 cm · 57 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi ông là &#x27;bác&#x27; hoặc &#x27;ông&#x27;. Ông tự xưng &#x27;tôi&#x27;, gọi &#x27;bác sĩ&#x27;.</dd><dt>Tính cách</dt><dd>Cộc, ít nói, mệt và mất kiên nhẫn sau ba nơi khám không khỏi. Hay cắt ngang &#x27;chỗ nào cũng hỏi y chang&#x27;. Thực dụng: chỉ cần ngủ được vài tiếng để tối mai còn đi trực, sợ nghỉ ốm bị thay người. Tỉnh táo, trả lời đúng.</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Ngoài giờ (20 giờ 30): kỹ thuật viên xét nghiệm và kỹ thuật viên chẩn đoán hình ảnh đã về. Cơ sở không làm được xét nghiệm máu, đờm, X-quang, siêu âm (nên cũng không có CT, nội soi). Còn bác sĩ, điều dưỡng, máy đo SpO₂, đường huyết mao mạch, điện tim. Quyết định phải dựa vào hỏi bệnh, khám và đánh giá an toàn tối nay.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/1</span> </h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Ông Lê Văn Bảy, 67 tuổi, bảo vệ ca đêm, tự đến lúc 20 giờ 30 vì ho gần một tháng, ho đêm không ngủ được. Ngoài giờ, kỹ thuật viên xét nghiệm và chẩn đoán hình ảnh đã về. Sinh hiệu: nhiệt độ 37,9 °C, mạch 98 l/p, HA 126/78 mmHg, nhịp thở 22 l/p, SpO₂ 93% khí trời, cân nặng 57 kg.</p>
+  <blockquote>“Bác sĩ cho tôi mấy viên thuốc ngủ đi. Ho suốt đêm chẳng chợp mắt được. Ba chỗ rồi, chỗ nào cũng cho thuốc ho với kháng sinh, uống hết trơn mà có hết đâu.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>98</b><small>l/p</small></div><div class="vs"><span>HA</span><b>126/78</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>37,9</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>22</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>93</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>16 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám</b><span class="tag t-g">Tự kể</span></div><p>Ho gần một tháng, đêm nào cũng ho từng cơn, 2–3 giờ sáng ho đến nôn khan, ngủ được chừng 2 tiếng. Ông xin vài viên thuốc ngủ để ngủ được, nói chỗ khác cho thuốc ho không hết.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Điều trị kháng sinh thất bại, cái neo &#x27;viêm phế quản&#x27;</b><span class="tag t-b">Khi được hỏi</span></div><p>Ba nơi, không nhớ tên thuốc. (1) Ngày 3: phòng mạch gần nhà, nghĩ ngộ độc thực phẩm rồi viêm họng, cho thuốc uống 5 ngày (viên nang trắng vàng) và siro ho; hết thuốc thì sốt lại. (2) Ngày 11: phòng khám đa khoa có chụp phim ngực, bác sĩ nói &#x27;viêm phế quản, phổi hơi mờ bên phải&#x27;, cho thuốc uống 7 ngày và tiêm 3 ngày; ông bỏ tờ phim ở nhà. (3) Ngày 19: phòng khám tư khác, cho thuốc ho long đờm, &#x27;thuốc bổ phổi&#x27; và dặn kiêng gió. Mỗi nơi đều hơi đỡ vài ngày rồi ho trở lại, đờm nhiều hơn.</p><div class="cond">Điều kiện nói ra: Hỏi &#x27;đã khám ở đâu chưa, uống thuốc gì&#x27; thì ông cáu nhẹ, nói &#x27;ba chỗ rồi&#x27; và chỉ kể chung chung. Hỏi từng nơi: khi nào, làm gì, thuốc màu gì, mấy ngày thì ông kể như trên.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Hít sặc sau ăn + rượu</b><span class="tag t-b">Khi được hỏi</span></div><p>Khoảng 24 ngày trước (ngày 0), đang trực đêm, ăn cháo lòng ở xe đẩy đầu đường cùng ly rượu đế (khoảng 3 ly) với bạn trực. Khoảng 2 giờ sáng ngủ gục trên ghế, nôn hai lần, sặc, ho sặc sụa mấy phút, nghẹn thở. Sáng ra mệt, ớn lạnh. Cả nhà và ông nghĩ ngộ độc đồ ăn.</p><div class="cond">Điều kiện nói ra: Hỏi &#x27;bệnh bắt đầu thế nào, trước đó ăn uống gì, ăn xong có nôn, sặc không&#x27;. Hỏi chung &#x27;có gì đặc biệt&#x27; thì chỉ nói &#x27;ăn trúng đồ ăn đường phố&#x27;.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đờm mủ thối, ộc mủ</b><span class="tag t-r">Giấu</span></div><p>Khoảng 7 ngày nay đờm đặc xanh vàng, buổi sáng và khi đổi tư thế nằm nghiêng bên trái thì ho khạc ra một đợt nhiều mủ cả chén nhỏ, mùi hôi thối khó chịu, ông tự thấy hôi nên ngại với người trực chung.</p><div class="cond">Điều kiện nói ra: Hỏi &#x27;ho có đờm không&#x27; thì nói &#x27;có chút&#x27;. Chỉ nói đủ khi hỏi màu, lượng, mùi đờm, hoặc khạc nhiều vào lúc nào trong ngày.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đờm lẫn sợi máu</b><span class="tag t-r">Giấu</span></div><p>2–3 lần trong tuần qua có vài sợi máu đỏ tươi lẫn trong đờm, mỗi lần chỉ vài sợi, không ho ra máu cả ngụm.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi hỏi thẳng có máu trong đờm, ho ra máu không. Lúc đầu nói &#x27;không&#x27;, hỏi lại &#x27;có sợi nào đỏ không&#x27; thì kể.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Sốt kéo dài, đã bị che bởi corticoid</b><span class="tag t-b">Khi được hỏi</span></div><p>Từ ngày đầu sốt về chiều tối 38–38,5 °C, ớn lạnh vài lần, vã mồ hôi sau khi uống &#x27;thuốc tiêu viêm&#x27; nên thấy đỡ. Không có nhiệt kế riêng, đo ở chốt bảo vệ chiều nay 38,2.</p><div class="cond">Điều kiện nói ra: Hỏi &#x27;có sốt không&#x27; thì nói &#x27;chiều chiều hâm hấp, uống thuốc là hết&#x27;. Hỏi ớn lạnh, đo nhiệt độ, kéo dài mấy ngày thì kể như trên.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Corticoid tự mua (che sốt, giảm đề kháng)</b><span class="tag t-r">Giấu</span></div><p>Từ ngày 10 đến sáng nay (khoảng 2 tuần), tự mua ở tiệm thuốc đầu ngõ &#x27;thuốc tiêu viêm&#x27; viên tròn nhỏ ghi dexamethason 0,5 mg, uống 2 viên × 2 lần/ngày vì bạn trực bảo &#x27;uống vào là hết sốt, hết ho, ăn được&#x27;. Đã hết gần hai vỉ. Không biết thuốc này là corticoid.</p><div class="cond">Điều kiện nói ra: Hỏi &#x27;thuốc đang dùng&#x27; thì chỉ kể thuốc của ba nơi. Chỉ nói khi hỏi riêng thuốc tự mua, thuốc ngoài toa, thuốc &#x27;tiêu viêm&#x27;, thuốc &#x27;giảm đau chống viêm&#x27;; đưa vỉ thuốc trong túi áo khi được hỏi tên.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Sụt cân (nghĩ lao, ung thư)</b><span class="tag t-b">Khi được hỏi</span></div><p>Sụt khoảng 4 kg trong gần một tháng, ăn kém, miệng đắng. Cân ở chốt bảo vệ trước đây 61 kg, nay 57 kg.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Đau ngực phía tổn thương</b><span class="tag t-b">Khi được hỏi</span></div><p>Đau tức vùng lưng phải dưới xương bả vai mỗi khi ho mạnh hay hít sâu. Không đau ngực trái, không đau bụng.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khó thở khi gắng sức (hỏi theo việc làm)</b><span class="tag t-r">Giấu</span></div><p>Leo cầu thang lên chòi bảo vệ tầng hai phải dừng nghỉ giữa chừng, trước đây leo một mạch. Nằm ngửa ngủ được. Không khò khè.</p><div class="cond">Điều kiện nói ra: Hỏi &#x27;có khó thở không&#x27; thì nói &#x27;không, mệt thôi&#x27;. Chỉ nói khi hỏi leo cầu thang, đi tuần quanh nhà xưởng có phải dừng nghỉ không.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Rượu, thuốc lá (yếu tố thuận lợi)</b><span class="tag t-b">Khi được hỏi</span></div><p>Uống rượu đế đều khoảng 3–4 ly nhỏ mỗi tối từ hơn 20 năm, nhiều hơn khi trực với bạn. Đêm qua uống 2 ly &#x27;cho dễ ngủ&#x27;. Hút thuốc lá khoảng 1 gói/ngày trong 35 năm, tháng này giảm còn 4–5 điếu.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Ổ nhiễm răng miệng</b><span class="tag t-b">Khi được hỏi</span></div><p>Răng hàm sâu, lung lay, đau nhức nhiều năm, chảy máu chân răng khi chải, chưa đi nhổ vì tiếc tiền. Hôi miệng từ trước khi bệnh.</p><div class="cond">Điều kiện nói ra: Nói khi hỏi răng miệng, đã đi nha sĩ chưa, hơi thở.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Sàng lọc lao, HIV</b><span class="tag t-b">Khi được hỏi</span></div><p>Trước tháng này không ho kéo dài. Không đổ mồ hôi trộm ban đêm trước khi sốt, không ai trong nhà hay đồng nghiệp ho lao hay đang chữa lao, chưa từng chữa lao. Chưa thử HIV, không nhớ có thử hay không.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Bệnh nền, dị ứng thuốc</b><span class="tag t-b">Khi được hỏi</span></div><p>Chưa từng được chẩn đoán đái tháo đường, huyết áp hay bệnh phổi; nhiều năm không đi khám. Không dị ứng thuốc, thức ăn. Không dùng thuốc tim, thuốc loãng máu. Nuốt không sặc khi ăn bình thường, chỉ sặc đêm ngày 0.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Động cơ thật: thuốc ngủ để đi làm, sợ mất việc</b><span class="tag t-r">Giấu</span></div><p>Ông không cần khỏi ngay, ông cần ngủ được 5–6 tiếng ban ngày để đêm mai đi trực. Tổ trưởng đã nhắc nhở vì ông ngủ gật và hay ho; nghỉ hay bị bắt nằm viện thì bị thay người, mất lương tháng này. Thấy bạn trực uống một viên thuốc ngủ là ngủ ngon. Ông cũng thừa nhận hết niềm tin: &#x27;ba chỗ rồi, chắc bệnh già thôi&#x27;.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi vì sao cần ngủ, công việc ra sao, nếu phải nghỉ hoặc nằm viện thì sao, hoặc tỏ ra lắng nghe và không nhắc lại những gì ông đã nói ba lần.</div></div><div class="fact"><div class="fh"><b>giay_to</b><span class="tag t-b">Khi được hỏi</span></div><p>Ông không mang toa thuốc, phim ngực hay kết quả. Chỉ nhớ nơi thứ hai nói &#x27;phổi hơi mờ&#x27;.</p></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>10 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, trả lời đúng. Gầy (BMI 20,9), sụt 4 kg. Hơi thở hôi mùi thối rõ khi ho. Môi khô, không tím, chi ấm. Nói câu dài phải dừng lấy hơi.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Phổi</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Nhịp thở 22 l/p. Vùng lưng phải ngang góc dưới xương bả vai: rung thanh tăng, gõ đục. Phổi trái: rung thanh, gõ bình thường.</p><p><span class="lbl">Kết quả:</span> Nhịp thở 22 l/p. Vùng lưng phải ngang góc dưới xương bả vai: rung thanh tăng, gõ đục, rì rào phế nang giảm, nghe tiếng thở ống và ran nổ to hạt, khi ho thành ran ẩm; nghi có ổ hang. Không tiếng cọ màng phổi, không ran rít. Phổi trái: rung thanh, gõ bình thường, rì rào phế nang êm.</p><div class="media"><figure class="aud"><figcaption><b>Lưng phải, ngang góc dưới xương bả vai</b> – Tiếng thở ống (thở phế quản) vùng đông đặc.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-PQ-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Lưng phải, sát cột sống ngang bả vai</b> – Ran nổ to hạt, ran ẩm lẫn khi ho.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-RAN-NO-TO-01.mp3"></audio></figure><figure class="aud"><figcaption><b>Đáy phổi trái (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Tim</b></div><p class="hien"><span class="lbl">Bác sĩ thấy:</span> Tim đều, tần số 98 l/p.</p><p><span class="lbl">Kết quả:</span> Tim đều 98 l/p, T1 T2 rõ, không âm thổi, không T3.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi, không T3.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><span class="key">★</span><b>Khám răng – hàm – niêm mạc miệng</b></div><p><span class="lbl">Kết quả:</span> Hơi thở hôi. Răng hàm dưới và trên sâu vỡ chân (4 răng), 2 răng lung lay độ 2, nướu viêm đỏ chảy máu khi chạm, cao răng nhiều. Không áp xe lợi, không sưng má, há miệng bình thường.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Nghiệm pháp đi bộ đo SpO₂</b></div><p><span class="lbl">Kết quả:</span> Nghỉ SpO₂ 93%, mạch 98. Đi bộ 40 m chậm: dừng lại thở sau 25 m, SpO₂ 89%, mạch 112, nhịp thở 28; nghỉ 2 phút lên 92%.</p></div><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Hạch cổ, hạch thượng đòn hai bên không sờ thấy. Khí quản ở giữa. Không phù áo khoác, không tĩnh mạch cổ nổi.</p></div><div class="row"><div class="rh"><b>Da đầu, móng tay chân</b></div><p><span class="lbl">Kết quả:</span> Móng tay không khum, không ngón tay dùi trống, đầu ngón không tím.</p></div><div class="row"><div class="rh"><b>Bụng</b></div><p><span class="lbl">Kết quả:</span> Bụng mềm, không điểm đau, gan lách không to, không đau vùng gan.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b></div><p><span class="lbl">Kết quả:</span> Không phù, bắp chân mềm, không đau.</p></div><div class="row"><div class="rh"><b>Khám tâm thần (dáng vẻ, khí sắc, tư duy, nhận thức, ý tưởng tự hại)</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, định hướng đúng. Khí sắc mệt, lo vì mất ngủ và mất việc, không buồn chán kéo dài, không ý tưởng tự hại. Ngủ kém chủ yếu do ho đêm.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Họng, tai, mũi</b><span class="tag t-m">Bình thường</span></div><p>Họng không đỏ, amidan không to. Màng nhĩ bình thường. Niêm mạc mũi hồng.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>12 mục</small></h3></summary><div class="row"><div class="rh"><b>Đường huyết mao mạch (máy thử tại giường)</b><span class="tag t-y">Chấp nhận</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class="hi"><td>Glucose</td><td class="num">9,4 ↑</td><td>mmol/L</td><td class="ref">3,9–6,4</td></tr></tbody></table><p class="why">Chấp nhận, không bắt buộc: đang dùng dexamethason nên glucose có thể tăng (ATS 2025 câu hỏi 4 nêu tăng đường huyết là tác dụng phụ của corticoid toàn thân). Một lần glucose ngẫu nhiên 9,4 mmol/L chưa đủ chẩn đoán đái tháo đường (ADA 2026 Bảng 2.1, TL-0674: cần ≥ 11,1 mmol/L kèm triệu chứng cổ điển hoặc xét nghiệm xác nhận). Xử trí tăng đường huyết do corticoid: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><b>Điện tâm đồ 12 chuyển đạo</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Nhịp xoang 98 l/p, trục trung gian, không biến đổi ST–T.</p><p class="why">Chấp nhận, không bắt buộc, không đổi quyết định tối nay. Không có trong tài liệu đã tải chỉ định điện tim cho áp xe phổi.</p></div><div class="row"><div class="rh"><b>X-quang ngực thẳng</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Hang đường kính khoảng 5 cm ở vùng phân thùy trên thùy dưới phổi phải, thành dày tương đối đều khoảng 4 mm, bên trong có mức nước–hơi, xung quanh đông đặc. Không tràn dịch màng phổi, đỉnh hai phổi sạch, phổi trái bình thường.</p><p class="why">Cơ sở không có X-quang tối nay. Đây là xét nghiệm cần làm ngay ở tuyến chuyển đến: hình hang thành tương đối đều có mức nước–hơi (TL-0131 bài Áp xe phổi mục 2.1.2, QĐ 708/2015 mục 2.1.2). Không có xét nghiệm thay thế tại chỗ; bác sĩ phải quyết định chuyển dựa vào lâm sàng.</p></div><div class="row"><div class="rh"><b>X-quang ngực nghiêng</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Phim nghiêng: hang nằm ở phần sau, mức nước–hơi có chiều dài trên phim thẳng và nghiêng gần bằng nhau.</p><p class="why">Tuyến trên làm: cần phim nghiêng để xác định vị trí ổ áp xe chọn cách dẫn lưu; hai chiều dài mức nước–hơi gần bằng nhau gợi áp xe hơn tràn khí tràn dịch (TL-0131 mục 2.1.2, 2.3).</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-g">Cần làm</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class="hi"><td>Số lượng bạch cầu (WBC)</td><td class="num">17,8 ↑</td><td>G/L</td><td class="ref">4,0–10,0</td></tr><tr class="hi"><td>Tỷ lệ bạch cầu trung tính (NEU%)</td><td class="num">86,0 ↑</td><td>%</td><td class="ref">45–75</td></tr><tr class="hi"><td>Số lượng bạch cầu trung tính (NEU#)</td><td class="num">15,31 ↑</td><td>G/L</td><td class="ref">2,0–7,5</td></tr><tr class="lo"><td>Tỷ lệ bạch cầu lympho (LYM%)</td><td class="num">8,0 ↓</td><td>%</td><td class="ref">20–40</td></tr><tr class=""><td>Số lượng bạch cầu lympho (LYM#)</td><td class="num">1,42</td><td>G/L</td><td class="ref">1,0–4,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu mono (MONO%)</td><td class="num">5,0</td><td>%</td><td class="ref">2–10</td></tr><tr class=""><td>Số lượng bạch cầu mono (MONO#)</td><td class="num">0,89</td><td>G/L</td><td class="ref">0,2–1,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa acid (EOS%)</td><td class="num">0,5</td><td>%</td><td class="ref">0–7</td></tr><tr class=""><td>Số lượng bạch cầu ưa acid (EOS#)</td><td class="num">0,09</td><td>G/L</td><td class="ref">0–0,5</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa base (BASO%)</td><td class="num">0,5</td><td>%</td><td class="ref">0–1</td></tr><tr class=""><td>Số lượng bạch cầu ưa base (BASO#)</td><td class="num">0,09</td><td>G/L</td><td class="ref">0–0,1</td></tr><tr class="lo"><td>Số lượng hồng cầu (RBC)</td><td class="num">4,1 ↓</td><td>T/L</td><td class="ref">4,2–5,4</td></tr><tr class="lo"><td>Lượng huyết sắc tố (HGB)</td><td class="num">118 ↓</td><td>g/L</td><td class="ref">130–170</td></tr><tr class="lo"><td>Thể tích khối hồng cầu (HCT)</td><td class="num">0,35 ↓</td><td>L/L</td><td class="ref">0,4–0,5</td></tr><tr class=""><td>Thể tích trung bình hồng cầu (MCV)</td><td class="num">85,4</td><td>fL</td><td class="ref">80–100</td></tr><tr class=""><td>Lượng HST trung bình hồng cầu (MCH)</td><td class="num">28,8</td><td>pg</td><td class="ref">27–32</td></tr><tr class=""><td>Nồng độ HST trung bình hồng cầu (MCHC)</td><td class="num">337</td><td>g/L</td><td class="ref">320–360</td></tr><tr class=""><td>Dải phân bố kích thước hồng cầu (RDW-CV)</td><td class="num">14,1</td><td>%</td><td class="ref">11,5–14,5</td></tr><tr class="hi"><td>Số lượng tiểu cầu (PLT)</td><td class="num">410 ↑</td><td>G/L</td><td class="ref">150–400</td></tr></tbody></table><p class="why">Cơ sở không làm được tối nay. Bạch cầu thường &gt; 10 G/L (TL-0131 mục 2.1.2). Ảnh hưởng của corticoid lên công thức máu: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><b>CRP</b><span class="tag t-b">Hữu ích</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class="hi"><td>CRP</td><td class="num">148 ↑</td><td>mg/L</td><td class="ref">≤ 5</td></tr></tbody></table><p class="why">Tuyến trên làm. Ngưỡng CRP cho áp xe phổi: không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><b>Tốc độ máu lắng (VS)</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Máu lắng 92 mm/giờ</p><p class="why">Tuyến trên làm: tốc độ máu lắng tăng (TL-0131 mục 2.1.2). Chấp nhận, không bắt buộc.</p></div><div class="row"><div class="rh"><b>Nhuộm Gram, cấy đờm và cấy máu</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Nhuộm Gram đờm: nhiều bạch cầu đa nhân, hỗn hợp cầu khuẩn Gram dương và trực khuẩn Gram âm. Cấy máu, cấy đờm: chờ 48–72 giờ.</p><p class="why">Cơ sở không làm được. Đờm có mùi thối: nhuộm soi, cấy đờm, dịch phế quản hoặc mủ ổ áp xe; cấy máu khi sốt &gt; 38,5 °C; áp xe phổi thường nhiễm nhiều loại vi khuẩn cùng lúc (TL-0131 mục 2.1.2, 2.2; QĐ 708/2015 mục 2.2). Cho khạc đờm vào lọ sạch mang theo.</p></div><div class="row"><div class="rh"><b>Xpert MTB/RIF và soi AFB đờm</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Xpert MTB/RIF đờm: không phát hiện MTB. Soi AFB đờm: âm tính.</p><p class="why">Cơ sở không làm được. Ho &gt; 2 tuần là triệu chứng nghi lao quan trọng nhất, ông lại sụt cân (QĐ 162/2024 Phần II, Bảng 1): phải gửi đờm xét nghiệm lao ở tuyến chuyển đến; xét nghiệm phân tử nhanh (GeneXpert) là xét nghiệm ban đầu (mục 3.2.2). Một lần âm tính chưa đủ loại trừ nếu không đáp ứng điều trị.</p></div><div class="row"><div class="rh"><b>CT ngực (có hoặc không cản quang, gồm CT động mạch phổi)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> CT ngực: ổ áp xe 5,2 cm phân thùy 6 phổi phải, thành dày đều, có mức khí–dịch, không khối u quanh ổ, không dị vật trong lòng phế quản, không hang ở đỉnh, hạch trung thất ≤ 1 cm.</p><p class="why">Tuyến trên làm khi cần: chụp cắt lớp vi tính để xác định vị trí ổ áp xe chọn cách dẫn lưu (TL-0131 mục 2.1.2). Cơ sở không có CT.</p></div><div class="row"><div class="rh"><b>Nội soi phế quản ống mềm (kèm hút mủ, sinh thiết, rửa phế quản)</b><span class="tag t-b">Hữu ích</span></div><p><span class="lbl">Kết quả:</span> Nội soi phế quản ống mềm: phù nề, mủ đặc thối chảy ra từ phế quản phân thùy 6 phải, hút sạch mủ; không u, không dị vật. Rửa phế quản gửi cấy, AFB, tế bào.</p><p class="why">Tuyến trên làm: chỉ định soi phế quản ở người áp xe phổi, sinh thiết nếu có tổn thương, để loại ung thư phổi áp xe hóa (&gt; 45 tuổi, hút thuốc), hút mủ dẫn lưu (TL-0131 mục 2.3, 3.1.2; QĐ 2147/2026 mục 3.1.6).</p></div><div class="row"><div class="rh"><b>HBsAg, anti-HCV, HIV</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> HIV âm tính · HBsAg âm tính · Anti-HCV âm tính</p><p class="why">Tuyến trên làm: cần tìm yếu tố thuận lợi như nghiện rượu, suy giảm miễn dịch do HIV hoặc thuốc ức chế miễn dịch (TL-0131 mục 2.2). Chấp nhận, không bắt buộc.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Chuyển tuyến / chuyên khoa</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Áp xe phổi phải (phân thùy trên thùy dưới), nghi sau hít sặc khi nôn lúc ngủ gục sau ăn và rượu, khởi phát khoảng 3,5 tuần, đã điều trị kháng sinh uống không đủ và đang dùng corticoid tự mua che triệu chứng</b></div><p class="why">Sặc khi nôn ngày 0 + sốt kéo dài, ho khạc đờm mủ thối, ộc mủ buổi sáng, đau ngực phải, hội chứng đông đặc có thể hang ở lưng phải, bạch cầu thường cao (TL-0131 bài Áp xe phổi mục 2.1.1, 2.1.2). Yếu tố thuận lợi: rượu, ổ nhiễm răng hàm mặt (mục 2.2). Chẩn đoán lâm sàng; hình hang có mức nước–hơi cần X-quang thẳng–nghiêng hoặc CT (mục 2.1.2) ở tuyến chuyển đến. Áp xe phổi cũng là biến chứng hay gặp của viêm phổi khi kháng sinh không hiệu quả (QĐ 2147/2026 mục 3.5.1).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Lao phổi có hang</b></div><p class="why">Không bỏ qua: ho &gt; 2 tuần là triệu chứng nghi lao quan trọng nhất, ông lại sụt cân (QĐ 162/2024 Phần II, Bảng 1). Nghiêng về áp xe hơn: khởi phát cấp có sặc, sốt cao, đờm thối, răng nát, không tiếp xúc lao, không mồ hôi đêm, tổn thương ở vùng dưới (lao tiến triển từ từ, hang thường ở đỉnh phổi; TL-0131 bài Áp xe phổi mục 2.3). Nhưng lâm sàng không đủ loại trừ: phải gửi đờm Xpert, AFB (QĐ 162/2024 mục 3.2.2), vì ở tuyến này không làm được nên chuyển.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Ung thư phổi hoại tử, áp xe hóa</b></div><p class="why">Tuổi &gt; 45, hút thuốc 35 năm, sụt cân, đờm có máu: phải loại trừ. Hang ung thư thường thành dày lệch tâm, có tua gai; ông không có nuốt nghẹn, khàn tiếng, ngón dùi trống, hạch thượng đòn (TL-0131 bài Áp xe phổi mục 2.3). Chỉ định soi phế quản, sinh thiết nếu có tổn thương, theo dõi X-quang sau điều trị.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Viêm phế quản cấp, viêm phổi thông thường chưa đáp ứng điều trị</b></div><p class="why">Cái neo từ nơi thứ hai. Không đáp ứng sau 10 ngày kháng sinh đầy đủ là phải tìm nguyên nhân khác, trong đó có viêm phổi có biến chứng áp xe, lao, ung thư (QĐ 4235/2012, bài Viêm phổi không đáp ứng điều trị mục 2.1, 2.2).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Giãn phế quản bội nhiễm; kén khí phổi bội nhiễm</b></div><p class="why">Ông không có tiền sử ho khạc đờm, ho máu nhiều năm; giãn phế quản hình túi cần CT lớp mỏng, kén khí còn tồn tại sau điều trị (TL-0131 bài Áp xe phổi mục 2.3). Không phân biệt được tại chỗ.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Mất ngủ nguyên phát cần thuốc ngủ</b></div><p class="why">Cái neo từ lời mở. Mất ngủ do ho đêm do bệnh phổi đang tiến triển, không phải mất ngủ đơn thuần; điều trị nguyên nhân. Chỉ định thuốc ngủ cho mất ngủ do ho: không có trong tài liệu đã tải.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Chuyển ngay trong đêm đến bệnh viện có X-quang/CT, xét nghiệm, hô hấp (nội soi phế quản), nằm viện điều trị kháng sinh tĩnh mạch; không chờ sáng, không cho về</b></div><p class="why">Áp xe phổi cần X-quang thẳng–nghiêng hoặc CT, vi sinh đờm/máu, kháng sinh tĩnh mạch phối hợp liều cao ngay sau khi lấy bệnh phẩm, dẫn lưu tư thế, soi phế quản, ít nhất 4 tuần (TL-0131 bài Áp xe phổi mục 2.1.2, 3.1.1, 3.1.2). Cơ sở ngoài giờ không có phim, xét nghiệm, thuốc tiêm phối hợp. Viêm phổi không đáp ứng 3 đợt thuốc cần xét nghiệm đầy đủ (bài Viêm phổi không đáp ứng mục 2.3). Tiêu chí chuyển tuyến riêng cho áp xe phổi: không có trong tài liệu đã tải; kết luận suy từ các yêu cầu điều trị trên và từ việc ông gắng sức SpO₂ 89%.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Lấy đờm vào lọ sạch (khạc sâu) và ghi giờ để mang theo; không lấy mẫu muộn hoặc bỏ mẫu</b></div><p class="why">Cần nhuộm soi trực tiếp và nuôi cấy đờm, làm kháng sinh đồ (TL-0131 bài Áp xe phổi mục 2.1.2); xét nghiệm lao cần mẫu đờm, người ngoại trú 2 mẫu cách nhau ít nhất 2 giờ, nội trú 2 mẫu sáng sớm (QĐ 162/2024 Phần II mục 3.2.2). Mẫu thứ hai lấy ở tuyến chuyển đến.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ngừng ngay dexamethason tự mua; ghi tên, liều, số ngày để bàn giao</b></div><p class="why">Suy giảm miễn dịch do corticoid: tạm dừng thuốc (QĐ 4235/2012, bài Viêm phổi không đáp ứng điều trị mục 3.2); corticoid kéo dài là yếu tố nguy cơ nhiễm vi khuẩn kháng thuốc (QĐ 2147/2026 mục 2.1.1). Dùng khoảng 2 tuần, ít hơn 3–4 tuần: ngưng không cần giảm liều (ESE/Endocrine Society 2024 R 2.1). ATS 2025 câu hỏi 4 (áp dụng gián tiếp, viết cho viêm phổi cộng đồng không nặng): không dùng corticoid toàn thân.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không kê thuốc ngủ (benzodiazepin, zolpidem), giải thích lý do và hướng giải quyết mất ngủ do ho</b></div><p class="why">AGS Beers 2023 (Bảng 2): tránh benzodiazepin và thuốc ngủ nhóm Z ở người cao tuổi (tăng nguy cơ lú lẫn, sảng, té ngã, gãy xương). NEJM 2019 (mục Prevention, Bảng 2): tránh thuốc thúc đẩy hít sặc như thuốc an thần. QĐ 4235/2012 (bài Giãn phế quản mục 3.5) cho an thần thuốc ngủ ở ho máu nhẹ nhưng &#x27;nếu không có chống chỉ định như suy hô hấp&#x27;: ông có tụt SpO₂ khi gắng sức nên không áp dụng. Hai nguồn khác ngữ cảnh. Thuốc thay thế an toàn cho mất ngủ do ho: không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích: mất niềm tin có lý do; lần này khác vì cần phim và nội soi; cam kết giấy xác nhận nghỉ ốm để ông giữ việc; hứa không lặp lại thuốc cũ</b></div><p class="why">Xử lý động cơ thật (cần ngủ để đi trực, sợ bị thay người, không còn tin). Không xử lý thì ông sẽ bỏ về hoặc không đến nơi chuyển.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hạ sốt khi &gt; 38,5 °C bằng paracetamol 0,5 g × 1 viên/lần, không quá 4 viên/ngày; uống đủ nước; ngồi tư thế nửa nằm; SpO₂ &lt; 90% khi nghỉ thì thở oxy trong khi chờ xe</b></div><p class="why">QĐ 4235/2012, bài Viêm phổi bệnh viện mục 3.4 (paracetamol 0,5 g khi &gt; 38,5 °C, ≤ 4 viên/ngày; oxy duy trì SpO₂ &gt; 90%); TL-0131 bài Áp xe phổi mục 3.1.3 (dinh dưỡng, nước điện giải, giảm đau hạ sốt). Ông nghỉ 93%, chỉ tụt 89% khi gắng sức nên không cần oxy lúc nghỉ.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Bàn giao có chủ đích (thư/ cuộc gọi): tóm tắt SBAR ngắn: bệnh khởi phát sau sặc, 3 nơi, dexamethason 2 tuần, đờm thối sợi máu, sốt, sụt 4 kg, SpO₂ 93%→89% gắng sức, nghi áp xe phổi, cần loại lao/ung thư; ông đi cùng người thân, không tự lái xe máy</b></div><p class="why">Chi tiết cách bàn giao SBAR và an toàn vận chuyển: không có trong tài liệu đã tải; các mục trong tóm tắt lấy từ đáp án và từ tiêu chí chẩn đoán (TL-0131 mục 2.1, 2.3; QĐ 162/2024 Bảng 1).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Cho liều kháng sinh tiêm đầu tiên ngay sau khi lấy đờm, nếu phòng khám có thuốc và đường chuyển xa</b></div><p class="why">TL-0131 mục 3.1.1: dùng thuốc ngay sau khi lấy được bệnh phẩm chẩn đoán vi sinh; QĐ 708/2015 mục 3.1.1a: dùng sớm ngay khi có chẩn đoán. Chấp nhận, không bắt buộc: thời gian chuyển và thuốc sẵn có ở cơ sở không có trong tài liệu đã tải; không thay thế việc chuyển.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Dặn khám nha khoa, bỏ rượu, bỏ thuốc lá sau điều trị; chụp lại X-quang theo dõi tới khi tổn thương hết hoặc ổn định</b></div><p class="why">Vệ sinh răng miệng, điều trị nhiễm khuẩn răng hàm mặt (TL-0131 mục 4); tiếp tục kháng sinh tới khi X-quang hết tổn thương hoặc chỉ còn vết nhỏ ổn định (QĐ 708/2015 mục 3.1.1d). Việc của tuyến điều trị.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê thuốc ngủ (diazepam, zolpidem…) để ông ngủ được rồi cho về</b></div><p class="why">AGS Beers 2023 (Bảng 2): tránh ở người ≥ 65 tuổi; NEJM 2019 (Bảng 2): tránh thuốc an thần ở người nguy cơ hít sặc; ông có ho khạc mủ nhiều, uống rượu, đang tụt SpO₂ khi gắng sức; thuốc ngủ làm trì hoãn chuyển tuyến.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê kháng sinh uống đợt mới (amoxicilin/clavulanat, azithromycin, levofloxacin…) 5–7 ngày rồi hẹn tái khám</b></div><p class="why">Áp xe phổi cần phối hợp ít nhất 2 kháng sinh tĩnh mạch hoặc tiêm bắp, liều cao, ít nhất 4 tuần (TL-0131 mục 3.1.1); đã 3 đợt kháng sinh thất bại. Levofloxacin: nếu còn nghi lao thì tránh fluoroquinolon trước khi loại trừ lao (QĐ 162/2024 Phần II, Sơ đồ 1 chú thích).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Tiếp tục hoặc kê thêm corticoid để giảm ho, giảm sốt</b></div><p class="why">Suy giảm miễn dịch do corticoid: tạm dừng (QĐ 4235/2012, bài Viêm phổi không đáp ứng điều trị mục 3.2); ATS 2025 câu hỏi 4 (áp dụng gián tiếp: khuyến cáo cho viêm phổi cộng đồng không nặng ở người nằm viện, không riêng áp xe phổi) không dùng corticoid toàn thân, nêu tăng đường huyết là tác dụng phụ.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Cho về, hẹn tái khám</span></div><p>Cho ông về với vài viên thuốc ngủ, kháng sinh uống đợt thứ tư rồi hẹn sáng mai chụp phim: bệnh không đáp ứng sau 10 ngày kháng sinh đầy đủ phải tìm nguyên nhân (áp xe, lao, ung thư) và áp xe cần kháng sinh tĩnh mạch phối hợp từ 4 đến 6 tuần (QĐ 4235/2012, bài Viêm phổi không đáp ứng điều trị mục 2.1, 2.2; bài Áp xe phổi mục 3.1.1). Thuốc ngủ làm ông ngủ say, dễ hít sặc lại, và NEJM 2019 (Bảng 2) khuyên tránh thuốc an thần ở người có nguy cơ hít sặc. Ông vốn tin &#x27;ba chỗ rồi chỗ nào cũng cho thuốc&#x27;, sẽ không quay lại, ổ áp xe không được dẫn lưu, có thể ho máu nhiều (QĐ 4235/2012, bài Áp xe phổi mục 2.1.1) hoặc tràn mủ màng phổi (QĐ 2147/2026 mục 3.5.2).</p></div><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Giữ ông ở phòng khám vài giờ &#x27;xem sao&#x27; khi không có X-quang, xét nghiệm hay thuốc tiêm phối hợp: đêm nay không có kết quả nào đổi được quyết định, trong khi cần phim thẳng–nghiêng hoặc CT, cấy đờm, kháng sinh tĩnh mạch liều cao ngay sau khi lấy bệnh phẩm (QĐ 4235/2012, bài Áp xe phổi mục 2.1.2, 3.1.1). Ông lại phải đi trực, sẽ bỏ về giữa chừng; chậm thêm nửa ngày, nhiễm trùng và thiếu oxy khi gắng sức vẫn còn.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Cho ông nằm giường lưu qua đêm ngay tại phòng khám: cơ sở không có phim, cấy đờm, Xpert, kháng sinh phối hợp liều cao hay nội soi phế quản hút mủ (QĐ 4235/2012, bài Áp xe phổi mục 3.1), nên điều trị chỉ là truyền dịch, hạ sốt. Người bệnh mất một đêm, tốn tiền, vẫn phải chuyển sáng mai, khi ông đã nghỉ trực và dễ bỏ hẳn.</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển cấp cứu</span></div><p>Gọi xe cấp cứu 115 chở ông trong đêm: ông tỉnh, huyết áp 126/78, SpO₂ 93% lúc nghỉ, chỉ có vài sợi máu trong đờm, chưa có suy hô hấp nặng hay ho máu trên 200 ml/ngày (QĐ 4235/2012, bài Giãn phế quản mục 3.5; bài Áp xe phổi mục 2.1.1). Chuyển viện bình thường có người đi kèm là đủ; gọi 115 làm ông lo, tốn kém và dễ từ chối vì sợ mất việc.</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Áp xe phổi phải (phân thùy trên thùy dưới), nghi sau hít sặc, khoảng 3,5 tuần, đã điều trị ba đợt kháng sinh uống không đáp ứng (TL-0131 bài Áp xe phổi mục 1, 2.1)</li><li>Yếu tố thuận lợi: rượu thường xuyên, răng hàm mặt nhiễm khuẩn nặng, ngủ gục khi nôn (TL-0131 mục 2.2); đang dùng dexamethason tự mua khoảng 2 tuần</li><li>Có cờ đỏ: SpO₂ nghỉ 93%, gắng sức 89%, đờm lẫn sợi máu, sụt 4 kg, sốt kéo dài, ộc mủ thối, nhiễm trùng bị corticoid che</li><li>Chưa loại trừ tại chỗ: lao phổi có hang (QĐ 162/2024 Bảng 1), ung thư phổi hoại tử (TL-0131 mục 2.3); cần X-quang thẳng–nghiêng/CT, Xpert, AFB, nội soi phế quản ở tuyến chuyển đến</li><li>Kết luận xử trí: chuyển tuyến ngay trong đêm, ngừng corticoid, không kê thuốc ngủ</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>Thứ tự hỏi bệnh: ông chỉ nói &#x27;xin thuốc ngủ, ho&#x27;. Bác sĩ phải hỏi bệnh khởi phát thế nào (sặc sau ăn, rượu), ba nơi đã làm gì, đờm màu mùi lượng, có máu không, thuốc tự mua, rượu thuốc lá, răng miệng, sụt cân. Hỏi theo việc làm (leo cầu thang) mới ra khó thở khi gắng sức.</li><li>Khám: lưng phải dưới xương bả vai có hội chứng đông đặc, nghe thở ống và ran nổ to hạt; hơi thở hôi; răng nát; đi bộ 40 m SpO₂ 89%; không dùi trống, không hạch thượng đòn (TL-0131 mục 2.1.1, 2.3).</li><li>Cận lâm sàng: tối nay không làm được xét nghiệm, X-quang, siêu âm, CT, nội soi (khoa_cls). Việc đáng làm tại chỗ là SpO₂, khám phổi, nghiệm pháp đi bộ; đường huyết mao mạch chấp nhận. Ở tuyến chuyển đến: X-quang thẳng–nghiêng ± CT, công thức máu, CRP, nhuộm Gram và cấy đờm, cấy máu khi sốt &gt; 38,5 °C, Xpert/AFB, soi phế quản (TL-0131 mục 2.1.2, 2.3; QĐ 162/2024 mục 3.2.2).</li><li>Vì sao nghĩ áp xe phổi: sốt kéo dài, đờm mủ thối ộc từng đợt, đau ngực phải, đông đặc/hang vùng lưng phải, yếu tố thuận lợi hít sặc (rượu, răng nát). Áp xe là biến chứng hay gặp của viêm phổi điều trị không hiệu quả (QĐ 2147/2026 mục 3.5.1). Tác nhân thường nhiều loại vi khuẩn, gồm kỵ khí (TL-0131 mục 2.2; QĐ 708/2015 mục 2.2; NEJM 2019).</li><li>Vì sao phải loại trừ lao và ung thư: ho &gt; 2 tuần và sụt cân là biểu hiện nghi lao (QĐ 162/2024 Bảng 1); &gt; 45 tuổi hút thuốc là yếu tố của ung thư phổi áp xe hóa (TL-0131 mục 2.3). Dấu hiệu nghiêng về áp xe không đủ để bỏ qua hai bệnh này.</li><li>Vì sao corticoid làm ca nguy hiểm hơn: đè dấu hiệu sốt, ho, làm ông &#x27;thấy đỡ&#x27; và cắt ngang 3 lần đánh giá; giảm đề kháng. Ba lần điều trị uống thất bại cộng thêm corticoid kéo dài là yếu tố nguy cơ vi khuẩn kháng thuốc (QĐ 2147/2026 mục 2.1.1).</li><li>Nhiễu: &#x27;viêm phế quản&#x27; từ nơi thứ hai; lời mở xin thuốc ngủ; ông không muốn lặp lại xét nghiệm. Ba nơi nhưng chưa nơi nào có bệnh phẩm vi sinh hay phim đọc lại (bẫy neo chẩn đoán và đà chẩn đoán).</li><li>Cờ đỏ cần nhận ra: nghỉ 93%, gắng sức 89%, sợi máu trong đờm (ho máu nhẹ &lt; 50 ml/ngày; nặng &gt; 200 ml/ngày: QĐ 4235/2012 bài Giãn phế quản mục 3.5), sụt cân, sốt kéo dài bị che, ộc mủ thối.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Hướng đúng là chuyển tuyến ngay trong đêm: áp xe phổi cần phim thẳng–nghiêng/CT để chọn dẫn lưu, vi sinh, kháng sinh tĩnh mạch phối hợp liều cao ngay sau khi lấy bệnh phẩm, dẫn lưu tư thế, soi phế quản (TL-0131 mục 2.1.2, 3.1.1, 3.1.2). Cơ sở này không có. Không cho về, không giữ qua đêm.</li><li>Việc làm trước khi chuyển: lấy đờm vào lọ sạch, ngừng dexamethason, hạ sốt, nửa nằm, oxy nếu SpO₂ &lt; 90% (QĐ 4235/2012, bài Viêm phổi bệnh viện mục 3.4), có người nhà đi cùng, bàn giao ngắn (SBAR: tình huống nghi áp xe phổi sau hít sặc; bối cảnh ba nơi, dexamethason 2 tuần, rượu; đánh giá SpO₂ 93%→89%, đờm thối có sợi máu, chưa loại lao/ung thư; đề nghị phim, vi sinh, Xpert, soi phế quản, kháng sinh tĩnh mạch). Chi tiết chuẩn SBAR, an toàn vận chuyển: không có trong tài liệu đã tải.</li><li>Kháng sinh ở tuyến trên (không kê tại phòng khám): xem don_thuoc; hai nguồn viết hai cách, mâu thuẫn đã có trong sổ (ca HH-1482). Thời gian ít nhất 4 tuần, có thể đến 6 tuần tùy lâm sàng và X-quang (TL-0131 mục 3.1.1; QĐ 708/2015 mục 3.1.1b). Đáp ứng: giảm sốt sau 3–4 ngày, cắt sốt sau 7–10 ngày (QĐ 708/2015 mục 3.1.1d).</li><li>Dẫn lưu và phẫu thuật: dẫn lưu tư thế, vỗ rung 2–3 lần/ngày, soi phế quản hút mủ; phẫu thuật khi ổ áp xe &gt; 10 cm, mạn tính, ho máu nặng tái phát (TL-0131 mục 3.1.2, 3.2). Chọn tư thế dựa vào phim nên chưa làm tại chỗ.</li><li>Sai lầm: kê thuốc ngủ (Beers 2023; NEJM 2019), lại một đợt kháng sinh uống ngắn ngày (đã 3 lần thất bại), tiếp tục corticoid, cho về hẹn sáng, giữ qua đêm khi không có gì để làm, hay gọi 115 quá mức.</li><li>Bài học bẫy: ca đến xin thuốc ngủ làm bác sĩ dễ trả lời đúng điều ông xin; đáp án là nhận ra giới hạn của tuyến mình và chuyển đi đúng thời điểm khi thiếu dữ liệu và không chắc ông quay lại.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Dexamethason 0,5 mg (ông tự mua)</b><div class="sub">Viên 0,5 mg</div></td><td data-l="Liều">Ngừng; đã dùng 2 viên × 2 lần/ngày khoảng 2 tuần<div class="sub">Uống · Ngừng từ tối nay</div></td><td data-l="Thời gian">Không dùng nữa</td><td class="gc" data-l="Ghi chú">Dùng &lt; 3–4 tuần: ngưng không cần giảm liều (ESE/Endocrine Society 2024 R 2.1); suy giảm miễn dịch do corticoid thì tạm dừng (QĐ 4235/2012, bài Viêm phổi không đáp ứng mục 3.2). Ghi vào thư chuyển viện.</td></tr><tr><td><b>Paracetamol</b><div class="sub">500 mg</div></td><td data-l="Liều">1 viên/lần khi nhiệt độ &gt; 38,5 °C, tối đa 4 viên/ngày<div class="sub">Uống · Khi sốt cao, trong lúc chờ xe</div></td><td data-l="Thời gian">Khi cần trong lúc còn sốt</td><td class="gc" data-l="Ghi chú">QĐ 4235/2012, bài Viêm phổi bệnh viện mục 3.4.</td></tr><tr><td><b>Thuốc ngủ (benzodiazepin, zolpidem)</b><div class="sub">Không kê</div></td><td data-l="Liều">Không dùng<div class="sub">Không · Không</div></td><td data-l="Thời gian">Không</td><td class="gc" data-l="Ghi chú">Tránh ở người ≥ 65 tuổi (AGS Beers 2023, Bảng 2); tránh thuốc an thần ở người nguy cơ hít sặc (NEJM 2019, Bảng 2).</td></tr><tr><td><b>Dự kiến tại bệnh viện, cách A: amoxicilin/acid clavulanic + metronidazol</b><div class="sub">Lọ 1 g/0,2 g; metronidazol lọ 500 mg</div></td><td data-l="Liều">Amoxicilin/clavulanat 3–6 g/ngày + metronidazol 1–1,5 g/ngày chia 2–3 lần (tại bệnh viện, không kê ở phòng khám)<div class="sub">Truyền tĩnh mạch · Ngay sau khi lấy đờm và cấy máu</div></td><td data-l="Thời gian">Ít nhất 4 tuần, có thể đến 6 tuần tùy lâm sàng và X-quang</td><td class="gc" data-l="Ghi chú">TL-0131 bài Áp xe phổi mục 3.1.1; QĐ 708/2015 mục 3.1.1a, 3.1.1c. Theo dõi creatinin 1–2 lần/tuần nếu có aminoglycosid.</td></tr><tr><td><b>Dự kiến tại bệnh viện, cách B: ampicillin/sulbactam ± clindamycin</b><div class="sub">Ampicillin/sulbactam lọ 1,5 g hoặc 3 g</div></td><td data-l="Liều">1,5–3 g mỗi 6 giờ; thêm clindamycin 600 mg mỗi 8 giờ tĩnh mạch khi nha chu nặng (tại bệnh viện, không kê ở phòng khám)<div class="sub">Truyền tĩnh mạch · Ngay sau khi lấy đờm và cấy máu</div></td><td data-l="Thời gian">Dài hơn 5–7 ngày với áp xe phổi; BYT: ít nhất 4 tuần</td><td class="gc" data-l="Ghi chú">NEJM 2019 (Aspiration Pneumonia) mục Treatment và Bảng 1: cộng đồng dùng ampicillin/sulbactam, thêm clindamycin khi nha chu nặng và áp xe phổi. Cả hai cách đúng; xem mục mâu thuẫn HH-1482.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Ông cần đi bệnh viện ngay trong đêm nay, có người thân đi cùng, không tự chạy xe máy (không có trong tài liệu đã tải; cách làm lâm sàng). Giải thích: tối nay ở đây không chụp phim, không thử đờm được; không có thuốc tiêm đủ liều.</li><li>Mang theo lọ đờm đã lấy, vỉ dexamethason, tờ giấy ghi nơi khám, thuốc đã uống. Nếu còn tờ phim của nơi thứ hai thì nhờ người nhà mang đến.</li><li>Ngừng dexamethason và không tự mua thuốc &#x27;tiêu viêm&#x27; nữa. Không uống thuốc ngủ, không uống rượu (rượu làm dễ sặc: NEJM 2019).</li><li>Trên đường đi: ngồi nghiêng nửa nằm; nếu ho ra máu nhiều hơn vài sợi, khó thở tăng, tím môi hay lả đi thì gọi 115 ngay (TL-0131 bài Áp xe phổi mục 2.1.1).</li><li>Giấy xác nhận khám và chuyển viện cho tổ trưởng, để ông nghỉ chữa bệnh mà không bị thay người; ghi rõ trong thư chuyển viện nhu cầu này.</li><li>Điều trị áp xe phổi kéo dài 4–6 tuần, cần tái khám và chụp lại phim đến khi tổn thương hết hoặc ổn định; khám và chữa răng, bỏ rượu, thuốc lá sau điều trị (TL-0131 mục 3.1.1, 4; QĐ 708/2015 mục 3.1.1d).</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-8">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Áp xe phổi</b></div>
+<p class="note">Phải loại trừ: Lao phổi, Ung thư phổi hoại tử</p><p>Ông được người bảo vệ chung ca đưa đến bệnh viện tỉnh trong đêm. X-quang thẳng–nghiêng và CT thấy ổ áp xe khoảng 5 cm vùng thùy dưới phải, thành dày đều, có mức khí–dịch, không khối u; Xpert và AFB âm tính; soi phế quản hút mủ, không u, không dị vật. Ông nằm khoa Hô hấp, truyền hai kháng sinh tĩnh mạch, dẫn lưu tư thế, thở oxy vài ngày; cắt sốt sau khoảng một tuần, chuyển uống khi ổn định, tổng cộng 6 tuần có chụp lại phim (TL-0131 mục 3.1.1). Ngừng dexamethason không có dấu hiệu suy thượng thận. Công ty đồng ý cho nghỉ có giấy; ông được hẹn khám răng. Mọi quyết định tại phòng khám đều đúng: không kê thuốc ngủ, không thêm kháng sinh uống, chuyển trong đêm.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-9">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Ba nơi khám không khỏi: ông kể chung chung, không nhớ thuốc, &#x27;viêm phế quản&#x27; từ nơi thứ hai làm cái neo; đà chẩn đoán đã có sẵn. Bác sĩ cần hỏi từng nơi và dựng lại bệnh sử như chưa ai khám. Không lặp lại xét nghiệm vô ích, nhưng ở đây thiếu cả bệnh phẩm, phim đọc lại nên phải chuyển tuyến để làm lần đầu cho đúng (QĐ 4235/2012, bài Viêm phổi không đáp ứng điều trị mục 2.1–2.3).</li><li>Đường huyết 9,4 mmol/L không nhịn đói: tăng do dexamethason; chưa chẩn đoán đái tháo đường (ADA 2026 Bảng 2.1; ATS 2025 câu hỏi 4).</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Người xin thuốc ngủ vì ho: ho đêm là triệu chứng, hỏi thêm bệnh sử, khởi phát, thuốc, rượu, răng miệng. Thuốc ngủ ở người cao tuổi có nguy cơ (AGS Beers 2023, Bảng 2; NEJM 2019, Bảng 2).</li><li>Ho &gt; 2 tuần, sụt cân: luôn nghĩ tới lao (QĐ 162/2024 Phần II, Bảng 1), nhưng đờm thối, sặc, răng nát, rượu nghiêng về áp xe (TL-0131 bài Áp xe phổi mục 2.1.1, 2.2). Không loại trừ nhau bằng lâm sàng.</li><li>Corticoid tự mua che sốt và ho, làm bệnh nặng hơn: luôn hỏi &#x27;thuốc tiêu viêm, thuốc tây mua ngoài toa&#x27; (QĐ 4235/2012, bài Viêm phổi không đáp ứng điều trị mục 3.2).</li><li>Ngoài giờ, không có kỹ thuật viên: không kê thuốc để chờ sáng; nhận ra giới hạn, chuyển ngay khi thiếu dữ liệu và người bệnh có thể không quay lại (so_cai.md, Ví dụ 1).</li><li>Giải quyết động cơ thật: cần ngủ để đi làm, sợ mất việc, mất niềm tin. Bác sĩ phải thừa nhận ba nơi trước và giữ lời hứa giấy xác nhận nghỉ.</li><li>Ca bẫy neo (viêm phế quản, xin thuốc ngủ, ba nơi): tự hỏi &#x27;vì sao không kê thuốc ngủ ở đây&#x27; trước khi quyết định.</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Áp xe phổi: ổ mủ trong nhu mô phổi do viêm hoại tử không phải lao, sau ộc mủ thành hang; điều trị nội khoa quá 6 tuần thất bại là mạn tính (TL-0131 mục 1).</li><li>Kháng sinh: phối hợp ≥ 2 thuốc tĩnh mạch/tiêm bắp, liều cao, ngay sau lấy bệnh phẩm; ít nhất 4 tuần, có thể 6 tuần (TL-0131 mục 3.1.1). Cải thiện sau 3–4 ngày, cắt sốt 7–10 ngày; còn sốt thì tìm nguyên nhân vi sinh (QĐ 708/2015 mục 3.1.1d).</li><li>Chẩn đoán phân biệt: ung thư phổi áp xe hóa (&gt; 45 tuổi, hút thuốc, hang thành dày lệch tâm), kén khí bội nhiễm, giãn phế quản, lao hang (TL-0131 mục 2.3). Soi phế quản cho mọi người áp xe phổi, sinh thiết nếu có tổn thương.</li><li>Phẫu thuật: ổ &gt; 10 cm, mạn tính, ho máu tái phát hoặc nặng, kèm giãn phế quản khu trú nặng, rò phế quản–màng phổi (TL-0131 mục 3.2).</li><li>Không đáp ứng sau 10 ngày kháng sinh đầy đủ: tìm nguyên nhân kháng thuốc, chẩn đoán sai (lao, nấm), biến chứng (áp xe, tràn mủ), không nhiễm trùng (ung thư); tạm dừng corticoid (QĐ 4235/2012, bài Viêm phổi không đáp ứng mục 2.1–2.3, 3.2).</li><li>Ho máu nhẹ &lt; 50 ml/ngày, trung bình 50–200, nặng &gt; 200 ml/ngày (QĐ 4235/2012, bài Giãn phế quản mục 3.5).</li><li>Phòng bệnh: vệ sinh răng miệng, chữa nhiễm khuẩn răng hàm mặt, tránh sặc (TL-0131 mục 4).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-10">Nguồn tài liệu <small>9</small></h3></summary><ul class=""><li>TL-0131 · QĐ 4235/QĐ-BYT 2012 – Hướng dẫn chẩn đoán và điều trị bệnh hô hấp – bài Áp xe phổi mục 1, 2.1–2.3, 3.1.1–3.1.3, 3.2, 4 (tr. 52–57); bài Viêm phổi không đáp ứng điều trị mục 2.1–2.3, 3.1–3.2 (tr. 49–52); bài Giãn phế quản mục 3.5 (tr. 111); bài Viêm phổi bệnh viện mục 3.4</li><li>TL-0015 · QĐ 708/QĐ-BYT 2015 – Hướng dẫn sử dụng kháng sinh – bài Áp xe phổi mục 2.1–2.2, 3.1.1a–d (tr. 128–130)</li><li>TL-0152 · NEJM 2019 – Aspiration Pneumonia (N Engl J Med 380:651–663) – mục Treatment, Prevention, Bảng 1, Bảng 2</li><li>TL-0121 · QĐ 2147/QĐ-BYT 2026 – VPMPCĐ người lớn – mục 2.1.1, 3.1.6, 3.5.1, 5.2</li><li>TL-0123 · QĐ 162/QĐ-BYT 2024 – Bệnh lao – Phần II mục 1.1 (Bảng 1), 3.2.1, 3.2.2, Sơ đồ 1</li><li>TL-0022 · AGS Beers 2023 – Bảng 2 (benzodiazepin, thuốc ngủ nhóm Z)</li><li>TL-0063 · ESE/Endocrine Society 2024 – Glucocorticoid-induced adrenal insufficiency – R 2.1</li><li>TL-0141 · ATS 2025 – Diagnosis and Management of CAP – câu hỏi 4</li><li>TL-0674 · ADA 2026 – Standards of Care in Diabetes 2026 – mục 2 (Bảng 2.1)</li></ul></details>
+<details class="card"><summary><h3 id="m-11">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Hô hấp cấp tính</dd><dt>chan_doan_dich</dt><dd>Áp xe phổi</dd><dt>chan_doan_phai_loai_tru</dt><dd>Lao phổi; Ung thư phổi hoại tử</dd><dt>nhom_tuoi</dt><dd>Cao tuổi (60–74 tuổi)</dd><dt>gioi</dt><dd>Nam</dd><dt>do_kho</dt><dd>Ca bẫy</dd><dt>loai_bay</dt><dd>Đáp án là chuyển tuyến</dd><dt>co_co_do</dt><dd>Có</dd><dt>so_luot_kham</dt><dd>1</dd><dt>dien_tien_tai_kham</dt><dd>Không áp dụng (ca 1 lượt khám)</dd><dt>nhieu_benh_nhan</dt><dd>Từng khám 3 nơi không khỏi</dd><dt>rang_buoc_nguon_luc</dt><dd>Ngoài giờ, không có kỹ thuật viên</dd><dt>nghe_nghiep</dt><dd>Bảo vệ</dd><dt>yeu_to_khoi_phat</dt><dd>Sau ăn thức ăn đường phố</dd><dt>thuoc_dang_dung</dt><dd>Corticoid tự mua</dd><dt>ly_do_that_su_den_kham</dt><dd>Muốn được cho thuốc ngủ</dd><dt>loai_ket_cuc</dt><dd>Chuyển tuyến kịp thời</dd></dl><ul class=""><li>2026-11-05: viết ca HH-1481 theo đặc tả sổ cái. Mâu thuẫn kháng sinh áp xe phổi: dùng mục đã có (ca HH-1482). Thuốc ngủ: QĐ 4235 (ho máu nhẹ, nếu không suy hô hấp) khác Beers 2023 và NEJM 2019 (tránh); khác ngữ cảnh, đề xuất mục sổ mâu thuẫn trong HH-1481_mau_thuan.md.</li><li>Chỗ không có trong tài liệu đã tải: tiêu chí chuyển tuyến riêng cho áp xe phổi; liều kháng sinh tiêm trước chuyển và thuốc có ở phòng khám; thuốc thay thế cho mất ngủ do ho; xử trí tăng đường huyết do corticoid; ảnh hưởng corticoid lên công thức máu; SBAR và an toàn vận chuyển.</li><li>Hình ảnh X-quang, CT, nội soi, xét nghiệm là số liệu thiết kế cho ca, khớp mô tả lâm sàng (hang thành dày đều, mức khí–dịch) theo TL-0131 mục 2.1.2.</li></ul></details>
+<p class="chan-trang">Ca HH-1481 · phiên bản ca 1 – viết theo kho tài liệu 2026-11-05 · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>

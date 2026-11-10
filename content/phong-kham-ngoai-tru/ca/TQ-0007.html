@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="vi" data-nen="sang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TQ-0007 · Tư vấn kết quả khám sức khỏe bình thường</title>
+<style>
+:root{
+ --nen:#f2f4f6; --giay:#ffffff; --chu:#172033; --nhat:#5b6675; --vien:#e3e7ec;
+ --do:#b30000; --xanh:#004b87; --diu:#f6f8fa; --danh:#fff3cd;
+ --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+ --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2;
+}
+:root[data-nen="toi"]{
+ --nen:#12151b; --giay:#1b2029; --chu:#e6eaf0; --nhat:#9aa5b4; --vien:#2c333f;
+ --do:#ff8a8a; --xanh:#7fb6e6; --diu:#232a35; --danh:#5a4a12;
+ --g:#6fd19d;--gb:#173327;--b:#8db4f2;--bb:#1a2840;--y:#e8c25a;--yb:#332a12;
+ --o:#f0a06a;--ob:#3a2414;--r:#f28a98;--rb:#3a1a20;--m:#a9b3bc;--mb:#262d34;
+}
+*{box-sizing:border-box}
+html{font-size:var(--co,16px)}
+body{margin:0;background:var(--nen);color:var(--chu);
+ font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+ font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+a{color:var(--xanh)}
+.bo-cuc{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;
+ max-width:1500px;margin:0 auto;padding:22px}
+/* ---- cột mục lục ---- */
+.muc-luc{position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);
+ background:var(--giay);border-radius:16px;padding:16px 10px;display:flex;
+ flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ml-dau{display:flex;justify-content:space-between;align-items:center;
+ padding:2px 10px 10px;font-size:.78rem;font-weight:800;letter-spacing:.09em;
+ color:var(--do);border-bottom:1px solid var(--vien)}
+#phanTram{color:var(--nhat)}
+.ml-dau .nut-thu{margin-left:8px;border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:1px 8px;cursor:pointer;font:inherit;
+ font-size:.9rem;line-height:1.4}
+@media(min-width:981px){
+ :root[data-ml="thu"] .bo-cuc{grid-template-columns:minmax(0,1fr)}
+ :root[data-ml="thu"] .muc-luc{display:none}
+ :root[data-ml="thu"] .hien-ml{display:block}
+}
+.o-tim{padding:10px 8px 6px}
+.o-tim input{width:100%;padding:8px 10px;border:1px solid var(--vien);
+ border-radius:9px;background:var(--diu);color:var(--chu);font:inherit;font-size:.85rem}
+.tim-dieu-khien{display:flex;gap:6px;align-items:center;margin-top:6px;
+ font-size:.76rem;color:var(--nhat);flex-wrap:wrap}
+.tim-dieu-khien button{border:1px solid var(--vien);background:var(--giay);
+ color:var(--chu);border-radius:7px;padding:2px 9px;cursor:pointer;font:inherit}
+.tim-dieu-khien .gian{flex:1}
+.ml-cuon{overflow-y:auto;flex:1;margin-top:4px}
+#dsMuc{list-style:none;margin:0;padding:0}
+#dsMuc a{display:block;padding:7px 12px;border-radius:9px;text-decoration:none;
+ color:var(--chu);font-size:.87rem;line-height:1.4}
+#dsMuc a:hover{background:var(--diu)}
+#dsMuc a.dang-doc{background:var(--diu);color:var(--do);font-weight:700;
+ box-shadow:inset 3px 0 0 var(--do)}
+#dsMuc .cap-1>a{font-weight:700}
+#dsMuc .cap-2>a{padding-left:26px;font-size:.85rem}
+#dsMuc .dem-ml{float:right;color:var(--nhat);font-weight:400;font-size:.8rem}
+/* ---- thân bài ---- */
+.dau-bai,.to-giay{background:var(--giay);border-radius:16px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.dau-bai{padding:28px 34px;margin-bottom:22px}
+.nhan{font-size:.76rem;font-weight:800;letter-spacing:.16em;color:var(--nhat)}
+.ve-muc-luc{display:inline-block;margin-right:14px;font-weight:700;text-decoration:none;color:var(--xanh);letter-spacing:.02em}
+.ve-muc-luc:hover{text-decoration:underline}
+.dau-bai h1{margin:.25em 0 .35em;font-size:2rem;line-height:1.25;color:var(--do)}
+.dich-gia{color:var(--nhat);font-size:.92rem;margin:0}
+.dich-gia b{color:var(--xanh)}
+.to-giay{padding:34px 40px 60px}
+.to-giay h2{color:var(--do);font-size:1.65rem;margin:1.7em 0 .5em;
+ padding-bottom:4px;border-bottom:2px solid var(--vien)}
+.to-giay h2:first-child{margin-top:0}
+.to-giay h3{color:var(--xanh);font-size:1.3rem;margin:1.5em 0 .4em}
+.to-giay h4{font-size:1.08rem;margin:1.3em 0 .3em}
+.to-giay h5,.to-giay h6{font-size:1rem;margin:1.2em 0 .3em;color:var(--nhat)}
+.to-giay h2,.to-giay h3{scroll-margin-top:16px}
+.to-giay p{margin:0 0 .85em}
+.to-giay p,.to-giay li,.to-giay dd{overflow-wrap:break-word}
+.to-giay ul,.to-giay ol{padding-left:1.5em;margin:0 0 .9em}
+.to-giay li{margin:.2em 0}
+.to-giay blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--vien);background:var(--diu);border-radius:0 10px 10px 0}
+mark.danh{background:var(--danh);color:inherit;border-radius:3px}
+mark.danh.dang{outline:2px solid var(--do)}
+.ghi-nguon{font-size:.92rem;color:var(--nhat)}
+/* ---- nút nổi ---- */
+.thanh-nut{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:9}
+.thanh-nut button{width:42px;height:42px;border-radius:50%;cursor:pointer;
+ border:1px solid var(--vien);background:var(--giay);color:var(--chu);
+ font-size:1rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.hien-ml{display:none}
+/* ---- màn hình hẹp ---- */
+@media(max-width:980px){
+ .bo-cuc{grid-template-columns:minmax(0,1fr);padding:12px}
+ .muc-luc{position:fixed;inset:0 auto 0 0;width:88%;max-width:340px;z-index:20;
+  border-radius:0;height:100vh;transform:translateX(-102%);transition:transform .2s}
+ .muc-luc.mo{transform:none}
+ .hien-ml{display:block}
+ .to-giay{padding:22px 18px 44px}
+ .dau-bai{padding:20px}
+ .dau-bai h1{font-size:1.5rem}
+}
+/* ---- in ra giấy ---- */
+@media print{
+ :root,:root[data-nen="toi"]{--nen:#fff;--giay:#fff;--chu:#172033;--nhat:#4a5462;
+  --vien:#c9ced5;--do:#b30000;--xanh:#004b87;--diu:#f6f8fa;--danh:#fff3cd;
+  --g:#1f7a4d;--gb:#e5f4ec;--b:#2457a6;--bb:#e7eefa;--y:#8a6400;--yb:#fbf1d6;
+  --o:#a24b0c;--ob:#fbe9dc;--r:#b42335;--rb:#fbe5e8;--m:#5a6570;--mb:#eceff2}
+ body{background:#fff;font-size:11.5pt}
+ .muc-luc,.thanh-nut,.ve-muc-luc,.xem-anh{display:none!important}
+ .bo-cuc{display:block;max-width:none;padding:0}
+ .dau-bai,.to-giay{box-shadow:none;border-radius:0;padding:0}
+ .to-giay h2,.to-giay h3{break-after:avoid}
+ .tag,.vs,.verdict,.hien{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* ---- nhãn màu dùng chung ---- */
+.tag{font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.t-g{color:var(--g);background:var(--gb)}.t-b{color:var(--b);background:var(--bb)}.t-y{color:var(--y);background:var(--yb)}
+.t-o{color:var(--o);background:var(--ob)}.t-r{color:var(--r);background:var(--rb)}.t-m{color:var(--m);background:var(--mb)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{background:var(--diu);border:1px solid var(--vien);color:var(--nhat);border-radius:999px;padding:1px 11px;font-size:.82rem;font-weight:600}
+
+.card{background:var(--giay);border:1px solid var(--vien);border-radius:12px;padding:14px 18px;margin:12px 0}
+.to-giay .card h3{margin:0;font-size:1.12rem;line-height:1.45}
+.to-giay .card h3 small,.note{color:var(--nhat);font-weight:400;font-size:.82rem}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h3:before{content:"▸";display:inline-block;width:1em;color:var(--xanh);transition:transform .15s}
+details.card[open]>summary h3:before{transform:rotate(90deg)}
+details.card[open]>summary{margin-bottom:6px}
+.card.ans{border-color:var(--xanh);border-left:4px solid var(--xanh)}
+.ln{background:var(--do);color:#fff;border-radius:6px;padding:1px 9px;font-size:.85rem;margin-right:6px;vertical-align:3px}
+:root[data-nen="toi"] .ln{color:#12151b}
+.to-giay .card h4{font-size:.95rem;margin:1.2em 0 .4em;color:var(--xanh);text-transform:uppercase;letter-spacing:.04em}
+.to-giay .card h5{font-size:.95rem;margin:1em 0 .3em;color:var(--chu)}
+.to-giay .card p{margin:.35em 0}
+.to-giay .card ul{margin:.3em 0 .5em;padding-left:1.3em}
+.to-giay .card blockquote{font-style:italic;border-left-color:var(--xanh)}
+.vitals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.vs{border:1px solid var(--vien);border-radius:10px;padding:6px 10px;background:var(--diu)}
+.vs span{display:block;font-size:.75rem;color:var(--nhat)}
+.vs b{font-size:1.12rem}.vs small{color:var(--nhat);margin-left:3px}
+.vs.warn{border-color:var(--r);background:var(--rb)}.vs.wide{grid-column:1/-1}
+.fact,.row{border-top:1px solid var(--vien);padding:10px 0}
+.fact:first-of-type,.row:first-of-type{border-top:0}
+.fh,.rh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.key{color:#d39400}
+.cond,.why{color:var(--nhat);font-size:.88rem}
+.cond{background:var(--diu);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:6px}
+.lbl{color:var(--nhat);font-size:.82rem;font-weight:600}
+.hien{background:var(--mb);border-radius:6px;padding:4px 8px}
+.row.xt-g{box-shadow:inset 3px 0 0 var(--g);padding-left:10px}
+.row.xt-y{box-shadow:inset 3px 0 0 var(--y);padding-left:10px}
+.row.xt-o{box-shadow:inset 3px 0 0 var(--o);padding-left:10px}
+.row.xt-r{box-shadow:inset 3px 0 0 var(--r);padding-left:10px}
+.verdict{background:var(--gb);color:var(--g);border-radius:10px;padding:10px 12px;margin-top:10px}
+.tw{overflow-x:auto;margin:.5em 0;border:1px solid var(--vien);border-radius:10px}
+.tw table{border-collapse:collapse;width:100%;font-size:.88rem}
+.tw th,.tw td{border-bottom:1px solid var(--vien);padding:7px 10px;text-align:left;vertical-align:top;line-height:1.5}
+.tw tr:last-child td{border-bottom:0}
+.tw th{background:var(--diu);color:var(--nhat);font-weight:700;font-size:.82rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}.ref{color:var(--nhat)}
+tr.hi .num{color:var(--r);font-weight:700}tr.lo .num{color:var(--b);font-weight:700}
+.rx td{overflow-wrap:anywhere}.rx .sub{color:var(--nhat);font-size:.82rem}.rx .gc{font-size:.82rem;min-width:220px}
+.lab{margin:6px 0}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0}
+.to-giay figure{margin:0;border:1px solid var(--vien);border-radius:10px;padding:8px;background:var(--diu)}
+.to-giay figure img{width:100%;height:auto;border-radius:6px;display:block}
+.to-giay figcaption{font-size:.82rem;margin:4px 0;line-height:1.5}
+.to-giay figure .src{font-size:.7rem;color:var(--nhat)}
+audio{width:100%}
+.o-anh{display:block;cursor:zoom-in;line-height:0}
+details.sub{border-top:1px dashed var(--vien);margin-top:8px;padding-top:8px}
+details.sub>summary{cursor:pointer;color:var(--xanh)}
+.meta{margin:.4em 0 0}
+.meta dt{font-weight:700;margin-top:6px;color:var(--xanh);font-size:.9rem}
+.meta dd{margin:0 0 4px}
+.chan-trang{color:var(--nhat);font-size:.82rem;margin:30px 0 0;text-align:center}
+.xem-anh{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.94);display:none;
+ flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.xem-anh.mo{display:flex}
+.xem-anh img{max-width:100%;max-height:calc(100vh - 110px);object-fit:contain;border-radius:6px;background:#000}
+.xem-anh .xa-chu{color:#dfe5ec;font-size:.85rem;max-width:1100px;margin-top:10px;text-align:center;line-height:1.5}
+.xem-anh .xa-dem{position:absolute;top:14px;left:18px;color:#c4ccd6;font-size:.85rem}
+.xem-anh button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;
+ width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.xem-anh button:hover{background:rgba(255,255,255,.25)}
+.xem-anh .xa-dong{top:12px;right:14px}
+.xem-anh .xa-truoc{left:14px;top:50%;transform:translateY(-50%)}
+.xem-anh .xa-sau{right:14px;top:50%;transform:translateY(-50%)}
+@media(max-width:560px){
+ .card{padding:12px 13px}
+ .rx thead{display:none}.rx tr{display:block;border-bottom:1px solid var(--vien);padding:6px 10px}
+ .rx td{display:block;border:0;padding:2px 0}.rx .gc{min-width:0}
+ .rx td[data-l]:before{content:attr(data-l) ": ";color:var(--nhat);font-size:.75rem;font-weight:600}
+}
+@media print{.card{break-inside:avoid-page}details>*{display:block}}
+</style>
+</head>
+<body>
+<div class="bo-cuc">
+ <aside class="muc-luc" id="mucLuc">
+  <div class="ml-dau"><span>NỘI DUNG</span><span id="phanTram">0%</span><button
+    id="nutThu" class="nut-thu" type="button" title="Thu gọn mục lục">«</button></div>
+  <div class="o-tim">
+   <input id="oTim" type="search" placeholder="Tìm trong ca…" autocomplete="off">
+   <div class="tim-dieu-khien">
+    <button id="timTruoc" type="button">↑</button>
+    <button id="timSau" type="button">↓</button>
+    <span id="demTim"></span><span class="gian"></span>
+    <button id="moHet" type="button" title="Mở tất cả các mục">Mở hết</button>
+    <button id="gapHet" type="button" title="Gập tất cả các mục">Gập hết</button>
+   </div>
+  </div>
+  <div class="ml-cuon"><ul id="dsMuc"></ul></div>
+ </aside>
+ <main>
+  <section class="dau-bai">
+   <div class="nhan"><a class="ve-muc-luc" href="../index.html">← Thư viện ca</a>PHÒNG KHÁM NGOẠI TRÚ · TQ-0007</div>
+   <h1>Cầm phiếu khám sức khỏe định kỳ (ghi &#x27;bình thường&#x27;) đến nhờ bác sĩ xem lại vì thấy người uể oải, đầu nặng; trong lòng muốn được truyền một chai nước biển cho khỏe</h1>
+   <p class="dich-gia">Nguyễn Văn Bảy · Nam · 68 tuổi · 58 kg</p>
+   <div class="chips"><span class="chip">Tư vấn kết quả khám tổng quát</span><span class="chip">Không điển hình</span><span class="chip">2 lượt khám</span></div>
+  </section>
+  <section class="to-giay" id="toGiay">
+<h2 id="thong-tin">Thông tin ban đầu</h2>
+<section id="nb"><div class="card"><h3 id="m-1">Bệnh nhân</h3><dl class="meta">
+<dt>Nghề nghiệp</dt><dd>Nông dân đã nghỉ hưu (nay chỉ trông mảnh vườn nhà)</dd><dt>Chiều cao, cân nặng</dt><dd>163 cm · 58 kg</dd>
+<dt>Xưng hô</dt><dd>Bác sĩ gọi ông là &#x27;ông&#x27;. Ông tự xưng &#x27;tôi&#x27; hoặc &#x27;tui&#x27;, gọi bác sĩ là &#x27;bác sĩ&#x27;.</dd><dt>Tính cách</dt><dd>Làm ruộng cả đời, nói chậm, hiền, tự ái nhẹ khi bị cho là &#x27;tưởng bệnh&#x27;. Tin &#x27;thuốc dị ứng&#x27; không phải thuốc, &#x27;truyền nước biển&#x27; là bồi bổ; hay nhắc ông Tám xóm bên. Ngại phiền người khác nên giấu chuyện ngủ kém.</dd></dl></div><div class="card"><h3 id="m-2">Giới hạn nguồn lực</h3><p>Cơ sở không có máy X-quang.</p></div></section>
+
+<section class="luot" id="luot-1">
+ <h2 id="h-luot-1"><span class="ln">Lượt 1/2</span> Tư vấn kết quả khám sức khỏe định kỳ</h2>
+ <div class="card intro"><h3 id="m-3">Tiếp đón</h3><p>Ông Nguyễn Văn Bảy, 68 tuổi, nông dân đã nghỉ hưu, đến phòng khám cầm theo phiếu khám sức khỏe định kỳ miễn phí làm ở trạm y tế xã ba tuần trước; phiếu ghi &#x27;Sức khỏe bình thường&#x27;. Ông nói muốn nhờ bác sĩ xem lại cho chắc vì dạo này người cứ uể oải. Sinh hiệu lúc tiếp đón: mạch 72 l/p, HA 128/78 mmHg, nhiệt 36,7°C, nhịp thở 16 l/p, SpO₂ 97%; cân nặng 58 kg, cao 163 cm.</p>
+  <blockquote>“Chào bác sĩ. Trạm y tế mới khám sức khỏe cho tôi, người ta nói bình thường hết, mà tôi thấy trong người không khỏe, cứ uể oải, đầu nặng nặng. Bác sĩ coi cái phiếu này giùm tôi xem có sót bệnh gì không. Tôi già rồi, nhỡ có bệnh nằm trong máu mà không ai biết.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>72</b><small>l/p</small></div><div class="vs"><span>HA</span><b>128/78</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,7</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>16</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>97</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-4">Hỏi bệnh <small>12 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Lý do khám: cầm phiếu khám sức khỏe bình thường, vẫn thấy không khỏe</b><span class="tag t-g">Tự kể</span></div><p>Ba tuần trước ông được khám sức khỏe định kỳ miễn phí ở trạm y tế xã, phiếu ghi &#x27;Sức khỏe bình thường&#x27;. Hôm nay ông nhờ bác sĩ xem lại vì dạo này uể oải, đầu nặng, sáng dậy lơ mơ. Ông nghỉ làm ruộng 5 năm nay, chỉ trông mảnh vườn nhà.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Kết quả đã có trong năm và những sàng lọc còn thiếu</b><span class="tag t-b">Khi được hỏi</span></div><p>Phiếu theo mẫu khám sức khỏe định kỳ người từ đủ 18 tuổi: cao 163 cm, nặng 58 kg, BMI 21,8; vòng bụng 82 cm; mạch 72 l/p, HA 128/78 mmHg; khám lâm sàng các chuyên khoa bình thường. Cận lâm sàng bác sĩ trạm chỉ định: glucose đói 5,1 mmol/L; cholesterol TP 4,9, LDL-C 2,9, HDL-C 1,2, TG 1,6 mmol/L; ure 5,2, creatinin 80 µmol/L, eGFR 92; AST 26, ALT 22 U/L; công thức máu bình thường (Hb 141 g/L); nước tiểu bình thường; điện tim nhịp xoang 72 l/p. Không X-quang (trạm không có máy), không xét nghiệm viêm gan B hay C, không thử phân. Kết luận: &#x27;Sức khỏe bình thường, khám lại năm sau&#x27;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Tiền sử khai trên phiếu: toàn &#x27;không&#x27;, cần hỏi lại từng nhóm</b><span class="tag t-b">Khi được hỏi</span></div><p>Trên phiếu ông đánh dấu &#x27;Không&#x27; ở mọi mục tiền sử bản thân (kể cả tăng huyết áp, rối loạn giấc ngủ) và ở câu &#x27;đang điều trị bệnh gì, dùng thuốc gì&#x27;. Gia đình: mẹ cao huyết áp; cha mất năm 79 tuổi vì &#x27;già yếu&#x27;. Chưa từng nằm viện, chưa mổ.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Mất ngủ ~7 tuần bị giấu</b><span class="tag t-r">Giấu</span></div><p>Khoảng 7 tuần nay ông khó ngủ: nằm 1–2 giờ mới chợp mắt, thức 2–3 lần, dậy hẳn lúc 4 giờ sáng, mỗi đêm ngủ chừng 4–5 tiếng, gần như đêm nào cũng vậy. Ban ngày uể oải, đầu nặng, không ngủ gật. Ông không ghi vì &#x27;già thì ai chẳng ngủ ít&#x27;.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi về giấc ngủ, ban đêm, mệt, uể oải, đầu nặng. Hỏi chung &#x27;có bệnh gì không&#x27; thì đáp không.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Yếu tố khởi phát: stress sau vụ lúa, nợ ngân hàng; sàng lọc trầm cảm</b><span class="tag t-b">Khi được hỏi</span></div><p>Mất ngủ bắt đầu sau vụ lúa hè thu: thương lái ép giá, con trai vay ngân hàng làm trang trại mà ông đứng thế chấp sổ đỏ, nằm xuống là nghĩ tới nợ. Ăn vẫn ngon, vẫn chơi cờ với bạn, không chán đời, không nghĩ tự hại.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Kháng histamin thế hệ 1 dùng làm thuốc ngủ, tự mua, bị giấu</b><span class="tag t-r">Giấu</span></div><p>Khoảng 6 tuần nay, gần như mỗi tối ông uống 2 viên &#x27;thuốc dị ứng&#x27; (vỉ ghi clorpheniramin 4 mg) mua ở tiệm thuốc đầu ngõ vì bạn bảo &#x27;uống vào ngủ ngon&#x27;. Ông không coi đó là thuốc: &#x27;thuốc dị ứng chứ có phải thuốc ngủ đâu&#x27;, nên không khai.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi thuốc tự mua, thuốc dị ứng, thuốc ngủ hoặc thuốc giúp ngủ, hỏi ông làm gì để ngủ được, hoặc bảo ông mang vỏ thuốc. Hỏi chung &#x27;đang uống thuốc gì&#x27; thì đáp không.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Triệu chứng kháng cholin của thuốc (khô miệng, táo bón, lơ mơ)</b><span class="tag t-b">Khi được hỏi</span></div><p>Sáng dậy miệng khô, lơ mơ đến 9 giờ mới tỉnh hẳn; táo bón, 2–3 ngày đi một lần (trước đây mỗi ngày); đứng dậy nhanh hơi choáng thoáng qua. Chưa té, không bí tiểu, không quên chuyện gần.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Dị ứng mũi theo mùa là lý do có sẵn thuốc; chuẩn bị cho lượt sau</b><span class="tag t-b">Khi được hỏi</span></div><p>Từ nhỏ ông hay hắt hơi, ngạt mũi sáng sớm mỗi khi trở trời; mấy hôm nay hơi ngạt nhẹ, chưa phải dùng thuốc. Không ho, không khò khè. Vì vậy nhà có sẵn vỉ &#x27;thuốc dị ứng&#x27;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Hỏi triệu chứng báo động để đảm bảo không bỏ sót</b><span class="tag t-b">Khi được hỏi</span></div><p>Không đau ngực, khó thở khi leo dốc, hồi hộp, ngất; cân nặng ổn định một năm, ăn ngon; không khát, tiểu nhiều; không đi ngoài phân đen hay lẫn máu; không ho kéo dài hay ra máu.</p></div><div class="fact"><div class="fh"><b>thoi_quen</b><span class="tag t-b">Khi được hỏi</span></div><p>Không ngáy to, vợ chưa thấy ông ngưng thở khi ngủ, không bồn chồn chân; không hút thuốc; rượu một chén nhỏ bữa chiều khoảng 3 ngày/tuần, không uống để ngủ; cà phê một ly nhỏ buổi sáng.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Khoảng trống sàng lọc theo tuổi</b><span class="tag t-b">Khi được hỏi</span></div><p>Ông chưa từng thử máu tìm viêm gan B hay C, chưa thử phân tìm máu ẩn, chưa nội soi đại tràng; không nhớ đã tiêm ngừa viêm gan B.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Động cơ thật: muốn truyền dịch</b><span class="tag t-r">Giấu</span></div><p>Lý do thật: ông muốn được truyền một chai nước biển. Ông Tám xóm bên truyền xong khỏe hẳn; ông tin truyền dịch &#x27;bồi bổ, thải độc, hết uể oải&#x27;. Ông ngại nói thẳng vì sợ bị bảo &#x27;tưởng bệnh&#x27;.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi ông mong muốn gì, lo gì, vì sao hôm nay đến, hoặc khi bác sĩ nói rằng kết quả bình thường và không cần điều trị thêm.</div></div></details>
+ <details class="card"><summary><h3 id="m-5">Khám <small>4 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Tổng trạng, da niêm, vòng eo</b></div><p><span class="lbl">Kết quả:</span> Tỉnh, tiếp xúc tốt, dáng gầy rắn rỏi, da niêm hồng. Cao 163 cm, nặng 58 kg, BMI 21,8; vòng bụng 82 cm. Không phù, không hạch.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Họng, tai, mũi</b></div><p><span class="lbl">Kết quả:</span> Niêm mạc miệng và lưỡi hơi khô. Niêm mạc mũi hơi nhợt, phù nhẹ hai cuốn mũi dưới, ít dịch trong, không polyp, không mủ. Họng bình thường.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đo huyết áp tư thế nằm – đứng</b></div><p><span class="lbl">Kết quả:</span> Nằm 5 phút: 126/78 mmHg, mạch 70 l/p. Đứng 1 phút: 124/80, mạch 76. Đứng 3 phút: 124/80. Không giảm ≥ 20/10 mmHg nên không hạ HA tư thế (VSH/VNHA 2024 mục Đ1.2.1).</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Khám tâm thần (dáng vẻ, khí sắc, tư duy, nhận thức, ý tưởng tự hại)</b></div><p><span class="lbl">Kết quả:</span> Gọn gàng, khí sắc hơi mệt, lo lắng khi nói tới khoản nợ của con, trả lời mạch lạc, không ý tưởng tự hại, không hoang tưởng.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Đầu mặt cổ, hạch, tuyến giáp</b><span class="tag t-m">Bình thường</span></div><p>Không sờ thấy hạch. Tuyến giáp không to. Tĩnh mạch cổ không nổi.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Tim</b><span class="tag t-m">Bình thường</span></div><p>Tim đều 72 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 16 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-6">Cận lâm sàng <small>10 mục</small></h3></summary><div class="row"><div class="rh"><b>Điện tâm đồ 12 chuyển đạo</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Nhịp xoang 72 l/p, trục trung gian, không bất thường ST–T (bản điện tim đã làm ở trạm y tế).</p><p class="why">Đã làm trong năm, còn giá trị: không làm lại (CV 7311, mục 1.3). Người không triệu chứng: điện tim sàng lọc mức D nếu nguy cơ thấp, mức I nếu trung bình–cao (USPSTF, nhắc trong báo cáo bằng chứng 2018, TL-0689 phần giới thiệu).</p></div><div class="row"><div class="rh"><b>Glucose máu đói</b><span class="tag t-r">Không cần</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Glucose</td><td class="num">5,1</td><td>mmol/L</td><td class="ref">3,9–6,4</td></tr></tbody></table><p class="why">Đã có: không làm lại (CV 7311 mục 1.3). &lt; 5,6 mmol/L là bình thường (QĐ 3087/2020 mục II Bảng 1).</p></div><div class="row"><div class="rh"><b>Bộ mỡ máu</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Cholesterol TP 4,9 · LDL-C 2,9 · HDL-C 1,2 · TG 1,6 mmol/L (phiếu trạm y tế)</p><p class="why">Đã có: không làm lại (CV 7311 mục 1.3). Statin phòng ngừa tiên phát tuổi 40–75 cần ≥ 1 yếu tố nguy cơ (rối loạn lipid, đái tháo đường, THA, hút thuốc) và nguy cơ 10 năm ≥ 10% (USPSTF, trang A&amp;B, B 8/2022); ông chưa có yếu tố nào.</p></div><div class="row"><div class="rh"><b>Ure, creatinin, eGFR</b><span class="tag t-r">Không cần</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Ure</td><td class="num">5,2</td><td>mmol/L</td><td class="ref">2,5–7,5</td></tr><tr class=""><td>Creatinin</td><td class="num">80</td><td>µmol/L</td><td class="ref">62–120</td></tr><tr class=""><td>eGFR (CKD-EPI 2021)</td><td class="num">92</td><td>mL/ph/1,73m²</td><td class="ref">≥ 90</td></tr></tbody></table><p class="why">Đã có: không làm lại (CV 7311 mục 1.3).</p></div><div class="row"><div class="rh"><b>AST, ALT</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> AST 26 · ALT 22 U/L (phiếu trạm y tế)</p><p class="why">Đã có: không làm lại (CV 7311 mục 1.3).</p></div><div class="row"><div class="rh"><b>Công thức máu</b><span class="tag t-r">Không cần</span></div><table class="lab"><thead><tr><th>Chỉ số</th><th>Kết quả</th><th>Đơn vị</th><th>Tham chiếu</th></tr></thead><tbody><tr class=""><td>Số lượng bạch cầu (WBC)</td><td class="num">6,8</td><td>G/L</td><td class="ref">4,0–10,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu trung tính (NEU%)</td><td class="num">60,0</td><td>%</td><td class="ref">45–75</td></tr><tr class=""><td>Số lượng bạch cầu trung tính (NEU#)</td><td class="num">4,08</td><td>G/L</td><td class="ref">2,0–7,5</td></tr><tr class=""><td>Tỷ lệ bạch cầu lympho (LYM%)</td><td class="num">30,0</td><td>%</td><td class="ref">20–40</td></tr><tr class=""><td>Số lượng bạch cầu lympho (LYM#)</td><td class="num">2,04</td><td>G/L</td><td class="ref">1,0–4,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu mono (MONO%)</td><td class="num">6,5</td><td>%</td><td class="ref">2–10</td></tr><tr class=""><td>Số lượng bạch cầu mono (MONO#)</td><td class="num">0,44</td><td>G/L</td><td class="ref">0,2–1,0</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa acid (EOS%)</td><td class="num">3,0</td><td>%</td><td class="ref">0–7</td></tr><tr class=""><td>Số lượng bạch cầu ưa acid (EOS#)</td><td class="num">0,2</td><td>G/L</td><td class="ref">0–0,5</td></tr><tr class=""><td>Tỷ lệ bạch cầu ưa base (BASO%)</td><td class="num">0,5</td><td>%</td><td class="ref">0–1</td></tr><tr class=""><td>Số lượng bạch cầu ưa base (BASO#)</td><td class="num">0,03</td><td>G/L</td><td class="ref">0–0,1</td></tr><tr class=""><td>Số lượng hồng cầu (RBC)</td><td class="num">4,7</td><td>T/L</td><td class="ref">4,2–5,4</td></tr><tr class=""><td>Lượng huyết sắc tố (HGB)</td><td class="num">141</td><td>g/L</td><td class="ref">130–170</td></tr><tr class=""><td>Thể tích khối hồng cầu (HCT)</td><td class="num">0,42</td><td>L/L</td><td class="ref">0,4–0,5</td></tr><tr class=""><td>Thể tích trung bình hồng cầu (MCV)</td><td class="num">90,0</td><td>fL</td><td class="ref">80–100</td></tr><tr class=""><td>Lượng HST trung bình hồng cầu (MCH)</td><td class="num">30,0</td><td>pg</td><td class="ref">27–32</td></tr><tr class=""><td>Nồng độ HST trung bình hồng cầu (MCHC)</td><td class="num">334</td><td>g/L</td><td class="ref">320–360</td></tr><tr class=""><td>Dải phân bố kích thước hồng cầu (RDW-CV)</td><td class="num">13,2</td><td>%</td><td class="ref">11,5–14,5</td></tr><tr class=""><td>Số lượng tiểu cầu (PLT)</td><td class="num">238</td><td>G/L</td><td class="ref">150–400</td></tr></tbody></table><p class="why">Đã có: không làm lại (CV 7311 mục 1.3).</p></div><div class="row"><div class="rh"><b>Tổng phân tích nước tiểu</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> Tổng phân tích nước tiểu bình thường (phiếu trạm y tế): không đạm, không đường, không hồng cầu, không bạch cầu.</p><p class="why">Đã có: không làm lại (CV 7311 mục 1.3).</p></div><div class="row"><div class="rh"><b>TSH, FT4</b><span class="tag t-r">Không cần</span></div><p><span class="lbl">Kết quả:</span> TSH 2,0 mUI/L · FT4 14 pmol/L</p><p class="why">Không triệu chứng hay dấu hiệu bệnh giáp: sàng lọc người không triệu chứng là phát biểu I, chưa đủ bằng chứng (USPSTF 2015, TL-0697). Không cần.</p></div><div class="row"><div class="rh"><b>Test nhanh HBsAg, anti-HCV, anti-HIV (tại giường)</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> HBsAg âm tính · anti-HCV âm tính · anti-HIV âm tính (test nhanh)</p><p class="why">Viêm gan B: sàng lọc nhóm nguy cơ, gồm người sinh ở vùng HBsAg ≥ 2% như châu Á (USPSTF 2020, B, TL-0685); viêm gan C: một lần cho người 18–79 tuổi (USPSTF 2020, B, TL-0686). Ông chưa từng thử. Chấp nhận làm hôm nay hoặc hẹn lần sau; hướng dẫn BYT về nội dung sàng lọc miễn phí còn đang hoàn thiện (CV 7311 mục 1.1 điểm 4).</p></div><div class="row"><div class="rh"><b>Thử phân tìm máu ẩn miễn dịch (FIT)</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> Thử phân tìm máu ẩn miễn dịch (FIT) âm tính.</p><p class="why">Sàng lọc ung thư đại trực tràng người 50–75 tuổi, mức A (USPSTF, trang A&amp;B, 5/2021); ông 68 tuổi, chưa sàng lọc. Chọn phương pháp và khoảng cách giữa các lần: không có trong tài liệu đã tải. Chấp nhận làm hôm nay hoặc hẹn.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-7">Đáp án lượt 1 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Khám sức khỏe định kỳ bình thường: lâm sàng và cận lâm sàng trong giới hạn, không phát hiện bệnh thực thể</b></div><p class="why">BMI 21,8 (18,5–22,9 bình thường, QĐ 2892/2022 mục 4.1 Bảng 4.1), vòng bụng 82 cm (béo bụng khi ≥ 90 cm ở nam, mục 4.2); HA 128/78 mức bình thường (QĐ 5904/2019 Phần 1 Bước 3A); glucose đói 5,1 &lt; 5,6 mmol/L (QĐ 3087/2020 mục II Bảng 1); điện tim, công thức máu, creatinin, men gan, nước tiểu bình thường. Tiêu chuẩn phân loại sức khỏe (Mẫu số 03 mục IV, TT 25/2026): không có trong tài liệu đã tải.</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Mất ngủ ngắn hạn khoảng 7 tuần sau stress (nợ ngân hàng của con), chưa đủ 3 tháng</b></div><p class="why">ICD-10 cần ≥ 3 lần/tuần trong ≥ 1 tháng (QĐ 2058/2020 Bài 27 mục 3.1.1); ICSD-3 cần ≥ 3 tháng (ESRS 2023 Bảng 2): ông đạt mốc 1 tháng, chưa đạt 3 tháng. ESRS 2023 chỉ đưa khuyến cáo cho mất ngủ mạn, không cho mất ngủ ngắn hạn.</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Dùng kháng histamin H1 thế hệ 1 (clorpheniramin) làm thuốc ngủ tự mua ở người 68 tuổi: không phù hợp, góp phần uể oải, khô miệng, táo bón</b></div><p class="why">AGS Beers 2023 Bảng 2: kháng histamin thế hệ 1 (gồm chlorpheniramine) rất kháng cholin, nhanh quen khi dùng làm thuốc ngủ, nguy cơ lú lẫn, khô miệng, táo bón; tránh (chứng cứ vừa, mạnh). ESRS 2023 Bảng 16: không khuyến cáo kháng histamin trị mất ngủ (A).</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Viêm mũi dị ứng theo mùa, mức nhẹ (lý do có sẵn thuốc dị ứng)</b></div><p class="why">Hắt hơi, ngạt mũi sáng khi trở trời từ nhỏ; niêm mạc mũi nhợt, phù nhẹ. Tiêu chuẩn chẩn đoán viêm mũi dị ứng không có trong tài liệu đã tải; ARIA-EAACI 2024–2025 là hướng dẫn điều trị.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Bệnh tiềm ẩn bị bỏ sót qua khám định kỳ (THA, đái tháo đường, rối loạn lipid, thiếu máu, bệnh thận, bệnh gan, loạn nhịp)</b></div><p class="why">HA, glucose, mỡ máu, creatinin, men gan, công thức máu, điện tim, nước tiểu đều bình thường và còn giá trị nên không làm lại (CV 7311 mục 1.2, 1.3); không có triệu chứng báo động. Khoảng trống còn lại là sàng lọc theo tuổi chưa làm: viêm gan B, C, ung thư đại trực tràng.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Nguyên nhân thực tổn khác gây mất ngủ: rối loạn tuyến giáp, ngưng thở khi ngủ, hội chứng chân không yên</b></div><p class="why">Cân ổn định, không hồi hộp, tuyến giáp bình thường (sàng lọc giáp người không triệu chứng là phát biểu I, USPSTF 2015, TL-0697); không ngáy to, không ngưng thở theo lời vợ, BMI 21,8, không ngủ gật ban ngày, không bồn chồn chân (phiếu hỏi cả ngáy to, ngừng thở khi ngủ ở mục 17, TT 25/2026 Mẫu số 03).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Trầm cảm hoặc lo âu là nguyên nhân mất ngủ</b></div><p class="why">Ăn ngon, còn chơi cờ, không chán đời, không tự hại; chỉ lo cụ thể về nợ. Sàng lọc trầm cảm người ≥ 65 tuổi mức B (USPSTF, trang A&amp;B, 6/2023); công cụ sàng lọc không có trong tài liệu đã tải. Theo dõi lại ở lượt sau.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tác dụng kháng cholin nguy hiểm của thuốc: hạ HA tư thế, bí tiểu, lú lẫn, té ngã</b></div><p class="why">HA tư thế không hạ ≥ 20/10 mmHg (VSH/VNHA 2024 mục Đ1.2.1), không bí tiểu, MoCA 27/30, đi vững, chưa té. Beers 2023 Bảng 2: tích lũy thuốc kháng cholin làm tăng nguy cơ té ngã, sảng, sa sút trí tuệ nên ngưng dù chưa có biến cố.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích kết quả khám sức khỏe bình thường theo từng chỉ số; nói rõ &#x27;bình thường&#x27; chưa nghĩa là mọi sàng lọc theo tuổi đã đủ</b></div><p class="why">Hồ sơ và nội dung khám theo TT 25/2026 (CV 5008/BYT-KCB mục 1–2). Nội dung sàng lọc miễn phí theo nhóm tuổi: BYT đang hoàn thiện, không có trong tài liệu đã tải (CV 7311 mục 1.1 điểm 4).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không làm lại xét nghiệm, điện tim đã có trong năm; không xét nghiệm thêm tràn lan để &#x27;cho chắc&#x27;</b></div><p class="why">Cận lâm sàng khám định kỳ theo chỉ định của bác sĩ, không phải ai cũng bắt buộc (CV 7311 mục 1.2 điểm 1); kết quả còn giá trị thì không chỉ định lại, tra VNeID hoặc sổ sức khỏe điện tử (mục 1.3; Mẫu số 03 mục III.2, TT 25/2026).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi thuốc theo từng dạng, phát hiện clorpheniramin dùng hằng đêm; ngưng thuốc này làm thuốc ngủ và giải thích vì sao không hợp tuổi</b></div><p class="why">AGS Beers 2023 Bảng 2 (tránh); ESRS 2023 Bảng 16 (không khuyến cáo kháng histamin trị mất ngủ, A). Dừng ngay hay giảm dần clorpheniramin: không có trong tài liệu đã tải; ESRS 2023 mục 4.5 chỉ nói giảm dần thuốc ngủ nói chung.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Mất ngủ: giải thích nguyên nhân; kế hoạch hành vi (giờ dậy cố định, chỉ lên giường khi buồn ngủ, bỏ trà cà phê chiều, không rượu để ngủ), nhật ký ngủ; chưa kê thuốc ngủ, hoặc nếu cần thì thuốc ngắn hạn tối đa 4 tuần sau quyết định chung</b></div><p class="why">QĐ 2058/2020 Bài 27 mục 4.3 (vệ sinh giấc ngủ; liệt kê benzodiazepin, không giới hạn tuổi hay thời gian); AASM 2021 KC 1, 3 và ESRS 2023 Bảng 16 (CBT-I đầu tay; thuốc ngắn hạn ≤ 4 tuần); AGS Beers 2023 Bảng 2 (tránh benzodiazepin, nhóm Z ở ≥ 65 tuổi). Hai nguồn khác bối cảnh: xem mục &#x27;Thuốc ngủ benzodiazepin và nhóm Z&#x27; trong sổ mâu thuẫn. Vệ sinh giấc ngủ đơn độc không đủ (AASM 2021 KC 6).</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Giải thích không có chỉ định truyền dịch; không kê &#x27;thuốc bổ&#x27; hay vitamin tiêm</b></div><p class="why">Truyền dịch khi nôn nhiều, không uống được, có dấu mất nước (QĐ 2760/2023 B2 mục 1.2, 1.4; viết cho sốt xuất huyết, chỉ làm nguyên tắc chung); không tài liệu đã tải nào chỉ định truyền dịch cho người khám sức khỏe bình thường. Ông ăn uống tốt, không mất nước.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Dặn dấu hiệu quay lại sớm; hẹn tái khám sau 4–5 tuần cùng nhật ký ngủ</b></div><p class="why">Mốc 4–5 tuần do người viết chọn để đánh giá sau ngưng thuốc và xem mất ngủ có vượt mốc 3 tháng không (ESRS 2023 Bảng 2); khoảng tái khám không có trong tài liệu đã tải.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Xét nghiệm HBsAg, anti-HCV một lần; thử phân tìm máu ẩn (FIT) hoặc hẹn sàng lọc ung thư đại trực tràng</b></div><p class="why">USPSTF 2020 mức B: viêm gan B nhóm nguy cơ gồm sinh ở châu Á (TL-0685), viêm gan C 18–79 tuổi (TL-0686); trang A&amp;B mức A: đại trực tràng 50–75 tuổi (5/2021), phương pháp và khoảng cách không có trong tài liệu đã tải. Không bắt buộc hôm nay vì hướng dẫn BYT cho sàng lọc còn hoàn thiện (CV 7311 mục 1.1 điểm 4).</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Loratadin 10 mg 1 viên/ngày khi có ngạt mũi, hắt hơi do dị ứng</b></div><p class="why">ARIA-EAACI 2024–2025 Phần II câu hỏi 10, Bảng 1: nên dùng kháng histamin thế hệ 2 hơn thế hệ 1 (mạnh, chứng cứ rất thấp), áp dụng cho người cao tuổi; QĐ 3942/2014, bài kháng histamin H1 mục 2 Bảng 3: loratadin 10 mg 1 lần/ngày, không an thần ở liều thông thường. Triệu chứng mũi hiện nhẹ nên không bắt buộc.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Truyền dịch (natri clorid 0,9% hoặc glucose) &#x27;cho khỏe&#x27; theo yêu cầu của ông</b></div><p class="why">Không chỉ định: ông ăn uống được, không mất nước, sinh hiệu bình thường (QĐ 2760/2023 B2 mục 1.4, nguyên tắc chung). Nguy cơ truyền dịch ở người cao tuổi không có trong tài liệu đã tải; chấm w vì không có chỉ định và củng cố niềm tin &#x27;có bệnh mới phải truyền&#x27;.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê tiếp clorpheniramin, diphenhydramin hoặc kháng histamin thế hệ 1 khác để ngủ</b></div><p class="why">AGS Beers 2023 Bảng 2 (tránh, mạnh); ESRS 2023 Bảng 16 (không khuyến cáo, A).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Kê benzodiazepin hoặc thuốc nhóm Z hằng đêm, không giới hạn thời gian</b></div><p class="why">AGS Beers 2023 Bảng 2: tránh ở ≥ 65 tuổi (lú lẫn, sảng, té ngã, gãy xương); ESRS 2023 Bảng 16 chỉ cho dùng ngắn hạn tối đa 4 tuần. Ông mới mất ngủ 7 tuần, chưa thử biện pháp hành vi.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhập viện &#x27;truyền dịch bồi bổ và kiểm tra toàn diện&#x27; cho ông Bảy là quá tay: sinh hiệu bình thường, ăn uống được, không có triệu chứng báo động, các chỉ số trên phiếu còn giá trị nên không làm lại (CV 7311 mục 1.2, 1.3). Ông tốn tiền, nằm viện càng mất ngủ, ra viện tin rằng &#x27;truyền nước mới khỏe&#x27;, còn việc cần làm (ngưng clorpheniramin, kế hoạch giấc ngủ, sàng lọc còn thiếu) bị bỏ lỡ (AGS Beers 2023 Bảng 2).</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển ông lên tuyến trên &#x27;khám tổng quát lại&#x27; là không cần: không có bất thường nào chờ làm rõ, cận lâm sàng theo chỉ định và kết quả còn giá trị thì không làm lại (CV 7311 mục 1.2 điểm 1, mục 1.3). Ông đi xa, mất một ngày công, làm thêm xét nghiệm không đổi quyết định, rồi về nhà vẫn uống clorpheniramin mỗi tối vì chưa ai hỏi thuốc tự mua (AGS Beers 2023 Bảng 2).</p></div><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Chỉ dặn &#x27;theo dõi tại nhà&#x27; mà không hẹn mốc thì ông Bảy vẫn uống 2 viên clorpheniramin mỗi tối, vì lời giải thích không đụng tới thứ ông cho là &#x27;không phải thuốc&#x27;. Khô miệng, táo bón, lơ mơ buổi sáng kéo dài, nguy cơ té ngã tăng (AGS Beers 2023 Bảng 2), và mất ngủ có thể vượt mốc 3 tháng mà không ai đánh giá lại (ESRS 2023 Bảng 2).</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Khám sức khỏe định kỳ bình thường ở người 68 tuổi: BMI 21,8 (QĐ 2892/2022 mục 4.1), vòng bụng 82 cm (mục 4.2), HA 128/78 (QĐ 5904/2019 Phần 1 Bước 3A), glucose đói 5,1 mmol/L (QĐ 3087/2020 mục II Bảng 1), điện tim, công thức máu, creatinin, men gan, nước tiểu bình thường</li><li>Mất ngủ ngắn hạn khoảng 7 tuần sau stress, chưa đủ 3 tháng (ESRS 2023 Bảng 2), qua mốc 1 tháng của ICD-10 (QĐ 2058/2020 Bài 27 mục 3.1.1)</li><li>Dùng clorpheniramin 4 mg × 2 viên mỗi tối làm thuốc ngủ tự mua: kháng histamin thế hệ 1 cần tránh ở người cao tuổi (AGS Beers 2023 Bảng 2), góp phần uể oải, khô miệng, táo bón</li><li>Viêm mũi dị ứng theo mùa mức nhẹ; chưa sàng lọc viêm gan B, C và ung thư đại trực tràng (USPSTF); kỳ vọng truyền dịch không có chỉ định</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>HỎI BỆNH: đọc phiếu (đã làm gì, thiếu gì); hỏi lại tiền sử từng nhóm vì ông tick &#x27;Không&#x27; hết; giấc ngủ cụ thể; thuốc theo từng dạng (tự mua, thuốc dị ứng, thuốc ngủ, cách ông làm để ngủ); khởi phát (vụ lúa, nợ); triệu chứng báo động; ngáy, rượu, thuốc lá, cà phê; sàng lọc theo tuổi; ông mong muốn gì. KHÁM: HA tư thế vì ông choáng khi đứng dậy (VSH/VNHA 2024 mục Đ1.2.1); miệng, mũi, bụng (dấu kháng cholin); tim phổi; thần kinh, MoCA, dáng đi; khí sắc.</li><li>CẬN LÂM SÀNG: không làm lại cái đã có và còn giá trị (CV 7311 mục 1.2 điểm 1, mục 1.3); không có X-quang và ông không triệu chứng hô hấp nên không cần. Chỉ cân nhắc xét nghiệm chưa làm theo tuổi: viêm gan B, C (USPSTF 2020, B), FIT (USPSTF, A). Điện tim sàng lọc người không triệu chứng nguy cơ thấp: không khuyến cáo (USPSTF, nhắc trong TL-0689).</li><li>Vì sao &#x27;khám sức khỏe bình thường&#x27; mà vẫn có việc phải làm: bình thường chỉ nghĩa các kết quả đã làm trong giới hạn, không nghĩa mọi sàng lọc đã đủ. Việc cần làm hôm nay không nằm trong phiếu: mất ngủ và thuốc ông giấu. Đó là phần &#x27;không điển hình&#x27; của ca.</li><li>Clorpheniramin: Beers 2023 Bảng 2 (rất kháng cholin, nhanh quen khi dùng làm thuốc ngủ, lú lẫn, khô miệng, táo bón; tích lũy kháng cholin làm tăng nguy cơ té ngã, sảng, sa sút trí tuệ); ESRS 2023 mục 4.2.5, Bảng 16 (không khuyến cáo, A). Tên &#x27;thuốc dị ứng&#x27; làm ông không coi là thuốc: hỏi theo dạng mới ra.</li><li>Mất ngủ: ESRS 2023 chỉ có khuyến cáo cho mất ngủ mạn (&gt; 3 tháng) nên với 7 tuần vừa can thiệp sớm vừa đặt mốc 3 tháng. QĐ 2058/2020 (ICD-10) tính từ 1 tháng, ESRS 2023 (ICSD-3) từ 3 tháng: khác hệ phân loại, không mâu thuẫn.</li><li>Loại trừ: không triệu chứng báo động; trầm cảm không gợi ý; ngưng thở khi ngủ không gợi ý; tuyến giáp bình thường, TSH sàng lọc người không triệu chứng là phát biểu I (USPSTF 2015). Chọn không làm là quyết định chủ động. Áp dụng: sàng lọc USPSTF viết cho dân số Hoa Kỳ, người sinh ở châu Á thuộc nhóm nguy cơ viêm gan B; quyết định BYT về sàng lọc viêm gan B toàn dân không có trong tài liệu đã tải.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Giải thích kết quả theo từng chỉ số, cho ông xem phiếu: biến &#x27;bình thường&#x27; thành điều ông hiểu, đáp ứng nỗi sợ &#x27;bệnh nằm trong máu&#x27;. Không làm lại xét nghiệm đã có.</li><li>Ngưng clorpheniramin, giải thích vì sao thuốc &#x27;dị ứng&#x27; không hợp để ngủ ở tuổi ông; báo trước mấy đêm đầu có thể ngủ kém để ông không quay lại thuốc cũ (ESRS 2023 mục 4.2 nêu mất ngủ bật lại sau ngưng thuốc ngủ nói chung, riêng kháng histamin không có trong tài liệu đã tải).</li><li>Kế hoạch hành vi theo AASM 2021 (kiểm soát kích thích KC 3; CBT-I đa thành phần KC 1 khi trở thành mất ngủ mạn) và QĐ 2058/2020 Bài 27 mục 4.3; vệ sinh giấc ngủ đơn độc không đủ (AASM 2021 KC 6).</li><li>Thuốc ngủ: ghi cả hai cách theo sổ mâu thuẫn. QĐ 2058/2020 và ESRS 2023 (≤ 4 tuần) cho dùng ngắn; Beers 2023 khuyên tránh benzodiazepin và nhóm Z ở ≥ 65 tuổi. Ông mới 7 tuần, chưa thử biện pháp hành vi nên chưa kê. Thuốc thay thế riêng cho người cao tuổi: không có trong tài liệu đã tải.</li><li>Mũi dị ứng: kháng histamin thế hệ 2 khi có triệu chứng (ARIA-EAACI 2024–2025 Phần II câu hỏi 10); ngạt nặng thì quay lại hỏi, không tự mua thuốc khác.</li><li>Truyền dịch: không chỉ định; nói không phán xét: &#x27;ông mệt thật, nhưng mệt vì ngủ kém và thuốc, không phải thiếu nước hay nhiễm độc&#x27;. Sàng lọc viêm gan B, C, FIT: đề xuất để ông quyết. Không chuyển tuyến, nhập viện.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Loratadin</b><div class="sub">Viên 10 mg</div></td><td data-l="Liều">1 viên<div class="sub">Uống · Buổi sáng, chỉ khi có hắt hơi, ngạt mũi do dị ứng</div></td><td data-l="Thời gian">Theo đợt triệu chứng; xem lại ở lần tái khám</td><td class="gc" data-l="Ghi chú">QĐ 3942/2014, bài kháng histamin H1 mục 2 Bảng 3: 10 mg 1 lần/ngày, không an thần ở liều thông thường. ARIA-EAACI 2024–2025 Phần II câu hỏi 10: thế hệ 2 hơn thế hệ 1, áp dụng cho người cao tuổi. Không kê thuốc ngủ, không kê tiếp clorpheniramin (Beers 2023 Bảng 2).</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Ngưng clorpheniramin, mang vỏ thuốc khi tái khám. Mấy đêm đầu có thể ngủ kém hơn rồi khá dần; không tự mua thuốc ngủ hay thuốc &#x27;dị ứng&#x27; khác để ngủ (AGS Beers 2023 Bảng 2).</li><li>Giờ dậy cố định mỗi sáng kể cả sau đêm ngủ kém; chỉ lên giường khi buồn ngủ; không ngủ được thì ra ngồi chỗ yên tĩnh, buồn ngủ rồi mới vào; giường chỉ để ngủ, không nằm nghĩ chuyện nợ (AASM 2021 KC 3; QĐ 2058/2020 Bài 27 mục 4.3).</li><li>Chiều tối không cà phê, trà đặc, thuốc lá; không rượu để ngủ (QĐ 2058/2020 Bài 27 mục 4.3). Vận động nhẹ ban ngày, bớt ngủ trưa dài.</li><li>Ghi nhật ký ngủ mỗi sáng (giờ nằm, ngủ, thức giữa đêm, dậy), mang theo khi tái khám. Chuyện nợ của con: bàn với con và ngân hàng ban ngày, đừng để dành tới tối.</li><li>Không cần truyền nước biển: ông mệt vì ngủ kém và thuốc, không phải thiếu nước hay nhiễm độc (QĐ 2760/2023 B2 mục 1.4: truyền khi không uống được hoặc mất nước).</li><li>Hẹn tái khám sau 4–5 tuần (người viết chọn). Quay lại sớm nếu té ngã, lú lẫn, không đi tiểu được, mất ngủ nặng lên hay có ý nghĩ tự hại. Hắt hơi, ngạt mũi thì dùng loratadin; ngạt nặng thì quay lại hỏi, đừng tự mua thuốc. Sàng lọc viêm gan B, C và đại trực tràng: ông quyết định làm hôm nay hoặc hẹn.</li></ul>
+ </details>
+</section>
+<section class="luot" id="luot-2">
+ <h2 id="h-luot-2"><span class="ln">Lượt 2/2</span> Tái khám sau 5 tuần</h2>
+ <div class="card intro"><h3 id="m-8">Tiếp đón</h3><p>Ông Bảy tái khám đúng hẹn sau 5 tuần. Từ lượt trước ông đã ngưng clorpheniramin, giữ giờ dậy cố định, ghi nhật ký ngủ, dùng loratadin khi ngạt mũi; ngủ khá lên rất chậm. Hôm nay ông nói thêm: hai tuần nay hay hồi hộp, tim đập thình thịch về chiều tối. Sinh hiệu: mạch 86 l/p, HA 148/92 mmHg, nhiệt 36,7°C, nhịp thở 16 l/p, SpO₂ 98%, cân nặng 58 kg.</p>
+  <blockquote>“Chào bác sĩ. Thuốc dị ứng ban đêm tôi bỏ rồi, đúng như bác sĩ dặn, nhưng ngủ vẫn chưa ngon lắm. Mà hai tuần nay lạ lắm, chiều tối tự nhiên tim đập thình thịch, người run run, có hôm ngồi không mà hồi hộp. Tôi sợ tim có bệnh. Bác sĩ coi dùm.”</blockquote>
+  <div class="vitals"><div class="vs"><span>Mạch</span><b>86</b><small>l/p</small></div><div class="vs warn"><span>HA</span><b>148/92</b><small>mmHg</small></div><div class="vs"><span>Nhiệt</span><b>36,7</b><small>°C</small></div><div class="vs"><span>Nhịp thở</span><b>16</b><small>l/p</small></div><div class="vs"><span>SpO₂</span><b>98</b><small>%</small></div></div></div>
+ <details class="card" open><summary><h3 id="m-9">Hỏi bệnh <small>8 sự thật · ★ then chốt</small></h3></summary><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Triệu chứng mới: hồi hộp từng cơn</b><span class="tag t-g">Tự kể</span></div><p>Hai tuần nay, vài lần mỗi tuần, thường chiều tối hoặc lúc nằm xuống, ông thấy tim đập nhanh, thình thịch 5–10 phút rồi tự hết, kèm hơi run tay và lạnh mồ hôi nhẹ. Không đau ngực, khó thở, ngất, choáng. Ông lo &#x27;tim có bệnh&#x27;.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Diễn tiến giấc ngủ: bật lại rồi khá chậm</b><span class="tag t-b">Khi được hỏi</span></div><p>Ba đêm đầu sau khi bỏ clorpheniramin ông gần như thức trắng; sau đó khá dần nhưng chậm. Theo nhật ký 3 tuần, mỗi đêm ngủ 4,5–5,5 tiếng, 4–5 đêm/tuần thức giữa đêm; vẫn dậy 5 giờ như dặn. Tính ra mất ngủ khoảng 12 tuần, ban ngày lơ mơ. Khô miệng và táo bón đã hết.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Thuốc co mạch đường uống tự mua, bị giấu</b><span class="tag t-r">Giấu</span></div><p>Từ khi bỏ thuốc dị ứng, trời trở lạnh, ngạt mũi sáng nặng hơn. Ông uống loratadin 2 ngày thấy &#x27;không thông mũi&#x27;, bèn mua vỉ &#x27;thuốc cảm thông mũi&#x27; (vỏ ghi pseudoephedrin), uống 2–3 viên mỗi ngày, sáng và chiều, gần 2 tuần nay. Hồi hộp bắt đầu vài ngày sau. Ông không kể vì &#x27;thuốc cảm thôi mà&#x27;.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi thuốc cảm, thuốc thông mũi, thuốc tự mua, cách ông xử trí ngạt mũi, hoặc bảo mang vỏ thuốc. Hỏi chung &#x27;đang uống thuốc gì&#x27; thì đáp chỉ uống loratadin hai hôm rồi thôi.</div></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Caffeine tăng sau lượt trước</b><span class="tag t-b">Khi được hỏi</span></div><p>Từ khi ban ngày lơ mơ vì thiếu ngủ, ông uống 3 ly cà phê (một ly sáng, hai ly sau bữa trưa) và một ly trà đặc buổi chiều; trước đây chỉ một ly nhỏ buổi sáng. Rượu không đổi.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>HA nền và có sẵn máy đo tại nhà</b><span class="tag t-b">Khi được hỏi</span></div><p>Con gái mua cho ông máy đo huyết áp điện tử nửa năm nay, ông chưa từng dùng. Chưa ai nói ông cao huyết áp; phiếu khám 2 tháng trước là 128/78.</p></div><div class="fact"><div class="fh"><span class="key" title="Sự thật then chốt">★</span><b>Hỏi triệu chứng báo động tim mạch, giáp</b><span class="tag t-b">Khi được hỏi</span></div><p>Không đau ngực khi gắng sức, khó thở khi leo dốc, phù chân, ngất hay suýt ngất, sốt, sụt cân (vẫn 58 kg), ra mồ hôi đêm, sợ nóng; đi ngoài bình thường. Chưa từng được nói có bệnh tim.</p></div><div class="fact"><div class="fh"><b>tam_trang</b><span class="tag t-b">Khi được hỏi</span></div><p>Vẫn lo chuyện nợ của con (đang bàn với ngân hàng gia hạn) nhưng đỡ hơn; ăn ngon, vẫn chơi cờ; không chán đời, không ý nghĩ tự hại.</p></div><div class="fact"><div class="fh"><b>ky_vong</b><span class="tag t-r">Giấu</span></div><p>Ông nghĩ hồi hộp là do bỏ thuốc dị ứng hoặc &#x27;thiếu nước&#x27;, hỏi có cần truyền nước biển cho hết hồi hộp không.</p><div class="cond">Điều kiện nói ra: Chỉ nói khi bác sĩ hỏi ông nghĩ nguyên nhân là gì hoặc mong muốn gì hôm nay.</div></div></details>
+ <details class="card"><summary><h3 id="m-10">Khám <small>6 mục</small></h3></summary><div class="row"><div class="rh"><span class="key">★</span><b>Đo lại huyết áp hai tay</b></div><p><span class="lbl">Kết quả:</span> Ngồi nghỉ 5 phút, đo hai tay: tay phải 146/90, tay trái 144/90 mmHg (chênh tâm thu 2 mmHg, không vượt 10 mmHg). Đo lại tay phải sau 1–2 phút: 142/88; trung bình hai lần cuối 144/89 mmHg (QĐ 5904/2019 Phụ lục 1.1; VSH/VNHA 2024 mục Đ1.2.1).</p></div><div class="row"><div class="rh"><b>Đo huyết áp tư thế nằm – đứng</b></div><p><span class="lbl">Kết quả:</span> Nằm 5 phút 142/88; đứng 1 phút 140/90; đứng 3 phút 138/90 mmHg: không hạ HA tư thế.</p></div><div class="row"><div class="rh"><span class="key">★</span><b>Đầu mặt cổ, hạch, tuyến giáp</b></div><p><span class="lbl">Kết quả:</span> Tuyến giáp không to, không nhân, không âm thổi; mắt không lồi, không co kéo mi.</p></div><div class="row"><div class="rh"><b>Khám run (lúc nghỉ, giữ tư thế, khi làm động tác)</b></div><p><span class="lbl">Kết quả:</span> Run nhẹ, biên độ nhỏ, tần số nhanh khi đưa hai tay ra trước; không run khi nghỉ; không tăng trương lực cơ.</p></div><div class="row"><div class="rh"><b>Họng, tai, mũi</b></div><p><span class="lbl">Kết quả:</span> Niêm mạc mũi nhợt, phù nhẹ, ít dịch trong; họng bình thường; miệng không còn khô.</p></div><div class="row"><div class="rh"><b>Khám tâm thần (dáng vẻ, khí sắc, tư duy, nhận thức, ý tưởng tự hại)</b></div><p><span class="lbl">Kết quả:</span> Hơi lo về tim, bồn chồn nhẹ, trả lời mạch lạc, không ý tưởng tự hại.</p></div><details class="sub"><summary><b>Các cơ quan khác</b> <small class="note">– không có bất thường; đây là kết quả app trả về khi bác sĩ gọi khám</small></summary><div class="row"><div class="rh"><b>Tổng trạng, da niêm, vòng eo</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, tiếp xúc tốt. Da niêm hồng. Không vàng da.</p></div><div class="row"><div class="rh"><b>Mắt (kết mạc, đồng tử, thị lực)</b><span class="tag t-m">Bình thường</span></div><p>Kết mạc không đỏ, đồng tử đều, phản xạ ánh sáng tốt.</p></div><div class="row"><div class="rh"><b>Tim</b><span class="tag t-m">Bình thường</span></div><p>Tim đều 86 l/p, T1 T2 rõ, không âm thổi.</p><div class="media"><figure class="aud"><figcaption><b>Mỏm tim</b> – T1, T2 rõ, không âm thổi.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-TIM-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Phổi</b><span class="tag t-m">Bình thường</span></div><p>Nhịp thở 16 l/p. Rì rào phế nang êm dịu hai phế trường, không ran.</p><div class="media"><figure class="aud"><figcaption><b>Đáy phổi (phía sau)</b> – Rì rào phế nang êm dịu, không ran.</figcaption><audio controls preload="none" src="https://doctor-gau-1607.github.io/pk-ngoai-tru-media-1/am_thanh/AT-PHOI-BT-NL-01.mp3"></audio></figure></div></div><div class="row"><div class="rh"><b>Bụng</b><span class="tag t-m">Bình thường</span></div><p>Bụng mềm, không chướng, không điểm đau, gan lách không sờ thấy.</p></div><div class="row"><div class="rh"><b>Mạch ngoại biên, âm thổi động mạch</b><span class="tag t-m">Bình thường</span></div><p>Mạch ngoại biên đều, rõ hai bên. Không âm thổi động mạch.</p></div><div class="row"><div class="rh"><b>Chi dưới (phù, giãn tĩnh mạch, bắp chân)</b><span class="tag t-m">Bình thường</span></div><p>Không phù, bắp chân mềm.</p></div><div class="row"><div class="rh"><b>Thần kinh</b><span class="tag t-m">Bình thường</span></div><p>Tỉnh, không dấu thần kinh khu trú, không dấu màng não.</p></div><div class="row"><div class="rh"><b>Cơ xương khớp, cột sống</b><span class="tag t-m">Bình thường</span></div><p>Các khớp không sưng nóng đỏ, vận động trong giới hạn bình thường.</p></div><div class="row"><div class="rh"><b>Da, niêm mạc, ban</b><span class="tag t-m">Bình thường</span></div><p>Không ban, không chấm xuất huyết.</p></div><div class="row"><div class="rh"><b>Hố thắt lưng, cầu bàng quang</b><span class="tag t-m">Bình thường</span></div><p>Chạm thận âm tính, không cầu bàng quang.</p></div></details></details>
+ <details class="card"><summary><h3 id="m-11">Cận lâm sàng <small>2 mục</small></h3></summary><div class="row"><div class="rh"><b>Điện tâm đồ 12 chuyển đạo</b><span class="tag t-g">Cần làm</span></div><p><span class="lbl">Kết quả:</span> Nhịp xoang đều 86 l/p, PR và QRS bình thường, không rung nhĩ, không ngoại tâm thu, không bất thường ST–T.</p><p class="why">Hồi hộp từng cơn mới ở người 68 tuổi: cần điện tim 12 chuyển đạo. ESC 2024 (rung nhĩ), Bảng khuyến cáo 31 mục 10.3: điện tim do bác sĩ đọc để chẩn đoán xác định rung nhĩ (I, B). Lượt trước điện tim sàng lọc không cần vì không triệu chứng (USPSTF); nay có triệu chứng nên có chỉ định. Điện tim lúc không có cơn bình thường chưa loại hẳn loạn nhịp cơn; Holter nhịp không có trong danh mục.</p></div><div class="row"><div class="rh"><b>TSH, FT4</b><span class="tag t-y">Chấp nhận</span></div><p><span class="lbl">Kết quả:</span> TSH 1,9 mUI/L · FT4 14 pmol/L</p><p class="why">Hồi hộp, run tay, mất ngủ có thể do cường giáp; nay có triệu chứng nên khác sàng lọc người không triệu chứng (USPSTF 2015, phát biểu I, TL-0697). Lâm sàng không gợi ý: chấp nhận làm, không bắt buộc.</p></div></details>
+ <details class="card ans"><summary><h3 id="m-12">Đáp án lượt 2 <small>bấm để mở</small></h3></summary>
+  <div class="verdict">Hướng xử trí đúng: <b>Cho về, hẹn tái khám</b></div>
+  <h4>Chẩn đoán</h4><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Hồi hộp từng cơn và HA phòng khám tăng thoáng qua (trung bình hai lần cuối 144/89 mmHg) liên quan pseudoephedrin, tăng caffeine và mất ngủ; chưa đủ chẩn đoán tăng huyết áp</b></div><p class="why">Hồi hộp bắt đầu vài ngày sau khi uống pseudoephedrin 2–3 viên/ngày và tăng cà phê từ 1 lên 3 ly. Thuốc thông mũi làm tăng HA kéo dài, phụ thuộc liều (ESH 2023 Bảng 20); AHA/ACC 2025 Bảng 11: dùng thuốc thông mũi ngắn nhất có thể, caffeine &lt; 300 mg/ngày. Chẩn đoán THA cần xác nhận ngoài phòng khám (USPSTF 2021, A; VSH/VNHA 2024 mục Đ1.1).</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Mất ngủ ngắn hạn sắp tới mốc 3 tháng, đang cải thiện chậm sau ngưng kháng histamin thế hệ 1</b></div><p class="why">Khoảng 12 tuần, ngủ 4,5–5,5 tiếng, thức giữa đêm 4–5 đêm/tuần. Sau mốc 3 tháng còn ≥ 3 đêm/tuần kèm hậu quả ban ngày thì đủ tiêu chuẩn mất ngủ mạn (ESRS 2023 Bảng 2); khi đó CBT-I đầu tay (Bảng 16, A; AASM 2021 KC 1).</p></div><div class="row"><div class="rh"><span class="tag t-g">Chẩn đoán</span><b>Tư vấn kết quả khám sức khỏe: kết quả bình thường vẫn đúng, không phát hiện bệnh tim hay bệnh thực thể mới</b></div><p class="why">Điện tim nhịp xoang, tuyến giáp bình thường, không triệu chứng báo động. Triệu chứng mới có nguyên nhân thuốc và thói quen, không đổi kết luận khám định kỳ.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Tăng huyết áp thật</b></div><p class="why">Một lần khám HA 144/89 chưa đủ: cần đo ngoài phòng khám, trung bình HBPM ≥ 135/85 mmHg mới chẩn đoán (VSH/VNHA 2024 mục Đ1.1, Đ1.2.2). OBPM ≥ 140/90 mà HBPM &lt; 135/85 là áo choàng trắng (mục Đ1.1).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Rung nhĩ hoặc loạn nhịp cơn khác</b></div><p class="why">Điện tim nhịp xoang, tim đều, cơn tự hết sau 5–10 phút, bắt đầu cùng lúc thuốc thông mũi và tăng caffeine. Điện tim lúc không có cơn không loại hẳn: nếu cơn còn sau khi ngưng thuốc thì ghi điện tim lúc có cơn hoặc theo dõi nhịp kéo dài (ESC 2024 rung nhĩ mục 10.3); Holter nhịp không có trong danh mục.</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Cường giáp</b></div><p class="why">Không sợ nóng, không sụt cân, tuyến giáp không to, mắt không lồi; TSH 1,9 mUI/L (nếu đã làm).</p></div><div class="row"><div class="rh"><span class="tag t-m">Loại trừ</span><b>Bệnh động mạch vành, suy tim</b></div><p class="why">Không đau ngực, không khó thở khi gắng sức, không phù, điện tim không bất thường ST–T. Troponin không có chỉ định khi không đau ngực và điện tim bình thường.</p></div>
+  <h4>Xử trí</h4><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hỏi lại thuốc theo từng dạng khi có triệu chứng mới: thuốc cảm, thông mũi, cà phê, trà; yêu cầu xem vỏ thuốc</b></div><p class="why">Thuốc thông mũi làm tăng HA (ESH 2023 Bảng 20; AHA/ACC 2025 Bảng 11). Ông bỏ thuốc dị ứng nhưng tự mua thuốc khác thay: triệu chứng mới sau khi đổi thuốc là dữ kiện đắt nhất.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Ngưng thuốc thông mũi chứa pseudoephedrin; giảm cà phê, trà xuống dưới 300 mg caffeine/ngày; ngạt mũi thì nước muối sinh lý, loratadin, khám lại nếu nặng</b></div><p class="why">AHA/ACC 2025 Bảng 11: thuốc thông mũi dùng ngắn nhất có thể, thay bằng nước muối, corticoid xịt mũi, kháng histamin; caffeine &lt; 300 mg/ngày. ARIA-EAACI 2024–2025 Phần II câu hỏi 10: kháng histamin thế hệ 2. Tên, liều corticoid xịt mũi và cách ngưng pseudoephedrin (dừng ngay hay giảm dần): không có trong tài liệu đã tải.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Không chẩn đoán THA từ một lần khám: đo lại đúng quy trình (nghỉ 5–10 phút, ≥ 2 lần cách 1–2 phút, lấy trung bình), rồi đo HA tại nhà 3–7 ngày, 2 lần/ngày, mỗi lần 2 lần; trung bình ≥ 135/85 mmHg mới là THA</b></div><p class="why">QĐ 5904/2019 Phụ lục 1.1; VSH/VNHA 2024 mục Đ1.2.2 (3,7-2-2) và Đ1.1; USPSTF 2021 (A, TL-0679): đo ngoài phòng khám để xác nhận trước khi điều trị. Các hướng dẫn đều yêu cầu xác nhận trước, chỉ khác tốc độ khởi thuốc khi đã xác nhận: xem mục &#x27;Khởi thuốc hạ áp ngay hay xác nhận bằng HA ngoài phòng khám&#x27; trong sổ mâu thuẫn.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Làm điện tim 12 chuyển đạo cho hồi hộp mới; giải thích kết quả; dặn ghi giờ và độ dài mỗi cơn</b></div><p class="why">ESC 2024 (rung nhĩ), Bảng khuyến cáo 31 mục 10.3 (I, B). Không có Holter nhịp tại cơ sở.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Mất ngủ: tiếp tục kế hoạch hành vi và nhật ký; đặt mốc 3 tháng đánh giá lại, nếu còn ≥ 3 đêm/tuần là mất ngủ mạn và chuyển CBT-I; giải thích &#x27;khá chậm&#x27; vẫn là quỹ đạo bình thường</b></div><p class="why">ESRS 2023 Bảng 2 (≥ 3 đêm/tuần, ≥ 3 tháng); Bảng 16 (CBT-I đầu tay, A); AASM 2021 KC 1, 3. Thời gian hồi phục điển hình sau ngưng kháng histamin: không có trong tài liệu đã tải, mốc do người viết đặt.</p></div><div class="row xt-g"><div class="rh"><span class="tag t-g">Nên làm</span><b>Hẹn tái khám sau 2–3 tuần kèm nhật ký HA nhà và nhật ký ngủ; quay lại ngay nếu đau ngực, khó thở, ngất, cơn hồi hộp dài &gt; 30 phút, hoặc HA tại nhà ≥ 180/110</b></div><p class="why">Khoảng 2–3 tuần để HA và hồi hộp có thời gian lui sau ngưng thuốc, và các ngưỡng quay lại, do người viết chọn; không có trong tài liệu đã tải.</p></div><div class="row xt-y"><div class="rh"><span class="tag t-y">Chấp nhận</span><b>Xét nghiệm TSH, công thức máu, điện giải</b></div><p class="why">Loại nguyên nhân khác của hồi hộp (cường giáp, thiếu máu, rối loạn điện giải); lâm sàng không gợi ý nên không bắt buộc.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Khởi thuốc hạ áp ngay từ số đo hôm nay</b></div><p class="why">USPSTF 2021 (A): đo ngoài phòng khám để xác nhận trước khi điều trị; số đo cao có thể do pseudoephedrin, caffeine, mất ngủ (ESH 2023 Bảng 20; AHA/ACC 2025 Bảng 11). Hạ HA khi chưa xác nhận và chưa ngưng thuốc co mạch dễ gây hạ HA tư thế ở người 68 tuổi; tài liệu đã tải không có số liệu riêng cho tình huống này.</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Tiếp tục hoặc tăng thuốc thông mũi; thêm thuốc ngủ (diphenhydramin, clorpheniramin, benzodiazepin) để ngủ và hết hồi hộp</b></div><p class="why">ESH 2023 Bảng 20, AHA/ACC 2025 Bảng 11 (thuốc thông mũi làm tăng HA); AGS Beers 2023 Bảng 2 (tránh kháng histamin thế hệ 1, benzodiazepin ở ≥ 65 tuổi).</p></div><div class="row xt-o"><div class="rh"><span class="tag t-o">Không nên</span><b>Truyền dịch cho &#x27;hết hồi hộp&#x27; theo yêu cầu</b></div><p class="why">Không dấu mất nước, không chỉ định (QĐ 2760/2023 B2 mục 1.4, nguyên tắc chung); hồi hộp có nguyên nhân là thuốc và caffeine.</p></div>
+  <h4>Nếu chọn sai hướng</h4><div class="row"><div class="rh"><span class="tag t-o">Theo dõi tại phòng khám</span></div><p>Giữ ông Bảy lại phòng khám vài giờ để đo HA liên tục và chờ cơn hồi hộp là không cần: tim đều, điện tim nhịp xoang, không đau ngực, khó thở hay ngất, và nguyên nhân (thuốc thông mũi, cà phê) đã rõ. Số đo trong vài giờ khi ông đang lo lắng vẫn không thay được HA tại nhà để xác nhận hay loại trừ tăng huyết áp (VSH/VNHA 2024 mục Đ1.2.2; USPSTF 2021), còn ông mất thêm một buổi công.</p></div><div class="row"><div class="rh"><span class="tag t-o">Nhập viện</span></div><p>Nhập viện theo dõi hồi hộp và huyết áp của ông Bảy là quá tay: tim đều, điện tim nhịp xoang, không đau ngực, khó thở, ngất; cơn tự hết sau vài phút và bắt nguồn rõ từ thuốc thông mũi và cà phê. Ông nằm viện giữa lúc lo nợ, ngủ càng kém, và dễ được cho thuốc an thần, loại cần tránh ở ≥ 65 tuổi (AGS Beers 2023 Bảng 2).</p></div><div class="row"><div class="rh"><span class="tag t-o">Chuyển tuyến / chuyên khoa</span></div><p>Chuyển ông lên tuyến trên khám tim mạch ngay hôm nay là chưa cần: điện tim bình thường, không triệu chứng báo động, nguyên nhân thuốc và caffeine đã rõ (AHA/ACC 2025 Bảng 11; ESH 2023 Bảng 20). Ông tốn ngày công, làm thêm thăm dò khi HA còn bị thuốc làm lệch nên khó đọc, dễ dẫn đến điều trị THA khi chưa xác nhận (USPSTF 2021).</p></div>
+  <h4>Phiếu nhận xét</h4>
+  <h5>Thành phần chẩn đoán</h5><ul class=""><li>Hồi hộp từng cơn và HA phòng khám tăng thoáng qua (trung bình hai lần cuối 144/89 mmHg) liên quan pseudoephedrin tự mua, tăng caffeine và mất ngủ; chưa đủ chẩn đoán tăng huyết áp (VSH/VNHA 2024 mục Đ1.1; USPSTF 2021)</li><li>Điện tim nhịp xoang 86 l/p, không rung nhĩ lúc không có cơn</li><li>Mất ngủ ngắn hạn khoảng 12 tuần, cải thiện chậm sau ngưng clorpheniramin, sắp tới mốc 3 tháng (ESRS 2023 Bảng 2); viêm mũi dị ứng theo mùa</li><li>Kết quả khám sức khỏe định kỳ bình thường vẫn đúng; không bệnh thực thể mới</li></ul>
+  <h5>Phân tích chẩn đoán</h5><ul class=""><li>HỎI BỆNH: mô tả cơn (giờ, độ dài, tự hết); báo động (đau ngực, khó thở, ngất); diễn tiến giấc ngủ; THUỐC theo từng dạng sau khi ông đổi thuốc (thuốc cảm, thông mũi, cà phê, trà); HA nền; tâm trạng. Triệu chứng mới sau thay đổi là dữ kiện đắt: hỏi &#x27;ông xử trí ngạt mũi bằng gì&#x27; mới ra pseudoephedrin.</li><li>KHÁM: đo HA đúng quy trình, hai tay lần đầu (chênh tâm thu &gt; 10 mmHg phải kiểm tra thêm, VSH/VNHA 2024 mục Đ1.2.1), đo lại cách 1–2 phút lấy trung bình (QĐ 5904/2019 Phụ lục 1.1), HA tư thế; tim phổi; tuyến giáp; run tay; mũi. Số 148/92 lúc tiếp đón là số đầu; trung bình hai lần sau 144/89, lệch do thuốc và caffeine. Điện tim là xét nghiệm duy nhất bắt buộc (ESC 2024 rung nhĩ Bảng 31); TSH chấp nhận; không cần troponin, siêu âm tim, Holter, X-quang khi không đau ngực, không khó thở.</li><li>Vì sao không gọi là THA: 144/89 đo ở phòng khám khi đang dùng pseudoephedrin và uống nhiều cà phê. USPSTF 2021 (A) và VSH/VNHA 2024 (THA bền vững, áo choàng trắng, ẩn giấu theo HBPM 135/85, ABPM 130/80) yêu cầu xác nhận ngoài phòng khám; QĐ 5904/2019 cũng yêu cầu đối chiếu nhiều lần tại nhà. Các nguồn chỉ khác tốc độ khởi thuốc khi đã xác nhận (sổ mâu thuẫn), không áp dụng cho ông.</li><li>Điểm không điển hình: ông làm đúng lời dặn (ngưng clorpheniramin) mà lại có triệu chứng mới, vì mũi ngạt trở lại và ông tự chữa bằng thuốc khác. Nhận ra chuỗi &#x27;bỏ thuốc A rồi mua thuốc B&#x27; là kỹ năng chính của lượt này.</li><li>Mất ngủ &#x27;khỏi chậm hơn dự kiến&#x27;: quỹ đạo bình thường là khá dần dù chậm (ngủ 4,5 lên 5,5 tiếng, bớt đêm thức); đáng lo là xấu đi, kèm buồn chán, ý nghĩ tự hại, té ngã, lú lẫn. Mốc người viết đặt: qua 3 tháng còn ≥ 3 đêm/tuần là mất ngủ mạn (ESRS 2023 Bảng 2), CBT-I đầu tay (Bảng 16). Thời gian hồi phục điển hình: không có trong tài liệu đã tải.</li></ul>
+  <h5>Phân tích xử trí</h5><ul class=""><li>Ngưng pseudoephedrin và giảm caffeine là gốc xử trí: HA và hồi hộp được kỳ vọng lui vì cả hai bắt đầu sau khi dùng (ESH 2023 Bảng 20: tăng HA phụ thuộc liều). Thời gian lui cụ thể: không có trong tài liệu đã tải.</li><li>Mũi ngạt: nước muối, loratadin khi cần (QĐ 3942/2014 Bảng 3); corticoid xịt mũi nếu còn ngạt sau khám tai mũi họng (AHA/ACC 2025 Bảng 11), tên và liều không có trong tài liệu đã tải. Giải thích vì sao loratadin &#x27;không thông mũi bằng&#x27; thuốc cảm: ông cần lời giải thích chứ không chỉ lời cấm.</li><li>Xác nhận HA: dạy ông dùng máy con gái mua theo 3,7-2-2 (VSH/VNHA 2024 mục Đ1.2.2) và quy trình đo (QĐ 5904/2019 Phụ lục 1.1); tái khám cùng nhật ký để quyết: bình thường, áo choàng trắng hay THA thật.</li><li>Mất ngủ: tiếp tục kế hoạch hành vi, mốc 3 tháng; không kê thuốc ngủ (Beers 2023), nhắc quyền chọn thuốc ngắn hạn sau quyết định chung nếu cần (sổ mâu thuẫn). Sàng lọc trầm cảm người ≥ 65 tuổi (USPSTF, B 6/2023) lặp lại: khí sắc ổn, không tự hại.</li><li>Truyền dịch: nếu ông nhắc lại, giải thích triệu chứng do thuốc và caffeine, không do thiếu nước (QĐ 2760/2023 B2 mục 1.4). Không nhập viện, không chuyển tuyến: không đau ngực, khó thở, ngất, rối loạn nhịp, HA &lt; 180/110; tiêu chuẩn chuyển tuyến cho hồi hộp ở người cao tuổi không có trong tài liệu đã tải.</li></ul>
+  <h5>Đơn thuốc</h5><div class="tw"><table class="rx"><thead><tr><th>Thuốc</th><th>Liều, cách dùng</th><th>Thời gian</th><th>Ghi chú, nguồn</th></tr></thead><tbody><tr><td><b>Loratadin</b><div class="sub">Viên 10 mg</div></td><td data-l="Liều">1 viên<div class="sub">Uống · Buổi sáng, khi ngạt mũi hay hắt hơi do dị ứng</div></td><td data-l="Thời gian">Theo đợt triệu chứng; xem lại ở lần tái khám</td><td class="gc" data-l="Ghi chú">QĐ 3942/2014, bài kháng histamin H1 mục 2 Bảng 3: 10 mg 1 lần/ngày. ARIA-EAACI 2024–2025 Phần II câu hỏi 10: thế hệ 2. Không kê thuốc thông mũi pseudoephedrin (ESH 2023 Bảng 20; AHA/ACC 2025 Bảng 11), thuốc hạ áp hay thuốc ngủ.</td></tr><tr><td><b>Natri clorid 0,9% (nước muối sinh lý)</b><div class="sub">Dung dịch 0,9%</div></td><td data-l="Liều">Rửa hoặc nhỏ mũi; số lần mỗi ngày không có trong tài liệu đã tải<div class="sub">Mũi · Khi ngạt mũi, thay cho thuốc thông mũi</div></td><td data-l="Thời gian">Đến khi mũi ổn; xem lại ở lần tái khám</td><td class="gc" data-l="Ghi chú">AHA/ACC 2025 Bảng 11: nước muối là lựa chọn thay thế thuốc thông mũi.</td></tr></tbody></table></div>
+  <h5>Dặn dò</h5><ul class=""><li>Bỏ hết thuốc cảm thông mũi (có chữ pseudoephedrin), không tự mua thuốc co mạch hay thuốc ngủ; ngạt mũi thì dùng nước muối, loratadin, nặng thì quay lại hỏi (AHA/ACC 2025 Bảng 11).</li><li>Cà phê chỉ một ly sáng, bỏ trà đặc chiều; tổng caffeine &lt; 300 mg/ngày (AHA/ACC 2025 Bảng 11). Rượu như cũ, không uống để ngủ.</li><li>Đo HA tại nhà bằng máy con gái mua: 3–7 ngày liên tiếp, sáng và tối, mỗi lần đo 2 lần cách 1–2 phút, nghỉ 5–10 phút trước đo, ngồi tựa lưng, không cà phê, thuốc lá, rượu 2 giờ trước đo; ghi vào sổ (VSH/VNHA 2024 mục Đ1.2.2; QĐ 5904/2019 Phụ lục 1.1).</li><li>Ghi mỗi cơn hồi hộp: giờ, độ dài, đang làm gì, có đo mạch hoặc HA lúc đó không. Tiếp tục nhật ký ngủ và giờ dậy cố định (AASM 2021 KC 3).</li><li>Quay lại ngay nếu đau ngực, khó thở, ngất hay suýt ngất, cơn hồi hộp dài hơn 30 phút, HA tại nhà ≥ 180/110, hoặc buồn chán kèm ý nghĩ tự hại (các mốc do người viết chọn). Hẹn tái khám sau 2–3 tuần (người viết chọn), mang sổ HA, nhật ký ngủ, vỏ các loại thuốc đang có.</li></ul>
+ </details>
+</section>
+<h2 id="tong-ket">Kết cục và tổng kết</h2>
+<details class="card ans" id="ket"><summary><h3 id="m-13">Chẩn đoán cuối cùng và kết cục <small>bấm để mở</small></h3></summary>
+<div class="verdict">Chẩn đoán đích: <b>Tư vấn kết quả khám sức khỏe bình thường</b></div>
+<p class="note">Phải loại trừ: (đảm bảo không bỏ sót bất thường)</p><p>Khỏi chậm hơn dự kiến. Nhánh đúng: ông Bảy ngưng thuốc thông mũi và giảm cà phê; sau khoảng một tuần các cơn hồi hộp thưa dần rồi hết, nhật ký HA tại nhà xuống dưới 135/85 mmHg trong khoảng hai tuần, không cần thuốc hạ áp. Giấc ngủ lại chậm hơn người ta tưởng: gần 3 tháng ông vẫn thức giữa đêm 2–3 đêm/tuần, chỉ khi kiên trì dậy đúng giờ, không nằm nghĩ chuyện nợ, giảm cà phê thì mới ngủ trên 6 tiếng. Đó là quỹ đạo bình thường của người mất ngủ sau stress đã bỏ thuốc ngủ không phù hợp: chậm nhưng đi lên, không buồn chán hay té ngã. Quỹ đạo đáng lo là ngủ xấu đi, buồn chán, ý nghĩ tự hại, té ngã, lú lẫn: khi đó phải đánh giá lại (ESRS 2023 Bảng 2, 16; thời gian hồi phục điển hình không có trong tài liệu đã tải). Mong muốn truyền dịch cũng nguôi dần khi ông hiểu mình mệt vì ngủ kém và thuốc.</p></details>
+<details class="card" id="bai"><summary><h3 id="m-14">Bài học</h3></summary>
+<h5>Yếu tố gây nhiễu</h5><ul class=""><li>Giấu tiền sử: phiếu tick &#x27;Không&#x27; mọi mục; mất ngủ và clorpheniramin chỉ ra khi hỏi đúng giấc ngủ, thuốc tự mua; lượt 2 pseudoephedrin cũng chỉ ra khi hỏi thuốc thông mũi.</li><li>Không có X-quang: không chụp phổi, CT; ông không triệu chứng hô hấp nên không cần. Điện tim và xét nghiệm máu vẫn làm được.</li><li>Thuốc dị ứng tự mua: tên &#x27;thuốc dị ứng&#x27; làm ông không coi là thuốc; lượt 2 đổi sang thuốc thông mũi vì &#x27;thuốc cảm thôi mà&#x27;.</li><li>Lý do thật là muốn truyền dịch: không chỉ định; cần lắng nghe, giải thích, không phán xét.</li></ul><h5>Bài học từ thiết kế ca</h5><ul class=""><li>Khám sức khỏe bình thường không có nghĩa hết việc: đọc phiếu, hỏi cái phiếu không có (giấc ngủ, thuốc tự mua), kiểm sàng lọc theo tuổi còn thiếu; không làm lại xét nghiệm đã có (CV 7311 mục 1.2, 1.3; USPSTF).</li><li>Hỏi thuốc theo từng dạng. Kháng histamin thế hệ 1 cần tránh ở người cao tuổi (AGS Beers 2023 Bảng 2), không khuyến cáo trị mất ngủ (ESRS 2023 Bảng 16).</li><li>Người bệnh bỏ một thuốc rồi có triệu chứng mới: hỏi họ thay bằng thuốc gì. Thuốc thông mũi làm tăng HA (ESH 2023 Bảng 20; AHA/ACC 2025 Bảng 11).</li><li>Không chẩn đoán THA từ một lần đo ở phòng khám; xác nhận ngoài phòng khám (USPSTF 2021; VSH/VNHA 2024 mục Đ1.2.2; QĐ 5904/2019 Phụ lục 1.1).</li><li>Người đòi truyền dịch: tìm lý do thật, giải thích, đưa kế hoạch thay thế (QĐ 2760/2023 B2 mục 1.4, nguyên tắc chung). Mất ngủ khỏi chậm có thể vẫn là quỹ đạo bình thường; đặt mốc 3 tháng (ESRS 2023 Bảng 2).</li></ul><h5>Điểm cần nhớ</h5><ul class=""><li>Phiếu khám người ≥ 18 tuổi: tiền sử có mục tăng huyết áp (7), rối loạn giấc ngủ (17); cận lâm sàng định kỳ theo chỉ định bác sĩ (TT 25/2026 Phụ lục XXIV Mẫu số 03, mục III.2). Kết quả còn giá trị thì không chỉ định lại (CV 7311 mục 1.3).</li><li>USPSTF: THA mức A, xác nhận ngoài phòng khám (2021); viêm gan B nhóm nguy cơ gồm sinh ở châu Á, mức B (2020); viêm gan C 18–79 tuổi một lần, mức B (2020); ung thư đại trực tràng 50–75 tuổi, mức A (trang A&amp;B).</li><li>AGS Beers 2023 Bảng 2: tránh kháng histamin thế hệ 1, benzodiazepin, thuốc nhóm Z ở ≥ 65 tuổi.</li><li>THA ngoài phòng khám: HBPM ≥ 135/85 mmHg (3–7 ngày, 2 lần/ngày, mỗi lần 2 lần), ABPM ≥ 130/80 (VSH/VNHA 2024 mục Đ1.1, Đ1.2.2). Hạ HA tư thế khi giảm ≥ 20/10 mmHg sau 1 và 3 phút (mục Đ1.2.1).</li><li>Mất ngủ mạn (ESRS 2023): ≥ 3 đêm/tuần, ≥ 3 tháng (Bảng 2); CBT-I đầu tay, kháng histamin không khuyến cáo (Bảng 16).</li></ul></details>
+<details class="card" id="nguon"><summary><h3 id="m-15">Nguồn tài liệu <small>5</small></h3></summary><ul class=""><li>CV 5008/BYT-KCB 06/7/2026 (TL-0666) mục 1–3; CV 7311/BYT-KCB (đăng 29–30/9/2026, TL-0667) mục 1.1–1.3; Phụ lục XXIV TT 25/2026/TT-BYT ngày 30/6/2026 (TL-0668) Mẫu số 03 mục III.2, IV.</li><li>USPSTF: THA 2021 (TL-0679); viêm gan B 2020 (TL-0685); viêm gan C 2020 (TL-0686); điện tim 2018, báo cáo bằng chứng (TL-0689); tuyến giáp 2015 (TL-0697); trang A&amp;B (kho cũ mục 13).</li><li>AGS Beers 2023 (TL-0022) Bảng 2. ESRS 2023 (TL-0464) Bảng 2, 16, mục 4.2.5, 4.5. AASM 2021 (TL-0470) KC 1, 3, 6. QĐ 2058/2020 (TL-0443) Bài 27 mục 3.1.1, 4.3.</li><li>VSH/VNHA 2024 (TL-0288) mục Đ1.1–Đ1.2.3. QĐ 5904/2019 (TL-0284) Phần 1, Phụ lục 1.1. ESH 2023 (TL-0312) Bảng 20. AHA/ACC 2025 (TL-0297) Bảng 11. ESC 2024 rung nhĩ (TL-0303) Bảng 31 mục 10.3.</li><li>ARIA-EAACI 2024–2025 Phần II (kho cũ mục 09) Bảng 1, câu hỏi 10. QĐ 3942/2014 (kho cũ mục 06) bài kháng histamin H1 mục 2 Bảng 3. QĐ 2892/2022 (TL-0281) mục 4.1, 4.2. QĐ 3087/2020 (TL-0283) mục II. QĐ 2760/2023 (TL-0029) B2 mục 1.2, 1.4.</li></ul></details>
+<details class="card"><summary><h3 id="m-16">Đặc tả sổ cái và ghi chú biên tập</h3></summary><dl class="meta"><dt>chuyen_khoa</dt><dd>Tư vấn kết quả khám tổng quát</dd><dt>chan_doan_dich</dt><dd>Tư vấn kết quả khám sức khỏe bình thường</dd><dt>chan_doan_phai_loai_tru</dt><dd>(đảm bảo không bỏ sót bất thường)</dd><dt>nhom_tuoi</dt><dd>Cao tuổi (60–74 tuổi)</dd><dt>do_kho</dt><dd>Không điển hình</dd><dt>loai_bay</dt><dd>Không cài bẫy cấu trúc</dd><dt>dien_tien_tai_kham</dt><dd>Xuất hiện triệu chứng mới</dd><dt>nhieu_benh_nhan</dt><dd>Giấu tiền sử</dd><dt>rang_buoc_nguon_luc</dt><dd>Không có X-quang</dd><dt>loai_ket_cuc</dt><dd>Khỏi chậm hơn dự kiến</dd><dt>gioi</dt><dd>Nam</dd><dt>co_co_do</dt><dd>Không</dd><dt>so_luot_kham</dt><dd>2</dd><dt>nghe_nghiep</dt><dd>Nông dân đã nghỉ hưu</dd><dt>yeu_to_khoi_phat</dt><dd>Sau stress công việc</dd><dt>thuoc_dang_dung</dt><dd>Thuốc dị ứng tự mua</dd><dt>ly_do_that_su_den_kham</dt><dd>Muốn được truyền dịch</dd></dl><ul class=""><li>2026-10-12: viết bản 1 (viết: Sonnet). Đã đọc CV 5008, CV 7311, Mẫu số 03 Phụ lục XXIV TT 25/2026; USPSTF THA 2021, viêm gan B 2020, viêm gan C 2020, điện tim 2018, tuyến giáp 2015, trang A&amp;B; Beers 2023 Bảng 2; ESRS 2023 Bảng 2, 16; AASM 2021; QĐ 2058/2020 Bài 27; VSH/VNHA 2024 mục Đ1; QĐ 5904/2019 Phụ lục 1.1; ESH 2023 Bảng 20; AHA/ACC 2025 Bảng 11; ESC 2024 rung nhĩ Bảng 31; ARIA-EAACI 2024–2025 Phần II; QĐ 3942/2014 Bảng 3; QĐ 2892/2022; QĐ 3087/2020; QĐ 2760/2023.</li><li>Không có trong tài liệu đã tải: tiêu chuẩn phân loại sức khỏe của Bộ Y tế; hướng dẫn BYT về sàng lọc miễn phí theo tuổi (còn hoàn thiện); khoảng cách, phương pháp sàng lọc đại trực tràng; cách ngưng clorpheniramin, pseudoephedrin; thời gian hồi phục sau ngưng kháng histamin; liều pseudoephedrine gây tăng HA; tên, liều corticoid xịt mũi; số lần rửa mũi/ngày; thuốc ngủ riêng cho người cao tuổi; nguy cơ truyền dịch ở người cao tuổi. Mốc tái khám, ngưỡng quay lại do người viết chọn.</li><li>Mâu thuẫn: áp dụng mục &#x27;Thuốc ngủ benzodiazepin và nhóm Z ở người mất ngủ mạn từ 65 tuổi&#x27; và &#x27;Khởi thuốc hạ áp ngay hay xác nhận bằng HA ngoài phòng khám&#x27; trong sổ. Ghi nhận: ngưỡng mất ngủ 1 tháng (ICD-10) và 3 tháng (ICSD-3) khác hệ phân loại; ESRS 2023 không có khuyến cáo cho mất ngủ ngắn hạn.</li></ul></details>
+<p class="chan-trang">Ca TQ-0007 · phiên bản ca 1 – viết 2026-10-12 theo kho tài liệu, mọi ngưỡng/liều ghi kèm vị trí · app Phòng khám ngoại trú</p>
+  </section>
+ </main>
+</div>
+<div class="thanh-nut">
+ <button id="nutMl" class="hien-ml" type="button" title="Mục lục">≡</button>
+ <button id="nutGiam" type="button" title="Chữ nhỏ hơn">A-</button>
+ <button id="nutTang" type="button" title="Chữ lớn hơn">A+</button>
+ <button id="nutNen" type="button" title="Nền sáng/tối">◐</button>
+</div>
+<div class="xem-anh" id="xemAnh" role="dialog" aria-label="Xem ảnh">
+ <span class="xa-dem"></span>
+ <button class="xa-dong" type="button" title="Đóng (Esc)">✕</button>
+ <button class="xa-truoc" type="button" title="Ảnh trước (←)">‹</button>
+ <img alt="">
+ <button class="xa-sau" type="button" title="Ảnh sau (→)">›</button>
+ <div class="xa-chu"></div>
+</div>
+<script>
+(function(){
+ var goc=document.documentElement, ds=document.getElementById('dsMuc'),
+     giay=document.getElementById('toGiay'), pt=document.getElementById('phanTram'),
+     ml=document.getElementById('mucLuc');
+ var dau=[].slice.call(giay.querySelectorAll('h2,h3'));
+ function moCha(el){ for(var d=el&&el.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true; }
+ function nhanCua(h){ var c=h.cloneNode(true), s=c.querySelectorAll('small');
+  for(var i=0;i<s.length;i++) s[i].remove(); return c.textContent.replace(/\s+/g,' ').trim(); }
+ // mục lục: h2 là phần lớn (thông tin, từng lượt khám, tổng kết), h3 là từng thẻ
+ dau.forEach(function(h){
+  var li=document.createElement('li');
+  li.className='cap-'+(+h.tagName[1]-1);
+  var a=document.createElement('a');
+  a.href='#'+h.id; a.textContent=nhanCua(h);
+  a.addEventListener('click',function(){ ml.classList.remove('mo'); moCha(h); });
+  li.appendChild(a); ds.appendChild(li);
+ });
+ var neo=[].slice.call(ds.querySelectorAll('a'));
+ function capNhat(){
+  var i=0;
+  for(var k=0;k<dau.length;k++){ if(dau[k].getBoundingClientRect().top<140) i=k; }
+  neo.forEach(function(a,k){ a.classList.toggle('dang-doc',k===i); });
+  var a=neo[i];
+  if(a){ var cuon=a.closest('.ml-cuon');
+   if(cuon){ var h=a.getBoundingClientRect(), c=cuon.getBoundingClientRect();
+    if(h.top<c.top||h.bottom>c.bottom) cuon.scrollTop+=h.top-c.top-c.height/3; } }
+  var het=document.documentElement.scrollHeight-innerHeight;
+  pt.textContent=(het>0?Math.min(100,Math.round(scrollY/het*100)):100)+'%';
+ }
+ addEventListener('scroll',capNhat,{passive:true});
+ addEventListener('resize',capNhat);
+
+ function docNho(k,md){ try{ return localStorage.getItem(k)||md; }catch(e){ return md; } }
+ function ghiNho(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+ var co=parseInt(docNho('gl-co','16'),10);
+ function apCo(){ goc.style.setProperty('--co',co+'px'); ghiNho('gl-co',co); capNhat(); }
+ goc.setAttribute('data-nen',docNho('gl-nen','sang'));
+ document.getElementById('nutTang').onclick=function(){ co=Math.min(24,co+1); apCo(); };
+ document.getElementById('nutGiam').onclick=function(){ co=Math.max(12,co-1); apCo(); };
+ document.getElementById('nutNen').onclick=function(){
+  var v=goc.getAttribute('data-nen')==='toi'?'sang':'toi';
+  goc.setAttribute('data-nen',v); ghiNho('gl-nen',v);
+ };
+ goc.setAttribute('data-ml',docNho('gl-ml',''));
+ function datMl(v){ goc.setAttribute('data-ml',v); ghiNho('gl-ml',v); capNhat(); }
+ document.getElementById('nutThu').onclick=function(){ datMl('thu'); };
+ document.getElementById('nutMl').onclick=function(){
+  if(innerWidth>980 && goc.getAttribute('data-ml')==='thu'){ datMl(''); return; }
+  ml.classList.toggle('mo');
+ };
+
+ apCo();
+ if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t){ moCha(t); } }
+ // mở / gập tất cả thẻ
+ function moTat(o){ [].forEach.call(document.querySelectorAll('details'),function(d){ d.open=o; }); capNhat(); }
+ document.getElementById('moHet').onclick=function(){ moTat(true); };
+ document.getElementById('gapHet').onclick=function(){ moTat(false); };
+ addEventListener('beforeprint',function(){ moTat(true); });
+
+ // tìm trong bài — tìm thấy trong thẻ đang gập thì tự mở thẻ đó
+ var o=document.getElementById('oTim'), dem=document.getElementById('demTim'), hit=[], vt=-1;
+ function xoaDanh(){
+  hit=[]; vt=-1;
+  var m=giay.querySelectorAll('mark.danh');
+  for(var i=0;i<m.length;i++){ var p=m[i].parentNode;
+   p.replaceChild(document.createTextNode(m[i].textContent),m[i]); p.normalize(); }
+ }
+ function danhDau(q){
+  xoaDanh();
+  if(q.length<2){ dem.textContent=''; return; }
+  var tw=document.createTreeWalker(giay,NodeFilter.SHOW_TEXT,null), nut=[], n;
+  while((n=tw.nextNode())) if(n.nodeValue.trim()) nut.push(n);
+  var kq=q.toLowerCase();
+  nut.forEach(function(n){
+   var s=n.nodeValue, l=s.toLowerCase(), i=l.indexOf(kq);
+   if(i<0) return;
+   var cha=n.parentNode, sau=n, dich=0;
+   while(i>=0){
+    var giua=sau.splitText(i-dich); dich=i+q.length;
+    sau=giua.splitText(q.length);
+    var mk=document.createElement('mark'); mk.className='danh';
+    cha.replaceChild(mk,giua); mk.appendChild(giua); hit.push(mk);
+    i=l.indexOf(kq,dich);
+   }
+  });
+  dem.textContent=hit.length?('1/'+hit.length):'0';
+  if(hit.length){ vt=0; toi(0); }
+ }
+ function toi(i){
+  if(!hit.length) return;
+  hit.forEach(function(m){ m.classList.remove('dang'); });
+  vt=(i+hit.length)%hit.length;
+  moCha(hit[vt]);
+  hit[vt].classList.add('dang');
+  hit[vt].scrollIntoView({block:'center',behavior:'smooth'});
+  dem.textContent=(vt+1)+'/'+hit.length;
+ }
+ var cho;
+ o.addEventListener('input',function(){ clearTimeout(cho);
+  cho=setTimeout(function(){ danhDau(o.value.trim()); },250); });
+ o.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault();
+  toi(vt+(e.shiftKey?-1:1)); } });
+ document.getElementById('timTruoc').onclick=function(){ toi(vt-1); };
+ document.getElementById('timSau').onclick=function(){ toi(vt+1); };
+ addEventListener('beforeprint',xoaDanh);
+})();
+// xem ảnh phóng to: bấm ảnh để mở, ←/→ chuyển ảnh trong cùng nhóm, Esc để đóng
+(function(){
+ var hop=document.getElementById('xemAnh'), anh=hop.querySelector('img'),
+     chu=hop.querySelector('.xa-chu'), dem=hop.querySelector('.xa-dem'), bo=[], vt=0;
+ function hien(i){
+  vt=(i+bo.length)%bo.length; var a=bo[vt], im=a.querySelector('img');
+  anh.src=a.getAttribute('href'); anh.alt=im.alt; chu.textContent=im.alt;
+  chu.style.display=im.alt?'':'none';
+  dem.textContent=bo.length>1?(vt+1)+' / '+bo.length:'';
+  hop.querySelector('.xa-truoc').style.display=hop.querySelector('.xa-sau').style.display=bo.length>1?'':'none';
+ }
+ function dong(){ hop.classList.remove('mo'); anh.removeAttribute('src'); document.body.style.overflow=''; }
+ document.getElementById('toGiay').addEventListener('click',function(e){
+  var a=e.target.closest('a.o-anh'); if(!a) return;
+  e.preventDefault();
+  var cha=a.closest('.media');
+  bo=cha?[].slice.call(cha.querySelectorAll('a.o-anh')):[a];
+  hien(bo.indexOf(a)); hop.classList.add('mo'); document.body.style.overflow='hidden';
+ });
+ hop.querySelector('.xa-dong').onclick=dong;
+ hop.querySelector('.xa-truoc').onclick=function(e){ e.stopPropagation(); hien(vt-1); };
+ hop.querySelector('.xa-sau').onclick=function(e){ e.stopPropagation(); hien(vt+1); };
+ hop.addEventListener('click',function(e){ if(e.target===hop) dong(); });
+ addEventListener('keydown',function(e){
+  if(!hop.classList.contains('mo')) return;
+  if(e.key==='Escape') dong();
+  else if(e.key==='ArrowLeft') hien(vt-1);
+  else if(e.key==='ArrowRight') hien(vt+1);
+ });
+ var x0=null;
+ hop.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+ hop.addEventListener('touchend',function(e){ if(x0===null) return;
+  var dx=e.changedTouches[0].clientX-x0; x0=null;
+  if(Math.abs(dx)>50) hien(vt+(dx<0?1:-1)); });
+})();
+</script>
+</body>
+</html>
